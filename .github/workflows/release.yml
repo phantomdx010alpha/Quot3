@@ -44,7 +44,12 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "${GITHUB_REF_NAME#v}" --generate-notes
+        # 0.1.5: the notes start with `schema: N` (N = number of migration files = the database format this release writes). The app's
+        # "Choose app version" reads that line so it never offers a version that would leave the owner's bills read-only.
+        run: |
+          SCHEMA=$(ls src/main/db/migrations/*.sql | wc -l | tr -d ' ')
+          if [ "$SCHEMA" -lt 1 ]; then echo "No migration files found"; exit 1; fi
+          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "${GITHUB_REF_NAME#v}" --notes "schema: ${SCHEMA}" --generate-notes
 
       - run: npm run release
         env:

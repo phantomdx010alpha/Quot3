@@ -5,7 +5,7 @@
 import { z } from 'zod'
 
 /** Settings keys (defaults in `shared/settings.ts`). */
-export const UPDATE_SETTING_KEYS = ['updates.auto', 'updates.channel', 'updates.feedUrl'] as const
+export const UPDATE_SETTING_KEYS = ['updates.auto', 'updates.channel', 'updates.feedUrl', 'updates.pinnedVersion', 'updates.autoBeforePin'] as const
 export const UPDATE_FEED_MAX = 300
 /** First background check this long after launch (the app settles first), then every `UPDATE_CHECK_INTERVAL_MS`. */
 export const UPDATE_FIRST_CHECK_MS = 45_000
@@ -93,10 +93,14 @@ export interface UpdateState {
   feed: 'builtin' | 'github' | 'generic'
   /** The editor holds an unsaved bill: "Restart to update" waits (set by the renderer through `updates:setBusy`). */
   busy: boolean
+  /** 0.1.5: what the checking / downloading / ready state is for. `rollback` = an older version chosen in Settings > Updates. */
+  mode: 'update' | 'rollback'
+  /** 0.1.5: the version the owner chose to stay on ('' = none). While set, background checks are paused. */
+  pinned: string
 }
 
 export function initialUpdateState(currentVersion: string): UpdateState {
-  return { phase: 'idle', currentVersion, version: '', percent: 0, message: '', checkedAt: '', channel: 'stable', auto: true, feed: 'builtin', busy: false }
+  return { phase: 'idle', currentVersion, version: '', percent: 0, message: '', checkedAt: '', channel: 'stable', auto: true, feed: 'builtin', busy: false, mode: 'update', pinned: '' }
 }
 
 /** Why an install request is refused, or `ok`. The install never starts while an unsaved bill is open. */
@@ -142,10 +146,17 @@ export function describeUpdate(s: UpdateState): UpdateCopy {
     case 'unavailable':
       return { title: 'Updates are not available here', detail: s.message !== '' ? s.message : 'Updates are checked by the installed app.', action: 'none' }
     case 'checking':
-      return { title: 'Checking for updates', detail: 'Looking for a newer version.', action: 'none' }
+      return s.mode === 'rollback'
+        ? { title: 'Preparing the older version', detail: `Looking for version ${s.version}.`, action: 'none' }
+        : { title: 'Checking for updates', detail: 'Looking for a newer version.', action: 'none' }
     case 'downloading':
       return { title: `Downloading version ${s.version}`, detail: `${s.percent}% done. You can keep working; nothing restarts by itself.`, action: 'none' }
     case 'ready':
+      if (s.mode === 'rollback') {
+        return s.busy
+          ? { title: `Version ${s.version} is ready`, detail: 'It will be offered once the open bill is saved or closed. Nothing restarts by itself.', action: 'restart' }
+          : { title: `Version ${s.version} is ready`, detail: 'Restart Quot3 to go back to this version. A backup is made first. Your bills and settings are kept.', action: 'restart' }
+      }
       return s.busy
         ? { title: `Version ${s.version} is ready`, detail: 'It will be offered once the open bill is saved or closed. Nothing restarts by itself.', action: 'restart' }
         : { title: `Version ${s.version} is ready`, detail: 'Restart Quot3 to finish updating. Your bills and settings are kept.', action: 'restart' }
@@ -154,6 +165,7 @@ export function describeUpdate(s: UpdateState): UpdateCopy {
     case 'error':
       return { title: 'Could not check for updates', detail: s.message !== '' ? s.message : 'Try again in a while.', action: 'check' }
     default:
+      if (s.pinned !== '') return { title: 'Check for updates', detail: `You chose to stay on version ${s.pinned}. Background checks are paused.`, action: 'check' }
       return { title: 'Check for updates', detail: `You are on version ${s.currentVersion}.`, action: 'check' }
   }
 }

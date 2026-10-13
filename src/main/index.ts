@@ -60,6 +60,7 @@ import { createImageService } from './services/imageService'
 import { readImageScale } from '../shared/print/imageFlow'
 import { createThemeService } from './services/themeService'
 import { createBackupService } from './services/backupService'
+import { createGithubReleaseFeed } from './services/releaseFeed'
 import { createLicenseService } from './sync/licenseService'
 import { createBootstrapService } from './sync/bootstrapService'
 import { createBootstrapRepo } from './db/bootstrapRepo'
@@ -459,6 +460,8 @@ if (!app.requestSingleInstanceLock()) {
       port: createElectronUpdaterPort(), settings, version: app.getVersion(), packaged: app.isPackaged, log,
       emit: (channel, payload) => { mainWindow?.webContents.send(channel, payload) },
       prepareInstall: () => { quitConfirmed = true },
+      // 0.1.5 choose app version: GitHub release list, a 'pre-rollback' backup before the install, and the database's own format number.
+      releases: createGithubReleaseFeed(), backup: { create: () => backup.create('pre-rollback') }, dbSchema: () => Math.max(dbh.openedVersion, dbh.schemaVersion),
       audit: audit.record
     })
     updates.start()

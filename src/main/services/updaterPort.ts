@@ -1,4 +1,5 @@
 import { DEFAULT_GITHUB_FEED, type UpdaterOptions } from '../../shared/updater'
+import type { RollbackOptions } from '../../shared/rollback'
 import type { UpdaterPort } from './updateService'
 
 /**
@@ -31,6 +32,14 @@ export function createElectronUpdaterPort(): UpdaterPort {
       if (o.feed.kind === 'github') u.setFeedURL({ provider: 'github', owner: o.feed.owner, repo: o.feed.repo })
       else if (o.feed.kind === 'generic') u.setFeedURL({ provider: 'generic', url: o.feed.url })
       else u.setFeedURL({ provider: 'github', owner: DEFAULT_GITHUB_FEED.owner, repo: DEFAULT_GITHUB_FEED.repo }) // built-in = hardcoded
+    },
+    /** 0.1.5, "choose app version" only: one release's own folder, downgrades allowed. `configure()` above switches this off again before every normal check. */
+    async configureRollback(o: RollbackOptions) {
+      const u = await get()
+      u.allowPrerelease = o.allowPrerelease
+      u.allowDowngrade = true
+      u.channel = o.channel
+      u.setFeedURL({ provider: 'generic', url: o.feed.url })
     },
     async check() {
       const u = await get()

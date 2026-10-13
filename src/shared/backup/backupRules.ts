@@ -2,7 +2,7 @@
  * Phase 50 (pure): backup file names, kinds, retention and the typed-confirmation words.
  * No fs, no Electron: the service and the Settings page both use these so they cannot disagree.
  */
-export const BACKUP_KINDS = ['auto', 'manual', 'pre-restore', 'pre-migration', 'imported', 'pre-import', 'pre-wipe'] as const
+export const BACKUP_KINDS = ['auto', 'manual', 'pre-restore', 'pre-migration', 'imported', 'pre-import', 'pre-wipe', 'pre-rollback'] as const
 export type BackupKind = (typeof BACKUP_KINDS)[number]
 
 /** Automatic daily backups kept (older ones are pruned). Other kinds are never pruned automatically. */
@@ -72,7 +72,8 @@ export const KIND_LABEL: Record<BackupKind, string> = {
   'pre-migration': 'Before update',
   imported: 'Imported',
   'pre-import': 'Before legacy import',
-  'pre-wipe': 'Before start fresh'
+  'pre-wipe': 'Before start fresh',
+  'pre-rollback': 'Before going back a version'
 }
 
 export interface BackupInfo {

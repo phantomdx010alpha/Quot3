@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { Quot3Bridge } from '@shared/ipc'
 import { initialUpdateState, type UpdateChannel, type UpdateState } from '@shared/updater'
+import type { VersionList } from '@shared/rollback'
 import { useBillStore } from './billStore'
 import { requestLeave } from './guardStore'
 
@@ -18,10 +19,17 @@ export interface UpdateUiState {
   load: () => Promise<void>
   check: () => Promise<void>
   setConfig: (c: { auto?: boolean; channel?: UpdateChannel; feedUrl?: string }) => Promise<boolean>
+  /** 0.1.5 choose app version: the list (null until opened), its loading flag and its last plain-sentence error. */
+  versions: VersionList | null
+  versionsLoading: boolean
+  versionsError: string
+  loadVersions: (refresh?: boolean) => Promise<void>
+  chooseVersion: (version: string) => Promise<void>
+  backToLatest: () => Promise<void>
 }
 
 export const useUpdateStore = create<UpdateUiState>((set) => ({
-  state: initialUpdateState(''), loaded: false, error: '', busy: false,
+  state: initialUpdateState(''), loaded: false, error: '', busy: false, versions: null, versionsLoading: false, versionsError: '',
   load: async () => {
     const a = bridge()?.updates
     if (!a) { set({ loaded: true }); return }
@@ -46,6 +54,33 @@ export const useUpdateStore = create<UpdateUiState>((set) => ({
       set({ error: r.error.message })
     } catch { set({ error: 'Could not save. Try again.' }) }
     return false
+  },
+  loadVersions: async (refresh) => {
+    const a = bridge()?.updates
+    if (!a) return
+    set({ versionsLoading: true, versionsError: '' })
+    try {
+      const r = await a.listVersions(refresh === true)
+      if (r.ok) set({ versions: r.data, versionsLoading: false }); else set({ versionsError: r.error.message, versionsLoading: false })
+    } catch { set({ versionsError: 'The list of versions could not be loaded. Try again in a while.', versionsLoading: false }) }
+  },
+  chooseVersion: async (version) => {
+    const a = bridge()?.updates
+    if (!a) return
+    set({ busy: true, error: '' })
+    try {
+      const r = await a.chooseVersion(version)
+      if (r.ok) set({ state: r.data, busy: false }); else set({ error: r.error.message, busy: false })
+    } catch { set({ error: 'Could not prepare that version. Try again.', busy: false }) }
+  },
+  backToLatest: async () => {
+    const a = bridge()?.updates
+    if (!a) return
+    set({ busy: true, error: '' })
+    try {
+      const r = await a.backToLatest()
+      if (r.ok) set({ state: r.data, busy: false, versions: null }); else set({ error: r.error.message, busy: false })
+    } catch { set({ error: 'Could not check for updates. Try again.', busy: false }) }
   }
 }))
 
@@ -57,8 +92,10 @@ export function restartToUpdate(): void {
   requestLeave(() => {
     const a = bridge()?.updates
     if (!a) return
+    // 0.1.5: a downloaded OLDER / chosen version installs through `installRollback`, which makes a backup first.
+    const install = useUpdateStore.getState().state.mode === 'rollback' ? () => a.installRollback() : () => a.install()
     void a.setBusy(false)
-      .then(() => a.install())
+      .then(install)
       .then((r) => { if (!r.ok) useUpdateStore.setState({ error: r.error.message }) })
       .catch(() => useUpdateStore.setState({ error: 'Could not restart to update. Try again.' }))
   })

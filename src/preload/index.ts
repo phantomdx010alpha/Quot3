@@ -104,7 +104,11 @@ const bridge: Quot3Bridge = {
     check: () => ipcRenderer.invoke('updates:check', {}),
     install: () => ipcRenderer.invoke('updates:install', {}),
     setBusy: (busy) => ipcRenderer.invoke('updates:setBusy', { busy }),
-    setConfig: (input) => ipcRenderer.invoke('updates:setConfig', input)
+    setConfig: (input) => ipcRenderer.invoke('updates:setConfig', input),
+    listVersions: (refresh) => ipcRenderer.invoke('updates:listVersions', refresh ? { refresh: true } : {}),
+    chooseVersion: (version) => ipcRenderer.invoke('updates:chooseVersion', { version }),
+    installRollback: () => ipcRenderer.invoke('updates:installRollback', {}),
+    backToLatest: () => ipcRenderer.invoke('updates:backToLatest', {})
   },
   diagnostics: {
     report: (input) => ipcRenderer.invoke('diagnostics:report', input),

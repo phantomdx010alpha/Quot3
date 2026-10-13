@@ -16,7 +16,8 @@ function harness(o: { offer?: string; fail?: Error; packaged?: boolean; settings
     configure: (opts) => { configured.push(opts) },
     check: async () => { calls.push('check'); if (o.fail) throw o.fail; return { version: o.offer ?? '' } },
     download: async (p) => { calls.push('download'); p(30); p(100) },
-    quitAndInstall: () => { installed++ }
+    quitAndInstall: () => { installed++ },
+    configureRollback: () => undefined
   }
   const events: UpdateState[] = []
   const audit = vi.fn()
@@ -24,7 +25,8 @@ function harness(o: { offer?: string; fail?: Error; packaged?: boolean; settings
   const timers: { fn: () => void; ms: number }[] = []
   const svc = createUpdateService({
     port, settings: { get: (k) => store[k], set: (k, v) => { store[k] = v } }, version: o.current ?? '1.0.0', packaged: o.packaged ?? true,
-    emit: (_c, s) => events.push(s), prepareInstall: prepare, audit, log, now: () => new Date('2026-10-10T10:00:00.000Z'),
+    emit: (_c, s) => events.push(s), prepareInstall: prepare, audit, log,
+    releases: { fetch: async () => [] }, backup: { create: async () => ({ file: 'pre-rollback-x.db' }) }, dbSchema: () => 8, now: () => new Date('2026-10-10T10:00:00.000Z'),
     setTimer: (fn, ms) => { timers.push({ fn, ms }); return timers.length }, clearTimer: () => undefined
   })
   return { svc, store, calls, configured, events, audit, prepare, timers, installed: () => installed }

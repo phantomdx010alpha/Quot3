@@ -19,7 +19,7 @@ export interface BackupPorts {
 }
 
 export interface BackupService {
-  create(kind?: 'manual' | 'auto' | 'pre-import' | 'pre-wipe'): Promise<BackupInfo>
+  create(kind?: 'manual' | 'auto' | 'pre-import' | 'pre-wipe' | 'pre-rollback'): Promise<BackupInfo>
   list(): BackupInfo[]
   status(): BackupStatus
   /** First launch of the day: one automatic backup if none exists for today, then prune. Returns it, or null. */

@@ -25,6 +25,10 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'updates.auto': true,
   'updates.channel': 'stable',
   'updates.feedUrl': '',
+  /** 0.1.5: the version the owner chose in Settings > Updates > Choose app version ('' = none). While it equals the running version, background checks are paused; any other running version clears it. */
+  'updates.pinnedVersion': '',
+  /** 0.1.5: the value of `updates.auto` before the pin switched it off, restored by "Back to latest" (older builds only understand `updates.auto`). */
+  'updates.autoBeforePin': true,
   /** Phase 49: density / font-size preferences on top of the theme. null = the theme decides (see shared/settings/uiPrefs.ts). */
   /** Phase 125: dashboard live tiles. City (default Bangalore; set via dashboard:setCity), tile on/off flags, and the last good live values (cache, written by the main process). */
   'dash.city': { name: 'Bangalore', region: 'Karnataka', country: 'India', lat: 12.9719, lon: 77.5937 },

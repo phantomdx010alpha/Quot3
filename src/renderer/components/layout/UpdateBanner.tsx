@@ -15,7 +15,7 @@ export function UpdateBanner(): React.JSX.Element | null {
   return (
     <div className="q3-upb" role="status" data-testid="update-banner">
       <span className="q3-upb__text"><strong>{copy.title}.</strong> {copy.detail}</span>
-      <Button size="sm" variant="primary" onClick={() => restartToUpdate()}>Restart to update</Button>
+      <Button size="sm" variant="primary" onClick={() => restartToUpdate()}>{state.mode === 'rollback' ? 'Restart to go back' : 'Restart to update'}</Button>
     </div>
   )
 }

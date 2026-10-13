@@ -449,6 +449,15 @@ button.q3-sychip:focus-visible { outline: 2px solid var(--focus-ring); outline-o
 .q3-up__check { display: flex; gap: var(--space-2); align-items: center; font-size: var(--text-sm); color: var(--text-secondary); }
 .q3-upb { position: fixed; top: var(--space-3); right: var(--space-3); z-index: 50; display: flex; gap: var(--space-3); align-items: center; max-width: 520px; padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--accent); border-radius: var(--radius-md); background: var(--surface-raised, var(--surface-base)); color: var(--text-primary); font-size: var(--text-sm); }
 .q3-upb__text { min-width: 0; }
+.q3-up__ver { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-2); border-top: var(--border-width) solid var(--border-color); }
+.q3-up__sub { margin: 0; font-size: var(--text-md, var(--text-sm)); font-weight: 700; color: var(--text-primary); }
+.q3-up__vlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; max-height: 240px; overflow-y: auto; }
+.q3-up__vrow { display: flex; justify-content: space-between; gap: var(--space-3); width: 100%; padding: 4px 8px; background: transparent; color: inherit; border: 0; border-radius: var(--radius-sm); font: inherit; text-align: left; cursor: pointer; }
+.q3-up__vrow:hover:not(:disabled), .q3-up__vrow:focus-visible { background: var(--accent-soft); outline: none; }
+.q3-up__vrow:disabled { color: var(--text-muted); cursor: default; }
+.q3-up__vname { font-variant-numeric: tabular-nums; font-weight: 600; }
+.q3-up__vmeta { color: var(--text-muted); font-size: var(--text-xs); white-space: nowrap; }
+.q3-up__vwhy { margin: 0 8px 4px; color: var(--text-muted); font-size: var(--text-xs); }
 
 /* Phase 63 - About screen (tokens only) */
 .q3-about { display: flex; gap: var(--space-4); align-items: center; padding: var(--space-3) 0; }

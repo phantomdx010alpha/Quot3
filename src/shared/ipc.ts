@@ -27,6 +27,7 @@ import type { BootstrapPreview, BootstrapResult } from './sync/bootstrap'
 import type { AuditFacets, AuditPage, AuditQuery } from './audit'
 import type { CrashNotice, RendererReportKind } from './diagnostics'
 import type { UpdateChannel, UpdateState } from './updater'
+import type { VersionList } from './rollback'
 import type { AppSettingsState, BehaviourSettings } from './settings/appSettings'
 import type { RestoreDraft, RevisionDetail, RevisionSummary } from './revisions'
 import type { Bill, BillRow, ExtraColDef, FooterExtras, TailRow, IsoDate, IsoDateTime, Paper, PartySnapshot, PrintMode } from './types'
@@ -298,6 +299,14 @@ export interface Quot3Bridge {
     setBusy(busy: boolean): Promise<Result<Record<string, never>>>
     /** Phase 62: automatic checks, channel and feed address (validated; an invalid address is refused with its reason). */
     setConfig(input: { auto?: boolean; channel?: UpdateChannel; feedUrl?: string }): Promise<Result<UpdateState>>
+    /** 0.1.5: the releases that can really be installed (cached a few minutes; `refresh` asks GitHub again), each marked allowed / blocked with a plain reason. */
+    listVersions(refresh?: boolean): Promise<Result<VersionList>>
+    /** 0.1.5: downloads a version from that list in the background. Installs nothing. Refused with a reason when its data format is older than the bills in use. */
+    chooseVersion(version: string): Promise<Result<UpdateState>>
+    /** 0.1.5: backup, stay-on-this-version, restart into the downloaded version. Refused while a bill is unsaved. */
+    installRollback(): Promise<Result<Record<string, never>>>
+    /** 0.1.5: ends "stay on this version" and checks for the newest release. */
+    backToLatest(): Promise<Result<UpdateState>>
   }
   diagnostics: {
     /** Phase 61: the renderer reports an error / unhandled rejection / render crash; main logs it scrubbed and throttled. */
