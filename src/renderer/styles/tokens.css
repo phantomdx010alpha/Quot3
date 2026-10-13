@@ -1,0 +1,453 @@
+/* ALL design tokens live here (docs/design/DESIGN_TOKENS.md). Components reference tokens only.
+   Every name below must be in src/shared/theme/tokens.ts (enforced by tokensParity.test.ts). */
+
+/* ---------- Structural tokens (theme-independent) ---------- */
+:root {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --border-width: 1px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  --row-height: 26px;
+  --grid-font-size: 13px;
+  --bar-height: 72px;
+  --bottom-bar-height: 44px;
+
+  --font-ui: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, 'Noto Sans', sans-serif;
+  --font-grid: 'Segoe UI', system-ui, 'Noto Sans', sans-serif;
+  --font-print: 'Noto Sans', 'Segoe UI', Arial, sans-serif;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-lg: 16px;
+  --text-xl: 22px;
+
+  --icon-sm: 14px;
+  --icon-md: 18px;
+  --icon-lg: 28px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 80ms;
+  --dur-base: 140ms;
+
+  /* Phase 96: structural defaults for the new chrome tokens (themes may override). Glass/blur is applied to chrome only, never the grid. */
+  --scrollbar-size: 10px;
+  --titlebar-height: 32px;
+  --glass-blur: 0px;
+
+  --z-grid: 1;
+  --z-popover: 50;
+  --z-modal: 100;
+  --z-toast: 200;
+
+  /* Derived neumorphic shadows: geometry comes from dist/blur, colours from light/dark.
+     Raised = light top-left + dark bottom-right; inset = the same reversed (distinguishable without colour). */
+  --shadow-raised:
+    var(--shadow-dist) var(--shadow-dist) var(--shadow-blur) var(--shadow-dark),
+    calc(var(--shadow-dist) * -1) calc(var(--shadow-dist) * -1) var(--shadow-blur) var(--shadow-light);
+  --shadow-inset:
+    inset var(--shadow-dist) var(--shadow-dist) var(--shadow-blur) var(--shadow-dark),
+    inset calc(var(--shadow-dist) * -1) calc(var(--shadow-dist) * -1) var(--shadow-blur) var(--shadow-light);
+  --shadow-pressed:
+    inset calc(var(--shadow-dist) / 2) calc(var(--shadow-dist) / 2) calc(var(--shadow-blur) / 2) var(--shadow-dark),
+    inset calc(var(--shadow-dist) / -2) calc(var(--shadow-dist) / -2) calc(var(--shadow-blur) / 2) var(--shadow-light);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+  }
+}
+
+/* ---------- Navy Ember (default, dark) ---------- */
+:root,
+:root[data-theme='navy-ember'] {
+  color-scheme: dark;
+
+  --surface-base: #0f1a2e;
+  --surface-raised: #14233d;
+  --surface-inset: #0b1424;
+  --surface-grid: #101c32;
+  --surface-grid-alt: #12203a;
+  --surface-header: #17284a;
+
+  --text-primary: #e6ecf7;
+  --text-secondary: #b4c0d6;
+  --text-muted: #8fa0bd;
+  --text-on-accent: #0f1a2e;
+  --text-danger: #ff8a8a;
+
+  --accent: #ff7b7b;
+  --accent-hover: #ff9494;
+  --accent-active: #e85f5f;
+  --accent-soft: rgba(255, 123, 123, 0.14);
+  --focus-ring: #ffb3b3;
+
+  --ok: #5fd39a;
+  --warn: #f2c14e;
+  --danger: #ff8a8a;
+  --info: #6cb4ff;
+
+  --grid-line: #263a5c;
+  --grid-active-border: #ff7b7b;
+  --grid-active-bg: #1b2f52;
+  --grid-active-row-bg: #162a4a;
+  --grid-range-bg: rgba(108, 180, 255, 0.18);
+  --grid-override-marker: #f2c14e;
+  --grid-marked-underline: #6cb4ff;
+  --grid-adjustment-bg: #18294a;
+  --grid-total-bg: #1d325a;
+
+  --rt-red: #ff5a5a;
+  --rt-highlight: #5a4a12;
+
+  --border-color: #2a4064;
+  --overlay: rgba(4, 9, 18, 0.66);
+
+  --shadow-light: rgba(46, 72, 116, 0.55);
+  --shadow-dark: rgba(3, 8, 16, 0.75);
+  --shadow-dist: 4px;
+  --shadow-blur: 10px;
+
+  --scrollbar-track: #0b1424;
+  --scrollbar-thumb: #5a78b0;
+  --scrollbar-thumb-hover: #7f9bd0;
+  --titlebar-bg: #0b1424;
+  --titlebar-fg: #e6ecf7;
+  --titlebar-symbol: #e6ecf7;
+  --titlebar-hover: #1b2f52;
+  --surface-glass: rgba(20, 35, 61, 0.72);
+  --glass-border: rgba(230, 236, 247, 0.14);
+  --bg-image: none;
+}
+
+/* ---------- Paper (light) ---------- */
+:root[data-theme='paper'] {
+  color-scheme: light;
+
+  --surface-base: #e9edf4;
+  --surface-raised: #eef2f8;
+  --surface-inset: #dde3ee;
+  --surface-grid: #ffffff;
+  --surface-grid-alt: #f4f7fb;
+  --surface-header: #dce3f0;
+
+  --text-primary: #101a2e;
+  --text-secondary: #36445f;
+  --text-muted: #55637e;
+  --text-on-accent: #ffffff;
+  --text-danger: #b3261e;
+
+  --accent: #ba2f2f;
+  --accent-hover: #a22626;
+  --accent-active: #8c1f1f;
+  --accent-soft: rgba(186, 47, 47, 0.12);
+  --focus-ring: #1f5fbf;
+
+  --ok: #176b44;
+  --warn: #8a5a00;
+  --danger: #b3261e;
+  --info: #1f5fbf;
+
+  --grid-line: #c5cedd;
+  --grid-active-border: #ba2f2f;
+  --grid-active-bg: #fff4f4;
+  --grid-active-row-bg: #eaf0fb;
+  --grid-range-bg: rgba(31, 95, 191, 0.14);
+  --grid-override-marker: #b86e00;
+  --grid-marked-underline: #1f5fbf;
+  --grid-adjustment-bg: #f1f4fa;
+  --grid-total-bg: #e4eaf5;
+
+  --rt-red: #c62828;
+  --rt-highlight: #fff176;
+
+  --border-color: #c3ccdc;
+  --overlay: rgba(16, 26, 46, 0.45);
+
+  --shadow-light: rgba(255, 255, 255, 0.95);
+  --shadow-dark: rgba(150, 165, 190, 0.6);
+  --shadow-dist: 4px;
+  --shadow-blur: 10px;
+
+  --scrollbar-track: #dde3ee;
+  --scrollbar-thumb: #6b7a9a;
+  --scrollbar-thumb-hover: #4d5c7c;
+  --titlebar-bg: #dce3f0;
+  --titlebar-fg: #101a2e;
+  --titlebar-symbol: #101a2e;
+  --titlebar-hover: #c5cedd;
+  --surface-glass: rgba(238, 242, 248, 0.72);
+  --glass-border: rgba(16, 26, 46, 0.14);
+  --bg-image: none;
+}
+
+/* ---------- Glossy Glass (dark, Phase 99) ----------
+   Sea-glass teal ink with a warm amber accent (deliberately not purple/blue). Chrome panels are translucent + blurred
+   (--surface-glass / --glass-blur / --glass-border, applied in ui.css to chrome only); the GRID surfaces below are
+   solid, flat and >= 7:1. Palette values are a judgement [A] - owner picks the final palette from a preview. */
+:root[data-theme='glossy-glass'] {
+  color-scheme: dark;
+
+  --surface-base: #0b1b1f;
+  --surface-raised: #11272c;
+  --surface-inset: #08151a;
+  --surface-grid: #0d1e22;
+  --surface-grid-alt: #102429;
+  --surface-header: #17353b;
+
+  --text-primary: #e9f5f3;
+  --text-secondary: #bcd3d1;
+  --text-muted: #95b3b1;
+  --text-on-accent: #1c1305;
+  --text-danger: #ff9a8a;
+
+  --accent: #ffb454;
+  --accent-hover: #ffc46f;
+  --accent-active: #e89a35;
+  --accent-soft: rgba(255, 180, 84, 0.16);
+  --focus-ring: #ffd9a0;
+
+  --ok: #5fdcb0;
+  --warn: #f5cf5a;
+  --danger: #ff8f7e;
+  --info: #6fd0e8;
+
+  --grid-line: #24454c;
+  --grid-active-border: #ffb454;
+  --grid-active-bg: #1a3a41;
+  --grid-active-row-bg: #14302f;
+  --grid-range-bg: rgba(111, 208, 232, 0.18);
+  --grid-override-marker: #f5cf5a;
+  --grid-marked-underline: #6fd0e8;
+  --grid-adjustment-bg: #12292f;
+  --grid-total-bg: #1b3d44;
+
+  --rt-red: #ff6e63;
+  --rt-highlight: #5a4a12;
+
+  --border-color: #2a4e56;
+  --overlay: rgba(2, 10, 12, 0.66);
+
+  --shadow-light: rgba(120, 210, 205, 0.12);
+  --shadow-dark: rgba(0, 6, 8, 0.7);
+  --shadow-dist: 3px;
+  --shadow-blur: 12px;
+
+  --scrollbar-track: #08151a;
+  --scrollbar-thumb: #5f9fa0;
+  --scrollbar-thumb-hover: #8cc9c6;
+  --titlebar-bg: #08151a;
+  --titlebar-fg: #e9f5f3;
+  --titlebar-symbol: #e9f5f3;
+  --titlebar-hover: #17353b;
+  --surface-glass: rgba(26, 62, 70, 0.55);
+  --glass-border: rgba(190, 240, 235, 0.22);
+  --glass-blur: 14px;
+  --bg-image: radial-gradient(900px 520px at 12% -8%, rgba(255, 180, 84, 0.1), transparent 60%), radial-gradient(800px 600px at 105% 110%, rgba(95, 220, 176, 0.1), transparent 60%);
+}
+
+/* ---------- Space (dark, Phase 100) ----------
+   Black-blue void with an electric-cyan accent. NON-neumorphic: no paired light/dark offset shadows. Raised = outer ring + outer glow,
+   inset = inner ring + inner shade only, pressed = heavier inner ring; so the three states differ by SHAPE (outer vs inner, ring weight),
+   not only colour. Background is gradients only (no url()). Grid surfaces solid and flat. Palette is a judgement [A]; owner signs off from a preview. */
+:root[data-theme='space'] {
+  color-scheme: dark;
+
+  --surface-base: #060a14;
+  --surface-raised: #0d1424;
+  --surface-inset: #03060d;
+  --surface-grid: #080d18;
+  --surface-grid-alt: #0b1220;
+  --surface-header: #131c33;
+
+  --text-primary: #e8eefc;
+  --text-secondary: #b7c3de;
+  --text-muted: #8d9bbd;
+  --text-on-accent: #021018;
+  --text-danger: #ff8fa0;
+
+  --accent: #3fd8ff;
+  --accent-hover: #7be6ff;
+  --accent-active: #1fb8e0;
+  --accent-soft: rgba(63, 216, 255, 0.14);
+  --focus-ring: #a8f0ff;
+
+  --ok: #5fe0a0;
+  --warn: #ffd166;
+  --danger: #ff7d8a;
+  --info: #7fb2ff;
+
+  --grid-line: #1f2c4a;
+  --grid-active-border: #3fd8ff;
+  --grid-active-bg: #14223f;
+  --grid-active-row-bg: #0f1b36;
+  --grid-range-bg: rgba(127, 178, 255, 0.2);
+  --grid-override-marker: #ffd166;
+  --grid-marked-underline: #7fb2ff;
+  --grid-adjustment-bg: #0c1426;
+  --grid-total-bg: #15244a;
+
+  --rt-red: #ff6b78;
+  --rt-highlight: #5a4a12;
+
+  --border-color: #25365c;
+  --overlay: rgba(1, 3, 8, 0.75);
+
+  --shadow-light: rgba(63, 216, 255, 0.5);
+  --shadow-dark: rgba(0, 0, 8, 0.85);
+  --shadow-dist: 3px;
+  --shadow-blur: 12px;
+  --shadow-raised: 0 0 0 1px var(--shadow-light), 0 0 14px var(--shadow-dark);
+  --shadow-inset: inset 0 0 0 1px var(--shadow-dark), inset 0 3px 8px var(--shadow-dark);
+  --shadow-pressed: inset 0 0 0 2px var(--shadow-light), inset 0 1px 4px var(--shadow-dark);
+
+  --scrollbar-track: #03060d;
+  --scrollbar-thumb: #4f6fa6;
+  --scrollbar-thumb-hover: #7fa0e0;
+  --titlebar-bg: #03060d;
+  --titlebar-fg: #e8eefc;
+  --titlebar-symbol: #e8eefc;
+  --titlebar-hover: #131c33;
+  --surface-glass: rgba(13, 20, 36, 0.8);
+  --glass-border: rgba(63, 216, 255, 0.25);
+  --bg-image: radial-gradient(1px 1px at 12% 22%, rgba(255, 255, 255, 0.55), transparent), radial-gradient(1px 1px at 38% 70%, rgba(255, 255, 255, 0.4), transparent), radial-gradient(1.5px 1.5px at 71% 18%, rgba(255, 255, 255, 0.5), transparent), radial-gradient(1px 1px at 88% 82%, rgba(255, 255, 255, 0.4), transparent), radial-gradient(700px 420px at 90% -5%, rgba(63, 216, 255, 0.09), transparent 65%), radial-gradient(600px 500px at -5% 105%, rgba(127, 178, 255, 0.07), transparent 65%);
+}
+
+/* ---------- Red and Navy Blue (dark, Phase 101) ----------
+   Royal navy (bluer and more saturated than Navy Ember's slate navy) with a crimson-red accent (Navy Ember is soft coral).
+   --rt-red is a warm orange-red, deliberately far from --accent so Red+Bold text never reads as a focus/accent colour.
+   Palette is a judgement [A]; owner signs off from a preview. Print is never themed (it uses its own --print-* colours). */
+:root[data-theme='red-navy'] {
+  color-scheme: dark;
+
+  --surface-base: #0a1830;
+  --surface-raised: #10264a;
+  --surface-inset: #071126;
+  --surface-grid: #0a1a36;
+  --surface-grid-alt: #0d2040;
+  --surface-header: #153061;
+
+  --text-primary: #f2f5ff;
+  --text-secondary: #c3d0ee;
+  --text-muted: #9aacd4;
+  --text-on-accent: #0a1226;
+  --text-danger: #ff8a96;
+
+  --accent: #ff4a5e;
+  --accent-hover: #ff6f7f;
+  --accent-active: #e0334a;
+  --accent-soft: rgba(255, 74, 94, 0.16);
+  --focus-ring: #ffa3ae;
+
+  --ok: #4fd69a;
+  --warn: #f5c542;
+  --danger: #ff6b7a;
+  --info: #6fa8ff;
+
+  --grid-line: #213f73;
+  --grid-active-border: #ff4a5e;
+  --grid-active-bg: #1b3a73;
+  --grid-active-row-bg: #123062;
+  --grid-range-bg: rgba(111, 168, 255, 0.2);
+  --grid-override-marker: #f5c542;
+  --grid-marked-underline: #6fa8ff;
+  --grid-adjustment-bg: #0f2347;
+  --grid-total-bg: #1a3868;
+
+  --rt-red: #ff9a6c;
+  --rt-highlight: #5a4a12;
+
+  --border-color: #254880;
+  --overlay: rgba(2, 8, 20, 0.7);
+
+  --shadow-light: rgba(56, 100, 170, 0.5);
+  --shadow-dark: rgba(1, 6, 18, 0.8);
+  --shadow-dist: 4px;
+  --shadow-blur: 10px;
+
+  --scrollbar-track: #071126;
+  --scrollbar-thumb: #6f8fd0;
+  --scrollbar-thumb-hover: #9db8f0;
+  --titlebar-bg: #071126;
+  --titlebar-fg: #f2f5ff;
+  --titlebar-symbol: #f2f5ff;
+  --titlebar-hover: #1b3a73;
+  --surface-glass: rgba(16, 38, 74, 0.72);
+  --glass-border: rgba(242, 245, 255, 0.14);
+  --bg-image: none;
+}
+
+/* ---------- Red Deep-Black (dark, Phase 102) ----------
+   OLED-friendly: near-black surfaces (inset is true #000 so unlit pixels stay off) with a vivid red accent.
+   --rt-red is a warm salmon-orange kept far from the accent. Neumorphic shadows use a faint red-tinted light so raised/inset stay visible on black.
+   No blur, no image. Palette is a judgement [A]; owner signs off from a preview. Print is never themed. */
+:root[data-theme='red-black'] {
+  color-scheme: dark;
+
+  --surface-base: #050505;
+  --surface-raised: #0e0c0c;
+  --surface-inset: #000000;
+  --surface-grid: #070606;
+  --surface-grid-alt: #0c0a0a;
+  --surface-header: #1a1212;
+
+  --text-primary: #f5eeee;
+  --text-secondary: #d0c2c2;
+  --text-muted: #a89494;
+  --text-on-accent: #1a0000;
+  --text-danger: #ff8a8a;
+
+  --accent: #ff3b3b;
+  --accent-hover: #ff6060;
+  --accent-active: #e02626;
+  --accent-soft: rgba(255, 59, 59, 0.16);
+  --focus-ring: #ff9a9a;
+
+  --ok: #4fd69a;
+  --warn: #f5c542;
+  --danger: #ff6464;
+  --info: #6fb0ff;
+
+  --grid-line: #2a1c1c;
+  --grid-active-border: #ff3b3b;
+  --grid-active-bg: #2a1515;
+  --grid-active-row-bg: #1c0f0f;
+  --grid-range-bg: rgba(111, 176, 255, 0.2);
+  --grid-override-marker: #f5c542;
+  --grid-marked-underline: #6fb0ff;
+  --grid-adjustment-bg: #110d0d;
+  --grid-total-bg: #241414;
+
+  --rt-red: #ff8a6e;
+  --rt-highlight: #5a4a12;
+
+  --border-color: #3a2424;
+  --overlay: rgba(0, 0, 0, 0.78);
+
+  --shadow-light: rgba(255, 90, 90, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.9);
+  --shadow-dist: 4px;
+  --shadow-blur: 10px;
+
+  --scrollbar-track: #000000;
+  --scrollbar-thumb: #8a6e6e;
+  --scrollbar-thumb-hover: #c9a3a3;
+  --titlebar-bg: #000000;
+  --titlebar-fg: #f5eeee;
+  --titlebar-symbol: #f5eeee;
+  --titlebar-hover: #2a1515;
+  --surface-glass: rgba(14, 12, 12, 0.8);
+  --glass-border: rgba(255, 138, 138, 0.18);
+  --bg-image: none;
+}

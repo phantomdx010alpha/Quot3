@@ -1,0 +1,38 @@
+/* Neumorphic utilities — CHROME only (panels, buttons, input wells, dashboard cards).
+   The bill grid is flat and high-contrast; never apply these inside the grid. */
+
+.nm-flat {
+  background: var(--surface-base);
+  border-radius: var(--radius-md);
+}
+
+.nm-raised {
+  background: var(--surface-raised);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+}
+
+.nm-inset {
+  background: var(--surface-inset);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset);
+}
+
+.nm-pressed {
+  background: var(--surface-inset);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pressed);
+}
+
+.nm-sm { border-radius: var(--radius-sm); }
+.nm-lg { border-radius: var(--radius-lg); }
+
+/* Interactive raised surface: lifts on hover, presses on :active. */
+.nm-interactive {
+  transition:
+    box-shadow var(--dur-base) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.nm-interactive:hover { background: var(--surface-header); }
+.nm-interactive:active { box-shadow: var(--shadow-pressed); transform: translateY(1px); }

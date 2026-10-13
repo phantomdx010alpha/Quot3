@@ -1,0 +1,35 @@
+import type { PartyLite } from './partyLite'
+
+/** Phase 26 — 30 made-up parties inserted once into an EMPTY dev database so the autocomplete has something to find. Includes near-duplicates (Lakshmi / Laxmi / Sri Lakshmi …) on purpose. */
+export const SAMPLE_PARTIES: readonly Omit<PartyLite, 'id'>[] = [
+  { name: "Lakshmi Cloth Stores", phone: "98450 11001", address: "Gandhi Bazaar, Bengaluru", transport: "VRL Logistics" },
+  { name: "Laxmi Cloth House", phone: "98450 11002", address: "Chickpet, Bengaluru", transport: "SRS Travels" },
+  { name: "Sri Lakshmi Textiles", phone: "98450 11003", address: "Avenue Road, Bengaluru", transport: "VRL Logistics" },
+  { name: "Lakshmi Clothing Co", phone: "98450 11004", address: "KR Market, Bengaluru", transport: "Self pickup" },
+  { name: "Ruby Traders", phone: "98860 22001", address: "Nagarathpet, Bengaluru", transport: "Sugama Transport" },
+  { name: "Tomato Garments", phone: "98860 22002", address: "Cottonpet, Bengaluru", transport: "Sugama Transport" },
+  { name: "Ganesh Fabrics", phone: "98860 22003", address: "Mysore Road, Bengaluru", transport: "Gati" },
+  { name: "Sri Ganesha Sarees", phone: "98860 22004", address: "Malleshwaram, Bengaluru", transport: "Self pickup" },
+  { name: "Venkateshwara Silks", phone: "97430 33001", address: "Kanchipuram Main Rd", transport: "Parcel Service" },
+  { name: "Balaji Textile Mart", phone: "97430 33002", address: "Gandhi Nagar, Bengaluru", transport: "SRS Travels" },
+  { name: "Krishna Readymades", phone: "97430 33003", address: "Jayanagar 4th Block", transport: "Self pickup" },
+  { name: "Annapoorna Garments", phone: "97430 33004", address: "Peenya Industrial Area", transport: "VRL Logistics" },
+  { name: "Mahalakshmi Cotton House", phone: "90360 44001", address: "Tiruppur Road", transport: "Gati" },
+  { name: "Shree Ram Wholesale", phone: "90360 44002", address: "Hubli Market", transport: "Sugama Transport" },
+  { name: "Raj Kumar & Sons", phone: "90360 44003", address: "Mysuru Gate", transport: "Self pickup" },
+  { name: "Jain Cloth Emporium", phone: "90360 44004", address: "Chamarajpet, Bengaluru", transport: "SRS Travels" },
+  { name: "New Fashion Point", phone: "99000 55001", address: "Commercial Street", transport: "Self pickup" },
+  { name: "Star Collections", phone: "99000 55002", address: "Shivajinagar, Bengaluru", transport: "Parcel Service" },
+  { name: "Royal Bridal Wear", phone: "99000 55003", address: "Basavanagudi, Bengaluru", transport: "Self pickup" },
+  { name: "Kamakshi Silk Palace", phone: "99000 55004", address: "Kamakshi Palya", transport: "VRL Logistics" },
+  { name: "Dhanalakshmi Sarees", phone: "80888 66001", address: "Rajajinagar, Bengaluru", transport: "SRS Travels" },
+  { name: "Meenakshi Handlooms", phone: "80888 66002", address: "Madurai Road", transport: "Gati" },
+  { name: "Sai Baba Textiles", phone: "80888 66003", address: "Yelahanka, Bengaluru", transport: "Self pickup" },
+  { name: "Om Sai Garments", phone: "80888 66004", address: "Bommanahalli, Bengaluru", transport: "Sugama Transport" },
+  { name: "Patel Fabric Centre", phone: "63620 77001", address: "Surat Textile Market", transport: "Parcel Service" },
+  { name: "Gupta Brothers Cloth", phone: "63620 77002", address: "Chandni Chowk, Delhi", transport: "Gati" },
+  { name: "Sharma Readymade Store", phone: "63620 77003", address: "Karol Bagh, Delhi", transport: "Self pickup" },
+  { name: "Hindustan Uniforms", phone: "63620 77004", address: "Whitefield, Bengaluru", transport: "VRL Logistics" },
+  { name: "Classic Tailors & Drapers", phone: "63620 77005", address: "Indiranagar, Bengaluru", transport: "Self pickup" },
+  { name: "Vijaya Lakshmi Silks", phone: "63620 77006", address: "Kalasipalyam, Bengaluru", transport: "SRS Travels" }
+]

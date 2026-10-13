@@ -1,0 +1,538 @@
+/* Bill grid (Phase 9) — flat, dense, high-contrast. Tokens only: no colour/shadow/radius/duration literals. */
+
+.q3-grid {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  background: var(--surface-grid);
+  color: var(--text-primary);
+  font-family: var(--font-grid);
+  font-size: var(--grid-font-size);
+  border: 1px solid var(--grid-line);
+  border-radius: var(--radius-sm);
+}
+.q3-grid__inner { min-width: max-content; }
+
+.q3-gh,
+.q3-gr {
+  display: grid;
+  grid-template-columns: var(--q3-grid-cols);
+  height: var(--row-height);
+  contain: layout style paint;
+}
+.q3-gh {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-grid);
+  background: var(--surface-header);
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+.q3-gr:nth-child(even) { background: var(--surface-grid-alt); }
+
+.q3-gc,
+.q3-gh__cell {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  box-sizing: border-box; /* Phase 70: one box model for header and body cells, so the 1px divider sits on the same x */
+  border-right: 1px solid var(--grid-line);
+  border-bottom: 1px solid var(--grid-line);
+  overflow: hidden;
+}
+.q3-gc__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-gc--left { justify-content: flex-start; text-align: left; }
+.q3-gc--right { justify-content: flex-end; text-align: right; font-variant-numeric: tabular-nums; }
+.q3-gc--center { justify-content: center; text-align: center; }
+.q3-gh__cell--extra { color: var(--grid-marked-underline); }
+
+/* Footer / summary rows */
+.q3-gr--adjustment { background: var(--grid-adjustment-bg); }
+.q3-gr--itemsTotal,
+.q3-gr--adjustmentsTotal,
+.q3-gr--roundOff,
+.q3-gr--grandTotal { background: var(--grid-total-bg); font-weight: 700; }
+.q3-gr--partial .q3-gc { color: var(--text-secondary); }
+/* Phase 80 - extra free cells: the total rows carry editable extra cells; the tail rows below the Final total are extra-only (their other cells are empty, read-only and borderless). */
+.q3-gr--tail { background: transparent; font-weight: 400; }
+.q3-gr--tail .q3-gc:not([data-extra]) { border-right-color: transparent; border-bottom-color: transparent; }
+.q3-gr--tail .q3-gc[data-extra] .q3-gc__text { min-height: 1em; }
+
+/* Dev page chrome */
+.q3-gdev { display: flex; flex-direction: column; gap: var(--space-2); height: 100%; padding: var(--space-3); min-width: 0; box-sizing: border-box; }
+.q3-gdev__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-gdev__bar h1 { margin: 0; font-size: var(--text-lg); color: var(--text-primary); }
+.q3-gdev__grid { flex: 1; min-height: 0; }
+
+/* Phase 11 — active cell, edit modes, range marks, mode indicator */
+/* Phase 78 - the whole row of the active cell. The grid controller toggles `data-active-row` on the row element in the DOM (no React render); the cell keeps its own stronger active style and a range mark still wins over the row tint. */
+.q3-gr[data-active-row] { background: var(--grid-active-row-bg); }
+.q3-grid:focus-visible { outline: none; }
+.q3-gc__text:focus { outline: none; }
+.q3-gc[data-active] { outline: 2px solid var(--grid-active-border); outline-offset: -2px; background: var(--grid-active-bg); }
+.q3-gc[data-active] .q3-gc__text { text-overflow: clip; min-width: 2px; caret-color: var(--grid-active-border); }
+.q3-grid[data-armed] .q3-gc[data-active] { outline-style: dotted; }
+.q3-grid--free .q3-gc[data-active] { outline-style: dashed; }
+.q3-gc[data-in-range] { background: var(--grid-range-bg); }
+.q3-gstatus { font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-gstatus strong { color: var(--text-primary); letter-spacing: 0.04em; }
+.q3-gstatus--free strong { color: var(--accent); }
+
+/* Phase 13: manual (overridden) Total marker — a corner flag, not colour-only (also has a tooltip). */
+.q3-gc[data-override] { position: relative; font-style: italic; }
+.q3-gc[data-override]::after {
+  content: ''; position: absolute; top: 0; right: 0; width: 0; height: 0;
+  border-style: solid; border-width: 0 8px 8px 0; border-color: transparent var(--accent) transparent transparent;
+  pointer-events: none;
+}
+.q3-gmenu {
+  position: fixed; z-index: var(--z-popover); padding: 4px; font-family: var(--font-ui); font-size: var(--text-sm);
+  background: var(--surface-raised); color: var(--text-primary); border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-raised);
+}
+.q3-gmenu__item {
+  display: flex; gap: 12px; align-items: center; justify-content: space-between; width: 100%; padding: 4px 8px;
+  background: transparent; color: inherit; border: 0; border-radius: var(--radius-sm); font: inherit; cursor: pointer; text-align: left;
+}
+.q3-gmenu__item:hover, .q3-gmenu__item:focus-visible { background: var(--accent-soft); outline: none; }
+.q3-gmenu__item kbd { font-family: var(--font-ui); font-size: var(--text-xs); color: var(--text-muted); }
+
+/* Phase 15 — rich-text runs in item names (tokens only; the red is the grid's own accent-red token) */
+.q3-run[data-b] { font-weight: bold; }
+.q3-run[data-r] { color: var(--rt-red); }
+.q3-run[data-hl] { background: var(--rt-highlight); }
+.q3-fmtbar { display: inline-flex; align-items: center; gap: var(--space-1); }
+.q3-fmtpal { min-width: 220px; }
+.q3-fmtpal .q3-gmenu__item { justify-content: flex-start; }
+.q3-fmtpal__label { flex: 1; }
+.q3-fmtpal__swatch { display: inline-block; min-width: 22px; text-align: center; border-radius: var(--radius-sm); padding: 0 2px; }
+.q3-fmtpal__swatch--redBold { color: var(--rt-red); font-weight: bold; }
+.q3-fmtpal__swatch--bold { font-weight: bold; }
+.q3-fmtpal__swatch--red { color: var(--rt-red); }
+.q3-fmtpal__swatch--highlight { background: var(--rt-highlight); color: var(--text-primary); }
+
+/* Phase 16: dragging a mouse range must not also select text; the status line carries the paste report. */
+.q3-grid--dragging, .q3-grid--dragging .q3-gc__text { user-select: none; }
+.q3-gstatus__notice { color: var(--text-secondary); }
+
+/* Phase 18 — bottom bar (undo/redo) and undo history panel (tokens only) */
+.q3-bbar { display: flex; align-items: center; gap: var(--space-2); min-height: 0; max-height: var(--bottom-bar-height); padding: 0 var(--space-2); box-sizing: border-box; font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-bbar__sep { width: 1px; align-self: stretch; margin: var(--space-2) var(--space-1); background: var(--border-color); opacity: 0.35; }
+.q3-iconbtn--stub { opacity: 0.6; }
+.q3-bbar__quiet { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-muted); font-size: var(--text-sm); }
+.q3-bbar__slot { display: flex; align-items: center; gap: var(--space-3); margin-left: auto; min-width: 0; }
+.q3-upanel {
+  position: fixed; z-index: var(--z-popover); right: var(--space-3); bottom: calc(var(--bottom-bar-height) + var(--space-2));
+  display: flex; flex-direction: column; width: 320px; max-height: 60vh; font-family: var(--font-ui); font-size: var(--text-sm);
+  background: var(--surface-raised); color: var(--text-primary); border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-raised);
+}
+.q3-upanel__head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2) var(--space-3); border-bottom: var(--border-width) solid var(--border-color); }
+.q3-upanel__list { display: flex; flex-direction: column; overflow-y: auto; padding: 4px; min-height: 0; }
+.q3-upanel__row { display: flex; gap: var(--space-3); align-items: center; justify-content: space-between; width: 100%; padding: 4px 8px; background: transparent; color: inherit; border: 0; border-radius: var(--radius-sm); font: inherit; text-align: left; cursor: pointer; }
+.q3-upanel__row:hover, .q3-upanel__row:focus-visible { background: var(--accent-soft); outline: none; }
+.q3-upanel__row--current { font-weight: bold; box-shadow: inset 3px 0 0 var(--accent); }
+.q3-upanel__row--undone { color: var(--text-muted); font-style: italic; }
+.q3-upanel__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-upanel__meta { color: var(--text-muted); font-size: var(--text-xs); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.q3-upanel__foot { padding: var(--space-1) var(--space-3); border-top: var(--border-width) solid var(--border-color); color: var(--text-muted); font-size: var(--text-xs); }
+
+/* Phase 19 — adjustments: negative amounts and the adjustment block */
+.q3-gc[data-neg] .q3-gc__text { color: var(--rt-red); }
+.q3-gr--adjustment .q3-gc[data-col="name"] .q3-gc__text { font-style: italic; }
+
+/* Phase 20 — format switcher (segmented, one button per registered format) */
+.q3-fmtsw { display: inline-flex; align-items: stretch; border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; }
+.q3-fmtsw__btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-2); height: 24px; font: inherit; font-size: var(--text-sm); color: var(--text-secondary); background: var(--surface-inset); border: 0; cursor: pointer; }
+.q3-fmtsw__btn + .q3-fmtsw__btn { border-left: var(--border-width) solid var(--border-color); }
+.q3-fmtsw__btn--active { color: var(--text-primary); background: var(--accent-soft); box-shadow: inset 0 -2px 0 var(--accent); }
+
+/* Phase 21: extra-column toolbar + in-place header rename (tokens only) */
+.q3-colbar { display: inline-flex; align-items: center; gap: var(--space-1); }
+.q3-gh__input { width: 100%; min-width: 0; height: 100%; box-sizing: border-box; padding: 0; margin: 0; font: inherit; color: var(--text-primary); background: var(--surface-inset); border: 0; outline: 0; box-shadow: inset 0 -2px 0 var(--accent); text-overflow: ellipsis; }
+.q3-gh__input:focus { text-overflow: clip; }
+
+/* Phase 22: marked cell (segment header) + units popup */
+.q3-gc[data-marked] { box-shadow: inset 0 -2px 0 var(--grid-marked-underline); background: var(--accent-soft); }
+.q3-units { margin: 0; max-height: 50vh; overflow: auto; font-family: inherit; font-size: var(--text-sm); color: var(--text-primary); white-space: pre-wrap; outline: 0; }
+.q3-units:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.q3-units__empty { color: var(--text-secondary); }
+
+/* Phase 23 — overflow, sticky columns, resize handle (tokens only; no layout shift on edit: only outline/overlay change) */
+:where(.q3-gr) { background-color: var(--surface-grid); }
+:where(.q3-grid) .q3-gc:where([data-col="slNo"], [data-col="name"]),
+:where(.q3-grid) .q3-gh__cell:where([data-col="slNo"], [data-col="name"]) { position: sticky; background-color: inherit; z-index: 1; }
+:where(.q3-grid) .q3-gc:where([data-col="slNo"]), :where(.q3-grid) .q3-gh__cell:where([data-col="slNo"]) { left: 0; }
+:where(.q3-grid) .q3-gc:where([data-col="name"]), :where(.q3-grid) .q3-gh__cell:where([data-col="name"]) { left: var(--q3-sticky-name-left, 0px); }
+.q3-gh__cell:where([data-col="slNo"], [data-col="name"]) { z-index: 2; background-color: var(--surface-header); }
+.q3-gc .q3-gc__text, .q3-gh__cell .q3-gc__text { unicode-bidi: plaintext; }
+/* Phase 70: this used to be a bare position:relative on every header cell, which came later with equal specificity and silently beat the sticky rule above,
+   so the header's Sl.No / Item Name cells scrolled away while the body's stayed pinned (header dividers drifted off the body borders). */
+.q3-gh__cell:not([data-col="slNo"]):not([data-col="name"]) { position: relative; }
+.q3-gh__resize { position: absolute; top: 0; right: 0; bottom: 0; width: 6px; cursor: col-resize; touch-action: none; }
+.q3-gh__resize:hover { background: var(--accent-soft); box-shadow: inset -2px 0 0 var(--accent); }
+/* The active left-aligned cell expands over its neighbours (overlay: out of flow, so nothing shifts) so its full text is visible. */
+.q3-gc--left[data-active] { overflow: visible; z-index: 3; }
+.q3-gc--left[data-active]:not([data-col="slNo"]):not([data-col="name"]) { position: relative; }
+.q3-gc--left[data-active] .q3-gc__text { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; box-sizing: border-box; min-width: 100%; max-width: 480px; width: max-content; padding: 0 var(--space-2); overflow: hidden; background: var(--grid-active-bg); outline: 2px solid var(--grid-active-border); outline-offset: -2px; }
+
+/* Phase 24 — /dev/perf results table (tokens only). */
+.q3-perf { border-collapse: collapse; font-size: var(--text-sm); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.q3-perf th, .q3-perf td { padding: var(--space-1) var(--space-3); text-align: left; border-bottom: 1px solid var(--grid-line, var(--text-secondary)); white-space: nowrap; }
+.q3-perf th { color: var(--text-primary); font-weight: 600; }
+
+/* Phase 25 — compact party/detail bar: one row, ≤ 72px with the address pull-down closed (tokens only). */
+.q3-pbar { position: relative; flex: none; padding: var(--space-1) var(--space-3); box-sizing: border-box; background: var(--surface-1, transparent); }
+.q3-pbar__row { display: flex; align-items: flex-end; gap: var(--space-2); min-width: 0; height: 52px; }
+.q3-pbar__f { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.q3-pbar__l { font-size: var(--text-xs, var(--text-sm)); line-height: 1; color: var(--text-muted); }
+.q3-pbar__in { height: 28px; min-width: 0; width: 100%; box-sizing: border-box; padding-block: 0; }
+.q3-pbar__f--name { flex: 3 1 0; }
+.q3-pbar__f--phone { flex: 1.4 1 0; }
+.q3-pbar__f--transport { flex: 1.6 1 0; }
+.q3-pbar__f--date { flex: 0 0 140px; }
+.q3-pbar__f--po { flex: 0 0 auto; }
+.q3-pbar__f--fmt { flex: 0 0 auto; }
+.q3-pbar__po { display: inline-flex; align-items: center; height: 28px; padding: 0 var(--space-2); color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.q3-pbar__addr { display: inline-flex; align-items: center; gap: var(--space-1); height: 28px; padding: 0 var(--space-2); font: inherit; font-size: var(--text-sm); color: var(--text-secondary); background: var(--surface-inset); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; }
+.q3-pbar__addr[data-filled] { color: var(--text-primary); box-shadow: inset 0 -2px 0 var(--accent); }
+.q3-pbar__panel { position: absolute; left: var(--space-3); right: var(--space-3); top: 100%; z-index: var(--z-popover); padding: var(--space-2); background: var(--surface-1, var(--surface-inset)); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); box-shadow: var(--shadow-popover, none); }
+.q3-pbar__area { width: 100%; box-sizing: border-box; height: auto; resize: none; }
+.q3-pbar__f--name { position: relative; }
+.q3-pac { position: absolute; left: 0; right: 0; top: 100%; z-index: var(--z-popover); margin: 2px 0 0; padding: var(--space-1) 0; list-style: none; max-height: 240px; overflow-y: auto; min-width: 240px; background: var(--surface-1, var(--surface-inset)); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); box-shadow: var(--shadow-popover, none); }
+.q3-pac__o { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-1) var(--space-2); font-size: var(--text-sm); color: var(--text-primary); cursor: pointer; }
+.q3-pac__o[data-active] { background: var(--accent-soft, var(--surface-inset)); box-shadow: inset 2px 0 0 var(--accent); }
+.q3-pac__n { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-pac__m { flex: none; color: var(--text-muted); white-space: nowrap; }
+.q3-create { display: flex; flex-direction: column; height: 100%; min-width: 0; }
+.q3-create__tools { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); padding: 0 var(--space-3); min-height: 28px; }
+.q3-create__grid { flex: 1; min-height: 0; padding: 0 var(--space-3); }
+
+/* Phase 33 - /dev/print-preview: the iframe is drawn at true paper size; its own document paints the white sheet. */
+.q3-pprev { flex: 1; min-height: 0; overflow: auto; padding: var(--space-3); background: var(--surface-inset); border-radius: var(--radius-md); }
+.q3-pprev__frame { display: block; border: var(--border-width) solid var(--border-color); margin: 0 auto; }
+
+/* Phase 37: print dialog */
+.q3-print { display: flex; flex-wrap: nowrap; gap: var(--space-4); align-items: flex-start; }
+.q3-print__info { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-print__size { font-size: var(--text-lg); margin: 0; }
+.q3-print__reasons { margin: 0; padding-left: var(--space-4); color: var(--text-secondary); }
+.q3-print__warn { border: var(--border-width) solid var(--warning, var(--border-color)); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); }
+.q3-print__warn p { margin: 0; }
+.q3-print__warn--ask { outline: 2px solid var(--warning, currentColor); }
+.q3-print__error { color: var(--danger, inherit); margin: 0; }
+.q3-print__keys { margin: 0; color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-print__preview { flex: none; overflow: hidden; border: var(--border-width) solid var(--border-color); background: white; /* paper is white in every theme */ }
+
+/* Phase 41 — History page (tokens only; compact like the work screens) */
+.q3-hist { display: flex; flex-direction: column; height: 100%; min-width: 0; padding: var(--space-3); gap: var(--space-2); box-sizing: border-box; }
+.q3-hist__head { display: flex; align-items: center; gap: var(--space-3); min-height: 32px; }
+.q3-hist__title { margin: 0; font-size: var(--text-lg); font-weight: 700; }
+.q3-hist__count { color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-hist__branch { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-hist__refresh { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-md); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--text-sm); cursor: pointer; }
+.q3-hist__refresh:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.q3-hist__refresh:disabled { opacity: 0.6; cursor: default; }
+.q3-hist__body { display: flex; flex: 1; min-height: 0; gap: var(--space-3); }
+.q3-hist__dates { display: flex; flex-direction: column; width: 190px; flex: none; min-height: 0; background: var(--surface-grid); border: var(--border-width) solid var(--grid-line); }
+.q3-hist__bills { display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; background: var(--surface-grid); border: var(--border-width) solid var(--grid-line); }
+.q3-hist__paneltitle { margin: 0; padding: var(--space-1) var(--space-2); font-size: var(--text-sm); font-weight: 700; text-align: center; background: var(--surface-header); color: var(--text-primary); }
+.q3-hist__thead { overflow: hidden; scrollbar-gutter: stable; box-sizing: border-box; white-space: nowrap; display: grid; grid-template-columns: 1fr auto; gap: var(--space-3); padding: 0 var(--space-3); height: var(--row-height); align-items: center; background: var(--surface-header); border-bottom: var(--border-width) solid var(--grid-line); font-size: var(--grid-font-size); font-weight: 600; color: var(--text-primary); }
+.q3-hist__billcols { grid-template-columns: var(--q3-hist-cols); }
+/* Phase 93 - ONE column template drives the header and every body row. Bill No (220px) holds `Q3-0728` + sync mark + the Imported badge on one line. */
+.q3-hist { --q3-hist-cols: 220px 100px minmax(0, 1fr) 150px; }
+.q3-hist__datelist, .q3-hist__billlist { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-gutter: stable; outline: none; font-family: var(--font-grid); font-size: var(--grid-font-size); color: var(--text-primary); }
+.q3-hist__datelist:focus-visible, .q3-hist__billlist:focus-visible { box-shadow: inset 0 0 0 2px var(--grid-active-border); }
+.q3-hist__daterow { display: grid; grid-template-columns: 1fr auto; gap: var(--space-3); height: var(--row-height); align-items: center; padding: 0 var(--space-3); cursor: default; }
+.q3-hist__billrow { display: grid; gap: var(--space-3); align-items: center; padding: 0 var(--space-3); box-sizing: border-box; cursor: default; overflow: hidden; white-space: nowrap; line-height: 1; }
+.q3-hist__billrow > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-hist__no { display: flex; align-items: center; gap: var(--space-2); }
+.q3-hist__no > * { flex: none; }
+.q3-hist__no .q3-hist__nonum { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.q3-hist__no .q3-hist__imp { margin-left: 0; }
+.q3-hist__daterow:nth-child(even), .q3-hist__billrow:nth-child(even) { background: var(--surface-grid-alt); }
+.q3-hist__daterow[aria-selected="true"], .q3-hist__billrow[aria-selected="true"] { background: var(--grid-active-bg); box-shadow: inset 2px 0 0 var(--grid-active-border); }
+.q3-hist__party { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.q3-hist__num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.q3-dup { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--grid-line); max-height: 40%; min-height: 0; }
+.q3-dup__head { display: flex; align-items: center; gap: var(--space-2); }
+.q3-dup__title { margin: 0; font-size: var(--text-lg); font-weight: 600; flex: 1 1 auto; }
+.q3-dup__count { color: var(--text-muted); font-size: var(--text-sm); }
+.q3-dup__list { overflow-y: auto; min-height: 0; display: flex; flex-direction: column; outline: none; }
+.q3-dup__list:focus-visible { box-shadow: inset 0 0 0 1px var(--grid-active-border); }
+.q3-dup__row { display: flex; flex-direction: column; gap: 2px; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); cursor: pointer; }
+.q3-dup__row[aria-selected="true"] { background: var(--grid-active-bg); box-shadow: inset 2px 0 0 var(--grid-active-border); }
+.q3-dup__names { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.q3-dup__keep, .q3-dup__merge { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.q3-dup__bills, .q3-dup__why, .q3-dup__empty { color: var(--text-muted); font-size: var(--text-sm); }
+.q3-dup__empty { margin: 0; padding: var(--space-2); }
+.q3-dup__actions { display: flex; gap: var(--space-2); justify-content: flex-end; }
+.q3-hist__aside { padding: var(--space-2) var(--space-3); color: var(--text-muted); font-size: var(--text-sm); }
+.q3-hist__error { padding: var(--space-2) var(--space-3); color: var(--text-danger); font-size: var(--text-sm); }
+.q3-hist__status { min-height: var(--space-5); font-size: var(--text-sm); color: var(--text-secondary); }
+
+/* Phase 42: History search, date range, bottom action bar, multi-select. Tokens only. */
+.q3-hist__tools { display: flex; align-items: center; gap: var(--space-3); min-height: var(--row-height); }
+.q3-hist__search { display: flex; align-items: center; gap: var(--space-2); flex: 1; min-width: 0; padding: 0 var(--space-2); height: 28px; border-radius: var(--radius-md); color: var(--text-secondary); }
+.q3-hist__searchinput { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-primary); font: inherit; font-size: var(--text-sm); }
+.q3-hist__search:focus-within { box-shadow: 0 0 0 2px var(--focus-ring); }
+.q3-hist__range { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-hist__range .q3-input { height: 28px; padding: 0 var(--space-2); font-size: var(--text-sm); }
+.q3-hist__none { padding: var(--space-4) var(--space-3); color: var(--text-secondary); text-align: center; }
+.q3-hist__billrow[aria-current="true"] { box-shadow: inset 2px 0 0 var(--grid-active-border), inset 0 0 0 1px var(--grid-active-border); }
+.q3-hist__actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); max-height: var(--bottom-bar-height); }
+.q3-hist__selcount { margin-right: auto; font-size: var(--text-sm); color: var(--text-secondary); }
+
+/* Phase 43: Recently deleted view + the Undo delete offer (tokens only). */
+.q3-hist__trash { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: var(--space-2); }
+.q3-hist__trashhead { display: flex; align-items: center; gap: var(--space-2); min-height: var(--row-height); color: var(--text-primary); }
+.q3-hist__trashnote { color: var(--text-secondary); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.q3-hist__trashcols { grid-template-columns: 100px 90px minmax(0, 1fr) 130px 120px 90px; }
+.q3-hist__undo { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-1) var(--space-3); background: var(--grid-active-bg); border: var(--border-width) solid var(--grid-active-border); color: var(--text-primary); }
+
+/* Phase 44 - revision panel (tokens only; layout values are first guesses, unseen in a real window) */
+.q3-rev { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: var(--space-3); min-height: 0; height: 100%; }
+.q3-rev__list { display: flex; flex-direction: column; overflow: auto; border: var(--border-width) solid var(--grid-line); outline: none; }
+.q3-rev__list:focus-visible { border-color: var(--accent); }
+.q3-rev__item { display: grid; grid-template-columns: auto 1fr auto; gap: 0 var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-bottom: var(--border-width) solid var(--grid-line); cursor: default; color: var(--text-primary); }
+.q3-rev__item--sel { background: var(--grid-active-bg); box-shadow: inset 2px 0 0 var(--accent); }
+.q3-rev__no { font-weight: 700; }
+.q3-rev__when { color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-rev__total { justify-self: end; font-variant-numeric: tabular-nums; }
+.q3-rev__sub { grid-column: 1 / -1; color: var(--text-secondary); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.q3-rev__cap { margin: 0; padding: var(--space-2); color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-rev__detail { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; overflow: auto; }
+.q3-rev__modes { display: flex; align-items: center; gap: var(--space-2); }
+.q3-rev__hint { color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-rev__summary { margin: 0; color: var(--text-primary); }
+.q3-rev__none { margin: 0; color: var(--text-secondary); }
+.q3-rev__diff { display: flex; flex-direction: column; gap: var(--space-3); }
+.q3-rev__h { margin: 0 0 var(--space-1); font-size: var(--text-sm); color: var(--text-secondary); text-transform: uppercase; }
+.q3-rev__changes, .q3-rev__rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.q3-rev__change { display: grid; grid-template-columns: 140px minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--space-2); align-items: baseline; }
+.q3-rev__field { color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-rev__before, .q3-rev__after { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.q3-rev__before { color: var(--danger); text-decoration: line-through; }
+.q3-rev__row { padding: var(--space-1) var(--space-2); border: var(--border-width) solid var(--grid-line); }
+.q3-rev__rowhead { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.q3-rev__rowno { color: var(--text-secondary); font-size: var(--text-sm); white-space: nowrap; }
+.q3-rev__rowname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: var(--text-primary); }
+
+
+/* Phase 45 - Customers (reuses the .q3-hist* list chrome) */
+.q3-cust__cols { grid-template-columns: minmax(140px, 1.4fr) 120px minmax(120px, 2fr) 110px 56px 84px 130px; }
+.q3-cust__row { display: grid; gap: var(--space-3); align-items: center; padding: 0 var(--space-3); box-sizing: border-box; min-height: var(--row-height); background: var(--grid-active-bg); border-bottom: var(--border-width) solid var(--grid-line); }
+.q3-cust__row--editing { background: var(--grid-active-bg); box-shadow: inset 2px 0 0 var(--grid-active-border); }
+.q3-cust__input { box-sizing: border-box; width: 100%; min-width: 0; height: calc(var(--row-height) - 4px); padding: 0 var(--space-2); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-grid); color: var(--text-primary); font: inherit; resize: none; overflow: hidden; }
+.q3-cust__input:focus { outline: 2px solid var(--focus-ring); outline-offset: -1px; }
+.q3-cust__input[aria-invalid="true"] { border-color: var(--text-danger); }
+textarea.q3-cust__input { padding-top: 2px; line-height: 1.3; }
+
+/* Phase 47 - party Excel import dialog (tokens only) */
+.q3-pimp { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.q3-pimp__file { display: flex; align-items: center; gap: var(--space-2); color: var(--text-secondary); margin: 0; }
+.q3-pimp__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); align-items: end; }
+.q3-pimp__num { display: flex; flex-direction: column; gap: var(--space-1); color: var(--text-secondary); }
+.q3-pimp__summary, .q3-pimp__result { margin: 0; color: var(--text-primary); }
+.q3-pimp__warn { margin: 0; color: var(--warn); }
+.q3-pimp__error { margin: var(--space-2) 0 0; color: var(--danger); }
+.q3-pimp__hint { color: var(--text-secondary); }
+.q3-pimp__row { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
+.q3-pimp__tablewrap { max-height: 40vh; overflow: auto; border: var(--border-width) solid var(--grid-line); }
+.q3-pimp__table { width: 100%; border-collapse: collapse; }
+.q3-pimp__table th, .q3-pimp__table td { text-align: left; padding: var(--space-1) var(--space-2); border-bottom: var(--border-width) solid var(--grid-line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 24ch; }
+.q3-pimp__table th { position: sticky; top: 0; background: var(--surface-raised); color: var(--text-secondary); }
+
+/* Phase 48 - Settings (tokens only) */
+.q3-set__layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: var(--space-5); align-items: start; min-width: 0; }
+.q3-set__nav { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-set__tab { text-align: left; padding: var(--space-2) var(--space-3); border: var(--border-width) solid transparent; border-radius: var(--radius-sm); background: transparent; color: var(--text-secondary); font: inherit; cursor: pointer; }
+.q3-set__tab--on { background: var(--grid-active-bg); color: var(--text-primary); border-color: var(--grid-active-border); font-weight: 600; }
+.q3-set__tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.q3-set__body { min-width: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.q3-set__two { display: grid; grid-template-columns: minmax(280px, 420px) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
+.q3-set__form { display: flex; flex-direction: column; gap: var(--space-3); max-width: 480px; min-width: 0; }
+.q3-set__row { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+.q3-set__muted { margin: 0; color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-set__error { margin: 0; color: var(--danger); font-size: var(--text-sm); }
+.q3-set__saved { margin: 0; color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-set__check { display: flex; gap: var(--space-2); align-items: center; }
+.q3-set__field { display: flex; flex-direction: column; gap: var(--space-1); }
+.q3-set__textarea { box-sizing: border-box; width: 100%; padding: var(--space-2); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-grid); color: var(--text-primary); font: inherit; resize: vertical; }
+.q3-set__textarea:focus { outline: 2px solid var(--focus-ring); outline-offset: -1px; }
+.q3-set__logo { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-set__logobox { display: flex; align-items: center; justify-content: center; height: 96px; border: var(--border-width) dashed var(--border-color); border-radius: var(--radius-sm); overflow: hidden; }
+.q3-set__logoimg { max-height: 100%; max-width: 100%; object-fit: contain; }
+.q3-set__preview { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.q3-set__frame { width: 100%; height: 420px; border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-grid); }
+.q3-set__preview-po { margin: 0; }
+
+/* Phase 49 - Settings: themes manager, shortcut viewer, density (tokens only) */
+.q3-set__themes { max-width: 560px; }
+.q3-theme__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-theme__item { display: flex; align-items: center; gap: var(--space-3); width: 100%; text-align: left; padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; cursor: pointer; }
+.q3-theme__swatch { display: inline-flex; align-items: center; gap: var(--space-1); flex: none; padding: var(--space-1) var(--space-2); border: var(--border-width) solid; border-radius: var(--radius-sm); }
+.q3-theme__swatch i { display: block; width: var(--space-3); height: var(--space-3); border-radius: 50%; }
+.q3-theme__item--on { border-color: var(--grid-active-border); background: var(--grid-active-bg); }
+.q3-theme__item:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.q3-theme__name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-theme__active { color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-theme__errors ul { margin: 0; padding-left: var(--space-5); }
+.q3-set__shortcuts { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; max-width: 720px; }
+.q3-sc__scroll { max-height: 56vh; overflow: auto; border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); }
+.q3-sc__scroll:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -1px; }
+.q3-sc { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.q3-sc th { position: sticky; top: 0; text-align: left; padding: var(--space-1) var(--space-3); background: var(--surface-header); color: var(--text-secondary); }
+.q3-sc td { padding: var(--space-1) var(--space-3); border-top: var(--border-width) solid var(--grid-line); vertical-align: middle; }
+.q3-sc td:nth-child(2) { display: flex; gap: var(--space-1); flex-wrap: wrap; border-top: 0; }
+
+/* Phase 50 - Settings: backup and restore (tokens only) */
+.q3-bk { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; max-width: 760px; }
+.q3-bk__acts { display: flex; gap: var(--space-1); justify-content: flex-end; border-top: 0; }
+.q3-bk__table td { white-space: nowrap; }
+/* Phase 52 - Settings: sync and license (tokens only) */
+.q3-set__facts { display: grid; grid-template-columns: max-content 1fr; gap: var(--space-1) var(--space-4); margin: 0; font-size: var(--text-sm); }
+.q3-set__facts dt { color: var(--text-secondary); }
+.q3-set__facts dd { margin: 0; color: var(--text-primary); overflow-wrap: anywhere; }
+.q3-sy__scroll { max-height: 200px; overflow: auto; }
+.q3-sy__scroll:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -1px; }
+.q3-sy__table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.q3-sy__table th { text-align: left; padding: var(--space-1) var(--space-3); background: var(--surface-header); color: var(--text-secondary); }
+.q3-sy__table td { padding: var(--space-1) var(--space-3); border-top: var(--border-width) solid var(--grid-line); }
+.q3-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Phase 58: join an existing branch (Settings > Sync) */
+.q3-bs { margin-top: var(--space-5); padding-top: var(--space-4); border-top: var(--border-width) solid var(--grid-line); display: flex; flex-direction: column; gap: var(--space-3); }
+.q3-bs__title { margin: 0; font-size: var(--text-lg); color: var(--text-primary); }
+.q3-bs__review, .q3-bs__done { display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* Phase 59: Sync status page, Dashboard chip, per-bill sync badge (tokens only) */
+.q3-sst { display: flex; flex-direction: column; gap: var(--space-3); padding-bottom: var(--space-4); border-bottom: var(--border-width) solid var(--grid-line); margin-bottom: var(--space-4); }
+.q3-sst__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.q3-sst__errors { margin: 0; padding-left: var(--space-4); display: flex; flex-direction: column; gap: var(--space-1); }
+.q3-sst__conflicts { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-sst__acts { display: flex; gap: var(--space-2); }
+.q3-sychip { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--text-secondary); background: none; border: 0; padding: 0; font-family: inherit; }
+button.q3-sychip { cursor: pointer; }
+button.q3-sychip:hover { color: var(--text-primary); }
+.q3-sprog { display: grid; gap: var(--space-2); margin: var(--space-2) 0; }
+.q3-sprog__row { display: grid; grid-template-columns: 11rem 1fr; align-items: center; gap: var(--space-3); font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-sprog__bar { width: 100%; height: var(--space-2); accent-color: var(--accent); }
+button.q3-sychip:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.q3-sychip--bad { color: var(--danger); }
+.q3-sydot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); flex: none; }
+.q3-sydot--ok { background: var(--ok); }
+.q3-sydot--wait { background: var(--warn); }
+.q3-sydot--bad { background: var(--danger); }
+.q3-sybadge { margin-left: var(--space-2); padding: 0 var(--space-2); border-radius: var(--radius-sm); font-size: var(--text-xs); border: var(--border-width) solid currentColor; vertical-align: middle; }
+.q3-sybadge--ok { color: var(--ok); }
+.q3-sybadge--wait { color: var(--warn); }
+.q3-sybadge--bad { color: var(--danger); }
+
+/* Phase 61: Activity log (Settings), crash notice (Dashboard) - tokens only */
+.q3-au { display: flex; flex-direction: column; gap: var(--space-3); }
+.q3-au__filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-2) var(--space-3); align-items: end; }
+.q3-au__table td { vertical-align: top; overflow-wrap: anywhere; }
+.q3-au__detail { margin: 0; padding: var(--space-2) var(--space-3); background: var(--surface-header); color: var(--text-secondary); font-size: var(--text-sm); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 240px; overflow: auto; }
+.q3-au__foot { display: flex; align-items: end; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; padding-top: var(--space-3); border-top: var(--border-width) solid var(--grid-line); }
+.q3-crash { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: var(--border-width) solid var(--accent); border-radius: var(--radius-md); background: var(--accent-soft); }
+.q3-crash__title { margin: 0; font-size: var(--text-lg); font-weight: 700; color: var(--text-primary); }
+.q3-crash__body { margin: 0; font-size: var(--text-sm); color: var(--text-secondary); }
+
+/* Phase 62 - updates (tokens only) */
+.q3-up { display: flex; flex-direction: column; gap: var(--space-3); max-width: 640px; }
+.q3-up__status { display: flex; flex-direction: column; gap: var(--space-1); }
+.q3-up__title { margin: 0; font-size: var(--text-lg); font-weight: 700; color: var(--text-primary); }
+.q3-up__bar { width: 100%; height: var(--space-2); accent-color: var(--accent); }
+.q3-up__form { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-up__check { display: flex; gap: var(--space-2); align-items: center; font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-upb { position: fixed; top: var(--space-3); right: var(--space-3); z-index: 50; display: flex; gap: var(--space-3); align-items: center; max-width: 520px; padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--accent); border-radius: var(--radius-md); background: var(--surface-raised, var(--surface-base)); color: var(--text-primary); font-size: var(--text-sm); }
+.q3-upb__text { min-width: 0; }
+
+/* Phase 63 - About screen (tokens only) */
+.q3-about { display: flex; gap: var(--space-4); align-items: center; padding: var(--space-3) 0; }
+.q3-about__icon { width: 96px; height: 96px; flex: none; border-radius: var(--radius-md); }
+.q3-about__text { min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.q3-about__name { margin: 0; font-size: var(--text-lg); color: var(--text-primary); }
+.q3-about__version { margin: 0; font-size: var(--text-sm); color: var(--text-primary); }
+
+/* Phase 83: calculator drawer (above the bottom bar). Tokens only. */
+.q3-calc { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; padding: var(--space-1) var(--space-3); min-height: 36px; box-sizing: border-box; background: var(--surface-raised); border-top: 1px solid var(--border-color); color: var(--text-primary); font-size: var(--text-sm); }
+.q3-calc__modes { display: flex; gap: var(--space-1); }
+.q3-calc__mode, .q3-calc__chip, .q3-calc__res, .q3-calc__close { display: inline-flex; align-items: center; gap: var(--space-1); height: 26px; padding: 0 var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-inset); color: var(--text-secondary); font: inherit; cursor: pointer; }
+.q3-calc__mode[aria-pressed='true'], .q3-calc__chip[aria-pressed='true'] { background: var(--accent-soft); color: var(--text-primary); border-color: var(--accent); }
+.q3-calc__close { margin-left: auto; padding: 0 var(--space-1); }
+.q3-calc__field { flex: 1 1 220px; min-width: 120px; max-width: 420px; height: 26px; padding: 0 var(--space-2); font-size: var(--text-sm); }
+.q3-calc__pct { width: 72px; height: 26px; padding: 0 var(--space-2); font-size: var(--text-sm); }
+.q3-calc__result { min-width: 80px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+.q3-calc__result--error { color: var(--text-danger); }
+.q3-calc__total { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.q3-calc__chips, .q3-calc__results { display: flex; align-items: center; gap: var(--space-1); flex-wrap: wrap; }
+.q3-calc__res { font-variant-numeric: tabular-nums; color: var(--text-primary); }
+.q3-calc__reslabel { color: var(--text-muted); }
+.q3-calc__copied { color: var(--ok); }
+
+/* Phase 86 - legacy bill import dialog, History source filter and Imported marks (tokens only) */
+.q3-limp { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.q3-limp p { margin: 0; }
+.q3-limp__row { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.q3-limp__line { color: var(--text-primary); }
+.q3-limp__hint { color: var(--text-secondary); font-size: var(--text-sm); }
+.q3-limp__check { display: flex; align-items: center; gap: var(--space-2); }
+.q3-limp__ok { color: var(--text-primary); font-weight: 600; }
+.q3-limp__error { color: var(--text-danger); }
+.q3-limp__h { margin: 0; font-size: var(--text-base); }
+.q3-limp__progress { font-variant-numeric: tabular-nums; }
+.q3-limp__bar { width: 100%; height: var(--space-3); accent-color: var(--accent); }
+.q3-limp__list > summary { cursor: pointer; color: var(--text-secondary); }
+.q3-limp__list ul { margin: var(--space-1) 0 0; padding-left: var(--space-4); max-height: 160px; overflow: auto; font-size: var(--text-sm); }
+.q3-limp__tablewrap { max-height: 240px; overflow: auto; border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); }
+.q3-limp__table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.q3-limp__table th, .q3-limp__table td { text-align: left; padding: var(--space-1) var(--space-2); border-bottom: var(--border-width) solid var(--border-color); max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-hist__source { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; padding: 0 0 var(--space-1); }
+.q3-hist__source .q3-hist__branch { margin-left: 0; }
+.q3-hist__imp { margin-left: var(--space-2); white-space: nowrap; line-height: 1.4; padding: 0 var(--space-1); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-secondary); font-size: var(--text-xs); }
+.q3-pbar__f--imp { min-width: 0; }
+
+/* Phase 112 - Items page shell: three windows side by side (tokens only). Contents arrive in Phases 113-114. */
+.q3-items__body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.5fr); gap: var(--space-3); flex: 1; min-height: 0; }
+.q3-items__frame { display: flex; flex-direction: column; min-width: 0; min-height: 0; border-radius: var(--radius-md); overflow: hidden; border: var(--border-width) solid transparent; }
+.q3-items__frame--active { border-color: var(--grid-active-border); }
+.q3-items__title { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: 0; padding: 0 var(--space-3); height: var(--row-height); flex: none; font-size: var(--text-sm); font-weight: 600; background: var(--surface-header); border-bottom: var(--border-width) solid var(--grid-line); color: var(--text-primary); }
+.q3-items__content { flex: 1; min-height: 0; overflow: auto; outline: none; }
+.q3-items__content:focus-visible { box-shadow: inset 0 0 0 2px var(--focus-ring); }
+/* Phase 113: Groups / Spellings rows and the decision status line. Tokens only. */
+.q3-items__row { display: grid; align-items: center; gap: var(--space-3); padding: 0 var(--space-3); box-sizing: border-box; height: var(--row-height); overflow: hidden; white-space: nowrap; line-height: 1; cursor: default; font-family: var(--font-grid); font-size: var(--grid-font-size); color: var(--text-primary); }
+.q3-items__row > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-items__row--family { grid-template-columns: minmax(0, 1fr) 3.5rem 4.5rem; background: var(--surface-header); color: var(--text-secondary); font-weight: 600; border-bottom: var(--border-width) solid var(--grid-line); }
+.q3-items__row--group { grid-template-columns: minmax(0, 1fr) 3.5rem 4.5rem; padding-left: var(--space-5); }
+.q3-items__row--group.q3-items__row--alt { background: var(--surface-grid-alt); }
+.q3-items__row--spelling { grid-template-columns: minmax(0, 1fr) 3rem 4.5rem minmax(5rem, 9rem); }
+.q3-items__row--suggestion { grid-template-columns: 4.5rem minmax(0, 1.6fr) minmax(0, 1.4fr); }
+.q3-items__row[aria-selected="true"] { background: var(--grid-active-bg); box-shadow: inset 2px 0 0 var(--grid-active-border); }
+.q3-items__content:focus-visible .q3-items__row[aria-selected="true"] { box-shadow: inset 2px 0 0 var(--grid-active-border), inset 0 0 0 1px var(--grid-active-border); }
+.q3-items__row--mark { box-shadow: inset 0 0 0 1px var(--grid-active-border); }
+.q3-items__num { text-align: right; font-variant-numeric: tabular-nums; }
+.q3-items__muted { color: var(--text-secondary); }
+.q3-items__sub { padding: var(--space-1) var(--space-3); font-size: var(--text-xs); font-weight: 600; color: var(--text-secondary); background: var(--surface-header); border-top: var(--border-width) solid var(--grid-line); border-bottom: var(--border-width) solid var(--grid-line); }
+.q3-items__status { padding: var(--space-1) var(--space-3); font-size: var(--text-sm); color: var(--text-secondary); overflow-wrap: anywhere; }
+.q3-items__note { padding: var(--space-3); color: var(--text-secondary); font-size: var(--text-sm); overflow-wrap: anywhere; }
+/* Phase 114: Sales window (tokens only) */
+.q3-items__sales { min-width: 0; }
+.q3-items__saleshead { position: sticky; top: 0; z-index: 1; background: var(--surface-grid); border-bottom: var(--border-width) solid var(--grid-line); }
+.q3-items__tabs { display: flex; gap: var(--space-1); padding: var(--space-1) var(--space-2) 0; }
+.q3-items__tab { font: inherit; font-size: var(--text-sm); color: var(--text-secondary); background: transparent; border: var(--border-width) solid transparent; border-bottom: 0; border-radius: var(--radius-sm) var(--radius-sm) 0 0; padding: var(--space-1) var(--space-3); cursor: pointer; }
+.q3-items__tab--on { color: var(--text-primary); font-weight: 600; background: var(--surface-header); border-color: var(--grid-line); }
+.q3-items__stats { padding: var(--space-1) var(--space-3); font-size: var(--text-xs); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: var(--surface-header); }
+.q3-items__chip { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-1) var(--space-3); padding: 0 var(--space-2); width: fit-content; max-width: calc(100% - var(--space-5)); font-size: var(--text-xs); color: var(--text-primary); border: var(--border-width) solid var(--grid-active-border); border-radius: var(--radius-sm); }
+.q3-items__chip > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-items__chip > button { font: inherit; color: inherit; background: transparent; border: 0; cursor: pointer; padding: 0 var(--space-1); }
+.q3-items__row--sale { grid-template-columns: 4.5rem minmax(0, 1.6fr) minmax(0, 1fr) 3.5rem 4rem 2.75rem; }
+.q3-items__row--sale-gst { grid-template-columns: 4.5rem minmax(0, 1.4fr) minmax(0, 0.9fr) 3.25rem 3.75rem 3.25rem 4rem 4.5rem 2.75rem; }
+.q3-items__row--colhead { background: var(--surface-header); color: var(--text-secondary); font-weight: 600; font-size: var(--text-xs); }
+.q3-items__row--party { grid-template-columns: minmax(0, 1.6fr) 4.5rem 4.5rem 2.5rem 2.75rem; }
+.q3-items__flag { font-size: var(--text-xs); font-weight: 600; text-align: right; }
+.q3-items__flag--high { color: var(--danger); }
+.q3-items__flag--low { color: var(--warn); }
+

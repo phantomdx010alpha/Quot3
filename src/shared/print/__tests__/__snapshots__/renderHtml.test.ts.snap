@@ -1,0 +1,52 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Phase 33 - template renderer > snapshot: full Rough A5 document for the adjustment fixture 1`] = `
+"<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Ruby Traders</title><style>@font-face{font-family:'Quot3 Noto Sans';font-style:normal;font-weight:400;font-display:block;src:url("fonts/noto-sans-latin-400-normal.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Quot3 Noto Sans';font-style:normal;font-weight:400;font-display:block;src:url("fonts/noto-sans-latin-ext-400-normal.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Quot3 Noto Sans';font-style:normal;font-weight:700;font-display:block;src:url("fonts/noto-sans-latin-700-normal.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Quot3 Noto Sans';font-style:normal;font-weight:700;font-display:block;src:url("fonts/noto-sans-latin-ext-700-normal.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@page{size:A5 portrait;margin:6mm}
+:root{--print-font:'Quot3 Noto Sans','Noto Sans','Segoe UI',Arial,sans-serif;--print-ink:#000;--print-red:#c00000;--print-hl:#fff2a8;--print-line:#222;--print-line-soft:#777;--print-head-bg:#ececec;--print-fs:7.5pt;--print-fs-head:7pt;--print-fs-party:11pt;--print-pad-y:0.3mm;--print-pad-x:1.2mm;--print-sheet-w:136mm;--print-logo-h:14mm;--print-logo-w:28%}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;color:var(--print-ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* Phase 73: top-aligned. Nothing here centres vertically; the page's top gap is the @page margin ONLY. */
+body{display:block;height:auto;min-height:0;font-family:var(--print-font);font-size:var(--print-fs);line-height:1.15;hyphens:none;-webkit-hyphens:none;overflow-wrap:anywhere}
+.q3p-sheet{position:static;width:var(--print-sheet-w);margin:0 auto;padding:0}
+.q3p-head{margin:0 0 1.5mm 0;break-after:avoid}
+.q3p-party{margin:0;font-size:var(--print-fs-party);font-weight:700;line-height:1.2;overflow-wrap:anywhere;word-break:break-word}
+.q3p-sub{margin:.5mm 0 0 0;display:flex;flex-wrap:wrap;gap:0 5mm;font-size:var(--print-fs)}
+.q3p-sub span{overflow-wrap:anywhere;word-break:break-word}
+.q3p-sub b{font-weight:700}
+table.q3p-table{width:100%;table-layout:fixed;border-collapse:collapse;border:.35mm solid var(--print-line)}
+.q3p-pro{display:flex;justify-content:space-between;align-items:flex-start;gap:4mm;padding-bottom:1.5mm;border-bottom:.35mm solid var(--print-line)}
+.q3p-co{display:flex;align-items:flex-start;gap:2.5mm;min-width:0;flex:1 1 auto}
+.q3p-logo{display:block;max-height:var(--print-logo-h);max-width:var(--print-logo-w);width:auto;height:auto;object-fit:contain;flex:0 0 auto}
+.q3p-co-text{min-width:0}
+.q3p-co-name{margin:0;font-size:var(--print-fs-party);font-weight:700;line-height:1.15;overflow-wrap:anywhere;word-break:break-word}
+.q3p-co-line{margin:.3mm 0 0 0;overflow-wrap:anywhere;word-break:break-word}
+.q3p-meta{flex:0 1 auto;max-width:42%;text-align:right;overflow-wrap:anywhere}
+.q3p-meta p{margin:0 0 .4mm 0}
+.q3p-meta b{font-weight:700}
+.q3p-to{margin:1.5mm 0 0 0}
+.q3p-to-label{margin:0;font-size:var(--print-fs-head);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.q3p-to .q3p-party{margin-top:.3mm}
+.q3p-to .q3p-line{margin:.3mm 0 0 0;overflow-wrap:anywhere;word-break:break-word}
+.q3p-table th,.q3p-table td{border:.2mm solid var(--print-line-soft);padding:var(--print-pad-y) var(--print-pad-x);vertical-align:top;overflow-wrap:anywhere;word-break:break-word;white-space:normal;hyphens:none;min-width:0}
+.q3p-table thead{display:table-header-group}
+.q3p-table th{background:var(--print-head-bg);font-size:var(--print-fs-head);font-weight:700;border-color:var(--print-line)}
+.q3p-table tr{break-inside:avoid;page-break-inside:avoid}
+/* Phase 35: the totals live in their own row group (NOT a tfoot - that would repeat on every page). The group never splits, and the last item row will not be left alone at the bottom of a page while the totals start the next one. */
+.q3p-table tbody.q3p-foot{break-inside:avoid;page-break-inside:avoid}
+.q3p-table tbody.q3p-foot tr{break-before:avoid;page-break-before:avoid}
+.q3p-table tbody.q3p-main tr:last-child{break-after:avoid;page-break-after:avoid}
+.q3p-table thead tr{break-after:avoid;page-break-after:avoid}
+.q3p-l{text-align:left}.q3p-r{text-align:right}.q3p-c{text-align:center}
+.q3p-table td.q3p-n{font-variant-numeric:tabular-nums;white-space:nowrap;overflow-wrap:normal;word-break:normal}
+.q3p-lbl{text-align:right;font-weight:700}
+.q3p-tot td{border-top:.2mm solid var(--print-line-soft)}
+.q3p-tot--grand td{font-weight:700;border-top:.35mm solid var(--print-line);border-bottom:.35mm solid var(--print-line)}
+.q3p-tot--items td,.q3p-tot--adj td{font-weight:700}
+.q3p-adj td{background:transparent}
+.q3p-hl{background:var(--print-hl)}
+.b{font-weight:700}.r{color:var(--print-red)}.hl{background:var(--print-hl)}</style></head><body class="q3p q3p--rough q3p--A5" data-paper="A5" data-mode="rough"><main class="q3p-sheet"><header class="q3p-head"><h1 class="q3p-party">Ruby Traders</h1><p class="q3p-sub"><span><b>Phone:</b> 98450 12345</span><span><b>Transport:</b> SRS Travels</span></p></header><table class="q3p-table"><colgroup><col style="width:7.00%"><col style="width:53.00%"><col style="width:12.00%"><col style="width:12.00%"><col style="width:16.00%"></colgroup><thead><tr><th class="q3p-c">Sl.No</th><th class="q3p-l">Item Name</th><th class="q3p-r">Rate</th><th class="q3p-r">Quantity</th><th class="q3p-r">Amount</th></tr></thead><tbody class="q3p-main"><tr><td class="q3p-c">1</td><td class="q3p-l">Notebook A4</td><td class="q3p-r q3p-n">45</td><td class="q3p-r q3p-n">12</td><td class="q3p-r q3p-n">540.00</td></tr><tr><td class="q3p-c">2</td><td class="q3p-l">Pen box</td><td class="q3p-r q3p-n">99.99</td><td class="q3p-r q3p-n">5</td><td class="q3p-r q3p-n">499.95</td></tr><tr><td class="q3p-c">3</td><td class="q3p-l">Brass lamp</td><td class="q3p-r q3p-n">250.75</td><td class="q3p-r q3p-n">2</td><td class="q3p-r q3p-n">501.50</td></tr></tbody><tbody class="q3p-foot"><tr class="q3p-tot q3p-tot--items"><td class="q3p-lbl" colspan="4">Items total</td><td class="q3p-r q3p-n">1541.45</td></tr><tr class="q3p-adj"><td class="q3p-c"></td><td class="q3p-l">Discount</td><td class="q3p-r q3p-n"></td><td class="q3p-r q3p-n"></td><td class="q3p-r q3p-n">-100.00</td></tr><tr class="q3p-adj"><td class="q3p-c"></td><td class="q3p-l">Packing</td><td class="q3p-r q3p-n"></td><td class="q3p-r q3p-n"></td><td class="q3p-r q3p-n">35.50</td></tr><tr class="q3p-tot q3p-tot--adj"><td class="q3p-lbl" colspan="4">Adjustments total</td><td class="q3p-r q3p-n">-64.50</td></tr><tr class="q3p-tot q3p-tot--grand"><td class="q3p-lbl" colspan="4">Final total</td><td class="q3p-r q3p-n">₹1476.95</td></tr></tbody></table></main></body></html>"
+`;

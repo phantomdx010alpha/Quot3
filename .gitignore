@@ -1,0 +1,14 @@
+node_modules/
+out/
+dist/
+release/
+.env
+.env.local
+*.log
+.vite/
+coverage/
+test-results/
+playwright-report/
+
+# Private business data (CLAUDE_MUST_READ.md: never upload). Stays in the handoff zip, never goes to GitHub.
+docs/reference/legacy_import/Bills_JSON.zip

@@ -1,0 +1,83 @@
+# Phase 64 - Windows installer (per-user NSIS). Build on Windows or in CI:  npm run dist
+# appId / publisher come from src/shared/appInfo.ts (APP_ID, PUBLISHER) - keep them identical.
+appId: app.quot3.desktop
+productName: Quot3
+copyright: Copyright (c) Quot3
+executableName: Quot3
+
+directories:
+  output: release
+  buildResources: build
+
+# Only the compiled app goes into app.asar (production node_modules are added automatically).
+files:
+  - out/**
+  - package.json
+  - "!**/*.map"
+  # better-sqlite3: keep only the Windows x64 binary and its JS; drop other platforms' binaries and the C sources.
+  - "!node_modules/better-sqlite3/deps/**"
+  - "!node_modules/better-sqlite3/src/**"
+  - "!node_modules/better-sqlite3/prebuilds/darwin-*.node"
+  - "!node_modules/better-sqlite3/prebuilds/linux*.node"
+  - "!node_modules/better-sqlite3/prebuilds/win32-arm64.node"
+
+# better-sqlite3 ships N-API prebuilt binaries (DEPENDENCY_VERSIONS.md), so nothing is rebuilt from source:
+# no Visual Studio Build Tools needed on the build machine.
+npmRebuild: false
+buildDependenciesFromSource: false
+
+# Native module: the .node binary must live outside the asar to load.
+asarUnpack:
+  - "node_modules/better-sqlite3/prebuilds/win32-x64.node"
+  # Phase 144 follow-up: pdf-to-printer runs this exe, so it must sit outside the asar.
+  - "node_modules/pdf-to-printer/dist/SumatraPDF-3.4.6-32.exe"
+
+# Read by file path at run time, so they sit beside the asar (see src/main/runtimePaths.ts).
+extraResources:
+  - from: src/main/db/migrations
+    to: migrations
+  - from: resources/fonts
+    to: fonts
+  - from: resources/icons
+    to: icons
+    filter:
+      - icon.ico
+      - icon-256.png
+
+win:
+  target:
+    - target: nsis
+      arch: x64
+  icon: resources/icons/icon.ico
+  # Code signing (Phase 65, docs/RELEASE_SIGNING.md). No certificate is bought yet, so nothing is signed by default.
+  # A certificate file is picked up from the environment (CSC_LINK + CSC_KEY_PASSWORD) - never write secrets in this file.
+  # Cloud signing (Azure Artifact Signing) instead: add `azureSignOptions` here (see the doc) and remove `signtoolOptions`.
+  signtoolOptions:
+    signingHashAlgorithms: [sha256]
+    rfc3161TimeStampServer: http://timestamp.digicert.com
+    # publisherName: ["Exact certificate subject name"]   # set ONLY once a real certificate exists: updates are verified against it
+
+nsis:
+  oneClick: false
+  perMachine: false                     # per-user: no administrator prompt, installs to %LOCALAPPDATA%\Programs\Quot3
+  allowElevation: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Quot3
+  runAfterFinish: true
+  installerIcon: resources/icons/icon.ico
+  uninstallerIcon: resources/icons/icon.ico
+  installerHeaderIcon: resources/icons/icon.ico
+  uninstallDisplayName: Quot3
+  deleteAppDataOnUninstall: false       # the bill database is never removed silently; build/installer.nsh asks instead
+  include: build/installer.nsh
+  artifactName: Quot3-Setup-${version}.${ext}
+
+# No file associations. No auto-launch at login (the app never registers one).
+# Publish target: GitHub Releases. owner / repo are NOT written here: electron-builder reads them from package.json `repository`
+# or the git remote `origin` (the release workflow sets `repository` from the real repo). This bakes app-update.yml into the installer
+# so the installed app knows where to look (src/main/services/updaterPort.ts). `npm run release` uploads the installer + latest.yml.
+publish:
+  provider: github
+  releaseType: release

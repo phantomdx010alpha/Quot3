@@ -1,0 +1,582 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (guards accidental layout/data drift) 1`] = `
+{
+  "body": [
+    {
+      "cells": {
+        "name": {
+          "text": "Notebook A4",
+        },
+        "qty": {
+          "text": "12",
+        },
+        "rate": {
+          "text": "45",
+        },
+        "slNo": {
+          "text": "1",
+        },
+        "total": {
+          "text": "540.00",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "name": {
+          "text": "Pen box",
+        },
+        "qty": {
+          "text": "5",
+        },
+        "rate": {
+          "text": "99.99",
+        },
+        "slNo": {
+          "text": "2",
+        },
+        "total": {
+          "text": "499.95",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "name": {
+          "text": "Brass lamp",
+        },
+        "qty": {
+          "text": "2",
+        },
+        "rate": {
+          "text": "250.75",
+        },
+        "slNo": {
+          "text": "3",
+        },
+        "total": {
+          "text": "501.50",
+        },
+      },
+      "kind": "item",
+    },
+  ],
+  "columns": [
+    {
+      "align": "center",
+      "isExtra": false,
+      "key": "slNo",
+      "label": "Sl.No",
+      "share": 700,
+    },
+    {
+      "align": "left",
+      "isExtra": false,
+      "key": "name",
+      "label": "Item Name",
+      "share": 5300,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "rate",
+      "label": "Rate",
+      "share": 1200,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "qty",
+      "label": "Quantity",
+      "share": 1200,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "total",
+      "label": "Amount",
+      "share": 1600,
+    },
+  ],
+  "footer": [
+    {
+      "cells": {
+        "total": {
+          "text": "1541.45",
+        },
+      },
+      "kind": "itemsTotal",
+      "label": "Items total",
+    },
+    {
+      "cells": {
+        "name": {
+          "text": "Discount",
+        },
+        "qty": {
+          "text": "",
+        },
+        "rate": {
+          "text": "",
+        },
+        "slNo": {
+          "text": "",
+        },
+        "total": {
+          "text": "-100.00",
+        },
+      },
+      "kind": "adjustment",
+    },
+    {
+      "cells": {
+        "name": {
+          "text": "Packing",
+        },
+        "qty": {
+          "text": "",
+        },
+        "rate": {
+          "text": "",
+        },
+        "slNo": {
+          "text": "",
+        },
+        "total": {
+          "text": "35.50",
+        },
+      },
+      "kind": "adjustment",
+    },
+    {
+      "cells": {
+        "total": {
+          "text": "-64.50",
+        },
+      },
+      "kind": "adjustmentsTotal",
+      "label": "Adjustments total",
+    },
+    {
+      "cells": {
+        "total": {
+          "text": "₹1476.95",
+        },
+      },
+      "kind": "grandTotal",
+      "label": "Final total",
+    },
+  ],
+  "formatId": "non_gst",
+  "header": {
+    "kind": "rough",
+    "party": {
+      "name": "Ruby Traders",
+      "phone": "98450 12345",
+      "transport": "SRS Travels",
+    },
+  },
+  "mode": "rough",
+  "paper": {
+    "pages": 1,
+    "reasons": [],
+    "requiresAck": false,
+    "size": "A5",
+    "suggested": "A5",
+    "warnings": [],
+  },
+  "rowCount": 5,
+  "tail": [],
+  "version": 1,
+}
+`;
+
+exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (guards accidental layout/data drift) 2`] = `
+{
+  "body": [
+    {
+      "cells": {
+        "c1": {
+          "text": "11.5-1",
+        },
+        "c2": {
+          "text": "5-4",
+        },
+        "name": {
+          "text": "Ruby thread",
+        },
+        "qty": {
+          "text": "10",
+        },
+        "rate": {
+          "text": "90",
+        },
+        "slNo": {
+          "text": "1",
+        },
+        "total": {
+          "text": "900.00",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "c1": {
+          "text": "12.5-1",
+        },
+        "c2": {
+          "text": "",
+        },
+        "name": {
+          "text": "Tomato red dye",
+        },
+        "qty": {
+          "text": "2",
+        },
+        "rate": {
+          "text": "120",
+        },
+        "slNo": {
+          "text": "2",
+        },
+        "total": {
+          "text": "240.00",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "c1": {
+          "text": "",
+        },
+        "c2": {
+          "text": "56-2",
+        },
+        "name": {
+          "text": "Copper wire 2 mm",
+        },
+        "qty": {
+          "text": "1",
+        },
+        "rate": {
+          "text": "250",
+        },
+        "slNo": {
+          "text": "3",
+        },
+        "total": {
+          "text": "250.00",
+        },
+      },
+      "kind": "item",
+    },
+  ],
+  "columns": [
+    {
+      "align": "center",
+      "isExtra": false,
+      "key": "slNo",
+      "label": "Sl.No",
+      "share": 700,
+    },
+    {
+      "align": "left",
+      "isExtra": false,
+      "key": "name",
+      "label": "Item Name",
+      "share": 3100,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "rate",
+      "label": "Rate",
+      "share": 1200,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "qty",
+      "label": "Quantity",
+      "share": 1200,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "total",
+      "label": "Amount",
+      "share": 1600,
+    },
+    {
+      "align": "left",
+      "isExtra": true,
+      "key": "c1",
+      "label": "ruby",
+      "share": 1100,
+    },
+    {
+      "align": "left",
+      "isExtra": true,
+      "key": "c2",
+      "label": "tomato",
+      "share": 1100,
+    },
+  ],
+  "footer": [
+    {
+      "cells": {
+        "total": {
+          "text": "₹1390.00",
+        },
+      },
+      "kind": "grandTotal",
+      "label": "Total",
+    },
+  ],
+  "formatId": "non_gst",
+  "header": {
+    "kind": "rough",
+    "party": {
+      "name": "Ruby Traders",
+      "phone": "98450 12345",
+      "transport": "SRS Travels",
+    },
+  },
+  "mode": "rough",
+  "paper": {
+    "pages": 1,
+    "reasons": [],
+    "requiresAck": false,
+    "size": "A5",
+    "suggested": "A5",
+    "warnings": [],
+  },
+  "rowCount": 3,
+  "tail": [],
+  "version": 1,
+}
+`;
+
+exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (guards accidental layout/data drift) 3`] = `
+{
+  "body": [
+    {
+      "cells": {
+        "amount": {
+          "text": "1260.00",
+        },
+        "gstAmt": {
+          "text": "60.00",
+        },
+        "gstRate": {
+          "text": "5",
+        },
+        "name": {
+          "text": "Cotton shirt cloth",
+        },
+        "qty": {
+          "text": "10",
+        },
+        "rate": {
+          "text": "120",
+        },
+        "slNo": {
+          "text": "1",
+        },
+        "total": {
+          "text": "1200.00",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "amount": {
+          "text": "2150.40",
+        },
+        "gstAmt": {
+          "text": "230.40",
+        },
+        "gstRate": {
+          "text": "12",
+        },
+        "name": {
+          "text": "Steel bowl set",
+        },
+        "qty": {
+          "text": "3",
+        },
+        "rate": {
+          "text": "640",
+        },
+        "slNo": {
+          "text": "2",
+        },
+        "total": {
+          "text": "1920.00",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "amount": {
+          "text": "1327.50",
+        },
+        "gstAmt": {
+          "text": "202.50",
+        },
+        "gstRate": {
+          "text": "18",
+        },
+        "name": {
+          "text": "LED bulb 9W",
+        },
+        "qty": {
+          "text": "25",
+        },
+        "rate": {
+          "text": "45",
+        },
+        "slNo": {
+          "text": "3",
+        },
+        "total": {
+          "text": "1125.00",
+        },
+      },
+      "kind": "item",
+    },
+    {
+      "cells": {
+        "amount": {
+          "text": "72.00",
+        },
+        "gstAmt": {
+          "text": "0.00",
+        },
+        "gstRate": {
+          "text": "",
+        },
+        "name": {
+          "text": "Gift wrap roll",
+        },
+        "qty": {
+          "text": "4",
+        },
+        "rate": {
+          "text": "18",
+        },
+        "slNo": {
+          "text": "4",
+        },
+        "total": {
+          "text": "72.00",
+        },
+      },
+      "kind": "item",
+    },
+  ],
+  "columns": [
+    {
+      "align": "center",
+      "isExtra": false,
+      "key": "slNo",
+      "label": "Sl.No",
+      "share": 700,
+    },
+    {
+      "align": "left",
+      "isExtra": false,
+      "key": "name",
+      "label": "Item Name",
+      "share": 2700,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "qty",
+      "label": "Quantity",
+      "share": 1100,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "rate",
+      "label": "Rate",
+      "share": 1000,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "total",
+      "label": "Total",
+      "share": 1200,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "gstRate",
+      "label": "GST %",
+      "share": 800,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "gstAmt",
+      "label": "GST Amt",
+      "share": 1100,
+    },
+    {
+      "align": "right",
+      "isExtra": false,
+      "key": "amount",
+      "label": "Amount",
+      "share": 1400,
+    },
+  ],
+  "footer": [
+    {
+      "cells": {
+        "amount": {
+          "text": "₹4809.90",
+        },
+        "gstAmt": {
+          "text": "492.90",
+        },
+        "total": {
+          "text": "4317.00",
+        },
+      },
+      "kind": "grandTotal",
+      "label": "Total",
+    },
+  ],
+  "formatId": "gst",
+  "header": {
+    "kind": "rough",
+    "party": {
+      "name": "Ruby Traders",
+      "phone": "98450 12345",
+      "transport": "SRS Travels",
+    },
+  },
+  "mode": "rough",
+  "paper": {
+    "pages": 1,
+    "reasons": [],
+    "requiresAck": false,
+    "size": "A5",
+    "suggested": "A5",
+    "warnings": [],
+  },
+  "rowCount": 4,
+  "tail": [],
+  "version": 1,
+}
+`;

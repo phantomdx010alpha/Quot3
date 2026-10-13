@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.node.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "noEmit": true,
+    "paths": { "@shared/*": ["src/shared/*"] }
+  },
+  "include": ["tests-e2e/**/*.ts", "playwright.config.ts"],
+  "exclude": []
+}
