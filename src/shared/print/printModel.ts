@@ -27,6 +27,8 @@ export interface CompanyBlock {
 export interface PrintSettings {
   /** Prefix the final total with the rupee sign (the bundled font has the glyph). Default true. */
   rupeeOnTotal: boolean
+  /** 0.1.6 (testing): leave the Adjustments total row off the printed page / copied image. The Create screen is unchanged. */
+  hideAdjustmentsTotal?: boolean
   /** Our company block - Professional only; ignored by Rough. */
   company: CompanyBlock | null
 }
@@ -227,8 +229,11 @@ export function buildPrintModel(bill: Bill, mode: PrintMode, settings: PrintSett
       case 'adjustment':
         footer.push(printRowFrom(d, columns, row, 'adjustment'))
         break
-      case 'itemsTotal':
       case 'adjustmentsTotal':
+        if (settings.hideAdjustmentsTotal === true) break
+        footer.push(totalRow(d, d.kind, columns, settings.rupeeOnTotal, bill))
+        break
+      case 'itemsTotal':
       case 'roundOff':
       case 'grandTotal':
         footer.push(totalRow(d, d.kind, columns, settings.rupeeOnTotal, bill))

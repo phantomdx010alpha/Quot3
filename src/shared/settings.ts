@@ -11,6 +11,8 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'grid.colWidths': {},
   /** Phase 37: printing. The Settings screens (Phase 48) edit these; until then the defaults apply. */
   'print.rupeeOnTotal': true,
+  /** 0.1.6 (testing): true = the printed page and copied image leave out the Adjustments total row (Create screen unchanged). */
+  'print.hideAdjustmentsTotal': false,
   /** Print without the system dialog - only honoured when `print.printer` is also set. */
   'print.silent': false,
   /** Windows printer name for silent printing; '' = system default / dialog. */

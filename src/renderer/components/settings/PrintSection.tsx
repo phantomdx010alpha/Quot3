@@ -15,6 +15,9 @@ export function PrintSection(): React.JSX.Element {
   useEffect(() => { void useSettingsStore.getState().loadPrinters() }, [])
   const [method, setMethod] = useState('viewer')
   useEffect(() => { void window.quot3.settings.get('print.method').then((r) => { if (r.ok && typeof r.data.value === 'string') setMethod(r.data.value) }) }, [])
+  const [hideAdj, setHideAdj] = useState(false)
+  useEffect(() => { void window.quot3.settings.get('print.hideAdjustmentsTotal').then((r) => { if (r.ok) setHideAdj(r.data.value === true) }) }, [])
+  const changeHideAdj = (v: boolean): void => { setHideAdj(v); void window.quot3.settings.set('print.hideAdjustmentsTotal', v) }
   const changeMethod = (v: string): void => { setMethod(v); void window.quot3.settings.set('print.method', v) }
   return (
     <form className="q3-set__form" onSubmit={(e) => { e.preventDefault(); void useSettingsStore.getState().savePrint({ rupeeOnTotal: rupee, silent, printer }) }} aria-label="Print defaults">
@@ -31,6 +34,7 @@ export function PrintSection(): React.JSX.Element {
       <datalist id="q3-printers">{printers.map((n) => <option key={n} value={n} />)}</datalist>
       <label className="q3-set__check"><input type="checkbox" checked={silent} onChange={(e) => setSilent(e.target.checked)} /> Print without the system dialog (needs a printer name)</label>
       <label className="q3-set__check"><input type="checkbox" checked={rupee} onChange={(e) => setRupee(e.target.checked)} /> Show the rupee sign on the final total</label>
+      <label className="q3-set__check"><input type="checkbox" checked={hideAdj} disabled={data.readOnly} onChange={(e) => changeHideAdj(e.target.checked)} /> Hide the Adjustments total row on print and image copy (the Create screen keeps it)</label>
       {error !== '' && <p role="alert" className="q3-set__error">{error}</p>}
       <div className="q3-set__row"><Button type="submit" variant="primary" disabled={saving || data.readOnly}>Save print defaults</Button></div>
     </form>

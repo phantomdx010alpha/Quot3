@@ -41,7 +41,7 @@ export function decideForBill(bill: Bill, mode: PrintMode, opts: DecideOptions =
 }
 
 /** Settings keys read by printing. Settings -> Print / Company screens arrive in Phase 48; until then the defaults apply. */
-export const PRINT_SETTING_KEYS = { rupeeOnTotal: 'print.rupeeOnTotal', silent: 'print.silent', printer: 'print.printer', company: 'company.profile' } as const
+export const PRINT_SETTING_KEYS = { rupeeOnTotal: 'print.rupeeOnTotal', silent: 'print.silent', printer: 'print.printer', company: 'company.profile', hideAdjustmentsTotal: 'print.hideAdjustmentsTotal' } as const
 
 export interface ResolvedPrintSettings {
   print: PrintSettings
@@ -66,7 +66,7 @@ export function resolvePrintSettings(all: Record<string, unknown>): ResolvedPrin
   const rupee = all[PRINT_SETTING_KEYS.rupeeOnTotal]
   const printer = str(all[PRINT_SETTING_KEYS.printer], 300).trim()
   return {
-    print: { rupeeOnTotal: typeof rupee === 'boolean' ? rupee : DEFAULT_PRINT_SETTINGS.rupeeOnTotal, company: companyFrom(all[PRINT_SETTING_KEYS.company]) },
+    print: { rupeeOnTotal: typeof rupee === 'boolean' ? rupee : DEFAULT_PRINT_SETTINGS.rupeeOnTotal, hideAdjustmentsTotal: all[PRINT_SETTING_KEYS.hideAdjustmentsTotal] === true, company: companyFrom(all[PRINT_SETTING_KEYS.company]) },
     // Silent printing needs somewhere to send the job: no printer configured -> always show the system dialog.
     silent: all[PRINT_SETTING_KEYS.silent] === true && printer !== '',
     printer

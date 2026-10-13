@@ -51,6 +51,11 @@ describe('Phase 33 - buildPrintModel', () => {
     expect(json).not.toContain('08 Oct')
     expect(json).not.toContain('company')
   })
+  it('0.1.6: hideAdjustmentsTotal drops only the Adjustments total row (adjustment rows and final total stay)', () => {
+    const m = buildPrintModel(printFixture('adjustment'), 'rough', { ...DEFAULT_PRINT_SETTINGS, hideAdjustmentsTotal: true }, simplePaperDecision('A5'))
+    expect(m.footer.map((r) => r.kind)).toEqual(['itemsTotal', 'adjustment', 'adjustment', 'grandTotal'])
+  })
+
   it('adjustments: items total, adjustment rows, adjustments total, final total - in that order', () => {
     const m = rough('adjustment')
     expect(m.body).toHaveLength(3)
