@@ -12,7 +12,11 @@ export function createElectronUpdaterPort(): UpdaterPort {
   const get = async (): Promise<import('electron-updater').AppUpdater> => {
     if (updater) return updater
     const mod = await import('electron-updater')
-    updater = mod.autoUpdater
+    // electron-updater is CommonJS and exposes `autoUpdater` as a non-enumerable getter, so after bundling the named export can be
+    // undefined and only `default.autoUpdater` exists. That made every check fail with "Cannot set properties of undefined".
+    const au = mod.autoUpdater ?? (mod as unknown as { default?: { autoUpdater?: import('electron-updater').AppUpdater } }).default?.autoUpdater
+    if (!au) throw new Error('electron-updater did not load')
+    updater = au
     updater.autoDownload = false
     updater.autoInstallOnAppQuit = false
     updater.autoRunAppAfterInstall = true
