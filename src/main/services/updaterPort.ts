@@ -1,4 +1,4 @@
-import type { UpdaterOptions } from '../../shared/updater'
+import { DEFAULT_GITHUB_FEED, type UpdaterOptions } from '../../shared/updater'
 import type { UpdaterPort } from './updateService'
 
 /**
@@ -30,6 +30,7 @@ export function createElectronUpdaterPort(): UpdaterPort {
       u.channel = o.channel
       if (o.feed.kind === 'github') u.setFeedURL({ provider: 'github', owner: o.feed.owner, repo: o.feed.repo })
       else if (o.feed.kind === 'generic') u.setFeedURL({ provider: 'generic', url: o.feed.url })
+      else u.setFeedURL({ provider: 'github', owner: DEFAULT_GITHUB_FEED.owner, repo: DEFAULT_GITHUB_FEED.repo }) // built-in = hardcoded
     },
     async check() {
       const u = await get()

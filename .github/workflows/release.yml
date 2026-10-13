@@ -38,6 +38,14 @@ jobs:
 
       - run: npm ci
 
+      # electron-builder uploads the installer and its blockmap in parallel and both try to create the release; one fails with
+      # 422 already_exists and the release ends up missing files. Creating the release first avoids that race.
+      - name: Create the GitHub release first
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "${GITHUB_REF_NAME#v}" --generate-notes
+
       - run: npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -23,6 +23,12 @@ If you feel the urge to `cat >` an existing file, that urge is wrong. Stop. Use 
 
 ---
 
+## RELEASES AND GITHUB UPDATES — read `GITHUB_UPDATE_PUSH.md`
+
+If the owner's request changes the app (anything that must reach the installed copies), also read `GITHUB_UPDATE_PUSH.md` at the repo root. It says how updates ship (GitHub tag -> GitHub Action builds and publishes), the version bump you MUST make (`package.json` and both spots at the top of `package-lock.json`), and what to hand back: a changed-files zip, the full zip, and the push steps with the real version number filled in. Do not build the exe locally; GitHub does it.
+
+---
+
 ## SESSION EFFICIENCY PROTOCOL — Read this before anything else
 
 You are operating under a **5-hour rolling session limit**. Every minute spent extracting files you don't need, running installs unnecessarily, or reading docs cover-to-cover is a minute not spent building. Follow these rules without exception:

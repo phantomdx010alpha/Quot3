@@ -17,7 +17,14 @@ export const UPDATE_CHANNELS: readonly { value: UpdateChannel; label: string }[]
   { value: 'beta', label: 'Early access (beta)' }
 ]
 
-/** Where updates come from. `builtin` = the publish target electron-builder baked into the installer (`app-update.yml`, Phase 64). */
+/**
+ * The built-in update address, hardcoded (0.1.4): the owner's public GitHub repo. Used whenever Settings > Updates > Update address
+ * is empty, so a fresh install never needs the address typed in. If the repo is ever renamed or moved, change it here (installs that
+ * have a value typed in Settings keep using that value).
+ */
+export const DEFAULT_GITHUB_FEED = { owner: 'phantomdx010alpha', repo: 'Quot3' } as const
+
+/** Where updates come from. `builtin` = the hardcoded `DEFAULT_GITHUB_FEED` above (it used to be the `app-update.yml` electron-builder bakes in; same repo). */
 export type FeedConfig =
   | { kind: 'builtin' }
   | { kind: 'github'; owner: string; repo: string }
