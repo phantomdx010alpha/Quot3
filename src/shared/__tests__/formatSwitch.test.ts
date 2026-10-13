@@ -8,8 +8,8 @@ import { NON_GST_FORMAT } from '../format/nonGst'
 
 const GST = ['slNo', 'name', 'qty', 'rate', 'total', 'gstRate', 'gstAmt', 'amount']
 const GST_NAV = ['name', 'qty', 'rate', 'total', 'gstRate']
-const PLAIN = ['slNo', 'name', 'rate', 'qty', 'total']
-const PLAIN_NAV = ['name', 'rate', 'qty', 'total']
+const PLAIN = ['slNo', 'name', 'qty', 'rate', 'total']
+const PLAIN_NAV = ['name', 'qty', 'rate', 'total']
 const ev = (key: string, m: Partial<{ ctrlKey: boolean; shiftKey: boolean; altKey: boolean; metaKey: boolean }> = {}) =>
   ({ key, ctrlKey: false, shiftKey: false, altKey: false, metaKey: false, ...m })
 

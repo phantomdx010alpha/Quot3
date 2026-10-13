@@ -13,8 +13,8 @@ describe('built-in formats', () => {
   it('GST columns: slNo,name,qty,rate,total,gstRate,gstAmt,amount', () => {
     expect(keys(getFormat('gst'))).toEqual(['slNo', 'name', 'qty', 'rate', 'total', 'gstRate', 'gstAmt', 'amount'])
   })
-  it('non-GST columns: slNo,name,rate,qty,total', () => {
-    expect(keys(getFormat('non_gst'))).toEqual(['slNo', 'name', 'rate', 'qty', 'total'])
+  it('non-GST columns: slNo,name,qty,rate,total', () => {
+    expect(keys(getFormat('non_gst'))).toEqual(['slNo', 'name', 'qty', 'rate', 'total'])
   })
   it('non_gst is the default (Alt+2); gst is Alt+1; exactly one default', () => {
     expect(defaultFormatId()).toBe('non_gst')

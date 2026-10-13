@@ -110,13 +110,13 @@ export function bridge(page: Page): Bridge {
   }
 }
 
-/** Type a row of the Create grid with the keyboard: Item Name, Tab, Rate, Tab, Quantity, then Tab twice (past the derived Amount) to the next row. */
+/** Type a row of the Create grid with the keyboard: Item Name, Tab, Quantity, Tab, Rate, then Tab twice (past the derived Amount) to the next row. */
 export async function typeItem(page: Page, name: string, rate: string, qty: string): Promise<void> {
   await page.keyboard.type(name)
   await page.keyboard.press('Tab')
-  await page.keyboard.type(rate)
-  await page.keyboard.press('Tab')
   await page.keyboard.type(qty)
+  await page.keyboard.press('Tab')
+  await page.keyboard.type(rate)
   await page.keyboard.press('Tab')
   await page.keyboard.press('Tab')
 }

@@ -36,7 +36,7 @@ describe('trailing blank rows', () => {
 describe('buildGridColumns', () => {
   it('non-GST: registry columns, then extras', () => {
     const cols = buildGridColumns(NG(), [{ key: 'x', header: 'ruby', kind: 'units' }])
-    expect(cols.map((c) => c.key)).toEqual(['slNo', 'name', 'rate', 'qty', 'total', 'x'])
+    expect(cols.map((c) => c.key)).toEqual(['slNo', 'name', 'qty', 'rate', 'total', 'x'])
     expect(cols.at(-1)).toMatchObject({ label: 'ruby', isExtra: true, widthPx: EXTRA_COL_WIDTH_PX, align: 'left' })
   })
   it('GST: all eight columns in order', () => {

@@ -24,7 +24,7 @@ describe('gridEdit', () => {
     expect(isTypable(col('x1'))).toBe(true)
   })
   it('registry-editable columns are the navigable ones', () => {
-    expect(cols.filter((c) => c.editable).map((c) => c.key)).toEqual(['name', 'rate', 'qty', 'total', 'x1'])
+    expect(cols.filter((c) => c.editable).map((c) => c.key)).toEqual(['name', 'qty', 'rate', 'total', 'x1'])
   })
   it('setPlainName keeps style when appending, truncates on delete, flattens otherwise', () => {
     const runs = [{ t: 'ruby ' }, { t: 'gold', r: 1 as const, b: 1 as const }]

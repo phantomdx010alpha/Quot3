@@ -76,7 +76,7 @@ Why: per-word rich text inside cells, the append-caret rule, F2/free mode, one-k
 
 ## 10. Formats (Golden Rule: formats are data)
 A **format definition** (registry entry) declares: `id`, `label`, shortcut (`Alt+1` GST, `Alt+2` non-GST default), ordered **columns** (key, label, kind, editable, derived formula id, width hints, print width), `footer` behaviour, `a5ExtraColLimit`, and print layout hints. Shipped formats:
-- `non_gst` (default): `Sl.No · Item Name · Rate · Qty · Total`. (Owner's list order: sl.no, item name, rate, qty, totals.) Total is derived, overridable.
+- `non_gst` (default): `Sl.No · Item Name · Qty · Rate · Total`. (Owner changed this on 2026-10-13: it was Rate before Qty; now matches the GST format.) Total is derived, overridable.
 - `gst`: `Sl.No · Item Name · Qty · Rate · Total · GST % · GST Amt · Amount`. (A1: item name included. Qty-before-Rate order per owner.)
 Extra columns (free text, unit-bearing) are **appended after the format's columns** and belong to the bill. New formats = new registry entry only.
 Switching format changes column visibility and derived columns; the **row superset is untouched** (§ requirements 4.5).

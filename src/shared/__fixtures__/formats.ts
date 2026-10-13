@@ -8,7 +8,7 @@ const col = (key: string, label: string, kind: ColumnDef['kind'], align: ColumnD
 
 export const NON_GST: FormatDef = {
   id: 'non_gst', label: 'Non-GST', isDefault: true, shortcut: 'Alt+2', a5ExtraColLimit: 2, footer: 'total',
-  columns: [col('slNo', 'Sl.No', 'auto', 'center'), col('name', 'Item Name', 'richtext', 'left'), col('rate', 'Rate', 'num'), col('qty', 'Quantity', 'num'), { ...col('total', 'Amount', 'derived'), overridable: true }]
+  columns: [col('slNo', 'Sl.No', 'auto', 'center'), col('name', 'Item Name', 'richtext', 'left'), col('qty', 'Quantity', 'num'), col('rate', 'Rate', 'num'), { ...col('total', 'Amount', 'derived'), overridable: true }]
 }
 
 export const GST: FormatDef = {

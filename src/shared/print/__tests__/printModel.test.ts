@@ -33,7 +33,7 @@ describe('Phase 33 - buildPrintModel', () => {
   it('legacy bill: 18 items, the screenshot total, extras after the format columns, Rough header', () => {
     const m = rough('legacy')
     expect(m.header).toEqual({ kind: 'rough', party: { name: 'Ruby Traders', phone: '98450 12345', transport: 'SRS Travels' } })
-    expect(m.columns.map((c) => c.key)).toEqual(['slNo', 'name', 'rate', 'qty', 'total', 'ruby', 'tomato'])
+    expect(m.columns.map((c) => c.key)).toEqual(['slNo', 'name', 'qty', 'rate', 'total', 'ruby', 'tomato'])
     expect(m.body).toHaveLength(18)
     expect(m.rowCount).toBe(18)
     expect(text(m, m.body[0]!, 'name')).toBe('ruby gold belt roll big')
