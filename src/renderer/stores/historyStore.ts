@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { Quot3Bridge } from '@shared/ipc'
-import { effectiveTargets, rangeIds, sortBillsByInvoiceNumber, type BillListItem, type HistoryBranch, type HistoryDate, type HistorySource } from '@shared/history/historyList'
+import { HISTORY_DAYS_KEY, effectiveTargets, historyCutoff, normalizeHistoryDays, rangeIds, sortBillsByInvoiceNumber, type BillListItem, type HistoryBranch, type HistoryDate, type HistorySource } from '@shared/history/historyList'
 
 type HistoryApi = Quot3Bridge['history']
 const api = (): HistoryApi | undefined => (window as unknown as { quot3?: { history?: HistoryApi } }).quot3?.history
@@ -21,6 +21,8 @@ export interface HistoryState {
   query: string
   from: string
   to: string
+  /** Phase 157: the oldest date the plain list shows (`''` = no limit). Only applies while there is no search and no From / To. */
+  cutoff: string
   /** The search matched more than the cap. */
   truncated: boolean
   /** Phase 42: multi-selection (Shift+arrows / Ctrl+click / Ctrl+A) in list order; empty = just the highlighted bill. */
@@ -64,6 +66,18 @@ export interface HistoryState {
   confirmDeleteNow: () => Promise<string[]>
 }
 
+/** Phase 157: today in local time as `YYYY-MM-DD`. */
+const localToday = (): string => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
+/** Phase 157: the owner's "History shows the last N days" (0 / unreadable setting = no limit, so tests and the design preview see everything). */
+async function readCutoff(): Promise<string> {
+  try {
+    const s = (window as unknown as { quot3?: { settings?: { get?: (k: string) => Promise<{ ok: boolean; data?: { value?: unknown } }> } } }).quot3?.settings
+    const r = await s?.get?.(HISTORY_DAYS_KEY)
+    if (!r || !r.ok) return ''
+    return historyCutoff(normalizeHistoryDays(r.data?.value), localToday())
+  } catch { return '' }
+}
+
 // A newer request makes older answers irrelevant (arrow-keying through dates fires many).
 let listSeq = 0
 
@@ -72,6 +86,10 @@ const rangeArgs = (s: { from: string; to: string; branch?: string; source?: Hist
   ...(s.from ? { from: s.from } : {}), ...(s.to ? { to: s.to } : {}), ...(s.branch && s.branch !== 'all' ? { branch: s.branch } : {}),
   ...(s.source && s.source !== 'all' ? { source: s.source } : {}), ...(s.source === 'imported' && s.batch ? { batch: s.batch } : {})
 })
+
+/** Phase 157: the arguments of the plain (non-search) lists: the default-days cut-off stands in for From only when the owner set neither From, To nor a search. */
+const listArgs = (s: { query: string; from: string; to: string; cutoff: string; branch?: string; source?: HistorySource; batch?: string }): ReturnType<typeof rangeArgs> =>
+  rangeArgs(s.query.trim() === '' && s.from === '' && s.to === '' && s.cutoff !== '' ? { ...s, from: s.cutoff } : s)
 
 /** Ranked search over every date (the date filter still applies). Fills the list; the highlight follows `prev` when still listed. */
 async function runSearch(seq: number, prev: string | null): Promise<void> {
@@ -91,7 +109,7 @@ async function runSearch(seq: number, prev: string | null): Promise<void> {
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
   status: 'idle', error: '', dates: [], date: null, bills: [], next: null, loadingMore: false, billId: null, branches: [], branch: 'all', source: 'all', batch: '',
-  query: '', from: '', to: '', truncated: false, selection: [], anchor: null, confirmDelete: null,
+  query: '', from: '', to: '', cutoff: '', truncated: false, selection: [], anchor: null, confirmDelete: null,
   focusDates: null, focusBills: null, focusSearch: null, focusDateRange: null,
 
   async refresh() {
@@ -100,7 +118,9 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     const seq = ++listSeq
     set({ status: 'loading', error: '' })
     try {
-      const [d, b] = await Promise.all([h.listDates(rangeArgs(get())), h.branches()])
+      const cutoff = await readCutoff()
+      set({ cutoff })
+      const [d, b] = await Promise.all([h.listDates(listArgs(get())), h.branches()])
       if (seq !== listSeq) return
       if (!d.ok) { set({ status: 'error', error: d.error.message }); return }
       const dates = d.data
@@ -110,7 +130,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       const prev = get().billId
       if (get().query.trim() !== '') { await runSearch(seq, prev); return }
       if (date === null) { set({ bills: [], next: null, billId: null, selection: [], anchor: null, truncated: false, status: 'ready' }); return }
-      const l = await h.listBills({ date, ...rangeArgs(get()) })
+      const l = await h.listBills({ date, ...listArgs(get()) })
       if (seq !== listSeq) return
       if (!l.ok) { set({ status: 'error', error: l.error.message }); return }
       const items = sortBillsByInvoiceNumber(l.data.items) // Phase 146: invoice-number order
@@ -127,7 +147,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     const seq = ++listSeq
     set({ date, next: null, loadingMore: false, query: '', truncated: false, selection: [], anchor: null })
     try {
-      const l = await h.listBills({ date, ...rangeArgs(get()) })
+      const l = await h.listBills({ date, ...listArgs(get()) })
       if (seq !== listSeq) return
       if (!l.ok) { set({ status: 'error', error: l.error.message, bills: [], billId: null }); return }
       const items = sortBillsByInvoiceNumber(l.data.items) // Phase 146
@@ -144,7 +164,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     const seq = listSeq
     set({ loadingMore: true })
     try {
-      const l = await h.listBills({ date, cursor: next, ...rangeArgs(get()) })
+      const l = await h.listBills({ date, cursor: next, ...listArgs(get()) })
       if (seq !== listSeq) return
       if (!l.ok) { set({ loadingMore: false, error: l.error.message }); return }
       const seen = new Set(get().bills.map((b) => b.id))

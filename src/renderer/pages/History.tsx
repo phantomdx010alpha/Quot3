@@ -103,15 +103,18 @@ export default function History(): React.JSX.Element {
 
   const searching = s.query.trim() !== ''
   const filtered = searching || s.from !== '' || s.to !== '' || s.source !== 'all'
-  const empty = s.status === 'ready' && s.dates.length === 0 && !filtered
+  // Phase 157: while only the last N days are listed, an empty list is NOT "no bills at all" (the search box must stay reachable).
+  const limited = !filtered && s.cutoff !== ''
+  const empty = s.status === 'ready' && s.dates.length === 0 && !filtered && !limited
   const total = s.dates.reduce((n, d) => n + d.count, 0)
   const count = s.selection.length > 0 ? s.selection.length : s.billId === null ? 0 : 1
   const selection = new Set(s.selection)
-  const emptyText = s.status !== 'ready' ? undefined : searching ? 'No bills match this search' : filtered ? 'No bills match these filters' : undefined
+  const emptyText = s.status !== 'ready' ? undefined : searching ? 'No bills match this search' : filtered ? 'No bills match these filters' : limited ? `No bills since ${s.cutoff}. Search, or set a From / To date, to see older bills.` : undefined
 
   return (
     <div className="q3-hist">
       <HistoryHeader branches={s.branches} branch={s.branch} onBranch={(b) => { void s.setBranch(b) }} total={total} loading={s.status === 'loading'} onRefresh={() => { void s.refresh() }} />
+      {limited && !t.open && <p className="q3-hist__note">{`Showing bills from ${s.cutoff} onward. Search or set a From / To date to see older bills (Settings > Behaviour changes this).`}</p>}
       {!t.open && <SourceFilter />}
       {!empty && !t.open && (
         <SearchBox

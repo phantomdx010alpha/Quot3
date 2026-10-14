@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AUTOSAVE_SECONDS_RANGE, LEFT_UNLOCK_RANGE, TRASH_RETENTION_RANGE, validateBehaviour } from '@shared/settings/appSettings'
 import { validatePercentPresets } from '@shared/calc/percentPresets'
+import { HISTORY_DAYS_KEY, HISTORY_DAYS_RANGE, normalizeHistoryDays } from '@shared/history/historyList'
 import { Button, Input } from '../ui'
 import { useSettingsStore } from '../../stores/settingsStore'
 
@@ -18,6 +19,14 @@ export function BehaviourSection(): React.JSX.Element {
   const [pct, setPct] = useState(data.calc.percentPresets)
   useEffect(() => { setPct(data.calc.percentPresets) }, [data.calc.percentPresets])
   const pctCheck = validatePercentPresets(pct)
+  // Phase 157: how many days of bills History lists by default (0 = all). Saved as soon as the box is left, like the print fit settings.
+  const [histDays, setHistDays] = useState(String(HISTORY_DAYS_RANGE.default))
+  useEffect(() => { void window.quot3.settings.get(HISTORY_DAYS_KEY).then((r) => { if (r.ok) setHistDays(String(normalizeHistoryDays(r.data.value))) }) }, [])
+  const saveHistDays = (): void => {
+    const n = normalizeHistoryDays(histDays.trim() === '' ? Number.NaN : Number(histDays))
+    setHistDays(String(n))
+    void window.quot3.settings.set(HISTORY_DAYS_KEY, n)
+  }
   const check = validateBehaviour({ trashRetentionDays: num(trash), leftUnlockPresses: num(left), autosaveSeconds: num(auto) })
   const msg = (f: string): { error: string } | Record<string, never> => (!check.ok && check.field === f ? { error: check.message } : {})
   return (
@@ -36,6 +45,7 @@ export function BehaviourSection(): React.JSX.Element {
         <input type="checkbox" checked={data.calc.roundOff} disabled={saving || data.readOnly} onChange={(e) => { void useSettingsStore.getState().saveCalc(e.target.checked) }} /> Round off the grand total to the nearest rupee (no extra line is shown; applies to bills saved from now on)
       </label>
       <Input label="Keep deleted bills for (days)" inputMode="numeric" value={trash} autoFocus onChange={(e) => setTrash(e.target.value)} hint={`${TRASH_RETENTION_RANGE.min} to ${TRASH_RETENTION_RANGE.max}. Older ones are removed when the app starts.`} {...msg('trashRetentionDays')} />
+      <Input label="History shows bills of the last (days)" inputMode="numeric" value={histDays} disabled={data.readOnly} onChange={(e) => setHistDays(e.target.value)} onBlur={saveHistDays} hint={`${HISTORY_DAYS_RANGE.min} to ${HISTORY_DAYS_RANGE.max}. 0 shows every bill. Older bills stay hidden until you search or set a From / To date. Saved when you leave the box.`} />
       <Input label="Left-arrow presses to move back in a cell" inputMode="numeric" value={left} onChange={(e) => setLeft(e.target.value)} hint={`${LEFT_UNLOCK_RANGE.min} to ${LEFT_UNLOCK_RANGE.max}. Only used when Smooth arrow keys is off. Applies to the grid straight away.`} {...msg('leftUnlockPresses')} />
       <Input label="Save the unsaved bill automatically after (seconds)" inputMode="numeric" value={auto} onChange={(e) => setAuto(e.target.value)} hint={`${AUTOSAVE_SECONDS_RANGE.min} to ${AUTOSAVE_SECONDS_RANGE.max}.`} {...msg('autosaveSeconds')} />
       <Input label="Percent presets for the calculator" value={pct} onChange={(e) => setPct(e.target.value)} hint="Comma list, each more than 0 and at most 1000, up to 8 (for example 18, 5, 3). Blank = default." {...(!pctCheck.ok ? { error: pctCheck.message } : {})} />

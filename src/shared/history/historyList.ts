@@ -174,3 +174,19 @@ export function describeBills(items: readonly Pick<BillListItem, 'poNumber' | 'p
   }
   return `${items.length} bills`
 }
+
+/** Phase 157: Settings > Behaviour > "History shows the last N days". 0 = every bill. Anything else (junk, negative, fraction) = the default. */
+export const HISTORY_DAYS_KEY = 'history.defaultDays'
+export const HISTORY_DAYS_RANGE = { min: 0, max: 3650, default: 30 } as const
+export function normalizeHistoryDays(v: unknown): number {
+  return typeof v === 'number' && Number.isInteger(v) && v >= HISTORY_DAYS_RANGE.min && v <= HISTORY_DAYS_RANGE.max ? v : HISTORY_DAYS_RANGE.default
+}
+/**
+ * The oldest date (`YYYY-MM-DD`) History lists by default: today counts as day 1, so 30 days = today and the 29 days before it.
+ * `''` = no limit (days 0, or a `today` that is not a date). Pure string/UTC maths, no time zone surprises.
+ */
+export function historyCutoff(days: number, today: string): string {
+  if (!(days > 0) || !/^\d{4}-\d{2}-\d{2}$/.test(today)) return ''
+  const t = Date.UTC(Number(today.slice(0, 4)), Number(today.slice(5, 7)) - 1, Number(today.slice(8, 10)))
+  return new Date(t - (Math.floor(days) - 1) * 86_400_000).toISOString().slice(0, 10)
+}

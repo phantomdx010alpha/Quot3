@@ -9,6 +9,8 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'ui.theme': DEFAULT_THEME_ID,
   /** Phase 23: per-format column width overrides, `{ [formatId]: { [colKey]: px } }` (see shared/columnWidths.ts). */
   'grid.colWidths': {},
+  /** Phase 157: History lists only the last N days of bills by default (0 = all). A search or a From / To range always looks at every date. */
+  'history.defaultDays': 30,
   /** Phase 37: printing. The Settings screens (Phase 48) edit these; until then the defaults apply. */
   'print.rupeeOnTotal': true,
   /** 0.1.6 (testing): true = the printed page and copied image leave out the Adjustments total row (Create screen unchanged). */
