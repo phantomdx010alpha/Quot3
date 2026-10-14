@@ -1,50 +1,42 @@
 import { listFormats } from '@shared/format/registry'
 import { canHybrid } from '@shared/hybrid/hybrid'
 import { formatActionId, primaryKeys } from '@shared/shortcuts'
-import { Tooltip, Kbd } from '../ui'
+import { Tooltip } from '../ui'
 import { useBillStore } from '../../stores/billStore'
 import { useGridUiStore } from '../../stores/gridUiStore'
 import { switchFormat } from '../../stores/formatActions'
 import { enterHybrid } from '../../stores/hybridActions'
 
 /**
- * Phase 20 — format indicator + switcher: one segmented button per registered format (so a new registry entry shows up
- * with no change here). The active one is `aria-pressed`. Buttons never take focus (mousedown prevented → the cell keeps its
- * caret) and sit outside the Tab order: the keyboard path is the format's own shortcut (Alt+1 / Alt+2) and the palette.
+ * Phase 20 — format indicator + switcher. Phase 156: ONE compact dropdown (a native select) instead of a row of segmented buttons, so the
+ * Create bar leaves the room to the party name, phone and transport. One option per registered format (a new registry entry shows up with no
+ * change here) plus Hybrid (a view, Phase 151); each option shows its shortcut. The select never keeps the keyboard: after a change the
+ * grid cell gets its caret back, it sits outside the Tab order, and the real keyboard path stays the format's own shortcut (Alt+1..4) and the palette.
  */
 export function FormatSwitcher(): React.JSX.Element {
   const formatId = useBillStore((s) => s.formatId)
-  // Phase 151: Hybrid is a VIEW over a GST / Non-GST bill, not a registered format: its own button after the formats (Alt+3).
+  // Phase 151: Hybrid is a VIEW over a GST / Non-GST bill, not a registered format: its own option after the formats (Alt+3).
   const hybridOn = useBillStore((s) => s.hybrid?.active === true)
   const hybridOk = useBillStore((s) => canHybrid({ hybrid: s.hybrid, formatId: s.formatId }))
   const hybridKeys = primaryKeys('hybrid.toggle')
+  const value = hybridOn ? 'hybrid' : formatId
+  const onChange = (next: string): void => {
+    const done = next === 'hybrid' ? enterHybrid() : switchFormat(next)
+    if (done) useGridUiStore.getState().refocus?.()
+  }
   return (
     <div className="q3-fmtsw" role="group" aria-label="Bill format">
-      {listFormats().map((f) => {
-        const keys = primaryKeys(formatActionId(f.id))
-        const active = f.id === formatId && !hybridOn
-        return (
-          <Tooltip key={f.id} label={`Switch to ${f.label}`} {...(keys ? { shortcut: keys } : {})}>
-            <button
-              type="button" className={`q3-fmtsw__btn${active ? ' q3-fmtsw__btn--active' : ''}`} aria-pressed={active} tabIndex={-1}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => { if (switchFormat(f.id)) useGridUiStore.getState().refocus?.() }}
-            >
-              {f.label}
-              {keys ? <Kbd keys={keys} /> : null}
-            </button>
-          </Tooltip>
-        )
-      })}
-      <Tooltip label="Switch to Hybrid (GST and Non-GST side by side)" {...(hybridKeys ? { shortcut: hybridKeys } : {})}>
-        <button
-          type="button" className={`q3-fmtsw__btn${hybridOn ? ' q3-fmtsw__btn--active' : ''}`} aria-pressed={hybridOn} tabIndex={-1} disabled={!hybridOk && !hybridOn}
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={() => { if (enterHybrid()) useGridUiStore.getState().refocus?.() }}
+      <Tooltip label="Bill format">
+        <select
+          className="q3-fmtsw__sel" aria-label="Bill format" tabIndex={-1} value={value}
+          onChange={(e) => { onChange(e.target.value); e.target.blur() }}
         >
-          Hybrid
-          {hybridKeys ? <Kbd keys={hybridKeys} /> : null}
-        </button>
+          {listFormats().map((f) => {
+            const keys = primaryKeys(formatActionId(f.id))
+            return <option key={f.id} value={f.id}>{keys ? `${f.label} (${keys})` : f.label}</option>
+          })}
+          <option value="hybrid" disabled={!hybridOk && !hybridOn}>{hybridKeys ? `Hybrid (${hybridKeys})` : 'Hybrid'}</option>
+        </select>
       </Tooltip>
     </div>
   )

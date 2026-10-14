@@ -121,6 +121,35 @@ async function captureViaZoom(win: BrowserWindow, plan: CapturePlan, displayScal
   }
 }
 
+/** Phase 155: set after the CSS-zoom method failed or produced an unusable image once; it stays off for the session. */
+let cssZoomBroken = false
+/**
+ * Phase 155 - HD by drawing the print page bigger, not by asking Chromium for a device scale. The page itself is zoomed with the CSS `zoom`
+ * property on the root element (same layout, every CSS px drawn `zoom` DIP wide) in a window that many times bigger, so the text is
+ * rasterised at the wanted size on ANY display scale (Windows 100 / 125 / 150 %), with no DevTools and no device emulation (both of which
+ * did not take effect on the owner's PC: the copy stayed ~675 px wide). With zoom = wanted scale / display scale the capture is exactly the
+ * planned width; a slightly bigger one is shrunk to it, never enlarged. Every result is still checked by the caller (width, shape, no white margin).
+ */
+async function captureViaCssZoom(win: BrowserWindow, plan: CapturePlan, displayScale: number, log?: CaptureLog): Promise<Uint8Array | null> {
+  const z = zoomCapturePlan(plan, displayScale)
+  if (!z) return null
+  const wc = win.webContents
+  try {
+    win.setContentSize(z.viewWidth, z.viewHeight)
+    await withTimeout(wc.executeJavaScript(`document.documentElement.style.zoom=${JSON.stringify(String(z.zoom))};${nextFrames}`), 'css zoom')
+    const img = await withTimeout(wc.capturePage(z.rect, { stayHidden: true }), 'capturePage')
+    const mode = fitToPlanWidth(img.getSize().width, plan.pixelWidth)
+    if (mode === 'reject') return new Uint8Array(img.toPNG())
+    const out = mode === 'downscale' ? img.resize({ width: plan.pixelWidth, quality: 'best' }) : img
+    return new Uint8Array(out.toPNG())
+  } catch (e) {
+    log?.warn('Image capture: CSS zoom method failed', { err: e instanceof Error ? e.message : String(e) })
+    return null
+  } finally {
+    try { await withTimeout(wc.executeJavaScript("document.documentElement.style.zoom=''"), 'css zoom reset') } catch { /* window gone */ }
+  }
+}
+
 /** Hotfix (Phase 127): does the content (plus its padding) fill this PNG? A big white surface with a small bill inside is NOT tight. */
 function pngIsTight(png: Uint8Array): boolean {
   try {
@@ -206,7 +235,7 @@ export function createElectronImagePort(log?: CaptureLog): ImagePort {
           wc.disableDeviceEmulation()
           const legacy = new Uint8Array(img.toPNG())
           const dsf = displayScaleOf(win)
-          const diag = (tier: 'legacy' | 'zoom' | 'devtools', png: Uint8Array | null, note?: string): void => {
+          const diag = (tier: 'legacy' | 'csszoom' | 'zoom' | 'devtools', png: Uint8Array | null, note?: string): void => {
             const w = png ? pngSize(png)?.width ?? 0 : null
             log?.info('Image capture', captureDiagFields({ tier, wanted: plan.scale, displayScale: dsf, expectedWidth: plan.pixelWidth, actualWidth: w, ok: w !== null && Math.abs(w - plan.pixelWidth) <= 1, ...(note ? { note } : {}) }))
           }
@@ -214,6 +243,13 @@ export function createElectronImagePort(log?: CaptureLog): ImagePort {
           if (verifyScale(legacy, plan).ok) return legacy
           // Phase 121: the scale did not apply. Upgrade methods, each time-limited, each MEASURED, each replacing the working PNG only if its
           // width equals the plan and it is bigger in bytes. Order: page zoom (plain Chromium), then the DevTools protocol.
+          // Phase 155: the device-independent method goes first among the upgrades (page drawn bigger with CSS zoom).
+          if (!cssZoomBroken && zoomCapturePlan(plan, dsf) !== null) {
+            const viaCss = await captureViaCssZoom(win, plan, dsf, log)
+            diag('csszoom', viaCss, viaCss ? undefined : 'failed')
+            if (cdpResultUsable(viaCss, legacy, plan) && pngIsTight(viaCss as Uint8Array)) return viaCss as Uint8Array
+            cssZoomBroken = true
+          }
           if (!zoomBroken && zoomCapturePlan(plan, dsf) !== null) { // not applicable (e.g. a very tall bill) never switches the method off
             const viaZoom = await captureViaZoom(win, plan, dsf, log)
             diag('zoom', viaZoom, viaZoom ? undefined : 'failed')

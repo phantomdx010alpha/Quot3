@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { CaretDown, CaretUp } from '@phosphor-icons/react'
 import { PARTY_FIELD_LABEL, atEndEdge, type PartyField } from '@shared/partyFields'
 import { primaryKeys } from '@shared/shortcuts'
-import { Kbd, Tooltip } from '../ui'
+import { Tooltip } from '../ui'
 import { partyToSnapshot, type PartyLite } from '@shared/party/partyLite'
 import { FormatSwitcher } from './FormatSwitcher'
 import { ImportedNote } from './ImportedNote'
@@ -193,7 +193,6 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
             onClick={() => { if (addressOpen) closeAddress(); else openAddress() }}
           >
             Address {addressOpen ? <CaretUp weight="bold" size={12} /> : <CaretDown weight="bold" size={12} />}
-            {addrKeys && !addressOpen ? <Kbd keys={addrKeys} /> : null}
           </button>
         </Tooltip>}
       </div>

@@ -213,7 +213,7 @@ export function fitToPlanWidth(actual: number, expected: number): 'ok' | 'downsc
 }
 
 /** The log line for one capture: the device scale factors the owner's PC really has, and what each method measured. */
-export interface CaptureDiag { tier: 'legacy' | 'zoom' | 'devtools'; wanted: number; displayScale: number; expectedWidth: number; actualWidth: number | null; ok: boolean; note?: string }
+export interface CaptureDiag { tier: 'legacy' | 'csszoom' | 'zoom' | 'devtools'; wanted: number; displayScale: number; expectedWidth: number; actualWidth: number | null; ok: boolean; note?: string }
 export function captureDiagFields(d: CaptureDiag): Record<string, unknown> {
   return { tier: d.tier, wantedScale: d.wanted, displayScale: d.displayScale, expectedWidth: d.expectedWidth, actualWidth: d.actualWidth, ok: d.ok, ...(d.note ? { note: d.note } : {}) }
 }

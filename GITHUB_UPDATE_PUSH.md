@@ -104,3 +104,4 @@ Good requests say **where** (which page, which format, GST or non-GST) and **wha
 - Not done yet: code signing (unsigned installer), a beta channel, and the Phase 69 release gate.
 - 0.1.7: Milestone 14 (Phases 145-153): party list full names, History by invoice number, toolbar names, print fit-to-page, Stock transfer (Alt+4), Hybrid format (Alt+3). First release with migration `0008_hybrid_second_table.sql`, so the release notes line is `schema: 9`; a rollback to 0.1.2-0.1.6 is blocked once the database is on schema 9.
 - 0.1.7 also includes: several windows in one process (launching Quot3 again opens a new window); a save made second gets the next free PO and says so (Phase 154). No further schema change.
+- 0.1.8: Create bar format is a dropdown, wider party name / phone / transport. (Phases 154 multi-window and 155 HD image were prepared during 0.1.7 work; if they were not in the pushed 0.1.7 they ship here.)

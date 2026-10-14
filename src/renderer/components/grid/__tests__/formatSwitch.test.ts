@@ -201,23 +201,20 @@ describe('Phase 20 — the active cell follows the switch', () => {
 })
 
 describe('Phase 20 — switcher and palette', () => {
-  const btn = (label: RegExp) => [...host.querySelectorAll<HTMLButtonElement>('.q3-fmtsw__btn')].find((b) => label.test(b.textContent ?? ''))!
+  const sel = (): HTMLSelectElement => host.querySelector<HTMLSelectElement>('.q3-fmtsw__sel')!
+  const pick = (value: string): void => { act(() => { sel().value = value; sel().dispatchEvent(new Event('change', { bubbles: true })) }) }
 
-  it('the switcher lists every registered format, marks the active one, switches on click and keeps the caret', () => {
+  it('the switcher is one dropdown listing every registered format, shows the active one, switches on change and keeps the caret', () => {
     mount()
     act(() => { grid().focus() })
-    const buttons = [...host.querySelectorAll<HTMLButtonElement>('.q3-fmtsw__btn')]
-    expect(buttons.length).toBe(4) // GST, Non-GST, Stock transfer (Phase 149) + Hybrid (Phase 151)
-    expect(buttons.map((b) => b.getAttribute('aria-pressed') === 'true')).toEqual(buttons.map((b) => /Non-GST/.test(b.textContent ?? '')))
-    const md = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
-    act(() => { btn(/^GST/).dispatchEvent(md) })
-    expect(md.defaultPrevented).toBe(true)
-    act(() => { btn(/^GST/).click() })
+    const options = [...sel().options]
+    expect(options.length).toBe(4) // GST, Non-GST, Stock transfer (Phase 149) + Hybrid (Phase 151)
+    expect(sel().value).toBe('non_gst')
+    pick('gst')
     expect(S().formatId).toBe('gst')
-    expect(btn(/^GST/).getAttribute('aria-pressed')).toBe('true')
-    expect(btn(/Non-GST/).getAttribute('aria-pressed')).toBe('false')
+    expect(sel().value).toBe('gst')
     expect(document.activeElement?.closest('.q3-grid')).not.toBeNull()
-    expect(buttons.every((b) => b.tabIndex === -1)).toBe(true)
+    expect(sel().tabIndex).toBe(-1)
   })
 
   it('the switcher shows the format shortcut from the registry', () => {
