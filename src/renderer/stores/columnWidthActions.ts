@@ -2,6 +2,7 @@ import { buildGridColumns } from '@shared/gridModel'
 import { resolveFormat } from '@shared/format/registry'
 import { applyColWidths, COL_WIDTH_STEP_PX, currentColWidth } from '@shared/columnWidths'
 import { useBillStore } from './billStore'
+import { sideOfRowId, tableApi } from './tableApi'
 import { useColWidthStore } from './columnWidthStore'
 import { useGridUiStore } from './gridUiStore'
 import { historyHooks } from './historyHooks'
@@ -10,7 +11,7 @@ import { historyHooks } from './historyHooks'
 export function stepActiveColWidth(dir: 1 | -1): boolean {
   const sel = historyHooks.selection?.get() ?? null
   if (!sel) { useGridUiStore.getState().setNotice('Select a cell first to resize its column'); return false }
-  const s = useBillStore.getState()
+  const s = tableApi(sideOfRowId(sel.rowId)) // Phase 151: the column of the table the active cell is in
   const w = useColWidthStore.getState()
   const cols = applyColWidths(buildGridColumns(resolveFormat(s.formatId), s.extraCols), w.overrides[s.formatId])
   const cur = currentColWidth(cols, sel.colKey)

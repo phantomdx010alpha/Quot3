@@ -2,6 +2,7 @@ import { decidePaper } from '../paper/paperRules'
 import { simplePaperDecision, type PaperDecision } from '../paper/paperTypes'
 import type { Bill, Paper, PrintMode } from '../types'
 import { A4_DENSITY_TIERS, PAGE_MARGIN_MM, PAPER_MM } from './printConstants'
+import { normalizeFitCap, type FitSettings } from './fitScale'
 import { buildPrintModel, DEFAULT_PRINT_SETTINGS, type CompanyBlock, type PrintSettings } from './printModel'
 
 /**
@@ -41,7 +42,7 @@ export function decideForBill(bill: Bill, mode: PrintMode, opts: DecideOptions =
 }
 
 /** Settings keys read by printing. Settings -> Print / Company screens arrive in Phase 48; until then the defaults apply. */
-export const PRINT_SETTING_KEYS = { rupeeOnTotal: 'print.rupeeOnTotal', silent: 'print.silent', printer: 'print.printer', company: 'company.profile', hideAdjustmentsTotal: 'print.hideAdjustmentsTotal' } as const
+export const PRINT_SETTING_KEYS = { rupeeOnTotal: 'print.rupeeOnTotal', silent: 'print.silent', printer: 'print.printer', company: 'company.profile', hideAdjustmentsTotal: 'print.hideAdjustmentsTotal', fitToPage: 'print.fitToPage', fitMaxA5: 'print.fitMaxA5', fitMaxA4: 'print.fitMaxA4' } as const
 
 export interface ResolvedPrintSettings {
   print: PrintSettings
@@ -49,6 +50,8 @@ export interface ResolvedPrintSettings {
   silent: boolean
   /** Windows printer name; '' = the system default / dialog choice. */
   printer: string
+  /** Phase 148: fit-to-page switch and caps (default ON, 1.35 A5 / 1.25 A4). */
+  fit: FitSettings
 }
 
 const str = (v: unknown, max: number): string => (typeof v === 'string' ? v.slice(0, max) : '')
@@ -69,7 +72,8 @@ export function resolvePrintSettings(all: Record<string, unknown>): ResolvedPrin
     print: { rupeeOnTotal: typeof rupee === 'boolean' ? rupee : DEFAULT_PRINT_SETTINGS.rupeeOnTotal, hideAdjustmentsTotal: all[PRINT_SETTING_KEYS.hideAdjustmentsTotal] === true, company: companyFrom(all[PRINT_SETTING_KEYS.company]) },
     // Silent printing needs somewhere to send the job: no printer configured -> always show the system dialog.
     silent: all[PRINT_SETTING_KEYS.silent] === true && printer !== '',
-    printer
+    printer,
+    fit: { enabled: all[PRINT_SETTING_KEYS.fitToPage] !== false, capA5: normalizeFitCap(all[PRINT_SETTING_KEYS.fitMaxA5], 'A5'), capA4: normalizeFitCap(all[PRINT_SETTING_KEYS.fitMaxA4], 'A4') }
   }
 }
 

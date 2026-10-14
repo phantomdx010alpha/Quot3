@@ -207,7 +207,7 @@ describe('Phase 20 — switcher and palette', () => {
     mount()
     act(() => { grid().focus() })
     const buttons = [...host.querySelectorAll<HTMLButtonElement>('.q3-fmtsw__btn')]
-    expect(buttons.length).toBe(2)
+    expect(buttons.length).toBe(4) // GST, Non-GST, Stock transfer (Phase 149) + Hybrid (Phase 151)
     expect(buttons.map((b) => b.getAttribute('aria-pressed') === 'true')).toEqual(buttons.map((b) => /Non-GST/.test(b.textContent ?? '')))
     const md = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
     act(() => { btn(/^GST/).dispatchEvent(md) })

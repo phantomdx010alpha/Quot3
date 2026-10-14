@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { PrintDecideResponse } from '@shared/ipc'
 import type { ForcedPaper } from '@shared/print/printFlow'
-import type { Bill, PrintMode } from '@shared/types'
+import type { Bill, HybridSide, PrintMode } from '@shared/types'
 
 /** Phase 37 - state of the print dialog. The bill is a snapshot taken when the dialog opened: edits after that never change what prints. */
 export interface PrintUiState {
@@ -27,10 +27,12 @@ export interface PrintUiState {
   /** Enter was pressed before acknowledging: the dialog highlights the warning. */
   askAck: boolean
   error: string
+  /** Phase 152: the Hybrid side this print is for (null = a normal bill). */
+  side: HybridSide | null
   set: (patch: Partial<Omit<PrintUiState, 'set'>>) => void
 }
 
 export const usePrintUiStore = create<PrintUiState>((set) => ({
-  open: false, mode: 'rough', bill: null, forced: undefined, info: null, loading: false, measuring: false, printing: false, saving: false, autoPdf: false, openAfterSave: false, acked: false, askAck: false, error: '',
+  open: false, mode: 'rough', bill: null, forced: undefined, info: null, loading: false, measuring: false, printing: false, saving: false, autoPdf: false, openAfterSave: false, acked: false, askAck: false, error: '', side: null,
   set: (patch) => set(patch)
 }))

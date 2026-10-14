@@ -200,14 +200,20 @@
 .q3-pbar__panel { position: absolute; left: var(--space-3); right: var(--space-3); top: 100%; z-index: var(--z-popover); padding: var(--space-2); background: var(--surface-1, var(--surface-inset)); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); box-shadow: var(--shadow-popover, none); }
 .q3-pbar__area { width: 100%; box-sizing: border-box; height: auto; resize: none; }
 .q3-pbar__f--name { position: relative; }
-.q3-pac { position: absolute; left: 0; right: 0; top: 100%; z-index: var(--z-popover); margin: 2px 0 0; padding: var(--space-1) 0; list-style: none; max-height: 240px; overflow-y: auto; min-width: 240px; background: var(--surface-1, var(--surface-inset)); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); box-shadow: var(--shadow-popover, none); }
-.q3-pac__o { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-1) var(--space-2); font-size: var(--text-sm); color: var(--text-primary); cursor: pointer; }
+.q3-pac { position: absolute; left: 0; right: 0; top: 100%; z-index: var(--z-popover); margin: 2px 0 0; padding: var(--space-1) 0; list-style: none; max-height: 240px; overflow-y: auto; min-width: 240px; width: max-content; max-width: min(60ch, calc(100vw - 32px)); box-sizing: border-box; background: var(--surface-1, var(--surface-inset)); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); box-shadow: var(--shadow-popover, none); }
+.q3-pac__o { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-3); padding: var(--space-1) var(--space-2); font-size: var(--text-sm); color: var(--text-primary); cursor: pointer; }
 .q3-pac__o[data-active] { background: var(--accent-soft, var(--surface-inset)); box-shadow: inset 2px 0 0 var(--accent); }
-.q3-pac__n { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-pac__n { min-width: 0; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
 .q3-pac__m { flex: none; color: var(--text-muted); white-space: nowrap; }
 .q3-create { display: flex; flex-direction: column; height: 100%; min-width: 0; }
 .q3-create__tools { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); padding: 0 var(--space-3); min-height: 28px; }
 .q3-create__grid { flex: 1; min-height: 0; padding: 0 var(--space-3); }
+/* Phase 151 - Hybrid: two tables side by side. Each pane scrolls inside itself (min-width 0); outside Hybrid the single pane fills the area. */
+.q3-create__grid { display: flex; gap: var(--space-2); }
+.q3-hy-pane { flex: 1 1 0; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.q3-hy-pane > .q3-grid { flex: 1 1 auto; height: auto; min-height: 0; }
+.q3-hy-pane__title { flex: none; padding: 0 var(--space-2); font-size: var(--text-sm); font-weight: 600; line-height: 18px; color: var(--text-secondary); }
+.q3-create__grid[data-hybrid] > .q3-hy-pane:focus-within > .q3-hy-pane__title { color: var(--accent); }
 
 /* Phase 33 - /dev/print-preview: the iframe is drawn at true paper size; its own document paints the white sheet. */
 .q3-pprev { flex: 1; min-height: 0; overflow: auto; padding: var(--space-3); background: var(--surface-inset); border-radius: var(--radius-md); }

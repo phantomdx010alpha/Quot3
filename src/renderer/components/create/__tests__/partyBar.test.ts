@@ -7,6 +7,7 @@ import { useBillStore } from '../../../stores/billStore'
 import { usePartyUiStore } from '../../../stores/partyUiStore'
 import { useGridUiStore } from '../../../stores/gridUiStore'
 import { createEmptyBill } from '@shared/billModel'
+import { runUndo } from '../../../stores/undoActions'
 import { allActions, matchShortcut, SHORTCUTS } from '@shared/shortcuts'
 import { ROUTES } from '@shared/routes'
 
@@ -228,5 +229,78 @@ describe('Phase 25 — party/detail bar', () => {
     expect(usePartyUiStore.getState().focusParty).toBeNull()
     expect(usePartyUiStore.getState().addressOpen).toBe(false)
     root = createRoot(host) // so afterEach can unmount
+  })
+})
+
+// Phase 149 - Stock transfer: "Select branch for transfer" replaces the party fields (design 1.5).
+describe('Phase 149 - branch picker on a Stock transfer', () => {
+  const picker = () => host.querySelector<HTMLSelectElement>('[data-testid="branch-picker"]')
+  const flush = async (): Promise<void> => { await act(async () => { await Promise.resolve(); await Promise.resolve() }) }
+  const withBranches = (): void => {
+    ;(window as unknown as { quot3: unknown }).quot3 = {
+      history: { branches: async () => ({ ok: true, data: [{ id: 'a', name: 'Main', isLocal: true }, { id: 'b', name: 'Hubli', isLocal: false }, { id: 'c', name: 'hubli', isLocal: false }] }) }
+    }
+  }
+  afterEach(() => { delete (window as unknown as { quot3?: unknown }).quot3 })
+
+  it('a quotation format keeps the party fields and no picker', () => {
+    mount()
+    expect(picker()).toBeNull()
+    expect(field('name')).not.toBeNull()
+    expect(field('phone')).not.toBeNull()
+  })
+
+  it('Stock transfer shows the picker instead of party name / phone / transport / address; date, PO and format stay', async () => {
+    withBranches()
+    mount()
+    act(() => { S().setFormatId('stock_transfer') })
+    await flush()
+    expect(picker()).not.toBeNull()
+    expect(host.querySelector('.q3-pbar')?.textContent).toContain('Select branch for transfer')
+    expect(host.querySelector('[data-party-field="phone"]')).toBeNull()
+    expect(host.querySelector('[data-party-field="transport"]')).toBeNull()
+    expect(host.querySelector('.q3-pbar__addr')).toBeNull()
+    expect(host.querySelector('[data-party-field="date"]')).not.toBeNull()
+    expect(host.querySelector('[data-testid="po-preview"]')).not.toBeNull()
+    expect(host.querySelector('.q3-fmtsw')).not.toBeNull()
+    // the list is the branch list, de-duplicated by name (case-insensitive), plus the blank prompt
+    expect([...picker()!.options].map((o) => o.value)).toEqual(['', 'Main', 'Hubli'])
+  })
+
+  it('choosing a branch writes it to the bill (one undoable edit) and Enter hands the keyboard to the grid', async () => {
+    withBranches()
+    mount()
+    act(() => { S().setFormatId('stock_transfer') })
+    await flush()
+    const el = picker()!
+    act(() => {
+      el.focus()
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(el, 'Hubli')
+      el.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(S().party.name).toBe('Hubli')
+    expect(picker()!.value).toBe('Hubli')
+    const ev = key(picker()!, 'Enter')
+    expect(ev.defaultPrevented).toBe(true)
+    act(() => { runUndo() })
+    expect(S().party.name).toBe('')
+  })
+
+  it('a branch name that is no longer in the list stays selectable (never silently dropped)', async () => {
+    withBranches()
+    mount()
+    act(() => { S().setFormatId('stock_transfer'); S().setPartyField('name', 'Old branch') })
+    await flush()
+    expect(picker()!.value).toBe('Old branch')
+  })
+
+  it('switching back to a quotation format brings the party fields back with the same name; no data is lost', async () => {
+    withBranches()
+    mount()
+    act(() => { S().setFormatId('stock_transfer'); S().setPartyField('name', 'Hubli') })
+    await flush()
+    act(() => { S().setFormatId('non_gst') })
+    expect(picker()).toBeNull()
+    expect(field('name').value).toBe('Hubli')
   })
 })

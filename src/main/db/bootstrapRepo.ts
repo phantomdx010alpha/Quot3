@@ -27,7 +27,7 @@ export interface BootstrapRepo {
 
 interface BkBill {
   id: string; branch_id: string; po_seq: number; po_number: string; party_id: string | null; party_snapshot_json: string; format_id: string
-  extra_cols_json: string; paper_override: string | null; round_off?: number | null; footer_extras_json?: string | null; tail_rows_json?: string | null; bill_date: string; totals_json: string; item_row_count: number; revision: number
+  extra_cols_json: string; paper_override: string | null; round_off?: number | null; footer_extras_json?: string | null; tail_rows_json?: string | null; second_table_json?: string | null; bill_date: string; totals_json: string; item_row_count: number; revision: number
   created_at: string; updated_at: string; deleted_at: string | null
 }
 
@@ -46,9 +46,9 @@ export function createBootstrapRepo(sqlite: Database.Database): BootstrapRepo {
      VALUES (@id, @name, @nameNorm, @phone, @address, @transport, @source, @createdAt, @updatedAt)`
   )
   const insBill = sqlite.prepare(
-    `INSERT INTO bills (id, branch_id, po_seq, po_number, party_id, party_snapshot_json, format_id, extra_cols_json, paper_override, round_off, footer_extras_json, tail_rows_json, bill_date,
+    `INSERT INTO bills (id, branch_id, po_seq, po_number, party_id, party_snapshot_json, format_id, extra_cols_json, paper_override, round_off, footer_extras_json, tail_rows_json, second_table_json, bill_date,
        totals_json, item_row_count, revision, created_at, updated_at, deleted_at, sync_state)
-     VALUES (@id, @branchId, @poSeq, @poNumber, @partyId, @partySnapshotJson, @formatId, @extraColsJson, @paperOverride, @roundOff, @footerExtrasJson, @tailRowsJson, @billDate,
+     VALUES (@id, @branchId, @poSeq, @poNumber, @partyId, @partySnapshotJson, @formatId, @extraColsJson, @paperOverride, @roundOff, @footerExtrasJson, @tailRowsJson, @secondTableJson, @billDate,
        @totalsJson, @itemRowCount, @revision, @createdAt, @updatedAt, NULL, 'synced')`
   )
   const insRow = sqlite.prepare(
@@ -116,7 +116,7 @@ export function createBootstrapRepo(sqlite: Database.Database): BootstrapRepo {
       if (!hasBranch.get(b.branch_id) || hasPo.get(b.branch_id, b.po_seq)) { counts.skippedClash++; continue }
       insBill.run({
         id: b.id, branchId: b.branch_id, poSeq: b.po_seq, poNumber: b.po_number, partyId: b.party_id && hasParty.get(b.party_id) ? b.party_id : null,
-        partySnapshotJson: b.party_snapshot_json, formatId: b.format_id, extraColsJson: b.extra_cols_json, paperOverride: b.paper_override, roundOff: b.round_off === 1 ? 1 : 0, footerExtrasJson: b.footer_extras_json || '{}', tailRowsJson: b.tail_rows_json || '[]',
+        partySnapshotJson: b.party_snapshot_json, formatId: b.format_id, extraColsJson: b.extra_cols_json, paperOverride: b.paper_override, roundOff: b.round_off === 1 ? 1 : 0, footerExtrasJson: b.footer_extras_json || '{}', tailRowsJson: b.tail_rows_json || '[]', secondTableJson: b.second_table_json || '',
         billDate: b.bill_date, totalsJson: b.totals_json, itemRowCount: b.item_row_count, revision: b.revision, createdAt: b.created_at, updatedAt: b.updated_at
       })
       for (const r of rowsOf.all(b.id) as Record<string, unknown>[]) { insRow.run(r); counts.rowsAdded++ }

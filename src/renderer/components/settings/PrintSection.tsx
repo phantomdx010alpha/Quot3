@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { IMAGE_SCALE_RANGE } from '@shared/print/imageFlow'
+import { FIT_CAP_RANGE, FIT_DEFAULT_CAP, normalizeFitCap } from '@shared/print/fitScale'
 import { Button, Input } from '../ui'
 import { useSettingsStore } from '../../stores/settingsStore'
 
@@ -18,6 +19,21 @@ export function PrintSection(): React.JSX.Element {
   const [hideAdj, setHideAdj] = useState(false)
   useEffect(() => { void window.quot3.settings.get('print.hideAdjustmentsTotal').then((r) => { if (r.ok) setHideAdj(r.data.value === true) }) }, [])
   const changeHideAdj = (v: boolean): void => { setHideAdj(v); void window.quot3.settings.set('print.hideAdjustmentsTotal', v) }
+  // Phase 148: fit bill to page (On by default) and the maximum enlargement per paper, shown as percent (100 = no enlargement). Saved immediately.
+  const [fit, setFit] = useState(true)
+  const [capA5, setCapA5] = useState(String(Math.round(FIT_DEFAULT_CAP.A5 * 100)))
+  const [capA4, setCapA4] = useState(String(Math.round(FIT_DEFAULT_CAP.A4 * 100)))
+  useEffect(() => {
+    void window.quot3.settings.get('print.fitToPage').then((r) => { if (r.ok) setFit(r.data.value !== false) })
+    void window.quot3.settings.get('print.fitMaxA5').then((r) => { if (r.ok) setCapA5(String(Math.round(normalizeFitCap(r.data.value, 'A5') * 100))) })
+    void window.quot3.settings.get('print.fitMaxA4').then((r) => { if (r.ok) setCapA4(String(Math.round(normalizeFitCap(r.data.value, 'A4') * 100))) })
+  }, [])
+  const changeFit = (v: boolean): void => { setFit(v); void window.quot3.settings.set('print.fitToPage', v) }
+  const saveCap = (key: 'print.fitMaxA5' | 'print.fitMaxA4', paper: 'A5' | 'A4', text: string, set: (s: string) => void): void => {
+    const n = normalizeFitCap(Number(text) / 100, paper)
+    set(String(Math.round(n * 100)))
+    void window.quot3.settings.set(key, n)
+  }
   const changeMethod = (v: string): void => { setMethod(v); void window.quot3.settings.set('print.method', v) }
   return (
     <form className="q3-set__form" onSubmit={(e) => { e.preventDefault(); void useSettingsStore.getState().savePrint({ rupeeOnTotal: rupee, silent, printer }) }} aria-label="Print defaults">
@@ -35,6 +51,16 @@ export function PrintSection(): React.JSX.Element {
       <label className="q3-set__check"><input type="checkbox" checked={silent} onChange={(e) => setSilent(e.target.checked)} /> Print without the system dialog (needs a printer name)</label>
       <label className="q3-set__check"><input type="checkbox" checked={rupee} onChange={(e) => setRupee(e.target.checked)} /> Show the rupee sign on the final total</label>
       <label className="q3-set__check"><input type="checkbox" checked={hideAdj} disabled={data.readOnly} onChange={(e) => changeHideAdj(e.target.checked)} /> Hide the Adjustments total row on print and image copy (the Create screen keeps it)</label>
+      <label className="q3-set__check"><input type="checkbox" checked={fit} disabled={data.readOnly} onChange={(e) => changeFit(e.target.checked)} /> Fit bill to page (make small bills bigger so they are easier to read; Off prints exactly the old size)</label>
+      <div className="q3-set__row">
+        <label className="q3-set__field"><span>Largest enlargement, A5 (%)</span>
+          <input type="number" aria-label="Largest enlargement A5" min={FIT_CAP_RANGE.min * 100} max={FIT_CAP_RANGE.max * 100} step={5} value={capA5} disabled={data.readOnly || !fit}
+            onChange={(e) => setCapA5(e.target.value)} onBlur={() => saveCap('print.fitMaxA5', 'A5', capA5, setCapA5)} /></label>
+        <label className="q3-set__field"><span>Largest enlargement, A4 (%)</span>
+          <input type="number" aria-label="Largest enlargement A4" min={FIT_CAP_RANGE.min * 100} max={FIT_CAP_RANGE.max * 100} step={5} value={capA4} disabled={data.readOnly || !fit}
+            onChange={(e) => setCapA4(e.target.value)} onBlur={() => saveCap('print.fitMaxA4', 'A4', capA4, setCapA4)} /></label>
+      </div>
+      <p className="q3-set__muted">100 = never enlarge. A bill is only enlarged as far as it fits on one page, and never past these limits.</p>
       {error !== '' && <p role="alert" className="q3-set__error">{error}</p>}
       <div className="q3-set__row"><Button type="submit" variant="primary" disabled={saving || data.readOnly}>Save print defaults</Button></div>
     </form>

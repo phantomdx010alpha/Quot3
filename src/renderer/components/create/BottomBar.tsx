@@ -3,6 +3,7 @@ import { ArrowUUpLeft, ArrowUUpRight, ClockCounterClockwise, ArrowCounterClockwi
 import { redoTooltip, undoTooltip, REVERT_MESSAGE } from '@shared/history/historyView'
 import { outputTooltip, type OutputActionId } from '@shared/outputActions'
 import { primaryKeys } from '@shared/shortcuts'
+import { toolbarName, type ToolbarNameId } from '@shared/toolbarNames'
 import { ConfirmDialog, IconButton, Badge } from '../ui'
 import { useBillStore } from '../../stores/billStore'
 import { useGridUiStore } from '../../stores/gridUiStore'
@@ -16,7 +17,7 @@ import { UndoPanel } from './UndoPanel'
 import { QuietStatus } from './QuietStatus'
 
 /** Phase 30: the stub output buttons, in bar order. They are aria-disabled (not `disabled`) so the tooltip with the reason still shows and a click or key reports it. */
-const OUTPUT_BUTTONS: ReadonlyArray<readonly [OutputActionId, typeof Printer]> = [
+const OUTPUT_BUTTONS: ReadonlyArray<readonly [Extract<OutputActionId, ToolbarNameId>, typeof Printer]> = [
   ['output.printRough', Printer],
   ['output.printPro', Receipt],
   ['output.imageRough', Image],
@@ -46,25 +47,25 @@ export function BottomBar({ children, actions = false }: { children?: ReactNode;
 
   return (
     <div className="q3-bbar" role="toolbar" aria-label="Bill actions">
-      <IconButton icon={ArrowUUpLeft} label={undoTooltip(undoLabel)} {...k('edit.undo')} tabIndex={-1} disabled={!canUndo}
+      <IconButton icon={ArrowUUpLeft} label={undoTooltip(undoLabel)} text={toolbarName('edit.undo')} {...k('edit.undo')} tabIndex={-1} disabled={!canUndo}
         onMouseDown={keep} onClick={() => { runUndo(); refocus() }} />
-      <IconButton icon={ArrowUUpRight} label={redoTooltip(redoLabel)} {...k('edit.redo')} tabIndex={-1} disabled={!canRedo}
+      <IconButton icon={ArrowUUpRight} label={redoTooltip(redoLabel)} text={toolbarName('edit.redo')} {...k('edit.redo')} tabIndex={-1} disabled={!canRedo}
         onMouseDown={keep} onClick={() => { runRedo(); refocus() }} />
-      <IconButton icon={ClockCounterClockwise} label="Undo history" {...k('edit.historyPanel')} tabIndex={-1} active={panelOpen}
+      <IconButton icon={ClockCounterClockwise} label="Undo history" text={toolbarName('edit.historyPanel')} {...k('edit.historyPanel')} tabIndex={-1} active={panelOpen}
         onMouseDown={keep} onClick={() => useUndoUiStore.getState().togglePanel()} />
-      <IconButton icon={ArrowCounterClockwise} label="Revert to last saved" {...k('edit.revert')} tabIndex={-1} disabled={!dirty}
+      <IconButton icon={ArrowCounterClockwise} label="Revert to last saved" text={toolbarName('edit.revert')} {...k('edit.revert')} tabIndex={-1} disabled={!dirty}
         onMouseDown={keep} onClick={() => requestRevert()} />
       {actions ? (
         <>
           <span className="q3-bbar__sep" aria-hidden="true" />
           {OUTPUT_BUTTONS.map(([id, icon]) => (
-            <IconButton key={id} icon={icon} label={outputTooltip(id)} {...k(id)} tabIndex={-1} aria-disabled={true} className="q3-iconbtn--stub"
+            <IconButton key={id} icon={icon} label={outputTooltip(id)} text={toolbarName(id)} {...k(id)} tabIndex={-1} aria-disabled={true} className="q3-iconbtn--stub"
               onMouseDown={keep} onClick={() => { runOutput(id); refocus() }} />
           ))}
           <span className="q3-bbar__sep" aria-hidden="true" />
-          <IconButton icon={FilePlus} label="New bill" {...k('bill.new')} tabIndex={-1} onMouseDown={keep}
+          <IconButton icon={FilePlus} label="New bill" text={toolbarName('bill.new')} {...k('bill.new')} tabIndex={-1} onMouseDown={keep}
             onClick={() => { requestLeave(startFreshBill) }} />
-          <IconButton icon={FloppyDisk} label="Save bill" {...k('bill.save')} tabIndex={-1} onMouseDown={keep}
+          <IconButton icon={FloppyDisk} label="Save bill" text={toolbarName('bill.save')} {...k('bill.save')} tabIndex={-1} onMouseDown={keep}
             onClick={() => { void runSave(); refocus() }} />
         </>
       ) : null}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decodeCursor, encodeCursor, formatHistoryDate, formatHistoryTotal, isListKey, moveListIndex } from '../historyList'
+import { compareByInvoiceNumber, parseInvoiceNumber, sortBillsByInvoiceNumber, decodeCursor, encodeCursor, formatHistoryDate, formatHistoryTotal, isListKey, moveListIndex } from '../historyList'
 
 describe('historyList (pure)', () => {
   it('formats dates as DD-MM-YY and leaves non-dates alone', () => {
@@ -38,5 +38,36 @@ describe('historyList (pure)', () => {
     expect(moveListIndex(3, 50, 'PageUp', 10)).toBe(0)
     expect(isListKey('PageUp')).toBe(true)
     expect(isListKey('Enter')).toBe(false)
+  })
+})
+
+describe('Phase 146 — invoice number order', () => {
+  const b = (id: string, poNumber: string, billDate = '2026-10-01') => ({ id, poNumber, billDate })
+  const order = (xs: ReturnType<typeof b>[]): string[] => sortBillsByInvoiceNumber(xs).map((x) => x.id)
+
+  it('parses prefix and numeric part; no digits is malformed', () => {
+    expect(parseInvoiceNumber('AV-0748')).toEqual({ prefix: 'AV-', num: '748' })
+    expect(parseInvoiceNumber('9')).toEqual({ prefix: '', num: '9' })
+    expect(parseInvoiceNumber('Q3-0000')).toEqual({ prefix: 'Q3-', num: '0' })
+    expect(parseInvoiceNumber('').num).toBeNull()
+    expect(parseInvoiceNumber('abc').num).toBeNull()
+  })
+  it('highest number first; widths compare numerically (10 before 9)', () => {
+    expect(order([b('a', '9'), b('b', '10'), b('c', '100'), b('d', '1')])).toEqual(['c', 'b', 'a', 'd'])
+    expect(order([b('a', 'AV-0748'), b('b', 'AV-0749'), b('c', 'AV-0100')])).toEqual(['b', 'a', 'c'])
+  })
+  it('same number, different prefix: prefix A-Z, then newer date first', () => {
+    expect(order([b('x', 'BR-0748'), b('y', 'AV-0748'), b('z', 'AV-0749')])).toEqual(['z', 'y', 'x'])
+    expect(order([b('old', 'AV-0748', '2026-09-01'), b('new', 'AV-0748', '2026-10-01')])).toEqual(['new', 'old'])
+  })
+  it('malformed numbers go last (newest date first among them); result is deterministic and the input is not mutated', () => {
+    const input = [b('m1', 'none', '2026-01-01'), b('ok', 'AV-1'), b('m2', '', '2026-05-01')]
+    const copy = [...input]
+    expect(order(input)).toEqual(['ok', 'm2', 'm1'])
+    expect(input).toEqual(copy)
+    expect(compareByInvoiceNumber(b('a', 'AV-5'), b('a', 'AV-5'))).toBe(0)
+  })
+  it('huge numbers do not lose precision (no float maths)', () => {
+    expect(order([b('a', 'X-9007199254740993'), b('b', 'X-9007199254740992')])).toEqual(['a', 'b'])
   })
 })

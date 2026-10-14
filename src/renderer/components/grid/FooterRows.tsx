@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { useBillStore } from '../../stores/billStore'
+import { useTable } from './tableSide'
 import type { GridColumn } from '@shared/gridModel'
 import { GridRow } from './GridRow'
 import { renderProbe } from './renderProbe'
@@ -12,7 +12,7 @@ import { footerKeyOfKind } from '@shared/freeCells'
  * can be typed in place and are part of keyboard navigation. Re-renders when any footer value changes.
  */
 export const FooterRows = memo(function FooterRows({ columns, firstAriaRow }: { columns: readonly GridColumn[]; firstAriaRow: number }): React.JSX.Element {
-  const footer = useBillStore((s) => s.view.footer)
+  const footer = useTable((s) => s.view.footer)
   const hasExtras = columns.some((c) => c.isExtra)
   if (renderProbe.enabled) renderProbe.footers++
   return (

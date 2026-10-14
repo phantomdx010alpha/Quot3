@@ -93,6 +93,8 @@ export const bills = sqliteTable(
     footerExtrasJson: text('footer_extras_json').notNull().default('{}'),
     /** Phase 79: extra-only rows below the Final total `[{extras}]`, trimmed to the last non-empty row on save. */
     tailRowsJson: text('tail_rows_json').notNull().default('[]'),
+    /** Phase 150: the Hybrid second table `{v,primary,active,rows,twins}` ('' = none). */
+    secondTableJson: text('second_table_json').notNull().default(''),
     /** Phase 85: the old app's bill number text (`BR1_106`) for an imported bill; NULL for every other bill. */
     legacyRef: text('legacy_ref'),
     /** Phase 85: the `import_batches` row that created this bill. */

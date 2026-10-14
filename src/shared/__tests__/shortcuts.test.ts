@@ -104,6 +104,8 @@ describe('Phase 30: frozen KB section 8 map', () => {
   const frozen: Record<string, string> = {
     'format.set.gst': 'Alt+1',
     'format.set.non_gst': 'Alt+2',
+    'format.set.stock_transfer': 'Alt+4', // Phase 149 (owner-approved: Stock transfer format)
+    'hybrid.toggle': 'Alt+3', // Phase 151 (owner-approved: Hybrid format, MILESTONE14_DESIGN 1.6)
     'palette.open': 'Ctrl+K',
     'bill.save': 'Ctrl+S',
     'output.printRough': 'Ctrl+P',

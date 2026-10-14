@@ -1383,3 +1383,80 @@ Owner report 2026-10-12 (photo of a real A4 printout): the bill starts roughly 6
 **Out of scope:** Template redesign, the image-copy path (Phases 105/121/127 hotfixes), paper-size decisions (Phase 36-37), sync.
 **Key files:** `shared/print/template/printCss.ts`, `shared/print/printFlow.ts`, `shared/print/printConstants.ts`, `main/print/electronPrintPort.ts`, `main/services/printService.ts`, Settings > Print (only for item 4(iv))
 **How to verify:** Sandbox PDF measurements (first-ink Y per template/paper/row count) recorded in `PHASE_STATUS.md`; a regression test that fails if the sheet gains any top offset beyond the page margin and, if item 4 changes the port options, a test on the exact options passed; typecheck and the print suites green. **What the sandbox cannot prove** (Electron print to a real printer) is a standing gap until the owner reports the paper test results; never write \"fixed\" before that.
+
+---
+
+# Milestone 14 — Owner feedback for 0.1.7 (Phases 145–153)
+
+Read `docs/MILESTONE14_DESIGN.md` before any Phase 145–153 (it holds the owner's rules and the [A] assumptions). **Testing rule for every phase below: never run the full test suite; run `npm run typecheck` plus only the test files you wrote/changed and the ones that could conflict with the change (`CLAUDE_MUST_READ.md` 10i).** Order is flexible (see its section 2); Phase 69 (RELEASE GATE) runs AFTER Phase 153. Each phase that changes the app follows `GITHUB_UPDATE_PUSH.md` only at Phase 153 (one release, 0.1.7) unless the owner asks for an earlier one.
+
+## Phase 145 — Party combobox: full names visible
+**Goal:** The party-name dropdown on Create shows each party's whole name (long names wrap, nothing truncated with an ellipsis in the LIST).
+**Depends on:** none.
+**In scope:** the dropdown width/wrapping (see design 1.1); keep keyboard behaviour (ArrowUp/Down, Enter, Esc, Tab) exactly as Phase 26 defined; the input box keeps its size.
+**Out of scope:** search ranking, party data, the Customers page.
+**Key files:** `components/create/PartyAutocomplete.tsx`, `styles/grid.css` (find the combobox classes with grep).
+**How to verify:** component test with a very long name (wrapped, full text present, no `text-overflow: ellipsis` on list rows), existing party autocomplete tests green, typecheck.
+
+## Phase 146 — History sorted by invoice number
+**Goal:** History is one plain list, not split by branch, sorted by invoice number.
+**Depends on:** none.
+**In scope:** pure comparator in `shared/` (numeric part, tie-break prefix then date; design 1.2) used as the default History order; tests with mixed prefixes (`AV-0748`, `AV-0749`, another prefix at the same number, numbers of different widths such as `9` and `10`, malformed numbers last).
+**Out of scope:** branch filters (keep as they are), schema, sync.
+**Key files:** `shared/history/*` (locate), `main/services/historyService.ts` or the history repo query, `pages/History.tsx`.
+**How to verify:** comparator unit tests, one history service/UI test showing the order, typecheck.
+
+## Phase 147 — Create toolbars: visible names, hidden on small screens
+**Goal:** Icon buttons in the Create page top toolbar and bottom action bar show their name next to the icon; on small screens only icons show (tooltips stay).
+**Depends on:** none.
+**In scope:** labels from the existing shortcut/palette registry names where they exist (one source of truth), a CSS/container breakpoint (design 1.4), no change to heights beyond the existing budget, no hardcoded colours.
+**Out of scope:** other pages' toolbars (note them in the log if also icon-only), new buttons.
+**Key files:** the Create page toolbar / action bar components (locate with grep), `styles/*.css`.
+**How to verify:** component test that labels render at a wide width and are hidden (class/attribute) at a narrow one; layout-density tests (20 rows at 1366x768) still green; typecheck. Real look = owner's PC (standing gap).
+
+## Phase 148 — Print spatial awareness (fit-to-page), A5 and A4
+**Goal:** Printed A5 / A4 bills use the page well so text is easy to read, without making short bills fill the page, with the old behaviour as a configurable fallback.
+**Depends on:** 144 (print position rules).
+**In scope:** design 1.3 in full: pure fit engine (scale factor from measured content height, paper and cap), wiring into the print model/template for Print, Save PDF and image copy, Settings > Print "Fit bill to page" (On default) + max enlargement, Off = identical to today, thresholds untouched, tests table, measurements of first-ink Y still top-aligned.
+**Out of scope:** changing 40/30/80/70, template redesign, driver issues, Hybrid and Stock transfer layouts (they reuse the engine later).
+**Key files:** `shared/print/*` (new `fitScale.ts`), `shared/print/template/printCss.ts`, `shared/print/printFlow.ts`, `shared/paper/paperConstants.ts` (read only), Settings > Print section.
+**How to verify:** engine unit tests (5-6 rows stays near 1.0-cap, 40 rows, long wrapped names, adjustments, extra cols, A5 and A4, Off = unchanged output), headless-Chromium PDF measurement recorded in `PHASE_STATUS.md` (no overflow, top-aligned), typecheck. Real printer = standing gap.
+
+## Phase 149 — Stock transfer format (Alt+4)
+**Goal:** A fourth format "Stock transfer": Item name + Qty (words allowed), no party, "Select branch for transfer" instead.
+**Depends on:** none (uses the branch list).
+**In scope:** design 1.5: one format-registry entry (columns, free-text qty for this format only, no money columns/totals), header with branch picker, PO/date/save/history/print/image as [A] stated, Alt+4 + palette entry (frozen shortcut tests updated WITH this approval), print layout, tests (registry, calc = no totals, qty accepts "two dozen" and "12", other formats still reject words, switching formats never loses data, save/load round trip).
+**Out of scope:** actually moving stock between branches (no inventory), Hybrid.
+**Key files:** `shared/format/registry.ts` + new format file, `shared/shortcuts.ts`, create header components, `shared/print/*`, bill save/serialize (check the bill record stores qty as a string).
+**How to verify:** pure tests above, UI test for the branch picker replacing the party field, typecheck.
+
+## Phase 150 — Hybrid format: model, contract, pure logic, storage
+**Goal:** The data model and pure logic for Hybrid, with NO UI yet.
+**Depends on:** none.
+**In scope:** design 1.6 rules 1-11; FIRST extend `API_CONTRACTS.md` (supersession of rule 4.5, storage shape, sync `min_reader_ver` handling, what Items/dashboard/export count); pure functions: `makeSecondTable(bill)` (GST->non-GST and non-GST->GST copy of names, qty, amounts; no adjustments, no labels; shared extra columns), independent calc per table, switch in/out without loss, no overwrite on second Alt+3, serialize/deserialize/normalize, `sameContent`/`diffBills` aware, undo model decision; storage as an optional field if possible (no migration), otherwise a new numbered migration (then `schema: N` applies, see `GITHUB_UPDATE_PUSH.md`).
+**Out of scope:** UI, print (Phase 152).
+**Key files:** `shared/format/*`, `shared/calc/*`, bill record/serialize, `shared/sync/*` (read), `API_CONTRACTS.md`.
+**How to verify:** thorough unit tests (round trips, independence after copy, separate totals, shared extra cells, adjustments separate, both start sides), typecheck.
+
+## Phase 151 — Hybrid format: Create UI (Alt+3)
+**Goal:** Alt+3 shows the two tables side by side; both editable; shared extra columns; own adjustments per side.
+**Depends on:** 150.
+**In scope:** layout that respects density (5.2) and the keyboard rules (navigation between tables per design 1.6 [A]), Alt+3 + palette, per-side adjustments UI, shared extra columns, undo/redo, draft/autosave, format-switch behaviour per rules 10-11, selector rule (Phase 92) for new stores, tests.
+**Out of scope:** print/image (Phase 152).
+**Key files:** grid components, `billStore`, `cellNav` reducer, `shortcuts.ts`.
+**How to verify:** reducer/store tests, component tests for both tables, existing grid tests not regressed (note: some grid tests were already failing before this milestone, see `PHASE_STATUS.md` 0.1.5 entry), typecheck.
+
+## Phase 152 — Hybrid output: ask which side, output only that side
+**Goal:** In Hybrid, Print / Save PDF / image copy (and any other output path) first ask "GST side or non-GST side?" and output ONLY the chosen side in that format's normal layout.
+**Depends on:** 148, 150, 151.
+**In scope:** the side-picker dialog (keyboard friendly: G / N, Esc cancels with nothing printed), routing the chosen side through the existing print model (so fit-to-page, hide-adjustments-total setting, rupee sign etc. apply), shared extra columns printed on both outputs, tests that exactly one side's data reaches the output.
+**Out of scope:** printing both sides on one page.
+**Key files:** `shared/print/printFlow.ts`, `printService`, `imageService`, clipboard text copy, the print/copy dialogs.
+**How to verify:** unit tests per output path (GST side vs non-GST side, nothing of the other side present), typecheck. Real printing = owner's PC.
+
+## Phase 153 — Milestone 14 QA gate and release 0.1.7
+**Goal:** Check Phases 145-152 together, then ship version 0.1.7.
+**Depends on:** 145-152.
+**In scope:** run the touched suites + typecheck; reconcile `PHASE_STATUS.md`; update `GITHUB_UPDATE_PUSH.md` / `API_CONTRACTS.md` / `PROJECT_STRUCTURE.md`; bump the version to 0.1.7 (package.json + both spots in package-lock.json) and hand back the changed-files zip, the full zip and the push steps per `GITHUB_UPDATE_PUSH.md` section 2. The release notes line `schema: N` is written by the workflow (N = migration count).
+**Out of scope:** new features.
+**How to verify:** suites green or each failure listed with its cause; owner checklist for what only a real PC can show (print size, Hybrid layout, toolbar look).

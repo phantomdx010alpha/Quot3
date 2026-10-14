@@ -9,11 +9,15 @@ import { BottomBar } from '../components/create/BottomBar'
 import { CalcDrawer } from '../components/create/CalcDrawer'
 import { SaveFlow } from '../components/create/SaveFlow'
 import { RemoteChangeBanner } from '../components/create/RemoteChangeBanner'
+import { HybridRecopyDialog } from '../components/create/HybridRecopyDialog'
 import { useBillStore } from '../stores/billStore'
 import { useBehaviourStore } from '../stores/behaviourStore'
 import { createSession, useCreateSession } from '../stores/createSession'
 import { usePartyUiStore } from '../stores/partyUiStore'
 import { startImagePrerender } from '../stores/imagePrerender'
+import { otherSide } from '@shared/hybrid/hybrid'
+
+const SIDE_TITLE = { gst: 'GST', non_gst: 'Non-GST' } as const
 
 /**
  * Phase 25 — first version of the Create page: party/detail bar, the grid, the toolbars and a stub bottom bar (Phase 30
@@ -23,6 +27,9 @@ import { startImagePrerender } from '../stores/imagePrerender'
 export default function Create(): React.JSX.Element {
   const gridHost = useRef<HTMLDivElement>(null)
   const nonce = useCreateSession((s) => s.nonce)
+  // Phase 151: primitive selectors only (Phase 92 rule): is Hybrid on, and which side is the primary (left) table.
+  const hybridOn = useBillStore((s) => s.hybrid?.active === true)
+  const primarySide = useBillStore((s) => s.hybrid?.primary ?? 'gst')
 
   useEffect(() => {
     if (useBillStore.getState().billId !== null && useBillStore.getState().billId === createSession.get()) return
@@ -57,14 +64,25 @@ export default function Create(): React.JSX.Element {
         <FormatToolbar />
         <ExtraColsToolbar />
       </div>
-      <div className="q3-create__grid" ref={gridHost}>
-        <BillGrid />
+      <div className="q3-create__grid" ref={gridHost} data-hybrid={hybridOn ? 'on' : undefined}>
+        {/* Phase 151: the primary pane stays at the same tree position in and out of Hybrid, so its grid never remounts. */}
+        <div className="q3-hy-pane" data-side="primary">
+          {hybridOn && <div className="q3-hy-pane__title">{SIDE_TITLE[primarySide]}</div>}
+          <BillGrid label={hybridOn ? `${SIDE_TITLE[primarySide]} table` : 'Bill items'} />
+        </div>
+        {hybridOn && (
+          <div className="q3-hy-pane" data-side="second">
+            <div className="q3-hy-pane__title">{SIDE_TITLE[otherSide(primarySide)]}</div>
+            <BillGrid side="second" label={`${SIDE_TITLE[otherSide(primarySide)]} table`} />
+          </div>
+        )}
       </div>
       <CalcDrawer />
       <BottomBar actions>
         <GridStatus />
       </BottomBar>
       <SaveFlow />
+      <HybridRecopyDialog />
     </div>
   )
 }

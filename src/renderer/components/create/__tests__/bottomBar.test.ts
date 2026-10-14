@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import { act, createElement } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Create from '../../../pages/Create'
 import { BottomBar } from '../BottomBar'
@@ -213,5 +215,26 @@ describe('Phase 31: TSV copy from the bar and the key', () => {
     delete (window as unknown as { quot3?: unknown }).quot3
     press('T', { ctrlKey: true, shiftKey: true }); await flush()
     expect(useSaveUiStore.getState().last?.tone).toBe('danger')
+  })
+})
+
+describe('Phase 147: visible toolbar names', () => {
+  const texts = (sel: string): string[] => [...host.querySelectorAll(`${sel} .q3-iconbtn__t`)].map((e) => e.textContent ?? '')
+  it('the bottom bar and both top toolbars show a name next to every icon, and keep the tooltip label as aria-label', async () => {
+    await mount()
+    expect(texts('.q3-bbar')).toEqual(['Undo', 'Redo', 'History', 'Revert', 'Print Rough', 'Print Pro', 'Image Rough', 'Image Pro', 'Copy TSV', 'New', 'Save'])
+    expect(texts('.q3-fmtbar')).toEqual(['Red + Bold', 'Bold', 'Clear', 'Highlight', 'Palette'])
+    expect(texts('.q3-colbar')).toEqual(['Add col', 'Remove col', 'Rename col', 'Mark', 'Units', 'Marked calc'])
+    // every button in the three bars is named; aria-label (full label) is unchanged
+    for (const b of host.querySelectorAll('.q3-bbar button, .q3-fmtbar button, .q3-colbar button')) {
+      expect(b.classList.contains('q3-iconbtn--named')).toBe(true)
+      expect(b.getAttribute('aria-label')).toBeTruthy()
+    }
+    expect(btn('Save bill')).not.toBeNull()
+  })
+  it('the stylesheet hides the names (icon only) below the breakpoint and never wraps them', () => {
+    const css = readFileSync(resolve(__dirname, '../../../styles/ui.css'), 'utf8')
+    expect(css).toMatch(/@media \(max-width: 1179px\)[\s\S]*\.q3-iconbtn--named \.q3-iconbtn__t \{ display: none; \}/)
+    expect(css).toMatch(/\.q3-iconbtn--named \{[^}]*white-space: nowrap/)
   })
 })

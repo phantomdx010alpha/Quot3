@@ -7,7 +7,9 @@ import { normalizeBill, createEmptyRow } from '@shared/billModel'
 import { getBillOptions } from '@shared/calc/billOptions'
 import { applyCellText } from '@shared/gridEdit'
 import { buildGridColumns, type GridColumn } from '@shared/gridModel'
-import type { Bill, BillRow, ExtraColDef, FooterExtras, Id, IsoDate, IsoDateTime, PartySnapshot, Runs, TailRow } from '@shared/types'
+import type { Bill, BillRow, ExtraColDef, FooterExtras, HybridSecond, HybridSide, Id, IsoDate, IsoDateTime, PartySnapshot, Runs, TailRow } from '@shared/types'
+import { enterHybrid as enterHybridPure, leaveHybrid as leaveHybridPure, recopyTable, canHybrid, otherSide } from '@shared/hybrid/hybrid'
+import { deleteSecondRows, editSecondCells, moveSecondRow, resetSecondTotal, resolveSecondRows, setSecondNameRuns, toggleSecondMark, type TwoTables } from '@shared/hybrid/secondEdit'
 import type { SaveBillResponse } from '@shared/ipc'
 import { PARTY_FIELDS, PARTY_FIELD_LABEL, isValidBillDate, withPartyField, type PartyField } from '@shared/partyFields'
 import { runsEqual } from '@shared/richtext/runs'
@@ -42,6 +44,16 @@ export interface BillMeta {
 const opts = (s: { meta: BillMeta; tailRows?: TailRow[] }): ReturnType<typeof getBillOptions> => getBillOptions({ roundOff: s.meta.roundOff, tailRows: s.tailRows })
 const NEW_META: BillMeta = { branchId: 'local', partyId: null, poSeq: 0, revision: 1, createdAt: '', paperOverride: null }
 
+/** Phase 151: what a grid needs of ONE table. The primary table is the store state itself; the second table is `second`. */
+export interface TableState {
+  rows: BillRow[]
+  view: GridView
+  formatId: string
+  extraCols: ExtraColDef[]
+  footerExtras?: FooterExtras
+  tailRows?: TailRow[]
+}
+
 interface BillState {
   billId: Id | null
   formatId: string
@@ -53,6 +65,10 @@ interface BillState {
   /** Phase 79 (undoable, part of `BillDoc`): free extra cells on the footer rows / extra-only tail rows below the Final total. Absent = none. */
   footerExtras?: FooterExtras
   tailRows?: TailRow[]
+  /** Phase 151 (undoable, part of `BillDoc`): the Hybrid second table. Absent = a normal bill. `rows` stays the PRIMARY table. */
+  hybrid?: HybridSecond
+  /** Phase 151: the second table as the grid shows it (resolved shared extras, own calc view) - derived from `hybrid` on every write, null when there is none. */
+  second: TableState | null
   poNumber: string
   /** Phase 27: non-undoable bill fields (branch, party link, PO sequence, revision, created-at, paper override). */
   meta: BillMeta
@@ -81,6 +97,20 @@ interface BillState {
   loadDraft: (draft: Bill, baseline: Bill) => void
   /** Dev/skeleton hook: swap the active format (rows untouched). The real switch UI/shortcuts are Phase 20. */
   setFormatId: (formatId: string) => void
+  /** Phase 151 (Alt+3): turn the side-by-side Hybrid view on, creating the second table ONLY when the bill has none (never overwrites). One undo entry. Returns 'created' / 'shown' / 'already' (view was on) / null (the format cannot be Hybrid). */
+  enterHybridView: () => 'created' | 'shown' | 'already' | null
+  /** Phase 151: turn the Hybrid view off (the second table is KEPT); optionally switch the primary rows' layout like Alt+1 / Alt+2. One undo entry. False when nothing changed. */
+  leaveHybridView: (toFormatId?: string) => boolean
+  /** Phase 151: the explicit "Re-copy from the other side" - replaces `target` table's items with fresh copies of the other table's (the target's own adjustments are kept). The UI confirms first. */
+  recopyTable: (target: HybridSide) => boolean
+  /** Phase 151: the same edits as the primary table, for the SECOND table (shared extra cells go to the primary twin). */
+  setSecondCellTexts: (cells: ReadonlyArray<{ rowId: Id; colKey: string; text: string; runs?: Runs }>) => boolean
+  setSecondNameRuns: (rowId: Id, runs: Runs) => boolean
+  resetSecondTotal: (rowId: Id) => boolean
+  toggleSecondMark: (rowId: Id, colKey: string) => boolean | null
+  deleteSecondRows: (rowIds: readonly Id[]) => boolean
+  moveSecondRow: (rowId: Id, target: MoveTarget) => number | null
+  ensureSecondBodyRows: (count: number) => void
   /** Replace one row by merging a patch (immutable; other rows keep identity). */
   patchRow: (rowId: Id, patch: Partial<Omit<BillRow, 'id'>>) => void
   /** Phase 11: commit typed text into one cell (invalid numeric drafts are rejected → no change). Returns whether anything changed. */
@@ -137,13 +167,37 @@ function gridColumn(formatId: string, extraCols: ExtraColDef[], key: string): Gr
   return buildGridColumns(resolveFormat(formatId), extraCols).find((c) => c.key === key)
 }
 
-export const useBillStore = create<BillState>((set, get) => {
-  const doc = (): BillDoc => { const s = get(); return { formatId: s.formatId, extraCols: s.extraCols, rows: s.rows, party: s.party, billDate: s.billDate, ...(s.footerExtras ? { footerExtras: s.footerExtras } : {}), ...(s.tailRows ? { tailRows: s.tailRows } : {}) } }
+/** Phase 151: the second table is padded with trailing blank rows for display, like the primary one (`prepareBillForSave` trims them). */
+const padHybrid = (h: HybridSecond | undefined): HybridSecond | undefined => (h ? { ...h, rows: ensureTrailingBlankRows(h.rows) } : undefined)
+
+/** Phase 151: the second table's grid state, derived from the stored fields (same object when there is no second table → null). */
+function deriveSecond(s: Pick<BillState, 'hybrid' | 'rows' | 'extraCols' | 'footerExtras' | 'tailRows' | 'meta'>, prev: TableState | null): TableState | null {
+  const h = s.hybrid
+  if (!h) return null
+  const formatId = otherSide(h.primary)
+  const rows = resolveSecondRows(s.rows, h)
+  return { rows, formatId, extraCols: s.extraCols, footerExtras: s.footerExtras, tailRows: s.tailRows, view: buildGridView(resolveFormat(formatId), rows, prev?.view ?? EMPTY_VIEW, opts(s)) }
+}
+
+export const useBillStore = create<BillState>((rawSet, get) => {
+  /**
+   * Phase 151: every write goes through here so `second` is re-derived IN THE SAME update whenever something it depends on changed
+   * (second rows, primary rows = shared extras, columns, free cells, tail rows, round-off). One notification, never a stale second table.
+   */
+  const set = (partial: Partial<BillState> | ((s: BillState) => Partial<BillState>)): void => rawSet((s) => {
+    const p = typeof partial === 'function' ? partial(s) : partial
+    if ('second' in p) return p
+    const n = { ...s, ...p }
+    if (!n.hybrid) return s.second === null ? p : { ...p, second: null }
+    const stale = n.hybrid !== s.hybrid || n.rows !== s.rows || n.extraCols !== s.extraCols || n.footerExtras !== s.footerExtras || n.tailRows !== s.tailRows || n.meta.roundOff !== s.meta.roundOff
+    return stale || !s.second ? { ...p, second: deriveSecond(n, s.second) } : p
+  })
+  const doc = (): BillDoc => { const s = get(); return { formatId: s.formatId, extraCols: s.extraCols, rows: s.rows, party: s.party, billDate: s.billDate, ...(s.footerExtras ? { footerExtras: s.footerExtras } : {}), ...(s.tailRows ? { tailRows: s.tailRows } : {}), ...(s.hybrid ? { hybrid: s.hybrid } : {}) } }
   const bh = createBillHistory({
     getDoc: doc,
     applyDoc: (d) => {
       const rows = ensureTrailingBlankRows(d.rows)
-      set({ formatId: d.formatId, extraCols: d.extraCols, party: d.party, billDate: d.billDate, footerExtras: d.footerExtras, tailRows: d.tailRows, rows, view: buildGridView(resolveFormat(d.formatId), rows, get().view, opts({ meta: get().meta, tailRows: d.tailRows })) })
+      set({ formatId: d.formatId, extraCols: d.extraCols, party: d.party, billDate: d.billDate, footerExtras: d.footerExtras, tailRows: d.tailRows, hybrid: d.hybrid, rows, view: buildGridView(resolveFormat(d.formatId), rows, get().view, opts({ meta: get().meta, tailRows: d.tailRows })) })
     },
     setFlags: (f: HistoryFlags) => set(f)
   })
@@ -151,6 +205,19 @@ export const useBillStore = create<BillState>((set, get) => {
   const rowNo = (rowId: Id): number => get().view.bodyIds.indexOf(rowId) + 1
   const colLabel = (key: string): string => gridColumn(get().formatId, get().extraCols, key)?.label ?? key
   const cellLen = (s: BillState, rowId: Id, key: string): number => (s.view.body[rowId]?.cells[key] ?? '').length
+  // Phase 151: second-table helpers (labels, the two-table working pair, writing a result back).
+  const secondRowNo = (s: BillState, rowId: Id): number => (s.second?.view.bodyIds.indexOf(rowId) ?? -1) + 1
+  const secondColLabel = (s: BillState, key: string): string => (s.second ? gridColumn(s.second.formatId, s.extraCols, key)?.label : undefined) ?? key
+  const secondCellLen = (s: BillState, rowId: Id, key: string): number => (s.second?.view.body[rowId]?.cells[key] ?? '').length
+  const twoOf = (s: BillState): TwoTables | null => (s.hybrid ? { rows: s.rows, hybrid: s.hybrid } : null)
+  /** Writes an edited pair back: the second rows are re-padded; the primary rows (a shared extra cell lives there) are rebuilt only if they changed. */
+  const commitTwo = (t: TwoTables): boolean => {
+    const s = get()
+    const hybrid = padHybrid(t.hybrid) as HybridSecond
+    if (t.rows !== s.rows) set({ rows: t.rows, hybrid, view: buildGridView(resolveFormat(s.formatId), t.rows, s.view, opts(s)) })
+    else set({ hybrid })
+    return true
+  }
 
   const base: Omit<BillState, NewKeys> = {
   billId: null,
@@ -159,6 +226,7 @@ export const useBillStore = create<BillState>((set, get) => {
   rows: [],
   party: { name: '', phone: '', address: '', transport: '' },
   billDate: new Date().toISOString().slice(0, 10),
+  second: null,
   poNumber: '',
   meta: NEW_META,
   toBill: () => {
@@ -170,7 +238,8 @@ export const useBillStore = create<BillState>((set, get) => {
       revision: m.revision, createdAt: m.createdAt, updatedAt: new Date().toISOString(), deletedAt: null, syncState: 'local_only',
       ...(m.roundOff === 1 ? { roundOff: 1 as const } : {}),
       ...(s.footerExtras ? { footerExtras: s.footerExtras } : {}),
-      ...(s.tailRows ? { tailRows: s.tailRows } : {})
+      ...(s.tailRows ? { tailRows: s.tailRows } : {}),
+      ...(s.hybrid ? { hybrid: s.hybrid } : {})
     }
   },
   applySaved: (r) => set((s) => {
@@ -224,7 +293,7 @@ export const useBillStore = create<BillState>((set, get) => {
   loadBill: (bill) => {
     const b = normalizeBill(bill)
     const rows = ensureTrailingBlankRows(b.rows)
-    set({ billId: b.id, formatId: b.formatId, extraCols: b.extraCols, party: b.party, billDate: b.billDate, footerExtras: b.footerExtras, tailRows: b.tailRows, poNumber: b.poNumber, rows, view: buildGridView(resolveFormat(b.formatId), rows, undefined, getBillOptions(b)),
+    set({ billId: b.id, formatId: b.formatId, extraCols: b.extraCols, party: b.party, billDate: b.billDate, footerExtras: b.footerExtras, tailRows: b.tailRows, hybrid: padHybrid(b.hybrid), poNumber: b.poNumber, rows, view: buildGridView(resolveFormat(b.formatId), rows, undefined, getBillOptions(b)),
       meta: { branchId: b.branchId, partyId: b.partyId, poSeq: b.poSeq, revision: b.revision, createdAt: b.createdAt, paperOverride: b.paperOverride, roundOff: b.roundOff === 1 ? 1 : 0 } })
     bh.reset() // Phase 17: a newly opened bill has an empty history and is clean
   },
@@ -232,7 +301,7 @@ export const useBillStore = create<BillState>((set, get) => {
     get().loadBill(baseline) // history reset + saved snapshot = baseline
     const b = normalizeBill(draft)
     const rows = ensureTrailingBlankRows(b.rows)
-    set({ billId: b.id, formatId: b.formatId, extraCols: b.extraCols, party: b.party, billDate: b.billDate, footerExtras: b.footerExtras, tailRows: b.tailRows, poNumber: b.poNumber, rows, view: buildGridView(resolveFormat(b.formatId), rows, undefined, getBillOptions(b)),
+    set({ billId: b.id, formatId: b.formatId, extraCols: b.extraCols, party: b.party, billDate: b.billDate, footerExtras: b.footerExtras, tailRows: b.tailRows, hybrid: padHybrid(b.hybrid), poNumber: b.poNumber, rows, view: buildGridView(resolveFormat(b.formatId), rows, undefined, getBillOptions(b)),
       meta: { branchId: b.branchId, partyId: b.partyId, poSeq: b.poSeq, revision: b.revision, createdAt: b.createdAt, paperOverride: b.paperOverride, roundOff: b.roundOff === 1 ? 1 : 0 } })
     bh.refresh() // dirty = differs from the baseline; the (empty) history is untouched
   },
@@ -240,6 +309,108 @@ export const useBillStore = create<BillState>((set, get) => {
     const { rows, view } = get()
     set({ formatId, view: buildGridView(resolveFormat(formatId), rows, view, opts(get())) })
   }, () => ({ label: `Switched to ${getFormat(get().formatId).label}` })),
+  enterHybridView: () => {
+    const s0 = get()
+    const bill0 = s0.toBill()
+    if (!canHybrid(bill0)) return null
+    if (s0.hybrid?.active && s0.formatId === s0.hybrid.primary) return 'already'
+    let out: 'created' | 'shown' = 'shown'
+    bh.record(() => {
+      const r = enterHybridPure(get().toBill())
+      out = r.created ? 'created' : 'shown'
+      const s = get()
+      const formatId = r.bill.formatId
+      set({ formatId, hybrid: padHybrid(r.bill.hybrid), view: formatId === s.formatId ? s.view : buildGridView(resolveFormat(formatId), s.rows, s.view, opts(s)) })
+    }, () => ({ label: out === 'created' ? 'Switched to Hybrid (second table copied)' : 'Switched to Hybrid' }))
+    return out
+  },
+  leaveHybridView: (toFormatId) => bh.record(() => {
+    const s = get()
+    if (!s.hybrid) return false
+    const bill = leaveHybridPure(s.toBill(), toFormatId)
+    if (bill.formatId === s.formatId && bill.hybrid === s.hybrid) return false
+    const formatId = bill.formatId
+    set({ formatId, hybrid: bill.hybrid, view: formatId === s.formatId ? s.view : buildGridView(resolveFormat(formatId), s.rows, s.view, opts(s)) })
+    return true
+  }, () => ({ label: 'Left Hybrid (second table kept)' })),
+  recopyTable: (target) => bh.record(() => {
+    const s = get()
+    if (!s.hybrid) return false
+    const bill = recopyTable(s.toBill(), target)
+    if (bill.rows === s.rows && bill.hybrid === s.hybrid) return false
+    const rows = ensureTrailingBlankRows(bill.rows)
+    set({ rows, hybrid: padHybrid(bill.hybrid), view: buildGridView(resolveFormat(s.formatId), rows, s.view, opts(s)) })
+    return true
+  }, () => ({ label: `Re-copied the ${target === 'gst' ? 'GST' : 'Non-GST'} table from the other side` })),
+  setSecondCellTexts: (cells) => {
+    const before = get()
+    const lenBefore = cells.length === 1 ? secondCellLen(before, (cells[0] as { rowId: Id }).rowId, (cells[0] as { colKey: string }).colKey) : 0
+    return bh.record(() => {
+      const s = get()
+      const t = twoOf(s)
+      if (!t || !s.second) return false
+      const cols = buildGridColumns(resolveFormat(s.second.formatId), s.extraCols)
+      const r = editSecondCells(t, cells, cols, (rowId, colKey) => s.second?.view.body[rowId]?.cells[colKey] ?? '')
+      return r ? commitTwo(r) : false
+    }, () => {
+      if (cells.length !== 1) return { label: `Edited ${cells.length} cells (second table)` }
+      const c = cells[0] as { rowId: Id; colKey: string }
+      const kind = secondCellLen(get(), c.rowId, c.colKey) < lenBefore ? 'del' : 'type'
+      const where = `${secondColLabel(get(), c.colKey)} (second table, row ${secondRowNo(get(), c.rowId)})`
+      return { label: kind === 'del' ? `Deleted in ${where}` : `Typed in ${where}`, key: `${kind}2:${c.rowId}:${c.colKey}` }
+    })
+  },
+  setSecondNameRuns: (rowId, runs) => bh.record(() => {
+    const t = twoOf(get())
+    const r = t ? setSecondNameRuns(t, rowId, runs) : null
+    return r ? commitTwo(r) : false
+  }, () => ({ label: `Formatted Item Name (second table, row ${secondRowNo(get(), rowId)})` })),
+  resetSecondTotal: (rowId) => bh.record(() => {
+    const t = twoOf(get())
+    const r = t ? resetSecondTotal(t, rowId) : null
+    return r ? commitTwo(r) : false
+  }, () => ({ label: `Reset total (second table, row ${secondRowNo(get(), rowId)})` })),
+  toggleSecondMark: (rowId, colKey) => {
+    let out: boolean | null = null
+    bh.record(() => {
+      const t = twoOf(get())
+      const r = t ? toggleSecondMark(t, rowId, colKey) : null
+      if (!r) return
+      out = r.marked
+      commitTwo(r.t)
+    }, () => ({ label: `${out ? 'Marked' : 'Unmarked'} cell in ${secondColLabel(get(), colKey)} (second table, row ${secondRowNo(get(), rowId)})` }))
+    return out
+  },
+  deleteSecondRows: (rowIds) => bh.record(() => {
+    const s = get()
+    const t = twoOf(s)
+    const r = t && s.second ? deleteSecondRows(t, s.second.view.bodyIds, new Set(rowIds), new Set(s.extraCols.map((c) => c.key))) : null
+    return r ? commitTwo(r) : false
+  }, () => ({ label: rowIds.length === 1 ? 'Deleted row (second table)' : `Deleted ${rowIds.length} rows (second table)` })),
+  moveSecondRow: (rowId, target) => {
+    let dest: number | null = null
+    bh.record(() => {
+      const s = get()
+      const t = twoOf(s)
+      if (!t || !s.second) return false
+      const to = moveDestination(s.second.rows, s.second.view.bodyIds, rowId, target)
+      if (to === null) return false
+      const r = moveSecondRow(t, s.second.view.bodyIds, rowId, to, new Set(s.extraCols.map((c) => c.key)))
+      if (!r) return false
+      dest = to
+      return commitTwo(r)
+    }, () => ({ label: `Moved row to ${(dest ?? 0) + 1} (second table)` }))
+    return dest
+  },
+  ensureSecondBodyRows: (count) => {
+    const s = get()
+    if (!s.hybrid || !s.second) return
+    const missing = count - s.second.view.bodyIds.length
+    if (missing <= 0) return
+    const rows = s.hybrid.rows.slice()
+    for (let i = 0; i < missing; i++) rows.push(createEmptyRow(rows.length))
+    set({ hybrid: { ...s.hybrid, rows } })
+  },
   patchRow: (rowId, patch) => bh.record(() => {
     const s = get()
     const i = s.rows.findIndex((r) => r.id === rowId)
@@ -308,7 +479,9 @@ export const useBillStore = create<BillState>((set, get) => {
       const rows = ensureTrailingBlankRows(r.rows)
       // Phase 80: the column's free cells (total rows, tail rows) go with it, so a re-added column never resurrects them.
       const free = stripFreeColumn(s.footerExtras, s.tailRows, key)
-      set({ extraCols: r.extraCols, rows, footerExtras: free.footerExtras, tailRows: free.tailRows, view: buildGridView(resolveFormat(s.formatId), rows, s.view, opts({ meta: s.meta, tailRows: free.tailRows })) })
+      // Phase 151: the second table's own cells of that column go too (shared cells lived on the primary rows).
+      const hy = s.hybrid ? (removeExtraColPure(s.extraCols, s.hybrid.rows, key)?.rows ?? s.hybrid.rows) : null
+      set({ extraCols: r.extraCols, rows, footerExtras: free.footerExtras, tailRows: free.tailRows, ...(s.hybrid && hy ? { hybrid: { ...s.hybrid, rows: hy } } : {}), view: buildGridView(resolveFormat(s.formatId), rows, s.view, opts({ meta: s.meta, tailRows: free.tailRows })) })
       return true
     }, () => ({ label: `Removed column '${name}'` }))
   },

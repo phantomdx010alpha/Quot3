@@ -47,6 +47,14 @@
   box-shadow: var(--shadow-raised); cursor: pointer;
 }
 .q3-iconbtn:hover { color: var(--text-primary); }
+/* Phase 147: icon + short name. Same height as the icon-only button; width grows with the name; never wraps. */
+.q3-iconbtn--named { width: auto; gap: var(--space-1); padding: 0 var(--space-2); white-space: nowrap; font-size: var(--text-sm); flex: none; }
+.q3-iconbtn__t { white-space: nowrap; }
+/* Small windows: icon only (tooltip + aria-label stay). Keep the number in step with TOOLBAR_NAMES_MIN_WIDTH (shared/toolbarNames.ts). */
+@media (max-width: 1179px) {
+  .q3-iconbtn--named { width: calc(var(--row-height) + var(--space-2)); padding: 0; }
+  .q3-iconbtn--named .q3-iconbtn__t { display: none; }
+}
 .q3-iconbtn[aria-pressed='true'], .q3-iconbtn--active { color: var(--accent); box-shadow: var(--shadow-pressed); background: var(--surface-inset); }
 .q3-iconbtn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
 

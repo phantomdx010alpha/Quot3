@@ -11,6 +11,9 @@ import { applyTextChange, runsEqual } from './richtext/runs'
 /** Phase 13: the Total cell is typable — editing it sets a manual override (Delete / empty / Ctrl+Backspace reset to auto). */
 export const TOTAL_OVERRIDE_EDITABLE = true
 
+/** Phase 149: longest free-text qty kept (also the storage / IPC limit). */
+export const QTY_TEXT_MAX = 200
+
 /** Column keys whose text is entered as a number. */
 export function isNumericColumn(col: Pick<GridColumn, 'kind' | 'key'>): boolean {
   return col.kind === 'num' || col.key === 'total'
@@ -129,6 +132,12 @@ export function applyCellText(
     // Phase 15: the runs engine keeps per-letter formatting through any edit (prefix/suffix diff).
     const runs = applyTextChange(row.nameRuns, text)
     return runsEqual(runs, row.nameRuns) ? null : { nameRuns: runs }
+  }
+  if (k === 'qty' && col.kind === 'text') {
+    // Phase 149: free-text qty ("two dozen"), only for a format whose qty column is `text` (Stock transfer). Stored as typed (trimmed, capped).
+    const t = text.trim().slice(0, QTY_TEXT_MAX)
+    const val = t === '' ? null : t
+    return val === row.qty ? null : { qty: val }
   }
   if (k === 'qty' || k === 'rate' || k === 'gstRate') {
     let t = text.trim()

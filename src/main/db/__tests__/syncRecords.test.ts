@@ -20,7 +20,7 @@ describe('Phase 133 - migration 0006', () => {
     const jp = join(mig, 'meta', '_journal.json')
     const full = JSON.parse(readFileSync(jp, 'utf8')) as { entries: { tag: string }[] }
     expect(full.entries.some((e) => e.tag === '0006_shared_sync_records')).toBe(true)
-    writeFileSync(jp, JSON.stringify({ ...full, entries: full.entries.filter((e) => e.tag !== '0006_shared_sync_records' && e.tag !== '0007_customer_merge') }))
+    writeFileSync(jp, JSON.stringify({ ...full, entries: full.entries.filter((e) => e.tag !== '0006_shared_sync_records' && e.tag !== '0007_customer_merge' && e.tag !== '0008_hybrid_second_table') }))
     mkdirSync(join(dir, 'backups'))
     const file = join(dir, 'q.db')
     const h1 = openDatabase({ file, migrationsDir: mig, backupsDir: join(dir, 'backups') })
@@ -33,7 +33,7 @@ describe('Phase 133 - migration 0006', () => {
     writeFileSync(jp, JSON.stringify(full))
     const h2 = openDatabase({ file, migrationsDir: mig, backupsDir: join(dir, 'backups') })
     try {
-      expect(h2.sqlite.pragma('user_version', { simple: true })).toBe(before + 2) // 0006 and 0007 (Phase 137) both apply
+      expect(h2.sqlite.pragma('user_version', { simple: true })).toBe(before + 3) // 0006, 0007 (Phase 137) and 0008 (Phase 150) all apply
       expect(h2.sqlite.prepare('SELECT COUNT(*) AS n FROM bills').get()).toEqual({ n: 3 })
       expect(h2.sqlite.prepare('SELECT COUNT(*) AS n FROM sync_record_state').get()).toEqual({ n: 0 })
       expect(h2.sqlite.prepare('SELECT COUNT(*) AS n FROM sync_aside').get()).toEqual({ n: 0 })

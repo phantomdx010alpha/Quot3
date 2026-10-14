@@ -76,6 +76,49 @@ function b64urlDecode(raw: string): string {
   return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
 }
 
+// ---- Phase 146: History order = invoice (PO) number, newest (highest) first ----
+
+/** Splits a PO number like `AV-0748` into prefix `AV-` and the NUMERIC part (a canonical digit string, no leading zeros). The numeric part is the LAST run of digits; a number without digits is malformed (`num` null). */
+export function parseInvoiceNumber(po: string): { prefix: string; num: string | null } {
+  const m = /^(.*?)(\d+)\D*$/.exec(po.trim())
+  if (!m) return { prefix: po.trim(), num: null }
+  return { prefix: m[1]!, num: m[2]!.replace(/^0+(?=\d)/, '') }
+}
+
+/** Digit strings compared as numbers without float maths (longer = bigger, then lexicographic). */
+function cmpDigits(a: string, b: string): number {
+  if (a.length !== b.length) return a.length - b.length
+  return a < b ? -1 : a > b ? 1 : 0
+}
+
+/**
+ * Phase 146 comparator for `Array.sort`: highest invoice number first (so `10` before `9`, `AV-0749` before `AV-0748`);
+ * same number with different prefixes: prefix A-Z, then newer date first; malformed numbers (no digits) go last, by date newest first.
+ * Deterministic (final tie-break on id).
+ */
+export function compareByInvoiceNumber(a: Pick<BillListItem, 'poNumber' | 'billDate' | 'id'>, b: Pick<BillListItem, 'poNumber' | 'billDate' | 'id'>): number {
+  const pa = parseInvoiceNumber(a.poNumber)
+  const pb = parseInvoiceNumber(b.poNumber)
+  const byDateDesc = (): number => (a.billDate < b.billDate ? 1 : a.billDate > b.billDate ? -1 : 0)
+  if (pa.num === null || pb.num === null) {
+    if (pa.num !== null) return -1
+    if (pb.num !== null) return 1
+    return byDateDesc() || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+  }
+  const n = cmpDigits(pb.num, pa.num) // descending
+  if (n !== 0) return n
+  const pre = pa.prefix.toUpperCase()
+  const pre2 = pb.prefix.toUpperCase()
+  if (pre !== pre2) return pre < pre2 ? -1 : 1
+  if (pa.prefix !== pb.prefix) return pa.prefix < pb.prefix ? -1 : 1
+  return byDateDesc() || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+}
+
+/** A new array sorted by `compareByInvoiceNumber` (the input is not changed). */
+export function sortBillsByInvoiceNumber<T extends Pick<BillListItem, 'poNumber' | 'billDate' | 'id'>>(items: readonly T[]): T[] {
+  return [...items].sort(compareByInvoiceNumber)
+}
+
 export type ListKey = 'ArrowUp' | 'ArrowDown' | 'Home' | 'End' | 'PageUp' | 'PageDown'
 
 export function isListKey(key: string): key is ListKey {

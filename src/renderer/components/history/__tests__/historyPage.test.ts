@@ -285,3 +285,13 @@ describe('History page layout (Phase 41)', () => {
     expect(useHistoryStore.getState().focusBills).toBeNull()
   })
 })
+
+describe('History order (Phase 146)', () => {
+  it('the bills of a date are listed by invoice number, highest first, whatever order the data layer returned', async () => {
+    const mk = (n: number, po: string) => ({ ...mkBill(n, '2026-10-06', `Party ${n}`, '1'), poNumber: po })
+    bills = [mk(1, 'AV-0748'), mk(2, 'BR-0100'), mk(3, 'AV-0749'), mk(4, 'AV-0009'), mk(5, 'AV-0010')]
+    await mount()
+    expect(useHistoryStore.getState().bills.map((b) => b.poNumber)).toEqual(['BR-0100', 'AV-0749', 'AV-0748', 'AV-0010', 'AV-0009'])
+    expect(billRows().map((r) => r.slice(0, 7))).toEqual(['BR-0100', 'AV-0749', 'AV-0748', 'AV-0010', 'AV-0009'])
+  })
+})

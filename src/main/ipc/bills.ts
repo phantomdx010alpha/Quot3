@@ -14,7 +14,7 @@ const row = z
     id: z.string().min(1).max(64),
     idx: z.number().int().min(0).max(100000),
     nameRuns: z.array(run).max(500),
-    qty: dec, rate: dec, totalOverride: dec, gstRate: dec,
+    qty: z.string().max(200).nullable(), rate: dec, totalOverride: dec, gstRate: dec, // Phase 149: qty may be free text (Stock transfer)
     extras: z.record(z.string().max(64), extraCell),
     cellStyle: z.record(z.string().max(64), z.object({ hl: z.literal(1).optional() }).strict()).optional()
   })

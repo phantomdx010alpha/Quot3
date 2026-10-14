@@ -8,6 +8,7 @@ import { historyHooks } from './historyHooks'
 import { openPrint, printPayload } from './printActions'
 import { useSaveUiStore } from './saveUiStore'
 import { setPrerenderMode } from './imagePrerender'
+import { withOutputSide } from './sidePick'
 
 /**
  * Phase 30 - run a bottom-bar output action. Phase 31 implemented TSV, Phase 37 print, Phase 39 image. The stub branch below is now unreachable (every action has phase null) but kept for future actions.
@@ -27,7 +28,14 @@ export async function copyBillTsv(): Promise<boolean> {
   if (copying) return false
   if (useBillStore.getState().billId === null) { ui.announce('warn', 'Nothing to copy - open a bill first'); return false }
   historyHooks.selection?.flush()
-  const bill = useBillStore.getState().toBill()
+  // Phase 152: a Hybrid bill asks which side first; only that side's table is copied.
+  return withOutputSide(useBillStore.getState().toBill(), 'tsv', (b) => copyTsvOfBill(b), Promise.resolve(true))
+}
+
+/** The whole-bill text copy for ONE normal bill (Create's Ctrl+Shift+T after the side question, or a non-Hybrid bill). */
+export async function copyTsvOfBill(bill: Bill): Promise<boolean> {
+  const ui = useSaveUiStore.getState()
+  if (copying) return false
   if (!billHasContent(bill)) { ui.announce('warn', 'Nothing to copy yet'); return false }
   const api = bridge()?.clipboard
   if (!api) { ui.announce('danger', 'Could not copy: clipboard is not available'); return false }
@@ -58,8 +66,16 @@ export async function copyBillImage(mode: PrintMode): Promise<boolean> {
   return copyImageOfBill(useBillStore.getState().toBill(), mode)
 }
 
-/** Phase 42: the same image copy for any bill (History's Copy image). Reports through the save-status line like the Create page does. */
+/**
+ * Phase 42: the same image copy for any bill (History's Copy image). Reports through the save-status line like the Create page does.
+ * Phase 152: a Hybrid bill asks which side first; only that side is rendered.
+ */
 export async function copyImageOfBill(bill: Bill, mode: PrintMode): Promise<boolean> {
+  if (imaging) return false
+  return withOutputSide(bill, 'image', (b) => copyImageNow(b, mode), Promise.resolve(true))
+}
+
+async function copyImageNow(bill: Bill, mode: PrintMode): Promise<boolean> {
   const ui = useSaveUiStore.getState()
   if (imaging) return false
   if (!billHasContent(bill)) { ui.announce('warn', 'Nothing to copy yet'); return false }

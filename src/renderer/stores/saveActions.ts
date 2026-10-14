@@ -9,6 +9,7 @@ import { useSaveUiStore } from './saveUiStore'
 import { historyHooks } from './historyHooks'
 import { forgetDraft } from './draftAutosave'
 import { endSessionAfterSave } from './createSession'
+import { takeShownPoPreview } from './poPreview'
 
 /**
  * Phase 27 — Ctrl+S / palette "Save bill". Order: commit the typed-but-uncommitted cell text → tidy the party fields
@@ -64,6 +65,7 @@ export async function runSave(): Promise<SaveOutcome> {
   try {
     const s = useBillStore.getState()
     const existing = s.poNumber !== ''
+    const previewShown = existing ? '' : takeShownPoPreview()
     const res = await api.save({
       bill: {
         id: bill.id, party: bill.party, formatId: bill.formatId, extraCols: bill.extraCols,
@@ -85,7 +87,10 @@ export async function runSave(): Promise<SaveOutcome> {
     endSessionAfterSave() // Phase 70: the next Create visit is a blank bill
     void forgetDraft(bill.id) // Phase 29: a saved bill needs no draft
     void usePartyIndexStore.getState().load()
-    const msg = `Saved ${res.data.poNumber}`
+    // Phase 154: another window saved a bill first, so this one got the next free number instead of the one it showed.
+    const msg = previewShown !== '' && previewShown !== res.data.poNumber
+      ? `Saved as ${res.data.poNumber} (${previewShown} was already taken by another window)`
+      : `Saved ${res.data.poNumber}`
     notice(msg)
     ui.announce('ok', msg)
     useGridUiStore.getState().refocus?.()

@@ -5,6 +5,7 @@
 import type { FormatDef } from '../types'
 import { GST_FORMAT } from './gst'
 import { NON_GST_FORMAT } from './nonGst'
+import { STOCK_TRANSFER_FORMAT } from './stockTransfer'
 
 const formats = new Map<string, FormatDef>()
 const builtInIds = new Set<string>()
@@ -70,7 +71,7 @@ export function resolveFormat(id: string | null | undefined): FormatDef {
   return (id && formats.get(id)) || getFormat(defaultFormatId())
 }
 
-for (const def of [NON_GST_FORMAT, GST_FORMAT]) {
+for (const def of [NON_GST_FORMAT, GST_FORMAT, STOCK_TRANSFER_FORMAT]) {
   registerFormat(def)
   builtInIds.add(def.id)
 }

@@ -131,6 +131,18 @@ describe('Phase 79 - bills.footer_extras_json / tail_rows_json', () => {
   })
 })
 
+describe('Phase 150 - bills.second_table_json', () => {
+  it('migration 0008 adds a TEXT NOT NULL column that defaults to the empty string (= no Hybrid second table)', () => {
+    const t = mk()
+    const sqlite = t.handle.sqlite
+    const cols = sqlite.prepare("PRAGMA table_info('bills')").all() as { name: string; type: string; notnull: number; dflt_value: string | null }[]
+    expect(cols.find((c) => c.name === 'second_table_json')).toMatchObject({ type: 'TEXT', notnull: 1, dflt_value: "''" })
+    const branch = sqlite.prepare('SELECT id FROM branches LIMIT 1').get() as { id: string }
+    sqlite.prepare(`INSERT INTO bills (id, branch_id, po_seq, po_number, party_snapshot_json, format_id, bill_date, created_at, updated_at) VALUES ('h1', ?, 1, 'Q3-0001', '{}', 'non_gst', '2026-10-10', 'x', 'x')`).run(branch.id)
+    expect(sqlite.prepare("SELECT second_table_json AS s FROM bills WHERE id='h1'").get()).toEqual({ s: '' })
+  })
+})
+
 describe('local branch seed', () => {
   it('seeds exactly one local branch with prefix Q3- and a PO counter at 1', () => {
     const t = mk()

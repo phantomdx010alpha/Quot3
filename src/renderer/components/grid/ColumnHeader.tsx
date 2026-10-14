@@ -3,7 +3,8 @@ import type { GridColumn } from '@shared/gridModel'
 import { MAX_EXTRA_HEADER_LEN } from '@shared/extraCols'
 import { MIN_COL_WIDTH_PX } from '@shared/columnWidths'
 import { useColWidthStore } from '../../stores/columnWidthStore'
-import { useBillStore } from '../../stores/billStore'
+import { tableApi } from '../../stores/tableApi'
+import { useTableSide } from './tableSide'
 import { useExtraColUiStore } from '../../stores/extraColUiStore'
 import { commitRenameExtraCol, requestRenameExtraCol } from '../../stores/extraColActions'
 import { renderProbe } from './renderProbe'
@@ -36,14 +37,13 @@ function HeaderEditor({ col }: { col: GridColumn }): React.JSX.Element {
 }
 
 /** Drag handle on a header's right edge: drag = resize (live), double-click = back to the default width. Mouse only; the keyboard path is Ctrl+Alt+] / [ and the palette. */
-function startResize(e: React.MouseEvent<HTMLElement>, key: string): void {
+function startResize(e: React.MouseEvent<HTMLElement>, key: string, formatId: string): void {
   if (e.button !== 0) return
   e.preventDefault()
   e.stopPropagation()
   const cell = (e.currentTarget as HTMLElement).parentElement as HTMLElement
   const startX = e.clientX
   const startW = cell.getBoundingClientRect().width || MIN_COL_WIDTH_PX
-  const formatId = useBillStore.getState().formatId
   const move = (ev: MouseEvent): void => useColWidthStore.getState().set(formatId, key, startW + (ev.clientX - startX))
   const up = (): void => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up) }
   window.addEventListener('mousemove', move)
@@ -53,15 +53,17 @@ function startResize(e: React.MouseEvent<HTMLElement>, key: string): void {
 export const ColumnHeader = memo(function ColumnHeader({ columns }: { columns: readonly GridColumn[] }): React.JSX.Element {
   if (renderProbe.enabled) renderProbe.headers++
   const renameKey = useExtraColUiStore((s) => s.renameKey)
+  const side = useTableSide()
+  const formatId = (): string => tableApi(side).formatId
   return (
     <div role="row" aria-rowindex={1} className="q3-gh">
       {columns.map((c) => (
         <div key={c.key} role="columnheader" className={`q3-gh__cell q3-gc--${c.align}${c.isExtra ? ' q3-gh__cell--extra' : ''}`} title={c.label} data-col={c.key}
           onDoubleClick={c.isExtra ? () => requestRenameExtraCol(c.key) : undefined}>
-          {c.isExtra && renameKey === c.key ? <HeaderEditor col={c} /> : <span className="q3-gc__text">{c.label}</span>}
+          {c.isExtra && renameKey === c.key && side === 'primary' ? <HeaderEditor col={c} /> : <span className="q3-gc__text">{c.label}</span>}
           <span className="q3-gh__resize" role="separator" aria-orientation="vertical" aria-label={`Resize column ${c.label}`} data-resize={c.key}
-            onMouseDown={(e) => startResize(e, c.key)}
-            onDoubleClick={(e) => { e.stopPropagation(); useColWidthStore.getState().reset(useBillStore.getState().formatId, c.key) }} />
+            onMouseDown={(e) => startResize(e, c.key, formatId())}
+            onDoubleClick={(e) => { e.stopPropagation(); useColWidthStore.getState().reset(formatId(), c.key) }} />
         </div>
       ))}
     </div>

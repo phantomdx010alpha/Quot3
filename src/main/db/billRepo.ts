@@ -29,19 +29,19 @@ export function createBillRepo(sqlite: Database.Database) {
     'SELECT id, branch_id AS branchId, po_seq AS poSeq, po_number AS poNumber, revision, created_at AS createdAt, deleted_at AS deletedAt FROM bills WHERE id = ?'
   )
   const insertBillStmt = sqlite.prepare(
-    `INSERT INTO bills (id, branch_id, po_seq, po_number, party_id, party_snapshot_json, format_id, extra_cols_json, paper_override, round_off, footer_extras_json, tail_rows_json, bill_date,
+    `INSERT INTO bills (id, branch_id, po_seq, po_number, party_id, party_snapshot_json, format_id, extra_cols_json, paper_override, round_off, footer_extras_json, tail_rows_json, second_table_json, bill_date,
        totals_json, item_row_count, revision, created_at, updated_at, deleted_at, sync_state)
-     VALUES (@id, @branchId, @poSeq, @poNumber, @partyId, @partySnapshotJson, @formatId, @extraColsJson, @paperOverride, @roundOff, @footerExtrasJson, @tailRowsJson, @billDate,
+     VALUES (@id, @branchId, @poSeq, @poNumber, @partyId, @partySnapshotJson, @formatId, @extraColsJson, @paperOverride, @roundOff, @footerExtrasJson, @tailRowsJson, @secondTableJson, @billDate,
        @totalsJson, @itemRowCount, @revision, @createdAt, @updatedAt, @deletedAt, @syncState)`
   )
   const updateBillStmt = sqlite.prepare(
     `UPDATE bills SET party_id = @partyId, party_snapshot_json = @partySnapshotJson, format_id = @formatId, extra_cols_json = @extraColsJson,
-       paper_override = @paperOverride, round_off = @roundOff, footer_extras_json = @footerExtrasJson, tail_rows_json = @tailRowsJson, bill_date = @billDate, totals_json = @totalsJson, item_row_count = @itemRowCount,
+       paper_override = @paperOverride, round_off = @roundOff, footer_extras_json = @footerExtrasJson, tail_rows_json = @tailRowsJson, second_table_json = @secondTableJson, bill_date = @billDate, totals_json = @totalsJson, item_row_count = @itemRowCount,
        revision = @revision, updated_at = @updatedAt WHERE id = @id`
   )
   const recordStmt = sqlite.prepare(
     `SELECT id, branch_id AS branchId, po_seq AS poSeq, po_number AS poNumber, party_id AS partyId, party_snapshot_json AS partySnapshotJson,
-       format_id AS formatId, extra_cols_json AS extraColsJson, paper_override AS paperOverride, round_off AS roundOff, footer_extras_json AS footerExtrasJson, tail_rows_json AS tailRowsJson, bill_date AS billDate, totals_json AS totalsJson,
+       format_id AS formatId, extra_cols_json AS extraColsJson, paper_override AS paperOverride, round_off AS roundOff, footer_extras_json AS footerExtrasJson, tail_rows_json AS tailRowsJson, second_table_json AS secondTableJson, bill_date AS billDate, totals_json AS totalsJson,
        item_row_count AS itemRowCount, revision, created_at AS createdAt, updated_at AS updatedAt, deleted_at AS deletedAt, sync_state AS syncState,
        legacy_ref AS legacyRef, import_batch_id AS importBatchId, import_fingerprint AS importFingerprint
      FROM bills WHERE id = ?`
@@ -81,8 +81,8 @@ export function createBillRepo(sqlite: Database.Database) {
     getRows: (id: string): unknown[] => rowsStmt.all(id),
     /** Marks one bill deleted (trash). Returns whether a live bill was found. */
     softDelete: (id: string, at: string): boolean => softDeleteStmt.run({ id, at }).changes > 0,
-    insertBill: (b: BillRecord): void => { insertBillStmt.run({ ...b, roundOff: b.roundOff ?? 0, footerExtrasJson: b.footerExtrasJson ?? '{}', tailRowsJson: b.tailRowsJson ?? '[]' }) },
-    updateBill: (b: BillRecord): void => { updateBillStmt.run({ ...b, roundOff: b.roundOff ?? 0, footerExtrasJson: b.footerExtrasJson ?? '{}', tailRowsJson: b.tailRowsJson ?? '[]' }) },
+    insertBill: (b: BillRecord): void => { insertBillStmt.run({ ...b, roundOff: b.roundOff ?? 0, footerExtrasJson: b.footerExtrasJson ?? '{}', tailRowsJson: b.tailRowsJson ?? '[]', secondTableJson: b.secondTableJson ?? '' }) },
+    updateBill: (b: BillRecord): void => { updateBillStmt.run({ ...b, roundOff: b.roundOff ?? 0, footerExtrasJson: b.footerExtrasJson ?? '{}', tailRowsJson: b.tailRowsJson ?? '[]', secondTableJson: b.secondTableJson ?? '' }) },
     replaceRows: (billId: string, rows: readonly BillRowRecord[]): void => {
       deleteRowsStmt.run(billId)
       for (const r of rows) insertRowStmt.run(r)

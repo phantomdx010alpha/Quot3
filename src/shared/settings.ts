@@ -13,6 +13,11 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'print.rupeeOnTotal': true,
   /** 0.1.6 (testing): true = the printed page and copied image leave out the Adjustments total row (Create screen unchanged). */
   'print.hideAdjustmentsTotal': false,
+  /** Phase 148: fit the bill to the page (scale type and rows UP, capped, measured). true = on (default); false = exactly the old size. */
+  'print.fitToPage': true,
+  /** Phase 148: the largest enlargement per paper (1 = none, 1.35 = 35% bigger). */
+  'print.fitMaxA5': 1.35,
+  'print.fitMaxA4': 1.25,
   /** Print without the system dialog - only honoured when `print.printer` is also set. */
   'print.silent': false,
   /** Windows printer name for silent printing; '' = system default / dialog. */

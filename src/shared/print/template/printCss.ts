@@ -85,6 +85,17 @@ export function densityCss(paper: Paper, tier: number): string {
   return `:root{--print-fs:${t.base}pt;--print-fs-head:${t.head}pt;--print-pad-y:${t.padY}mm}`
 }
 
-export function printCss(paper: Paper, src: FontSource, density = 0): string {
-  return [fontFaceCss(src), pageCss(paper), tokensCss(paper), densityCss(paper, density), BASE.trim()].filter(Boolean).join('\n')
+/**
+ * Phase 148: the fit-to-page override. `scale` multiplies the type sizes and the cell padding (one factor, so row height scales with it).
+ * Only for the normal style (an A4 density tier > 0 is already a squeeze, never enlarge it). `scale <= 1` / undefined = '' = byte-identical to before.
+ */
+export function fitCss(paper: Paper, scale: number | undefined, density = 0): string {
+  if (scale === undefined || !Number.isFinite(scale) || scale <= 1 || density > 0) return ''
+  const pt = PRINT_FONT_PT[paper]
+  const f = (n: number): string => String(Math.round(n * scale * 1000) / 1000)
+  return `:root{--print-fs:${f(pt.base)}pt;--print-fs-head:${f(pt.head)}pt;--print-fs-party:${f(pt.party)}pt;--print-pad-y:${f(0.3)}mm}`
+}
+
+export function printCss(paper: Paper, src: FontSource, density = 0, fit?: number): string {
+  return [fontFaceCss(src), pageCss(paper), tokensCss(paper), densityCss(paper, density), fitCss(paper, fit, density), BASE.trim()].filter(Boolean).join('\n')
 }

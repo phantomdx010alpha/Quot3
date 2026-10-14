@@ -1,11 +1,12 @@
 import { Drop, HighlighterCircle, TextB, TextAa, Eraser } from '@phosphor-icons/react'
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react'
-import { primaryKeys, type ActionId } from '@shared/shortcuts'
+import { primaryKeys } from '@shared/shortcuts'
 import type { FormatKind } from '@shared/richtext/format'
+import { toolbarName, type ToolbarNameId } from '@shared/toolbarNames'
 import { IconButton } from '../ui'
 import { useGridUiStore } from '../../stores/gridUiStore'
 
-const ITEMS: ReadonlyArray<{ kind: FormatKind; label: string; icon: PhosphorIcon; action: ActionId }> = [
+const ITEMS: ReadonlyArray<{ kind: FormatKind; label: string; icon: PhosphorIcon; action: ToolbarNameId }> = [
   { kind: 'redBold', label: 'Red + Bold', icon: Drop, action: 'grid.redBold' },
   { kind: 'bold', label: 'Bold', icon: TextB, action: 'grid.bold' },
   { kind: 'clear', label: 'Clear formatting', icon: Eraser, action: 'grid.clearFormat' },
@@ -25,11 +26,11 @@ export function FormatToolbar(): React.JSX.Element {
       {ITEMS.map((it) => {
         const keys = primaryKeys(it.action)
         return (
-          <IconButton key={it.kind} icon={it.icon} label={it.label} {...(keys ? { shortcut: keys } : {})} tabIndex={-1} disabled={!hasGrid}
+          <IconButton key={it.kind} icon={it.icon} label={it.label} text={toolbarName(it.action)} {...(keys ? { shortcut: keys } : {})} tabIndex={-1} disabled={!hasGrid}
             onMouseDown={(e) => e.preventDefault()} onClick={() => run(it.kind)} />
         )
       })}
-      <IconButton icon={TextAa} label="Format palette" {...(primaryKeys('grid.formatPalette') ? { shortcut: primaryKeys('grid.formatPalette') as string } : {})} tabIndex={-1} disabled={!hasGrid}
+      <IconButton icon={TextAa} label="Format palette" text={toolbarName('grid.formatPalette')} {...(primaryKeys('grid.formatPalette') ? { shortcut: primaryKeys('grid.formatPalette') as string } : {})} tabIndex={-1} disabled={!hasGrid}
         onMouseDown={(e) => e.preventDefault()} onClick={() => useGridUiStore.getState().openFormatPalette?.()} />
     </div>
   )

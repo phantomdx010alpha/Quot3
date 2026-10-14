@@ -129,7 +129,17 @@ installCrashHandlers({ proc: process, app, log, state: crashState, home: homedir
 
 // Phase 68: start-up timing (ms since the process started); one log line is written when the page has loaded.
 const startup = createStartupMarks(() => process.uptime() * 1000)
-let mainWindow: BrowserWindow | null = null
+// Phase 154: several windows (instances) share this ONE main process, one database handle and one PO counter, so two windows can never
+// be given the same PO number (the number is allocated inside the save transaction, `allocatePoNumber`). Events go to every window.
+const windows = new Set<BrowserWindow>()
+const broadcast = (channel: string, payload: unknown): void => {
+  for (const w of windows) if (!w.isDestroyed() && !w.webContents.isDestroyed()) w.webContents.send(channel, payload)
+}
+/** The window that asked to close and is waiting for its unsaved-changes answer (`app:confirmQuit`). */
+let askingToClose: BrowserWindow | null = null
+const confirmedClose = new WeakSet<BrowserWindow>()
+let openWindowRef: ((first: boolean) => BrowserWindow) | null = null
+const openWindow = (first: boolean): void => { openWindowRef?.(first) }
 /** Phase 28: the window close button is held until the renderer's unsaved-changes guard answers (`app:confirmQuit`). */
 let quitConfirmed = false
 
@@ -137,11 +147,10 @@ let quitConfirmed = false
 if (!app.requestSingleInstanceLock()) {
   app.quit()
 } else {
+  // Phase 154: launching Quot3 again opens one more window in this process (no second process, so one database writer).
   app.on('second-instance', () => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore()
-      mainWindow.focus()
-    }
+    if (windows.size === 0) return
+    openWindow(false)
   })
 
   void app.whenReady().then(() => {
@@ -238,14 +247,14 @@ if (!app.requestSingleInstanceLock()) {
     const itemRules = createItemRulesRepo(dbh.sqlite, { onChange: (r) => { outbox.capture({ billId: r.id, revision: ITEM_RULE_REVISION, op: r.deletedAt ? 'delete' : 'upsert' }); pushSwitch.kick() } })
     // Phase 55: the push worker sends captured changes (encrypted, one copy per other branch) every 15 s and shortly after a save. Idle while sync is not activated.
     const pushWorker = createPushWorker(
-      { outbox: outbox.repo, bills: billRepo, itemRules, credentials: () => license.credentials(), encryptionKey: () => license.encryptionKey(), recipients: () => license.recipients(), makeTransport: (c) => new SupabaseTransport(c), log, progress: (p) => { mainWindow?.webContents.send('sync:progress', p) } }
+      { outbox: outbox.repo, bills: billRepo, itemRules, credentials: () => license.credentials(), encryptionKey: () => license.encryptionKey(), recipients: () => license.recipients(), makeTransport: (c) => new SupabaseTransport(c), log, progress: (p) => { broadcast('sync:progress', p) } }
     )
     app.on('will-quit', () => pushWorker.stop())
     // Phase 56: the pull worker brings in changes from other branches (every 30 s). It never touches the bill open in the editor.
     const remoteRepo = createRemoteApplyRepo(dbh.sqlite)
     const remote = createRemoteApplier({
       repo: remoteRepo, sync: syncState, localBranchId: () => getLocalBranch(dbh.sqlite).id, log,
-      emit: (channel, payload) => { mainWindow?.webContents.send(channel, payload) }
+      emit: (channel, payload) => { broadcast(channel, payload) }
     })
     // Phase 87: one-time repair - bills received before parties were created on receive get linked by exact normalised name.
     try {
@@ -257,13 +266,13 @@ if (!app.requestSingleInstanceLock()) {
     } catch (e) { log.warn('Could not relink received bills to parties', { err: e instanceof Error ? e.message : String(e) }) }
     const pullWorker = createPullWorker({
       sync: syncState, repo: remoteRepo, applier: remote, itemRules: createItemRuleApplier({ rules: itemRules, localBranchId: () => getLocalBranch(dbh.sqlite).id, log }), credentials: () => license.credentials(), encryptionKey: () => license.encryptionKey(),
-      makeTransport: (c) => new SupabaseTransport(c), emit: (channel, payload) => { mainWindow?.webContents.send(channel, payload) }, log,
-      progress: (p) => { mainWindow?.webContents.send('sync:progress', p) }
+      makeTransport: (c) => new SupabaseTransport(c), emit: (channel, payload) => { broadcast(channel, payload) }, log,
+      progress: (p) => { broadcast('sync:progress', p) }
     })
     app.on('will-quit', () => pullWorker.stop())
     // Phase 133: set-aside records (needs a newer app) cannot be edited or deleted locally.
     const syncRecords = createSyncRecordRepo(dbh.sqlite)
-    const send = (channel: string, payload: unknown): void => { mainWindow?.webContents.send(channel, payload) }
+    const send = (channel: string, payload: unknown): void => { broadcast(channel, payload) }
     const sharedOn = (): boolean => sharedActivation.isActivated()
     const sharedClockOffset = (): number | null => readClock(syncState).offsetMs
 
@@ -458,7 +467,7 @@ if (!app.requestSingleInstanceLock()) {
     // Phase 62: updates. Checks run in the background; the install only ever starts from the owner's click (and is refused while a bill is unsaved).
     const updates = createUpdateService({
       port: createElectronUpdaterPort(), settings, version: app.getVersion(), packaged: app.isPackaged, log,
-      emit: (channel, payload) => { mainWindow?.webContents.send(channel, payload) },
+      emit: (channel, payload) => { broadcast(channel, payload) },
       prepareInstall: () => { quitConfirmed = true },
       // 0.1.5 choose app version: GitHub release list, a 'pre-rollback' backup before the install, and the database's own format number.
       releases: createGithubReleaseFeed(), backup: { create: () => backup.create('pre-rollback') }, dbSchema: () => Math.max(dbh.openedVersion, dbh.schemaVersion),
@@ -475,7 +484,7 @@ if (!app.requestSingleInstanceLock()) {
         devMode: isDev
       },
       log,
-      themes: createThemeService({ dir: layout.themes, log, settings, openPath: (d) => shell.openPath(d), applyTitleBar: (o) => { if (process.platform === 'win32') mainWindow?.setTitleBarOverlay(o) } }),
+      themes: createThemeService({ dir: layout.themes, log, settings, openPath: (d) => shell.openPath(d), applyTitleBar: (o) => { if (process.platform === 'win32') for (const w of windows) if (!w.isDestroyed()) w.setTitleBarOverlay(o) } }),
       settings,
       appSettings,
       backup,
@@ -495,13 +504,13 @@ if (!app.requestSingleInstanceLock()) {
       customers,
       partyImport,
       legacyImport,
-      legacyDeps: { picker: createElectronLegacyPicker(), writeText: writeReportFile, emit: (channel, payload) => { mainWindow?.webContents.send(channel, payload) } },
+      legacyDeps: { picker: createElectronLegacyPicker(), writeText: writeReportFile, emit: (channel, payload) => { broadcast(channel, payload) } },
       filePicker: createElectronFilePicker(),
       dashboard,
       dashboardLive,
       history,
       items,
-      itemsEmit: (channel, payload) => { mainWindow?.webContents.send(channel, payload) },
+      itemsEmit: (channel, payload) => { broadcast(channel, payload) },
       trash,
       revisions,
       bills,
@@ -509,6 +518,14 @@ if (!app.requestSingleInstanceLock()) {
       print: printService,
       image: imageService,
       confirmQuit: () => {
+        // Phase 154: with several windows open, only the window that asked is closed; the last one quits the app.
+        const w = askingToClose
+        askingToClose = null
+        if (w && !w.isDestroyed() && windows.size > 1) {
+          confirmedClose.add(w)
+          w.close()
+          return
+        }
         quitConfirmed = true
         app.quit()
       },
@@ -524,40 +541,59 @@ if (!app.requestSingleInstanceLock()) {
       },
       isTrustedSender: (url) => isTrustedUrl(url, trust)
     })
-    mainWindow = createMainWindow({
-      preloadPath: join(__dirname, '../preload/index.js'),
-      indexHtml: join(__dirname, '../renderer/index.html'),
-      trust,
-      isDev,
-      log,
-      iconPath: resolveAppIcon({ resourcesPath: process.resourcesPath, appPath: app.getAppPath(), platform: process.platform })
-    })
-    mainWindow.once('ready-to-show', () => startup.mark('window_shown'))
-    mainWindow.webContents.once('did-finish-load', () => {
-      startup.mark('page_loaded')
-      log.info('Start-up timing (ms since the process started)', startup.report())
-    })
-    mainWindow.on('close', (e) => {
-      const wc = mainWindow?.webContents
-      if (quitConfirmed || !wc || wc.isDestroyed() || wc.isCrashed()) return
-      e.preventDefault()
-      wc.send('app:before-quit', {})
-    })
-    // Phase 29: once the page has loaded, tell it which unsaved bills survived the last run (it also pulls `drafts:list` on mount,
-    // so whichever side is ready first wins; the event covers a renderer that subscribed late).
-    mainWindow.webContents.once('did-finish-load', () => {
-      try {
-        const recoverable = drafts.list()
-        if (recoverable.length > 0) mainWindow?.webContents.send('drafts:recoverable', { drafts: recoverable })
-      } catch (err) {
-        log.warn('Could not list recoverable drafts', { err })
+    const openWindow = (first: boolean): BrowserWindow => {
+      const win = createMainWindow({
+        preloadPath: join(__dirname, '../preload/index.js'),
+        indexHtml: join(__dirname, '../renderer/index.html'),
+        trust,
+        isDev,
+        log,
+        iconPath: resolveAppIcon({ resourcesPath: process.resourcesPath, appPath: app.getAppPath(), platform: process.platform })
+      })
+      // A further window opens slightly offset from the one in front, so it is visibly a new window.
+      if (!first) {
+        const front = BrowserWindow.getFocusedWindow() ?? [...windows].find((w) => !w.isDestroyed())
+        if (front && !front.isMaximized() && !front.isFullScreen()) {
+          const bounds = front.getBounds()
+          win.setPosition(bounds.x + 32, bounds.y + 32)
+        }
       }
-    })
-    mainWindow.on('unresponsive', () => log.warn('The window is not responding'))
-    mainWindow.on('responsive', () => log.info('The window responds again'))
-    mainWindow.on('closed', () => {
-      mainWindow = null
-    })
+      windows.add(win)
+      if (first) {
+        win.once('ready-to-show', () => startup.mark('window_shown'))
+        win.webContents.once('did-finish-load', () => {
+          startup.mark('page_loaded')
+          log.info('Start-up timing (ms since the process started)', startup.report())
+        })
+        // Phase 29: once the page has loaded, tell it which unsaved bills survived the last run (it also pulls `drafts:list` on mount,
+        // so whichever side is ready first wins). Phase 154: ONLY the first window is offered them; a later window would offer the
+        // live drafts of the windows that are open right now.
+        win.webContents.once('did-finish-load', () => {
+          try {
+            const recoverable = drafts.list()
+            if (recoverable.length > 0) win.webContents.send('drafts:recoverable', { drafts: recoverable })
+          } catch (err) {
+            log.warn('Could not list recoverable drafts', { err })
+          }
+        })
+      }
+      win.on('close', (e) => {
+        const wc = win.webContents
+        if (quitConfirmed || confirmedClose.has(win) || wc.isDestroyed() || wc.isCrashed()) return
+        e.preventDefault()
+        askingToClose = win
+        wc.send('app:before-quit', {})
+      })
+      win.on('unresponsive', () => log.warn('The window is not responding'))
+      win.on('responsive', () => log.info('The window responds again'))
+      win.on('closed', () => {
+        windows.delete(win)
+        if (askingToClose === win) askingToClose = null
+      })
+      return win
+    }
+    openWindowRef = openWindow
+    openWindow(true)
     if (process.env['QUOT3_SMOKE_EXIT'] === '1') setTimeout(() => { quitConfirmed = true; app.quit() }, 2500)
   })
 

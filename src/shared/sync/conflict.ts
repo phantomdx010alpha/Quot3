@@ -8,11 +8,11 @@ import type { BillRecord, BillRowRecord } from '../billModel'
  */
 
 /** The parts of a bill that a person can see or edit. Version bookkeeping (revision, times, sync state, totals cache) is not content. */
-type ContentBill = Pick<BillRecord, 'branchId' | 'poSeq' | 'poNumber' | 'partySnapshotJson' | 'formatId' | 'extraColsJson' | 'paperOverride' | 'roundOff' | 'footerExtrasJson' | 'tailRowsJson' | 'billDate' | 'deletedAt'>
+type ContentBill = Pick<BillRecord, 'branchId' | 'poSeq' | 'poNumber' | 'partySnapshotJson' | 'formatId' | 'extraColsJson' | 'paperOverride' | 'roundOff' | 'footerExtrasJson' | 'tailRowsJson' | 'secondTableJson' | 'billDate' | 'deletedAt'>
 type ContentRow = Pick<BillRowRecord, 'idx' | 'nameRunsJson' | 'namePlain' | 'qty' | 'rate' | 'totalOverride' | 'gstRate' | 'extrasJson' | 'cellStyleJson'>
 
 const billKey = (b: ContentBill): string =>
-  JSON.stringify([b.branchId, b.poSeq, b.poNumber, b.partySnapshotJson, b.formatId, b.extraColsJson, b.paperOverride, b.roundOff ?? 0, b.footerExtrasJson ?? '{}', b.tailRowsJson ?? '[]', b.billDate, b.deletedAt !== null])
+  JSON.stringify([b.branchId, b.poSeq, b.poNumber, b.partySnapshotJson, b.formatId, b.extraColsJson, b.paperOverride, b.roundOff ?? 0, b.footerExtrasJson ?? '{}', b.tailRowsJson ?? '[]', b.secondTableJson ?? '', b.billDate, b.deletedAt !== null])
 const rowKey = (r: ContentRow): string =>
   JSON.stringify([r.idx, r.nameRunsJson, r.namePlain, r.qty, r.rate, r.totalOverride, r.gstRate, r.extrasJson, r.cellStyleJson])
 

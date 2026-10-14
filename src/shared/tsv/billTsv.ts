@@ -31,9 +31,15 @@ export function billToRows(bill: Bill): string[][] {
   const totals = computeBill(format, bill.rows, getBillOptions(bill))
   const rows: string[][] = []
   const p = bill.party
-  if (p.name.trim()) rows.push([p.name.trim()])
-  if (p.phone.trim()) rows.push(['Phone', p.phone.trim()])
-  if (p.transport.trim()) rows.push(['Transport', p.transport.trim()])
+  if (format.partyMode === 'branch') {
+    // Phase 149: Stock transfer: the title and the branch the stock comes from (no phone / transport).
+    if (format.docTitle) rows.push([format.docTitle])
+    if (p.name.trim()) rows.push(['From branch', p.name.trim()])
+  } else {
+    if (p.name.trim()) rows.push([p.name.trim()])
+    if (p.phone.trim()) rows.push(['Phone', p.phone.trim()])
+    if (p.transport.trim()) rows.push(['Transport', p.transport.trim()])
+  }
   if (rows.length > 0) rows.push([])
   rows.push(cols.map((c) => c.label))
   for (const d of totals.display) {

@@ -1,10 +1,11 @@
 import { billHasContent } from '@shared/tsv/billTsv'
 import type { PrintDecideInput, Quot3Bridge } from '@shared/ipc'
 import { printDialogKey, type DialogKeyEvent, type ForcedPaper } from '@shared/print/printFlow'
-import type { Bill, PrintMode } from '@shared/types'
+import type { Bill, HybridSide, PrintMode } from '@shared/types'
 import { useBillStore } from './billStore'
 import { useGridUiStore } from './gridUiStore'
 import { historyHooks } from './historyHooks'
+import { withOutputSide } from './sidePick'
 import { usePrintUiStore } from './printUiStore'
 import { useSaveUiStore } from './saveUiStore'
 import { useHistoryStore } from './historyStore'
@@ -61,12 +62,21 @@ async function decide(): Promise<void> {
   }
 }
 
-/** Phase 42: open the dialog for a bill that is NOT the one on the Create page (History's Print / Open PDF). Same dialog, same rules. */
+/**
+ * Phase 42: open the dialog for a bill that is NOT the one on the Create page (History's Print / Open PDF). Same dialog, same rules.
+ * Phase 152: a bill in the Hybrid view first asks "GST side or non-GST side?" and the dialog then opens for ONLY that side (a normal
+ * bill: fit-to-page, the adjustments setting etc. apply as usual). Returns true when the dialog (or the side question) opened.
+ */
 export function openPrintForBill(bill: Bill, mode: PrintMode, opts: { pdf?: boolean; openAfterSave?: boolean } = {}): boolean {
+  if (ui().open) return false
+  return withOutputSide(bill, opts.pdf ? 'pdf' : 'print', (b, side) => openPrintDialog(b, mode, opts, side), true)
+}
+
+function openPrintDialog(bill: Bill, mode: PrintMode, opts: { pdf?: boolean; openAfterSave?: boolean }, side: HybridSide | null): boolean {
   const announce = useSaveUiStore.getState().announce
   if (ui().open) return false
-  if (!billHasContent(bill)) { announce('warn', 'Nothing to print yet'); return false }
-  ui().set({ open: true, mode, bill, forced: undefined, info: null, loading: true, measuring: false, printing: false, saving: false, autoPdf: opts.pdf === true, openAfterSave: opts.openAfterSave === true, acked: false, askAck: false, error: '' })
+  if (!billHasContent(bill)) { announce('warn', side ? `Nothing to print on the ${side === 'gst' ? 'GST' : 'non-GST'} side yet` : 'Nothing to print yet'); return false }
+  ui().set({ open: true, mode, bill, side, forced: undefined, info: null, loading: true, measuring: false, printing: false, saving: false, autoPdf: opts.pdf === true, openAfterSave: opts.openAfterSave === true, acked: false, askAck: false, error: '' })
   void decide()
   return true
 }
@@ -82,7 +92,7 @@ export function openPrint(mode: PrintMode, opts: { pdf?: boolean } = {}): boolea
 
 export function closePrint(): void {
   seq++
-  ui().set({ open: false, bill: null, info: null, loading: false, measuring: false, printing: false, saving: false, autoPdf: false, openAfterSave: false, error: '' })
+  ui().set({ open: false, bill: null, side: null, info: null, loading: false, measuring: false, printing: false, saving: false, autoPdf: false, openAfterSave: false, error: '' })
   useGridUiStore.getState().refocus?.()
   useHistoryStore.getState().focusBills?.() // Phase 42: on History the list gets the focus back (the port is null elsewhere)
 }

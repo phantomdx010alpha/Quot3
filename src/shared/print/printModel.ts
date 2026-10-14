@@ -79,13 +79,15 @@ export interface PrintRow {
 }
 
 export type PrintHeader =
-  | { kind: 'rough'; party: { name: string; phone: string; transport: string } }
+  | { kind: 'rough'; party: { name: string; phone: string; transport: string }; docTitle?: string }
   | {
       kind: 'professional'
       company: CompanyBlock
       party: { name: string; phone: string; transport: string; address: string }
       poNumber: string
       billDate: string
+      /** Phase 149: set for formats that are not a quotation (Stock transfer): the title shown, and the party is the branch the stock comes from. */
+      docTitle?: string
     }
 
 export interface PrintModel {
@@ -254,12 +256,15 @@ export function buildPrintModel(bill: Bill, mode: PrintMode, settings: PrintSett
 
   const p = bill.party
   const party3 = { name: p.name.trim(), phone: p.phone.trim(), transport: p.transport.trim() }
+  const docTitle = format.docTitle !== undefined && format.docTitle !== '' ? { docTitle: format.docTitle } : {}
+  const branchOnly = format.partyMode === 'branch' // Phase 149: the branch name only; phone / transport / address belong to parties
+  const party3b = branchOnly ? { name: party3.name, phone: '', transport: '' } : party3
   const header: PrintHeader =
     mode === 'rough'
-      ? { kind: 'rough', party: party3 }
+      ? { kind: 'rough', party: party3b, ...docTitle }
       : {
           kind: 'professional', company: resolveCompany(settings.company),
-          party: { ...party3, address: p.address.trim() }, poNumber: bill.poNumber, billDate: formatPrintDate(bill.billDate)
+          party: { ...party3b, address: branchOnly ? '' : p.address.trim() }, poNumber: bill.poNumber, billDate: formatPrintDate(bill.billDate), ...docTitle
         }
 
   return {

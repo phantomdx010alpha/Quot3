@@ -8,7 +8,7 @@ import type { Runs } from '../../types'
 import { printCss, type FontSource } from './printCss'
 
 /** Fonts plus (Phase 40) the A4 density tier to render at (0 = the normal style). */
-export type RenderOptions = FontSource & { density?: number }
+export type RenderOptions = FontSource & { density?: number; /** Phase 148: fit-to-page factor (>= 1; absent / 1 = the normal size). */ fit?: number }
 
 export function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
@@ -70,6 +70,11 @@ function roughHead(h: Extract<PrintModel['header'], { kind: 'rough' }>): string 
   const subs: string[] = []
   if (phone) subs.push(`<span><b>Phone:</b> ${escapeHtml(phone)}</span>`)
   if (transport) subs.push(`<span><b>Transport:</b> ${escapeHtml(transport)}</span>`)
+  if (h.docTitle) {
+    // Phase 149: a stock transfer: the title, then the branch the stock comes from.
+    const from = name ? `<p class="q3p-sub"><span><b>From branch:</b> ${escapeHtml(name)}</span></p>` : ''
+    return `<header class="q3p-head"><h1 class="q3p-party">${escapeHtml(h.docTitle)}</h1>${from}</header>`
+  }
   const party = name ? `<h1 class="q3p-party">${escapeHtml(name)}</h1>` : ''
   const sub = subs.length ? `<p class="q3p-sub">${subs.join('')}</p>` : ''
   return party || sub ? `<header class="q3p-head">${party}${sub}</header>` : ''
@@ -89,7 +94,8 @@ function proHead(h: Extract<PrintModel['header'], { kind: 'professional' }>): st
     p.phone ? `<p class="q3p-line"><b>Phone:</b> ${escapeHtml(p.phone)}</p>` : '',
     p.transport ? `<p class="q3p-line"><b>Transport:</b> ${escapeHtml(p.transport)}</p>` : ''
   ].join('')
-  const to = p.name || plines ? `<section class="q3p-to"><p class="q3p-to-label">Quotation for</p>${p.name ? `<h1 class="q3p-party">${escapeHtml(p.name)}</h1>` : ''}${plines}</section>` : ''
+  const label = h.docTitle ? `${h.docTitle} from` : 'Quotation for' // Phase 149
+  const to = p.name || plines ? `<section class="q3p-to"><p class="q3p-to-label">${escapeHtml(label)}</p>${p.name ? `<h1 class="q3p-party">${escapeHtml(p.name)}</h1>` : ''}${plines}</section>` : ''
   return `<header class="q3p-head"><div class="q3p-pro">${company}${meta}</div>${to}</header>`
 }
 
@@ -106,10 +112,10 @@ export function renderPrintHtml(m: PrintModel, opts: RenderOptions = {}): string
   const foot = m.footer.map((r) => (r.label !== undefined ? totalRowHtml(m.columns, r) : bodyRowHtml(m.columns, r))).join('')
   const tail = (m.tail ?? []).map((r) => bodyRowHtml(m.columns, r)).join('')
   const tailGroup = tail === '' ? '' : `<tbody class="q3p-tail">${tail}</tbody>`
-  const title = m.header.party.name || 'Quotation'
+  const title = m.header.docTitle || m.header.party.name || 'Quotation'
   return (
     `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${escapeHtml(title)}</title>` +
-    `<style>${printCss(m.paper.size, opts, opts.density ?? 0)}</style></head>` +
+    `<style>${printCss(m.paper.size, opts, opts.density ?? 0, opts.fit)}</style></head>` +
     `<body class="q3p q3p--${m.mode} q3p--${m.paper.size}" data-paper="${m.paper.size}" data-mode="${m.mode}"><main class="q3p-sheet">` +
     `${head}<table class="q3p-table">${colgroup}${thead}<tbody class="q3p-main">${rows}</tbody><tbody class="q3p-foot">${foot}</tbody>${tailGroup}</table></main></body></html>`
   )

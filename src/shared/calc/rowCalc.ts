@@ -16,6 +16,9 @@ export interface RowCalc {
 /** Does this format compute GST columns? Data-driven (never by format name). */
 export const formatHasGst = (format: FormatDef): boolean => format.columns.some((c) => c.key === 'gstAmt')
 
+/** Phase 149: does this format have any money at all (a Total column)? Stock transfer has none: no totals, no maths, no number checks. Data-driven. */
+export const formatHasMoney = (format: FormatDef): boolean => format.columns.some((c) => c.key === 'total')
+
 /**
  * D-M2 / D-M3.
  * total  = override (as typed, 2 dp) if set; else qty × rate rounded to 2 dp; else null (only one of qty/rate).
@@ -26,6 +29,11 @@ export const formatHasGst = (format: FormatDef): boolean => format.columns.some(
 export function calcRow(format: FormatDef, row: BillRow): RowCalc {
   const warnings: string[] = []
   const kind = classifyRow(row)
+  if (!formatHasMoney(format)) {
+    // Phase 149: qty is free text here and nothing is multiplied; only a missing name is worth a flag.
+    if (kind === 'item' && rowName(row) === '') warnings.push('MISSING_NAME')
+    return { total: null, gstAmt: null, amount: null, isOverride: false, auto: null, warnings }
+  }
   const isOverride = hasOverride(row)
   const qty = hasQty(row) ? tryD(row.qty) : null
   const rate = hasRate(row) ? tryD(row.rate) : null

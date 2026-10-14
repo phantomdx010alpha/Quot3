@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { buildPrintModel } from '@shared/print/printModel'
 import { decisionSummary } from '@shared/print/printFlow'
+import { sideLabel } from '@shared/hybrid/hybridOutput'
 import { PAPER_MM } from '@shared/print/printConstants'
 import { renderPrintHtml } from '@shared/print/template/renderHtml'
 import { Button, Dialog } from '../ui'
@@ -23,7 +24,7 @@ export function PrintDialog(): React.JSX.Element | null {
   const preview = useMemo(() => {
     if (!s.bill || !s.info) return { html: '', error: '' }
     try {
-      return { html: renderPrintHtml(buildPrintModel(s.bill, s.mode, s.info.settings, s.info.decision), { fontUrls: PRINT_FONT_URLS, density: s.info.density }), error: '' }
+      return { html: renderPrintHtml(buildPrintModel(s.bill, s.mode, s.info.settings, s.info.decision), { fontUrls: PRINT_FONT_URLS, density: s.info.density, ...(s.info.fit !== undefined && s.info.fit > 1 ? { fit: s.info.fit } : {}) }), error: '' }
     } catch (e) {
       return { html: '', error: e instanceof Error ? e.message : 'Could not draw the preview' }
     }
@@ -41,7 +42,7 @@ export function PrintDialog(): React.JSX.Element | null {
     return () => window.removeEventListener('keydown', onKey, true)
   }, [s.open])
 
-  const title = `${s.mode === 'rough' ? 'Print Rough' : 'Print Professional'}${d ? ` - ${decisionSummary(d)}` : ''}`
+  const title = `${s.mode === 'rough' ? 'Print Rough' : 'Print Professional'}${s.side ? ` (${sideLabel(s.side)} side)` : ''}${d ? ` - ${decisionSummary(d)}` : ''}`
   const paper = d?.size ?? 'A5'
   const w = Math.round(PAPER_MM[paper].w * PX_PER_MM * PREVIEW_SCALE)
   const h = Math.round(PAPER_MM[paper].h * PX_PER_MM * PREVIEW_SCALE)

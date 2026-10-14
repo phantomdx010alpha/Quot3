@@ -49,14 +49,14 @@ describe('Phase 37 - decideForBill (decision wiring)', () => {
 
 describe('Phase 37 - resolvePrintSettings', () => {
   it('defaults when nothing is set', () => {
-    expect(resolvePrintSettings({})).toEqual({ print: { rupeeOnTotal: true, company: null }, silent: false, printer: '' })
+    expect(resolvePrintSettings({})).toEqual({ print: { rupeeOnTotal: true, hideAdjustmentsTotal: false, company: null }, silent: false, printer: '', fit: { enabled: true, capA5: 1.35, capA4: 1.25 } })
   })
   it('silent needs a printer; the company needs a name; wrong types fall back', () => {
     expect(resolvePrintSettings({ 'print.silent': true }).silent).toBe(false)
     expect(resolvePrintSettings({ 'print.silent': true, 'print.printer': ' HP LaserJet ' })).toMatchObject({ silent: true, printer: 'HP LaserJet' })
     expect(resolvePrintSettings({ 'company.profile': { name: '  ', phone: '1' } }).print.company).toBeNull()
     expect(resolvePrintSettings({ 'company.profile': { name: 'Acme', phone: 5, address: 'X' } }).print.company).toEqual({ logo: '', name: 'Acme', phone: '', address: 'X' })
-    expect(resolvePrintSettings({ 'print.rupeeOnTotal': 'yes', 'print.silent': 1, 'print.printer': 7 })).toEqual({ print: { rupeeOnTotal: true, company: null }, silent: false, printer: '' })
+    expect(resolvePrintSettings({ 'print.rupeeOnTotal': 'yes', 'print.silent': 1, 'print.printer': 7 })).toEqual({ print: { rupeeOnTotal: true, hideAdjustmentsTotal: false, company: null }, silent: false, printer: '', fit: { enabled: true, capA5: 1.35, capA4: 1.25 } })
     expect(resolvePrintSettings({ 'print.rupeeOnTotal': false }).print.rupeeOnTotal).toBe(false)
   })
 })

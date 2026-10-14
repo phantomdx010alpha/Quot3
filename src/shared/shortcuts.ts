@@ -127,6 +127,10 @@ export type ActionId =
   | 'units.marked'
   | 'calc.toggle'
   | 'calc.mode'
+  | 'hybrid.toggle'
+  | 'hybrid.focusFirst'
+  | 'hybrid.focusSecond'
+  | 'hybrid.recopy'
   | 'output.printRough'
   | 'output.printPro'
   | 'output.imageRough'
@@ -257,6 +261,11 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'units.marked', label: 'Marked calculations', group: 'Bill' },
   { id: 'calc.toggle', label: 'Calculator (show / hide)', group: 'Bill' },
   { id: 'calc.mode', label: 'Calculator: switch between calculator and % calculator', group: 'Bill' },
+  // Phase 151: Hybrid format (GST + Non-GST side by side). Alt+3 is the owner's key (MILESTONE14_DESIGN 1.6); the table-switch keys are [A] (Ctrl+Left / Right are taken by the cell editor).
+  { id: 'hybrid.toggle', label: 'Switch to Hybrid (GST + Non-GST side by side)', group: 'Bill' },
+  { id: 'hybrid.focusFirst', label: 'Hybrid: go to the first table (left)', group: 'Bill' },
+  { id: 'hybrid.focusSecond', label: 'Hybrid: go to the second table (right)', group: 'Bill' },
+  { id: 'hybrid.recopy', label: 'Hybrid: re-copy this table from the other side', group: 'Bill' },
   { id: 'output.printRough', label: 'Print - Rough', group: 'Bill' },
   { id: 'output.printPro', label: 'Print - Professional', group: 'Bill' },
   { id: 'output.imageRough', label: 'Copy image - Rough', group: 'Bill' },
@@ -336,6 +345,9 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   // Phase 83: the calculator drawer. Alt+C was free in the shortcut-conflict test (shortcuts.test.ts), so the proposed key stands.
   { id: 'calc.toggle', keys: 'Alt+C', label: 'Calculator (show / hide)', scope: 'global', action: 'calc.toggle' },
   { id: 'calc.mode', keys: 'Alt+Shift+C', label: 'Calculator: switch between calculator and % calculator', scope: 'global', action: 'calc.mode' },
+  { id: 'hybrid.toggle', keys: 'Alt+3', label: 'Switch to Hybrid (GST + Non-GST side by side)', scope: 'global', action: 'hybrid.toggle' },
+  { id: 'hybrid.focusFirst', keys: 'Ctrl+Alt+ArrowLeft', label: 'Hybrid: go to the first table (left)', scope: 'global', action: 'hybrid.focusFirst' },
+  { id: 'hybrid.focusSecond', keys: 'Ctrl+Alt+ArrowRight', label: 'Hybrid: go to the second table (right)', scope: 'global', action: 'hybrid.focusSecond' },
   { id: 'create.focusParty', keys: 'Ctrl+Shift+F', label: 'Focus party name', scope: 'global', action: 'create.focusParty' },
   { id: 'create.focusDate', keys: 'Ctrl+Shift+E', label: 'Focus bill date', scope: 'global', action: 'create.focusDate' },
   { id: 'create.address', keys: 'Alt+ArrowDown', label: 'Show / edit party address', scope: 'global', action: 'create.address' },

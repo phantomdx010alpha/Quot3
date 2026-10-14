@@ -75,6 +75,8 @@ export interface PrintDecideResponse {
   provisional?: boolean
   /** Phase 40: A4 density tier the preview must render at (0 = normal). */
   density: number
+  /** Phase 148: fit-to-page factor the preview must render at (1 = normal). */
+  fit?: number
 }
 export interface PrintResponse {
   printed: boolean

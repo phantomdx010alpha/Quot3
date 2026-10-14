@@ -4,6 +4,7 @@ import { tryD } from '../money'
 import { plain } from '../richtext/runs'
 import { isEntryBlank } from '../gridModel'
 import { getFormat, hasFormat } from '../format/registry'
+import { describeHybrid } from '../hybrid/hybrid'
 
 /**
  * Phase 44 (pure): what changed between two versions of a bill. Used by the revision panel (previous revision vs a revision,
@@ -132,6 +133,14 @@ export function diffBills(older: Bill, newer: Bill): BillDiff {
   if (footerText(older) !== footerText(newer)) bill.push({ field: 'footerExtras', label: 'Total row extra cells', before: footerText(older) || 'none', after: footerText(newer) || 'none' })
   if (tailText(older) !== tailText(newer)) bill.push({ field: 'tailRows', label: 'Rows below the total', before: tailText(older) || 'none', after: tailText(newer) || 'none' })
 
+  // Phase 150: the Hybrid second table is ONE bill-level line (its rows are never mixed into the primary row diff).
+  const hybridText = (b: Bill): string => {
+    if (!b.hybrid) return 'none'
+    const rows = b.hybrid.rows.filter((r) => !isEntryBlank(r)).map((r) => `${plain(r.nameRuns)}|${r.qty ?? ''}|${r.rate ?? ''}|${r.totalOverride ?? ''}`).join(';')
+    return `${describeHybrid(b.hybrid)} #${rows}`
+  }
+  if (hybridText(older) !== hybridText(newer)) bill.push({ field: 'hybrid', label: 'Hybrid second table', before: describeHybrid(older.hybrid), after: describeHybrid(newer.hybrid) })
+
   const party: FieldChange[] = []
   for (const k of ['name', 'phone', 'address', 'transport'] as const) {
     if (older.party[k] !== newer.party[k]) party.push({ field: `party.${k}`, label: PARTY_LABELS[k], before: older.party[k], after: newer.party[k] })
@@ -197,6 +206,7 @@ export function describeDiff(d: BillDiff): string {
   if (d.bill.some((c) => c.field === 'paperOverride')) other.push('paper')
   if (d.bill.some((c) => c.field === 'roundOff')) other.push('round off')
   if (d.bill.some((c) => c.field === 'footerExtras' || c.field === 'tailRows')) other.push('total-row cells')
+  if (d.bill.some((c) => c.field === 'hybrid')) other.push('hybrid table')
   if (d.extraCols.length > 0) other.push('extra columns')
   return [rowPart, other.join(', ')].filter(Boolean).join(' - ')
 }

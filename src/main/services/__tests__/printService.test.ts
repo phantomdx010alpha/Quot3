@@ -10,7 +10,7 @@ const OK = { ok: true } as const
 function setup(opts: { bottom?: number | Error; print?: Awaited<ReturnType<PrintPort['print']>>; all?: Record<string, unknown> } = {}) {
   const measure = vi.fn<PrintPort['measure']>(async () => { if (opts.bottom instanceof Error) throw opts.bottom; return opts.bottom ?? 100 })
   const print = vi.fn<PrintPort['print']>(async () => opts.print ?? OK)
-  const svc = createPrintService({ port: { measure, print, toPdf: async () => new Uint8Array() }, settings: settings(opts.all), resourcesRoot: '/res' })
+  const svc = createPrintService({ port: { measure, print, toPdf: async () => new Uint8Array() }, settings: settings(opts.all ?? { 'print.fitToPage': false }), resourcesRoot: '/res' }) // Phase 148: the pre-existing tests are pinned to the old size (fit Off) unless they pass their own settings
   return { svc, measure, print }
 }
 const TALL = contentHeightPx('A5') + 50
@@ -176,5 +176,74 @@ describe('Phase 144 follow-up - measured answer is reused (Print does not re-mea
     await svc.decideQuick({ bill: printFixture('legacy'), mode: 'rough' })
     expect(warm).toHaveBeenCalledTimes(1)
     expect(measure).not.toHaveBeenCalled()
+  })
+})
+
+describe('Phase 148 - fit bill to page (print service)', () => {
+  const H5 = contentHeightPx('A5')
+  /** A bill whose measured bottom grows linearly with the type factor (read from the rendered --print-fs). */
+  const linear = (bottom1: number) => vi.fn<PrintPort['measure']>(async (html) => {
+    const m = /--print-fs:([0-9.]+)pt/.exec(html.slice(html.indexOf('</style>') - 2000))
+    const all = [...html.matchAll(/--print-fs:([0-9.]+)pt/g)].map((x) => Number(x[1]))
+    const fs = all.length > 0 ? all[all.length - 1]! : Number(m?.[1] ?? 7.5)
+    return bottom1 * (fs / 7.5)
+  })
+  const mk = (measure: PrintPort['measure'], all: Record<string, unknown> = {}) =>
+    createPrintService({ port: { measure, print: async () => OK, toPdf: async () => new Uint8Array() }, settings: settings(all), resourcesRoot: '/res' })
+
+  it('ON (default): a short A5 bill is enlarged up to the cap, and the output HTML carries the scaled sizes', async () => {
+    const svc = mk(linear(H5 * 0.2))
+    const r = await svc.decide({ bill: printFixture('legacy'), mode: 'rough' })
+    expect(r.decision.size).toBe('A5')
+    expect(r.fit).toBe(1.35)
+    const html = (await svc.resolveOutput({ bill: printFixture('legacy'), mode: 'rough' })).html
+    expect(html).toContain('--print-fs:10.125pt') // 7.5 * 1.35
+  })
+  it('ON: a bill that fills the page stays at 1 (no change to the HTML)', async () => {
+    const svc = mk(linear(H5 * 0.97))
+    expect((await svc.decide({ bill: printFixture('legacy'), mode: 'rough' })).fit).toBe(1)
+  })
+  it('ON: a bill that only has room for part of the cap is enlarged only as far as it fits', async () => {
+    const svc = mk(linear(H5 * 0.8))
+    const r = await svc.decide({ bill: printFixture('legacy'), mode: 'rough' })
+    expect(r.fit).toBeGreaterThan(1)
+    expect(r.fit).toBeLessThan(1.35)
+  })
+  it('OFF: never scaled and measured only as before; HTML equals the fit-less render', async () => {
+    const off = mk(linear(H5 * 0.2), { 'print.fitToPage': false })
+    const r = await off.decide({ bill: printFixture('legacy'), mode: 'rough' })
+    expect(r.fit).toBe(1)
+    const htmlOff = (await off.resolveOutput({ bill: printFixture('legacy'), mode: 'rough' })).html
+    expect(htmlOff).not.toContain('10.125pt')
+    const capOne = mk(linear(H5 * 0.2), { 'print.fitMaxA5': 1 })
+    expect((await capOne.resolveOutput({ bill: printFixture('legacy'), mode: 'rough' })).html).toBe(htmlOff)
+  })
+  it('a custom cap is honoured; junk values fall back to the default', async () => {
+    expect((await mk(linear(H5 * 0.2), { 'print.fitMaxA5': 1.1 }).decide({ bill: printFixture('legacy'), mode: 'rough' })).fit).toBe(1.1)
+    expect((await mk(linear(H5 * 0.2), { 'print.fitMaxA5': 'big' }).decide({ bill: printFixture('legacy'), mode: 'rough' })).fit).toBe(1.35)
+  })
+  it('a failing fit measurement keeps the normal size (and does not break the decision)', async () => {
+    let n = 0
+    const measure = vi.fn<PrintPort['measure']>(async () => { n++; if (n > 1) throw new Error('window failed'); return H5 * 0.2 })
+    const r = await mk(measure).decide({ bill: printFixture('legacy'), mode: 'rough' })
+    expect(r.fit).toBe(1)
+    expect(r.decision.size).toBe('A5')
+  })
+  it('A4 one-page bills are fitted too (A4 cap); multi-page A4 and density-squeezed bills never are', async () => {
+    const H4 = contentHeightPx('A4')
+    const small = mk(linear(H4 * 0.2).bind(null) as unknown as PrintPort['measure'])
+    // forced A4 on a small bill: tier 0 fits, fit goes up to the A4 cap
+    expect((await small.decide({ bill: printFixture('legacy'), mode: 'rough', forced: 'A4' })).fit).toBe(1.25)
+    const multi = vi.fn<PrintPort['measure']>(async () => H4 * 3)
+    expect((await mk(multi).decide({ bill: printFixture('rows150'), mode: 'rough' })).fit).toBe(1)
+    expect(multi).not.toHaveBeenCalled()
+  })
+  it('changing the setting is not hidden by the measurement cache', async () => {
+    let all: Record<string, unknown> = {}
+    const measure = linear(H5 * 0.2)
+    const svc = createPrintService({ port: { measure, print: async () => OK, toPdf: async () => new Uint8Array() }, settings: { get: (k) => all[k], set: () => undefined, getAll: () => all }, resourcesRoot: '/res' })
+    expect((await svc.decide({ bill: printFixture('legacy'), mode: 'rough' })).fit).toBe(1.35)
+    all = { 'print.fitToPage': false }
+    expect((await svc.decide({ bill: printFixture('legacy'), mode: 'rough' })).fit).toBe(1)
   })
 })

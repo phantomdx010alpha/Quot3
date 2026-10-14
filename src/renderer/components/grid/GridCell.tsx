@@ -1,5 +1,5 @@
 import { memo, useLayoutEffect, useRef } from 'react'
-import { useBillStore } from '../../stores/billStore'
+import { useTable } from './tableSide'
 import type { GridColumn } from '@shared/gridModel'
 import { renderProbe } from './renderProbe'
 import { renderRuns } from './gridDom'
@@ -12,17 +12,17 @@ import { hasStyle } from '@shared/richtext/format'
  * edited (`data-editing`) the effect leaves its text alone; the controller restores the display text on exit.
  */
 export const GridCell = memo(function GridCell({ rowId, col }: { rowId: string; col: GridColumn }): React.JSX.Element {
-  const text = useBillStore((s) => s.view.body[rowId]?.cells[col.key] ?? '')
+  const text = useTable((s) => s.view.body[rowId]?.cells[col.key] ?? '')
   // Phase 13: manual-total marker. null = not overridden; string = the auto value for the tooltip ('' when none).
-  const ovr = useBillStore((s) => {
+  const ovr = useTable((s) => {
     if (col.key !== 'total') return null
     const d = s.view.body[rowId]
     return d?.override ? (d.ovrAuto ?? '') : null
   })
   // Phase 15: item-name runs (same reference until that row's name changes → no extra renders for other edits).
-  const runs = useBillStore((s) => (col.key === 'name' ? s.rows.find((r) => r.id === rowId)?.nameRuns ?? null : null))
+  const runs = useTable((s) => (col.key === 'name' ? s.rows.find((r) => r.id === rowId)?.nameRuns ?? null : null))
   // Phase 22: a marked extra cell is a segment header (accent underline, see grid.css)
-  const marked = useBillStore((s) => (col.isExtra ? !!s.rows.find((r) => r.id === rowId)?.extras[col.key]?.marked : false))
+  const marked = useTable((s) => (col.isExtra ? !!s.rows.find((r) => r.id === rowId)?.extras[col.key]?.marked : false))
   const ref = useRef<HTMLSpanElement>(null)
   if (renderProbe.enabled) renderProbe.cells.push(`${rowId}:${col.key}`)
   useLayoutEffect(() => {

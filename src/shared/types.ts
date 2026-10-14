@@ -57,6 +57,22 @@ export interface PartySnapshot {
 
 export type SyncState = 'local_only' | 'pending' | 'synced' | 'conflict'
 
+/** Phase 150: the two layouts a Hybrid bill can have. They are real format ids. */
+export type HybridSide = 'gst' | 'non_gst'
+
+/**
+ * Phase 150 (Hybrid format, `API_CONTRACTS.md` "Phase 150 as built"): an optional SECOND row set on a bill. `Bill.rows` stays the
+ * primary table (layout `primary`); `rows` here is the second table in the OPPOSITE layout. `twins` maps a second-table row id to
+ * the primary row id it was copied from: the extra-column cells of a pair are ONE cell (kept on the primary row).
+ * `active` = the side-by-side Hybrid view is on.
+ */
+export interface HybridSecond {
+  primary: HybridSide
+  active: boolean
+  rows: BillRow[]
+  twins: Record<Id, Id>
+}
+
 export interface Bill {
   id: Id
   branchId: Id
@@ -80,6 +96,8 @@ export interface Bill {
   footerExtras?: FooterExtras
   /** Phase 79: extra-only rows below the Final total, trimmed to the last non-empty row on save (absent = none). `bills.tail_rows_json`. */
   tailRows?: TailRow[]
+  /** Phase 150: the Hybrid second table (absent = a normal bill). Stored in `bills.second_table_json`. */
+  hybrid?: HybridSecond
 }
 
 export type RowKind = 'blank' | 'item' | 'adjustment' | 'partial'
@@ -107,5 +125,10 @@ export interface FormatDef {
   isDefault?: boolean
   columns: ColumnDef[]
   a5ExtraColLimit: number
-  footer: 'total' | 'total_gst_amount'
+  /** `'none'` (Phase 149, Stock transfer): no money columns, no totals row, no adjustments. */
+  footer: 'total' | 'total_gst_amount' | 'none'
+  /** Phase 149: `'branch'` = the header asks "Select branch for transfer" instead of the party fields (absent = party). */
+  partyMode?: 'party' | 'branch'
+  /** Phase 149: the document title printed for formats that are not a quotation (absent = quotation). */
+  docTitle?: string
 }

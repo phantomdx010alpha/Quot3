@@ -103,13 +103,13 @@ export function createRemoteApplyRepo(sqlite: Database.Database): RemoteApplyRep
   const unlinkedStmt = sqlite.prepare('SELECT id, party_snapshot_json AS partySnapshotJson FROM bills WHERE party_id IS NULL AND deleted_at IS NULL ORDER BY created_at, id')
   const linkStmt = sqlite.prepare('UPDATE bills SET party_id = ? WHERE id = ? AND party_id IS NULL')
   const upsert = sqlite.prepare(
-    `INSERT INTO bills (id, branch_id, po_seq, po_number, party_id, party_snapshot_json, format_id, extra_cols_json, paper_override, round_off, footer_extras_json, tail_rows_json, legacy_ref, import_batch_id, import_fingerprint, bill_date,
+    `INSERT INTO bills (id, branch_id, po_seq, po_number, party_id, party_snapshot_json, format_id, extra_cols_json, paper_override, round_off, footer_extras_json, tail_rows_json, second_table_json, legacy_ref, import_batch_id, import_fingerprint, bill_date,
        totals_json, item_row_count, revision, created_at, updated_at, deleted_at, sync_state)
-     VALUES (@id, @branchId, @poSeq, @poNumber, @partyId, @partySnapshotJson, @formatId, @extraColsJson, @paperOverride, @roundOff, @footerExtrasJson, @tailRowsJson, @legacyRef, @importBatchId, @importFingerprint, @billDate,
+     VALUES (@id, @branchId, @poSeq, @poNumber, @partyId, @partySnapshotJson, @formatId, @extraColsJson, @paperOverride, @roundOff, @footerExtrasJson, @tailRowsJson, @secondTableJson, @legacyRef, @importBatchId, @importFingerprint, @billDate,
        @totalsJson, @itemRowCount, @revision, @createdAt, @updatedAt, @deletedAt, @syncState)
      ON CONFLICT(id) DO UPDATE SET branch_id = excluded.branch_id, po_seq = excluded.po_seq, po_number = excluded.po_number, party_id = excluded.party_id,
        party_snapshot_json = excluded.party_snapshot_json, format_id = excluded.format_id, extra_cols_json = excluded.extra_cols_json,
-       paper_override = excluded.paper_override, round_off = excluded.round_off, footer_extras_json = excluded.footer_extras_json, tail_rows_json = excluded.tail_rows_json,
+       paper_override = excluded.paper_override, round_off = excluded.round_off, footer_extras_json = excluded.footer_extras_json, tail_rows_json = excluded.tail_rows_json, second_table_json = excluded.second_table_json,
        legacy_ref = COALESCE(excluded.legacy_ref, bills.legacy_ref), import_batch_id = COALESCE(excluded.import_batch_id, bills.import_batch_id),
        import_fingerprint = COALESCE(excluded.import_fingerprint, bills.import_fingerprint), bill_date = excluded.bill_date, totals_json = excluded.totals_json, item_row_count = excluded.item_row_count,
        revision = excluded.revision, created_at = excluded.created_at, updated_at = excluded.updated_at, deleted_at = excluded.deleted_at, sync_state = excluded.sync_state`
@@ -121,7 +121,7 @@ export function createRemoteApplyRepo(sqlite: Database.Database): RemoteApplyRep
   )
   const recStmt = sqlite.prepare(
     `SELECT id, branch_id AS branchId, po_seq AS poSeq, po_number AS poNumber, party_id AS partyId, party_snapshot_json AS partySnapshotJson,
-       format_id AS formatId, extra_cols_json AS extraColsJson, paper_override AS paperOverride, round_off AS roundOff, footer_extras_json AS footerExtrasJson, tail_rows_json AS tailRowsJson, bill_date AS billDate, totals_json AS totalsJson,
+       format_id AS formatId, extra_cols_json AS extraColsJson, paper_override AS paperOverride, round_off AS roundOff, footer_extras_json AS footerExtrasJson, tail_rows_json AS tailRowsJson, second_table_json AS secondTableJson, bill_date AS billDate, totals_json AS totalsJson,
        item_row_count AS itemRowCount, revision, created_at AS createdAt, updated_at AS updatedAt, deleted_at AS deletedAt, sync_state AS syncState
      FROM bills WHERE id = ?`
   )
@@ -209,7 +209,7 @@ export function createRemoteApplyRepo(sqlite: Database.Database): RemoteApplyRep
     },
     unlinkedBills: () => unlinkedStmt.all() as { id: string; partySnapshotJson: string }[],
     linkParty: (billId, partyId) => void linkStmt.run(partyId, billId),
-    upsertBill: (r) => void upsert.run({ ...r, roundOff: r.roundOff ?? 0, footerExtrasJson: r.footerExtrasJson ?? '{}', tailRowsJson: r.tailRowsJson ?? '[]', legacyRef: r.legacyRef ?? null, importBatchId: r.importBatchId ?? null, importFingerprint: r.importFingerprint ?? null }),
+    upsertBill: (r) => void upsert.run({ ...r, roundOff: r.roundOff ?? 0, footerExtrasJson: r.footerExtrasJson ?? '{}', tailRowsJson: r.tailRowsJson ?? '[]', secondTableJson: r.secondTableJson ?? '', legacyRef: r.legacyRef ?? null, importBatchId: r.importBatchId ?? null, importFingerprint: r.importFingerprint ?? null }),
     replaceRows(billId, rows) {
       delRows.run(billId)
       for (const r of rows) insRow.run(r)

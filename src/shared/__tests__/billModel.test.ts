@@ -120,7 +120,7 @@ describe('serialize / deserialize', () => {
     expect(bad({ ...s.bill, billDate: '08-10-26' }).ok).toBe(false)
     expect(bad({ ...s.bill, syncState: 'weird' }).ok).toBe(false)
     expect(bad(null).ok).toBe(false)
-    expect(bad(s.bill, [{ ...s.rows[0], qty: '1e3' }]).ok).toBe(false)
+    expect(bad(s.bill, [{ ...s.rows[0], qty: 'x'.repeat(201) }]).ok).toBe(false) // Phase 149: a qty is free text up to 200 chars (was '1e3')
     expect(bad(s.bill, [{ ...s.rows[0], nameRunsJson: '[{"t":1}]' }]).ok).toBe(false)
     expect(bad(s.bill, [{ ...s.rows[0], extrasJson: '"x"' }]).ok).toBe(false)
     expect(bad(s.bill, [{ ...s.rows[0], billId: 'other' }]).ok).toBe(false)

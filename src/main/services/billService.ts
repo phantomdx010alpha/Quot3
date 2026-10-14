@@ -7,7 +7,7 @@ import { getLocalBranch } from '../db/seed'
 import { AppError } from '../ipc/envelope'
 import { deserializeBill, serializeBill } from '../../shared/billModel'
 import { prepareBillForSave, validateBillForSave } from '../../shared/billSave'
-import { defaultFormatId } from '../../shared/format/registry'
+import { defaultFormatId, resolveFormat } from '../../shared/format/registry'
 import { findPartyByName, isNewParty, normalizePartyName } from '../../shared/party/partyLite'
 type SqliteHandle = Parameters<typeof getLocalBranch>[0]
 import type { Bill, BillRow, ExtraColDef, FooterExtras, TailRow, IsoDate, IsoDateTime, PartySnapshot } from '../../shared/types'
@@ -174,8 +174,11 @@ export function createBillService(
 
         // Party: a name nobody has saved yet becomes a party exactly once; a known name is only linked (never modified).
         const existing = parties.list()
-        let partyId: string
-        if (isNewParty(prepared.party.name, existing)) {
+        let partyId: string | null
+        if (resolveFormat(prepared.formatId).partyMode === 'branch') {
+          // Phase 149: a Stock transfer's "party" is a branch name; no party record is created or linked for it.
+          partyId = null
+        } else if (isNewParty(prepared.party.name, existing)) {
           partyId = opts.newPartyId ? opts.newPartyId(normalizePartyName(prepared.party.name)) : newId()
           const p = prepared.party
           parties.insert(

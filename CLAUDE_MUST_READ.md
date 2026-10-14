@@ -349,6 +349,17 @@ Read `docs/MILESTONE12_DESIGN.md` and `docs/SYNC_SHARED_STORE_SPEC.md` before an
 
 Phase 144 is REPRODUCE-FIRST. It may run before Phase 128. Measure the template's first-ink Y in headless-Chromium PDFs before changing anything; never write "fixed" or "verified" for real printer output (only the owner's paper test proves it); never log bill content. The template must stay top-aligned (page margin only, no vertical centring); Save PDF and Print must agree. Any Settings nudge is [A], default 0.
 
+## 10i. Milestone 14 supersessions (Phases 145-153, release 0.1.7)
+
+Read `docs/MILESTONE14_DESIGN.md` before any Phase 145-153. Order is flexible; Phase 69 runs AFTER Phase 153.
+- Print fit-to-page (148) NEVER changes the paper thresholds (`paperConstants.ts`); it only scales within a cap, default ON, Off = today's output exactly; top-aligned rule of 10h stays.
+- Stock transfer (149): free-text qty is allowed for THAT format only; no money maths; no party; picks a branch. Added via the format registry (rule 4.4), no format-name branches.
+- Hybrid (150-152) deliberately EXTENDS rule 4.5: a bill may carry a second row set. Contract first (`API_CONTRACTS.md`), never lose data when switching, extra columns are shared, adjustments are separate per side, print/image/copy ask which side and output only that side. A migration, if any, is a new numbered file and the release notes' `schema: N` line covers it (`GITHUB_UPDATE_PUSH.md`).
+- Toolbar names (147) hide on small screens; the 20-row density rule still wins.
+- Some grid / paste / print / settings-page tests were already failing before this milestone (see the 0.1.5 entry in `PHASE_STATUS.md`); do not mistake them for your regressions without comparing against the previous zip.
+- **TESTING RULE (owner, explicit): do NOT run the full test suite (`npm test` / bare `npx vitest run`) in any Phase 145-153 except the Phase 153 gate, and then only if the owner agrees.** Run `npm run typecheck` plus ONLY the test files you wrote or changed and the files that could plausibly conflict with your change (the same folder / the modules you import or edit, e.g. the print model tests for a print change, the format registry and grid tests for a format change, the settings page test for a Settings change). Name the files you ran in the phase log; anything you did not run is listed as not run. Never spend session time re-checking things twice.
+- Items marked [A] are unconfirmed assumptions; say so in your phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched

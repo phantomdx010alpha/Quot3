@@ -1,5 +1,6 @@
 import { BookmarkSimple, ListNumbers, Minus, PencilSimple, Plus, Sigma } from '@phosphor-icons/react'
 import { primaryKeys } from '@shared/shortcuts'
+import { toolbarName } from '@shared/toolbarNames'
 import { ConfirmDialog, IconButton } from '../ui'
 import { useBillStore } from '../../stores/billStore'
 import { useGridUiStore } from '../../stores/gridUiStore'
@@ -22,15 +23,15 @@ export function ExtraColsToolbar(): React.JSX.Element {
   const k = (a: Parameters<typeof primaryKeys>[0]): { shortcut: string } | Record<string, never> => { const v = primaryKeys(a); return v ? { shortcut: v } : {} }
   return (
     <div className="q3-colbar" role="toolbar" aria-label="Extra columns">
-      <IconButton icon={Plus} label="Add extra column" {...k('cols.add')} tabIndex={-1} onMouseDown={keep} onClick={() => { runAddExtraCol(); refocus() }} />
-      <IconButton icon={Minus} label="Remove extra column" {...k('cols.remove')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep}
+      <IconButton icon={Plus} label="Add extra column" text={toolbarName('cols.add')} {...k('cols.add')} tabIndex={-1} onMouseDown={keep} onClick={() => { runAddExtraCol(); refocus() }} />
+      <IconButton icon={Minus} label="Remove extra column" text={toolbarName('cols.remove')} {...k('cols.remove')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep}
         onClick={() => { requestRemoveExtraCol(); if (!useExtraColUiStore.getState().removeKey) refocus() }} />
-      <IconButton icon={PencilSimple} label="Rename extra column" {...k('cols.rename')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep}
+      <IconButton icon={PencilSimple} label="Rename extra column" text={toolbarName('cols.rename')} {...k('cols.rename')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep}
         onClick={() => requestRenameExtraCol()} />
-      <IconButton icon={BookmarkSimple} label="Mark / unmark cell" {...k('units.mark')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep}
+      <IconButton icon={BookmarkSimple} label="Mark / unmark cell" text={toolbarName('units.mark')} {...k('units.mark')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep}
         onClick={() => { runToggleMark(); refocus() }} />
-      <IconButton icon={Sigma} label="Units summary" {...k('units.summary')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep} onClick={() => openUnitsPopup('units')} />
-      <IconButton icon={ListNumbers} label="Marked calculations" {...k('units.marked')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep} onClick={() => openUnitsPopup('marked')} />
+      <IconButton icon={Sigma} label="Units summary" text={toolbarName('units.summary')} {...k('units.summary')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep} onClick={() => openUnitsPopup('units')} />
+      <IconButton icon={ListNumbers} label="Marked calculations" text={toolbarName('units.marked')} {...k('units.marked')} tabIndex={-1} disabled={cols.length === 0} onMouseDown={keep} onClick={() => openUnitsPopup('marked')} />
       <UnitsPopup />
       <ConfirmDialog
         open={removeKey !== null}

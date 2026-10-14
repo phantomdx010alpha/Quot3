@@ -7,9 +7,12 @@ import { partyToSnapshot, type PartyLite } from '@shared/party/partyLite'
 import { FormatSwitcher } from './FormatSwitcher'
 import { ImportedNote } from './ImportedNote'
 import { PartyAutocomplete } from './PartyAutocomplete'
+import { BranchPicker } from './BranchPicker'
+import { resolveFormat } from '@shared/format/registry'
 import { usePartyIndexStore } from '../../stores/partyIndexStore'
 import { useBillStore } from '../../stores/billStore'
 import { usePartyUiStore } from '../../stores/partyUiStore'
+import { setShownPoPreview } from '../../stores/poPreview'
 import { runRedo, runUndo } from '../../stores/undoActions'
 
 type TextField = Exclude<PartyField, 'address'>
@@ -22,11 +25,16 @@ function useNextPo(): string {
   useEffect(() => {
     if (own) return
     let live = true
-    try {
-      const app = (window as unknown as { quot3?: { app?: { getDbInfo?: () => Promise<{ ok: boolean; data?: { nextPoPreview?: string } }> } } }).quot3?.app
-      void app?.getDbInfo?.().then((r) => { if (live && r.ok && r.data?.nextPoPreview) setPreview(r.data.nextPoPreview) }).catch(() => undefined)
-    } catch { /* no bridge (tests / design preview) */ }
-    return () => { live = false }
+    // Phase 154: re-read the preview whenever this window is focused again, because another window may have saved meanwhile.
+    const load = (): void => {
+      try {
+        const app = (window as unknown as { quot3?: { app?: { getDbInfo?: () => Promise<{ ok: boolean; data?: { nextPoPreview?: string } }> } } }).quot3?.app
+        void app?.getDbInfo?.().then((r) => { if (live && r.ok && r.data?.nextPoPreview) { setPreview(r.data.nextPoPreview); setShownPoPreview(r.data.nextPoPreview) } }).catch(() => undefined)
+      } catch { /* no bridge (tests / design preview) */ }
+    }
+    load()
+    window.addEventListener('focus', load)
+    return () => { live = false; window.removeEventListener('focus', load) }
   }, [own])
   return own || preview
 }
@@ -40,6 +48,11 @@ function useNextPo(): string {
  */
 export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): React.JSX.Element {
   const party = useBillStore((s) => s.party)
+  // Phase 149: a format with `partyMode: 'branch'` (Stock transfer) asks for a branch instead of the party fields. Data-driven, no format-name test.
+  const branchMode = useBillStore((s) => resolveFormat(s.formatId).partyMode === 'branch')
+  const branchRef = useRef<HTMLSelectElement | null>(null)
+  const branchModeRef = useRef(branchMode)
+  branchModeRef.current = branchMode
   const billDate = useBillStore((s) => s.billDate)
   const setPartyField = useBillStore((s) => s.setPartyField)
   const setBillDate = useBillStore((s) => s.setBillDate)
@@ -56,7 +69,7 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
   // The saved parties are fetched once; searching them is local.
   useEffect(() => { if (!usePartyIndexStore.getState().loaded) void usePartyIndexStore.getState().load() }, [])
 
-  const focusField = useCallback((f: TextField) => { refs.current[f]?.focus() }, [])
+  const focusField = useCallback((f: TextField) => { (branchModeRef.current ? branchRef.current : refs.current[f])?.focus() }, [])
 
   const openAddress = useCallback(() => { wantAddrFocus.current = true; setAddressOpen(true); addrRef.current?.focus() }, [setAddressOpen])
   const closeAddress = useCallback(() => {
@@ -134,13 +147,28 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
   return (
     <div className="q3-pbar" role="group" aria-label="Party details">
       <div className="q3-pbar__row">
-        <PartyAutocomplete
-          className="q3-pbar__f--name" value={party.name} inputRef={(el) => { refs.current.name = el }}
-          onValueChange={(v) => setPartyField('name', v)} onPick={pickParty} onKeyDown={onFieldKey('name')}
-          onFocus={() => { lastField.current = 'name' }}
-        />
-        {text('phone', 'q3-pbar__f--phone')}
-        {text('transport', 'q3-pbar__f--transport')}
+        {branchMode ? (
+          <BranchPicker
+            value={party.name} selectRef={(el) => { branchRef.current = el }} onChange={(v) => setPartyField('name', v)}
+            onFocus={() => { lastField.current = 'name' }}
+            onKeyDown={(e) => {
+              if (e.nativeEvent.isComposing) return
+              if (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey)) { e.preventDefault(); onLeaveToGrid(); return }
+              const k = e.key.toLowerCase()
+              if ((e.ctrlKey || e.metaKey) && !e.altKey && (k === 'z' || k === 'y')) { e.preventDefault(); if (k === 'y' || e.shiftKey) runRedo(); else runUndo() }
+            }}
+          />
+        ) : (
+          <>
+            <PartyAutocomplete
+              className="q3-pbar__f--name" value={party.name} inputRef={(el) => { refs.current.name = el }}
+              onValueChange={(v) => setPartyField('name', v)} onPick={pickParty} onKeyDown={onFieldKey('name')}
+              onFocus={() => { lastField.current = 'name' }}
+            />
+            {text('phone', 'q3-pbar__f--phone')}
+            {text('transport', 'q3-pbar__f--transport')}
+          </>
+        )}
         <label className="q3-pbar__f q3-pbar__f--date">
           <span className="q3-pbar__l">Date</span>
           <input
@@ -158,7 +186,7 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
           <span className="q3-pbar__l">Format</span>
           <FormatSwitcher />
         </div>
-        <Tooltip label={addressOpen ? 'Hide address' : 'Show address'} {...(addrKeys ? { shortcut: addrKeys } : {})}>
+        {branchMode ? null : <Tooltip label={addressOpen ? 'Hide address' : 'Show address'} {...(addrKeys ? { shortcut: addrKeys } : {})}>
           <button
             type="button" className="q3-pbar__addr" tabIndex={-1} aria-expanded={addressOpen} aria-controls="q3-pbar-address"
             data-filled={party.address ? '1' : undefined}
@@ -167,9 +195,9 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
             Address {addressOpen ? <CaretUp weight="bold" size={12} /> : <CaretDown weight="bold" size={12} />}
             {addrKeys && !addressOpen ? <Kbd keys={addrKeys} /> : null}
           </button>
-        </Tooltip>
+        </Tooltip>}
       </div>
-      {addressOpen ? (
+      {addressOpen && !branchMode ? (
         <div className="q3-pbar__panel" id="q3-pbar-address" role="region" aria-label="Party address">
           <textarea
             ref={addrRef} className="q3-input q3-pbar__area" rows={3} value={party.address} spellCheck={false} data-party-field="address"

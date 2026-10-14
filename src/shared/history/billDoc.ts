@@ -1,7 +1,7 @@
 import { applyPatches, enablePatches, produceWithPatches, setAutoFreeze, type Patch } from 'immer'
 import { isEntryBlank } from '../gridModel'
 import { cleanFooterExtras, cleanTailRows } from '../billModel'
-import type { BillRow, ExtraColDef, FooterExtras, IsoDate, PartySnapshot, TailRow } from '../types'
+import type { BillRow, ExtraColDef, FooterExtras, HybridSecond, IsoDate, PartySnapshot, TailRow } from '../types'
 
 /**
  * Phase 17 — the part of an open bill that undo/redo covers (UNDO_REDO_RULES §2.1). Later phases extend this with party
@@ -17,6 +17,8 @@ export interface BillDoc {
   /** Phase 79: free extra cells on the footer rows and extra-only tail rows (absent = none). Undoable like rows. */
   footerExtras?: FooterExtras
   tailRows?: TailRow[]
+  /** Phase 151: the Hybrid second table (rows, pairings, view on / off; absent = a normal bill). Undoable like rows, so entering Hybrid is ONE undo step. */
+  hybrid?: HybridSecond
 }
 
 enablePatches()
@@ -24,7 +26,7 @@ setAutoFreeze(false) // rows are shared with the store's cached calc (WeakMap ke
 
 function sameRef(a: BillDoc, b: BillDoc): boolean {
   return a.formatId === b.formatId && a.extraCols === b.extraCols && a.rows === b.rows && a.party === b.party && a.billDate === b.billDate
-    && a.footerExtras === b.footerExtras && a.tailRows === b.tailRows
+    && a.footerExtras === b.footerExtras && a.tailRows === b.tailRows && a.hybrid === b.hybrid
 }
 
 /** Row-level patches turning `before` into `after` (+ the inverse). Only changed rows / length produce patches. */
@@ -37,6 +39,7 @@ export function diffDocs(before: BillDoc, after: BillDoc): { patches: Patch[]; i
     if (after.billDate !== before.billDate) d.billDate = after.billDate
     if (after.footerExtras !== before.footerExtras) d.footerExtras = after.footerExtras
     if (after.tailRows !== before.tailRows) d.tailRows = after.tailRows
+    if (after.hybrid !== before.hybrid) d.hybrid = after.hybrid
     if (after.rows !== before.rows) {
       const a = after.rows
       const b = before.rows
@@ -96,9 +99,15 @@ export function docsEqualPersisted(a: BillDoc, b: BillDoc): boolean {
   // Phase 79: compared as they will be stored (empty cells / trailing blank tail rows are no change).
   if (a.footerExtras !== b.footerExtras && !deepEqual(cleanFooterExtras(a.footerExtras) ?? null, cleanFooterExtras(b.footerExtras) ?? null)) return false
   if (a.tailRows !== b.tailRows && !deepEqual(cleanTailRows(a.tailRows) ?? null, cleanTailRows(b.tailRows) ?? null)) return false
-  if (a.rows === b.rows) return true
-  const ra = trimBlankTail(a.rows)
-  const rb = trimBlankTail(b.rows)
+  if (a.hybrid !== b.hybrid && !sameHybridPersisted(a.hybrid, b.hybrid)) return false
+  return sameRowsPersisted(a.rows, b.rows)
+}
+
+/** Rows equal as stored: trailing blank padding and `idx` ignored. */
+function sameRowsPersisted(a: readonly BillRow[], b: readonly BillRow[]): boolean {
+  if (a === b) return true
+  const ra = trimBlankTail(a)
+  const rb = trimBlankTail(b)
   if (ra.length !== rb.length) return false
   for (let i = 0; i < ra.length; i++) {
     const x = ra[i] as BillRow
@@ -109,4 +118,12 @@ export function docsEqualPersisted(a: BillDoc, b: BillDoc): boolean {
     if (!deepEqual(xr, yr)) return false
   }
   return true
+}
+
+/** Phase 151: the second table as stored (side, view flag, pairings, rows without blank padding). */
+function sameHybridPersisted(a: HybridSecond | undefined, b: HybridSecond | undefined): boolean {
+  if (!a || !b) return false // one side has no second table: different (both absent was caught by the identity check)
+  if (a.primary !== b.primary || a.active !== b.active) return false
+  if (a.twins !== b.twins && !deepEqual(a.twins, b.twins)) return false
+  return sameRowsPersisted(a.rows, b.rows)
 }

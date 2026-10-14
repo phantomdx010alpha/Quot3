@@ -16,6 +16,7 @@ import { requestLeave } from '../stores/guardStore'
 import { startFreshBill } from '../stores/createSession'
 import { currentPath } from '@shared/routes'
 import { switchFormat } from '../stores/formatActions'
+import { enterHybrid, focusHybridTable, requestRecopy } from '../stores/hybridActions'
 import { resetColumnWidths, stepActiveColWidth } from '../stores/columnWidthActions'
 import { openUnitsPopup, runToggleMark, requestRemoveExtraCol, requestRenameExtraCol, runAddExtraCol } from '../stores/extraColActions'
 import { runOutput } from '../stores/outputActions'
@@ -227,6 +228,11 @@ export function useAppActions(): ActionHandlers {
       // Phase 83: the calculator drawer lives on the Create page; from another page the key goes there first.
       'calc.toggle': () => { if (currentPath(useRouter.getState().nav) !== ROUTES.create) { navigate(ROUTES.create); useCalcPanelStore.getState().setOpen(true) } else useCalcPanelStore.getState().toggle() },
       'calc.mode': () => { if (currentPath(useRouter.getState().nav) !== ROUTES.create) navigate(ROUTES.create); useCalcPanelStore.getState().switchMode() },
+      // Phase 151: Hybrid (GST + Non-GST side by side) lives on the Create page; the keys do nothing elsewhere.
+      'hybrid.toggle': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) enterHybrid() },
+      'hybrid.focusFirst': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) focusHybridTable('primary') },
+      'hybrid.focusSecond': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) focusHybridTable('second') },
+      'hybrid.recopy': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) requestRecopy() },
       // Phase 30: output actions (stubs until Phases 31 / 37 / 39; each says why it cannot run yet)
       'output.printRough': () => { if (!runHistoryOutput('output.printRough')) runOutput('output.printRough') },
       'output.printPro': () => { if (!runHistoryOutput('output.printPro')) runOutput('output.printPro') },

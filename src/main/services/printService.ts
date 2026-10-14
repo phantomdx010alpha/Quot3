@@ -2,6 +2,7 @@ import type { Bill, Paper, PrintMode } from '../../shared/types'
 import type { PaperDecision } from '../../shared/paper/paperTypes'
 import { buildPrintModel, type PrintSettings } from '../../shared/print/printModel'
 import { parsePrintMethod, type PrintMethod, countPdfPages, decideForBill, fitDensity, isOverflow, isPdfPath, pdfFileName, resolvePrintSettings, type ForcedPaper } from '../../shared/print/printFlow'
+import { fitCapFor, fitScaleSearch } from '../../shared/print/fitScale'
 import { renderPrintHtml } from '../../shared/print/template/renderHtml'
 import { AppError } from '../ipc/envelope'
 import type { Logger } from '../logger'
@@ -51,6 +52,8 @@ export interface DecideResult {
   provisional?: boolean
   /** Phase 40: the A4 density tier the one-page A4 bill was fitted at (0 = the normal style). The preview must render with it. */
   density: number
+  /** Phase 148: the fit-to-page factor the bill was rendered at (1 = the normal size). The preview must render with it. */
+  fit: number
 }
 
 export interface PrintResult {
@@ -83,16 +86,16 @@ export interface PrintService {
 
 export function createPrintService(deps: { port: PrintPort; settings: SettingsService; /** Phase 48: turns the saved logo file name into a data URL for the template. */ logoDataUrl?: (fileName: string) => string; resourcesRoot: string; files?: PdfFilePort; log?: Pick<Logger, 'warn' | 'info'> }): PrintService {
   const fontBaseUrl = printFontBaseUrl(deps.resourcesRoot)
-  const render = (bill: Bill, mode: PrintMode, settings: PrintSettings, decision: PaperDecision, density = 0): string =>
-    renderPrintHtml(buildPrintModel(bill, mode, settings, decision), { fontBaseUrl, density })
+  const render = (bill: Bill, mode: PrintMode, settings: PrintSettings, decision: PaperDecision, density = 0, fit = 1): string =>
+    renderPrintHtml(buildPrintModel(bill, mode, settings, decision), { fontBaseUrl, density, ...(fit > 1 ? { fit } : {}) })
 
   // Phase 144 follow-up (speed): the measured answer is a pure function of (bill, mode, forced, print settings). The dialog already
   // measured it when it opened, so Print / Save PDF / copy-image reuse it instead of opening up to five hidden windows again.
   // Measurement failures are never cached (they retry). Small, short-lived.
-  type Measured = Pick<DecideResult, 'decision' | 'switchedByMeasure' | 'measureFailed' | 'density'> & { html: string }
+  type Measured = Pick<DecideResult, 'decision' | 'switchedByMeasure' | 'measureFailed' | 'density' | 'fit'> & { html: string }
   const MEASURE_CACHE_MAX = 4, MEASURE_CACHE_TTL_MS = 120_000
   const measured = new Map<string, { at: number; v: Measured }>()
-  const keyOf = (req: PrintRequest, settings: PrintSettings): string => JSON.stringify([req.bill, req.mode, req.forced ?? null, settings])
+  const keyOf = (req: PrintRequest, settings: PrintSettings, fitSettings: unknown): string => JSON.stringify([req.bill, req.mode, req.forced ?? null, settings, fitSettings])
 
   /** Rules, then (only for an unforced A5 result) the measured-overflow safety net; returns the final decision and its HTML. */
   async function resolve(req: PrintRequest, quick = false): Promise<DecideResult & { html: string; resolved: ReturnType<typeof resolvePrintSettings> }> {
@@ -103,8 +106,8 @@ export function createPrintService(deps: { port: PrintPort; settings: SettingsSe
     let html = render(req.bill, req.mode, settings, decision)
     let switchedByMeasure = false
     let measureFailed = false
-    if (quick) return { decision, settings, switchedByMeasure, measureFailed, density: 0, html, resolved, provisional: true }
-    const key = keyOf(req, settings)
+    if (quick) return { decision, settings, switchedByMeasure, measureFailed, density: 0, fit: 1, html, resolved, provisional: true }
+    const key = keyOf(req, settings, resolved.fit)
     const hit = measured.get(key)
     if (hit && Date.now() - hit.at < MEASURE_CACHE_TTL_MS) return { ...hit.v, settings, resolved }
     if (decision.size === 'A5' && decision.suggested === 'A5' && !isForced(req)) {
@@ -131,11 +134,24 @@ export function createPrintService(deps: { port: PrintPort; settings: SettingsSe
         deps.log?.warn('A4 fit measurement failed; using the normal density', { err: err instanceof Error ? err.message : String(err) })
       }
     }
+    // Phase 148: fit-to-page. Only a bill that is ONE page at the normal size and was not density-squeezed; thresholds are not touched.
+    // Off (Settings > Print) = never measured, never scaled = today's output exactly. A failed measurement keeps the normal size.
+    let fit = 1
+    if (resolved.fit.enabled && !measureFailed && density === 0 && decision.pages === 1) {
+      try {
+        const size = decision.size
+        fit = (await fitScaleSearch((s) => deps.port.measure(render(req.bill, req.mode, settings, decision, 0, s), size), size, fitCapFor(resolved.fit, size))).scale
+        if (fit > 1) html = render(req.bill, req.mode, settings, decision, 0, fit)
+      } catch (err) {
+        fit = 1
+        deps.log?.warn('Fit-to-page measurement failed; using the normal size', { err: err instanceof Error ? err.message : String(err) })
+      }
+    }
     if (!measureFailed) {
-      measured.set(key, { at: Date.now(), v: { decision, switchedByMeasure, measureFailed, density, html } })
+      measured.set(key, { at: Date.now(), v: { decision, switchedByMeasure, measureFailed, density, fit, html } })
       while (measured.size > MEASURE_CACHE_MAX) measured.delete(measured.keys().next().value as string)
     }
-    return { decision, settings, switchedByMeasure, measureFailed, density, html, resolved }
+    return { decision, settings, switchedByMeasure, measureFailed, density, fit, html, resolved }
   }
 
   return {

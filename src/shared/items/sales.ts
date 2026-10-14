@@ -4,7 +4,7 @@
  * (`formatHasGst`, data-driven; never a format name) - a row keeps its GST % when the owner switches a bill to a non-GST format, so
  * the row's own GST % alone would mislead. All money is decimal strings (decimal.js), never JS numbers.
  */
-import { calcRow, formatHasGst } from '../calc/rowCalc'
+import { calcRow, formatHasGst, formatHasMoney } from '../calc/rowCalc'
 import { classifyRow } from '../calc/classifyRow'
 import { D, sum, toDec, tryD, type Decimal } from '../money'
 import type { BillRow, Dec, FormatDef } from '../types'
@@ -102,6 +102,7 @@ export function partyKeyOf(partyId: string | null, partyName: string): string {
 export function saleLine(format: FormatDef, head: SaleBillHead, row: BillRow): SaleLine | null {
   const name = row.nameRuns.map((r) => r.t).join('').trim()
   if (name === '') return null
+  if (!formatHasMoney(format)) return null // Phase 149: a stock transfer is not a sale
   const kind = classifyRow(row)
   if (kind !== 'item' && kind !== 'adjustment') return null
   const c = calcRow(format, row)

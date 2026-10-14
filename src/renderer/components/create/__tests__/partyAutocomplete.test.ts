@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import { act, createElement } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import Create from '../../../pages/Create'
 import { useBillStore } from '../../../stores/billStore'
@@ -214,5 +216,26 @@ describe('Phase 26 — party autocomplete in the party bar', () => {
     delete (window as unknown as { quot3?: unknown }).quot3
     await usePartyIndexStore.getState().load() // no bridge: untouched
     expect(usePartyIndexStore.getState().parties).toHaveLength(3)
+  })
+})
+
+describe('Phase 145 — party list shows full names', () => {
+  const LONG = 'Shri Venkateshwara Traders and General Merchants Private Limited, Main Road Branch'
+  it('a very long party name is present in full in its list row', () => {
+    usePartyIndexStore.getState().setParties([{ id: 'long1', name: LONG, phone: '', transport: '', address: '' } as PartyLite])
+    mount()
+    type(field('name') as HTMLInputElement, 'Shri Venkat')
+    expect(optNames()).toContain(LONG)
+  })
+  it('the list CSS wraps names (no ellipsis / nowrap on the name) and sizes to content within a cap', () => {
+    const css = readFileSync(resolve(__dirname, '../../../styles/grid.css'), 'utf8')
+    const rule = (sel: string): string => css.split('\n').find((l) => l.startsWith(sel + ' {')) ?? ''
+    const name = rule('.q3-pac__n')
+    expect(name).not.toContain('text-overflow')
+    expect(name).not.toContain('nowrap')
+    expect(name).toContain('white-space: normal')
+    const box = rule('.q3-pac')
+    expect(box).toContain('width: max-content')
+    expect(box).toContain('max-width: min(60ch')
   })
 })

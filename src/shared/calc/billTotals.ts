@@ -1,7 +1,7 @@
 import { D, fmtMoney, fmtQty, round2, roundInt, sum, toMoney, type Decimal } from '../money'
 import type { BillRow, Dec, FormatDef, Id, RowKind } from '../types'
 import { classifyRow, hasQty, hasRate, rowName } from './classifyRow'
-import { calcRowCached, formatHasGst, type RowCalc } from './rowCalc'
+import { calcRowCached, formatHasGst, formatHasMoney, type RowCalc } from './rowCalc'
 
 export type DisplayKind = RowKind | 'itemsTotal' | 'adjustmentsTotal' | 'grandTotal' | 'roundOff'
 
@@ -59,11 +59,17 @@ export const FOOTER_LABELS = {
   grandTotal: 'Final total'
 } as const
 
+/** Qty for display: a number is tidied (`10.0` -> `10`); free text (Stock transfer, or a word left over after a format switch) is shown as typed. */
+function qtyText(v: string | null): string {
+  const n = fmtQty(v)
+  return n !== '' ? n : (v ?? '').trim()
+}
+
 function rowCells(row: BillRow, calc: RowCalc, slNo: number | null): Record<string, string> {
   const cells: Record<string, string> = {
     slNo: slNo === null ? '' : String(slNo),
     name: rowName(row),
-    qty: fmtQty(row.qty),
+    qty: qtyText(row.qty),
     rate: fmtQty(row.rate),
     total: calc.total === null ? '' : fmtMoney(calc.total),
     gstRate: fmtQty(row.gstRate),
@@ -81,6 +87,7 @@ function rowCells(row: BillRow, calc: RowCalc, slNo: number | null): Record<stri
  */
 export function computeBill(format: FormatDef, rows: readonly BillRow[], opts: ComputeOptions = {}): BillTotals {
   const gst = formatHasGst(format)
+  const money = formatHasMoney(format)
   const gstFooter = format.footer === 'total_gst_amount'
   const slNo: Record<Id, number | null> = {}
   const warnings: string[] = []
@@ -93,7 +100,9 @@ export function computeBill(format: FormatDef, rows: readonly BillRow[], opts: C
   let n = 0
 
   for (const row of rows) {
-    const kind = classifyRow(row)
+    // Phase 149: with no money there are no adjustment rows (a leftover total override from another format stays in the data, unseen).
+    const k0 = classifyRow(row)
+    const kind = !money && k0 === 'adjustment' ? 'partial' : k0
     const calc = calcRowCached(format, row)
     for (const w of calc.warnings) warnings.push(`${w}:${row.id}`)
 
@@ -147,6 +156,13 @@ export function computeBill(format: FormatDef, rows: readonly BillRow[], opts: C
   })
 
   const display = body
+  if (!money) {
+    // Phase 149: no footer at all (no Total, no adjustments, no round-off); every amount is 0.00.
+    return {
+      display, slNo, itemsTotal: '0.00', itemsGst: '0.00', itemsAmount: '0.00', adjustments: [], adjustmentsTotal: '0.00', roundOff: '0.00', grandTotal: '0.00',
+      counts: { itemRows, adjustmentRows: 0, paperRows: itemRows + tailRows }, warnings
+    }
+  }
   const showRoundOff = !roundOffD.isZero() && opts.roundGrand !== true // roundGrand: the amount is kept in `roundOff`, no line is shown
   if (adjRows.length === 0 && !showRoundOff) {
     display.push(footerRow('grandTotal', FOOTER_LABELS.total, grandD, true))

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { Quot3Bridge } from '@shared/ipc'
-import { effectiveTargets, rangeIds, type BillListItem, type HistoryBranch, type HistoryDate, type HistorySource } from '@shared/history/historyList'
+import { effectiveTargets, rangeIds, sortBillsByInvoiceNumber, type BillListItem, type HistoryBranch, type HistoryDate, type HistorySource } from '@shared/history/historyList'
 
 type HistoryApi = Quot3Bridge['history']
 const api = (): HistoryApi | undefined => (window as unknown as { quot3?: { history?: HistoryApi } }).quot3?.history
@@ -113,8 +113,9 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       const l = await h.listBills({ date, ...rangeArgs(get()) })
       if (seq !== listSeq) return
       if (!l.ok) { set({ status: 'error', error: l.error.message }); return }
-      const kept = get().selection.filter((id) => l.data.items.some((i) => i.id === id))
-      set({ bills: l.data.items, next: l.data.next ?? null, truncated: false, status: 'ready', selection: kept, billId: l.data.items.some((i) => i.id === prev) ? prev : (l.data.items[0]?.id ?? null) })
+      const items = sortBillsByInvoiceNumber(l.data.items) // Phase 146: invoice-number order
+      const kept = get().selection.filter((id) => items.some((i) => i.id === id))
+      set({ bills: items, next: l.data.next ?? null, truncated: false, status: 'ready', selection: kept, billId: items.some((i) => i.id === prev) ? prev : (items[0]?.id ?? null) })
     } catch (e) {
       if (seq === listSeq) set({ status: 'error', error: e instanceof Error ? e.message : 'Could not load History.' })
     }
@@ -129,7 +130,8 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       const l = await h.listBills({ date, ...rangeArgs(get()) })
       if (seq !== listSeq) return
       if (!l.ok) { set({ status: 'error', error: l.error.message, bills: [], billId: null }); return }
-      set({ bills: l.data.items, next: l.data.next ?? null, status: 'ready', error: '', billId: l.data.items[0]?.id ?? null })
+      const items = sortBillsByInvoiceNumber(l.data.items) // Phase 146
+      set({ bills: items, next: l.data.next ?? null, status: 'ready', error: '', billId: items[0]?.id ?? null })
     } catch (e) {
       if (seq === listSeq) set({ status: 'error', error: e instanceof Error ? e.message : 'Could not load bills.', bills: [], billId: null })
     }
@@ -146,7 +148,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       if (seq !== listSeq) return
       if (!l.ok) { set({ loadingMore: false, error: l.error.message }); return }
       const seen = new Set(get().bills.map((b) => b.id))
-      set({ bills: [...get().bills, ...l.data.items.filter((i) => !seen.has(i.id))], next: l.data.next ?? null, loadingMore: false })
+      set({ bills: sortBillsByInvoiceNumber([...get().bills, ...l.data.items.filter((i) => !seen.has(i.id))]), next: l.data.next ?? null, loadingMore: false })
     } catch {
       if (seq === listSeq) set({ loadingMore: false })
     }

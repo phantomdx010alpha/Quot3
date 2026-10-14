@@ -10,7 +10,7 @@ import { rowName } from './calc/classifyRow'
 import { defaultFormatId, hasFormat, resolveFormat } from './format/registry'
 import { tryD } from './money'
 import { FOOTER_EXTRA_KEYS } from './types'
-import type { Bill, BillRow, Dec, ExtraCell, ExtraColDef, FooterExtras, IsoDate, IsoDateTime, PartySnapshot, Run, SyncState, TailRow } from './types'
+import type { Bill, BillRow, Dec, ExtraCell, ExtraColDef, FooterExtras, HybridSecond, IsoDate, IsoDateTime, PartySnapshot, Run, SyncState, TailRow } from './types'
 
 // ---------- ids / defaults ----------
 export type NewId = () => string
@@ -63,6 +63,20 @@ export function createEmptyBill(o: CreateEmptyBillOptions): Bill {
 // ---------- normalisation ----------
 const DEC_RE = /^-?\d+(\.\d+)?$/
 const isDec = (s: string): boolean => DEC_RE.test(s)
+
+/**
+ * Phase 149: qty may be FREE TEXT ("two dozen") because the Stock transfer format keeps it as typed. A number is cleaned exactly as
+ * `cleanDec` does; anything else is kept (trimmed, capped), never dropped, so switching formats loses nothing. Other formats show a
+ * non-number qty with an INVALID_NUMBER warning and do no maths with it.
+ */
+export const QTY_TEXT_LIMIT = 200
+function cleanQty(v: unknown): Dec | null {
+  if (typeof v !== 'string') return null
+  const t = v.trim()
+  if (t === '') return null
+  const d = cleanDec(t)
+  return d !== null ? d : t.slice(0, QTY_TEXT_LIMIT)
+}
 
 /** blank → null; a complete decimal → trimmed as typed; anything else → null (the model holds only valid Dec). */
 function cleanDec(v: unknown): Dec | null {
@@ -135,6 +149,43 @@ function cleanCellStyle(v: unknown): BillRow['cellStyle'] {
   return Object.keys(out).length ? out : undefined
 }
 
+/** One row in canonical shape (shared by the primary rows and the Hybrid second table). */
+function cleanRow(r: BillRow, id: string, idx: number): BillRow {
+  const row: BillRow = {
+    id, idx, nameRuns: cleanRuns(r.nameRuns),
+    qty: cleanQty(r.qty), rate: cleanDec(r.rate), totalOverride: cleanDec(r.totalOverride), gstRate: cleanDec(r.gstRate),
+    extras: cleanExtras(r.extras)
+  }
+  const cs = cleanCellStyle(r.cellStyle)
+  if (cs) row.cellStyle = cs
+  return row
+}
+
+/**
+ * Phase 150: the Hybrid second table in canonical shape. Junk / unknown `primary` -> undefined (no second table). Second-table row
+ * ids are made unique AND different from every id in `takenIds` (the primary rows), `idx` is contiguous, and `twins` keeps only
+ * pairs whose second row is here and whose primary row is in `takenIds`. Idempotent. Never touches the primary rows.
+ */
+export function cleanHybrid(v: unknown, takenIds: ReadonlySet<string>, newId: NewId = defaultNewId): HybridSecond | undefined {
+  if (!v || typeof v !== 'object') return undefined
+  const h = v as Partial<HybridSecond>
+  if (h.primary !== 'gst' && h.primary !== 'non_gst') return undefined
+  const ids = new Set<string>(takenIds)
+  const rows = (Array.isArray(h.rows) ? h.rows : []).filter((r) => r && typeof r === 'object').map((r, i): BillRow => {
+    let id = typeof r.id === 'string' && r.id !== '' && !ids.has(r.id) ? r.id : newId()
+    while (ids.has(id)) id = newId()
+    ids.add(id)
+    return cleanRow(r, id, i)
+  })
+  const twins: Record<string, string> = {}
+  const keep = new Set(rows.map((r) => r.id))
+  const used = new Set<string>()
+  for (const [second, primary] of Object.entries(h.twins && typeof h.twins === 'object' ? h.twins : {})) {
+    if (typeof primary === 'string' && keep.has(second) && takenIds.has(primary) && !used.has(primary)) { twins[second] = primary; used.add(primary) }
+  }
+  return { primary: h.primary, active: h.active === true, rows, twins }
+}
+
 export function normalizeExtraCols(cols: readonly ExtraColDef[] | null | undefined): ExtraColDef[] {
   const seen = new Set<string>()
   const out: ExtraColDef[] = []
@@ -158,30 +209,26 @@ export function normalizeBill(bill: Bill, newId: NewId = defaultNewId): Bill {
     let id = typeof r.id === 'string' && r.id !== '' && !ids.has(r.id) ? r.id : newId()
     while (ids.has(id)) id = newId()
     ids.add(id)
-    const row: BillRow = {
-      id, idx: i, nameRuns: cleanRuns(r.nameRuns),
-      qty: cleanDec(r.qty), rate: cleanDec(r.rate), totalOverride: cleanDec(r.totalOverride), gstRate: cleanDec(r.gstRate),
-      extras: cleanExtras(r.extras)
-    }
-    const cs = cleanCellStyle(r.cellStyle)
-    if (cs) row.cellStyle = cs
-    return row
+    return cleanRow(r, id, i)
   })
   const party: PartySnapshot = {
     name: bill.party?.name ?? '', phone: bill.party?.phone ?? '', address: bill.party?.address ?? '', transport: bill.party?.transport ?? ''
   }
-  const { footerExtras: _fe, tailRows: _tr, ...rest } = bill
+  const { footerExtras: _fe, tailRows: _tr, hybrid: _hy, ...rest } = bill
+  const hybrid = cleanHybrid(_hy, ids, newId)
   const footerExtras = cleanFooterExtras(_fe)
   const tailRows = cleanTailRows(_tr)
   return {
     ...rest,
     party,
-    formatId: hasFormat(bill.formatId) ? bill.formatId : defaultFormatId(),
+    // Phase 150: while the Hybrid view is on, the primary rows are laid out in the primary side's format.
+    formatId: hybrid?.active ? hybrid.primary : hasFormat(bill.formatId) ? bill.formatId : defaultFormatId(),
     extraCols: normalizeExtraCols(bill.extraCols),
     paperOverride: bill.paperOverride === 'A4' || bill.paperOverride === 'A5' ? bill.paperOverride : null,
     ...(bill.roundOff === undefined ? {} : { roundOff: normalizeRoundOff(bill.roundOff) }),
     ...(footerExtras ? { footerExtras } : {}),
     ...(tailRows ? { tailRows } : {}),
+    ...(hybrid ? { hybrid } : {}),
     rows
   }
 }
@@ -196,6 +243,21 @@ const freeCellsS = z.record(z.string(), extraCellS)
 const footerExtrasS = z.object({ itemsTotal: freeCellsS.optional(), adjustmentsTotal: freeCellsS.optional(), grandTotal: freeCellsS.optional() })
 const tailRowsS = z.array(z.object({ extras: freeCellsS }))
 const cellStyleS = z.record(z.string(), z.object({ hl: z.literal(1).optional() }).strict())
+const hybridRowS = z.object({
+  id: z.string().min(1), nameRuns: z.array(runS), qty: z.string().max(QTY_TEXT_LIMIT).nullable(), rate: decS.nullable(), totalOverride: decS.nullable(), gstRate: decS.nullable(),
+  extras: z.record(z.string(), extraCellS), cellStyle: cellStyleS.optional()
+})
+/** Phase 150: `bills.second_table_json`. */
+const hybridS = z.object({
+  v: z.literal(1), primary: z.enum(['gst', 'non_gst']), active: z.boolean(), rows: z.array(hybridRowS), twins: z.record(z.string(), z.string())
+})
+export function hybridToJson(h: HybridSecond | undefined): string {
+  if (!h) return ''
+  return JSON.stringify({
+    v: 1, primary: h.primary, active: h.active, twins: h.twins,
+    rows: h.rows.map((r) => ({ id: r.id, nameRuns: r.nameRuns, qty: r.qty, rate: r.rate, totalOverride: r.totalOverride, gstRate: r.gstRate, extras: r.extras, ...(r.cellStyle ? { cellStyle: r.cellStyle } : {}) }))
+  })
+}
 
 export const syncStateSchema = z.enum(['local_only', 'pending', 'synced', 'conflict'])
 
@@ -203,7 +265,7 @@ export const syncStateSchema = z.enum(['local_only', 'pending', 'synced', 'confl
 export const billRowRecordSchema = z.object({
   id: z.string().min(1), billId: z.string().min(1), idx: z.number().int().min(0),
   nameRunsJson: z.string(), namePlain: z.string(),
-  qty: decS.nullable(), rate: decS.nullable(), totalOverride: decS.nullable(), gstRate: decS.nullable(),
+  qty: z.string().max(QTY_TEXT_LIMIT).nullable(), rate: decS.nullable(), totalOverride: decS.nullable(), gstRate: decS.nullable(),
   extrasJson: z.string(), cellStyleJson: z.string().nullable()
 })
 export type BillRowRecord = z.infer<typeof billRowRecordSchema>
@@ -218,6 +280,8 @@ export const billRecordSchema = z.object({
   /** Phase 79: `bills.footer_extras_json` / `bills.tail_rows_json` (absent in an older snapshot = none; an old branch ignores them: zod strips unknown keys). */
   footerExtrasJson: z.string().optional(),
   tailRowsJson: z.string().optional(),
+  /** Phase 150: the Hybrid second table (`bills.second_table_json`; absent / '' = none; an older branch strips it: zod strips unknown keys). */
+  secondTableJson: z.string().optional(),
   /** Phase 88: legacy-import tags travel with the bill (absent = a bill made here / an older branch; an old branch strips them). */
   legacyRef: z.string().nullable().optional(),
   importBatchId: z.string().nullable().optional(),
@@ -249,7 +313,7 @@ export function serializeBill(input: Bill): SerializedBill {
     id: bill.id, branchId: bill.branchId, poSeq: bill.poSeq, poNumber: bill.poNumber,
     partyId: bill.partyId, partySnapshotJson: JSON.stringify(bill.party),
     formatId: bill.formatId, extraColsJson: JSON.stringify(bill.extraCols), paperOverride: bill.paperOverride, roundOff: normalizeRoundOff(bill.roundOff),
-    footerExtrasJson: JSON.stringify(bill.footerExtras ?? {}), tailRowsJson: JSON.stringify(bill.tailRows ?? []),
+    footerExtrasJson: JSON.stringify(bill.footerExtras ?? {}), tailRowsJson: JSON.stringify(bill.tailRows ?? []), secondTableJson: hybridToJson(bill.hybrid),
     billDate: bill.billDate, totalsJson: JSON.stringify(cache), itemRowCount: totals.counts.itemRows,
     revision: bill.revision, createdAt: bill.createdAt, updatedAt: bill.updatedAt, deletedAt: bill.deletedAt, syncState: bill.syncState
   }
@@ -287,6 +351,8 @@ export function deserializeBill(recordIn: unknown, rowsIn: unknown[]): ParseResu
   if (footer && !footer.ok) return footer
   const tail = b.tailRowsJson === undefined || b.tailRowsJson === '' ? null : parseJson(b.tailRowsJson, tailRowsS, 'tail_rows_json')
   if (tail && !tail.ok) return tail
+  const second = b.secondTableJson === undefined || b.secondTableJson === '' ? null : parseJson(b.secondTableJson, hybridS, 'second_table_json')
+  if (second && !second.ok) return second
   const footerExtras = footer ? cleanFooterExtras(footer.data) : undefined
   const tailRows = tail ? cleanTailRows(tail.data) : undefined
 
@@ -320,6 +386,7 @@ export function deserializeBill(recordIn: unknown, rowsIn: unknown[]): ParseResu
     ...(b.roundOff === 1 ? { roundOff: 1 as const } : {}),
     ...(footerExtras ? { footerExtras } : {}),
     ...(tailRows ? { tailRows } : {}),
+    ...(second ? { hybrid: { primary: second.data.primary, active: second.data.active, twins: second.data.twins, rows: second.data.rows.map((r, i): BillRow => ({ ...r, idx: i })) } } : {}),
     revision: b.revision, createdAt: b.createdAt, updatedAt: b.updatedAt, deletedAt: b.deletedAt, syncState: b.syncState as SyncState
   }
   return { ok: true, data: bill }

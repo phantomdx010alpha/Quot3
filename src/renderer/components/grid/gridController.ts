@@ -5,7 +5,7 @@ import { allowsNegative, cellRawText, isNumericColumn, isTypable, isValidNumeric
 import { buildGridColumns, type GridColumn } from '@shared/gridModel'
 import { displayedTailCount, freeNavIds, getFreeCell, isFreeRowId, parseFreeRowId } from '@shared/freeCells'
 import { resolveFormat } from '@shared/format/registry'
-import { useBillStore } from '../../stores/billStore'
+import { tableApi, type TableApi, type TableSide } from '../../stores/tableApi'
 import { useBehaviourStore } from '../../stores/behaviourStore'
 import { useGridUiStore } from '../../stores/gridUiStore'
 import { applyFormat, type FormatKind } from '@shared/richtext/format'
@@ -13,10 +13,35 @@ import { applyTextChange } from '@shared/richtext/runs'
 import { parseTsv, formatTsv, looksLikeTsv } from '@shared/tsv/tsvCodec'
 import { QUOT3_GRID_MIME, describePaste, parseQuot3Payload, planPaste, repeatCell, serializeQuot3Payload, type GridClipCell, type PasteCol } from '@shared/tsv/gridClip'
 import { hasStyle } from '@shared/richtext/format'
-import { historyHooks, runAsOneEntry } from '../../stores/historyHooks'
+import { historyHooks, runAsOneEntry, type SelectionPort } from '../../stores/historyHooks'
 import type { HistSel } from '@shared/history/undoStack'
 import { undoNotice } from '@shared/history/historyView'
 import { appendText, caretOffset, insertTextAtSelection, renderRuns, selectionOffsets, setCaret, setSelectionRange, textOf } from './gridDom'
+
+/** Phase 151: the grids that are mounted (one, or two in Hybrid) and the one that last had the focus. */
+const live = new Set<GridController>()
+let current: GridController | null = null
+
+/**
+ * Phase 17 port, Phase 151 composite: `get` = the focused grid's active cell; `restore` hands the cell to the grid that shows its row
+ * (every other grid drops its draft first, without committing); `flush` commits every grid's draft.
+ */
+const COMPOSITE_PORT: SelectionPort = {
+  get: () => {
+    if (current?.hasActive()) return current.selectionSnapshot()
+    for (const c of live) { const sel = c.selectionSnapshot(); if (sel) return sel }
+    return null
+  },
+  restore: (sel) => {
+    if (!sel) return
+    const all = [...live]
+    const target = all.find((c) => c.ownsRow(sel.rowId) && c.tableSide() === (current?.tableSide() ?? 'primary')) ?? all.find((c) => c.ownsRow(sel.rowId)) ?? current ?? all[0]
+    if (!target) return
+    for (const c of all) if (c !== target) c.dropActive()
+    target.restoreSelection(sel)
+  },
+  flush: () => { for (const c of live) c.flushDraft() }
+}
 
 /** Phase 119: how long the native copy / cut / paste event gets to arrive before the bridge fallback runs. */
 export const CLIPBOARD_FALLBACK_MS = 60
@@ -39,6 +64,8 @@ export class GridController {
   private dragFrom: { row: number; col: number } | null = null
   private dragged = false
   private detach: (() => void) | null = null
+  /** Phase 151: makes this grid the owner of the app-level handlers (set by `attach`). */
+  private claimFn: (() => void) | null = null
   pageRows = 20
 
   /** Phase 119: set by the native clipboard events; the Ctrl+C/X/V fallback timer checks it. */
@@ -48,7 +75,13 @@ export class GridController {
   private rowSel = false
   private lastCopy: { tsv: string; matrix: GridClipCell[][] } | null = null
 
-  constructor(private root: HTMLElement) {}
+  /** Phase 151: `side` = which table this grid shows (a Hybrid bill has two grids, each with its own controller). */
+  constructor(private root: HTMLElement, private side: TableSide = 'primary') {}
+
+  /** The table this controller edits (the store state itself for the primary table; see `tableApi`). */
+  private st(): TableApi { return tableApi(this.side) }
+  /** Tail rows (extra-only rows below the Final total, shared by both tables) are shown under the primary table only. */
+  private tailN(st: TableApi): number { return this.side === 'second' ? 0 : displayedTailCount(st.tailRows, useGridUiStore.getState().tailShown) }
 
   // ---------- wiring ----------
   attach(): () => void {
@@ -82,14 +115,23 @@ export class GridController {
     const copyFn = (): void => { this.refocus(); document.execCommand?.('copy') }
     const cutFn = (): void => { this.refocus(); document.execCommand?.('cut') }
     const pasteFn = (): void => { void this.pasteFromBridge() }
-    useGridUiStore.setState({ resetTotal: resetFn, format: formatFn, openFormatPalette: openFn, refocus: refocusFn, copy: copyFn, cut: cutFn, paste: pasteFn, selectRow: () => this.selectActiveRow(), deleteRows: () => { this.deleteSelectedRows() }, moveRow: (t) => { this.moveActiveRow(t) } })
-    // Phase 17: the history reads/restores the selection and commits an uncommitted draft through this port.
-    const port = { get: () => this.histSel(), restore: (sel: HistSel | null) => this.restoreSel(sel), flush: () => this.commit() }
-    historyHooks.selection = port
+    // Phase 151: with two grids (Hybrid) the app-level handlers (palette actions, toolbar) belong to the grid that last had the focus.
+    // The primary grid claims them at once; the second one when it receives focus / a click. One composite undo port serves both.
+    const owned = { resetTotal: resetFn, format: formatFn, openFormatPalette: openFn, refocus: refocusFn, copy: copyFn, cut: cutFn, paste: pasteFn, selectRow: () => this.selectActiveRow(), deleteRows: () => { this.deleteSelectedRows() }, moveRow: (t: MoveTarget) => { this.moveActiveRow(t) } }
+    this.claimFn = () => { if (current !== this) { current = this; useGridUiStore.setState(owned) } }
+    live.add(this)
+    if (this.side === 'primary' || current === null) this.claimFn()
+    historyHooks.selection = COMPOSITE_PORT
     this.detach = () => {
-      if (historyHooks.selection === port) historyHooks.selection = null
+      live.delete(this)
+      if (live.size === 0 && historyHooks.selection === COMPOSITE_PORT) historyHooks.selection = null
       if (this.clipTimer !== null) { clearTimeout(this.clipTimer); this.clipTimer = null }
-      if (useGridUiStore.getState().resetTotal === resetFn) useGridUiStore.setState({ resetTotal: null, format: null, openFormatPalette: null, refocus: null, formatPalette: null, copy: null, cut: null, paste: null, selectRow: null, deleteRows: null, moveRow: null, notice: '' })
+      if (current === this) {
+        current = null
+        const next = [...live][0]
+        if (next) next.claimFn?.()
+        else useGridUiStore.setState({ resetTotal: null, format: null, openFormatPalette: null, refocus: null, formatPalette: null, copy: null, cut: null, paste: null, selectRow: null, deleteRows: null, moveRow: null, notice: '' })
+      }
       r.removeEventListener('keydown', kd); r.removeEventListener('beforeinput', bi); r.removeEventListener('mousedown', md)
       r.removeEventListener('copy', cp); r.removeEventListener('cut', ct); r.removeEventListener('paste', ps); r.removeEventListener('mousemove', mm)
       window.removeEventListener('mouseup', mu)
@@ -99,6 +141,21 @@ export class GridController {
     return () => { this.leave(); this.detach?.() }
   }
 
+  // ---------- Phase 151: the composite undo port's view of this grid ----------
+  /** The active cell / range as undo history stores it (null = this grid has no active cell). */
+  selectionSnapshot(): HistSel | null { return this.histSel() }
+  /** True when this grid shows the row (its own table, or a total row id both tables share). */
+  ownsRow(rowId: string): boolean { return this.navIds().includes(rowId) }
+  /** Commit the active cell's draft. */
+  flushDraft(): void { this.commit() }
+  /** Stop editing WITHOUT committing (undo is about to move focus to the other table; the stale draft must not be written back). */
+  dropActive(): void { this.unmarkRange(); this.leave(false) }
+  restoreSelection(sel: HistSel | null): void { this.claimFn?.(); this.restoreSel(sel) }
+  /** The table this grid edits (for callers that must pick the grid for a row). */
+  tableSide(): TableSide { return this.side }
+  /** True while a cell of this grid is the active one. */
+  hasActive(): boolean { return this.active !== null }
+
   // ---------- Phase 80: free cells (total rows + tail rows) ----------
   /**
    * Keyboard-navigation row ids in display order. With no extra columns this is the store's `view.navIds` (body + adjustments);
@@ -106,19 +163,20 @@ export class GridController {
    */
   private navMemo: { v: unknown; f: unknown; e: unknown; t: unknown; s: number; ids: string[] } | null = null
   private navIds(): string[] {
-    const st = useBillStore.getState()
+    const st = this.st()
     if (st.extraCols.length === 0) return st.view.navIds
-    const shown = useGridUiStore.getState().tailShown
+    const shown = this.tailN(st)
     const m = this.navMemo
     if (m && m.v === st.view.navIds && m.f === st.view.footer && m.e === st.extraCols && m.t === st.tailRows && m.s === shown) return m.ids
-    const ids = freeNavIds(st.view.bodyIds, st.view.footer, st.extraCols.length, displayedTailCount(st.tailRows, shown))
+    const ids = freeNavIds(st.view.bodyIds, st.view.footer, st.extraCols.length, shown)
     this.navMemo = { v: st.view.navIds, f: st.view.footer, e: st.extraCols, t: st.tailRows, s: shown, ids }
     return ids
   }
   /** Keep every tail row that is on screen on screen while a store write may trim stored (empty) trailing ones - the active cell must not vanish under the caret. */
   private freezeTail(): void {
+    if (this.side === 'second') return
     const ui = useGridUiStore.getState()
-    ui.setTailShown(displayedTailCount(useBillStore.getState().tailRows, ui.tailShown))
+    ui.setTailShown(displayedTailCount(this.st().tailRows, ui.tailShown))
   }
   /** A free row's non-extra cells (labels, amounts) are navigable but never typable. */
   private typableAt(rowId: string, col: Pick<GridColumn, 'editable' | 'key' | 'isExtra'>): boolean {
@@ -126,7 +184,7 @@ export class GridController {
   }
   /** Text of a cell on a free row: its stored extra cell, or (read-only cells) the footer display text - for those the edit text IS the display text. */
   private freeText(rowId: string, colKey: string): string {
-    const st = useBillStore.getState()
+    const st = this.st()
     if (st.extraCols.some((c) => c.key === colKey)) return getFreeCell(st.footerExtras, st.tailRows, rowId, colKey)?.text ?? ''
     const ref = parseFreeRowId(rowId)
     if (ref?.kind !== 'footer') return ''
@@ -137,7 +195,7 @@ export class GridController {
   /** Phase 24: memoised on (formatId, extraCols) identity — it was rebuilt several times per keystroke. Treat the result as read-only. */
   private colsMemo: { f: string; e: unknown; cols: GridColumn[] } | null = null
   private navCols(): GridColumn[] {
-    const s = useBillStore.getState()
+    const s = this.st()
     const m = this.colsMemo
     if (m && m.f === s.formatId && m.e === s.extraCols) return m.cols
     const cols = buildGridColumns(resolveFormat(s.formatId), s.extraCols).filter((c) => c.editable)
@@ -169,7 +227,7 @@ export class GridController {
 
   /** Snapshot of the grid as the reducer sees it. The active cell reports its LIVE (uncommitted) DOM text. */
   private shape(cols: GridColumn[]): GridShape {
-    const st = useBillStore.getState()
+    const st = this.st()
     const ids = this.navIds()
     if (this.byIdMemo?.rows !== st.rows) this.byIdMemo = { rows: st.rows, map: new Map(st.rows.map((r) => [r.id, r])) } // Phase 24: rebuilt only when the rows array changes
     const byId = this.byIdMemo.map
@@ -201,11 +259,11 @@ export class GridController {
     const el = this.activeEl()
     if (!this.active || !el || el.dataset.editing !== '1') return
     const id = this.active.rowId
-    if (isFreeRowId(id)) { this.freezeTail(); useBillStore.getState().setFreeCells([{ rowId: id, colKey: this.active.colKey, text: textOf(el) }]); return }
-    const was = useBillStore.getState().view.adjIds.includes(id)
-    useBillStore.getState().setCellText(id, this.active.colKey, textOf(el))
+    if (isFreeRowId(id)) { this.freezeTail(); this.st().setFreeCells([{ rowId: id, colKey: this.active.colKey, text: textOf(el) }]); return }
+    const was = this.st().view.adjIds.includes(id)
+    this.st().setCellText(id, this.active.colKey, textOf(el))
     // Phase 19: the row just moved between body and adjustment block — let React move its DOM now, so the next cell lookup is not stale.
-    if (useBillStore.getState().view.adjIds.includes(id) !== was) flushSync(() => { /* render */ })
+    if (this.st().view.adjIds.includes(id) !== was) flushSync(() => { /* render */ })
   }
 
   /**
@@ -217,11 +275,11 @@ export class GridController {
     const a = this.active
     const el = this.activeEl()
     if (!a || !el || el.dataset.editing !== '1') return
-    const st = useBillStore.getState()
+    const st = this.st()
     if (isFreeRowId(a.rowId)) { this.freezeTail(); st.setFreeCells([{ rowId: a.rowId, colKey: a.colKey, text: textOf(el) }]); return }
     const before = st.view.adjIds.includes(a.rowId)
     st.setCellText(a.rowId, a.colKey, textOf(el))
-    if (useBillStore.getState().view.adjIds.includes(a.rowId) === before) return
+    if (this.st().view.adjIds.includes(a.rowId) === before) return
     flushSync(() => { /* let React move the row's DOM */ })
     const fresh = this.activeEl()
     if (!fresh || fresh === el) return
@@ -252,7 +310,7 @@ export class GridController {
 
   /** Display text of a cell (item names keep their styled runs). */
   private paint(el: HTMLElement, rowId: string, colKey: string): void {
-    const st = useBillStore.getState()
+    const st = this.st()
     if (isFreeRowId(rowId)) { el.textContent = this.freeText(rowId, colKey); return }
     const row = colKey === 'name' ? st.rows.find((r) => r.id === rowId) : undefined
     if (row) renderRuns(el, row.nameRuns)
@@ -273,7 +331,7 @@ export class GridController {
     const a = this.active
     const el = this.activeEl()
     if (!a || !el || a.colKey !== 'name') return false
-    const st = useBillStore.getState()
+    const st = this.st()
     const row = st.rows.find((r) => r.id === a.rowId)
     if (!row) return false
     const editing = el.dataset.editing === '1'
@@ -313,7 +371,7 @@ export class GridController {
     const el = this.cellEl(rowId, colKey)
     const col = this.colOf(colKey)
     if (!el || !col) return null
-    const st = useBillStore.getState()
+    const st = this.st()
     const row = st.rows.find((r) => r.id === rowId)
     const raw = row ? cellRawText(row, colKey, st.view.body[rowId]?.cells[colKey] ?? '') : isFreeRowId(rowId) ? this.freeText(rowId, colKey) : textOf(el)
     this.active = { rowId, colKey }
@@ -435,7 +493,7 @@ export class GridController {
       const redo = k === 'y' || (k === 'z' && e.shiftKey)
       if (undo || redo) {
         e.preventDefault()
-        const st = useBillStore.getState()
+        const st = this.st()
         const label = undo ? st.undoLabel : st.redoLabel
         const ok = undo ? st.undo() : st.redo()
         useGridUiStore.getState().setNotice(undoNotice(undo ? 'undo' : 'redo', ok, label))
@@ -508,7 +566,7 @@ export class GridController {
   resetActiveTotal(): void {
     if (!this.active || this.active.colKey !== 'total' || isFreeRowId(this.active.rowId)) return
     const el = this.activeEl()
-    useBillStore.getState().resetTotal(this.active.rowId)
+    this.st().resetTotal(this.active.rowId)
     if (el && el.dataset.editing === '1') {
       this.refreshActiveText()
       setCaret(el, 'end')
@@ -527,15 +585,16 @@ export class GridController {
     switch (eff.type) {
       case 'ENSURE_ROW':
         // Phase 80: with extra columns the last row is a tail row - Enter / Tab past it opens one more (display only until it holds something).
-        if (useBillStore.getState().extraCols.length > 0) {
+        if (this.st().extraCols.length > 0) {
+          if (this.side === 'second') return // the shared tail rows hang under the primary table only
           const ui = useGridUiStore.getState()
-          const shown = displayedTailCount(useBillStore.getState().tailRows, ui.tailShown)
+          const shown = displayedTailCount(this.st().tailRows, ui.tailShown)
           if (eff.index >= this.navIds().length) flushSync(() => ui.setTailShown(shown + 1))
           return
         }
         // Phase 19: navigation continues into the adjustment rows; "last row" is then an adjustment, which never grows the body.
-        if (useBillStore.getState().view.adjIds.length > 0) return
-        flushSync(() => useBillStore.getState().ensureBodyRows(eff.index + 1))
+        if (this.st().view.adjIds.length > 0) return
+        flushSync(() => this.st().ensureBodyRows(eff.index + 1))
         return
       case 'MOVE': {
         this.unmarkRange()
@@ -569,7 +628,7 @@ export class GridController {
   private refreshActiveText(): void {
     const el = this.activeEl()
     if (!el || !this.active) return
-    const st = useBillStore.getState()
+    const st = this.st()
     if (isFreeRowId(this.active.rowId)) { el.textContent = this.freeText(this.active.rowId, this.active.colKey); return }
     const row = st.rows.find((r) => r.id === this.active?.rowId)
     if (row) this.paintRaw(el, row, this.active.colKey, cellRawText(row, this.active.colKey, st.view.body[this.active.rowId]?.cells[this.active.colKey] ?? ''))
@@ -596,8 +655,8 @@ export class GridController {
     const bodyCells = freeCells.length > 0 ? cells.filter((c) => !isFreeRowId(c.rowId)) : cells
     if (freeCells.length > 0) this.freezeTail()
     runAsOneEntry(label, () => {
-      if (bodyCells.length > 0) useBillStore.getState().setCellTexts(bodyCells)
-      if (freeCells.length > 0) useBillStore.getState().setFreeCells(freeCells)
+      if (bodyCells.length > 0) this.st().setCellTexts(bodyCells)
+      if (freeCells.length > 0) this.st().setFreeCells(freeCells)
     })
     this.refreshActiveText()
     if (el) setCaret(el, 'start')
@@ -605,7 +664,7 @@ export class GridController {
 
   /** The cells of `b` as clipboard cells. The active cell reports its live draft; item names carry their runs when styled. */
   private readCells(b: { top: number; left: number; bottom: number; right: number }, cols: GridColumn[]): GridClipCell[][] {
-    const st = useBillStore.getState()
+    const st = this.st()
     const shape = this.shape(cols)
     const ids = this.navIds()
     const byId = new Map(st.rows.map((r) => [r.id, r]))
@@ -747,18 +806,18 @@ export class GridController {
     const start = b ? { row: b.top, col: b.left } : at
     const startId = this.navIds()[start.row]
     if (startId !== undefined && isFreeRowId(startId)) return this.pasteFree(m, start, cols)
-    if (start.row >= useBillStore.getState().view.bodyIds.length) { useGridUiStore.getState().setNotice('Paste starts in an item row — adjustment rows are typed, not pasted'); return true }
+    if (start.row >= this.st().view.bodyIds.length) { useGridUiStore.getState().setNotice('Paste starts in an item row — adjustment rows are typed, not pasted'); return true }
     const plan = planPaste(m, start.row, start.col, this.pasteCols(cols))
     runAsOneEntry('Paste', () => {
-      flushSync(() => useBillStore.getState().ensureBodyRows(plan.rowsNeeded))
-      const ids = useBillStore.getState().view.bodyIds // paste flows through body rows only (never into the adjustment block)
+      flushSync(() => this.st().ensureBodyRows(plan.rowsNeeded))
+      const ids = this.st().view.bodyIds // paste flows through body rows only (never into the adjustment block)
       const items: { rowId: string; colKey: string; text: string; runs?: import('@shared/types').Runs }[] = []
       for (const c of plan.cells) {
         const rowId = ids[c.row]; const col = cols[c.col]
         if (rowId === undefined || !col) continue
         items.push(c.runs ? { rowId, colKey: col.key, text: c.text, runs: c.runs } : { rowId, colKey: col.key, text: c.text })
       }
-      useBillStore.getState().setCellTexts(items)
+      this.st().setCellTexts(items)
     })
     this.unmarkRange()
     this.refreshActiveText()
@@ -789,7 +848,7 @@ export class GridController {
       items.push({ rowId, colKey: col.key, text: c.text })
     }
     this.freezeTail()
-    runAsOneEntry('Paste', () => { if (items.length > 0) useBillStore.getState().setFreeCells(items) })
+    runAsOneEntry('Paste', () => { if (items.length > 0) this.st().setFreeCells(items) })
     this.unmarkRange()
     this.refreshActiveText()
     const el = this.activeEl()
@@ -853,7 +912,7 @@ export class GridController {
   /** A body (item) row: not a total / tail / adjustment row. */
   private isBodyIndex(i: number): boolean {
     const id = this.navIds()[i]
-    return id !== undefined && useBillStore.getState().view.bodyIds.includes(id)
+    return id !== undefined && this.st().view.bodyIds.includes(id)
   }
   /** Select the whole active row (every navigable column) as a range; the active cell stays the first cell of the row. */
   selectActiveRow(): void {
@@ -885,7 +944,7 @@ export class GridController {
     const ids = this.navIds().slice(b.top, b.bottom + 1)
     this.unmarkRange()
     this.rowSel = false
-    const changed = useBillStore.getState().deleteRows(ids)
+    const changed = this.st().deleteRows(ids)
     const el = this.activeEl()
     this.nav = { ...this.nav, row: b.top, col: 0, range: null, mode: 'append', leftArmed: false, caret: 0 }
     if (changed) {
@@ -909,7 +968,7 @@ export class GridController {
     const id = this.navIds()[at.row] as string
     const el = this.activeEl()
     if (el && el.dataset.editing === '1') this.commit()
-    const dest = useBillStore.getState().moveRow(id, target)
+    const dest = this.st().moveRow(id, target)
     if (dest === null) { useGridUiStore.getState().setNotice(target === 'up' || target === 'top' ? 'Already the first row' : 'Already the last item row'); return false }
     const keepCol = at.col
     this.unmarkRange()
@@ -928,6 +987,7 @@ export class GridController {
 
   private onMouseDown(e: MouseEvent): void {
     if (e.button !== 0) return
+    this.claimFn?.()
     const target = e.target as HTMLElement
     const sl = target.closest<HTMLElement>('.q3-gc[data-col="slNo"]')
     if (sl && !sl.hasAttribute('data-nav')) {
@@ -1017,6 +1077,7 @@ export class GridController {
 
   // ---------- focus ----------
   private onFocusIn(e: FocusEvent): void {
+    this.claimFn?.()
     if (e.target === this.root) this.focusGrid()
   }
   private onFocusOut(e: FocusEvent): void {

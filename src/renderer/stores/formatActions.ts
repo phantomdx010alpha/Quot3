@@ -3,6 +3,7 @@ import { buildGridColumns, remapColumnKey } from '@shared/gridModel'
 import { hasFormat, resolveFormat } from '@shared/format/registry'
 import { useBillStore } from './billStore'
 import { historyHooks } from './historyHooks'
+import { selectionAfterLeavingHybrid } from './hybridActions'
 
 /**
  * Phase 20 — switch the bill's format (Alt+1 / Alt+2, toolbar switcher, palette). One undoable entry ("Switched to GST");
@@ -15,15 +16,17 @@ import { historyHooks } from './historyHooks'
 export function switchFormat(formatId: string): boolean {
   if (!hasFormat(formatId)) return false
   const s = useBillStore.getState()
-  if (s.formatId === formatId) return false
+  // Phase 151: Alt+1 / Alt+2 / Alt+4 from the Hybrid view leave it (the second table is kept) and switch the primary rows' layout as today.
+  const inHybrid = s.hybrid?.active === true
+  if (!inHybrid && s.formatId === formatId) return false
   const port = historyHooks.selection
   const ae = typeof document === 'undefined' ? null : document.activeElement
   const wasInGrid = !!ae?.closest?.('.q3-grid')
   const fromPalette = !!ae?.closest?.('[role="dialog"]')
   port?.flush()
-  const sel = port?.get() ?? null
+  const sel = inHybrid ? selectionAfterLeavingHybrid() : port?.get() ?? null
   const oldKeys = buildGridColumns(resolveFormat(s.formatId), s.extraCols).map((c) => c.key)
-  flushSync(() => useBillStore.getState().setFormatId(formatId))
+  flushSync(() => { if (inHybrid) useBillStore.getState().leaveHybridView(formatId); else useBillStore.getState().setFormatId(formatId) })
   if (sel && (wasInGrid || fromPalette)) {
     const next = useBillStore.getState()
     const newKeys = buildGridColumns(resolveFormat(next.formatId), next.extraCols).filter((c) => c.editable).map((c) => c.key)

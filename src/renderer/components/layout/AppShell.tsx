@@ -10,6 +10,7 @@ import { useDirtyGuard } from '../../hooks/useDirtyGuard'
 import { useDrafts } from '../../hooks/useDrafts'
 import { UnsavedDialog } from '../create/UnsavedDialog'
 import { PrintDialog } from '../create/PrintDialog'
+import { HybridSidePickDialog } from '../create/HybridSidePickDialog'
 import { RevisionPanel } from '../history/RevisionPanel'
 import { BackupRecoveryPrompt } from '../settings/BackupRecoveryPrompt'
 import { PartyImportDialog } from '../partyImport/PartyImportDialog'
@@ -58,6 +59,7 @@ export function AppShell({ children }: { children: ReactNode }): React.JSX.Eleme
       <ShortcutSheet open={sheetOpen} onClose={closeSheet} />
       <UnsavedDialog />
       <PrintDialog />
+      <HybridSidePickDialog />
       <RevisionPanel />
       <PartyImportDialog />
       <LegacyImportDialog />

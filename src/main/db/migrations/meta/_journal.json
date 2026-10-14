@@ -57,6 +57,13 @@
       "when": 1792047989889,
       "tag": "0007_customer_merge",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1792134389889,
+      "tag": "0008_hybrid_second_table",
+      "breakpoints": true
     }
   ]
 }

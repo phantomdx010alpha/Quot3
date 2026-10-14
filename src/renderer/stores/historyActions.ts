@@ -9,7 +9,9 @@ import { useBillStore } from './billStore'
 import { createSession, openBillForEdit } from './createSession'
 import { requestLeave } from './guardStore'
 import { useHistoryStore } from './historyStore'
-import { copyImageOfBill } from './outputActions'
+import { needsSidePick } from '@shared/hybrid/hybridOutput'
+import { copyImageOfBill, copyTsvOfBill } from './outputActions'
+import { withOutputSide } from './sidePick'
 import { openPrintForBill } from './printActions'
 import { useSaveUiStore } from './saveUiStore'
 import type { OutputActionId } from '@shared/outputActions'
@@ -95,6 +97,8 @@ export async function exportSelected(): Promise<boolean> {
   if (targets.length === 1) {
     const bill = await fetchBill(targets[0]!.id)
     if (!bill) return false
+    // Phase 152: a bill saved in the Hybrid view asks which side first; only that side is copied.
+    if (needsSidePick(bill)) return withOutputSide(bill, 'tsv', (b) => copyTsvOfBill(b), Promise.resolve(true))
     payload = billToTsv(bill)
   } else {
     payload = { text: historyRowsToTsv(targets) }

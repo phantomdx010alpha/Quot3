@@ -7,6 +7,7 @@ import { useBillStore } from './billStore'
 import { useGridUiStore } from './gridUiStore'
 import { useExtraColUiStore } from './extraColUiStore'
 import { historyHooks } from './historyHooks'
+import { sideOfRowId, tableApi } from './tableApi'
 
 /**
  * Phase 21 — the single place the toolbar, hotkeys and palette run extra-column commands (UNDO_REDO_RULES §2.7,
@@ -44,7 +45,7 @@ export function requestRemoveExtraCol(key: string | null = targetExtraColKey()):
   if (!key || !s.extraCols.some((c) => c.key === key)) { notice('No extra column to remove'); return }
   historyHooks.selection?.flush()
   const cur = useBillStore.getState()
-  if (extraColHasData(cur.rows, key) || freeColumnHasData(cur.footerExtras, cur.tailRows, key)) useExtraColUiStore.getState().askRemove(key)
+  if (extraColHasData(cur.rows, key) || (cur.hybrid ? extraColHasData(cur.hybrid.rows, key) : false) || freeColumnHasData(cur.footerExtras, cur.tailRows, key)) useExtraColUiStore.getState().askRemove(key)
   else confirmRemoveExtraCol(key)
 }
 
@@ -90,7 +91,7 @@ export function runToggleMark(): boolean | null {
   const sel = port?.get() ?? null
   const s = useBillStore.getState()
   if (!sel || !s.extraCols.some((c) => c.key === sel.colKey)) { notice('Select a cell in an extra column to mark it'); return null }
-  const r = s.toggleMark(sel.rowId, sel.colKey)
+  const r = tableApi(sideOfRowId(sel.rowId)).toggleMark(sel.rowId, sel.colKey) // Phase 151: a second-table row marks its (shared) cell
   if (r !== null) notice(r ? 'Marked — this cell now starts its own segment (Ctrl+M again to unmark)' : 'Unmarked')
   return r
 }
