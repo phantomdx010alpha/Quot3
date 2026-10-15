@@ -52,7 +52,7 @@ describe('Phase 33 - template renderer', () => {
     expect(h).toContain('<thead>')
     expect(h).toContain('table-header-group')
     expect(h).toMatch(/<td class="q3p-lbl" colspan="4">Total<\/td>/)
-    expect(h).toContain('₹17226.00')
+    expect(h).toContain('₹17226')
   })
   it('adjustments: label rows span, adjustment rows are normal rows with their name', () => {
     const h = html('adjustment')

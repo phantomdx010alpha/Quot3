@@ -38,10 +38,10 @@ describe('Phase 33 - buildPrintModel', () => {
     expect(m.rowCount).toBe(18)
     expect(text(m, m.body[0]!, 'name')).toBe('ruby gold belt roll big')
     expect(text(m, m.body[0]!, 'slNo')).toBe('1')
-    expect(text(m, m.body[0]!, 'total')).toBe('900.00')
+    expect(text(m, m.body[0]!, 'total')).toBe('900')
     expect(text(m, m.body[0]!, 'ruby')).toBe('11.5-1')
     expect(m.footer).toHaveLength(1)
-    expect(m.footer[0]).toMatchObject({ kind: 'grandTotal', label: 'Total', cells: { total: { text: `₹${LEGACY_ITEMS_TOTAL}` } } })
+    expect(m.footer[0]).toMatchObject({ kind: 'grandTotal', label: 'Total', cells: { total: { text: `₹${LEGACY_ITEMS_TOTAL.replace(/\.00$/, "")}` } } })
   })
   it('Rough carries no company, address, PO or date anywhere in the model', () => {
     const json = JSON.stringify(rough('legacy'))
@@ -63,7 +63,7 @@ describe('Phase 33 - buildPrintModel', () => {
     expect(m.footer.map((r) => r.label ?? printRowName(r))).toEqual(['Items total', 'Discount', 'Packing', 'Adjustments total', 'Final total'])
     // 12*45 + 5*99.99 + 2*250.75 = 540 + 499.95 + 501.50 = 1541.45 ; -100 + 35.50 = -64.50 ; final 1476.95
     expect(m.footer[0]!.cells['total']!.text).toBe('1541.45')
-    expect(m.footer[1]!.cells['total']!.text).toBe('-100.00')
+    expect(m.footer[1]!.cells['total']!.text).toBe('-100')
     expect(m.footer[3]!.cells['total']!.text).toBe('-64.50')
     expect(m.footer[4]!.cells['total']!.text).toBe('₹1476.95')
     expect(m.rowCount).toBe(5)
@@ -84,7 +84,7 @@ describe('Phase 33 - buildPrintModel', () => {
     const m = buildPrintModel(b, 'rough', DEFAULT_PRINT_SETTINGS, simplePaperDecision('A5'))
     expect(m.footer.map((r) => r.kind)).toEqual(['itemsTotal', 'adjustment', 'adjustmentsTotal', 'grandTotal'])
     expect(Object.keys(m.footer[3]!.cells)).toEqual(['amount'])
-    expect(m.footer[1]!.cells['amount']!.text).toBe('-50.00')
+    expect(m.footer[1]!.cells['amount']!.text).toBe('-50')
     expect(m.footer[1]!.cells['total']!.text).toBe('')
   })
   it('extra-column model: marks are not printed as text; extras keep their text', () => {
@@ -113,9 +113,9 @@ describe('Phase 33 - buildPrintModel', () => {
     b.rows = [{ ...b.rows[0]!, qty: '1', rate: '100' }, { ...b.rows[1]!, nameRuns: [{ t: 'Credit' }], qty: null, rate: null, totalOverride: '-500' }]
     const m = buildPrintModel(b, 'rough', { ...DEFAULT_PRINT_SETTINGS, rupeeOnTotal: true }, simplePaperDecision('A5'))
     expect(m.header).toEqual({ kind: 'rough', party: { name: 'X', phone: '', transport: '' } })
-    expect(m.footer[m.footer.length - 1]!.cells['total']!.text).toBe('-₹400.00')
+    expect(m.footer[m.footer.length - 1]!.cells['total']!.text).toBe('-₹400')
     const plain = buildPrintModel(b, 'rough', { ...DEFAULT_PRINT_SETTINGS, rupeeOnTotal: false }, simplePaperDecision('A5'))
-    expect(plain.footer[plain.footer.length - 1]!.cells['total']!.text).toBe('-400.00')
+    expect(plain.footer[plain.footer.length - 1]!.cells['total']!.text).toBe('-400')
   })
   it('paper decision passes through; the model never mutates the bill; same input gives an identical model', () => {
     const b = printFixture('adjustment'); const before = JSON.stringify(b)

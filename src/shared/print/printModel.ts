@@ -173,13 +173,17 @@ export function buildPrintColumns(format: FormatDef, extraCols: Bill['extraCols'
 // ---------- rows ----------
 const rupee = (text: string): string => (text === '' ? text : text.startsWith('-') ? `-${RUPEE}${text.slice(1)}` : `${RUPEE}${text}`)
 
+/** 0.1.10: printed / copied amounts drop a whole-number `.00` (71000.00 -> 71000) so wide numbers do not collide in narrow columns. `.50` etc. stay. */
+const noZeros = (text: string): string => text.replace(/^(-?\d+)\.00$/, '$1')
+
 function hasExtraText(row: BillRow): boolean {
   for (const c of Object.values(row.extras)) if (c.text.trim() !== '') return true
   return false
 }
 
 function cellFor(col: PrintColumn, d: DisplayRow, row: BillRow | undefined): PrintCell {
-  const text = d.cells[col.key] ?? ''
+  const raw = d.cells[col.key] ?? ''
+  const text = col.key === 'name' || col.isExtra ? raw : noZeros(raw)
   const cell: PrintCell = { text }
   if (col.key === 'name' && row && row.nameRuns.some((r) => r.b || r.r || r.hl)) cell.runs = row.nameRuns.map((r) => ({ ...r }))
   if (row?.cellStyle?.[col.key]?.hl) cell.hl = 1
@@ -199,7 +203,7 @@ function totalRow(d: DisplayRow, kind: PrintRowKind, columns: PrintColumn[], rup
   for (const c of columns) {
     if (c.key === 'name' || c.isExtra) continue
     const t = d.cells[c.key]
-    if (t !== undefined && t !== '') { cells[c.key] = { text: t }; lastKey = c.key }
+    if (t !== undefined && t !== '') { cells[c.key] = { text: noZeros(t) }; lastKey = c.key }
   }
   // The rupee sign goes on the final amount only (the rightmost value cell), never on the GST or pre-GST cells.
   if (kind === 'grandTotal' && rupeeOnTotal && lastKey !== '') cells[lastKey] = { text: rupee(cells[lastKey]!.text) }
