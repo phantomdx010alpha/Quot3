@@ -144,14 +144,19 @@ describe('billService.save — parties', () => {
     expect((sqlite.prepare('SELECT count(*) AS c FROM bills WHERE party_id = ?').get(r1.partyId) as { c: number }).c).toBe(2)
   })
 
-  it('an existing party is only linked: its stored phone/address are NOT overwritten by the bill', () => {
+  it('0.1.11: an existing party takes the phone / address / transport typed on the bill (never the name); a blank never wipes', () => {
     const { svc, sqlite } = mk()
     svc.save(input('b1'))
-    svc.save(input('b2', { party: { name: 'Ruby Traders', phone: '000', address: 'Elsewhere', transport: 'None' } }))
-    expect(sqlite.prepare('SELECT phone, address, transport FROM parties').get()).toEqual({ phone: '98450 11001', address: '1 Main Rd', transport: 'VRL' })
+    svc.save(input('b2', { party: { name: 'RUBY TRADERS', phone: '000', address: '', transport: 'None' } }))
+    expect(sqlite.prepare('SELECT name, phone, address, transport FROM parties').get()).toEqual({ name: 'Ruby Traders', phone: '000', address: '1 Main Rd', transport: 'None' })
+    expect(sqlite.prepare('SELECT count(*) AS c FROM parties').get()).toEqual({ c: 1 })
+    svc.save(input('b3', { party: { name: 'Ruby Traders', phone: '', address: 'Elsewhere', transport: '' } }))
+    expect(sqlite.prepare('SELECT phone, address, transport FROM parties').get()).toEqual({ phone: '000', address: 'Elsewhere', transport: 'None' })
+    // the bill keeps its own snapshot
+
     // ...but the bill's own snapshot is what was typed on that bill.
     const snap = JSON.parse((sqlite.prepare("SELECT party_snapshot_json AS s FROM bills WHERE id = 'b2'").get() as { s: string }).s)
-    expect(snap).toMatchObject({ phone: '000', address: 'Elsewhere' })
+    expect(snap).toMatchObject({ phone: '000', address: '' })
   })
 
   it('blank optional fields are stored as NULL on the new party; the snapshot keeps empty strings', () => {

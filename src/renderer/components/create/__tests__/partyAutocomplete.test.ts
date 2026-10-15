@@ -188,11 +188,11 @@ describe('Phase 26 — party autocomplete in the party bar', () => {
     expect(list()).toBeNull()
   })
 
-  it('Down with an empty name does nothing and is not swallowed into a list', () => {
+  it('Down with an empty name opens no list (0.1.11: it jumps on to the first item cell)', () => {
     mount()
     const name = field('name') as HTMLInputElement
     name.focus()
-    expect(key(name, 'ArrowDown').defaultPrevented).toBe(false)
+    expect(key(name, 'ArrowDown').defaultPrevented).toBe(true)
     expect(list()).toBeNull()
   })
 

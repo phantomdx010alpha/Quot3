@@ -51,6 +51,11 @@ export function isValidBillDate(s: string): s is IsoDate {
   return d <= dim
 }
 
+/** 0.1.11: True when the caret is at the start edge of a text field with no selection (Left there moves to the previous field). */
+export function atStartEdge(selStart: number | null, selEnd: number | null): boolean {
+  return selStart !== null && selStart === selEnd && selStart <= 0
+}
+
 /** True when the caret is at the end edge of a text field with no selection (KB §7: Right there moves to the next field). */
 export function atEndEdge(value: string, selStart: number | null, selEnd: number | null): boolean {
   return selStart !== null && selStart === selEnd && selStart >= value.length

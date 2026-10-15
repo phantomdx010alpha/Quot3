@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { CaretDown, CaretUp } from '@phosphor-icons/react'
-import { PARTY_FIELD_LABEL, atEndEdge, type PartyField } from '@shared/partyFields'
+import { PARTY_FIELD_LABEL, atEndEdge, atStartEdge, type PartyField } from '@shared/partyFields'
 import { primaryKeys } from '@shared/shortcuts'
 import { Tooltip } from '../ui'
 import { partyToSnapshot, type PartyLite } from '@shared/party/partyLite'
@@ -71,6 +71,13 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
 
   const focusField = useCallback((f: TextField) => { (branchModeRef.current ? branchRef.current : refs.current[f])?.focus() }, [])
 
+  // 0.1.11: opening Create (new bill or edit mode) puts the cursor on Party name, so the owner can type and navigate at once.
+  const billId = useBillStore((s) => s.billId)
+  useEffect(() => {
+    const t = setTimeout(() => focusField('name'), 0) // after the grid's own mount work
+    return () => clearTimeout(t)
+  }, [billId, focusField])
+
   const openAddress = useCallback(() => { wantAddrFocus.current = true; setAddressOpen(true); addrRef.current?.focus() }, [setAddressOpen])
   const closeAddress = useCallback(() => {
     const was = usePartyUiStore.getState().addressOpen
@@ -124,6 +131,12 @@ export function PartyBar({ onLeaveToGrid }: { onLeaveToGrid: () => void }): Reac
       if (e.shiftKey) prev(f); else next(f)
     } else if (e.key === 'Enter') {
       e.preventDefault(); next(f)
+    } else if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      // 0.1.11: Down from Party name / Phone / Transport always jumps to the first item cell (a visible suggestion list takes Down first).
+      e.preventDefault(); onLeaveToGrid()
+    } else if (e.key === 'ArrowLeft' && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey && atStartEdge(el.selectionStart, el.selectionEnd)) {
+      // 0.1.11: Left at the very start of the text goes back to the previous field (free movement both ways).
+      if (FLOW.indexOf(f) > 0) { e.preventDefault(); prev(f) }
     } else if (e.key === 'ArrowRight' && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey && atEndEdge(el.value, el.selectionStart, el.selectionEnd)) {
       e.preventDefault(); next(f)
     }

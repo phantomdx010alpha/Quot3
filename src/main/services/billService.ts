@@ -190,7 +190,19 @@ export function createBillService(
           )
           opts.partyCreated?.(partyId)
         } else {
-          partyId = (findPartyByName(existing, prepared.party.name) as { id: string }).id
+          const found = findPartyByName(existing, prepared.party.name) as { id: string; phone: string; address: string; transport: string }
+          partyId = found.id
+          // 0.1.11: phone / transport / address typed or changed on the bill also update the customer (never the name; a blank never wipes
+          // a saved value). No versioning: the customer row just carries the newest values.
+          const p = prepared.party
+          const pick = (typed: string, saved: string): string => (typed.trim() !== '' ? typed.trim() : saved)
+          const phone = pick(p.phone, found.phone)
+          const address = pick(p.address, found.address)
+          const transport = pick(p.transport, found.transport)
+          if (phone !== found.phone || address !== found.address || transport !== found.transport) {
+            parties.setFields(found.id, { phone: phone === '' ? null : phone, address: address === '' ? null : address, transport: transport === '' ? null : transport }, at)
+            opts.partyCreated?.(found.id) // hands the changed customer to the same sync hook a new one uses
+          }
         }
 
         const final: Bill = { ...prepared, branchId: head ? head.branchId : branch.id, poSeq, poNumber, partyId, revision, createdAt, updatedAt: at }

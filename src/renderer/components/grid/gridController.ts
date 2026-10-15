@@ -1,5 +1,6 @@
 import { type MoveTarget } from '@shared/rows/moveRows'
 import { flushSync } from 'react-dom'
+import { usePartyUiStore } from '../../stores/partyUiStore'
 import { MODIFIER_ONLY_KEYS, arriveAt, clickInText, createNavState, navOptionsFor, navReduce, rangeBounds, syncCaret, type GridShape, type NavEffect, type NavState } from '@shared/nav/cellNav'
 import { allowsNegative, cellRawText, isNumericColumn, isTypable, isValidNumericDraft, sanitizeNumericPaste } from '@shared/gridEdit'
 import { buildGridColumns, type GridColumn } from '@shared/gridModel'
@@ -554,6 +555,14 @@ export class GridController {
       }
     }
 
+    // 0.1.11: plain Up on the top row of a table always lands on the Party name field (any column; the open cell is committed first).
+    if (e.key === 'ArrowUp' && !e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey && at.row === 0 && usePartyUiStore.getState().focusParty) {
+      e.preventDefault()
+      this.leave()
+      this.syncUi()
+      usePartyUiStore.getState().focusParty?.()
+      return
+    }
     const res = navReduce(this.nav, { key: e.key, shift: e.shiftKey, ctrl: e.ctrlKey, alt: e.altKey, meta: e.metaKey, pageRows: this.pageRows }, this.shape(cols), { ...navOptionsFor(useBehaviourStore.getState().smoothArrows), leftUnlockPresses: useBehaviourStore.getState().leftUnlockPresses })
     this.nav = res.state
     const native = res.effects.some((x) => x.type === 'NATIVE' || x.type === 'PAGE_ESCAPE')

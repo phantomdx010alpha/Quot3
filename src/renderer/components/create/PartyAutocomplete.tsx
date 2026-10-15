@@ -45,9 +45,10 @@ export function PartyAutocomplete({ value, inputRef, onValueChange, onPick, onKe
   const handleKey = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.nativeEvent.isComposing) return
     const plain = !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey
-    if (plain && e.key === 'ArrowDown' && results.length > 0 && value.trim() !== '') {
+    // 0.1.11: Down moves through a VISIBLE list; with no list showing it falls through (the bar jumps to the first item cell).
+    if (plain && e.key === 'ArrowDown' && show) {
       e.preventDefault()
-      if (!show) { setOpen(true); setActive(0) } else setActive((i) => (i + 1) % results.length)
+      setActive((i) => (i + 1) % results.length)
       return
     }
     if (show) {
