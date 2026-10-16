@@ -16,7 +16,9 @@ import { AboutSection } from '../components/settings/AboutSection'
 import { UpdatesSection } from '../components/settings/UpdatesSection'
 import { SyncSection } from '../components/settings/SyncSection'
 import { SyncStatusPanel } from '../components/sync/SyncStatusPanel'
+import { LegacyWatchSection } from '../components/settings/LegacyWatchSection'
 import { BootstrapPanel } from '../components/settings/BootstrapPanel'
+import { useLegacyWatchStore } from '../stores/legacyWatchStore'
 import { usePartyImportStore } from '../stores/partyImportStore'
 import { useLegacyImportStore } from '../stores/legacyImportStore'
 import { SETTINGS_SECTIONS, useSettingsStore, type SettingsSection } from '../stores/settingsStore'
@@ -29,7 +31,8 @@ import { GearSix } from '@phosphor-icons/react'
 export default function Settings(): React.JSX.Element {
   const { section, status, loadError, data, savedAt } = useSettingsStore()
   const navRef = useRef<HTMLDivElement>(null)
-  useEffect(() => { void useSettingsStore.getState().load() }, [])
+  const waiting = useLegacyWatchStore((s) => s.reviewCount)
+  useEffect(() => { void useSettingsStore.getState().load(); void useLegacyWatchStore.getState().refreshCount() }, [])
 
   const onNavKey = (e: React.KeyboardEvent): void => {
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
@@ -51,6 +54,7 @@ export default function Settings(): React.JSX.Element {
       case 'shortcuts': return <ShortcutsSection />
       case 'dashboard': return <DashboardSection />
       case 'sync': return <><SyncStatusPanel /><SyncSection /><BootstrapPanel /></>
+      case 'legacywatch': return <LegacyWatchSection />
       case 'audit': return <AuditSection />
       case 'updates': return <UpdatesSection />
       case 'fresh': return <StartFreshSection />
@@ -72,7 +76,7 @@ export default function Settings(): React.JSX.Element {
             {SETTINGS_SECTIONS.map((s) => (
               <button key={s.id} type="button" role="tab" data-section={s.id} aria-selected={s.id === section} tabIndex={s.id === section ? 0 : -1}
                 className={`q3-set__tab${s.id === section ? ' q3-set__tab--on' : ''}`} onClick={() => useSettingsStore.getState().setSection(s.id)}>
-                {s.label}
+                {s.label}{s.id === 'legacywatch' && waiting > 0 && <span className="q3-badge q3-badge--warn q3-lw__badge" aria-label={`${waiting} waiting for review`}>{waiting}</span>}
               </button>
             ))}
             <Button variant="ghost" icon={FileXls} shortcut="Ctrl+Shift+J" onClick={() => { void usePartyImportStore.getState().start() }}>Import parties</Button>

@@ -14,6 +14,8 @@ export interface WindowOptions {
   log: Logger
   /** Phase 63: absolute path of the window / taskbar icon (.ico on Windows); omitted when the file is not found. */
   iconPath?: string
+  /** Phase 161: a login-item start with keep-running on: the window is created but not shown (the tray opens it). */
+  startHidden?: boolean
 }
 
 /** CSP via response headers for every response the default session serves. */
@@ -63,7 +65,7 @@ export function createMainWindow(opts: WindowOptions): BrowserWindow {
   })
   wc.on('will-attach-webview', (event) => event.preventDefault())
 
-  win.once('ready-to-show', () => win.show())
+  win.once('ready-to-show', () => { if (!opts.startHidden) win.show() })
 
   if (opts.trust.devUrl) void win.loadURL(opts.trust.devUrl)
   else void win.loadFile(opts.indexHtml)

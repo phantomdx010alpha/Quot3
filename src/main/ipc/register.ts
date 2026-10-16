@@ -12,6 +12,10 @@ import { partyHandlers } from './parties'
 import { customerHandlers } from './customers'
 import { partyImportHandlers, type FilePicker } from './partyImport'
 import { legacyImportHandlers, type LegacyIpcDeps } from './legacyImport'
+import { legacyWatchHandlers } from './legacyWatch'
+import { LEGACY_WATCH_KEYS } from '../../shared/legacyWatch/watchConfig'
+import type { LegacyWatchService } from '../services/legacyWatchService'
+import type { LegacyWatchApply } from '../services/legacyWatchApply'
 import type { LegacyImportService } from '../services/legacyImportService'
 import { backupHandlers } from './backup'
 import { publisherHandlers, wipeHandlers, type PublisherPorts } from './wipe'
@@ -74,6 +78,10 @@ export interface IpcContext {
   /** Phase 86: the old-app bill import (the service from Phase 85 plus its native dialogs / progress event). */
   legacyImport: LegacyImportService
   legacyDeps: LegacyIpcDeps
+  /** Phase 160: the legacy folder watcher (status / scan now / pause). */
+  legacyWatch: LegacyWatchService
+  /** Phase 163: the engine behind Needs review / Activity. */
+  legacyWatchApply: LegacyWatchApply
   /** Phase 50: backups, restore, import, reset. */
   backup: BackupService
   /** Phase 90: Start fresh (Level 1 / 2) and the About publisher contact. */
@@ -188,6 +196,10 @@ export function registerIpc(ctx: IpcContext): void {
     ...customerHandlers(ctx.customers),
     ...partyImportHandlers(ctx.partyImport, ctx.filePicker),
     ...legacyImportHandlers(ctx.legacyImport, ctx.legacyDeps),
+    ...legacyWatchHandlers(ctx.legacyWatch, {
+      pickFolder: () => ctx.legacyDeps.picker.pickFolder(),
+      saveFolder: (path) => { ctx.settings.set(LEGACY_WATCH_KEYS.folder, path) }
+    }, ctx.legacyWatchApply),
     ...backupHandlers(ctx.backup),
     ...wipeHandlers(ctx.wipe),
     ...publisherHandlers(ctx.publisher),

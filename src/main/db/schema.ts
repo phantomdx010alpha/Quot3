@@ -133,6 +133,69 @@ export const importBatches = sqliteTable('import_batches', {
   undoJson: text('undo_json')
 })
 
+/** Phase 159: legacy watch. One row per legacy file seen (name, size, mtime, content hash, last result, mapped bill). */
+export const legacyWatchFiles = sqliteTable('legacy_watch_files', {
+  fileName: text('file_name').primaryKey(),
+  size: integer('size').notNull(),
+  mtimeMs: integer('mtime_ms').notNull(),
+  contentHash: text('content_hash').notNull().default(''),
+  lastResult: text('last_result').notNull(),
+  billId: text('bill_id'),
+  seenAt: text('seen_at').notNull()
+})
+
+/** Phase 159: bills the watcher wrote. `applied_revision` is how "edited inside Quot3 after import" is detected (design 3.3). */
+export const legacyWatchBills = sqliteTable('legacy_watch_bills', {
+  billId: text('bill_id').primaryKey(),
+  fileName: text('file_name').notNull(),
+  sourceMtimeMs: integer('source_mtime_ms').notNull(),
+  contentFp: text('content_fp').notNull(),
+  contentJson: text('content_json').notNull(),
+  appliedRevision: integer('applied_revision').notNull(),
+  updatedAt: text('updated_at').notNull()
+})
+
+/** Phase 159: files the engine would not decide alone ("Needs review"). `payload_text` = the legacy file's text, kept so a later choice can act on it. */
+export const legacyWatchReview = sqliteTable(
+  'legacy_watch_review',
+  {
+    id: text('id').primaryKey(),
+    fileName: text('file_name').notNull(),
+    party: text('party').notNull().default(''),
+    billDate: text('bill_date').notNull().default(''),
+    total: text('total').notNull().default(''),
+    mtimeMs: integer('mtime_ms').notNull(),
+    why: text('why').notNull(),
+    reason: text('reason').notNull(),
+    candidatesJson: text('candidates_json').notNull().default('[]'),
+    payloadText: text('payload_text').notNull(),
+    createdAt: text('created_at').notNull(),
+    resolvedAt: text('resolved_at'),
+    resolution: text('resolution')
+  },
+  (t) => [index('legacy_watch_review_open_idx').on(t.resolvedAt)]
+)
+
+/** Phase 159: the last 200 automatic events (Activity list; Undo reads it). */
+export const legacyWatchActivity = sqliteTable(
+  'legacy_watch_activity',
+  {
+    id: text('id').primaryKey(),
+    at: text('at').notNull(),
+    kind: text('kind').notNull(),
+    fileName: text('file_name').notNull(),
+    billId: text('bill_id'),
+    party: text('party').notNull().default(''),
+    poNumber: text('po_number').notNull().default(''),
+    detail: text('detail').notNull().default(''),
+    revision: integer('revision'),
+    prevRevision: integer('prev_revision'),
+    prevSourceMtimeMs: integer('prev_source_mtime_ms'),
+    undoneAt: text('undone_at')
+  },
+  (t) => [index('legacy_watch_activity_at_idx').on(t.at)]
+)
+
 export const billRows = sqliteTable(
   'bill_rows',
   {

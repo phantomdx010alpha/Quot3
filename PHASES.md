@@ -1,4 +1,4 @@
-# PHASES — Quot3 (144 phases; Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12, 144 = Milestone 13, all executed BEFORE Phase 69)
+# PHASES — Quot3 (Milestone 15 = Phases 158–164 appended at the bottom; 144 phases; Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12, 144 = Milestone 13, all executed BEFORE Phase 69)
 
 **Edit in place** rather than regenerating. Never reorder or renumber a completed phase. If a phase proves too large, split it and renumber forward; record that in `PHASE_STATUS.md`.
 
@@ -1460,3 +1460,65 @@ Read `docs/MILESTONE14_DESIGN.md` before any Phase 145–153 (it holds the owner
 **In scope:** run the touched suites + typecheck; reconcile `PHASE_STATUS.md`; update `GITHUB_UPDATE_PUSH.md` / `API_CONTRACTS.md` / `PROJECT_STRUCTURE.md`; bump the version to 0.1.7 (package.json + both spots in package-lock.json) and hand back the changed-files zip, the full zip and the push steps per `GITHUB_UPDATE_PUSH.md` section 2. The release notes line `schema: N` is written by the workflow (N = migration count).
 **Out of scope:** new features.
 **How to verify:** suites green or each failure listed with its cause; owner checklist for what only a real PC can show (print size, Hybrid layout, toolbar look).
+
+
+---
+
+# Milestone 15 — Legacy watch: background app + automatic legacy import (Phases 158–164)
+
+Read `docs/MILESTONE15_DESIGN.md` before any Phase 158–164 (owner's rules and [A] assumptions). **Testing rule for every phase below: never run the full test suite; run `npm run typecheck` plus only the test files you wrote/changed and the ones that could conflict (`CLAUDE_MUST_READ.md` 10j). Name them in the phase log and list what was not run.** Order: 158, 159, 160, then 161 (any time after 158), 162, 163, 164. Only Phase 164 bumps the version (0.1.12) and hands back the zips per `GITHUB_UPDATE_PUSH.md` section 2. Phase 69 (RELEASE GATE) still runs after the last feature phase.
+
+## Phase 158 — Legacy watch: content fingerprint and classifier (pure)
+**Goal:** The pure rules that decide what an incoming legacy file is: new, exact duplicate, edited copy, older copy, or uncertain.
+**Depends on:** the existing `shared/legacyImport/*` parse/convert code.
+**In scope:** design 3.1-3.4: `contentFingerprint` (ignores the PO number), line matching by normalised name, the 50% shared-lines threshold as a named constant, `classify(incoming, candidates, ctx)` returning `{kind, candidates, reason}`, mtime-wins rule, stable oldest-first ordering helper. No I/O.
+**Out of scope:** database, files, UI.
+**Key files:** new `src/shared/legacyWatch/{fingerprint,classify,order}.ts` + tests; reads `shared/legacyImport/*`.
+**How to verify:** unit tests with SYNTHETIC bills only: exact duplicate with a different PO, edit kinds (item added/removed/renamed, qty/rate change, adjustments-only, phone/transport-only), same party+day but different bill, two candidates, older copy, ordering independent of input order; typecheck.
+
+## Phase 159 — Legacy watch: storage and apply engine
+**Goal:** Remember what was seen and apply a classification safely and undoably.
+**Depends on:** 158.
+**In scope:** one new numbered migration (state table: file name, size, mtime, content hash, last result, bill id; needs-review table; activity table of the last 200 events) and the repo for them (the release `schema: N` line covers the migration, see `GITHUB_UPDATE_PUSH.md`); decide and record how "bill edited inside Quot3 after import" is detected (design 3.3); `applyDecision` that, per file in one transaction through the normal bill write path, imports a new bill, updates an existing bill in place as a new revision, skips a duplicate, or files a review item; one `pre-import` backup per batch; Undo for automatic imports/updates (a revision restore or an ignore marker, never a delete); same-number clash rules reused from the existing importer.
+**Out of scope:** watching folders, UI.
+**Key files:** `src/main/db/migrations/*`, schema + repo files, new `src/main/services/legacyWatchApply.ts`, bill service (read/extend carefully).
+**How to verify:** service tests on an in-memory DB with synthetic bills (new, duplicate, edited newer, edited older, locally edited -> review, undo), outbox rows exist after an import, migration count tests updated; typecheck.
+
+## Phase 160 — Legacy watch: folder scanner service
+**Goal:** Find new/changed legacy files and feed them to the engine, reliably.
+**Depends on:** 158, 159.
+**In scope:** design 3.6: `fs.watch` + timed rescan (default 2 min [A]) + `scan()` entry for wake; debounce; skip unstable/unparseable files and retry; state-table check so unchanged files are not re-read; oldest-mtime-first batches; status object (last scan, counts, sync on/off, errors); pause/resume; a missing or unreachable folder reports a plain status and never crashes; settings keys + Zod schema (folder path, enabled, interval) with OFF defaults; IPC channels (`legacyWatch:status`, `scanNow`, `pause`) in `shared/ipc.ts`, preload, `window.quot3`.
+**Out of scope:** tray/login item (161), UI (162-163).
+**Key files:** new `src/main/services/legacyWatchService.ts`, `src/main/ipc/legacyWatch.ts`, `shared/settings.ts`, `shared/ipc.ts`, preload, `main/index.ts` wiring.
+**How to verify:** service tests with a temp folder and fake timers (new file imported, unchanged file skipped, half-written file retried, folder missing, pause), IPC schema tests, typecheck.
+
+## Phase 161 — Background mode: start at sign-in, tray, close-to-tray, wake rescan
+**Goal:** Quot3 keeps running hidden so the watcher keeps working.
+**Depends on:** 160 (for the wake rescan hook); otherwise independent.
+**In scope:** design 3.7: settings "Start Quot3 when I sign in to Windows" (`app.setLoginItemSettings`, `--hidden` start) and "Keep running in the background when the window is closed"; tray icon with Open / Pause watching / Quit; `window-all-closed` and the per-window close guard respect the toggle (explicit Quit really quits, update install still quits); single-instance lock keeps showing the window; `powerMonitor` 'resume' / 'unlock-screen' -> `legacyWatch.scan()`; OFF defaults; a pure `backgroundPolicy` function (should the app quit / hide / start hidden) kept testable.
+**Out of scope:** Settings UI (162), macOS/Linux behaviour.
+**Key files:** `src/main/index.ts`, new `src/main/services/backgroundService.ts`, `src/shared/background.ts`, `shared/settings.ts`.
+**How to verify:** unit tests of `backgroundPolicy` and settings defaults; typecheck. Real login start, tray and wake = owner's PC (standing gap).
+
+## Phase 162 — Settings: "Background and legacy watch" section
+**Goal:** One Settings section to control it all.
+**Depends on:** 160, 161.
+**In scope:** folder picker, Watch on/off, rescan interval, Scan now, Pause, the two background toggles, a live status line (last scan, imported/updated/skipped/needs-review counts, "sync is off" when so), plain-language errors; Phase 92 selector rule for any new store; tokens only.
+**Out of scope:** the review and activity lists (163).
+**Key files:** new `pages/settings/LegacyWatchSection.tsx` (+ store), `pages/Settings.tsx`, styles.
+**How to verify:** component test with a mocked `window.quot3` (toggles save, status renders, errors shown), settings page tests that could conflict (note the known pre-existing failures in `PHASE_STATUS.md`), typecheck.
+
+## Phase 163 — Needs review list and Activity log with Undo
+**Goal:** The owner can resolve uncertain matches and undo any automatic action.
+**Depends on:** 159, 162.
+**In scope:** design 3.8: Needs review list (file, party, date, total, candidate bill(s), reason) with "Import as new bill", "Replace existing bill with this", "Ignore"; Activity list (last 200: imported, updated, skipped duplicate, needs review) with Undo; a small badge in Settings/sidebar when items wait; IPC for list/resolve/undo; every action reversible, nothing deleted.
+**Out of scope:** new matching rules (158).
+**Key files:** new `ReviewList.tsx` / `ActivityList.tsx`, `ipc/legacyWatch.ts`, `legacyWatchApply.ts`.
+**How to verify:** service tests for each resolve action and undo, component tests with mocked bridge, typecheck.
+
+## Phase 164 — Milestone 15 QA gate and release 0.1.12
+**Goal:** Check Phases 158-163 together, then ship version 0.1.12.
+**Depends on:** 158-163.
+**In scope:** typecheck plus the touched suites only (no full suite unless the owner agrees); optional counts-only run of the classifier against the owner's attached sample (never print contents); reconcile `PHASE_STATUS.md`; update `GITHUB_UPDATE_PUSH.md`, `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`, `docs/LEGACY_IMPORT_SPEC.md` (new fingerprint, edit rules, review list); bump the version to 0.1.12 (package.json + both spots in package-lock.json) and hand back the changed-files zip, the full zip and the push steps per `GITHUB_UPDATE_PUSH.md` section 2.
+**Out of scope:** new features.
+**How to verify:** suites green or each failure listed with its cause; owner checklist for what only a real PC shows (start at sign-in, tray, close-to-tray, wake rescan, watching the real folder, bills reaching the other PCs through real sync).

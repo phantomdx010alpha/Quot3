@@ -7,7 +7,7 @@ import { useBehaviourStore } from './behaviourStore'
 type Api = Quot3Bridge['appSettings']
 const api = (): Api | undefined => (window as unknown as { quot3?: { appSettings?: Api } }).quot3?.appSettings
 
-export type SettingsSection = 'company' | 'branch' | 'print' | 'behaviour' | 'themes' | 'appearance' | 'shortcuts' | 'dashboard' | 'backup' | 'fresh' | 'sync' | 'audit' | 'updates' | 'about'
+export type SettingsSection = 'company' | 'branch' | 'print' | 'behaviour' | 'themes' | 'appearance' | 'shortcuts' | 'dashboard' | 'backup' | 'fresh' | 'sync' | 'audit' | 'updates' | 'about' | 'legacywatch'
 export const SETTINGS_SECTIONS: readonly { id: SettingsSection; label: string }[] = [
   { id: 'company', label: 'Company' },
   { id: 'branch', label: 'Branch and PO prefix' },
@@ -20,6 +20,7 @@ export const SETTINGS_SECTIONS: readonly { id: SettingsSection; label: string }[
   { id: 'backup', label: 'Backup and restore' },
   { id: 'fresh', label: 'Start fresh' },
   { id: 'sync', label: 'Sync and license' },
+  { id: 'legacywatch', label: 'Background and legacy watch' },
   { id: 'audit', label: 'Activity log' },
   { id: 'updates', label: 'Updates' },
   { id: 'about', label: 'About Quot3' }

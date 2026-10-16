@@ -26,7 +26,7 @@ export function applyPendingWipeData(sqlite: Database.Database, root: string): {
     sqlite.transaction(() => {
       if (opts.level === 1) {
         // children first (bill_rows / bill_revisions also cascade); import_batches only describes bills / parties that are going.
-        for (const t of ['bill_revisions', 'bill_rows', 'bills', 'parties', 'party_imports', 'import_batches', 'drafts', 'sync_outbox']) {
+        for (const t of ['bill_revisions', 'bill_rows', 'bills', 'parties', 'party_imports', 'import_batches', 'drafts', 'sync_outbox', 'legacy_watch_files', 'legacy_watch_bills', 'legacy_watch_review', 'legacy_watch_activity']) {
           cleared[t] = sqlite.prepare(`DELETE FROM ${t}`).run().changes
         }
       }

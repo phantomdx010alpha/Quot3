@@ -88,6 +88,10 @@ export function createLegacyImportRepo(sqlite: Database.Database) {
      WHERE id = @id AND source = 'import' AND deleted_at IS NULL
        AND NOT EXISTS (SELECT 1 FROM bills WHERE bills.party_id = parties.id AND bills.deleted_at IS NULL)`
   )
+  const addToBatchStmt = sqlite.prepare(
+    `UPDATE import_batches SET created = created + 1, new_parties = new_parties + @newParties, po_first = COALESCE(MIN(po_first, @poSeq), @poSeq),
+       po_last = MAX(COALESCE(po_last, 0), @poSeq), next_seq_after = MAX(next_seq_after, @nextSeq), party_ids_json = @partyIdsJson WHERE id = @id`
+  )
   const bumpCounterStmt = sqlite.prepare('UPDATE po_counters SET next_seq = MAX(next_seq, @next) WHERE branch_id = @branchId')
 
   const toBatch = (r: BatchDb): BatchRow => ({
@@ -123,6 +127,13 @@ export function createLegacyImportRepo(sqlite: Database.Database) {
       insertBatchStmt.run({ ...b, partyIdsJson: JSON.stringify(b.partyIds) })
     },
     setReportFile: (id: string, file: string | null): void => { reportFileStmt.run(file, id) },
+    /** Phase 159: the watcher adds each bill it imports to the batch of its apply run (counts, PO range, next sequence, new parties). */
+    addToBatch(id: string, add: { poSeq: number; nextSeq: number; newPartyIds: readonly string[] }): void {
+      const cur = batchByIdStmt.get(id) as BatchDb | undefined
+      if (!cur) return
+      const ids = [...new Set([...safeJson<string[]>(cur.partyIdsJson, []), ...add.newPartyIds])]
+      addToBatchStmt.run({ id, poSeq: add.poSeq, nextSeq: add.nextSeq, newParties: ids.length - safeJson<string[]>(cur.partyIdsJson, []).length, partyIdsJson: JSON.stringify(ids) })
+    },
     getBatch: (id: string): BatchRow | undefined => { const r = batchByIdStmt.get(id) as BatchDb | undefined; return r && toBatch(r) },
     listBatches: (): BatchRow[] => (listBatchStmt.all() as BatchDb[]).map(toBatch),
     batchBills: (batchId: string): BatchBill[] => batchBillsStmt.all(batchId) as BatchBill[],

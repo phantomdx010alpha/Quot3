@@ -49,6 +49,9 @@ import { createElectronFilePicker } from './import/electronFilePicker'
 import { createElectronLegacyPicker, writeReportFile } from './import/electronLegacyPicker'
 import { createLegacyImportService } from './services/legacyImportService'
 import { createLegacyImportRepo } from './db/legacyImportRepo'
+import { createLegacyWatchRepo } from './db/legacyWatchRepo'
+import { createLegacyWatchApply } from './services/legacyWatchApply'
+import { createLegacyWatchService } from './services/legacyWatchService'
 import { createTrashService } from './services/trashService'
 import { createRevisionService } from './services/revisionService'
 import { createSettingsService } from './services/settingsService'
@@ -104,6 +107,9 @@ import { dataLayout, ensureDataDirs, resolveDataDir } from './paths'
 import { isTrustedUrl } from './security'
 import { createMainWindow, installSessionSecurity } from './window'
 import { resolveAppIcon } from './appIcon'
+import { confirmCloseAction, readBackgroundSettings, secondInstanceAction, shouldStartHidden, windowAllClosedAction } from '../shared/background'
+import { createBackgroundService, type BackgroundService } from './services/backgroundService'
+import { createElectronBackgroundPorts } from './services/backgroundElectron'
 import { resolveRuntimePaths } from './runtimePaths'
 import { APP_ID, APP_NAME } from '../shared/appInfo'
 
@@ -142,6 +148,26 @@ let openWindowRef: ((first: boolean) => BrowserWindow) | null = null
 const openWindow = (first: boolean): void => { openWindowRef?.(first) }
 /** Phase 28: the window close button is held until the renderer's unsaved-changes guard answers (`app:confirmQuit`). */
 let quitConfirmed = false
+// Phase 161: background mode. `explicitQuit` = Quit from the tray (really quits, after the unsaved-changes guard); `hiddenWindows` = windows hidden
+// instead of closed while "keep running" is on; `background` exists once the app is ready.
+let explicitQuit = false
+let background: BackgroundService | null = null
+const hiddenWindows = new Set<BrowserWindow>()
+const keepRunning = (): boolean => background?.settings().keepRunning ?? false
+/** Bring back a hidden window, or open one when none exists (tray Open, second launch). */
+const showOrOpenWindow = (): void => {
+  const hidden = [...hiddenWindows].find((w) => !w.isDestroyed())
+  if (hidden) {
+    hiddenWindows.delete(hidden)
+    hidden.show()
+    if (hidden.isMinimized()) hidden.restore()
+    hidden.focus()
+    return
+  }
+  const any = [...windows].find((w) => !w.isDestroyed())
+  if (any) { if (any.isMinimized()) any.restore(); any.focus(); return }
+  openWindow(false)
+}
 
 // Single-instance lock: a second launch just focuses the first window.
 if (!app.requestSingleInstanceLock()) {
@@ -149,8 +175,11 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   // Phase 154: launching Quot3 again opens one more window in this process (no second process, so one database writer).
   app.on('second-instance', () => {
-    if (windows.size === 0) return
-    openWindow(false)
+    // Phase 161: a hidden (background) window is shown again instead of opening another one.
+    const act = secondInstanceAction({ windowCount: windows.size, hiddenCount: hiddenWindows.size })
+    if (act === 'show-hidden') showOrOpenWindow()
+    else if (act === 'open-new') openWindow(false)
+    else if (background) openWindow(false)
   })
 
   void app.whenReady().then(() => {
@@ -399,6 +428,38 @@ if (!app.requestSingleInstanceLock()) {
       { sqlite: dbh.sqlite, repo: createLegacyImportRepo(dbh.sqlite), bills: billRepo, backup: { create: (k) => backup.create(k) }, logsDir: layout.logs, log },
       { writable: dbh.writable, audit: audit.record, outbox: capture, outboxMany: (l) => { outbox.captureMany(l); pushSwitch.kick() } }
     )
+    // Phase 160: the legacy folder watcher (OFF until the owner turns it on in Settings). Writes go only through the Phase 159 engine,
+    // which uses the normal bill write path (`capture` feeds the sync outbox). The tray / login item is Phase 161, its Settings section Phase 162.
+    const legacyWatchRepo = createLegacyWatchRepo(dbh.sqlite)
+    const legacyWatchApply = createLegacyWatchApply(
+      { sqlite: dbh.sqlite, repo: legacyWatchRepo, importRepo: createLegacyImportRepo(dbh.sqlite), bills: billRepo, backup: { create: (k) => backup.create(k) }, log },
+      { writable: dbh.writable, audit: audit.record, outbox: capture }
+    )
+    const legacyWatch = createLegacyWatchService({
+      apply: legacyWatchApply,
+      repo: legacyWatchRepo,
+      settings,
+      syncOn: () => { const o = syncManager.overview(); return o.activated && o.enabled },
+      log
+    })
+    if (dbh.writable) legacyWatch.start()
+    app.on('will-quit', () => legacyWatch.stop())
+    // Phase 161: background mode (login item, tray, wake rescan). Both switches are OFF by default; the Settings section is Phase 162.
+    const trayIcon = resolveAppIcon({ resourcesPath: process.resourcesPath, appPath: app.getAppPath(), platform: process.platform })
+    background = createBackgroundService({
+      settings,
+      ports: createElectronBackgroundPorts(trayIcon, showOrOpenWindow),
+      watch: legacyWatch,
+      openWindow: showOrOpenWindow,
+      quit: () => { explicitQuit = true; app.quit() },
+      loginItemSupported: process.platform === 'win32' && app.isPackaged,
+      log
+    })
+    background.start()
+    app.on('will-quit', () => background?.stop())
+    const hiddenStart = shouldStartHidden({ argv: process.argv, keepRunning: readBackgroundSettings(settings.getAll()).keepRunning, platform: process.platform })
+    // Changing a background.* or legacyWatch.* setting applies at once (login item, tray, tray menu).
+    const settingsForIpc: typeof settings = { ...settings, set: (k, v) => { settings.set(k, v); if (k.startsWith('background.') || k.startsWith('legacyWatch.')) background?.apply() } }
     const drafts = createDraftService(createDraftRepo(dbh.sqlite), {
       writable: dbh.writable,
       branchId: () => (dbh.writable ? getLocalBranch(dbh.sqlite).id : null)
@@ -485,7 +546,7 @@ if (!app.requestSingleInstanceLock()) {
       },
       log,
       themes: createThemeService({ dir: layout.themes, log, settings, openPath: (d) => shell.openPath(d), applyTitleBar: (o) => { if (process.platform === 'win32') for (const w of windows) if (!w.isDestroyed()) w.setTitleBarOverlay(o) } }),
-      settings,
+      settings: settingsForIpc,
       appSettings,
       backup,
       wipe: createWipeService({ root: layout.root, backup: { create: (k) => backup.create(k) }, restart: () => createElectronBackupPorts().restart(), log, audit: audit.record }, { writable: dbh.writable }),
@@ -504,6 +565,8 @@ if (!app.requestSingleInstanceLock()) {
       customers,
       partyImport,
       legacyImport,
+      legacyWatch,
+      legacyWatchApply,
       legacyDeps: { picker: createElectronLegacyPicker(), writeText: writeReportFile, emit: (channel, payload) => { broadcast(channel, payload) } },
       filePicker: createElectronFilePicker(),
       dashboard,
@@ -521,7 +584,15 @@ if (!app.requestSingleInstanceLock()) {
         // Phase 154: with several windows open, only the window that asked is closed; the last one quits the app.
         const w = askingToClose
         askingToClose = null
-        if (w && !w.isDestroyed() && windows.size > 1) {
+        // Phase 161: with "keep running" the last window is hidden (the tray brings it back); Quit from the tray, an update install and
+        // a closed extra window behave as before.
+        const act = confirmCloseAction({ keepRunning: keepRunning(), explicitQuit, windowCount: windows.size })
+        if (act === 'hide-window' && w && !w.isDestroyed()) {
+          hiddenWindows.add(w)
+          w.hide()
+          return
+        }
+        if (act === 'close-window' && w && !w.isDestroyed()) {
           confirmedClose.add(w)
           w.close()
           return
@@ -548,8 +619,13 @@ if (!app.requestSingleInstanceLock()) {
         trust,
         isDev,
         log,
-        iconPath: resolveAppIcon({ resourcesPath: process.resourcesPath, appPath: app.getAppPath(), platform: process.platform })
+        iconPath: resolveAppIcon({ resourcesPath: process.resourcesPath, appPath: app.getAppPath(), platform: process.platform }),
+        startHidden: first && hiddenStart
       })
+      if (first && hiddenStart) hiddenWindows.add(win) // Phase 161: login-item start with keep-running: the tray opens it
+      win.on('show', () => { hiddenWindows.delete(win) })
+      // Windows sign-out / shutdown must not wait for the unsaved-changes guard (drafts are kept on disk).
+      win.on('session-end', () => { quitConfirmed = true })
       // A further window opens slightly offset from the one in front, so it is visibly a new window.
       if (!first) {
         const front = BrowserWindow.getFocusedWindow() ?? [...windows].find((w) => !w.isDestroyed())
@@ -597,5 +673,5 @@ if (!app.requestSingleInstanceLock()) {
     if (process.env['QUOT3_SMOKE_EXIT'] === '1') setTimeout(() => { quitConfirmed = true; app.quit() }, 2500)
   })
 
-  app.on('window-all-closed', () => app.quit())
+  app.on('window-all-closed', () => { if (windowAllClosedAction({ keepRunning: keepRunning(), quitting: quitConfirmed || explicitQuit }) === 'quit') app.quit() })
 }

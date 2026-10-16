@@ -64,6 +64,13 @@
       "when": 1792134389889,
       "tag": "0008_hybrid_second_table",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1792220789889,
+      "tag": "0009_legacy_watch",
+      "breakpoints": true
     }
   ]
 }

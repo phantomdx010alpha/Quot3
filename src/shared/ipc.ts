@@ -10,6 +10,8 @@ import type { CustomerInput, CustomerRow } from './customers/customerList'
 import type { DuplicateSuggestion, MergeResult, UndoMergeResult, UnifyResult } from './customers/duplicates'
 import type { ColumnMapping, ImportMode, PartyImportPreview, PartyImportReport, PartyImportSummary, PartyImportUndoResult } from './partyImport/partyImport'
 import type { ClashChoice, ImportReport } from './legacyImport/plan'
+import type { LegacyWatchStatus } from './legacyWatch/watchConfig'
+import type { ActivityItem, ReviewAction, ReviewLists } from './legacyWatch/reviewTypes'
 import type { LegacyBillTag, LegacyPickResult, ReportFormat } from './legacyImport/uiModel'
 import type { DashboardStats } from './dashboard/dashboardStats'
 import type { CityHit, DashCity, DashTileKey, LiveResult, MetalsData, RatesData, WeatherData } from './dashboard/live'
@@ -416,6 +418,26 @@ export interface Quot3Bridge {
     list(): Promise<Result<LegacyBatchInfo[]>>
     /** Phase 86: the old-app reference of a bill, or `null` for a bill made here. */
     billTag(billId: string): Promise<Result<LegacyBillTag | null>>
+  }
+  legacyWatch: {
+    /** Phase 160: what the folder watcher is doing (counts, last scan, sync on / off, a plain problem message). Re-reads the settings first. */
+    status(): Promise<Result<LegacyWatchStatus>>
+    /** Phase 160: scan the legacy folder now (works while paused; VALIDATION when watching is off / no folder). */
+    scanNow(): Promise<Result<LegacyWatchStatus>>
+    /** Phase 160: pause / resume automatic watching (kept until the app restarts). */
+    pause(paused: boolean): Promise<Result<LegacyWatchStatus>>
+    /** Phase 162: native folder dialog; main saves the choice as `legacyWatch.folder` and returns the fresh status. `null` = cancelled (nothing changed). */
+    pickFolder(): Promise<Result<LegacyWatchStatus | null>>
+    /** Phase 163: open Needs-review items + recently ignored ones (no file text). */
+    reviewList(): Promise<Result<ReviewLists>>
+    /** Phase 163: how many items wait (badge). */
+    reviewCount(): Promise<Result<{ count: number }>>
+    /** Phase 163: import as new / replace a candidate (new revision) / ignore / reopen an ignored item. */
+    reviewResolve(input: { id: string; action: ReviewAction; billId?: string }): Promise<Result<{ action: ReviewAction; message: string; billId: string | null }>>
+    /** Phase 163: the last 200 automatic events, newest first. */
+    activityList(): Promise<Result<ActivityItem[]>>
+    /** Phase 163: undo one automatic import / update (never a hard delete). VALIDATION when the bill changed since. */
+    activityUndo(id: string): Promise<Result<{ message: string; billId: string }>>
   }
   items: {
     /** Phase 110: groups (light rows), families, not-items and totals; brings the index up to date first. */

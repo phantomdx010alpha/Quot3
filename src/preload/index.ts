@@ -159,6 +159,17 @@ const bridge: Quot3Bridge = {
     list: () => ipcRenderer.invoke('legacyImport:list', {}),
     billTag: (billId) => ipcRenderer.invoke('legacyImport:billTag', { billId })
   },
+  legacyWatch: {
+    status: () => ipcRenderer.invoke('legacyWatch:status', {}),
+    scanNow: () => ipcRenderer.invoke('legacyWatch:scanNow', {}),
+    pause: (paused) => ipcRenderer.invoke('legacyWatch:pause', { paused }),
+    pickFolder: () => ipcRenderer.invoke('legacyWatch:pickFolder', {}),
+    reviewList: () => ipcRenderer.invoke('legacyWatch:reviewList', {}),
+    reviewCount: () => ipcRenderer.invoke('legacyWatch:reviewCount', {}),
+    reviewResolve: (input) => ipcRenderer.invoke('legacyWatch:reviewResolve', input),
+    activityList: () => ipcRenderer.invoke('legacyWatch:activityList', {}),
+    activityUndo: (id) => ipcRenderer.invoke('legacyWatch:activityUndo', { id })
+  },
   partyImport: {
     pickFile: () => ipcRenderer.invoke('partyImport:pickFile', {}),
     preview: (input) => ipcRenderer.invoke('partyImport:preview', input),

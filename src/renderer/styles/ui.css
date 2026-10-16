@@ -184,6 +184,8 @@
   background: transparent; color: var(--text-secondary); cursor: pointer;
 }
 .q3-rail__item:hover { color: var(--text-primary); background: var(--accent-soft); }
+.q3-rail__item { position: relative; }
+.q3-rail__dot { position: absolute; top: var(--space-1); right: var(--space-1); width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
 .q3-rail__item--active { color: var(--accent); background: var(--surface-inset); box-shadow: var(--shadow-pressed); }
 
 .q3-page { display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-6); min-width: 0; }

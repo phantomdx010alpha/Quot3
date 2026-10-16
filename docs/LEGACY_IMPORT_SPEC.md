@@ -128,3 +128,10 @@ Imported bills are enqueued in the outbox **in the same transaction** as the imp
 
 ## 12. Out of scope
 Exporting to the legacy format · merging near-duplicate parties · importing the legacy app's settings/company info · `.zip` input · bills from other apps · editing files in place.
+
+## 13. Legacy watch (Milestone 15, release 0.1.12)
+
+The automatic watcher (Settings > Background and legacy watch) reuses this importer for new bills and adds three things:
+- **Content fingerprint (second, separate):** SHA-256 of normalised party + ISO date + sorted item lines (normalised name, qty, rate) + adjustments. The PO / bill number is NOT part of it, so the legacy software's "same bill saved again under another PO" is an exact duplicate (skipped + logged). The import fingerprint of section 6 (which includes `bill_no`) is unchanged.
+- **Edit rules:** same normalised party AND same date AND at least 50% of item lines shared (by normalised name) = same bill edited. The newest file mtime wins: a newer copy updates the Quot3 bill in place as a NEW revision (old version stays in History); an older copy is ignored + logged. A bill edited inside Quot3 after import is never overwritten (goes to Needs review). Files are applied oldest mtime first, one transaction per file, one `pre-import` backup per batch.
+- **Needs review list:** uncertain matches (same party + date but under 50% shared lines, two candidate bills, or a locally edited bill) wait in Settings with Import as new bill / Replace existing bill with this / Ignore. An Activity log (last 200 events) has Undo for automatic imports and updates. Nothing is auto-deleted. The 50% threshold is an [A] constant (`SHARED_LINES_THRESHOLD`).

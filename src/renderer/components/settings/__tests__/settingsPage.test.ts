@@ -64,9 +64,9 @@ const field = (label: string): HTMLInputElement => [...host.querySelectorAll('la
 const tab = (id: string): HTMLButtonElement => q<HTMLButtonElement>(`[data-section="${id}"]`)
 
 describe('Settings page', () => {
-  it('lists the fourteen sections, loads the saved company and starts on Company', async () => {
+  it('lists the fifteen sections, loads the saved company and starts on Company', async () => {
     await show()
-    expect([...host.querySelectorAll('[role=tab]')].map((t) => t.textContent)).toEqual(['Company', 'Branch and PO prefix', 'Print defaults', 'Behaviour', 'Themes', 'Density and font size', 'Keyboard shortcuts', 'Dashboard tiles', 'Backup and restore', 'Start fresh', 'Sync and license', 'Activity log', 'Updates', 'About Quot3'])
+    expect([...host.querySelectorAll('[role=tab]')].map((t) => t.textContent)).toEqual(['Company', 'Branch and PO prefix', 'Print defaults', 'Behaviour', 'Themes', 'Density and font size', 'Keyboard shortcuts', 'Dashboard tiles', 'Backup and restore', 'Start fresh', 'Sync and license', 'Background and legacy watch', 'Activity log', 'Updates', 'About Quot3'])
     expect(tab('company').getAttribute('aria-selected')).toBe('true')
     expect(field('Company name').value).toBe('Acme Traders')
     expect(host.textContent).toContain('Import parties')

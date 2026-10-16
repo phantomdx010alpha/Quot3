@@ -1,5 +1,7 @@
 /** Settings keys, defaults and limits (pure). Stored in the `settings` table as JSON; see DATA_MODEL.md. */
 import { DEFAULT_THEME_ID } from './theme/tokens'
+import { LEGACY_WATCH_DEFAULTS } from './legacyWatch/watchConfig'
+import { BACKGROUND_DEFAULTS } from './background'
 
 export const SETTING_KEY_RE = /^[a-z][A-Za-z0-9_]*(\.[A-Za-z0-9_]+)+$/
 export const SETTING_VALUE_MAX_BYTES = 64 * 1024
@@ -44,5 +46,9 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'dash.tiles': { weather: true, usd: true, majors: true, metals: true, clock: true, holidays: true },
   'dash.cache': {},
   'ui.rowHeight': null,
-  'ui.gridFontSize': null
+  'ui.gridFontSize': null,
+  /** Phase 160: legacy watch (folder path, on / off, rescan seconds). All OFF by default; see shared/legacyWatch/watchConfig.ts. */
+  ...LEGACY_WATCH_DEFAULTS,
+  /** Phase 161: start with Windows / keep running in the tray when the window is closed. Both OFF by default; see shared/background.ts. */
+  ...BACKGROUND_DEFAULTS
 }

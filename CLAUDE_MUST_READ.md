@@ -360,6 +360,18 @@ Read `docs/MILESTONE14_DESIGN.md` before any Phase 145-153. Order is flexible; P
 - **TESTING RULE (owner, explicit): do NOT run the full test suite (`npm test` / bare `npx vitest run`) in any Phase 145-153 except the Phase 153 gate, and then only if the owner agrees.** Run `npm run typecheck` plus ONLY the test files you wrote or changed and the files that could plausibly conflict with your change (the same folder / the modules you import or edit, e.g. the print model tests for a print change, the format registry and grid tests for a format change, the settings page test for a Settings change). Name the files you ran in the phase log; anything you did not run is listed as not run. Never spend session time re-checking things twice.
 - Items marked [A] are unconfirmed assumptions; say so in your phase log.
 
+## 10j. Milestone 15 supersessions (Phases 158-164, release 0.1.12): legacy watch
+
+Read `docs/MILESTONE15_DESIGN.md` before any Phase 158-164. Phase 69 still runs after the last feature phase.
+- The legacy importer gets a SECOND, content-based fingerprint (ignores the PO number); the old import fingerprint stays unchanged.
+- Automatic import writes only through the normal bill write path (so the sync outbox is fed), one transaction per file, one `pre-import` backup per batch. No second sync path.
+- Newest file mtime wins; an edited legacy copy updates the bill as a NEW REVISION (never a silent overwrite); a bill edited inside Quot3 after import is never overwritten (goes to Needs review). Nothing is auto-deleted; every automatic action is undoable.
+- Background mode (login item, tray, close-to-tray) is OFF by default and controlled in Settings; `window-all-closed` / close guards must respect it; explicit Quit and update install still quit.
+- Legacy JSON files are private customer data: never commit, never print contents; tests use synthetic fixtures. `docs/reference/legacy_import/Bills_JSON.zip` stays in `.gitignore`.
+- A new migration (Phase 159) is a new numbered file; the release notes' `schema: N` line covers it.
+- **TESTING RULE (owner, explicit): do NOT run the full test suite in any Phase 158-164 except the Phase 164 gate, and then only if the owner agrees.** Run `npm run typecheck` plus ONLY the test files you wrote/changed and those that could plausibly conflict (legacyImport, settings schema, ipc, outbox/sync, bill save). Name them in the phase log; list what you did not run. No repeated checking.
+- Items marked [A] are unconfirmed assumptions; say so in your phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched
