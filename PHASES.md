@@ -1522,3 +1522,73 @@ Read `docs/MILESTONE15_DESIGN.md` before any Phase 158–164 (owner's rules and 
 **In scope:** typecheck plus the touched suites only (no full suite unless the owner agrees); optional counts-only run of the classifier against the owner's attached sample (never print contents); reconcile `PHASE_STATUS.md`; update `GITHUB_UPDATE_PUSH.md`, `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`, `docs/LEGACY_IMPORT_SPEC.md` (new fingerprint, edit rules, review list); bump the version to 0.1.12 (package.json + both spots in package-lock.json) and hand back the changed-files zip, the full zip and the push steps per `GITHUB_UPDATE_PUSH.md` section 2.
 **Out of scope:** new features.
 **How to verify:** suites green or each failure listed with its cause; owner checklist for what only a real PC shows (start at sign-in, tray, close-to-tray, wake rescan, watching the real folder, bills reaching the other PCs through real sync).
+
+
+---
+
+# Milestone 16 — Themes 2.0: richer themes, animations, 3D backgrounds, theme sharing (Phases 165–172)
+
+Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and [A] assumptions). **Testing rule for every phase below: never run the full test suite; run `npm run typecheck` plus only the test files you wrote/changed and the ones that could conflict (`CLAUDE_MUST_READ.md` 10k). No build, no dev server. Name the files in the phase log and list what was not run.** Order: 165, 166, 167, 168, 169, then 170, 171 (any time after 165), 172. Only Phase 172 bumps the version (0.1.14) and hands back the zips per `GITHUB_UPDATE_PUSH.md` section 2. Phase 69 (RELEASE GATE) still runs after the last feature phase.
+
+## Phase 165 — Themes 2.0: schema v2 and validation (pure)
+**Goal:** A richer theme file format that is still pure data and still safe, with old files working unchanged.
+**Depends on:** the existing `shared/theme/*` (Phase 49 area).
+**In scope:** design 3.1-3.3: `schema: 2` envelope with optional `gradients`, `fonts`, `shape`, `effects`, `background` sections next to `tokens`; validation reusing the existing hostile-value rules (no `url()`, no code, clamps, caps, unknown keys warned); a v1 file validates exactly as before; new tokens added with defaults; the theme list/error messages in plain words; update `docs/design/DESIGN_TOKENS.md` (schema v2) and `API_CONTRACTS.md` first. **Also (owner request): rewrite section 8 of `docs/THEME_CREATION_GUIDE.md` to the final v2 schema (replace the DRAFT), extend `tools/check-theme.mjs` to check the v2 sections, and add a v2 example under `docs/themes/` that passes it, so a Claude session given this folder can generate v2 themes.**
+**Out of scope:** applying anything in the UI, animations, Three.js, sharing.
+**Key files:** `src/shared/theme/{validateTheme,tokens,starter}.ts` + new `schemaV2.ts`, tests in `src/shared/theme/__tests__/`; `docs/THEME_CREATION_GUIDE.md`, `tools/check-theme.mjs`, `docs/themes/`.
+**How to verify:** unit tests: every v1 fixture still passes unchanged; v2 valid file; hostile gradient / font / effect values rejected; clamps; unknown scene / preset name warns; size caps; parity test still green; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 166 — Themes 2.0: apply the new sections (gradients, fonts, shape)
+**Goal:** The renderer applies the v2 sections that need no animation.
+**Depends on:** 165.
+**In scope:** `ThemeProvider` maps validated gradients / fonts / shape to CSS custom properties; `tokens.css` defaults for every new token (built-ins unchanged in look); the grid and print stay unthemed by gradients/blur (design 3.4); a theme error never breaks the look (fallback to the base theme); Settings > Themes shows the new warnings and a larger live preview; the starter/export theme includes the new sections.
+**Out of scope:** animations, Three.js, sharing.
+**Key files:** `src/renderer/theme/ThemeProvider.tsx`, `src/renderer/styles/tokens.css`, `src/renderer/components/settings/ThemesSection.tsx`, `src/shared/theme/preview.ts`.
+**How to verify:** parity test (every theme defines every token), ThemeProvider and themes-section tests, a test that the grid selectors never receive blur/gradient tokens; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 167 — Themes 2.0: animation presets
+**Goal:** Named, safe animations a theme can switch on.
+**Depends on:** 165, 166.
+**In scope:** design 3.4: a pure preset registry (id, allowed parameters, clamps) in `shared/theme/effects.ts`; CSS/renderer implementation (page transitions, hover/press motion, accent glow, ambient motion) using transform/opacity on chrome only; honours reduce-motion; a master switch setting `effects.enabled` (default ON, Off = today's look exactly); never on the grid or print; paused when the window is hidden.
+**Out of scope:** Three.js, the Settings controls page (168), sharing. Add the final list of animation presets and their parameters to `docs/THEME_CREATION_GUIDE.md` section 8.
+**Key files:** new `src/shared/theme/effects.ts`, `src/renderer/theme/effects.ts` (+ css in `styles/`), `ThemeProvider.tsx`, `src/shared/settings.ts`.
+**How to verify:** registry tests (unknown preset, clamps, reduce-motion off switch), a test that no effect rule targets the grid or print, typecheck. Real look = owner's PC. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 168 — Themes 2.0: Settings controls for effects
+**Goal:** The owner controls effects from Settings.
+**Depends on:** 167.
+**In scope:** Settings > Themes: "Visual effects" master switch, per-effect on/off and intensity overrides (saved as settings, applied over the theme's own values), "Pause effects when the window is not focused" [A: ON], a reset button, plain-words hints; command-palette entry and shortcut for toggling effects (registered in `shared/shortcuts.ts`).
+**Out of scope:** Three.js scenes, sharing.
+**Key files:** `ThemesSection.tsx` (or a new `EffectsSection.tsx`), `settingsStore.ts`, `shared/settings.ts`, `shared/shortcuts.ts`.
+**How to verify:** component test (switch, intensity saved, reset), shortcut registry tests that you touched, Phase 92 selector rule test for any new store; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 169 — Themes 2.0: Three.js background scenes
+**Goal:** Built-in 3D / shader backgrounds a theme can choose by name.
+**Depends on:** 165, 166, 167.
+**In scope:** design 3.5-3.6: add one pinned `three` dependency (read `DEPENDENCY_VERSIONS.md`, install once, record it there); a scene registry (e.g. particles, waves, gradient mesh) with validated parameters (colours, speed, density, intensity); a canvas layer behind the chrome (`pointer-events: none`, never behind the grid), lazy-loaded only when the active theme names a scene; frame cap, pause when hidden / minimised / tray, dispose on theme change, fallback to no background when WebGL fails or a frame budget is blown; confirm the CSP (record any change and why); a Settings switch "3D backgrounds" [A: default ON when a theme asks for one].
+**Out of scope:** images in themes, user-supplied shaders or scripts (never), sharing. Add the final list of scenes and their parameters to `docs/THEME_CREATION_GUIDE.md` section 8 and an example theme that uses one.
+**Key files:** new `src/renderer/theme/scenes/*`, `ThemeProvider.tsx`, `src/shared/theme/schemaV2.ts` (scene names + parameter specs), `package.json` / `package-lock.json` (dependency only; do NOT bump the version), `DEPENDENCY_VERSIONS.md`.
+**How to verify:** pure tests for scene parameter validation and the pause / fallback decision logic; a test that an unknown scene is ignored with a warning; a Node-level check that the scene modules import cleanly; typecheck. WebGL rendering and frame rate = owner's PC (standing gap). **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 170 — Theme sharing: server SQL and contract
+**Goal:** The server side that lets branches share theme files.
+**Depends on:** 165; the Milestone 12 shared-notebook setup (`docs/SYNC_SHARED_STORE_SPEC.md`, `docs/SUPABASE_MIGRATIONS.md`).
+**In scope:** design 3.8: ONE new numbered SQL file (never edit a file already run) adding a themes table (organisation, theme id, JSON, `edited_at`, author seat, `min_reader_ver`, history rows), RLS select-own-organisation only, RPC-only writes (upsert with size cap, list since a cursor), no `service_role`; contract written first in `API_CONTRACTS.md` and `docs/SUPABASE_MIGRATIONS.md` (owner's run-order and checklist line); static SQL tests following the Milestone 12 pattern.
+**Out of scope:** client code, anything run against a real Supabase.
+**Key files:** new SQL file under the existing SQL folder, `docs/SUPABASE_MIGRATIONS.md`, `API_CONTRACTS.md`, static tests next to the existing SQL tests.
+**How to verify:** static SQL tests (RLS present, no direct insert/update grants, size cap, function signature), typecheck. "Works on Supabase" is a standing gap until the owner runs the checklist; never write "verified". **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 171 — Theme sharing: client sync and Settings
+**Goal:** Themes added on one PC appear on the other branches.
+**Depends on:** 165, 170.
+**In scope:** push a new / edited local theme file and pull others through the existing sync worker pattern (no second channel); a received theme is validated like a local file and written to the themes folder only when valid (bad ones set aside and listed); newest `edited_at` wins, older version kept in history, nothing silently deleted; "Share my themes with the other PCs" switch (OFF by default [A]); Settings > Themes lists shared themes with their origin and a local-only Remove; `min_reader_ver` rule ("Update the app to use N themes"); logs carry counts only, no theme contents.
+**Out of scope:** Three.js changes, a real Supabase run.
+**Key files:** new `src/main/sync/themeShare*.ts` (the only Supabase code), `themeService.ts`, `ThemesSection.tsx`, IPC + preload + `Quot3Bridge`, settings keys.
+**How to verify:** service tests with a fake server (new theme arrives, same id newer wins, bad theme set aside, switch off = nothing sent, older reader), IPC strict-schema tests, component test; typecheck. Real sync = owner's PC. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+## Phase 172 — Milestone 16 QA gate and release 0.1.14
+**Goal:** Check Phases 165-171 together, then ship version 0.1.14.
+**Depends on:** 165-171 (or the subset the owner chose to ship; say so).
+**In scope:** typecheck plus the touched suites only (no full suite unless the owner agrees); reconcile `PHASE_STATUS.md`; confirm `docs/THEME_CREATION_GUIDE.md`, `tools/check-theme.mjs` and the examples in `docs/themes/` agree with the code (run the checker on a v1 and a v2 example only); update `GITHUB_UPDATE_PUSH.md` (history entry; if the milestone added a migration or SQL file, the `schema: N` note), `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`, `docs/design/DESIGN_TOKENS.md`; bump the version to 0.1.14 (`package.json` + both spots in `package-lock.json`) and hand back the changed-files zip, the full zip and the push steps per `GITHUB_UPDATE_PUSH.md` section 2.
+**Out of scope:** new features.
+**How to verify:** suites green or each failure listed with its cause; owner checklist for what only a real PC shows (look and frame rate of effects and 3D on an office PC, hidden / tray pause, WebGL fallback, a theme shared from one PC arriving on another through real Supabase). **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**

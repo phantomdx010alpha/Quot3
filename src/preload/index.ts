@@ -45,7 +45,11 @@ const bridge: Quot3Bridge = {
     setActive: (id) => ipcRenderer.invoke('themes:setActive', { id }),
     openFolder: () => ipcRenderer.invoke('themes:openFolder', {}),
     exportStarter: (id, computed) => ipcRenderer.invoke('themes:exportStarter', { id, computed }),
-    setTitleBar: (input) => ipcRenderer.invoke('themes:setTitleBar', input)
+    setTitleBar: (input) => ipcRenderer.invoke('themes:setTitleBar', input),
+    shareStatus: () => ipcRenderer.invoke('themes:shareStatus', {}),
+    shareSetEnabled: (enabled) => ipcRenderer.invoke('themes:shareSetEnabled', { enabled }),
+    shareSyncNow: () => ipcRenderer.invoke('themes:shareSyncNow', {}),
+    removeShared: (id) => ipcRenderer.invoke('themes:removeShared', { id })
   },
   parties: {
     list: () => ipcRenderer.invoke('parties:list', {}),

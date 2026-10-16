@@ -43,6 +43,11 @@
   --scrollbar-size: 10px;
   --titlebar-height: 32px;
   --glass-blur: 0px;
+  /* Phase 165 (Themes 2.0) defaults: 'none' = today's look. Set from a schema-2 theme (Phase 166+); chrome only, never the grid or print. */
+  --gradient-shell: none;
+  --gradient-panel: none;
+  --gradient-accent: none;
+  --accent-glow: none;
 
   --z-grid: 1;
   --z-popover: 50;

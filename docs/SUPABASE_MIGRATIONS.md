@@ -16,6 +16,7 @@ Design: `docs/SYNC_SHARED_STORE_SPEC.md`. The v1 files below stay as they are (n
 | `16_realtime.sql` ✅ written | adds ONLY `sn_ping` to the `supabase_realtime` publication (the doorbell); guarded, so re-running only prints a notice; no data table is published |
 | `91_selftest_v2.sql` ✅ written | the v2 self-test (see "Run the self-test v2" below); one transaction, ends in ROLLBACK, keeps nothing |
 | `99_drop_v1.sql` ✅ written; an OWNER-RUN step (documented in Phase 142, never run by the app or by any test) | OWNER-RUN, only after the cutover (Phase 140) and the checklist: drops the old `postbox` and `branches` tables and the v1 `qt_*` RPCs. It **refuses to run as shipped**: change `v_confirm` from `NO` to `DROP V1` first. It keeps `licenses`, `qt_license_hash`, every `sn_*` object and every `qt_create_org` owner function |
+| `17_themes.sql` ✅ written (Phase 170, Milestone 16; NOT run) | shared themes: `sn_themes` + `sn_theme_history` (RLS select-own-organisation, no write policy, nothing for `anon`), `sn_theme_push` / `sn_theme_pull` (the only write / read doors, `authenticated` only), 64 KB per theme, newest `edited_at` wins and the older version is kept (20 per theme). Run it after `16`; safe to re-run; it edits nothing from `01`-`16`. Not part of `91_selftest_v2.sql` (that file may already have been run; see checklist F) |
 
 ### App RPC reference (file 15; all `authenticated` only, all need the license key and this seat's branch id)
 Named `sn_*` because the v1 `qt_*` functions share signatures (see the header of `15_rpcs.sql`). Errors: `Q3L01` generic license, `Q3A01` not a member, `Q3M01` not this seat's branch, `Q3B02` prefix taken, `Q3B03` branch conflict, `Q3B04` name taken, `Q3B05` seat in use, `Q3I01` invalid input, `Q3I03` too many items, `Q3R01` too large.
@@ -191,3 +192,21 @@ Record the date, the Supabase region and anything that failed in `PHASE_STATUS.m
 - **What to tell the owner:** keep Windows time sync on (Settings -> Time & language -> "Set time automatically"). A clock more than a few minutes off is the only realistic way to get a surprising winner. There is no automatic detection yet (a later hardening item: compare `qt_touch.server_time` with the local clock and warn above 2 minutes).
 - **Size limits (client and server agree):** one sealed bill at most 1 048 576 bytes of ciphertext (`POSTBOX_MAX_CIPHERTEXT`); at most 200 items per push (`PUSH_MAX_ITEMS`), 4 MB of base64 per push call (`PUSH_BATCH_MAX_BYTES`), 8 MB JSON server-side, 200 items / about 4 MB per pull, 1000 ids per ack. The push worker checks the size BEFORE sending, so an oversized bill is blamed on its own outbox row (it goes to `failed` after 10 attempts, with the message "too large") and never blocks the bills behind it.
 - **Lost answers:** a push the server processed but whose answer was lost is sent again, so the postbox can hold duplicates; the receiver's apply is idempotent (same bill id + revision = once). Covered by the harness.
+
+### Theme sharing (Milestone 16, file `17_themes.sql`): owner steps and checklist F
+Written in Phase 170 (server side only; the app side is Phase 171). **Nothing here has been run against a real Supabase**: "theme sharing works on Supabase" is a standing gap until the boxes below are ticked and the result is recorded in `PHASE_STATUS.md`. Sharing is OFF by default in the app, so running or skipping this file changes nothing until the owner turns the switch on.
+
+Run order: `01`-`06`, `11`-`16` (as before), then `17_themes.sql` in the SQL editor. Re-running is safe.
+
+| Function | Returns | Notes |
+|---|---|---|
+| `sn_theme_push(license, branch_id, items)` | array `{ theme_id, outcome, version, server_seq }` | 1-20 items, 2 MB per call, 64 KB per theme; outcome `accepted` / `noop` / `won` / `lost`; newest `edited_at` wins, older version kept in history |
+| `sn_theme_pull(license, branch_id, after_seq, limit<=50)` | `{ items, has_more, server_time }` | ordered by `server_seq`, about 2 MB per page, deletes nothing |
+
+**F. Theme sharing (owner ticks, then records the date and anything that failed in `PHASE_STATUS.md` -> STANDING GAPS)**
+1. [ ] Run `17_themes.sql`: no errors; running it a second time is also fine.
+2. [ ] Table Editor: `sn_themes` and `sn_theme_history` show RLS ON; with the anon key only (curl to `/rest/v1/sn_themes`) no rows come back.
+3. [ ] SQL editor, as a test (replace the values with your own; do not paste a real license key anywhere public): a signed-in seat calling `sn_theme_push` with one small theme returns `accepted`; the same call again returns `noop`; the same theme id with an older `edited_at` and a different hash returns `lost` and the stored theme is unchanged; with a newer `edited_at` it returns `won`, and `sn_theme_history` then holds the previous version.
+4. [ ] A payload over 64 KB is refused with `payload_too_large`; a theme id with capitals or spaces is refused with `invalid_input`; 21 items in one call are refused with `too_many`.
+5. [ ] A second organisation's login (if you made one) cannot see the first organisation's `sn_themes` rows.
+6. [ ] (app, after Phase 171) Computer 1: turn on "Share my themes with the other PCs" and add a theme file; computer 2 (switch on) shows it in Settings > Themes and its own `themes` folder, a bad file is set aside and listed, and the app does not break.

@@ -2,6 +2,9 @@
 import { DEFAULT_THEME_ID } from './theme/tokens'
 import { LEGACY_WATCH_DEFAULTS } from './legacyWatch/watchConfig'
 import { BACKGROUND_DEFAULTS } from './background'
+import { SCENES_ENABLED_DEFAULT, SCENES_ENABLED_KEY } from './theme/scenes'
+import { THEME_SHARE_DEFAULT, THEME_SHARE_KEY } from './theme/themeShare'
+import { EFFECTS_ENABLED_DEFAULT, EFFECTS_ENABLED_KEY, EFFECTS_OVERRIDES_KEY, EFFECTS_PAUSE_UNFOCUSED_DEFAULT, EFFECTS_PAUSE_UNFOCUSED_KEY } from './theme/effects'
 
 export const SETTING_KEY_RE = /^[a-z][A-Za-z0-9_]*(\.[A-Za-z0-9_]+)+$/
 export const SETTING_VALUE_MAX_BYTES = 64 * 1024
@@ -47,6 +50,14 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'dash.city': { name: 'Bangalore', region: 'Karnataka', country: 'India', lat: 12.9719, lon: 77.5937 },
   'dash.tiles': { weather: true, usd: true, majors: true, metals: true, clock: true, holidays: true },
   'dash.cache': {},
+  /** Phase 167: master switch for theme animations (default ON; Off = today's look exactly). */
+  [EFFECTS_ENABLED_KEY]: EFFECTS_ENABLED_DEFAULT,
+  [EFFECTS_PAUSE_UNFOCUSED_KEY]: EFFECTS_PAUSE_UNFOCUSED_DEFAULT,
+  [EFFECTS_OVERRIDES_KEY]: {},
+  /** Phase 169: 3D / shader theme backgrounds (default ON, only used when a theme asks for a scene). */
+  [SCENES_ENABLED_KEY]: SCENES_ENABLED_DEFAULT,
+  /** Phase 171: "Share my themes with the other PCs" (OFF by default [A]). Needs the shared notebook; see shared/theme/themeShare.ts. */
+  [THEME_SHARE_KEY]: THEME_SHARE_DEFAULT,
   'ui.rowHeight': null,
   'ui.gridFontSize': null,
   /** Phase 160: legacy watch (folder path, on / off, rescan seconds). All OFF by default; see shared/legacyWatch/watchConfig.ts. */

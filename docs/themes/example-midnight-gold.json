@@ -1,0 +1,67 @@
+{
+  "id": "midnight-gold",
+  "name": "Midnight Gold",
+  "base": "navy-ember",
+  "tokens": {
+    "--surface-base": "#12101c",
+    "--surface-raised": "#1a1727",
+    "--surface-inset": "#0d0b15",
+    "--surface-grid": "#13111d",
+    "--surface-grid-alt": "#171424",
+    "--surface-header": "#231f36",
+
+    "--text-primary": "#f1edf9",
+    "--text-secondary": "#cbc4de",
+    "--text-muted": "#a299bb",
+    "--text-on-accent": "#16110a",
+    "--text-danger": "#ff9a9a",
+
+    "--accent": "#e9b949",
+    "--accent-hover": "#f3c964",
+    "--accent-active": "#cf9f32",
+    "--accent-soft": "rgba(233, 185, 73, 0.15)",
+    "--focus-ring": "#ffe0a0",
+
+    "--ok": "#62d69f",
+    "--warn": "#f2c14e",
+    "--danger": "#ff8f8f",
+    "--info": "#7db7ff",
+
+    "--grid-line": "#2f2947",
+    "--grid-active-border": "#e9b949",
+    "--grid-active-bg": "#27213d",
+    "--grid-active-row-bg": "#1f1a31",
+    "--grid-range-bg": "rgba(125, 183, 255, 0.18)",
+    "--grid-override-marker": "#f2c14e",
+    "--grid-marked-underline": "#7db7ff",
+    "--grid-adjustment-bg": "#1e1a30",
+    "--grid-total-bg": "#2a2342",
+
+    "--rt-red": "#ff6b6b",
+    "--rt-highlight": "#5c4a10",
+
+    "--border-color": "#3a3258",
+    "--overlay": "rgba(6, 4, 12, 0.7)",
+
+    "--shadow-light": "rgba(70, 58, 110, 0.5)",
+    "--shadow-dark": "rgba(4, 3, 9, 0.8)",
+    "--shadow-dist": "4px",
+    "--shadow-blur": "10px",
+
+    "--scrollbar-track": "#0d0b15",
+    "--scrollbar-thumb": "#6d61a0",
+    "--scrollbar-thumb-hover": "#8d80c4",
+    "--titlebar-bg": "#0d0b15",
+    "--titlebar-fg": "#f1edf9",
+    "--titlebar-symbol": "#f1edf9",
+    "--titlebar-hover": "#27213d",
+    "--surface-glass": "rgba(26, 23, 39, 0.75)",
+    "--glass-border": "rgba(241, 237, 249, 0.14)",
+    "--bg-image": "radial-gradient(circle at 15% 0%, rgba(233, 185, 73, 0.10), transparent 45%), radial-gradient(circle at 100% 100%, rgba(125, 120, 220, 0.10), transparent 50%)",
+
+    "--radius-sm": "4px",
+    "--radius-md": "8px",
+    "--radius-lg": "14px",
+    "--border-width": "1px"
+  }
+}

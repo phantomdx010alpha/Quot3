@@ -45,6 +45,7 @@ export type ActionId =
   | 'settings.print'
   | 'settings.behaviour'
   | 'settings.themes'
+  | 'effects.toggle'
   | 'settings.appearance'
   | 'settings.shortcuts'
   | 'settings.backup'
@@ -204,6 +205,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'settings.print', label: 'Settings: Print defaults', group: 'Navigate' },
   { id: 'settings.behaviour', label: 'Settings: Behaviour', group: 'Navigate' },
   { id: 'settings.themes', label: 'Settings: Themes', group: 'Navigate' },
+  { id: 'effects.toggle', label: 'Turn visual effects on / off', group: 'Help' },
   { id: 'settings.appearance', label: 'Settings: Density and font size', group: 'Navigate' },
   { id: 'settings.shortcuts', label: 'Settings: Keyboard shortcuts list', group: 'Navigate' },
   { id: 'settings.backup', label: 'Settings: Backup and restore', group: 'Navigate' },
@@ -371,6 +373,7 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   // Phase 44: revision history (undo layer L4). Global: acts on the open bill on Create and the highlighted bill on History.
   { id: 'partyImport.open', keys: 'Ctrl+Shift+J', label: 'Import parties from Excel', scope: 'global', action: 'partyImport.open' },
   { id: 'legacyImport.open', keys: 'Ctrl+Shift+L', label: 'Import legacy bills', scope: 'global', action: 'legacyImport.open' },
+  { id: 'effects.toggle', keys: 'Ctrl+Alt+E', label: 'Turn visual effects on / off', scope: 'global', action: 'effects.toggle' },
   { id: 'backup.create', keys: 'Ctrl+Alt+B', label: 'Create a backup now', scope: 'global', action: 'backup.create' },
   { id: 'revisions.open', keys: 'Ctrl+Shift+V', label: 'Revisions - earlier versions of the bill', scope: 'global', action: 'revisions.open' },
   // Phase 45: Customers. Ctrl+F and Insert are handled by the page; Enter / F2 / Right / Delete by the list itself (they are listed here for the palette and the cheat-sheet).

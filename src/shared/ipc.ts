@@ -1,5 +1,6 @@
 // Shared IPC contract types (pure, zod-free so the renderer may import them). See API_CONTRACTS.md §2.
 import type { ThemeFile } from './theme/validateTheme'
+import type { ThemeShareRunResult, ThemeShareStatus } from './theme/themeShare'
 import type { PartyLite } from './party/partyLite'
 import type { BillListItem, HistoryBranch, HistoryDate, HistorySource } from './history/historyList'
 import type { SearchHit } from './history/historySearch'
@@ -187,7 +188,9 @@ export const EVENT_CHANNELS = [
   'bills:remoteChanged',
   'updates:state',
   'legacyImport:progress',
-  'items:progress'
+  'items:progress',
+  /** Phase 171: a shared theme file was written or removed on this PC; reload the theme list. */
+  'themes:changed'
 ] as const
 export type EventChannel = (typeof EVENT_CHANNELS)[number]
 
@@ -221,6 +224,12 @@ export interface Quot3Bridge {
     exportStarter(id: string, computed: Record<string, string>): Promise<Result<{ file: string; path: string; id: string }>>
     /** Phase 98: recolour the native window-button strip (`titleBarOverlay`) from the live theme tokens. Values are re-parsed in main; Windows only (no-op elsewhere). */
     setTitleBar(input: { bg: string; symbol: string; height: string }): Promise<Result<Record<string, never>>>
+    /** Phase 171: theme sharing. Status carries ids, names and counts only. */
+    shareStatus(): Promise<Result<ThemeShareStatus>>
+    shareSetEnabled(enabled: boolean): Promise<Result<ThemeShareStatus>>
+    shareSyncNow(): Promise<Result<{ run: ThemeShareRunResult; status: ThemeShareStatus }>>
+    /** Local-only: the theme file moves to `themes/history/` on this PC; other PCs keep theirs. */
+    removeShared(id: string): Promise<Result<ThemeShareStatus>>
   }
   parties: {
     /** Phase 26: every saved (non-deleted) party, name A–Z. */

@@ -1,3 +1,4 @@
+import { BackgroundLayer } from './BackgroundLayer'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { SideRail } from './SideRail'
 import { CommandPalette } from './CommandPalette'
@@ -50,6 +51,7 @@ export function AppShell({ children }: { children: ReactNode }): React.JSX.Eleme
 
   return (
     <div className="q3-shell">
+      <BackgroundLayer />
       <SideRail />
       <UpdateBanner />
       <main ref={mainRef} className="q3-shell__main" tabIndex={-1} aria-label="Page">

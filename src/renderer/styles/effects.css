@@ -1,0 +1,48 @@
+/* Phase 167 - theme animation presets. CHROME ONLY: every rule starts with html[data-fx-...] (set by renderer/theme/effects.ts only
+   when the master switch is on, reduce-motion is off and the theme asks for it), uses transform / opacity, and never selects the
+   grid, the Create page or print. Off = none of these rules match = today's look exactly. No colours here (tokens only). */
+
+/* Page transition: pages without a grid only (the Create page and anything containing the grid never animate). */
+@keyframes q3-fx-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes q3-fx-fade-slide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes q3-fx-zoom-fade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: none; } }
+html[data-fx-page="fade"] .q3-shell__main > .q3-page:not(:has(.q3-grid)) { animation: q3-fx-fade var(--fx-page-dur, 180ms) var(--ease-out) both; }
+html[data-fx-page="fade-slide"] .q3-shell__main > .q3-page:not(:has(.q3-grid)) { animation: q3-fx-fade-slide var(--fx-page-dur, 240ms) var(--ease-out) both; }
+html[data-fx-page="zoom-fade"] .q3-shell__main > .q3-page:not(:has(.q3-grid)) { animation: q3-fx-zoom-fade var(--fx-page-dur, 220ms) var(--ease-out) both; }
+
+/* Hover / press motion on buttons, icon buttons and the side rail. */
+html[data-fx-hover] :is(.q3-btn, .q3-iconbtn, .q3-rail__item) { transition: transform var(--fx-hover-dur, 140ms) var(--ease-out), box-shadow var(--fx-hover-dur, 140ms) var(--ease-out); }
+html[data-fx-hover="lift"] :is(.q3-btn, .q3-iconbtn, .q3-rail__item):hover:not(:disabled) { transform: translateY(calc(var(--fx-hover-amt, 2) * -1px)); }
+html[data-fx-hover="press"] :is(.q3-btn, .q3-iconbtn, .q3-rail__item):active:not(:disabled) { transform: scale(calc(1 - var(--fx-hover-amt, 0.03))); }
+html[data-fx-hover="glow"] :is(.q3-btn, .q3-iconbtn, .q3-rail__item):hover:not(:disabled) { box-shadow: 0 0 calc(var(--fx-hover-amt, 7) * 1px) var(--accent-soft); }
+
+/* Accent glow: --accent-glow is a valid box-shadow only while this attribute is set (it is `none` otherwise). */
+html[data-fx-glow] .q3-btn--primary { box-shadow: var(--shadow-raised), var(--accent-glow); }
+
+/* Ambient motion: a soft accent wash on the side rail only (compositor-only: transform / opacity). */
+@keyframes q3-fx-breathe { 0%, 100% { opacity: 0; } 50% { opacity: var(--fx-ambient-opacity, 0.14); } }
+@keyframes q3-fx-drift { 0% { opacity: var(--fx-ambient-opacity, 0.14); transform: translateY(-30%); } 100% { opacity: var(--fx-ambient-opacity, 0.14); transform: translateY(30%); } }
+@keyframes q3-fx-shimmer { 0% { opacity: 0; transform: translateY(-100%); } 50% { opacity: var(--fx-ambient-opacity, 0.14); } 100% { opacity: 0; transform: translateY(100%); } }
+html[data-fx-ambient] .q3-rail { position: relative; overflow: hidden; }
+html[data-fx-ambient] .q3-rail::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent, var(--accent-soft), transparent); opacity: 0; animation-duration: var(--fx-ambient-dur, 6000ms); animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+html[data-fx-ambient="breathe"] .q3-rail::after { animation-name: q3-fx-breathe; }
+html[data-fx-ambient="drift"] .q3-rail::after { animation-name: q3-fx-drift; animation-direction: alternate; }
+html[data-fx-ambient="shimmer"] .q3-rail::after { animation-name: q3-fx-shimmer; }
+/* Paused while the window is hidden / minimised / in the tray. */
+html[data-fx-paused] .q3-rail::after { animation-play-state: paused; }
+
+/* Belt and braces: reduce-motion and print never animate, whatever the attributes say. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-fx-page] .q3-shell__main > .q3-page, html[data-fx-ambient] .q3-rail::after { animation: none; }
+  html[data-fx-hover] :is(.q3-btn, .q3-iconbtn, .q3-rail__item) { transition: none; transform: none; }
+}
+@media print {
+  html[data-fx-page] *, html[data-fx-ambient] *, html[data-fx-hover] * { animation: none !important; transition: none !important; }
+}
+
+/* Phase 169: the 3D / shader background canvas. Only exists when the active theme asks for a scene. Behind the chrome, never receives input, never on a page that shows the bill grid, never printed. */
+.q3-shell:has(> .q3-bg) { position: relative; }
+.q3-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.q3-bg[data-grid='on'] { visibility: hidden; }
+.q3-shell:has(> .q3-bg) > .q3-rail, .q3-shell:has(> .q3-bg) > .q3-shell__main { position: relative; z-index: 1; }
+@media print { .q3-bg { display: none; } }

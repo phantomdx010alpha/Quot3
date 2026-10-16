@@ -1,4 +1,5 @@
 import { BUILTIN_THEME_IDS, CLAMPS, isTokenName } from './tokens'
+import { THEME_SCHEMA_VERSION, validateV2Sections, type ThemeV2 } from './schemaV2'
 
 export interface ThemeFile {
   id: string
@@ -8,6 +9,11 @@ export interface ThemeFile {
   /** Only whitelisted, sanitised overrides. Empty for built-ins (defined in tokens.css). */
   tokens: Record<string, string>
   builtin: boolean
+  /** Only present on a schema-2 file (Phase 165). A v1 file has neither field. */
+  schema?: 2
+  v2?: ThemeV2
+  /** Phase 166: plain-words warnings from loading a drop-in file (set by themeService, shown in Settings). Absent when none. */
+  warnings?: string[]
 }
 
 export type ThemeValidation =
@@ -79,6 +85,17 @@ export function validateTheme(raw: unknown): ThemeValidation {
     errors.push(`"base" must be one of: ${BUILTIN_THEME_IDS.join(', ')}`)
   }
 
+  // Phase 165: `schema` is absent (v1) or 2. Anything newer is set aside, never half-applied.
+  const schemaRaw = obj['schema']
+  let isV2 = false
+  if (schemaRaw !== undefined) {
+    if (schemaRaw === THEME_SCHEMA_VERSION) isV2 = true
+    else if (schemaRaw === 1) isV2 = false
+    else if (typeof schemaRaw === 'number' && schemaRaw > THEME_SCHEMA_VERSION) {
+      errors.push('this theme needs a newer version of Quot3 (update the app to use it)')
+    } else errors.push('"schema" must be 2 (or left out for the original format)')
+  }
+
   const tokensRaw = obj['tokens']
   const tokens: Record<string, string> = {}
   if (tokensRaw !== undefined) {
@@ -118,13 +135,22 @@ export function validateTheme(raw: unknown): ThemeValidation {
     }
   }
 
+  let v2: ThemeV2 | undefined
+  if (isV2) {
+    const r = validateV2Sections(obj)
+    errors.push(...r.errors)
+    warnings.push(...r.warnings)
+    v2 = r.v2
+  }
+
   if (errors.length > 0) return { ok: false, errors }
   const theme: ThemeFile = {
     id: id as string,
     name: (name as string).trim(),
     tokens,
     builtin: false,
-    ...(typeof base === 'string' ? { base } : {})
+    ...(typeof base === 'string' ? { base } : {}),
+    ...(v2 ? { schema: 2 as const, v2 } : {})
   }
   return { ok: true, theme, warnings }
 }

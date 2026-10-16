@@ -28,7 +28,7 @@
 }
 .q3-btn--sm { min-height: var(--row-height); padding: 0 var(--space-2); font-size: var(--text-sm); }
 .q3-btn--secondary { background: var(--surface-raised); box-shadow: var(--shadow-raised); }
-.q3-btn--primary { background: var(--accent); color: var(--text-on-accent); box-shadow: var(--shadow-raised); }
+.q3-btn--primary { background: var(--gradient-accent), var(--accent); color: var(--text-on-accent); box-shadow: var(--shadow-raised); }
 .q3-btn--primary:hover { background: var(--accent-hover); }
 .q3-btn--primary:active { background: var(--accent-active); }
 .q3-btn--danger { background: var(--surface-raised); color: var(--text-danger); box-shadow: var(--shadow-raised); }
@@ -169,13 +169,13 @@
 
 /* ---------- App shell (Phase 4) — tokens only ---------- */
 .q3-app { display: flex; flex-direction: column; height: 100%; min-width: 0; }
-.q3-shell { display: flex; flex: 1; min-height: 0; min-width: 0; background: var(--bg-image), var(--surface-base); }
+.q3-shell { display: flex; flex: 1; min-height: 0; min-width: 0; background: var(--gradient-shell), var(--bg-image), var(--surface-base); } /* Phase 166: --gradient-shell is `none` unless a schema-2 theme sets it; chrome only */
 .q3-shell__main { flex: 1; min-width: 0; overflow: auto; outline: none; }
 
 .q3-rail {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
   flex: none; padding: var(--space-3) var(--space-2);
-  background: var(--surface-raised);
+  background: var(--gradient-panel), var(--surface-raised);
 }
 .q3-rail__item {
   display: inline-flex; align-items: center; justify-content: center;
@@ -321,3 +321,13 @@
 :root[data-theme='glossy-glass'] .q3-rail { border-top: 0; border-bottom: 0; border-left: 0; border-radius: 0; }
 :root[data-theme='glossy-glass'] .q3-dialog { border-radius: var(--radius-lg); }
 :root[data-theme='glossy-glass'] .q3-titlebar { border-bottom: var(--border-width) solid var(--glass-border); }
+
+/* Phase 168: Settings > Themes > Visual effects (chrome only, tokens only). */
+.q3-fx { border: 1px solid var(--border-subtle, currentColor); border-radius: var(--radius-md, 6px); padding: var(--space-3, 12px); display: flex; flex-direction: column; gap: var(--space-2, 8px); }
+.q3-fx__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2, 8px); }
+.q3-fx__item { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(12rem, 1fr); gap: var(--space-1, 4px) var(--space-3, 12px); align-items: center; }
+.q3-fx__item > .q3-set__muted { grid-column: 1 / -1; }
+.q3-share__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2, 8px); }
+.q3-share__item { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2, 8px); }
+.q3-fx__range { display: flex; align-items: center; gap: var(--space-2, 8px); }
+.q3-fx__range input[type='range'] { flex: 1; min-width: 6rem; }

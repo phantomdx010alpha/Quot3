@@ -1,5 +1,7 @@
 import { BUILTIN_THEME_IDS, DEFAULT_THEME_ID, TOKEN_NAMES } from './tokens'
 import { checkTokenValue, validateTheme, type ThemeFile } from './validateTheme'
+import type { ThemeV2 } from './schemaV2'
+import { v2ToFileSections } from './applyV2'
 
 /**
  * Phase 49 - "Export current theme as a starter file" (pure). The renderer reads the computed value of every whitelisted
@@ -17,6 +19,8 @@ export interface StarterInput {
   computed: Record<string, string>
   /** Ids already taken (built-ins + files in the folder); the new id is made unique against them. */
   takenIds: readonly string[]
+  /** Phase 166: the exported theme's schema-2 sections (when it has any); they are written back as sections, not as tokens. */
+  v2?: ThemeV2
 }
 
 export interface StarterTheme {
@@ -24,7 +28,13 @@ export interface StarterTheme {
   name: string
   base: string
   tokens: Record<string, string>
+  /** Only on an export of a schema-2 theme. */
+  schema?: 2
+  [section: string]: unknown
 }
+
+/** Computed values that come FROM the v2 sections (gradients, glow); exporting them as tokens would duplicate the section. */
+const V2_ONLY_TOKENS: readonly string[] = ['--gradient-shell', '--gradient-panel', '--gradient-accent', '--accent-glow']
 
 const slug = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
 
@@ -41,6 +51,7 @@ export function buildStarterTheme(input: StarterInput): StarterTheme {
   const base = input.builtin ? input.fromId : BUILTIN_THEME_IDS.includes(input.fromBase ?? '') ? (input.fromBase as string) : DEFAULT_THEME_ID
   const tokens: Record<string, string> = {}
   for (const name of TOKEN_NAMES) {
+    if (V2_ONLY_TOKENS.includes(name)) continue
     const raw = input.computed[name]
     if (typeof raw !== 'string') continue
     const value = raw.trim().replace(/\s+/g, ' ')
@@ -48,7 +59,10 @@ export function buildStarterTheme(input: StarterInput): StarterTheme {
     tokens[name] = value
   }
   const name = `${input.fromName.trim() || input.fromId} copy`.slice(0, 60)
-  return { id: uniqueThemeId(input.fromId, input.takenIds), name, base, tokens }
+  const sections = v2ToFileSections(input.v2)
+  const id = uniqueThemeId(input.fromId, input.takenIds)
+  if (Object.keys(sections).length === 0) return { id, name, base, tokens }
+  return { schema: 2, id, name, base, tokens, ...sections }
 }
 
 /** Serialised exactly as written to disk (2-space JSON, trailing newline). */

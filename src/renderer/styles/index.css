@@ -2,6 +2,7 @@
 @import './neumorph.css';
 @import './ui.css';
 @import './grid.css';
+@import './effects.css';
 
 @tailwind base;
 @tailwind components;

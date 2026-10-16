@@ -76,6 +76,16 @@ export interface PulledRecord {
 }
 export interface PullResult { items: PulledRecord[]; hasMore: boolean; serverTime: string }
 
+/** Phase 171: theme sharing (supabase/sql/17_themes.sql). Implemented by `SupabaseSharedTransport` only; the in-memory / flaky transports do not have them. */
+export interface ThemePushItem { themeId: string; payload: Record<string, unknown>; payloadHash: string; schemaVer: number; minReaderVer: number; appVer: string; editedAt: string }
+export interface ThemePushResult { themeId: string; outcome: SharedPushOutcome; version: number; serverSeq: number }
+export interface PulledTheme { themeId: string; version: number; serverSeq: number; payload: Record<string, unknown>; payloadHash: string; schemaVer: number; minReaderVer: number; appVer: string; editedAt: string; fromBranch: string | null }
+export interface ThemePullResult { items: PulledTheme[]; hasMore: boolean; serverTime: string }
+export interface ThemeShareCalls {
+  themePush(a: BranchScope & { items: ThemePushItem[] }): Promise<ThemePushResult[]>
+  themePull(a: BranchScope & { afterSeq: number; limit?: number }): Promise<ThemePullResult>
+}
+
 export interface SharedStoreTransport {
   /** E-mail + password of this computer's seat. Throws `auth_failed` for a wrong or banned login. */
   signIn(a: SignInArgs): Promise<SharedSession>
@@ -565,13 +575,22 @@ const pulledWire = z.object({
   has_more: z.boolean(),
   server_time: iso
 })
+const themePushWire = z.array(z.object({ theme_id: z.string(), outcome: z.enum(['accepted', 'noop', 'won', 'lost']), version: z.number().int(), server_seq: z.number().int() }))
+const themePulledWire = z.object({
+  items: z.array(z.object({
+    theme_id: z.string(), version: z.number().int(), server_seq: z.number().int(), payload: z.record(z.string(), z.unknown()), payload_hash: z.string(),
+    schema_ver: z.number().int(), min_reader_ver: z.number().int(), app_ver: z.string().nullable().optional(), edited_at: iso, from_branch: z.string().nullable().optional()
+  })),
+  has_more: z.boolean(),
+  server_time: iso
+})
 const timeWire = z.object({ server_time: iso })
 const renameWire = z.object({ branch_id: uuid, name: z.string() })
 
 const TRANSIENT: ReadonlySet<SharedErrorKind> = new Set(['offline', 'timeout', 'server'])
 const NETWORK_RE = /fetch failed|failed to fetch|network|enotfound|econnrefused|econnreset|etimedout|eai_again|socket|getaddrinfo/i
 
-export class SupabaseSharedTransport implements SharedStoreTransport {
+export class SupabaseSharedTransport implements SharedStoreTransport, ThemeShareCalls {
   private client: SupabaseLike | null = null
   private session: SharedSession | null = null
   private readonly listeners = new Set<(s: SharedSession) => void>()
@@ -736,6 +755,25 @@ export class SupabaseSharedTransport implements SharedStoreTransport {
       items: d.items.map((r) => ({
         kind: r.kind, recId: r.rec_id, version: r.version, serverSeq: r.server_seq, deleted: r.deleted, payload: r.payload, payloadHash: r.payload_hash,
         schemaVer: r.schema_ver, minReaderVer: r.min_reader_ver, appVer: r.app_ver ?? '', editedAt: r.edited_at, fromBranch: r.from_branch ?? null
+      }))
+    }
+  }
+
+  async themePush(a: BranchScope & { items: ThemePushItem[] }): Promise<ThemePushResult[]> {
+    const items = a.items.map((i) => ({ theme_id: i.themeId, payload: i.payload, payload_hash: i.payloadHash, schema_ver: i.schemaVer, min_reader_ver: i.minReaderVer, app_ver: i.appVer, edited_at: i.editedAt }))
+    const d = this.parse(themePushWire, await this.rpc('sn_theme_push', { p_license: a.license, p_branch_id: a.branchId, p_items: items }))
+    if (d.length !== a.items.length) throw new SharedTransportError('server')
+    return d.map((r) => ({ themeId: r.theme_id, outcome: r.outcome, version: r.version, serverSeq: r.server_seq }))
+  }
+
+  async themePull(a: BranchScope & { afterSeq: number; limit?: number }): Promise<ThemePullResult> {
+    const d = this.parse(themePulledWire, await this.rpc('sn_theme_pull', { p_license: a.license, p_branch_id: a.branchId, p_after_seq: a.afterSeq, p_limit: a.limit ?? 50 }))
+    return {
+      hasMore: d.has_more,
+      serverTime: d.server_time,
+      items: d.items.map((r) => ({
+        themeId: r.theme_id, version: r.version, serverSeq: r.server_seq, payload: r.payload, payloadHash: r.payload_hash, schemaVer: r.schema_ver,
+        minReaderVer: r.min_reader_ver, appVer: r.app_ver ?? '', editedAt: r.edited_at, fromBranch: r.from_branch ?? null
       }))
     }
   }

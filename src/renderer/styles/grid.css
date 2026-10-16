@@ -396,6 +396,16 @@ textarea.q3-cust__input { padding-top: 2px; line-height: 1.3; }
 .q3-theme__name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .q3-theme__active { color: var(--text-secondary); font-size: var(--text-sm); }
 .q3-theme__errors ul { margin: 0; padding-left: var(--space-5); }
+/* Phase 166: larger live preview + warnings (Settings only; colours come from inline data, never from theme CSS text) */
+.q3-theme__preview { display: flex; gap: var(--space-3); padding: var(--space-3); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-md); min-height: calc(var(--row-height) * 4); }
+.q3-theme__pv-panel { flex: 1; min-width: 0; padding: var(--space-3); border-radius: var(--radius-sm); display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-theme__pv-title { font-size: var(--text-base); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q3-theme__pv-grid { padding: var(--space-2); border-radius: var(--radius-sm); font-size: var(--text-sm); }
+.q3-theme__pv-btn { align-self: flex-start; padding: var(--space-1) var(--space-3); border-radius: var(--radius-sm); font-size: var(--text-sm); }
+.q3-theme__pv-side { flex: none; width: calc(var(--row-height) * 1.5); border-radius: var(--radius-sm); }
+.q3-theme__pv-name { margin: 0; font-size: var(--text-sm); color: var(--text-secondary); }
+.q3-theme__warn { margin: 0; padding-left: var(--space-5); font-size: var(--text-sm); color: var(--warn); }
+.q3-theme__chips { display: flex; gap: var(--space-1); flex-wrap: wrap; }
 .q3-set__shortcuts { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; max-width: 720px; }
 .q3-sc__scroll { max-height: 56vh; overflow: auto; border: var(--border-width) solid var(--border-color); border-radius: var(--radius-sm); }
 .q3-sc__scroll:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -1px; }

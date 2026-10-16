@@ -34,6 +34,7 @@ import { usePartyImportStore } from '../stores/partyImportStore'
 import { openSettingsSection } from '../stores/settingsStore'
 import { compareAndSyncNow, focusBranchName } from '../stores/sharedSyncStore'
 import { createBackupNow } from '../stores/backupStore'
+import { toggleEffects } from '../theme/effects'
 import { useDiagnosticsStore } from '../stores/diagnosticsStore'
 import { useUpdateStore } from '../stores/updateStore'
 import { toggleSync, useSyncStatusStore } from '../stores/syncStatusStore'
@@ -176,6 +177,7 @@ export function useAppActions(): ActionHandlers {
       // Phase 139: the shared-notebook screen.
       'sync.compare': () => { openSettingsSection('sync', navigate); void compareAndSyncNow() },
       'sync.renameBranch': () => { openSettingsSection('sync', navigate); setTimeout(focusBranchName, 0) },
+      'effects.toggle': () => { toggleEffects() },
       'backup.create': () => { openSettingsSection('backup', navigate); void createBackupNow() },
       'partyImport.open': () => { void usePartyImportStore.getState().start() },
       'legacyImport.open': () => { void useLegacyImportStore.getState().open() },

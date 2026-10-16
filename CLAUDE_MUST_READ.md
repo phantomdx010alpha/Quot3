@@ -372,6 +372,18 @@ Read `docs/MILESTONE15_DESIGN.md` before any Phase 158-164. Phase 69 still runs 
 - **TESTING RULE (owner, explicit): do NOT run the full test suite in any Phase 158-164 except the Phase 164 gate, and then only if the owner agrees.** Run `npm run typecheck` plus ONLY the test files you wrote/changed and those that could plausibly conflict (legacyImport, settings schema, ipc, outbox/sync, bill save). Name them in the phase log; list what you did not run. No repeated checking.
 - Items marked [A] are unconfirmed assumptions; say so in your phase log.
 
+## 10k. Milestone 16 supersessions (Phases 165-172, release 0.1.14): Themes 2.0
+
+Read `docs/MILESTONE16_DESIGN.md` before any Phase 165-172. Phase 69 still runs after the last feature phase.
+- A theme is DATA, never code: no JavaScript, shader source, HTML or CSS text from a theme file may execute. Scenes (Three.js), shaders and animation presets live in the app; a theme only picks one by name with validated parameters. Hostile-value rules of `validateTheme` stay (no `url()`, caps, clamps); a v1 theme must keep validating unchanged.
+- Every new token has a default in `tokens.css` and the parity test (every theme defines every token) stays green. Grid and print are never themed with blur / gradients / animation; effects pause when the window is hidden, honour reduce-motion and the master "Visual effects" switch; nothing on the keystroke path. Never claim a frame rate without a measurement on a real PC.
+- Three.js is one pinned dependency (`DEPENDENCY_VERSIONS.md` first), lazy-loaded, no network / remote assets / `eval`; WebGL failure falls back to no background. Phase 169 adds the dependency but does NOT bump the version.
+- Theme sharing (170-171) rides the Milestone 12 shared-notebook Supabase: new numbered SQL file only (never edit one that was run), RLS select-own-organisation, RPC-only writes, no `service_role`, never run against a real Supabase from the sandbox ("works on Supabase" is a standing gap). A received theme is validated like a local one; newest `edited_at` wins and the older version is kept; nothing is silently deleted; Sharing is OFF by default. No theme contents in logs.
+- Apply the Phase 92 selector rule to every new store/selector.
+- **TESTING RULE (owner, explicit, repeated on purpose): DO NOT RUN THE FULL TEST SUITE. Never `npm test`, never a bare `npx vitest run`, never the whole `src` folder: run ONLY the required tests. Do NOT run the full test suite in any Phase 165-172 except the Phase 172 gate, and then only if the owner agrees.** Run `npm run typecheck` plus ONLY the test files you wrote/changed and those that could plausibly conflict (theme validate / tokens / starter / themeService, settings schema, ipc, ThemesSection). No build, no dev server. Name them in the phase log; list what you did not run. No repeated checking.
+- Theme authoring: `docs/THEME_CREATION_GUIDE.md` (+ `tools/check-theme.mjs`, `docs/themes/`) lets a Claude session turn the owner's description into theme JSON files. Keep it in step with the code: Phase 165 rewrites its section 8, Phases 167 and 169 extend it, Phase 172 confirms it.
+- Items marked [A] are unconfirmed assumptions; say so in your phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched

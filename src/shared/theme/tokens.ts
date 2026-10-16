@@ -25,6 +25,8 @@ export const TOKEN_NAMES: readonly string[] = [
   '--scrollbar-track', '--scrollbar-thumb', '--scrollbar-thumb-hover', '--scrollbar-size',
   '--titlebar-bg', '--titlebar-fg', '--titlebar-symbol', '--titlebar-hover', '--titlebar-height',
   '--surface-glass', '--glass-blur', '--glass-border', '--bg-image',
+  // Phase 165 (Themes 2.0): set by schema-2 gradients / effects (chrome only, defaults in the bare :root block)
+  '--gradient-shell', '--gradient-panel', '--gradient-accent', '--accent-glow',
   // neumorphic shadows
   '--shadow-light', '--shadow-dark', '--shadow-dist', '--shadow-blur', '--shadow-raised', '--shadow-inset', '--shadow-pressed',
   // shape

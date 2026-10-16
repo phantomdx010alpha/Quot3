@@ -1,7 +1,11 @@
+import type { Quot3Bridge } from '@shared/ipc'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { DEFAULT_THEME_ID } from '@shared/theme/tokens'
 import type { ThemeFile } from '@shared/theme/validateTheme'
 import type { ThemeLoadError } from '@shared/ipc'
+import { themeInlineTokens } from '@shared/theme/applyV2'
+import { initEffects, setThemeEffects } from './effects'
+import { initScenes, setThemeBackground } from './scenes/sceneState'
 import { reapplyUiPrefs, useUiPrefsStore } from '../stores/uiPrefsStore'
 
 export interface ThemeContextValue {
@@ -27,9 +31,27 @@ export function applyTheme(theme: ThemeFile): void {
   for (const name of appliedTokens) el.style.removeProperty(name)
   appliedTokens = []
   el.setAttribute('data-theme', theme.builtin ? theme.id : (theme.base ?? DEFAULT_THEME_ID))
-  for (const [name, value] of Object.entries(theme.tokens)) {
+  // Phase 166: schema-2 gradients / fonts / shape become tokens first; the theme's own explicit tokens win over them.
+  for (const [name, value] of Object.entries(themeInlineTokens(theme))) {
     el.style.setProperty(name, value)
     appliedTokens.push(name)
+  }
+  // Phase 167: animation presets (attributes on <html>; none for built-ins and v1 themes)
+  setThemeEffects(theme.v2?.effects)
+  // Phase 169: built-in 3D scene picked by name (none for built-ins and v1 themes)
+  setThemeBackground(theme.v2?.background)
+}
+
+/** Phase 166: a theme that cannot be applied never breaks the look - everything it set is removed and the base built-in is shown. */
+export function applyThemeSafe(theme: ThemeFile): boolean {
+  try {
+    applyTheme(theme)
+    return true
+  } catch {
+    try {
+      applyTheme({ id: theme.base ?? DEFAULT_THEME_ID, name: '', tokens: {}, builtin: true })
+    } catch { /* leave the page as it is */ }
+    return false
   }
 }
 
@@ -52,7 +74,7 @@ export function ThemeProvider({ children }: { children: ReactNode }): React.JSX.
   const apply = useCallback((list: ThemeFile[], id: string) => {
     const t = list.find((x) => x.id === id) ?? list.find((x) => x.id === DEFAULT_THEME_ID)
     if (t) {
-      applyTheme(t)
+      applyThemeSafe(t)
       syncTitleBar()
       reapplyUiPrefs() // Phase 49: density / font-size preferences sit on top of the theme
     }
@@ -60,6 +82,8 @@ export function ThemeProvider({ children }: { children: ReactNode }): React.JSX.
 
   useEffect(() => {
     let live = true
+    initEffects()
+    initScenes()
     void (async () => {
       const [list, active] = await Promise.all([window.quot3.themes.list(), window.quot3.themes.getActive()])
       if (!live || !list.ok) return
@@ -96,6 +120,12 @@ export function ThemeProvider({ children }: { children: ReactNode }): React.JSX.
     setActiveId(id)
     apply(res.data.themes, id)
   }, [apply])
+
+  // Phase 171: a shared theme arrived (or was removed) on this PC: re-read the list.
+  useEffect(() => {
+    const unsub = (window as unknown as { quot3?: Partial<Quot3Bridge> }).quot3?.on?.('themes:changed', () => { void reload() })
+    return () => { unsub?.() }
+  }, [reload])
 
   const value = useMemo(() => ({ themes, errors, activeId, setActive, reload }), [themes, errors, activeId, setActive, reload])
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

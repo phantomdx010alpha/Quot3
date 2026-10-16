@@ -1,0 +1,69 @@
+{
+  "schema": 2,
+  "id": "aurora-v2",
+  "name": "Aurora (v2 example)",
+  "base": "navy-ember",
+  "tokens": {
+    "--surface-base": "#0b1220",
+    "--surface-raised": "#121c2f",
+    "--surface-inset": "#080d18",
+    "--surface-grid": "#0d1525",
+    "--surface-grid-alt": "#111b2e",
+    "--surface-header": "#1a2a47",
+
+    "--text-primary": "#eaf2ff",
+    "--text-secondary": "#c3d2ea",
+    "--text-muted": "#9db0cf",
+    "--text-on-accent": "#06241c",
+    "--text-danger": "#ff9a9a",
+
+    "--accent": "#5fe0b8",
+    "--accent-hover": "#7debc9",
+    "--accent-active": "#46c79f",
+    "--accent-soft": "rgba(95, 224, 184, 0.15)",
+    "--focus-ring": "#b9fbe6",
+
+    "--ok": "#62d69f",
+    "--warn": "#f2c14e",
+    "--danger": "#ff8f8f",
+    "--info": "#7db7ff",
+
+    "--grid-line": "#26385c",
+    "--grid-active-border": "#5fe0b8",
+    "--grid-active-bg": "#1b2f4f",
+    "--grid-active-row-bg": "#15233c",
+    "--grid-range-bg": "rgba(125, 183, 255, 0.18)",
+    "--grid-override-marker": "#f2c14e",
+    "--grid-marked-underline": "#7db7ff",
+    "--grid-adjustment-bg": "#14223a",
+    "--grid-total-bg": "#1d3050",
+
+    "--rt-red": "#ff6b6b",
+    "--rt-highlight": "#14503f",
+
+    "--border-color": "#2d4470",
+    "--overlay": "rgba(3, 6, 14, 0.7)",
+
+    "--scrollbar-track": "#080d18",
+    "--scrollbar-thumb": "#4f6fa8",
+    "--scrollbar-thumb-hover": "#6b8fd0",
+    "--titlebar-bg": "#080d18",
+    "--titlebar-fg": "#eaf2ff",
+    "--titlebar-symbol": "#eaf2ff",
+    "--titlebar-hover": "#1b2f4f"
+  },
+  "gradients": {
+    "shell": { "kind": "linear", "angle": 160, "stops": [["#0b1220", 0], ["#10213d", 100]] },
+    "panel": { "kind": "linear", "angle": 180, "stops": [["#121c2f", 0], ["#162540", 100]] },
+    "accent": { "kind": "linear", "angle": 135, "stops": [["#5fe0b8", 0], ["#7db7ff", 100]] }
+  },
+  "fonts": { "ui": "segoe-ui", "grid": "consolas" },
+  "shape": { "radius": "soft", "border": "thin", "shadow": "soft" },
+  "effects": {
+    "pageTransition": { "preset": "fade-slide", "speed": 1 },
+    "hoverMotion": { "preset": "lift", "intensity": 0.5 },
+    "accentGlow": { "intensity": 0.4 },
+    "ambient": { "preset": "breathe", "speed": 0.5, "intensity": 0.3 }
+  },
+  "background": { "scene": "particles", "colors": ["#5fe0b8", "#7db7ff"], "density": 0.5, "speed": 0.3, "intensity": 0.5 }
+}

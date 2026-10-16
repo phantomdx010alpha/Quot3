@@ -8,6 +8,7 @@ import type { ThemeService } from '../services/themeService'
 import { AppError, fail, wrapHandler } from './envelope'
 import { settingsHandlers } from './settings'
 import { themeHandlers } from './themes'
+import type { ThemeShareService } from '../sync/themeShare'
 import { partyHandlers } from './parties'
 import { customerHandlers } from './customers'
 import { partyImportHandlers, type FilePicker } from './partyImport'
@@ -69,6 +70,8 @@ export interface IpcContext {
   info: AppInfo
   log: Logger
   themes: ThemeService
+  /** Phase 171: theme sharing (absent in tests that do not need it). */
+  themeShare?: ThemeShareService
   settings: SettingsService
   /** Phase 48: the Settings screens (company, logo, PO prefix, print defaults, behaviour). */
   appSettings: AppSettingsService
@@ -189,7 +192,7 @@ export function registerIpc(ctx: IpcContext): void {
     ),
     'app:getDbInfo': wrapHandler(emptyInput, () => ctx.dbInfo()),
     'app:confirmQuit': wrapHandler(emptyInput, () => { ctx.confirmQuit(); return {} }, emptyOutput),
-    ...themeHandlers(ctx.themes),
+    ...themeHandlers(ctx.themes, ctx.themeShare),
     ...settingsHandlers(ctx.settings),
     ...appSettingsHandlers(ctx.appSettings),
     ...partyHandlers(ctx.parties),

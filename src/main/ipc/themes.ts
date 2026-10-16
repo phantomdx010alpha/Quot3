@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { ThemeService } from '../services/themeService'
-import { wrapHandler } from './envelope'
+import type { ThemeShareService } from '../sync/themeShare'
+import { AppError, wrapHandler } from './envelope'
 
 const empty = z.object({}).strict()
 const exportInput = z
@@ -10,8 +11,16 @@ const titleBarInput = z.object({ bg: z.string().min(1).max(60), symbol: z.string
 const idInput = z.object({ id: z.string().min(1).max(40) }).strict()
 
 /** `themes:*` handlers. IPC calls the service only (layering rule). */
-export function themeHandlers(svc: ThemeService): Record<string, (raw: unknown) => Promise<unknown>> {
+const enabledInput = z.object({ enabled: z.boolean() }).strict()
+
+export function themeHandlers(svc: ThemeService, share?: ThemeShareService): Record<string, (raw: unknown) => Promise<unknown>> {
+  const needShare = (): ThemeShareService => { if (!share) throw new AppError('VALIDATION', 'Theme sharing is not available.'); return share }
   return {
+    // Phase 171: theme sharing (the rules and the server are in shared/theme/themeShare.ts and supabase/sql/17_themes.sql)
+    'themes:shareStatus': wrapHandler(empty, () => needShare().status()),
+    'themes:shareSetEnabled': wrapHandler(enabledInput, ({ enabled }) => needShare().setEnabled(enabled)),
+    'themes:shareSyncNow': wrapHandler(empty, async () => { const s = needShare(); const run = await s.runNow(); return { run, status: s.status() } }),
+    'themes:removeShared': wrapHandler(idInput, ({ id }) => needShare().removeShared(id)),
     'themes:list': wrapHandler(empty, () => svc.list()),
     'themes:reload': wrapHandler(empty, () => svc.reload()),
     'themes:load': wrapHandler(idInput, ({ id }) => svc.load(id)),

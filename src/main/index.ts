@@ -83,6 +83,7 @@ import { createRecordApplierV2 } from './sync/recordApplierV2'
 import { createAsideService } from './sync/asideService'
 import { createAsideApply, createHeldService } from './sync/heldService'
 import { createDoorbell } from './sync/doorbell'
+import { createThemeShare } from './sync/themeShare'
 import { createWorkerSwitch, type WorkerSwitch } from './sync/workerSwitch'
 import { readClock } from './sync/sharedState'
 import type { SharedBranch } from './sync/sharedTransport'
@@ -334,8 +335,15 @@ if (!app.requestSingleInstanceLock()) {
       records: syncRecords, sync: syncState, connect: connectShared, log, progress: (p) => { send('sync:progress', p) },
       sources: createLocalCompareSources({ bills: billRepo, heads: () => remoteRepo.heads(), outbox: outbox.repo, itemRules, parties: partyRepo, appVer: app.getVersion() })
     }))
-    const doorbell = createDoorbell({ connect: async () => ({ transport: (await sharedActivation.connect()).transport }), orgId: () => sharedActivation.credentials()?.orgId ?? null, kick: () => pullV2.kick(), log })
-    app.on('will-quit', () => { pushV2.stop(); pullV2.stop(); doorbell.stop() })
+    // Phase 171: the theme service is built here (not at registerIpc) so theme sharing can share the doorbell and the shared-notebook connection.
+    const themeServiceRef = createThemeService({ dir: layout.themes, log, settings, openPath: (d) => shell.openPath(d), applyTitleBar: (o) => { if (process.platform === 'win32') for (const w of windows) if (!w.isDestroyed()) w.setTitleBarOverlay(o) } })
+    const themeShareRef = createThemeShare({
+      themes: themeServiceRef, sync: syncState, settings, connect: async () => { const c = await connectShared(); return { transport: c.transport, creds: c.creds } },
+      isSignedIn: sharedOn, appVer: app.getVersion(), log, onChanged: () => send('themes:changed', {})
+    })
+    themeShareRef.start()
+    const doorbell = createDoorbell({ connect: async () => ({ transport: (await sharedActivation.connect()).transport }), orgId: () => sharedActivation.credentials()?.orgId ?? null, kick: () => { pullV2.kick(); themeShareRef.kick() }, log })
+    app.on('will-quit', () => { pushV2.stop(); pullV2.stop(); doorbell.stop(); themeShareRef.stop() })
     // One push and one pull as far as the manager is concerned: v1 until the shared notebook is activated, v2 afterwards.
     pushSwitch = createWorkerSwitch<PushStatus>({
       v1: pushWorker, v2: pushV2, useV2: sharedOn,
@@ -545,7 +553,8 @@ if (!app.requestSingleInstanceLock()) {
         devMode: isDev
       },
       log,
-      themes: createThemeService({ dir: layout.themes, log, settings, openPath: (d) => shell.openPath(d), applyTitleBar: (o) => { if (process.platform === 'win32') for (const w of windows) if (!w.isDestroyed()) w.setTitleBarOverlay(o) } }),
+      themes: themeServiceRef,
+      themeShare: themeShareRef,
       settings: settingsForIpc,
       appSettings,
       backup,

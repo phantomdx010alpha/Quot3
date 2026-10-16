@@ -1,6 +1,6 @@
 {
   "name": "quot3",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "productName": "Quot3",
   "author": "Quot3",
@@ -33,6 +33,7 @@
     "@types/node": "22.20.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@types/three": "0.186.0",
     "@vitejs/plugin-react": "5.2.0",
     "autoprefixer": "10.6.1",
     "drizzle-kit": "0.31.11",
@@ -60,6 +61,7 @@
     "pdf-to-printer": "5.8.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "three": "0.186.1",
     "zod": "4.6.5",
     "zustand": "5.0.15"
   }

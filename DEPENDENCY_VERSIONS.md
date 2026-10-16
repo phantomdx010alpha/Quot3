@@ -39,6 +39,8 @@
 | Package | Exact version | Install | Notes |
 |---|---|---|---|
 | `react` | `19.3.0` | `npm i react@19.3.0` | |
+| `three` | `0.186.1` | `npm i three@0.186.1 --save-exact --ignore-scripts` | Phase 169: 3D / shader theme backgrounds. Runtime dependency, lazy-loaded (`import('three')` in `renderer/theme/scenes/sceneHost.ts` only; its own chunk), no network / remote assets / eval. Published 2026-09-24 (22 days before install; the two-week rule). |
+| `@types/three` | `0.186.0` | `npm i -D @types/three@0.186.0 --save-exact --ignore-scripts` | Phase 169: types for `three` (three ships none). Dev only. Published 2026-09-11. |
 | `react-dom` | `19.3.0` | `npm i react-dom@19.3.0` | Must equal `react`. |
 | `@types/react` | `19.3.0` | `npm i -D @types/react@19.3.0` | |
 | `@types/react-dom` | `19.3.0` | `npm i -D @types/react-dom@19.3.0` | |
@@ -111,3 +113,4 @@
 | 2026-10-10 | 59 | No package added or changed. |
 | 2026-10-12 | Milestone 12 planning | Docs only. No package change planned: Supabase Auth and Realtime ship inside `@supabase/supabase-js@2.117.2` (main process only). Phases 132 and 138 must confirm that against the installed tree and record any change here. | none |
 | 2026-10-12 | 132 | `@supabase/supabase-js` `2.117.2` added to `dependencies` in `package.json` and `package-lock.json` (`npm install --package-lock-only --ignore-scripts`; the lockfile gained the package and its transitive entries only). Imported only by `src/main/sync/sharedTransport.ts` (checked by a test). Auth and Realtime are inside the package; no other package added. In the sandbox the package was installed in a scratch folder (with `--legacy-peer-deps` there) to run the new tests; a plain `npm install` in the repo was not run. | `@supabase/supabase-js` 2.117.2 |
+| 2026-10-16 | 169 | `three@0.186.1` and `@types/three@0.186.0` added (exact pins, `--ignore-scripts`, one install each); `package.json` + `package-lock.json` changed ONLY by that (lockfile +65 lines: three, @types/three and the type package's own small dependencies). Version NOT bumped (0.1.13). Bundle-resolve check with esbuild: `three` lands in its own lazy chunk, no `eval` / `new Function`. A real `electron-vite build` was not run. | none |
