@@ -42,7 +42,7 @@ export function decideForBill(bill: Bill, mode: PrintMode, opts: DecideOptions =
 }
 
 /** Settings keys read by printing. Settings -> Print / Company screens arrive in Phase 48; until then the defaults apply. */
-export const PRINT_SETTING_KEYS = { rupeeOnTotal: 'print.rupeeOnTotal', silent: 'print.silent', printer: 'print.printer', company: 'company.profile', hideAdjustmentsTotal: 'print.hideAdjustmentsTotal', fitToPage: 'print.fitToPage', fitMaxA5: 'print.fitMaxA5', fitMaxA4: 'print.fitMaxA4' } as const
+export const PRINT_SETTING_KEYS = { rupeeOnTotal: 'print.rupeeOnTotal', silent: 'print.silent', printer: 'print.printer', company: 'company.profile', hideAdjustmentsTotal: 'print.hideAdjustmentsTotal', fitToPage: 'print.fitToPage', fitMaxA5: 'print.fitMaxA5', fitMaxA4: 'print.fitMaxA4', headerLabels: 'print.headerLabels' } as const
 
 export interface ResolvedPrintSettings {
   print: PrintSettings
@@ -64,12 +64,26 @@ function companyFrom(v: unknown): CompanyBlock | null {
   return { logo, name, phone: str(o['phone'], 100), address: str(o['address'], 500) }
 }
 
+/** 0.1.13: tolerant read of `print.headerLabels` (object of short strings); anything else = no overrides. */
+export function headerLabelsFrom(v: unknown): Record<string, string> {
+  const out: Record<string, string> = {}
+  if (typeof v !== 'object' || v === null || Array.isArray(v)) return out
+  for (const [k, val] of Object.entries(v as Record<string, unknown>)) if (typeof val === 'string' && val.trim() !== '') out[k.slice(0, 40)] = val.trim().slice(0, 40)
+  return out
+}
+
+/** Only present on the resolved settings when something is overridden (keeps the old shape otherwise). */
+function headerLabelsSpread(v: unknown): { headerLabels?: Record<string, string> } {
+  const l = headerLabelsFrom(v)
+  return Object.keys(l).length > 0 ? { headerLabels: l } : {}
+}
+
 /** Tolerant: a missing, corrupt or wrongly-typed setting falls back to its default, never throws. */
 export function resolvePrintSettings(all: Record<string, unknown>): ResolvedPrintSettings {
   const rupee = all[PRINT_SETTING_KEYS.rupeeOnTotal]
   const printer = str(all[PRINT_SETTING_KEYS.printer], 300).trim()
   return {
-    print: { rupeeOnTotal: typeof rupee === 'boolean' ? rupee : DEFAULT_PRINT_SETTINGS.rupeeOnTotal, hideAdjustmentsTotal: all[PRINT_SETTING_KEYS.hideAdjustmentsTotal] === true, company: companyFrom(all[PRINT_SETTING_KEYS.company]) },
+    print: { rupeeOnTotal: typeof rupee === 'boolean' ? rupee : DEFAULT_PRINT_SETTINGS.rupeeOnTotal, hideAdjustmentsTotal: all[PRINT_SETTING_KEYS.hideAdjustmentsTotal] === true, ...headerLabelsSpread(all[PRINT_SETTING_KEYS.headerLabels]), company: companyFrom(all[PRINT_SETTING_KEYS.company]) },
     // Silent printing needs somewhere to send the job: no printer configured -> always show the system dialog.
     silent: all[PRINT_SETTING_KEYS.silent] === true && printer !== '',
     printer,

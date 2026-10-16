@@ -18,7 +18,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "1",
         },
         "total": {
-          "text": "540.00",
+          "text": "540",
         },
       },
       "kind": "item",
@@ -69,7 +69,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
       "align": "center",
       "isExtra": false,
       "key": "slNo",
-      "label": "Sl.No",
+      "label": "S.No",
       "share": 700,
     },
     {
@@ -82,15 +82,15 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
     {
       "align": "right",
       "isExtra": false,
-      "key": "rate",
-      "label": "Rate",
+      "key": "qty",
+      "label": "Qty",
       "share": 1200,
     },
     {
       "align": "right",
       "isExtra": false,
-      "key": "qty",
-      "label": "Quantity",
+      "key": "rate",
+      "label": "Rate",
       "share": 1200,
     },
     {
@@ -126,7 +126,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "",
         },
         "total": {
-          "text": "-100.00",
+          "text": "-100",
         },
       },
       "kind": "adjustment",
@@ -218,7 +218,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "1",
         },
         "total": {
-          "text": "900.00",
+          "text": "900",
         },
       },
       "kind": "item",
@@ -244,7 +244,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "2",
         },
         "total": {
-          "text": "240.00",
+          "text": "240",
         },
       },
       "kind": "item",
@@ -270,7 +270,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "3",
         },
         "total": {
-          "text": "250.00",
+          "text": "250",
         },
       },
       "kind": "item",
@@ -281,7 +281,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
       "align": "center",
       "isExtra": false,
       "key": "slNo",
-      "label": "Sl.No",
+      "label": "S.No",
       "share": 700,
     },
     {
@@ -294,15 +294,15 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
     {
       "align": "right",
       "isExtra": false,
-      "key": "rate",
-      "label": "Rate",
+      "key": "qty",
+      "label": "Qty",
       "share": 1200,
     },
     {
       "align": "right",
       "isExtra": false,
-      "key": "qty",
-      "label": "Quantity",
+      "key": "rate",
+      "label": "Rate",
       "share": 1200,
     },
     {
@@ -331,7 +331,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
     {
       "cells": {
         "total": {
-          "text": "₹1390.00",
+          "text": "₹1390",
         },
       },
       "kind": "grandTotal",
@@ -368,10 +368,10 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
     {
       "cells": {
         "amount": {
-          "text": "1260.00",
+          "text": "1260",
         },
         "gstAmt": {
-          "text": "60.00",
+          "text": "60",
         },
         "gstRate": {
           "text": "5",
@@ -389,7 +389,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "1",
         },
         "total": {
-          "text": "1200.00",
+          "text": "1200",
         },
       },
       "kind": "item",
@@ -418,7 +418,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "2",
         },
         "total": {
-          "text": "1920.00",
+          "text": "1920",
         },
       },
       "kind": "item",
@@ -447,7 +447,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "3",
         },
         "total": {
-          "text": "1125.00",
+          "text": "1125",
         },
       },
       "kind": "item",
@@ -455,10 +455,10 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
     {
       "cells": {
         "amount": {
-          "text": "72.00",
+          "text": "72",
         },
         "gstAmt": {
-          "text": "0.00",
+          "text": "0",
         },
         "gstRate": {
           "text": "",
@@ -476,7 +476,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "4",
         },
         "total": {
-          "text": "72.00",
+          "text": "72",
         },
       },
       "kind": "item",
@@ -487,7 +487,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
       "align": "center",
       "isExtra": false,
       "key": "slNo",
-      "label": "Sl.No",
+      "label": "S.No",
       "share": 700,
     },
     {
@@ -501,7 +501,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
       "align": "right",
       "isExtra": false,
       "key": "qty",
-      "label": "Quantity",
+      "label": "Qty",
       "share": 1100,
     },
     {
@@ -550,7 +550,7 @@ exports[`Phase 33 - buildPrintModel > snapshot: adjustment + extraCols models (g
           "text": "492.90",
         },
         "total": {
-          "text": "4317.00",
+          "text": "4317",
         },
       },
       "kind": "grandTotal",

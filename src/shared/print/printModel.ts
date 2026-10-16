@@ -29,6 +29,8 @@ export interface PrintSettings {
   rupeeOnTotal: boolean
   /** 0.1.6 (testing): leave the Adjustments total row off the printed page / copied image. The Create screen is unchanged. */
   hideAdjustmentsTotal?: boolean
+  /** 0.1.13: printed / copied column headers, `{ [columnKey]: text }`. A missing or blank entry uses PRINT_HEADER_DEFAULTS, then the format's own label. */
+  headerLabels?: Record<string, string>
   /** Our company block - Professional only; ignored by Rough. */
   company: CompanyBlock | null
 }
@@ -161,10 +163,17 @@ function applyFloors(shares: number[], format: FormatDef, nameIdx: number): numb
   return out
 }
 
-export function buildPrintColumns(format: FormatDef, extraCols: Bill['extraCols']): PrintColumn[] {
+/** 0.1.13: short print / image headers so "Sl.No" and "Quantity" never wrap onto two lines. Create screen labels are unchanged. */
+export const PRINT_HEADER_DEFAULTS: Readonly<Record<string, string>> = Object.freeze({ slNo: 'S.No', qty: 'Qty' })
+
+export function buildPrintColumns(format: FormatDef, extraCols: Bill['extraCols'], headerLabels?: Record<string, string>): PrintColumn[] {
   const shares = printColumnShares(format, extraCols.length)
+  const pick = (key: string, own: string): string => {
+    const custom = headerLabels?.[key]
+    return typeof custom === 'string' && custom.trim() !== '' ? custom.trim() : (PRINT_HEADER_DEFAULTS[key] ?? own)
+  }
   const cols: PrintColumn[] = format.columns.map((c, i) => ({
-    key: c.key, label: c.label, align: c.align, share: shares[i] ?? 0, isExtra: false
+    key: c.key, label: pick(c.key, c.label), align: c.align, share: shares[i] ?? 0, isExtra: false
   }))
   extraCols.forEach((e, i) => cols.push({ key: e.key, label: e.header, align: 'left', share: shares[format.columns.length + i] ?? 0, isExtra: true }))
   return cols
@@ -216,7 +225,7 @@ function totalRow(d: DisplayRow, kind: PrintRowKind, columns: PrintColumn[], rup
 
 export function buildPrintModel(bill: Bill, mode: PrintMode, settings: PrintSettings, decision: PaperDecision): PrintModel {
   const format = resolveFormat(bill.formatId)
-  const columns = buildPrintColumns(format, bill.extraCols)
+  const columns = buildPrintColumns(format, bill.extraCols, settings.headerLabels)
   const totals = computeBill(format, bill.rows, getBillOptions(bill))
   const byId = new Map<string, BillRow>(bill.rows.map((r) => [r.id, r]))
 

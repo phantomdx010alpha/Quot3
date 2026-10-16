@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { IMAGE_SCALE_RANGE } from '@shared/print/imageFlow'
 import { FIT_CAP_RANGE, FIT_DEFAULT_CAP, normalizeFitCap } from '@shared/print/fitScale'
+import { headerLabelsFrom } from '@shared/print/printFlow'
+import { PRINT_HEADER_DEFAULTS } from '@shared/print/printModel'
 import { Button, Input } from '../ui'
 import { useSettingsStore } from '../../stores/settingsStore'
 
@@ -34,6 +36,14 @@ export function PrintSection(): React.JSX.Element {
     set(String(Math.round(n * 100)))
     void window.quot3.settings.set(key, n)
   }
+  // 0.1.13: printed / image column headers. Blank = the default (S.No and Qty are short on purpose so they stay on one line).
+  const HEADER_FIELDS: ReadonlyArray<{ key: string; own: string }> = [
+    { key: 'slNo', own: 'Sl.No' }, { key: 'name', own: 'Item Name' }, { key: 'qty', own: 'Quantity' }, { key: 'rate', own: 'Rate' },
+    { key: 'total', own: 'Total / Amount' }, { key: 'gstRate', own: 'GST %' }, { key: 'gstAmt', own: 'GST Amt' }, { key: 'amount', own: 'Amount' }
+  ]
+  const [labels, setLabels] = useState<Record<string, string>>({})
+  useEffect(() => { void window.quot3.settings.get('print.headerLabels').then((r) => { if (r.ok) setLabels(headerLabelsFrom(r.data.value)) }) }, [])
+  const saveLabels = (next: Record<string, string>): void => { void window.quot3.settings.set('print.headerLabels', headerLabelsFrom(next)) }
   const changeMethod = (v: string): void => { setMethod(v); void window.quot3.settings.set('print.method', v) }
   return (
     <form className="q3-set__form" onSubmit={(e) => { e.preventDefault(); void useSettingsStore.getState().savePrint({ rupeeOnTotal: rupee, silent, printer }) }} aria-label="Print defaults">
@@ -51,6 +61,16 @@ export function PrintSection(): React.JSX.Element {
       <label className="q3-set__check"><input type="checkbox" checked={silent} onChange={(e) => setSilent(e.target.checked)} /> Print without the system dialog (needs a printer name)</label>
       <label className="q3-set__check"><input type="checkbox" checked={rupee} onChange={(e) => setRupee(e.target.checked)} /> Show the rupee sign on the final total</label>
       <label className="q3-set__check"><input type="checkbox" checked={hideAdj} disabled={data.readOnly} onChange={(e) => changeHideAdj(e.target.checked)} /> Hide the Adjustments total row on print and image copy (the Create screen keeps it)</label>
+      <fieldset className="q3-set__field" aria-label="Print column headers">
+        <legend>Column headers on print and image copy (leave blank for the default)</legend>
+        <div className="q3-set__row">
+          {HEADER_FIELDS.map((f) => (
+            <label key={f.key} className="q3-set__field"><span>{f.own}</span>
+              <input type="text" aria-label={`Header ${f.key}`} maxLength={40} value={labels[f.key] ?? ''} placeholder={PRINT_HEADER_DEFAULTS[f.key] ?? f.own} disabled={data.readOnly}
+                onChange={(e) => setLabels({ ...labels, [f.key]: e.target.value })} onBlur={() => saveLabels(labels)} /></label>
+          ))}
+        </div>
+      </fieldset>
       <label className="q3-set__check"><input type="checkbox" checked={fit} disabled={data.readOnly} onChange={(e) => changeFit(e.target.checked)} /> Fit bill to page (make small bills bigger so they are easier to read; Off prints exactly the old size)</label>
       <div className="q3-set__row">
         <label className="q3-set__field"><span>Largest enlargement, A5 (%)</span>

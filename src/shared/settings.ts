@@ -17,6 +17,8 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   'print.rupeeOnTotal': true,
   /** 0.1.6 (testing): true = the printed page and copied image leave out the Adjustments total row (Create screen unchanged). */
   'print.hideAdjustmentsTotal': false,
+  /** 0.1.13: printed / image column headers by column key; empty = the defaults (S.No, Qty, then each format's own label). */
+  'print.headerLabels': {},
   /** Phase 148: fit the bill to the page (scale type and rows UP, capped, measured). true = on (default); false = exactly the old size. */
   'print.fitToPage': true,
   /** Phase 148: the largest enlargement per paper (1 = none, 1.35 = 35% bigger). */
