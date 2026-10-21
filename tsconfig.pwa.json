@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": { "@pwa/*": ["src/pwa/*"], "@shared/*": ["src/shared/*"] }
+  },
+  "include": ["src/pwa/**/*", "src/shared/**/*", "vite.pwa.config.ts"],
+  "exclude": ["src/shared/**/__tests__/**"]
+}

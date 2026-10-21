@@ -119,6 +119,28 @@ We need to build an item sorter with similar data as in the JSON bills, because 
 
 **Bug/feature message (with two screenshots):** each time I switch the page using Esc I still get stacked, unrelated, annoying notifications; on the new Items page I cannot see the names of the items - the first load shows a few, going down they become invisible, and when landed on them the other two windows still show the info, and on the other two windows pressing Down for more shows empty (a visual bug); in the Create page it sometimes still opens pre-made bills - make it a hard rule that clicking Create always comes in clear and formatted; in Create add delete row: pressing the Delete key on a row deletes that row only, excluding the extra-column content for that row; the rows should be rearrangeable as we please (without compromising already-built stuff) - tell the drawbacks now; the automatic round-off to the closest number still does not happen in the grand totals; Ctrl+C / Ctrl+V still do not work on Create (tab-separated contents are not copied/pasted), and when a range is selected and even just Ctrl is pressed the focus goes off and nothing happens before C, and Ctrl+V does nothing; for the Dashboard add excess, app-unrelated tiles: a weather tile (default Bangalore, changeable via Settings), a live free API showing the Indian rupee vs dollar comparison and at least 4-5 other tiles, symmetrical so that none is left alone on the next line. Instruction: do not edit anything, understand the requirements so the next milestone can be planned. **Follow-up:** "yes now make the docs updates and give me the updated zip".
 
+### Part A addendum 6 — Milestone 17, phone version (2026-10-21, owner's words, verbatim, typos kept)
+
+> PRESENTED IS THE ALREADY PERFECTLY WORKING STANDALONE QUOTATIONS APPLICATION FOR PC
+> WE HAVE TO EXPAND THE FEATURES TO SUPPORT THE ANDROID VIA PWA IN THE SAME APP USING VERCEL AS THE HOST
+> THIS IS STRICTLY A PLANNING PHASE ONLY
+> STUDY ALL THE FUNCTIONALITIES AND PRESENT ME WITH THE PIPELINE AND IDEAS THE BETTER ONES IF ANY
+> KEEP THE ANDROID INFRASTRUCTURE STRICTLY PWA ONLY
+
+> WHAT IF WE DONT CREATE NEW WORKFLOW BUT MAKE CHANGES AND UPGRADE THE CURRENT DIR INSTEAD IFKWIM?
+> AND MAKE VERSION CHANGES
+
+> DESKTOP IS COMPLETED AND WORKS FINE DUDE, DESKTOP IS ALREADY COMPLETE
+> LOL
+> DONT BS
+> AND EXPLAIN IN PLAIN WORDS WITHOUT USING SHITTY BIG ASS COMPLEX TERMS AND LONG PARAGRAPHS
+
+> WE USE INDEXED DB PERSISTENT STORAGE FOR PWA ON PHONE
+> AND ALSO A BETTER AND SUPER SIMPLIFIED NON AI BIG ASS LOOKING, SUPR COMPACT BILL CREATON, EDIT OR VIEW BILLS SHIT ON THE MOBILE AS WELL AS FOR PHONE WE JUST HAVE THE SHARE IMAGE OR PDF FEATURE ONLY BECAUSE THAT ONLY MAKES SENSE AND SHIT, WE DROP PRINT AND OTHER UNRELEATED FEATURE WHICH ARE FOR THE PC ONLY
+> LIST EVERYTHING IN DETAILS HERE IN A HANDOFF MD ONLY FOR ANOTHER CLAUDE SESSION ...
+
+**What the owner decided (firm):** (1) same repo and folder, upgrade the current directory and change the version, no new workflow; (2) Android through a PWA only on Vercel (no TWA, Capacitor, Play Store, native wrapper); (3) phone data in IndexedDB with persistent storage (no SQLite-wasm / OPFS); (4) super compact, simple phone UI, no AI; (5) the phone can create, edit and view bills; (6) phone output is share image / share PDF only, no print, PC-only features dropped; (7) desktop is finished and does not change. Design: `docs/MILESTONE17_DESIGN.md`.
+
 ## Part B — Confirmed clarifications and assumptions (planning session, 2026-10-07)
 
 The owner confirmed "your assumptions are right" for all of the following:
@@ -141,7 +163,7 @@ Understanding the owner confirmed in the same session (no objection raised):
 - **Paper engine** — pure function; user can always force A4/A5. See `PAPER_ENGINE_RULES.md`.
 - **Copy-as-image** — crops to content only, 2–3× scale, onto the Windows clipboard, pasteable into WhatsApp. "Strictly no compromises."
 - **Supabase** = encrypted postbox + license matching only; never a store of readable bills.
-- **Platform** — Windows desktop only. Data in `%LOCALAPPDATA%\Quot3\`.
+- **Platform** — The desktop app stays Windows only, data in `%LOCALAPPDATA%\Quot3\`. A phone PWA (Android, hosted on Vercel, data in IndexedDB) is ADDED by Milestone 17; it is purely additive and does not change the desktop (see Part A addendum 6 and `docs/MILESTONE17_DESIGN.md`).
 - **Stack** — Electron + React + TypeScript + Vite (electron-vite) + Tailwind v3 + custom DOM grid + SQLite (better-sqlite3) + Drizzle + decimal.js + Zustand/Immer + Fuse.js + ExcelJS + electron-builder/updater. **Rejected:** Tauri (owner has no experience), Python wrapper EXE (second runtime, AV false positives), Glide Data Grid (canvas can't do per-word red/bold).
 - **Smoothness target** — "240 FPS" means input-to-paint under one 240 Hz frame for typing/navigation on an 80-row bill, measured, not assumed.
 
@@ -152,6 +174,8 @@ Understanding the owner confirmed in the same session (no objection raised):
 **Item-sorter clarifications (2026-10-11)** — see `docs/ITEM_SORTER_SPEC.md`. A22 Items page with three windows. A23 merges/splits remembered. A24 works on all bills. A25 who-paid-what. A26 open the party's bill from the sales list. A27 rules sync between branches [A]. A28 no AI model in v1; fuzzy matches are suggestions [A].
 
 **Post-Phase-115 clarifications (2026-10-11)** — see `docs/MILESTONE11_DESIGN.md`. A29 notifications must not stack [A]. A30 Items page names always visible. A31 Create ALWAYS opens clean (hard rule). A32 delete row keeps the row's extra-column content [A]. A33 row reorder with extras staying on position [A]. A34 round-off must really apply. A35 clipboard Ctrl+C/V on ranges. A36 HD image must really apply. A37 Dashboard live tiles, symmetric, city configurable [A].
+
+**Milestone 17 clarifications (2026-10-21)** — see `docs/MILESTONE17_DESIGN.md`. All [A] = unconfirmed, owner may flip. A38 the phone is its own seat and branch with its own PO prefix [A]. A39 the phone creates only GST and non-GST bills; stock transfer and hybrid open read-only with "Edit on PC" [A]. A40 extra columns on the phone: full support, compact [A]. A41 rich text on the phone: B and R+B on selection, fallback to plain text with preserved runs if unreliable on Android [A]. A42 revisions on the phone: small cap of 5, no compare screen [A]. A43 first sync: store everything if the measured size is fine, else recent bills plus all customers [A]. A44 optional app lock (PIN / biometric), off by default [A]. A45 Vercel production from a separate `pwa` branch until 0.2.0 [A]. A46 share defaults remember the last choice [A]. A47 company profile: synced if desktop syncs it today, else the phone has its own [A, CHECK in code]. A48 "Reset phone data" with a double confirm [A]. A49 call / WhatsApp links from Customers [A]. A50 optional staged rollout: view / search / share build first, editing after [A].
 
 ## Part C — Open items the owner will supply later
 
@@ -227,3 +251,4 @@ Understanding the owner confirmed in the same session (no objection raised):
 | Delete row | 122 |
 | Row reorder | 123–124 |
 | Dashboard weather / forex / other tiles | 125–126 |
+| Phone version (Android PWA, Vercel, IndexedDB, compact bills, share image / PDF only) | 173–188 |

@@ -68,7 +68,7 @@ When handing off the zip, the owner uses exactly this prompt (replace NN with th
 
 ---
 
-You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 144 phases (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
+You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, BUILT 2026-10-21 as 0.2.0 (phone sync not yet wired, see PHASE_STATUS Phase 188), see section 10l) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
 
 ---
 
@@ -383,6 +383,21 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165-172. Phase 69 still runs 
 - **TESTING RULE (owner, explicit, repeated on purpose): DO NOT RUN THE FULL TEST SUITE. Never `npm test`, never a bare `npx vitest run`, never the whole `src` folder: run ONLY the required tests. Do NOT run the full test suite in any Phase 165-172 except the Phase 172 gate, and then only if the owner agrees.** Run `npm run typecheck` plus ONLY the test files you wrote/changed and those that could plausibly conflict (theme validate / tokens / starter / themeService, settings schema, ipc, ThemesSection). No build, no dev server. Name them in the phase log; list what you did not run. No repeated checking.
 - Theme authoring: `docs/THEME_CREATION_GUIDE.md` (+ `tools/check-theme.mjs`, `docs/themes/`) lets a Claude session turn the owner's description into theme JSON files. Keep it in step with the code: Phase 165 rewrites its section 8, Phases 167 and 169 extend it, Phase 172 confirms it.
 - Items marked [A] are unconfirmed assumptions; say so in your phase log.
+
+## 10l. Milestone 17 supersessions (Phases 173-188, releases 0.1.15-0.1.28 and 0.2.0): phone PWA
+
+Read `docs/MILESTONE17_DESIGN.md` before any Phase 173-188. Phase 69 still runs after the last feature phase. Sections 2 and 3 above describe the DESKTOP app; the phone is an additive second target and does not change them (the words "Windows-only, desktop-only" stay true for the desktop app).
+- Milestone 17 is additive. No desktop behaviour, schema, file or release step changes. Any change in shared code must keep every desktop test green (run the specific files that could conflict).
+- The phone app never imports `electron`, `better-sqlite3` or anything from `src/main`. Phone code lives in `src/pwa/*` and `src/shared/*` only. Shared code stays pure.
+- Phone data is IndexedDB only. No SQLite-wasm, no OPFS, no localStorage for bill data.
+- Money is decimal strings via `src/shared/money.ts`; totals via `src/shared/calc`; paper thresholds only in `paperConstants.ts`; formats only through the registry (no format-name branching).
+- No print, no clipboard image, no TSV copy, no AI features on the phone.
+- Real Android behaviour is never "verified" from the sandbox. Everything about the real phone, the share sheet to WhatsApp, persistent storage, installability and Vercel deploys goes in Standing gaps until the owner confirms.
+- Sync follows `docs/SYNC_SHARED_STORE_SPEC.md` unchanged (latest wins, loser kept, aside rule, no `service_role`, readable data protected by Supabase Auth + RLS). Never run against a real Supabase from the sandbox. Never commit keys, passwords or the anon key.
+- Phone UI: compact first. No large padded cards. Use tokens, not hard-coded colours. Apply the Phase 92 selector rule to every store.
+- **TESTING RULE (owner's standing rule, repeated): do NOT run the full test suite in any Phase 173-188 except the Phase 188 gate, and then only if the owner agrees.** Run `npm run typecheck` once plus only the files written or changed plus those that could plausibly conflict. Name them in the phase log. No desktop build, no dev server.
+- Docs-only changes need no version bump and no tag. Each code phase bumps the version in `package.json` and both spots in `package-lock.json` as listed in `PHASES.md`.
+- Items marked [A] are unconfirmed assumptions; say so in every phase log.
 
 ## 11. Before you finish — checklist
 

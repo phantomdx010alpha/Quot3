@@ -141,9 +141,38 @@ New migration(s); nothing below exists yet.
 - `party_merge_log(id TEXT PK, survivor_id, merged_id, kind, batch_id, by_branch, at, survivor_before_json, bill_ids_json, undone_at NULL)` + index `party_merge_log_at_idx(at)` - one row per customer merge: the undo information (survivor before, the bill ids that moved) and the content of the synced `party_merge` record. Undo sets `undone_at`; rows are never deleted.
 - `party_not_same(a_id TEXT, b_id TEXT, at TEXT, PK(a_id, b_id))` - pairs the owner marked "Not the same" (local only, stored ordered a < b; never synced); Possible duplicates skips them.
 
+## Milestone 17 phone store (IndexedDB) — BUILT in Phase 175 (all ten stores and indexes exist; only `meta` and `settings` have repos so far)
+
+The phone keeps data in one IndexedDB database (suggested name `quot3-phone`, versioned by IndexedDB's own upgrade step). It is separate from the desktop SQLite schema and is NOT counted in the desktop `schema: N` line. Same data rules as desktop: money as decimal strings, UUID ids, soft delete, `revision` counter, `po_number` immutable, party snapshot on each bill. Stores:
+
+| Store | Key | Notes / indexes |
+|---|---|---|
+| `meta` | key | schema version, branch id, branch name, PO prefix, PO counter, cursor (`server_seq`), clock offset, last export time |
+| `settings` | key | company profile, share defaults, behaviour flags, app-lock settings |
+| `bills` | id | mirrors the desktop bill head: branch id, po seq / number, party id, party snapshot, format id, extra cols, paper override, bill date, totals cache, item row count, revision, round_off, footer extras, tail rows, created / updated / deleted, sync state. Indexes: bill_date, party_id, po_number, deleted_at |
+| `bill_rows` | id | bill id + idx; name runs + plain name, qty, rate, total override, gst rate, extras, cell style. Index: [bill_id, idx] |
+| `bill_revisions` | [bill_id, revision] | [A] keep a small number per bill (suggest 5) |
+| `parties` | id | name, name_norm, phone, address, transport, merged_into, timestamps. Indexes: name_norm, phone. Deterministic id from the normalised name (Milestone 12 section 9) |
+| `drafts` | id | open-bill autosave |
+| `sync_record_state` | [kind, rec_id] | base_version, base_hash, server_seq, synced_at |
+| `sync_outbox` | id | pending changes (op, kind, rec id, attempts, error) |
+| `sync_aside` | [kind, rec_id] | records newer than this app can read |
+
+Phase 175 as built (`src/pwa/data/db.ts`, `STORE_DEFS`): DB `quot3-phone`, IndexedDB version 1. Index names: `bills` -> `bill_date`, `party_id`, `po_number`, `deleted_at`; `bill_rows` -> `bill_id_idx` on `[bill_id, idx]`; `parties` -> `name_norm`, `phone`. `bill_revisions`, `sync_record_state`, `sync_aside` use composite keys (`[bill_id, revision]`, `[kind, rec_id]`). `meta` and `settings` rows are `{ key, value }`. Meta keys: `schema_version`, `branch_id`, `branch_name`, `po_prefix`, `po_counter` (integer), `server_seq`, `clock_offset_ms`, `last_export_at`, `last_import_at`, `created_at`. Setting keys with defaults: `company.profile`, `share.defaults`, `backup.reminderDays` (14), `appLock.enabled` (false), `theme.name`; keys starting `secret.` (the sync session, Phase 178) are never exported. Upgrades only ever ADD (a step per version in `UPGRADES`; a shipped step is never edited). A database newer than the app is refused (`newer-version`, "Update the app").
+
+Phase 176 as built (`src/pwa/data/billsRepo.ts`, `draftsRepo.ts`; the IndexedDB version stays 1, no new upgrade step): a `bills` row is the shared `BillRecord` (camelCase, as `serializeBill` makes it) plus the snake_case index fields `bill_date`, `party_id`, `po_number`, `deleted_at` (null is simply not indexed); a `bill_rows` row is `BillRowRecord` plus `bill_id` (the `bill_id_idx` index reads `[bill_id, idx]`). `bill_revisions` rows: `{ bill_id, revision, saved_at, saved_by_branch, snapshot_json }` (newest 5 per bill [A]; a delete / restore bumps `revision` without a row, as on desktop). `drafts` rows: `{ id (= bill id), base_revision | null, saved_at, bill_json }`. Meta `po_counter` is the LAST issued sequence (desktop's `next_seq` is the next one); the new number is `formatPoNumber(po_prefix, po_counter + 1)` written in the same transaction as the bill. Setting `calc.roundOff` (default ON when absent) is read at save and stamped on the bill.
+
+Backup file (Phase 175): one JSON file `quot3-phone-backup-YYYY-MM-DD.json`: `{ format: "quot3-phone-backup", format_version: 1, app_version, exported_at, stores: { <store>: rows[] } }`. Includes every store (sync state too, so a restore is an exact snapshot [A] unconfirmed) except `secret.*` settings. Import REPLACES all phone data in ONE transaction (a bad file or row changes nothing) and keeps the local `secret.*` settings. A `format_version` above 1 is refused ("newer-backup").
+
+Trash is not a separate store: soft delete on `bills` (`deleted_at`), as on desktop. Persistent storage is requested with `navigator.storage.persist()`; the Settings page shows persisted yes / no and usage. A light in-memory list of bills and customers serves History and autocomplete (Fuse.js, already a dependency); measure with counts only. Only one tab may write at a time (Web Locks or BroadcastChannel, decided in Phase 173).
+
 ## Derived, never stored as truth
 Sl.No, per-row total (unless `total_override`), GST amount, amount, items subtotal, adjustment total, grand total, row kind, unit summaries, paper decision. The `totals_json` / `item_row_count` columns on `bills` are **caches** for list performance; the calc engine is the authority and the cache is rewritten on every save.
 
 ## Migration rules
 - Never edit a shipped migration; add a new one. Migrations run automatically at startup in a transaction after an automatic pre-migration backup.
 - A DB whose `user_version` is *newer* than the app understands must not be opened for writing (show "update the app" error).
+
+Phase 177 as built (`src/pwa/data/partiesRepo.ts`; IndexedDB version stays 1): a `parties` row is the shared `PartyRecord` (camelCase: `id, name, nameNorm, phone, address, transport, createdAt, updatedAt, deletedAt, mergedInto`; blank text is `null`, as in the sync codec) plus the snake_case index field `name_norm` (the `phone` index reads `phone`; null is simply not indexed). A customer is LIVE when `deletedAt` and `mergedInto` are both null. The id of a new customer is `partyRecordId(orgId, nameNorm)` (deterministic, spec section 9) once meta `org_id` is set (Phase 178 writes it; new meta key, default null, no upgrade step); before that it is a random UUID. Meta gained `org_id` only.
+
+Phase 178 as built (no store or index change; IndexedDB version stays 1): `meta` keys `org_id`, `branch_id`, `branch_name`, `po_prefix` are written together in one transaction when the phone is linked; `clock_offset_ms` is written by the clock measurement. New `settings` rows (never exported in a backup): `secret.syncVaultKey` (non-extractable AES-GCM `CryptoKey`), `secret.syncVault` (`{ v: 1, iv, ct }`, base64), `secret.appLockPin` (`{ v: 1, salt, hash, iterations, fails, lockedUntil }`); `appLock.enabled` (Phase 175 key) is set with the PIN.

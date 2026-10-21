@@ -1,4 +1,4 @@
-# PHASES — Quot3 (Milestone 15 = Phases 158–164 appended at the bottom; 144 phases; Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12, 144 = Milestone 13, all executed BEFORE Phase 69)
+# PHASES — Quot3 (Milestone 17 = Phases 173–188, the phone PWA, appended at the bottom; Milestone 15 = Phases 158–164; 144 phases; Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12, 144 = Milestone 13, all executed BEFORE Phase 69)
 
 **Edit in place** rather than regenerating. Never reorder or renumber a completed phase. If a phase proves too large, split it and renumber forward; record that in `PHASE_STATUS.md`.
 
@@ -1592,3 +1592,159 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **In scope:** typecheck plus the touched suites only (no full suite unless the owner agrees); reconcile `PHASE_STATUS.md`; confirm `docs/THEME_CREATION_GUIDE.md`, `tools/check-theme.mjs` and the examples in `docs/themes/` agree with the code (run the checker on a v1 and a v2 example only); update `GITHUB_UPDATE_PUSH.md` (history entry; if the milestone added a migration or SQL file, the `schema: N` note), `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`, `docs/design/DESIGN_TOKENS.md`; bump the version to 0.1.14 (`package.json` + both spots in `package-lock.json`) and hand back the changed-files zip, the full zip and the push steps per `GITHUB_UPDATE_PUSH.md` section 2.
 **Out of scope:** new features.
 **How to verify:** suites green or each failure listed with its cause; owner checklist for what only a real PC shows (look and frame rate of effects and 3D on an office PC, hidden / tray pause, WebGL fallback, a theme shared from one PC arriving on another through real Supabase). **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No build, no dev server.**
+
+
+---
+
+## MILESTONE 17 — Phone version: Android PWA on Vercel (Phases 173–188)
+*Exit criteria: an installable Android PWA hosted on Vercel that creates, edits and views GST / non-GST bills in a compact screen, keeps data in IndexedDB with persistent storage, syncs through the shared notebook as its own seat and branch, and outputs only by share image / share PDF. Desktop behaviour unchanged. Phase 69 (release gate) still runs after the last feature phase (188).*
+
+**Planned 2026-10-21 from the owner's request. Docs only; nothing built or run. Binding design: `docs/MILESTONE17_DESIGN.md` (read it first; it also lists the [A] assumptions and the [CHECK] items). Hard rules: `CLAUDE_MUST_READ.md` section 10l.**
+
+**Stage 0 (prerequisite, existing work, not Milestone 17):** finish phase "140b" (wire the v2 sync engine into the app), the owner's real-Supabase checklist (`docs/SUPABASE_MIGRATIONS.md`), and the real Phase 142. Re-read `PHASE_STATUS.md` to see whether they are done. Phases 173-177 and 180-187 do not need real sync; real phone sync testing does.
+
+**Version numbers below are placeholders** (renumber if 140b / 142 take patch numbers first). Each code phase bumps `package.json` and both spots at the top of `package-lock.json`. Tag a desktop release only if the desktop actually changed.
+
+## Phase 173 — Contract and spikes (reproduce-first, on the owner's real phone)
+**Goal:** Find out what really works on the owner's Android phone, using small throw-away dev pages only, and record the numbers and decisions.
+**Depends on:** Phase 172. Read `docs/MILESTONE17_DESIGN.md` first. Phone code lives in `src/pwa/*` and `src/shared/*` only; desktop behaviour does not change.
+**In scope:** Small spike pages (not shipped) for each [CHECK] in `docs/MILESTONE17_DESIGN.md` section 6: persistent storage granted when installed vs browser tab; Web Share with a file to WhatsApp (image and PDF); single-writer lock; image from the print model (canvas vs SVG) against the desktop look incl. the rupee sign; PDF method (page image vs real text PDF with embedded font); Android keyboard behaviour (Next/Done, number keypad, text selection for B and R+B); Vercel CSP for a user-typed Supabase URL + websocket; `supabase-js` bundle size; whether company settings sync today (read the code). Write a short "spike results and decisions" section into `MILESTONE17_DESIGN.md` and resolve Q4, Q6 (if numbers are available) and the share methods. Contracts first: freeze the phone data-layer, platform-flags and share-output sections in `API_CONTRACTS.md` if the spikes change them.
+**Out of scope:** Shipping any phone feature, any change to the desktop, a real Supabase run.
+**Key files:** new throw-away files under `docs/design/m17_spikes/` (or a scratch folder outside `src`), `docs/MILESTONE17_DESIGN.md`, `API_CONTRACTS.md`.
+**Version:** none
+**How to verify:** The owner opens each spike page on the phone and reports results; the phase log records exactly what the owner saw. Anything the owner has not run stays "unconfirmed" in Standing gaps. Sandbox checks (bundle size, canvas output in headless Chromium) are labelled as sandbox only. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 174 — PWA shell and Vercel
+**Goal:** An installable, offline-opening empty phone shell that Vercel can build and host, with the desktop build untouched.
+**Depends on:** 173.
+**In scope:** `vite.pwa.config.ts`, `src/pwa/main.tsx` + `App.tsx` + tiny in-memory router, `platform/` flags (`isPhone`), web manifest and icons (reuse the app icon; folder name decided so it does not collide with desktop `resources/`), service worker (never long-cached), `vercel.json` (SPA fallback, headers, CSP per spike results), scripts `dev:pwa` and `build:pwa`, a phone `tsconfig`. Vercel production-branch rule per Q8 (default: separate `pwa` branch until 0.2.0).
+**Out of scope:** Any bill, data or sync code; any change to desktop scripts, `electron-builder.yml`, `release.yml` or `updaterPort.ts`.
+**Key files:** new `vite.pwa.config.ts`, `vercel.json`, `src/pwa/*`, `tsconfig` for the phone, manifest + icons, `package.json` scripts only.
+**Version:** 0.1.15
+**How to verify:** typecheck (desktop and phone configs); one test proving the desktop config files are unchanged / the desktop entry does not import `src/pwa`; the shell builds with `build:pwa` if the sandbox allows it, otherwise say not run. Installability, offline start and the Vercel preview are the owner's to confirm (Standing gaps). **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 175 — Phone data layer 1 (IndexedDB, settings, persistence, backup file)
+**Goal:** Open and upgrade the IndexedDB database, create all stores, and provide settings / meta repos, the persistent-storage request and a backup export / import.
+**Depends on:** 174.
+**In scope:** DB `quot3-phone` with the stores in `docs/DATA_MODEL.md` (Milestone 17 section); open / upgrade by IndexedDB version; `meta` and `settings` repos; `navigator.storage.persist()` request and a storage-health read (persisted yes/no, usage); single-writer lock per the spike; manual Export backup / Import backup file and a "last export is old" flag; optional helper library only if needed (look the version up first, `DEPENDENCY_VERSIONS.md`).
+**Out of scope:** Bills, parties, sync, any UI beyond what a test needs.
+**Key files:** new `src/pwa/data/{db,metaRepo,settingsRepo,backup}.ts`, `src/pwa/platform/storage.ts`, tests with an in-memory IndexedDB fake.
+**Version:** 0.1.16
+**How to verify:** tests for open / upgrade, settings round trip, backup export then import into a fresh DB, a second tab blocked from writing; typecheck. Real persistence on Android is a Standing gap. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 176 — Phone data layer 2 (bills)
+**Goal:** Save, get, list, delete and restore bills on the phone with the same rules as the desktop.
+**Depends on:** 175.
+**In scope:** Bills and bill_rows repos; PO number from the phone's branch prefix and counter taken in the SAME transaction as the save; `po_number` immutable; revision +1 and a small revision cap (default 5, [A]); party snapshot on the bill; soft delete and restore; totals cache and item row count rewritten on every save through `src/shared/calc`; drafts autosave and crash recovery; money as decimal strings. Port the desktop rules, not the SQL (read the desktop repo and its tests for the rules).
+**Out of scope:** UI, sync, parties list features, stock transfer / hybrid editing.
+**Key files:** new `src/pwa/data/{billsRepo,draftsRepo}.ts` + tests; reads `src/shared/*` only.
+**Version:** 0.1.17
+**How to verify:** tests: PO numbers never repeat, two quick saves, revision cap, soft delete / restore, totals equal the shared calc on the shared fixtures, draft survives a simulated reload, round-off flag and bill-options read; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 177 — Phone parties
+**Goal:** Customers data and fuzzy autocomplete on the phone.
+**Depends on:** 176.
+**In scope:** Parties store with `name_norm`, phone, address, transport, `merged_into`; deterministic id from the normalised name (shared rule from Milestone 12 section 9); fuzzy autocomplete with Fuse.js (already a dependency); auto-create from a new party name on save; customers list data (bill counts, last bill date); in-memory light list for speed (measure with counts only).
+**Out of scope:** Duplicate / merge tools (desktop only), Excel import, UI.
+**Key files:** new `src/pwa/data/partiesRepo.ts`, `src/pwa/data/partySearch.ts` + tests.
+**Version:** 0.1.18
+**How to verify:** tests: same normalised name gives the same id, autocomplete ranking on fixtures, auto-create on save, counts match bills; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 178 — Phone sync 1: login and branch
+**Goal:** Sign the phone in as its own seat and choose its branch name and PO prefix.
+**Depends on:** 175, Stage 0.
+**In scope:** Seat email + password sign-in through `SupabaseSharedTransport` (the only code that imports `@supabase/supabase-js`); session kept in IndexedDB with browser crypto (non-extractable key); optional app-lock groundwork (PIN / biometric, off by default, [A]); branch name and PO prefix selection (unique per organisation, [A] one seat per phone); clock offset; clear error text for a paused or unreachable server.
+**Out of scope:** Push / pull, UI polish, any real Supabase run.
+**Key files:** new `src/pwa/sync/{session,branch,clock}.ts` + tests with the fake / in-memory transport.
+**Version:** 0.1.19
+**How to verify:** fake-transport tests only: sign in, sign out clears the session, duplicate prefix refused, paused-server message. Real Supabase and the strength of the browser key store are Standing gaps (do not claim it equals desktop secret storage). **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 179 — Phone sync 2: push and pull
+**Goal:** The phone exchanges bills, parties and tombstones with the shared notebook and converges with other branches.
+**Depends on:** 176, 177, 178.
+**In scope:** Outbox, record state, aside storage and cursor re-implemented on IndexedDB; push / pull workers using `src/shared/sync/*` (codec, diff, pull) unchanged; first-sync progress screen data, size check and the Q6 decision (everything or recent + all customers; never break `base_version` / aside rules); pull on start, when visible, on network regain, after Save and every 60 s while open; doorbell when the page is open; no background sync promise; `min_reader_ver` aside rule.
+**Out of scope:** Real Supabase, any change to the spec or to desktop sync.
+**Key files:** new `src/pwa/sync/{outbox,recordState,aside,push,pull,doorbell}.ts` + tests; reads `src/shared/sync/*`.
+**Version:** 0.1.20
+**How to verify:** N-branch convergence test (desktop-side fake + phone adapter) against the in-memory transport, incl. conflict (latest wins, loser kept), delete / restore, aside, lossy network; typecheck. Real Supabase is a Standing gap. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 180 — Mobile shell and Dashboard
+**Goal:** The phone app frame and a compact Dashboard.
+**Depends on:** 174, 175.
+**In scope:** Bottom navigation, safe areas, compact tokens (default navy/red + one light theme), Dashboard (today and month totals, recent bills, sync status, last export), Back-button rule (Dashboard is the root, like desktop Esc), update / install placeholders.
+**Out of scope:** Live tiles, themes editor, effects, Three.js.
+**Key files:** new `src/pwa/ui/{BottomNav,Dashboard,tokens}.tsx|css`, router tests.
+**Version:** 0.1.21
+**How to verify:** jsdom component tests (navigation, Back from each page goes to Dashboard, totals from fixtures); typecheck. The real look on an Android screen is the owner's to confirm. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 181 — History and view bill
+**Goal:** Find and read bills on the phone.
+**Depends on:** 176, 177, 180.
+**In scope:** Date-grouped list, search (party, PO number, item text, amount) and filters, a read-only compact bill view, edit entry point, delete to trash, Recently deleted and restore; stock transfer and hybrid bills open read-only with "Edit on PC" ([A]).
+**Out of scope:** The editor itself, revision compare screen.
+**Key files:** new `src/pwa/ui/{History,BillView,Trash}.tsx` + tests.
+**Version:** 0.1.22
+**How to verify:** jsdom tests with seeded bills: grouping, search, trash / restore, read-only view of each format; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 182 — Compact bill editor 1
+**Goal:** Create and edit a plain bill on one compact screen.
+**Depends on:** 176, 177, 180.
+**In scope:** Party bar (name autocomplete, phone, transport, address pull-down), compact item rows `# | name | qty | rate | total`, tap-to-expand row editor, number keypad inputs, Next / Done moves name -> qty -> rate -> next row, GST / non-GST toggle (rows are a superset, no data lost), adjustments (name + amount, negative allowed), sticky totals strip, Save with name check, unsaved-changes guard on Back, draft recovery, Create always opens clean (A31). Totals only via `src/shared/calc`.
+**Out of scope:** Total override, extra columns, rich text, units (Phase 183); print / clipboard / TSV (never on the phone).
+**Key files:** new `src/pwa/ui/editor/*` + tests.
+**Version:** 0.1.23
+**How to verify:** jsdom tests: totals equal desktop on shared fixtures, GST toggle keeps data, save creates the party, guard prompts, Create is clean after a draft exists; typecheck. Real Android keyboard behaviour is a Standing gap until the owner tries it. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 183 — Compact bill editor 2
+**Goal:** The remaining bill features on the phone.
+**Depends on:** 182.
+**In scope:** Total override; round-off flag (per-bill flag via the shared bill-options read); extra columns with header rename and a Columns sheet; units summary and Mark (rules: `EXTRA_COLS_UNITS_RULES.md`); rich text per Q4 (B and R+B on selection, or plain text with preserved runs); unknown fields (footer extras, tail rows, cell styles) preserved untouched on save; stock transfer / hybrid stay read-only.
+**Out of scope:** Hybrid and stock-transfer editing, revision compare.
+**Key files:** edit `src/pwa/ui/editor/*`; new tests; reads `src/shared/{units,runs}`.
+**Version:** 0.1.24
+**How to verify:** tests: override and round-off match desktop on shared fixtures, units summary and Mark results equal the shared engine, editing a name keeps or updates runs as decided, a bill with unknown fields round-trips unchanged; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 184 — Share image and PDF
+**Goal:** The only output on the phone: share a bill as an image or a PDF.
+**Depends on:** 183, 173 (method decisions).
+**In scope:** Builders from the pure print model (`src/shared/print/*`, `paper/paperRules.ts`, `imageTrim.ts`): image and PDF, Rough / Professional (Professional adds the company block and PO number), paper size from the existing paper rules only, bundled font with the rupee sign, Web Share with a file and a download fallback, remembers the last choice (Q9, [A]); sharing never changes the bill.
+**Out of scope:** Print dialog, clipboard image, TSV copy, any new paper threshold.
+**Key files:** new `src/pwa/share/{image,pdf,shareSheet}.ts` + tests.
+**Version:** 0.1.25
+**How to verify:** tests: same numbers and rows as the desktop print model on shared fixtures, paper decision equals the shared rule, fallback path when sharing is unavailable; sandbox-rendered sample images / PDFs may be looked at but are labelled sandbox only. Sharing to WhatsApp on the owner's phone is a Standing gap until confirmed. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 185 — Customers and Settings (phone subset)
+**Goal:** Customers pages and the phone Settings.
+**Depends on:** 177, 178, 181.
+**In scope:** Customers list / detail / add / edit with call and WhatsApp links ([A]); Settings: company profile for professional output (synced or phone-own per the Phase 173 finding), branch name + PO prefix, share defaults, sync login, storage and backup page (persisted yes/no, usage, Export / Import, "Reset phone data" with a double confirm), app lock, About + version.
+**Out of scope:** Themes manager, shortcuts, audit viewer, updater controls, diagnostics.
+**Key files:** new `src/pwa/ui/{Customers,Settings}*.tsx` + tests.
+**Version:** 0.1.26
+**How to verify:** jsdom tests: customer edit, bill counts, reset needs two confirms, settings round trip; typecheck. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 186 — Offline, install and update flow
+**Goal:** The app behaves well offline, can be installed, and updates safely.
+**Depends on:** 174, 179, 185.
+**In scope:** Offline start and use, install prompt, "New version, reload" prompt that waits until no bill is unsaved, service-worker cache named from the version, version / schema gate (`min_reader_ver` -> "Update the app to see N bills"), safe behaviour when storage is full or cleared.
+**Out of scope:** Background sync, push notifications.
+**Key files:** edit `src/pwa/platform/*`, service worker, tests.
+**Version:** 0.1.27
+**How to verify:** tests for the update-wait rule and the version gate; typecheck. Offline, install and update on a real phone are the owner's to confirm. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 187 — Hardening
+**Goal:** Make the phone app fast and safe on a mid-range Android and on the real corpus size.
+**Depends on:** 181-186.
+**In scope:** Large-corpus test using counts only (about 1.9k bills and 12.9k customers per the docs; never real contents); speed pass (list, search, autocomplete, first sync); touch targets and accessibility pass; mobile-emulation e2e with Playwright if available; the owner's device checklist written out.
+**Out of scope:** New features.
+**Key files:** tests and perf notes under `src/pwa/__tests__/`, `docs/MILESTONE17_DESIGN.md`.
+**Version:** 0.1.28
+**How to verify:** synthetic large-data tests and timings recorded as sandbox numbers only; the owner's device checklist is handed over unfilled. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+## Phase 188 — Milestone 17 QA gate and docs sweep
+**Goal:** Check Phases 173-187 together and decide the first public phone release.
+**Depends on:** 173-187 (or the subset the owner chose to ship; say so).
+**In scope:** typecheck, then ONLY the Milestone 17 test files, the phone build (`build:pwa`) and the desktop typecheck / the few desktop files touched by shared changes; the full suite only if the owner agrees; fill in the owner's real-device checklist from what the owner reports; reconcile `PHASE_STATUS.md`; update `GITHUB_UPDATE_PUSH.md`, `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`, `DEPENDENCY_VERSIONS.md`; bump to 0.2.0 and hand back the changed-files zip, the full zip and the push steps (`GITHUB_UPDATE_PUSH.md` section 2). Tag a desktop release only if the desktop changed.
+**Out of scope:** New features.
+**Key files:** docs, `package.json` + both spots in `package-lock.json`.
+**Version:** 0.2.0
+**How to verify:** suites green or each failure listed with its cause. Owner checklist (only a real phone shows these): install from Chrome, offline open, persistent storage granted, bill create / edit / view, share image and PDF to WhatsApp, sync with the desktop through real Supabase, update prompt, app lock, speed with the full data. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**

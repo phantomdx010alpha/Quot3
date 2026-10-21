@@ -1,0 +1,265 @@
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react'
+import { activeTab, canGoBack, createRouter, currentRoute, goBack, navigate, navigateTab, type RouteName, type RouterState, type TabRoute } from './router'
+import { detectCapabilities, readBrowserEnv, type Capabilities } from './platform/flags'
+import { browserBackEnv, installBackGuard, type BackEnv } from './platform/backButton'
+import { registerServiceWorker, shouldCheckForUpdate, updateBannerModel, type UpdateHandle } from './platform/swUpdate'
+import { isOnline, OFFLINE_NOTE, watchOnline } from './platform/online'
+import { browserInstallEnv, createInstallController, type InstallController } from './platform/installPrompt'
+import { browserMarkerStore, checkDataCleared, CLEARED_NOTE } from './platform/clearedData'
+import { getMeta } from './data/metaRepo'
+import { countRecords } from './data/db'
+import { loadVersionGate } from './ui/versionGate'
+import { setSetting } from './data/settingsRepo'
+import { BottomNav } from './ui/BottomNav'
+import { BillView } from './ui/BillView'
+import { Dashboard } from './ui/Dashboard'
+import { History } from './ui/History'
+import { Customers, CustomerPage } from './ui/Customers'
+import { LockScreen } from './ui/LockScreen'
+import { Settings } from './ui/Settings'
+import { createAppLock, type AppLock } from './sync/appLock'
+import { Trash } from './ui/Trash'
+import { BillEditor, type EditorApi } from './ui/editor/BillEditor'
+import type { DashboardView } from './ui/dashboardModel'
+import { loadDashboard } from './ui/loadDashboard'
+import type { AppServices, ThemeName } from './ui/services'
+
+const VERSION = typeof __QUOT3_APP_VERSION__ === 'string' ? __QUOT3_APP_VERSION__ : 'unknown'
+
+function yesNo(v: boolean): string {
+  return v ? 'yes' : 'no'
+}
+
+const TITLES: Record<RouteName, string> = {
+  home: 'Quot3',
+  history: 'History',
+  create: 'New bill',
+  customers: 'Customers',
+  settings: 'Settings',
+  about: 'About',
+  billview: 'Bill',
+  trash: 'Recently deleted',
+  customer: 'Customer'
+}
+
+export interface AppProps {
+  services?: AppServices
+  /** Tests pass a fake; the app uses the browser's history. */
+  backEnv?: BackEnv | null
+}
+
+/** Phone shell (Phase 180): top bar, Dashboard as the root page, bottom navigation, Back rule. History, editor, Customers and the real
+ *  Settings are placeholders until their phases. */
+export function App(props: AppProps = {}): ReactElement {
+  const services = props.services
+  const [router, setRouter] = useState<RouterState>(() => createRouter('home'))
+  const [installSeen, setInstallSeen] = useState(false)
+  const [online, setOnline] = useState(() => (typeof window === 'undefined' ? true : isOnline(window)))
+  const [installReady, setInstallReady] = useState(false)
+  const [installHidden, setInstallHidden] = useState(false)
+  const [gateNote, setGateNote] = useState<string | null>(null)
+  const [clearedNote, setClearedNote] = useState<string | null>(null)
+  const installRef = useRef<InstallController | null>(null)
+  const [update, setUpdate] = useState<UpdateHandle | null>(null)
+  const [caps, setCaps] = useState<Capabilities>(() => detectCapabilities(readBrowserEnv(false)))
+  const [theme, setTheme] = useState<ThemeName>(services?.theme ?? 'navy-ember')
+  const [view, setView] = useState<DashboardView | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(services?.error ?? null)
+  // Phase 182: the open bill's dirty flag (reported by the editor). While it is set, every way out asks Save / Discard first.
+  const [hasUnsavedWork, setHasUnsavedWork] = useState(false)
+  const [pendingLeave, setPendingLeave] = useState<(() => void) | null>(null)
+  // Phase 185: the PIN screen shows first when the app lock was on at start.
+  const [locked, setLocked] = useState(services?.startLocked === true)
+  const appLock = useMemo<AppLock | null>(() => (services?.db ? createAppLock(services.db) : null), [services?.db])
+  const editorApi = useRef<EditorApi | null>(null)
+  const silentSaved = useRef(false)
+
+  const routerRef = useRef(router)
+  routerRef.current = router
+  const unsavedRef = useRef(hasUnsavedWork)
+  unsavedRef.current = hasUnsavedWork
+
+  useEffect(() => {
+    const instEnv = browserInstallEnv()
+    const inst = instEnv ? createInstallController(instEnv) : null
+    installRef.current = inst
+    const offInst = inst?.subscribe(() => { setInstallSeen(inst.canInstall() || inst.installed()); setInstallReady(inst.canInstall()) })
+    const offOnline = watchOnline(window, setOnline)
+    // Phase 186: look for a newer version at start, when the app comes back to the front, and hourly while open.
+    let checkNow: (() => Promise<void>) | null = null
+    let last: number | null = null
+    const maybeCheck = (): void => {
+      const t = Date.now()
+      if (!checkNow || !shouldCheckForUpdate(last, t)) return
+      last = t
+      void checkNow()
+    }
+    const onVisible = (): void => { if (document.visibilityState === 'visible') maybeCheck() }
+    document.addEventListener('visibilitychange', onVisible)
+    void registerServiceWorker(setUpdate).then((fn) => { checkNow = fn; maybeCheck() })
+    const timer = window.setInterval(maybeCheck, 10 * 60 * 1000)
+    return () => {
+      offInst?.(); inst?.stop(); offOnline()
+      document.removeEventListener('visibilitychange', onVisible)
+      window.clearInterval(timer)
+    }
+  }, [])
+
+  useEffect(() => {
+    setCaps(detectCapabilities(readBrowserEnv(installSeen)))
+  }, [installSeen])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+  }, [theme])
+
+  // System Back: step back inside the app; at the Dashboard let it leave. An unsaved bill blocks it (Phase 182 shows the Save / Discard prompt).
+  useEffect(() => {
+    const env = props.backEnv === undefined ? browserBackEnv() : props.backEnv
+    if (!env) return undefined
+    return installBackGuard(env, {
+      handleBack: () => {
+        if (unsavedRef.current) { setPendingLeave(() => () => setRouter((r) => goBack(r))); return true }
+        if (!canGoBack(routerRef.current)) return false
+        setRouter((r) => goBack(r))
+        return true
+      }
+    })
+  }, [props.backEnv])
+
+  const cur = currentRoute(router)
+  const route = cur.name
+  const db = services?.db ?? null
+  const now = services?.now
+
+  // Phase 186: version gate (records from a newer app are kept aside) and the "storage cleared" check, at start and when Home / Settings opens.
+  useEffect(() => {
+    if (!db || (route !== 'home' && route !== 'settings')) return undefined
+    let cancelled = false
+    void (async () => {
+      const note = await loadVersionGate(db)
+      let cleared: string | null = null
+      try {
+        const [meta, bills, customers] = await Promise.all([getMeta(db), countRecords(db, 'bills'), countRecords(db, 'parties')])
+        const verdict = checkDataCleared({ bills, customers, linked: meta.branch_id !== null }, browserMarkerStore())
+        cleared = verdict === 'cleared' ? CLEARED_NOTE : null
+      } catch { /* a read problem is shown by the screens themselves */ }
+      if (!cancelled) { setGateNote(note); setClearedNote(cleared) }
+    })()
+    return () => { cancelled = true }
+  }, [db, route])
+
+  useEffect(() => {
+    if (route !== 'home' || !db) return undefined
+    let cancelled = false
+    loadDashboard(db, now ? now() : new Date(), services?.engine ?? null).then(
+      (v) => { if (!cancelled) { setView(v); setLoadError(null) } },
+      (e: unknown) => { if (!cancelled) setLoadError(`Could not read your bills: ${e instanceof Error ? e.message : String(e)}`) }
+    )
+    return () => { cancelled = true }
+  }, [route, db, now, services?.engine])
+
+  /** Runs a way out of the page; with an unsaved bill it asks first (Save / Discard / Keep editing). */
+  const leave = useCallback((action: () => void) => { if (unsavedRef.current) setPendingLeave(() => action); else action() }, [])
+  const selectTab = useCallback((tab: TabRoute) => leave(() => setRouter((r) => navigateTab(r, tab))), [leave])
+  const clearDirty = (): void => { unsavedRef.current = false; setHasUnsavedWork(false) }
+  const promptSave = async (): Promise<void> => {
+    const act = pendingLeave
+    silentSaved.current = true
+    const ok = (await editorApi.current?.save()) ?? true
+    silentSaved.current = false
+    if (!ok) return
+    clearDirty(); setPendingLeave(null); act?.()
+  }
+  const promptDiscard = async (): Promise<void> => {
+    const act = pendingLeave
+    await editorApi.current?.discard()
+    clearDirty(); setPendingLeave(null); act?.()
+  }
+
+  const chooseTheme = (next: ThemeName): void => {
+    setTheme(next)
+    if (db && db.canWrite()) void setSetting(db, 'theme.name', next).catch(() => undefined)
+  }
+
+  if (locked && appLock) return <LockScreen lock={appLock} onUnlocked={() => setLocked(false)} />
+
+  return (
+    <div className="q3-shell">
+      {!online ? <div className="q3-banner" role="status"><span>{OFFLINE_NOTE}</span></div> : null}
+      {gateNote ? <div className="q3-banner" role="status"><span>{gateNote}</span></div> : null}
+      {clearedNote ? <div className="q3-banner" role="alert"><span>{clearedNote}</span></div> : null}
+      {update ? (
+        <div className="q3-banner" role="status">
+          <span>{updateBannerModel({ hasUnsavedWork }).text}</span>
+          <button className="q3-btn q3-btn-primary" disabled={!updateBannerModel({ hasUnsavedWork }).canReload} onClick={() => update.apply(() => !unsavedRef.current)}>
+            Reload
+          </button>
+        </div>
+      ) : null}
+      {installReady && !installHidden && !update ? (
+        <div className="q3-banner" role="status">
+          <span>Install Quot3 on this phone to open it like an app, even offline.</span>
+          <button className="q3-btn q3-btn-primary" onClick={() => { void installRef.current?.prompt() }}>Install</button>
+          <button className="q3-btn" onClick={() => setInstallHidden(true)} aria-label="Hide install offer">Not now</button>
+        </div>
+      ) : null}
+      <header className="q3-bar">
+        {canGoBack(router) ? (
+          <button className="q3-btn" onClick={() => leave(() => setRouter((r) => goBack(r)))} aria-label="Back">
+            Back
+          </button>
+        ) : null}
+        <h1>{TITLES[route]}</h1>
+      </header>
+      <main className="q3-main">
+        {route === 'home' ? (
+          <Dashboard view={view} error={loadError} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))} />
+        ) : route === 'history' ? (
+          <History db={db} now={now} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))} onOpenTrash={() => setRouter((r) => navigate(r, 'trash'))} />
+        ) : route === 'trash' ? (
+          <Trash db={db} onChanged={services?.onDataChanged} />
+        ) : route === 'billview' && cur.param ? (
+          <BillView db={db} id={cur.param} onEdit={(id) => setRouter((r) => navigate(r, 'create', id))} onDeleted={() => setRouter((r) => goBack(r))} onChanged={services?.onDataChanged} />
+        ) : route === 'create' ? (
+          <BillEditor
+            key={cur.param ?? 'new'} db={db} id={cur.param} now={now} apiRef={editorApi} onDirtyChange={setHasUnsavedWork} onChanged={services?.onDataChanged}
+            onSaved={(id) => { if (!silentSaved.current) setRouter((r) => navigate(goBack(r), 'billview', id)) }}
+          />
+        ) : route === 'about' ? (
+          <>
+            <div className="q3-row"><span>Version</span><span>{VERSION}</span></div>
+            <div className="q3-row"><span>Persistent storage API</span><span>{yesNo(caps.persistentStorage)}</span></div>
+            <div className="q3-row"><span>Share files</span><span>{yesNo(caps.webShareFiles)}</span></div>
+            <div className="q3-row"><span>Single-writer lock</span><span>{yesNo(caps.webLocks)}</span></div>
+            <div className="q3-row"><span>Offline shell</span><span>{yesNo(caps.serviceWorker)}</span></div>
+            <div className="q3-row"><span>Installed or installable</span><span>{yesNo(caps.installable)}</span></div>
+          </>
+        ) : route === 'settings' ? (
+          <Settings
+            db={db} version={VERSION} theme={theme} onTheme={chooseTheme} onAbout={() => setRouter((r) => navigate(r, 'about'))}
+            sync={services?.sync} now={now} appLock={appLock ?? undefined} onChanged={services?.onDataChanged}
+          />
+        ) : route === 'customers' ? (
+          <Customers db={db} onOpen={(id) => setRouter((r) => navigate(r, 'customer', id))} onAdd={() => setRouter((r) => navigate(r, 'customer', 'new'))} />
+        ) : route === 'customer' && cur.param ? (
+          <CustomerPage
+            key={cur.param} db={db} id={cur.param} now={now} onChanged={services?.onDataChanged} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))}
+            onAdded={(id) => setRouter((r) => navigate(goBack(r), 'customer', id))}
+          />
+        ) : null}
+      </main>
+      <BottomNav active={activeTab(router)} onSelect={selectTab} />
+      {pendingLeave ? (
+        <div className="q3-modal" role="dialog" aria-modal="true" aria-label="Unsaved bill">
+          <div className="q3-modal-card">
+            <p>This bill has changes that are not saved.</p>
+            <button type="button" className="q3-btn q3-btn-primary" onClick={() => { void promptSave() }}>Save</button>
+            <button type="button" className="q3-btn" onClick={() => { void promptDiscard() }}>Discard</button>
+            <button type="button" className="q3-btn" onClick={() => setPendingLeave(null)}>Keep editing</button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  )
+}

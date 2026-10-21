@@ -1,0 +1,16 @@
+/* Phone UI tokens added in Phase 180 (extends styles/pwa.css; same names as the desktop tokens where one exists).
+   Components use these variables only. Both themes define every token below (a test checks it). */
+:root,
+:root[data-theme='navy-ember'] {
+  --status-ok: #6fd3a0;
+  --status-warn: #ffc46b;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+}
+
+:root[data-theme='light'] {
+  --status-ok: #1b7f4f;
+  --status-warn: #8a5a00;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+}

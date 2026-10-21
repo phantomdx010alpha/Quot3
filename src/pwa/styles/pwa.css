@@ -1,0 +1,67 @@
+/* Phone tokens (Phase 174). Same names and default values as the desktop Navy Ember theme in
+   src/renderer/styles/tokens.css, phone subset only. Components use these variables, never raw colours. */
+:root,
+:root[data-theme='navy-ember'] {
+  color-scheme: dark;
+  --surface-base: #0f1a2e;
+  --surface-raised: #14233d;
+  --surface-inset: #0b1424;
+  --surface-header: #17284a;
+  --text-primary: #e6ecf7;
+  --text-secondary: #b4c0d6;
+  --text-muted: #8fa0bd;
+  --text-on-accent: #0f1a2e;
+  --accent: #ff7b7b;
+  --accent-hover: #ff9494;
+  --accent-soft: rgba(255, 123, 123, 0.14);
+  --focus-ring: #ffb3b3;
+  --border-subtle: rgba(180, 192, 214, 0.18);
+  --radius-sm: 6px;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-base: 15px;
+  --touch-min: 40px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --surface-base: #f4f6fa;
+  --surface-raised: #ffffff;
+  --surface-inset: #e9edf4;
+  --surface-header: #dfe5f0;
+  --text-primary: #16213a;
+  --text-secondary: #38466a;
+  --text-muted: #5b6a8c;
+  --text-on-accent: #ffffff;
+  --accent: #ba2f2f;
+  --accent-hover: #a22626;
+  --accent-soft: rgba(186, 47, 47, 0.12);
+  --focus-ring: #ba2f2f;
+  --border-subtle: rgba(22, 33, 58, 0.16);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--surface-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+.q3-shell { display: flex; flex-direction: column; height: 100%; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+.q3-bar { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-3); background: var(--surface-header); border-bottom: 1px solid var(--border-subtle); }
+.q3-bar h1 { flex: 1; margin: 0; font-size: 1.05rem; font-weight: 600; }
+.q3-main { flex: 1; overflow-y: auto; padding: var(--space-3); }
+.q3-row { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); }
+.q3-row span:first-child { color: var(--text-secondary); }
+.q3-muted { color: var(--text-muted); }
+.q3-btn { min-height: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; }
+.q3-btn-primary { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent); }
+.q3-btn:disabled { opacity: 0.5; }
+.q3-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.q3-banner { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: var(--accent-soft); border-bottom: 1px solid var(--border-subtle); }
+.q3-banner span { flex: 1; }

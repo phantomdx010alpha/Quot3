@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quot3 phone spikes (Phase 173)</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{color-scheme:light dark;font-family:system-ui,sans-serif}
+body{margin:0;padding:8px;font-size:15px}
+h1{font-size:18px;margin:4px 0}h2{font-size:16px;margin:14px 0 4px;border-top:1px solid #8886;padding-top:8px}
+button,input,select,textarea{font:inherit;padding:8px;margin:3px 0;max-width:100%;box-sizing:border-box}
+button{min-height:40px}
+pre{white-space:pre-wrap;word-break:break-word;background:#8882;padding:6px;border-radius:4px;font-size:13px;margin:4px 0}
+#ed{border:1px solid #888;padding:8px;min-height:44px}
+.r{color:#d00;font-weight:700}.b{font-weight:700}
+canvas{max-width:100%;border:1px solid #8886}
+</style></head><body>
+<h1>Quot3 phone spikes (Phase 173)</h1>
+<p>Open this page in Chrome on your phone. Do each step, then tap <b>Copy report</b> at the bottom and paste it to Claude. Nothing here is saved to Quot3 and nothing is sent anywhere (except step 7, only if you type a URL).</p>
+
+<h2>0. Where am I running</h2>
+<button id="b0">Run</button><pre id="o0"></pre>
+
+<h2>1. Persistent storage (IndexedDB)</h2>
+<p>Run once in the Chrome tab. Then install the page (menu - Install app / Add to Home screen), open it from the home icon, and run again.</p>
+<button id="b1">Ask for persistent storage + write 5 MB</button><button id="b1r">Read back the 5 MB</button><pre id="o1"></pre>
+
+<h2>2. Single writer lock</h2>
+<p>Open this page in TWO tabs. Tap the button in tab A, then quickly in tab B.</p>
+<button id="b2">Take lock for 6 s</button><pre id="o2"></pre>
+
+<h2>3. Image from a bill (canvas)</h2>
+<p>Does the rupee sign and bold/red look right and sharp?</p>
+<button id="b3">Draw sample bill</button><br><canvas id="cv" width="10" height="10"></canvas><pre id="o3"></pre>
+
+<h2>4. Share to WhatsApp</h2>
+<p>Do step 3 first. Choose WhatsApp in the share sheet and see if the image / PDF arrives as a file.</p>
+<button id="b4i">Share image (PNG)</button><button id="b4p">Share PDF</button><button id="b4d">Download PDF instead</button><pre id="o4"></pre>
+
+<h2>5. Keyboard test (compact editor)</h2>
+<p>Type a name, press the keyboard's Next key (should jump to Qty), type a number (should show the number pad), press Next (Rate), then Next again (should add a new row's name).</p>
+<div id="rows"></div><button id="b5">Reset rows</button><pre id="o5"></pre>
+
+<h2>6. Bold / red+bold on selected words</h2>
+<p>Type some words below, long-press to select a word, tap B or R+B. Then select a part and tap again. Does the selection stay? Does the keyboard stay open?</p>
+<div id="ed" contenteditable="true" inputmode="text">Brass bolt 12mm heavy</div>
+<button id="bB" onmousedown="event.preventDefault()">B</button><button id="bR" onmousedown="event.preventDefault()">R+B</button><button id="bP">Show runs</button><pre id="o6"></pre>
+
+<h2>7. Supabase reachability (optional)</h2>
+<p>Type your Supabase project URL (https://xxxx.supabase.co). This only tests that the phone can reach it and open a websocket. No key is needed or used.</p>
+<input id="sb" placeholder="https://xxxx.supabase.co" inputmode="url"><br>
+<button id="b7">Test</button><pre id="o7"></pre>
+
+<h2>8. Service worker + offline</h2>
+<button id="b8">Register service worker</button><p>Then turn on airplane mode and reload this page: it should still open.</p><pre id="o8"></pre>
+
+<h2>Report</h2>
+<button id="rep">Copy report</button><textarea id="ta" rows="8" style="width:100%"></textarea>
+
+<script>
+const R={}; const $=id=>document.getElementById(id);
+const out=(id,k,v)=>{R[k]=v;$(id).textContent=typeof v==='string'?v:JSON.stringify(v,null,1)};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+$('b0').onclick=async()=>{
+  const m=k=>matchMedia(k).matches;
+  out('o0','env',{ua:navigator.userAgent,secure:isSecureContext,standalone:m('(display-mode: standalone)')||navigator.standalone===true,
+   persist:!!(navigator.storage&&navigator.storage.persist),locks:!!navigator.locks,bc:'BroadcastChannel' in self,
+   share:!!navigator.share,canShare:!!navigator.canShare,sw:'serviceWorker' in navigator,idb:'indexedDB' in self,
+   screen:[screen.width,screen.height,devicePixelRatio],online:navigator.onLine});
+};
+
+function idb(){return new Promise((res,rej)=>{const q=indexedDB.open('q3spike',1);q.onupgradeneeded=()=>q.result.createObjectStore('t');q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+$('b1').onclick=async()=>{try{
+  const s=navigator.storage,r={};
+  r.persistedBefore=await s.persisted(); r.persistGranted=await s.persist(); r.persistedAfter=await s.persisted();
+  const e=await s.estimate(); r.usageMB=+(e.usage/1048576).toFixed(2); r.quotaMB=Math.round(e.quota/1048576);
+  const db=await idb(); const buf=new Uint8Array(5*1048576).map((_,i)=>i%251);
+  await new Promise((res,rej)=>{const t=db.transaction('t','readwrite');t.objectStore('t').put(buf,'big');t.oncomplete=res;t.onerror=()=>rej(t.error)});
+  r.wrote5MB=true; r.standalone=matchMedia('(display-mode: standalone)').matches; out('o1','storage',r);
+ }catch(e){out('o1','storage',{error:String(e)})}};
+$('b1r').onclick=async()=>{try{const db=await idb();
+  const v=await new Promise((res,rej)=>{const q=db.transaction('t').objectStore('t').get('big');q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)});
+  out('o1','storageReadBack',{found:!!v,bytes:v?v.length:0,ok:!!v&&v.length===5*1048576&&v[250]===250});
+ }catch(e){out('o1','storageReadBack',{error:String(e)})}};
+
+$('b2').onclick=async()=>{
+  if(!navigator.locks){out('o2','lock','navigator.locks missing');return}
+  const t0=Date.now(); out('o2','lock','waiting for lock...');
+  await navigator.locks.request('q3-spike-writer',async()=>{out('o2','lock','HAVE lock after '+(Date.now()-t0)+' ms; holding 6 s');await sleep(6000)});
+  out('o2','lock','released; waited '+(Date.now()-t0-6000)+' ms (if you tapped tab B second, B should have waited ~ the rest of 6 s)');
+};
+
+const FONT='"Noto Sans","Segoe UI",Roboto,system-ui,sans-serif';
+function drawBill(){
+  const W=1000,H=620,cv=$('cv');cv.width=W;cv.height=H;const c=cv.getContext('2d');
+  c.fillStyle='#fff';c.fillRect(0,0,W,H);c.fillStyle='#000';c.textBaseline='top';
+  c.font='700 30px '+FONT;c.fillText('Your Company Name',30,24);
+  c.font='22px '+FONT;c.fillText('PO: TST-0001     Date: 21/10/2026     Party: Sample Traders',30,70);
+  const cols=[30,110,560,680,820,970],hdr=['S.No','Item','Qty','Rate','Amount'];
+  c.font='700 22px '+FONT;c.strokeStyle='#000';c.lineWidth=2;c.strokeRect(30,110,940,40);
+  hdr.forEach((h,i)=>c.fillText(h,cols[i]+8,118));
+  const rows=[['1',[['Brass bolt ',0],['12mm',1]],'10','\u20B9 25.50','\u20B9 255.00'],['2',[['Hex nut ',0],['URGENT',2]],'4 kg','\u20B9 120.00','\u20B9 480.00'],['3',[['Washer pack',0]],'2','\u20B9 99.00','\u20B9 198.00']];
+  let y=150;
+  rows.forEach(r=>{c.strokeRect(30,y,940,40);let x=cols[1]+8;
+    c.font='22px '+FONT;c.fillStyle='#000';c.fillText(r[0],cols[0]+8,y+8);
+    r[1].forEach(p=>{c.font=(p[1]?'700 ':'')+'22px '+FONT;c.fillStyle=p[1]===2?'#c00':'#000';c.fillText(p[0],x,y+8);x+=c.measureText(p[0]).width});
+    c.fillStyle='#000';c.font='22px '+FONT;c.fillText(r[2],cols[2]+8,y+8);c.fillText(r[3],cols[3]+8,y+8);c.fillText(r[4],cols[4]+8,y+8);y+=40});
+  c.font='700 26px '+FONT;c.fillText('Grand total   \u20B9 933.00',620,y+20);
+  return cv;
+}
+$('b3').onclick=()=>{drawBill();const c=$('cv').getContext('2d');out('o3','image','drawn '+$('cv').width+'x'+$('cv').height+'. Look: is the rupee sign a rupee sign (not a box or "Rs")? bold? red?')};
+const blob=(cv,t,q)=>new Promise(r=>cv.toBlob(r,t,q));
+async function pdfFromCanvas(cv){ // minimal PDF: one JPEG image page (A5 landscape-ish ratio of canvas)
+  const jb=await blob(cv,'image/jpeg',0.92),jpg=new Uint8Array(await jb.arrayBuffer()),W=cv.width,H=cv.height;
+  const pw=419.5,ph=pw*H/W,enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const push=b=>{const u=typeof b==='string'?enc.encode(b):b;parts.push(u);len+=u.length};
+  push('%PDF-1.4\n');const obj=(n,s)=>{offs[n]=len;push(n+' 0 obj\n'+s+'\nendobj\n')};
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph.toFixed(1)}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`);
+  offs[4]=len;push(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${W} /Height ${H} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`);push(jpg);push('\nendstream\nendobj\n');
+  const cs=`q ${pw} 0 0 ${ph.toFixed(1)} 0 0 cm /Im0 Do Q`;obj(5,`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`);
+  const x=len;push('xref\n0 6\n0000000000 65535 f \n');for(let i=1;i<=5;i++)push(String(offs[i]).padStart(10,'0')+' 00000 n \n');
+  push(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${x}\n%%EOF`);
+  return new Blob(parts,{type:'application/pdf'});
+}
+async function share(file,id,key){const r={name:file.name,size:file.size,hasShare:!!navigator.share,canShareFiles:!!(navigator.canShare&&navigator.canShare({files:[file]}))};
+  try{if(r.canShareFiles){await navigator.share({files:[file],title:'Quot3 spike'});r.result='share sheet closed OK (tell Claude what arrived in WhatsApp)'}else r.result='canShare false: would fall back to download'}catch(e){r.result='error '+e.name+': '+e.message}
+  out(id,key,r)}
+$('b4i').onclick=async()=>{const cv=drawBill();share(new File([await blob(cv,'image/png')],'bill-spike.png',{type:'image/png'}),'o4','shareImage')};
+$('b4p').onclick=async()=>{const cv=drawBill();share(new File([await pdfFromCanvas(cv)],'bill-spike.pdf',{type:'application/pdf'}),'o4','sharePdf')};
+$('b4d').onclick=async()=>{const cv=drawBill();const b=await pdfFromCanvas(cv),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='bill-spike.pdf';a.click();out('o4','download','download triggered, size '+b.size+' bytes')};
+
+const log=[];const note=s=>{log.push(s);if(log.length>40)log.shift();out('o5','keyboard',log.join('\n'))};
+function mkRows(){const box=$('rows');box.innerHTML='';addRow()}
+function addRow(){const box=$('rows'),i=box.children.length+1,d=document.createElement('div');
+  d.innerHTML=`<input class="n" placeholder="name ${i}" enterkeyhint="next" style="width:46%"><input class="q" placeholder="qty" inputmode="decimal" enterkeyhint="next" style="width:20%"><input class="p" placeholder="rate" inputmode="decimal" enterkeyhint="next" style="width:24%">`;
+  box.appendChild(d);const [n,q,p]=d.querySelectorAll('input');
+  const go=(from,to)=>from.addEventListener('keydown',e=>{note(from.className+' keydown key='+e.key+' keyCode='+e.keyCode);if(e.key==='Enter'){e.preventDefault();to()}});
+  go(n,()=>q.focus());go(q,()=>p.focus());go(p,()=>{addRow();box.lastChild.querySelector('input').focus()});
+  [n,q,p].forEach(el=>{el.addEventListener('beforeinput',e=>note(el.className+' beforeinput '+e.inputType));});
+}
+$('b5').onclick=()=>{log.length=0;mkRows()};mkRows();
+
+const ed=$('ed');
+function toggle(cls){const s=getSelection();if(!s.rangeCount||s.isCollapsed){out('o6','richtext','select some text first');return}
+  const r=s.getRangeAt(0);if(!ed.contains(r.commonAncestorContainer)){return}
+  const sp=document.createElement('span');sp.className=cls;try{r.surroundContents(sp)}catch(e){out('o6','richtext','surroundContents failed across nodes: '+e.message);return}
+  s.removeAllRanges();const nr=document.createRange();nr.selectNodeContents(sp);s.addRange(nr);out('o6','richtext','applied '+cls+'; selection still: "'+s.toString()+'"; active element is editor: '+(document.activeElement===ed))}
+$('bB').onclick=()=>toggle('b');$('bR').onclick=()=>toggle('r b');
+$('bP').onclick=()=>out('o6','richtextRuns',[...ed.childNodes].map(n=>({t:n.textContent,cls:n.className||''})));
+ed.addEventListener('beforeinput',e=>{R.richBeforeInput=(R.richBeforeInput||'')+e.inputType+';';if(R.richBeforeInput.length>400)R.richBeforeInput=R.richBeforeInput.slice(-400)});
+
+$('b7').onclick=async()=>{const u=$('sb').value.trim().replace(/\/$/,'');const r={};
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(u)){out('o7','supabase','type a https://xxxx.supabase.co URL');return}
+  try{const t=Date.now();const x=await fetch(u+'/auth/v1/health',{mode:'cors'});r.httpsStatus=x.status;r.httpsMs=Date.now()-t}catch(e){r.httpsError=String(e)}
+  await new Promise(res=>{try{const ws=new WebSocket(u.replace('https','wss')+'/realtime/v1/websocket?vsn=1.0.0');const to=setTimeout(()=>{r.wsResult='timeout';ws.close();res()},6000);
+    ws.onopen=()=>{r.wsResult='opened';clearTimeout(to);ws.close();res()};ws.onerror=()=>{r.wsResult=(r.wsResult||'')+'error ';};ws.onclose=ev=>{r.wsClose=ev.code;clearTimeout(to);res()}}catch(e){r.wsError=String(e);res()}});
+  r.note='A 401/403/closed websocket without a key is normal. What matters: no CSP/network error. Paused projects often time out.';out('o7','supabase',r)};
+
+$('b8').onclick=async()=>{try{const reg=await navigator.serviceWorker.register('sw.js');await navigator.serviceWorker.ready;out('o8','sw','registered, scope '+reg.scope)}catch(e){out('o8','sw','error '+e)}};
+
+$('rep').onclick=async()=>{R.when=new Date().toISOString();R.ua=navigator.userAgent;const t=JSON.stringify(R,null,1);$('ta').value=t;try{await navigator.clipboard.writeText(t);$('rep').textContent='Copied!'}catch(e){$('ta').select()}};
+</script></body></html>

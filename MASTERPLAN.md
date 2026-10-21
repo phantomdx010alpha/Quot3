@@ -125,7 +125,7 @@ Neumorphic navy/red chrome, flat dense grid, 26px rows, ≥ 20 rows at 1366×768
 **Suggested extras (build only when the owner approves; some are already in phases):** auto-backup + restore (Phase 50) · command palette (Phase 4) · audit log (Phase 61) · "duplicate bill" (copy a bill as a new draft) · bill notes/terms footer line on professional print · quick "repeat last bill for this party" · per-party default transport · per-branch letterhead · export History to Excel · keyboard cheat-sheet overlay · low-disk / DB-integrity check on startup · crash log viewer.
 
 ## 17. Deliberately deferred (do not build unless a phase says so)
-Item catalogue/price list · invoices/e-way bills/Tally integration · mobile/web builds · multi-user permissions on one machine · live co-editing · cloud storage of readable bills · user-typed Excel formulas in cells (HyperFormula) · barcode/inventory.
+Item catalogue/price list · invoices/e-way bills/Tally integration · mobile/web builds (the phone PWA is the exception: Milestone 17 builds it, see section 27; no native, TWA or Capacitor builds) · multi-user permissions on one machine · live co-editing · cloud storage of readable bills · user-typed Excel formulas in cells (HyperFormula) · barcode/inventory.
 
 ## 18. Open items (resolve when reached; record the answer in `PHASE_STATUS.md`)
 See `PHASE_STATUS.md` → "Open questions" and "Awaiting from owner". Key ones: party-import Excel format; app icon; confirm D-K3 (Left at start edge), D-X1 (marked-cell number), A6 (undo scope); exact professional-print layout (owner to review a rendered sample in Phase 34); default printer/paper-tray behaviour on the owner's machine.
@@ -153,6 +153,7 @@ See `PHASE_STATUS.md` → "Open questions" and "Awaiting from owner". Key ones: 
 | 11 | 116–127 | Milestone 11 (post-Phase-115 owner feedback: notification discipline, Items display fix, Create always blank, clipboard, round-off, HD image, delete row, row reorder, Dashboard live tiles); Phase 69 runs after 127 |
 | 12 | 128–143 | Milestone 12 (shared-notebook sync: Supabase email/password logins, one-query license + login generator, versioned records, diff matcher, latest version wins, customers unify, Realtime doorbell, cutover, retire the encrypted postbox); Phase 69 runs after 143 |
 | 13 | 144 | Milestone 13 (print position: A4/A5 printout starts at the top margin; reproduce-first); Phase 69 runs after 144 |
+| 17 | 173–188 | Milestone 17 (phone version: Android PWA on Vercel, IndexedDB, compact create / edit / view bills, share image / PDF only; desktop unchanged; ships 0.1.15 ... 0.1.28 then 0.2.0); Phase 69 runs after 188 |
 **Hard gates:** Phase 24 (grid feels right and perf numbers recorded), Phase 40 (print/image correctness), Phase 69 (release). No phase after a gate starts until the gate checklist in its `PHASES.md` entry passes.
 
 ## 21. Milestone 8 (added after Phase 68)
@@ -172,3 +173,6 @@ After a two-computer sync failure (`Sync pull paused: decrypt`) the encrypted-po
 
 ## 26. Milestone 13 (added 2026-10-12)
 One phase: Phase 144 verifies and fixes the owner's report that an A4 printout starts about 65-70 mm down the sheet instead of at the top margin. Independent of Milestone 12. The release gate (Phase 69) now follows Phase 144.
+
+## 27. Milestone 17 (added 2026-10-21)
+A phone version of Quot3 as an Android PWA hosted on Vercel, built from the same repo and folder (a second Vite build, entry `src/pwa/`). The phone keeps its data in IndexedDB with persistent storage, has its own small compact UI for creating, editing and viewing bills, syncs through the same shared-notebook Supabase (its own seat and branch), and outputs only by share image / share PDF. No print, no AI, no PC-only features. Phases 173-188, versions 0.1.15 ... 0.1.28 then 0.2.0. Design: `docs/MILESTONE17_DESIGN.md`. **Rule: desktop code paths, schema, files and release steps do not change.** Prerequisite (Stage 0): the v2 sync engine wiring (140b), the owner's real-Supabase checklist and Phase 142 - re-check `PHASE_STATUS.md`. Phase 69 (release gate) still runs after the last feature phase.
