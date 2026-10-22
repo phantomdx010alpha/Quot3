@@ -91,7 +91,8 @@ const bridge: Quot3Bridge = {
     branchNameFree: (input) => withKind(ipcRenderer.invoke('syncShared:branchNameFree', input)),
     renameBranch: (input) => withKind(ipcRenderer.invoke('syncShared:renameBranch', input)),
     listBranches: () => withKind(ipcRenderer.invoke('syncShared:listBranches', {})),
-    compare: () => withKind(ipcRenderer.invoke('syncShared:compare', {}))
+    compare: () => withKind(ipcRenderer.invoke('syncShared:compare', {})),
+    revealLicense: () => withKind(ipcRenderer.invoke('syncShared:revealLicense', {}))
   },
   cutover: {
     status: () => ipcRenderer.invoke('cutover:status', {}),

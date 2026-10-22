@@ -125,6 +125,8 @@ export interface SharedSyncBridge {
   renameBranch(input: { name: string }): Promise<SharedUiResult<SharedLicenseStatus>>
   listBranches(): Promise<SharedUiResult<BranchRowUi[]>>
   compare(): Promise<SharedUiResult<CompareOutcome>>
+  /** Version 0.1.31: the owner asks to SEE the license key stored on this computer (a deliberate click; the key is decrypted in main and returned once). Optional so older fakes still fit. */
+  revealLicense?(): Promise<SharedUiResult<{ license: string }>>
 }
 
 /** Words for the status block beside the overview (pure; the panel only prints them). */

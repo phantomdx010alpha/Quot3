@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { DEACTIVATE_WORD } from '@shared/sync/license'
 import { EMPTY_SHARED_FORM, NAME_CHECK_DEBOUNCE_MS, nameStateText, validateSharedForm, type SharedForm, type SharedFormField } from '@shared/sync/sharedUi'
 import { Button, Dialog, Input } from '../ui'
-import { SYNC_FOCUS_NAME_EVENT, useSharedSyncStore } from '../../stores/sharedSyncStore'
+import { SYNC_FOCUS_NAME_EVENT, sharedBridge, useSharedSyncStore } from '../../stores/sharedSyncStore'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useSyncStatusStore } from '../../stores/syncStatusStore'
 
@@ -10,6 +10,51 @@ const when = (iso: string | null): string => {
   if (iso === null || iso === '') return 'Not yet'
   const d = new Date(iso)
   return Number.isNaN(d.getTime()) ? 'Not yet' : d.toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+}
+
+const LICENSE_SHOW_MS = 30_000
+
+/**
+ * Version 0.1.31 - "Show license key": the owner's own computer already holds the key (encrypted); a click asks main for it once, it is
+ * shown for 30 seconds in text that can be selected, with a Copy button, and then hidden again. It is never kept in the store.
+ */
+export function LicenseReveal(): React.JSX.Element | null {
+  const [key, setKey] = useState('')
+  const [msg, setMsg] = useState('')
+  const hide = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useEffect(() => () => { if (hide.current) clearTimeout(hide.current) }, [])
+  const bridge = sharedBridge()
+  if (!bridge?.revealLicense) return null
+  const reveal = async (): Promise<void> => {
+    setMsg('')
+    try {
+      const r = await bridge.revealLicense!()
+      if (!r.ok) { setKey(''); setMsg(r.error.message); return }
+      setKey(r.data.license)
+      if (hide.current) clearTimeout(hide.current)
+      hide.current = setTimeout(() => { setKey(''); setMsg('Hidden again.') }, LICENSE_SHOW_MS)
+    } catch { setKey(''); setMsg('Something went wrong. Try again.') }
+  }
+  const copy = async (): Promise<void> => {
+    try { await navigator.clipboard.writeText(key); setMsg('License key copied.') } catch { setMsg('Could not copy. Select the key and press Ctrl+C.') }
+  }
+  return (
+    <div className="q3-set__form" aria-label="License key">
+      {key !== '' ? (
+        <>
+          <p className="q3-set__muted">Your license key (hides itself in 30 seconds). Keep it private; anyone with it and a login can join your notebook.</p>
+          <code data-testid="license-key" style={{ userSelect: 'text', fontSize: '1.1em' }}>{key}</code>
+          <div className="q3-set__row">
+            <Button variant="primary" onClick={() => { void copy() }}>Copy license key</Button>
+            <Button variant="ghost" onClick={() => { if (hide.current) clearTimeout(hide.current); setKey(''); setMsg('') }}>Hide</Button>
+          </div>
+        </>
+      ) : (
+        <div className="q3-set__row"><Button variant="ghost" onClick={() => { void reveal() }}>Show license key</Button></div>
+      )}
+      {msg !== '' && <p role="status" className="q3-set__saved">{msg}</p>}
+    </div>
+  )
 }
 
 /**
@@ -91,6 +136,7 @@ export function SharedSyncSection(): React.JSX.Element {
             <dt>Login</dt><dd>{status.emailHint}{status.seatNo !== null ? ` (seat ${status.seatNo})` : ''}</dd>
             <dt>This branch</dt><dd>{status.registered ? `${status.registered.name} (${status.registered.poPrefix})` : ''}</dd>
           </dl>
+          <LicenseReveal />
           {branches.length > 0 && (
             <div className="q3-sy__scroll" tabIndex={0} role="region" aria-label="Branches in this notebook">
               <table className="q3-sy__table">

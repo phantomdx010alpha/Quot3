@@ -27,6 +27,8 @@ export interface SharedSyncService {
   rename: SharedBranchesService['rename']
   list: SharedBranchesService['list']
   compare(): Promise<CompareOutcome>
+  /** The license key stored (encrypted) on this computer, for the owner to read or copy. Only while signed in; the key is never logged. */
+  revealLicense(): { license: string }
 }
 
 export interface SharedSyncDeps {
@@ -71,6 +73,13 @@ export function createSharedSyncService(deps: SharedSyncDeps): SharedSyncService
     rename: (i) => deps.branches.rename(i),
     list: () => deps.branches.list(),
     compare: runCompare,
+
+    revealLicense() {
+      const c = activation.credentials()
+      if (!c) throw new AppError('VALIDATION', 'The license key is not stored on this computer. Sign in to sync first.')
+      log.info('The license key was shown to the owner on this computer')
+      return { license: c.license }
+    },
 
     async activate(input) {
       const s = await activation.activate(input)

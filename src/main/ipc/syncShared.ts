@@ -24,7 +24,8 @@ const renameIn = z.object({ name: z.string().max(200) }).strict()
 
 /**
  * `syncShared:*` handlers (Phase 140b; the contract is `SharedSyncBridge`). The renderer gets masked hints and counts only: never the
- * license key, anon key, password or a token. A transport failure carries its kind in `details.kind` (the preload turns it into `error.kind`).
+ * anon key, password or a token. The ONE exception (0.1.31) is `syncShared:revealLicense`: the owner clicks "Show license key" and the
+ * stored key comes back once, so a lost key can be read from a computer that is already signed in. A transport failure carries its kind in `details.kind` (the preload turns it into `error.kind`).
  */
 export function syncSharedHandlers(svc: SharedSyncService): Record<string, (raw: unknown) => Promise<unknown>> {
   return {
@@ -37,6 +38,7 @@ export function syncSharedHandlers(svc: SharedSyncService): Record<string, (raw:
     'syncShared:branchNameFree': wrapHandler(nameIn, (i) => svc.nameFree(i.signIn ? { name: i.name, signIn: i.signIn } : { name: i.name })),
     'syncShared:renameBranch': wrapHandler(renameIn, (i) => svc.rename(i)),
     'syncShared:listBranches': wrapHandler(none, () => svc.list()),
-    'syncShared:compare': wrapHandler(none, () => svc.compare())
+    'syncShared:compare': wrapHandler(none, () => svc.compare()),
+    'syncShared:revealLicense': wrapHandler(none, () => svc.revealLicense())
   }
 }
