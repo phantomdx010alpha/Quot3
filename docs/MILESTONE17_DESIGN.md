@@ -228,16 +228,3 @@ Accessibility and touch: `.q3-chip` was 32 px high, below the 40 px rule; now `v
 
 Not done: Playwright mobile emulation (no browser binaries in the sandbox; the desktop e2e uses Electron only). The owner's checklist is `docs/M17_DEVICE_CHECKLIST.md`, unfilled.
 
----
-
-## 10. QA gate result (Phase 188, 2026-10-21) - version 0.2.0
-
-**Shipped subset: Phases 173-187 as built. Phone sync is NOT wired (see below), so 0.2.0 is a stand-alone phone app.** Everything here is sandbox only; nothing was run on a phone, Vercel or Supabase.
-
-- **Typecheck:** `tsc` clean for `tsconfig.node.json`, `integration`, `e2e` and `pwa`. `tsconfig.web.json` has 2 errors in the desktop test `src/renderer/components/grid/__tests__/formatSwitch.test.ts` (lines 222-223, `Cannot find name 'btn'`). Cause: that desktop file; Milestone 17 did not touch it (it is byte-identical to the Phase 185 zip). Carried forward, not fixed (scope).
-- **Tests:** all 16 phone test files in `src/pwa` plus `src/shared/party/__tests__/fuzzy.test.ts` (the shared ranking the phone reuses): 275 passed, 0 failed. No shared source file was changed by Milestone 17 (the logs record reuse only), so no further desktop tests were run. Full suite NOT run (rule; owner was not asked to agree).
-- **Phone build:** `npm run build:pwa` OK. index JS 563.93 kB (178.94 kB gzip), over Rollup's 500 kB warning; `sw.js` cache name uses 0.2.0.
-- **Checks by search:** no `service_role`, no embedded JWT / anon key in `src/pwa` or `pwa-static`; the only `localStorage` use in phone code is the one-word storage-cleared marker (Phase 186 [A]).
-- **Open before the phone can sync (carried forward, NOT done):** (1) a real browser `PhoneSyncPort` / transport (`supabase-js` or fetch) in the phone bundle; (2) wiring `services.engine` and `services.sync` in `bootstrap.ts` (both are `null`, so the Settings sign-in form is disabled and the Dashboard shows the stored link state only); (3) the Stage 0 prerequisite (desktop engine wiring "140b", the owner's real-Supabase checklist, Phase 142). First-sync size / speed (Q6) is therefore still unmeasured.
-- **Owner checklist:** `docs/M17_DEVICE_CHECKLIST.md`, unfilled (owner has reported nothing). Sandbox timings: section 9.
-- **[A] items (section 5) all still unconfirmed:** 1 own seat and branch, 2 GST / non-GST only, 3 extra columns, 4 rich text on selection (built as B / R+B keeping untouched runs), 5 revision cap 5, 6 first-sync scope, 7 app lock optional, 8 `pwa` production branch, 9 remembered share choices, 10 phone-own company entry, 11 Reset phone data with double confirm, 12 Call / WhatsApp links, 13 staged rollout; plus Phase 186's localStorage marker and Phase 185's default country code 91.

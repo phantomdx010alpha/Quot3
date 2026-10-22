@@ -68,7 +68,7 @@ When handing off the zip, the owner uses exactly this prompt (replace NN with th
 
 ---
 
-You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, BUILT 2026-10-21 as 0.2.0 (phone sync not yet wired, see PHASE_STATUS Phase 188), see section 10l) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
+You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, PLANNED 2026-10-21, see section 10l) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
 
 ---
 

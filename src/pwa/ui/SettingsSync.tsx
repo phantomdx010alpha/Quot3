@@ -1,7 +1,66 @@
 import { useEffect, useState, type ReactElement } from 'react'
 import type { PhoneDb } from '../data/db'
 import { getBranchLink, validateLinkInput, type BranchLink, type LinkFieldErrors, type LinkInput } from '../sync/branch'
+import { DEFAULT_RECENT_BILLS, type FirstSyncPreview } from '../sync/firstSync'
+import type { EngineState, PhoneSyncEngine } from '../sync/engine'
+import { toSyncFailure } from '../sync/errors'
 import type { SyncAdmin } from './services'
+
+const STATE_TEXT: Record<EngineState, string> = {
+  stopped: 'Sync is stopped. Tap Start sync.',
+  not_linked: 'Not linked yet.',
+  read_only: 'Quot3 is open in another window, so this one cannot sync. Close the other window.',
+  first_sync_needed: 'Signed in. Choose what to download for the first sync.',
+  running: 'Syncing is on while this app is open.'
+}
+
+/** The sync controls shown once the phone is linked: the first-sync choice, then Sync now (Phase 187b). */
+function SyncPanel(props: { engine: PhoneSyncEngine; onChanged?: () => void }): ReactElement {
+  const { engine } = props
+  const [state, setState] = useState<EngineState>(engine.state())
+  const [preview, setPreview] = useState<FirstSyncPreview | null>(null)
+  const [scope, setScope] = useState<'all' | 'recent'>('all')
+  const [busy, setBusy] = useState(false)
+  const [note, setNote] = useState<string | null>(null)
+  const run = async (fn: () => Promise<void>): Promise<void> => {
+    if (busy) return
+    setBusy(true); setNote(null)
+    try { await fn() } catch (e) { setNote(toSyncFailure(e).message) } finally { setState(engine.state()); setBusy(false) }
+  }
+  useEffect(() => {
+    setState(engine.state())
+    const t = setInterval(() => setState(engine.state()), 1500)
+    return () => clearInterval(t)
+  }, [engine])
+  return (
+    <div className="q3-set" aria-label="Sync controls">
+      <p className="q3-muted" role="status">{STATE_TEXT[state]}</p>
+      {state === 'first_sync_needed' && !preview ? (
+        <button type="button" className="q3-btn q3-btn-primary" disabled={busy} onClick={() => void run(async () => { const p = await engine.prepareFirstSync(); setPreview(p); setScope(p.assessment.recommended.mode === 'recent' ? 'recent' : 'all') })}>
+          {busy ? 'Checking…' : 'Check what to download'}
+        </button>
+      ) : null}
+      {state === 'first_sync_needed' && preview ? (
+        <>
+          <p className="q3-note">{preview.assessment.note}</p>
+          <label className="q3-row"><input type="radio" name="fs-scope" checked={scope === 'all'} onChange={() => setScope('all')} /> <span>Download everything</span></label>
+          <label className="q3-row"><input type="radio" name="fs-scope" checked={scope === 'recent'} onChange={() => setScope('recent')} /> <span>Newest {DEFAULT_RECENT_BILLS} bills and all customers (older bills can be loaded later)</span></label>
+          <button type="button" className="q3-btn q3-btn-primary" disabled={busy} onClick={() => void run(async () => {
+            const r = await engine.completeFirstSync(preview, scope === 'all' ? { mode: 'all' } : { mode: 'recent', billLimit: DEFAULT_RECENT_BILLS })
+            setPreview(null); setNote(`First sync done. ${r.queued} records queued to send.`); props.onChanged?.()
+          })}>{busy ? 'Syncing…' : 'Start syncing'}</button>
+        </>
+      ) : null}
+      {state === 'running' ? (
+        <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.syncNow(); setNote('Synced.'); props.onChanged?.() })}>{busy ? 'Syncing…' : 'Sync now'}</button>
+      ) : null}
+      {state === 'stopped' || state === 'not_linked' ? (
+        <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.start() })}>Start sync</button>
+      ) : null}
+      {note ? <p className="q3-note" role="status">{note}</p> : null}
+    </div>
+  )
+}
 
 const BLANK = { supabaseUrl: '', anonKey: '', licenseKey: '', email: '', password: '', branchName: '', poPrefix: '' }
 type Form = typeof BLANK
@@ -11,7 +70,7 @@ const LABELS: Record<keyof Form, string> = {
 
 /** Settings > Branch and sync login (Phase 185). The phone is its own seat and own branch [A unconfirmed].
  *  The form checks with the shared validators first; the real sign-in is `sync.link` (Phase 178). The password is never kept after the call. */
-export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; onChanged?: () => void }): ReactElement {
+export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; engine?: PhoneSyncEngine | null; onChanged?: () => void }): ReactElement {
   const { db, sync } = props
   const [link, setLink] = useState<BranchLink | null>(null)
   const [form, setForm] = useState<Form>(BLANK)
@@ -33,7 +92,7 @@ export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; onCh
       const input: LinkInput = { ...form, device: 'Android phone' }
       const r = await sync.link(input)
       if (r.ok) {
-        setForm(BLANK); setMessage(`Signed in. This phone is branch “${r.branchName}” (${r.poPrefix}).`); refresh(); props.onChanged?.()
+        setForm(BLANK); setMessage(`Signed in. This phone is branch “${r.branchName}” (${r.poPrefix}). Now choose what to download for the first sync.`); refresh(); props.onChanged?.()
       } else if (r.code === 'VALIDATION' || r.code === 'PREFIX_LOCKED' || r.code === 'SYNC') {
         setErrors(r.errors)
         setMessage(r.code === 'PREFIX_LOCKED' ? r.message : r.code === 'SYNC' ? r.failure.message : 'Check the fields marked below.')
@@ -60,12 +119,13 @@ export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; onCh
           <div className="q3-row"><span>Branch</span><span>{link.branchName}</span></div>
           <div className="q3-row"><span>PO prefix</span><span>{link.poPrefix}</span></div>
           <p className="q3-muted">The branch name and PO prefix are fixed once this phone is linked.</p>
+          {props.engine ? <SyncPanel engine={props.engine} onChanged={props.onChanged} /> : null}
           <button type="button" className="q3-btn" disabled={!sync || busy} onClick={() => void signOut()}>Sign out of sync</button>
         </>
       ) : (
         <>
           <p className="q3-muted">Not linked. Sign in with a seat from your organisation to share bills with your other computers.</p>
-          {!sync ? <p className="q3-note">Sync sign-in is not available in this build yet.</p> : null}
+          {!sync ? <p className="q3-note">Sync sign-in is not available right now (the phone data could not be opened).</p> : null}
           {(Object.keys(BLANK) as (keyof Form)[]).map((k) => (
             <label key={k} className="q3-field">
               <span className="q3-muted">{LABELS[k]}</span>

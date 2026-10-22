@@ -95,3 +95,24 @@
 .q3-settings { display: flex; flex-direction: column; gap: var(--space-2); }
 .q3-logo { max-width: 160px; max-height: 80px; object-fit: contain; align-self: flex-start; background: #fff; border-radius: var(--radius-sm); }
 .q3-lock { display: flex; flex-direction: column; gap: var(--space-2); justify-content: center; }
+
+/* Phase 188b: Settings home list, theme cards, About page */
+.q3-menu { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.q3-menu-item { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%; min-height: 56px; padding: var(--space-2) var(--space-3); border: 0; border-bottom: 1px solid var(--border-subtle); background: transparent; color: var(--text-primary); font: inherit; text-align: left; }
+.q3-menu-item:active { background: var(--accent-soft); }
+.q3-menu-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.q3-menu-label { font-weight: 600; }
+.q3-menu-hint { color: var(--text-muted); font-size: 0.8rem; }
+.q3-menu-chev { color: var(--text-muted); font-size: 1.2rem; }
+.q3-themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.q3-theme { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); min-height: var(--touch-min); padding: var(--space-2); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; text-align: left; }
+.q3-theme[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-soft); }
+.q3-theme-name { font-weight: 600; font-size: 0.9rem; }
+.q3-theme-mode { font-size: 0.75rem; }
+.q3-swatch { display: flex; width: 100%; height: 28px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-subtle); }
+.q3-swatch span { flex: 1; }
+.q3-about { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3-about-icon { align-self: center; border-radius: 20px; }
+.q3-about-name { margin: 0; text-align: center; font-size: 1.4rem; }
+.q3-about-version { margin: 0; text-align: center; color: var(--text-secondary); }
+a.q3-btn { display: inline-flex; align-items: center; text-decoration: none; }

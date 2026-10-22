@@ -122,11 +122,6 @@ Written 2026-10-21 (docs only). Desktop release steps in sections 2-3 are unchan
 - **No secrets in Vercel.** The Supabase URL and anon key are typed by the owner in the phone app, as on desktop. Never commit keys, passwords or the anon key.
 - The desktop `schema: N` release-notes line counts `src/main/db/migrations/*.sql` only; the phone's IndexedDB version is not counted.
 - **Install on Android (owner):** open the Vercel link in Chrome, menu -> Install app. **Update:** open the app and accept the "New version, reload" prompt (it waits until no bill is unsaved).
+- 0.1.29 (Phase 187b): the phone now has the real Supabase transport. It uses the SAME Supabase project and license key as the desktop (own seat login, own branch). No SQL and no desktop change, so no desktop tag. Push to `main`, then merge / push the same commit to the `pwa` branch (`git checkout pwa; git merge main; git push; git checkout main`) so Vercel builds it.
+- 0.1.30 (Phase 187c): phone Settings sub pages, About page and the Windows app's built-in themes. Phone only: no desktop change, no tag, no SQL. Same push steps as 0.1.29 (push `main`, then merge into `pwa`).
 - Docs-only changes: commit and push, no tag, no version bump.
-
-### 8.1 Releasing 0.2.0 (the first public phone release; Phase 188, written 2026-10-21)
-- 0.2.0 is in `package.json` and `package-lock.json`. **The desktop did not change in Milestone 17, so do NOT tag `v0.2.0`**: a tag would build and publish a desktop installer nobody needs. Installed desktop apps keep 0.1.14 and are not affected. (If you later want the desktop number to match, tag then; it is harmless but pointless.)
-- Push the code: `git add .`, `git commit -m "Phone app (Milestone 17), version 0.2.0"`, `git push origin main` (no Vercel build, because of `vercel.json`).
-- Put it on the phone link: `git checkout pwa` (create it first with `git checkout -b pwa` if it does not exist), `git merge main`, `git push -u origin pwa`, then `git checkout main`. Vercel builds the `pwa` branch (Production Branch = `pwa`, section 8 step 3). Wait for the green deployment, open the link on the phone in Chrome and work through `docs/M17_DEVICE_CHECKLIST.md`.
-- **Known limit of this build:** the phone's Settings sign-in form is shown but DISABLED ("Sync sign-in is not available in this build yet") because the real browser transport (`supabase-js` in the phone bundle) and the sync-engine wiring are not built. The 0.2.0 phone works fully on its own (bills, History, Customers, Share, backup file) but does NOT exchange bills with the PC yet. Decide whether to ship it that way (the staged rollout of design section 3) or to ask for a sync-wiring phase first.
-- Roll back: Vercel -> Deployments -> redeploy the older one.

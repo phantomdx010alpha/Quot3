@@ -6,6 +6,7 @@ import type { AppServices } from './ui/services'
 import './styles/pwa.css'
 import './ui/tokens.css'
 import './ui/ui.css'
+import './ui/themes.css'
 
 function Boot() {
   const [services, setServices] = useState<AppServices | null>(null)

@@ -11,7 +11,8 @@ export interface SettingDefaults {
   'backup.reminderDays': number
   /** App lock (Phase 187) [A]: off by default. */
   'appLock.enabled': boolean
-  'theme.name': 'navy-ember' | 'light'
+  /** A theme id (see ui/themes.ts); an unknown id is treated as the default at start. */
+  'theme.name': string
 }
 
 export const SETTING_DEFAULTS: SettingDefaults = {

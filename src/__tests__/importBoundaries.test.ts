@@ -79,13 +79,13 @@ describe('import boundaries', () => {
     })
   }
 
-  it('@supabase/supabase-js only under src/main/sync, better-sqlite3 only under src/main/db', () => {
+  it('@supabase/supabase-js only under src/main/sync (and the ONE phone transport file), better-sqlite3 only under src/main/db', () => {
     const offenders: string[] = []
     for (const file of walk(SRC)) {
       if (file.includes(`${sep}__tests__${sep}`)) continue
       const rel = relative(SRC, file).split(sep).join('/')
       for (const spec of importsOf(file)) {
-        if (spec.startsWith('@supabase/') && !rel.startsWith('main/sync/')) offenders.push(`${rel} -> ${spec}`)
+        if (spec.startsWith('@supabase/') && !rel.startsWith('main/sync/') && rel !== 'pwa/sync/supabaseTransport.ts') offenders.push(`${rel} -> ${spec}`)
         if (spec === 'better-sqlite3' && !rel.startsWith('main/db/'))
           offenders.push(`${rel} -> ${spec}`)
       }

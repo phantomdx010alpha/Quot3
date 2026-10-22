@@ -1,0 +1,110 @@
+/* Phase 188b - the other built-in themes of the Windows app, phone subset (colours only). Values copied from src/renderer/styles/tokens.css.
+   Every block defines every token the phone uses (styles/pwa.css + ui/tokens.css); a test checks it. Loaded AFTER pwa.css and tokens.css. */
+:root[data-theme='paper'] {
+  color-scheme: light;
+  --surface-base: #e9edf4;
+  --surface-raised: #eef2f8;
+  --surface-inset: #dde3ee;
+  --surface-header: #dce3f0;
+  --text-primary: #101a2e;
+  --text-secondary: #36445f;
+  --text-muted: #55637e;
+  --text-on-accent: #ffffff;
+  --accent: #ba2f2f;
+  --accent-hover: #a22626;
+  --accent-soft: rgba(186, 47, 47, 0.12);
+  --focus-ring: #1f5fbf;
+  --border-subtle: #c3ccdc;
+  --status-ok: #1b7f4f;
+  --status-warn: #8a5a00;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+  --bg-image: none;
+}
+:root[data-theme='glossy-glass'] {
+  color-scheme: dark;
+  --surface-base: #0b1b1f;
+  --surface-raised: #11272c;
+  --surface-inset: #08151a;
+  --surface-header: #17353b;
+  --text-primary: #e9f5f3;
+  --text-secondary: #bcd3d1;
+  --text-muted: #95b3b1;
+  --text-on-accent: #1c1305;
+  --accent: #ffb454;
+  --accent-hover: #ffc46f;
+  --accent-soft: rgba(255, 180, 84, 0.16);
+  --focus-ring: #ffd9a0;
+  --border-subtle: #2a4e56;
+  --status-ok: #6fd3a0;
+  --status-warn: #ffc46b;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+  --bg-image: radial-gradient(900px 520px at 12% -8%, rgba(255, 180, 84, 0.1), transparent 60%), radial-gradient(800px 600px at 105% 110%, rgba(95, 220, 176, 0.1), transparent 60%);
+}
+:root[data-theme='space'] {
+  color-scheme: dark;
+  --surface-base: #060a14;
+  --surface-raised: #0d1424;
+  --surface-inset: #03060d;
+  --surface-header: #131c33;
+  --text-primary: #e8eefc;
+  --text-secondary: #b7c3de;
+  --text-muted: #8d9bbd;
+  --text-on-accent: #021018;
+  --accent: #3fd8ff;
+  --accent-hover: #7be6ff;
+  --accent-soft: rgba(63, 216, 255, 0.14);
+  --focus-ring: #a8f0ff;
+  --border-subtle: #25365c;
+  --status-ok: #6fd3a0;
+  --status-warn: #ffc46b;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+  --bg-image: radial-gradient(1px 1px at 12% 22%, rgba(255, 255, 255, 0.55), transparent), radial-gradient(1px 1px at 38% 70%, rgba(255, 255, 255, 0.4), transparent), radial-gradient(1.5px 1.5px at 71% 18%, rgba(255, 255, 255, 0.5), transparent), radial-gradient(1px 1px at 88% 82%, rgba(255, 255, 255, 0.4), transparent), radial-gradient(700px 420px at 90% -5%, rgba(63, 216, 255, 0.09), transparent 65%), radial-gradient(600px 500px at -5% 105%, rgba(127, 178, 255, 0.07), transparent 65%);
+}
+:root[data-theme='red-navy'] {
+  color-scheme: dark;
+  --surface-base: #0a1830;
+  --surface-raised: #10264a;
+  --surface-inset: #071126;
+  --surface-header: #153061;
+  --text-primary: #f2f5ff;
+  --text-secondary: #c3d0ee;
+  --text-muted: #9aacd4;
+  --text-on-accent: #0a1226;
+  --accent: #ff4a5e;
+  --accent-hover: #ff6f7f;
+  --accent-soft: rgba(255, 74, 94, 0.16);
+  --focus-ring: #ffa3ae;
+  --border-subtle: #254880;
+  --status-ok: #6fd3a0;
+  --status-warn: #ffc46b;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+  --bg-image: none;
+}
+:root[data-theme='red-black'] {
+  color-scheme: dark;
+  --surface-base: #050505;
+  --surface-raised: #0e0c0c;
+  --surface-inset: #000000;
+  --surface-header: #1a1212;
+  --text-primary: #f5eeee;
+  --text-secondary: #d0c2c2;
+  --text-muted: #a89494;
+  --text-on-accent: #1a0000;
+  --accent: #ff3b3b;
+  --accent-hover: #ff6060;
+  --accent-soft: rgba(255, 59, 59, 0.16);
+  --focus-ring: #ff9a9a;
+  --border-subtle: #3a2424;
+  --status-ok: #6fd3a0;
+  --status-warn: #ffc46b;
+  --nav-height: 52px;
+  --tile-radius: 8px;
+  --bg-image: none;
+}
+
+/* The desktop's soft background glow (Glossy Glass, Space) as a plain image layer on the page; the other themes set none. */
+body { background-image: var(--bg-image, none); background-repeat: no-repeat; }

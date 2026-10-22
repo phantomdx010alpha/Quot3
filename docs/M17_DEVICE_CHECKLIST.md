@@ -4,8 +4,6 @@ Only a real Android phone can answer these. Nothing here was run on a phone by a
 
 Phone model / Android / Chrome version: ______________________    Date: __________
 
-**Phase 188 status: the owner has reported nothing yet; every box is still unticked. Sections 1-4 and 6-9 can be done on the 0.2.0 link; section 5 (sync) cannot until the sync transport is built.**
-
 ## 1. Install and offline
 - [ ] Chrome offers Install (banner in the app or the Chrome menu). Installed app opens standalone (no address bar).
 - [ ] Switch on airplane mode, close the app fully, open it: it starts, shows the "Offline" note, bills open.
@@ -32,7 +30,8 @@ Phone model / Android / Chrome version: ______________________    Date: ________
 - [ ] Very long bill (more than 40 rows) shares without error.
 
 ## 5. Sync (needs real Supabase and the desktop engine wired)
-- [ ] Settings sign-in form is usable (it is DISABLED in builds before the browser transport exists).
+- [ ] Settings sign-in form is usable (the real browser transport exists from 0.1.29). Use the SAME Supabase URL, anon key and license key as the PC, a seat login not used by a PC, a new branch name and a new PO prefix.
+- [ ] After sign-in: Check what to download > Start syncing finishes; the Dashboard sync line says it is running.
 - [ ] A bill made on the phone reaches the PC; a bill from the PC reaches the phone.
 - [ ] "Sync server paused or unreachable" shows the right words when the server sleeps.
 

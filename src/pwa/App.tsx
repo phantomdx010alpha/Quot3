@@ -22,7 +22,10 @@ import { Trash } from './ui/Trash'
 import { BillEditor, type EditorApi } from './ui/editor/BillEditor'
 import type { DashboardView } from './ui/dashboardModel'
 import { loadDashboard } from './ui/loadDashboard'
-import type { AppServices, ThemeName } from './ui/services'
+import { AboutPage } from './ui/AboutPage'
+import type { AppServices } from './ui/services'
+import { DEFAULT_THEME, type ThemeName } from './ui/themes'
+import { settingsPageLabel } from './ui/settingsPages'
 
 const VERSION = typeof __QUOT3_APP_VERSION__ === 'string' ? __QUOT3_APP_VERSION__ : 'unknown'
 
@@ -62,7 +65,7 @@ export function App(props: AppProps = {}): ReactElement {
   const installRef = useRef<InstallController | null>(null)
   const [update, setUpdate] = useState<UpdateHandle | null>(null)
   const [caps, setCaps] = useState<Capabilities>(() => detectCapabilities(readBrowserEnv(false)))
-  const [theme, setTheme] = useState<ThemeName>(services?.theme ?? 'navy-ember')
+  const [theme, setTheme] = useState<ThemeName>(services?.theme ?? DEFAULT_THEME)
   const [view, setView] = useState<DashboardView | null>(null)
   const [loadError, setLoadError] = useState<string | null>(services?.error ?? null)
   // Phase 182: the open bill's dirty flag (reported by the editor). While it is set, every way out asks Save / Discard first.
@@ -177,6 +180,14 @@ export function App(props: AppProps = {}): ReactElement {
     clearDirty(); setPendingLeave(null); act?.()
   }
 
+  const aboutRows = [
+    { label: 'Persistent storage API', value: yesNo(caps.persistentStorage) },
+    { label: 'Share files', value: yesNo(caps.webShareFiles) },
+    { label: 'Single-writer lock', value: yesNo(caps.webLocks) },
+    { label: 'Offline shell', value: yesNo(caps.serviceWorker) },
+    { label: 'Installed or installable', value: yesNo(caps.installable) }
+  ]
+
   const chooseTheme = (next: ThemeName): void => {
     setTheme(next)
     if (db && db.canWrite()) void setSetting(db, 'theme.name', next).catch(() => undefined)
@@ -186,6 +197,12 @@ export function App(props: AppProps = {}): ReactElement {
 
   return (
     <div className="q3-shell">
+      {db && !db.canWrite() ? (
+        <div className="q3-banner" role="alert">
+          <span>Quot3 is open in another window or tab, so this one is read-only (nothing can be saved). Close the other one, then tap Try again.</span>
+          <button className="q3-btn q3-btn-primary" onClick={() => { try { window.location.reload() } catch { /* nothing else to do */ } }}>Try again</button>
+        </div>
+      ) : null}
       {!online ? <div className="q3-banner" role="status"><span>{OFFLINE_NOTE}</span></div> : null}
       {gateNote ? <div className="q3-banner" role="status"><span>{gateNote}</span></div> : null}
       {clearedNote ? <div className="q3-banner" role="alert"><span>{clearedNote}</span></div> : null}
@@ -210,7 +227,7 @@ export function App(props: AppProps = {}): ReactElement {
             Back
           </button>
         ) : null}
-        <h1>{TITLES[route]}</h1>
+        <h1>{route === 'settings' && cur.param ? settingsPageLabel(cur.param) : TITLES[route]}</h1>
       </header>
       <main className="q3-main">
         {route === 'home' ? (
@@ -227,18 +244,11 @@ export function App(props: AppProps = {}): ReactElement {
             onSaved={(id) => { if (!silentSaved.current) setRouter((r) => navigate(goBack(r), 'billview', id)) }}
           />
         ) : route === 'about' ? (
-          <>
-            <div className="q3-row"><span>Version</span><span>{VERSION}</span></div>
-            <div className="q3-row"><span>Persistent storage API</span><span>{yesNo(caps.persistentStorage)}</span></div>
-            <div className="q3-row"><span>Share files</span><span>{yesNo(caps.webShareFiles)}</span></div>
-            <div className="q3-row"><span>Single-writer lock</span><span>{yesNo(caps.webLocks)}</span></div>
-            <div className="q3-row"><span>Offline shell</span><span>{yesNo(caps.serviceWorker)}</span></div>
-            <div className="q3-row"><span>Installed or installable</span><span>{yesNo(caps.installable)}</span></div>
-          </>
+          <AboutPage version={VERSION} rows={aboutRows} now={now} />
         ) : route === 'settings' ? (
           <Settings
-            db={db} version={VERSION} theme={theme} onTheme={chooseTheme} onAbout={() => setRouter((r) => navigate(r, 'about'))}
-            sync={services?.sync} now={now} appLock={appLock ?? undefined} onChanged={services?.onDataChanged}
+            db={db} version={VERSION} theme={theme} onTheme={chooseTheme} page={cur.param} onOpenPage={(id) => setRouter((r) => navigate(r, 'settings', id))} aboutRows={aboutRows}
+            sync={services?.sync} engine={services?.syncEngine} now={now} appLock={appLock ?? undefined} onChanged={services?.onDataChanged}
           />
         ) : route === 'customers' ? (
           <Customers db={db} onOpen={(id) => setRouter((r) => navigate(r, 'customer', id))} onAdd={() => setRouter((r) => navigate(r, 'customer', 'new'))} />

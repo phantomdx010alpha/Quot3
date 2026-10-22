@@ -1,8 +1,10 @@
 import type { PhoneDb } from '../data/db'
 import type { LinkInput, LinkResult } from '../sync/branch'
+import type { PhoneSyncEngine } from '../sync/engine'
 import type { EngineReader } from './loadDashboard'
 
-export type ThemeName = 'navy-ember' | 'light'
+import type { ThemeName } from './themes'
+export type { ThemeName }
 
 /** What Settings needs to sign the phone in as its own seat / branch (Phase 178 `linkPhoneToOrganisation`) and out again.
  *  Null / absent until the real browser transport is wired (the form then says so). */
@@ -23,6 +25,8 @@ export interface AppServices {
   readonly theme?: ThemeName
   /** Sign in / sign out for Settings (Phase 185). */
   readonly sync?: SyncAdmin | null
+  /** The full sync engine (first-sync choice, Sync now). Null until the phone is linked to a real transport. */
+  readonly syncEngine?: PhoneSyncEngine | null
   /** The app lock is on: the PIN screen shows before anything else (Phase 185). Decided at start by `bootstrapServices`. */
   readonly startLocked?: boolean
 }

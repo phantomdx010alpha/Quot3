@@ -166,6 +166,8 @@ describe('App (jsdom)', () => {
     await act(async () => { await new Promise((r) => setTimeout(r, 30)) })
     return host
   }
+  /** A row of the Settings home list, found by its label line. */
+  const row = (h: HTMLElement, label: string): Element | undefined => [...h.querySelectorAll('button')].find((b) => b.querySelector('.q3-menu-label')?.textContent === label)
   const click = async (el: Element | null | undefined): Promise<void> => {
     expect(el).toBeTruthy()
     await act(async () => { (el as HTMLElement).click() })
@@ -203,8 +205,8 @@ describe('App (jsdom)', () => {
   it('About opens from Settings, keeps Settings lit, and Back goes to Settings then the Dashboard', async () => {
     const h = await mount(await freshDb())
     await click(nav(h, 'Settings'))
-    await click([...h.querySelectorAll('button')].find((b) => b.textContent === 'About'))
-    expect(title(h)).toBe('About')
+    await click(row(h, 'About Quot3'))
+    expect(title(h)).toBe('About Quot3')
     expect(nav(h, 'Settings')?.getAttribute('aria-current')).toBe('page')
     await click(h.querySelector('button[aria-label="Back"]'))
     expect(title(h)).toBe('Settings')
@@ -212,21 +214,24 @@ describe('App (jsdom)', () => {
     expect(title(h)).toBe('Quot3')
   })
 
-  it('the light theme is applied and saved; a read-only tab still switches the look but writes nothing', async () => {
+  it('a theme is applied and saved; a read-only tab still switches the look but writes nothing', async () => {
     const db = await freshDb()
     const h = await mount(db)
     await click(nav(h, 'Settings'))
-    await click([...h.querySelectorAll('button')].find((b) => b.textContent === 'Light'))
-    expect(document.documentElement.dataset.theme).toBe('light')
+    await click(row(h, 'Themes'))
+    expect(title(h)).toBe('Themes')
+    await click(h.querySelector('button[aria-label="Paper"]'))
+    expect(document.documentElement.dataset.theme).toBe('paper')
     await act(async () => { await new Promise((r) => setTimeout(r, 30)) })
-    expect(await getSetting(db, 'theme.name')).toBe('light')
+    expect(await getSetting(db, 'theme.name')).toBe('paper')
 
     act(() => root?.unmount()); host?.remove()
     const ro = await freshDb(true)
     const h2 = await mount(ro)
     await click(nav(h2, 'Settings'))
-    await click([...h2.querySelectorAll('button')].find((b) => b.textContent === 'Navy'))
-    expect(document.documentElement.dataset.theme).toBe('navy-ember')
+    await click(row(h2, 'Themes'))
+    await click(h2.querySelector('button[aria-label="Space"]'))
+    expect(document.documentElement.dataset.theme).toBe('space')
     expect(await getSetting(ro, 'theme.name')).toBe('navy-ember') // default, nothing was written
   })
 

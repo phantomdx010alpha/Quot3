@@ -56,6 +56,12 @@ const btn = (el: HTMLElement, label: string): HTMLButtonElement => {
   if (!b) throw new Error(`no button "${label}"`)
   return b as HTMLButtonElement
 }
+/** A button found by its aria-label (theme cards) or by the label line of a Settings home row. */
+const named = (el: HTMLElement, label: string): HTMLButtonElement => {
+  const b = [...el.querySelectorAll('button')].find((x) => x.getAttribute('aria-label') === label || x.querySelector('.q3-menu-label')?.textContent === label)
+  if (!b) throw new Error(`no button "${label}"`)
+  return b as HTMLButtonElement
+}
 const click = async (b: HTMLElement): Promise<void> => { await act(async () => { b.click() }); await tick() }
 const field = (el: HTMLElement, label: string): HTMLInputElement => el.querySelector(`input[aria-label="${label}"]`) as HTMLInputElement
 async function typeInto(input: HTMLInputElement, value: string): Promise<void> {
@@ -193,21 +199,25 @@ describe('Phase 185 - Customers screens', () => {
 })
 
 describe('Phase 185 - Settings', () => {
-  const baseProps = (db: PhoneDb) => ({ db, version: '0.1.26', theme: 'navy-ember' as const, onTheme: () => undefined, onAbout: () => undefined, now: NOW })
+  const baseProps = (db: PhoneDb, page?: string) => ({ db, version: '0.1.26', theme: 'navy-ember' as const, onTheme: () => undefined, page, now: NOW })
 
   it('company profile and share defaults round trip through the settings store', async () => {
     const db = await freshDb()
-    let el = await render(createElement(Settings, baseProps(db)))
+    let el = await render(createElement(Settings, baseProps(db, 'company')))
     await typeInto(field(el, 'Company name'), '  Acme Steel ')
     await typeInto(field(el, 'Company phone'), '99999')
     await click(btn(el, 'Save company'))
     expect(await getSetting(db, 'company.profile')).toEqual({ name: 'Acme Steel', phone: '99999', address: '', logoDataUrl: null })
+    act(() => root!.unmount()); root = null; document.body.innerHTML = ''
+    el = await render(createElement(Settings, baseProps(db, 'share')))
     await click(btn(el, 'Rough'))
     await click(btn(el, 'PDF'))
     expect(await getSetting(db, 'share.defaults')).toEqual({ style: 'rough', kind: 'pdf' })
     act(() => root!.unmount()); root = null; document.body.innerHTML = ''
-    el = await render(createElement(Settings, baseProps(db)))
+    el = await render(createElement(Settings, baseProps(db, 'company')))
     expect(field(el, 'Company name').value).toBe('Acme Steel')
+    act(() => root!.unmount()); root = null; document.body.innerHTML = ''
+    el = await render(createElement(Settings, baseProps(db, 'share')))
     expect(btn(el, 'Rough').getAttribute('aria-pressed')).toBe('true')
     expect(btn(el, 'PDF').getAttribute('aria-pressed')).toBe('true')
   })
@@ -219,7 +229,7 @@ describe('Phase 185 - Settings', () => {
     await setMetaValue(db, 'server_seq', 42)
     const counter = await getMetaValue(db, 'po_counter')
     const changed: number[] = []
-    const el = await render(createElement(Settings, { ...baseProps(db), onChanged: () => changed.push(1) }))
+    const el = await render(createElement(Settings, { ...baseProps(db, 'storage'), onChanged: () => changed.push(1) }))
     await click(btn(el, 'Reset phone data'))
     expect((await listBillHeads(db)).length).toBe(1)
     await click(btn(el, 'Continue'))
@@ -253,7 +263,7 @@ describe('Phase 185 - Settings', () => {
     await seedBill(db, 'b-1', 'Alpha')
     const saved: { name: string; blob: Blob }[] = []
     const storageEnv = { storage: { persisted: async () => false, persist: async () => true, estimate: async () => ({ usage: 2048, quota: 1_048_576 }) } }
-    let el = await render(createElement(Settings, { ...baseProps(db), storageEnv, download: (blob: Blob, name: string) => saved.push({ blob, name }) }))
+    let el = await render(createElement(Settings, { ...baseProps(db, 'storage'), storageEnv, download: (blob: Blob, name: string) => saved.push({ blob, name }) }))
     expect(el.textContent).toContain('no backup file yet')
     expect(el.textContent).toContain('2.0 KB')
     await click(btn(el, 'Export backup'))
@@ -265,7 +275,7 @@ describe('Phase 185 - Settings', () => {
     await resetPhoneData(db)
     const file = new File([await saved[0]!.blob.text()], 'backup.json', { type: 'application/json' })
     act(() => root!.unmount()); root = null; document.body.innerHTML = ''
-    el = await render(createElement(Settings, { ...baseProps(db), storageEnv }))
+    el = await render(createElement(Settings, { ...baseProps(db, 'storage'), storageEnv }))
     const input = el.querySelector('input[aria-label="Import backup file"]') as HTMLInputElement
     await act(async () => { Object.defineProperty(input, 'files', { value: [file], configurable: true }); input.dispatchEvent(new Event('change', { bubbles: true })) })
     await tick()
@@ -280,7 +290,7 @@ describe('Phase 185 - Settings', () => {
   it('app lock: needs matching PINs, then turns off only with the right PIN', async () => {
     const db = await freshDb()
     const appLock = createAppLock(db, { iterations: 1 })
-    const el = await render(createElement(Settings, { ...baseProps(db), appLock }))
+    const el = await render(createElement(Settings, { ...baseProps(db, 'lock'), appLock }))
     await typeInto(field(el, 'New PIN'), '1234')
     await typeInto(field(el, 'Repeat PIN'), '9999')
     await click(btn(el, 'Turn on app lock'))
@@ -301,8 +311,8 @@ describe('Phase 185 - Settings', () => {
 
   it('sync: no connection says so; with one, an empty form is stopped by the shared validators before any call', async () => {
     const db = await freshDb()
-    let el = await render(createElement(Settings, baseProps(db)))
-    expect(el.textContent).toContain('not available in this build yet')
+    let el = await render(createElement(Settings, baseProps(db, 'sync')))
+    expect(el.textContent).toContain('Sync sign-in is not available right now')
     expect(btn(el, 'Sign in').disabled).toBe(true)
     act(() => root!.unmount()); root = null; document.body.innerHTML = ''
 
@@ -313,18 +323,42 @@ describe('Phase 185 - Settings', () => {
     }
     await setMetaValue(db, 'branch_id', null)
     await setMetaValue(db, 'po_prefix', null)
-    el = await render(createElement(Settings, { ...baseProps(db), sync }))
+    el = await render(createElement(Settings, { ...baseProps(db, 'sync'), sync }))
     await click(btn(el, 'Sign in'))
     expect(calls).toHaveLength(0) // validation stops an empty form
     expect(el.querySelectorAll('[role="alert"]').length).toBeGreaterThan(0)
   })
 
-  it('theme chips still work', async () => {
+  it('Themes page lists the six built-in themes of the Windows app plus the phone Light, and a tap picks one', async () => {
     const db = await freshDb()
     const picked: string[] = []
-    const el = await render(createElement(Settings, { ...baseProps(db), onTheme: (t: string) => picked.push(t) }))
-    await click(btn(el, 'Light'))
-    expect(picked).toEqual(['light'])
+    const el = await render(createElement(Settings, { ...baseProps(db, 'appearance'), onTheme: (t: string) => picked.push(t) }))
+    for (const name of ['Navy Ember', 'Paper', 'Glossy Glass', 'Space', 'Red and Navy Blue', 'Red Deep-Black', 'Light (phone)']) expect(named(el, name)).toBeTruthy()
+    expect(named(el, 'Navy Ember').getAttribute('aria-pressed')).toBe('true')
+    await click(named(el, 'Paper'))
+    await click(named(el, 'Red Deep-Black'))
+    expect(picked).toEqual(['paper', 'red-black'])
+  })
+
+  it('Settings home is a list of sub pages and each row opens its page; no section shows on the home list', async () => {
+    const db = await freshDb()
+    const opened: string[] = []
+    const el = await render(createElement(Settings, { ...baseProps(db), onOpenPage: (id: string) => opened.push(id) }))
+    for (const label of ['Themes', 'Company', 'Branch and sync', 'Share defaults', 'Storage and backup', 'App lock', 'About Quot3']) expect(named(el, label)).toBeTruthy()
+    expect(el.querySelector('input')).toBeNull() // no form on the home list
+    await click(named(el, 'Company'))
+    await click(named(el, 'About Quot3'))
+    expect(opened).toEqual(['company', 'about'])
+  })
+
+  it('About page shows the version, publisher and contact like the Windows app, and the phone rows', async () => {
+    const db = await freshDb()
+    const el = await render(createElement(Settings, { ...baseProps(db, 'about'), version: '9.9.9', aboutRows: [{ label: 'Share files', value: 'yes' }] }))
+    expect(el.querySelector('[data-testid="about-version"]')!.textContent).toContain('9.9.9')
+    expect(el.querySelector('[data-testid="about-publisher"]')!.textContent).toBe('Ankit Shukla')
+    expect(el.querySelector('[data-testid="about-email"]')!.textContent).toContain('@')
+    expect(el.querySelector('a[href^="mailto:"]')).not.toBeNull()
+    expect(el.textContent).toContain('Share files')
   })
 })
 
