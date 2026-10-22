@@ -13,6 +13,9 @@ export interface SettingDefaults {
   'appLock.enabled': boolean
   /** A theme id (see ui/themes.ts); an unknown id is treated as the default at start. */
   'theme.name': string
+  /** Phone layout (Phase 189): 'classic' | 'tidy' | 'guided' | 'inbox'. A plain string like `theme.name` (the data layer does not import the UI);
+   *  `resolveLayout` (ui/layouts/layoutRegistry.ts) checks it at start, an unknown or unbuilt value is classic. Per phone, NOT synced, kept in the backup file. */
+  'ui.layout': string
 }
 
 export const SETTING_DEFAULTS: SettingDefaults = {
@@ -20,7 +23,8 @@ export const SETTING_DEFAULTS: SettingDefaults = {
   'share.defaults': { style: 'professional', kind: 'image' },
   'backup.reminderDays': 14,
   'appLock.enabled': false,
-  'theme.name': 'navy-ember'
+  'theme.name': 'navy-ember',
+  'ui.layout': 'classic'
 }
 
 export type SettingKey = keyof SettingDefaults

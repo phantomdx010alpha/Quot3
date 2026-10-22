@@ -1,0 +1,65 @@
+/* Phase 192 - Layout A "Tidy tabs". New file, tokens only (no raw colours). The wrap rule: names, titles and details wrap fully; no ellipsis anywhere.
+   Amounts reuse the kit's `.q3x-amount` classes (never clipped). Classic's four CSS files are untouched. */
+.q3x-tidy-bar { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-3); background: var(--surface-header); border-bottom: 1px solid var(--border-subtle); }
+.q3x-tidy-back { display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: var(--touch-min); min-height: var(--touch-min); border: 0; background: none; color: var(--text-primary); cursor: pointer; }
+.q3x-tidy-title { flex: 1 1 auto; min-width: 0; margin: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-title, var(--font-size-base)); font-weight: 600; }
+.q3x-tidy-main { padding-bottom: var(--space-3); }
+
+.q3x-tidy-nav { display: flex; align-items: flex-end; min-height: var(--nav-height); background: var(--surface-header); border-top: 1px solid var(--border-subtle); }
+.q3x-tidy-tab { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: var(--nav-height); border: 0; background: none; color: var(--text-muted); font: inherit; font-size: 0.75rem; cursor: pointer; }
+.q3x-tidy-tab[aria-current='page'] { color: var(--accent); }
+.q3x-tidy-tab-text { min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: center; }
+.q3x-tidy-newwrap { flex: 1 1 0; display: flex; justify-content: center; align-items: flex-start; min-height: var(--nav-height); }
+.q3x-tidy-new { display: inline-flex; align-items: center; justify-content: center; width: var(--fab-size, 56px); height: var(--fab-size, 56px); margin-top: calc(var(--fab-size, 56px) / -3); border: 0; border-radius: 50%; background: var(--accent); color: var(--text-on-accent); cursor: pointer; }
+.q3x-tidy-tab:focus-visible, .q3x-tidy-new:focus-visible, .q3x-tidy-back:focus-visible, .q3x-tidy-row:focus-visible, .q3x-tidy-rowbtn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+.q3x-tidy-page { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.q3x-tidy-h2 { margin: 0 0 var(--space-1); font-size: var(--font-size-base); font-weight: 600; color: var(--text-secondary); }
+.q3x-tidy-day { display: flex; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-2); }
+.q3x-tidy-sub { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
+.q3x-tidy-text { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }
+.q3x-tidy-note { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-primary); border-left: 3px solid var(--status-warn); padding-left: var(--space-2); font-size: var(--font-size-base); }
+
+.q3x-tidy-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.q3x-tidy-tile { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: var(--space-3); background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--tile-radius, var(--radius-sm)); }
+.q3x-tidy-tile-label { color: var(--text-secondary); font-size: var(--font-size-base); }
+
+.q3x-tidy-list { list-style: none; margin: 0; padding: 0; }
+.q3x-tidy-li { border-bottom: 1px solid var(--border-subtle); min-width: 0; }
+.q3x-tidy-itemli .q3x-item { border-bottom: 0; }
+.q3x-tidy-warn { border-left: 3px solid var(--status-warn); padding-left: var(--space-2); }
+.q3x-tidy-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); width: 100%; min-height: var(--touch-min); padding: var(--space-2) 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.q3x-tidy-row-main { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; }
+.q3x-tidy-row-title { min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-title, var(--font-size-base)); }
+.q3x-tidy-rowbtn { display: block; width: 100%; min-height: var(--touch-min); padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+
+.q3x-tidy-search { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-3); background: var(--surface-inset); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-muted); }
+.q3x-tidy-search-input { flex: 1 1 auto; min-width: 0; min-height: var(--touch-min); border: 0; background: none; color: var(--text-primary); font: inherit; font-size: var(--font-size-base); outline: none; }
+
+.q3x-tidy-bill-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+.q3x-tidy-bill-headtext { flex: 1 1 auto; min-width: 0; }
+.q3x-tidy-party { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-grand, var(--font-size-title, var(--font-size-base))); font-weight: 700; }
+.q3x-tidy-details { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3x-tidy-confirm { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.q3x-tidy-stickybar { position: sticky; bottom: calc(var(--space-3) * -1); display: flex; flex-direction: column; gap: var(--space-2); margin: 0 calc(var(--space-3) * -1) calc(var(--space-3) * -1); padding: var(--space-2) var(--space-3); background: var(--surface-header); border-top: 1px solid var(--border-subtle); z-index: 5; }
+.q3x-tidy-saverow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.q3x-tidy-savebar .q3x-btn { min-width: 40%; }
+.q3x-tidy-savetotal { display: flex; flex-direction: column; min-width: 0; }
+
+.q3x-input { width: 100%; min-width: 0; min-height: var(--touch-min); padding: var(--space-2) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-inset); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); }
+.q3x-input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.q3x-grow { resize: none; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.35; }
+.q3x-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.q3x-tidy-party-block { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3x-tidy-partyname { position: relative; display: flex; flex-direction: column; gap: var(--space-1); }
+.q3x-tidy-suggest { list-style: none; margin: 0; padding: 0 var(--space-3); background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); }
+.q3x-tidy-card { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); background: var(--accent-soft); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); }
+.q3x-tidy-edit { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-2) 0; }
+.q3x-tidy-nums { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.q3x-tidy-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.q3x-tidy-adj { display: flex; align-items: flex-start; gap: var(--space-2); }
+.q3x-tidy-adjs { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3x-tidy-mark { flex: none; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); }
+.q3x-tidy-snackwrap .q3x-snack { bottom: calc(var(--touch-min) * 2 + var(--space-3)); }

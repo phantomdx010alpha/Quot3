@@ -1748,3 +1748,85 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Key files:** docs, `package.json` + both spots in `package-lock.json`.
 **Version:** 0.2.0
 **How to verify:** suites green or each failure listed with its cause. Owner checklist (only a real phone shows these): install from Chrome, offline open, persistent storage granted, bill create / edit / view, share image and PDF to WhatsApp, sync with the desktop through real Supabase, update prompt, app lock, speed with the full data. **NO FULL TEST SUITE in this phase: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and only the few existing ones that could conflict), and list them and what was NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified" from the sandbox; it goes in Standing gaps. Say that [A] items are unconfirmed.**
+
+---
+
+## MILESTONE 18 — Phone UI layouts (Phases 189–196)
+*Exit criteria: three new phone layouts (A Tidy tabs, B Guided flow, C Bills inbox) that the owner switches in phone Settings (`ui.layout`), all views over the same data, sync, share and calc code; the classic UI is the default and behaves exactly as before; names and amounts are never truncated in the new layouts; money is shown in Indian format; nothing about bills, formats, paper rules or sync changes. Phase 188 (M17 gate) and Phase 69 (release gate) are separate and still pending.*
+
+**Planned 2026-10-22 from the owner's request. Docs only; nothing built or run. Binding design: `docs/MILESTONE18_DESIGN.md` (read it first; it holds the checked claims, the [A] list and the [CHECK] list). Reference art: `docs/design/m18_phone_ui_options.html` (not code). Hard rules: `CLAUDE_MUST_READ.md` section 10m.**
+
+**Standing rules for every Phase 189-196:** classic is untouched and locked by `src/pwa/__tests__/classicParity.test.ts` (DOM snapshot + SHA-256 of `ui/ui.css`, `ui/tokens.css`, `ui/themes.css`, `styles/pwa.css`); new code only in new files (`src/pwa/ui/layouts/*`, `src/pwa/ui/kit/*`); no edit to `src/shared/*`, `router.ts` exports or `editorModel.ts` behaviour; no format-name branching; tokens only; Phosphor only, no emoji; the Phase 92 selector rule; owner rules kept (Create always clean A31, unsaved guard, name required, drafts and recovery, share only, "Edit on PC", version gate, read-only). **NO FULL TEST SUITE in these phases except the Phase 196 gate and only if the owner agrees: do not run `npm test`, a bare `npx vitest run` or the whole `src` folder; run only `npm run typecheck` once plus the named test files (and `src/__tests__/importBoundaries.test.ts`), and list what you ran and what you did NOT run in the phase log. No desktop build, no dev server. Real Android behaviour is never written as "verified"; it goes in Standing gaps. Say that [A] items are unconfirmed.** Version numbers are placeholders (renumber if Phase 188 ships 0.2.0 first); each code phase bumps `package.json` and both spots at the top of `package-lock.json` (`GITHUB_UPDATE_PUSH.md` section 2) and hands back the changed-files zip, the full zip and the push steps with the real version.
+
+## Phase 189 — Layout contract, `ui.layout` setting, layout switch, chooser, classic locks
+**Goal:** Put the switch in place with ONLY `classic` built, and lock classic so every later phase can prove it did not change.
+**Depends on:** Phase 187d (0.1.31). Read `docs/MILESTONE18_DESIGN.md` sections 1, 4, 9 first.
+**In scope:** (1) FIRST write `classicParity.test.ts` (DOM snapshots of every classic screen and banner state on the fake IndexedDB fixture; SHA-256 pins of the four classic CSS files) and run it green before touching anything else. (2) Contract first in `API_CONTRACTS.md`: setting `ui.layout`, `LayoutDefinition`, the editor props / `EditorApi` contract, `interceptBack`, `onSaved` behaviour. (3) `layouts/layoutRegistry.ts` (`LAYOUT_IDS`, `LayoutId`, `DEFAULT_LAYOUT`, `isLayoutId`, labels, blurbs, `LAYOUTS` of built layouts = classic only), `layouts/types.ts`. (4) `ui.layout` in `settingsRepo.ts` (`SettingDefaults`, default `'classic'`), read in `bootstrap.ts` and passed via `services.ts` like `theme.name`; unknown value -> classic. (5) `App.tsx`: layout state, `document.documentElement.dataset.layout`, the registry lookup and the unsaved-guard hold for a change; the classic branch stays exactly today's JSX. (6) A "Layout" section on Settings > Themes (page id `appearance`, label unchanged) listing only built layouts (so only Classic for now), remembered, with the plain sentence that Classic is today's screen; update ONLY that one snapshot, say so in the log. (7) Docs: `PROJECT_STRUCTURE.md` entry.
+**Out of scope:** any new layout, kit component, token, label rename or CSS change.
+**Key files:** new `src/pwa/ui/layouts/{layoutRegistry,types}.ts`, `src/pwa/__tests__/{classicParity,layoutRegistry,layoutSwitch}.test.ts`; edited in place `src/pwa/data/settingsRepo.ts`, `ui/bootstrap.ts`, `ui/services.ts`, `ui/ThemePicker.tsx` (or a new `LayoutPicker.tsx` mounted from `Settings.tsx`), `App.tsx`, `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`.
+**Version:** 0.1.32
+**How to verify:** `npm run typecheck` once; run `classicParity.test.ts`, `layoutRegistry.test.ts`, `layoutSwitch.test.ts`, `src/pwa/__tests__/{shell,ui,themes,customersSettings}.test.ts`, `src/__tests__/importBoundaries.test.ts`. `layoutSwitch.test.ts` proves a layout change writes nothing to bills, parties, drafts or the outbox and is held while a bill is unsaved. Say that the real phone look is not checked and [A] items are unconfirmed.
+
+## Phase 190 — Shared kit 1: larger tokens, display helpers, item line, totals block, buttons
+**Goal:** Build the reusable pieces every new layout needs for reading a bill, with the wrap rule and Indian money built in.
+**Depends on:** 189.
+**In scope:** `kit/display.ts` (`moneyText`, Indian grouping through shared `fmtMoney`, never raw "12988.00", never number maths), `kit/plainWords.ts` (the map of section 7, by column key; "Before GST" only when the format also has a `gstAmt` column), `ItemLine` (two lines, name wraps, amount right bold tabular, "382 x Rs34 · +18% GST"), `TotalsBlock` (Before GST / GST / Total, grand total largest, rupee sign on the final total), `Button` (primary / secondary / text), `SegmentedControl`; `kit/kit.css` and `layouts/layouts.css` with the larger tokens scoped to `:root[data-layout='tidy'|'guided'|'inbox']` (text 16 / 17 px, amounts 17-18 px semibold, touch 48 px, nav 60 px); contract in `API_CONTRACTS.md` first; `docs/design/DESIGN_TOKENS.md` note finalised.
+**Out of scope:** sheet, snackbar, status pill, any layout screen, any edit to the four classic CSS files or to `src/shared/*` (do NOT change `billTotals.ts`: display formatting happens in the kit only).
+**Key files:** new `src/pwa/ui/kit/{display,plainWords,ItemLine,TotalsBlock,Button,SegmentedControl}.ts*`, `kit/kit.css`, `layouts/layouts.css`, `src/pwa/__tests__/{kitDisplay,kitWrap,plainWords}.test.ts`.
+**Version:** 0.1.33
+**How to verify:** `npm run typecheck` once; run `kitDisplay.test.ts`, `kitWrap.test.ts` (CSS scan: no ellipsis / nowrap on name classes, amounts never clipped, touch classes at least 48 px, every button named), `plainWords.test.ts`, `classicParity.test.ts`, `src/pwa/__tests__/{themes,hardening}.test.ts`, `src/__tests__/importBoundaries.test.ts`. Not run: real phone look.
+
+## Phase 191 — Shared kit 2: bottom sheet, snackbar with Undo, status pill, share bar, Saved sheet, date field, party pre-build
+**Goal:** Build the cross-layout behaviours once, so each layout only places them.
+**Depends on:** 190.
+**In scope:** `BottomSheet` (focus trap, Back and Esc close the sheet first); `SnackbarHost` + `useSnackbar` (one message, no identical stacking, 6 s, Undo) and the row-remove Undo model (pure, tested); `statusModel.ts` + `StatusPill` (one pill by priority, a sheet lists every active notice with its action; read-only also a persistent thin line; fed by the SAME flags `App.tsx` already holds); `ShareBar` and the "Saved" sheet (Share, Done) over the existing share code, never changing the bill; `DateField` over the existing `setBillDate` (new layouts only, [A]); party index pre-build at start for the new layouts (idle callback after the directory loads, [A]; classic unchanged). Contracts first.
+**Out of scope:** layout screens, the GST % chips (Phase 195, [A]), any classic change, any share or sync change.
+**Key files:** new `src/pwa/ui/kit/{BottomSheet,Snackbar,StatusPill,statusModel,ShareBar,SavedSheet,DateField}.ts*`, `src/pwa/__tests__/{statusModel,snackbar,kitSheets}.test.ts`; additive only in `ui/bootstrap.ts` for the pre-build.
+**Version:** 0.1.34
+**How to verify:** `npm run typecheck` once; run `statusModel.test.ts`, `snackbar.test.ts`, `kitSheets.test.ts`, `kitWrap.test.ts`, `classicParity.test.ts`, `src/pwa/__tests__/{editor,editor2,shareUi,offlineUpdate}.test.ts`, `src/__tests__/importBoundaries.test.ts`. Not run: the real keyboard, focus and sheet behaviour on a phone.
+
+## Phase 192 — Layout A: Tidy tabs
+**Goal:** The first new layout, using the kit.
+**Depends on:** 191. Mockup row A.
+**In scope:** register `tidy` in `LAYOUTS` (the chooser then offers it); Shell with the five-tab nav (raised round New button in the centre), hidden in the editor; Home (today / month tiles, recent bills as two-line rows); Bills list (two-line rows, party names wrap); bill view (header = party name, PO / date / format under it; two-line item rows; totals block; sticky bottom bar [Share (primary)] [Edit]; "rev" in the overflow menu; "Edit on PC" for hybrid / stock transfer); editor (party, visible GST / Non-GST segmented control, name box that grows while typing, sticky totals bar with a big Save, date field, bottom sheet for typed total / extra columns and Mark / B and R+B / GST %, Undo snackbar on row removal); Save -> bill view + Saved sheet. Same `EditorApi`, guard, drafts, A31, name required; status pill instead of banners. Customers and Settings reuse the classic pages inside the new shell (restyled only by the larger tokens).
+**Out of scope:** layouts B and C, Settings plain words (Phase 195), any classic change.
+**Key files:** new `src/pwa/ui/layouts/tidy/*`, `src/pwa/__tests__/tidyLayout.test.ts`; additive registration in `layouts/layoutRegistry.ts` and the `App.tsx` layout branch.
+**Version:** 0.1.35
+**How to verify:** `npm run typecheck` once; run `tidyLayout.test.ts` (long item names wrap in rows and bill view, guard on Back, Save -> Saved sheet -> Share, read-only and "Edit on PC", remove row -> Undo, switching away and back keeps data), `layoutSwitch.test.ts`, `classicParity.test.ts`, `kitWrap.test.ts`, `src/pwa/__tests__/{editor,editor2,history,shell}.test.ts`, `src/__tests__/importBoundaries.test.ts`. Not run: the real phone look and keyboard.
+
+## Phase 193 — Layout B: Guided flow
+**Goal:** The step-by-step layout.
+**Depends on:** 191 (192 not required, but the layout pattern from 192 is the model). Mockup row B.
+**In scope:** register `guided`; four-tab nav (Home, Bills, Customers, More; Bills = `history`, More = `settings`); Home (huge "New bill", "Continue draft" from the existing draft recovery, today's bills each with a visible Share button); the three steps Party / Items / Review with `interceptBack` (Back steps back, then the normal guard); Items step: quick-add bar above the keyboard (Item, Qty, Rate, GST %, Add) with the running total, added lines as `ItemLine`s above it (tap to edit), Undo on removal; Review: total, Rough / Professional segmented control, "Share image" (primary), "Share PDF", "Saved as SMB-xxxx; pick WhatsApp in the share list", Done. Same `EditorApi`, drafts, A31, name required, status pill.
+**Out of scope:** layout C, GST % chips unless Phase 195 ran first and the owner agreed.
+**Key files:** new `src/pwa/ui/layouts/guided/*`, `src/pwa/__tests__/guidedLayout.test.ts`; additive registration and `interceptBack` wiring in `App.tsx`.
+**Version:** 0.1.36
+**How to verify:** `npm run typecheck` once; run `guidedLayout.test.ts` (steps, Back order, quick-add adds a row through the existing editor model, running total, Review share path, Continue draft, A31), `layoutSwitch.test.ts`, `classicParity.test.ts`, `kitWrap.test.ts`, `src/pwa/__tests__/{editor,editor2,shareUi,shell}.test.ts`, `src/__tests__/importBoundaries.test.ts`. Not run: the quick-add bar above the real Android keyboard (a [CHECK]).
+
+## Phase 194 — Layout C: Bills inbox
+**Goal:** The paper-bill layout (the riskiest view, built last).
+**Depends on:** 191. Mockup row C.
+**In scope:** register `inbox`; no bottom nav, Settings as a gear in the top bar; Home = bills grouped by day with an always-on search bar (same shared ranking), one-line today / sync strip, floating "New bill"; paper-style bill view (light paper card, columns # / Item / Qty / Rate / Amount, GST lines as Before GST / GST / Total, floating Share and Edit, bottom padding so they never cover the last row); paper editor (tap a cell to edit, name cell wraps and grows, docked toolbar above the keyboard [previous][next][B][R+B][done] using the existing Next / Done order); Save -> bill view + Saved sheet. Same `EditorApi`, guard, drafts, A31, status pill. Paper card colours are theme tokens (a light paper token pair added in `layouts.css`, never raw hex).
+**Out of scope:** any print or paper-size logic (the card is a screen, not the printed bill), any classic change.
+**Key files:** new `src/pwa/ui/layouts/inbox/*`, `src/pwa/__tests__/inboxLayout.test.ts`; additive registration in `App.tsx`.
+**Version:** 0.1.37
+**How to verify:** `npm run typecheck` once; run `inboxLayout.test.ts` (grouping, search, long names, cell edit order, B / R+B through the editor model, Save -> Share, read-only, guard), `layoutSwitch.test.ts`, `classicParity.test.ts`, `kitWrap.test.ts`, `src/pwa/__tests__/{editor,editor2,history,shell}.test.ts`, `src/__tests__/importBoundaries.test.ts`. Not run: docked toolbar and selection on the real keyboard (a [CHECK]).
+
+## Phase 195 — Plain words in Settings, Advanced fold, overflow menu, owner-approved opt-ins
+**Goal:** Finish the wording and the Settings pages for the new layouts, and build the optional items only if the owner agreed.
+**Depends on:** 192-194 (at least one new layout built).
+**In scope:** in the new layouts only: Settings home labels ("Connect to your PC", "Last backup", "Bill number letters"), Supabase URL / anon key / license key under a closed "Advanced" fold, the overflow menu holding "rev N" (version history info); the classic Settings screens are not touched (the new layouts get their own thin wrappers that pass different labels). Optional, ONLY if the owner confirmed (say which in the log): GST % quick-pick chips 5 / 12 / 18 / 28 with `ui.lastGstPct`; `ui.wrapNames` opt-in for classic (one data attribute, classic CSS lock re-pinned only with the owner's approval); party pre-build for classic.
+**Out of scope:** renaming anything in classic by default, the shared format registry, print.
+**Key files:** new `src/pwa/ui/layouts/shared/{SettingsWords,AdvancedFold}.tsx`; `src/pwa/__tests__/plainWords.test.ts` (extended), `src/pwa/__tests__/layoutSettings.test.ts`.
+**Version:** 0.1.38
+**How to verify:** `npm run typecheck` once; run `plainWords.test.ts`, `layoutSettings.test.ts`, `classicParity.test.ts`, `src/pwa/__tests__/{customersSettings,syncLogin}.test.ts`, `src/__tests__/importBoundaries.test.ts`. The Advanced fold must keep the sign-in form working (fields still reachable, values kept when folded).
+
+## Phase 196 — Milestone 18 QA gate
+**Goal:** Check Phases 189-195 together and hand over the owner's phone checklist.
+**Depends on:** 189-195 (or the subset the owner chose to ship; say so).
+**In scope:** `npm run typecheck`; ONLY the Milestone 18 test files, the classic locks, the phone test files listed in `docs/MILESTONE18_DESIGN.md` section 9, `src/__tests__/importBoundaries.test.ts`, and the phone build (`build:pwa`); the full suite only if the owner agrees; confirm the classic CSS hashes and DOM snapshots are unchanged since Phase 189; reconcile `PHASE_STATUS.md` (including the stale Phase 186 / 187 table rows); finalise `docs/M18_DEVICE_CHECKLIST.md` (handed over UNFILLED); update `GITHUB_UPDATE_PUSH.md` if needed, `API_CONTRACTS.md`, `PROJECT_STRUCTURE.md`; bump 0.1.39 and hand back the changed-files zip, the full zip and the push steps.
+**Out of scope:** new features. Phase 188 and Phase 69 stay separate.
+**Key files:** docs, `package.json` + both spots in `package-lock.json`.
+**Version:** 0.1.39
+**How to verify:** suites green or each failure listed with its cause (compare against the previous zip before calling anything a regression). Owner checklist (only a real phone shows these): `docs/M18_DEVICE_CHECKLIST.md`. NO FULL TEST SUITE unless the owner agrees; real Android behaviour is never written as "verified" from the sandbox.
+

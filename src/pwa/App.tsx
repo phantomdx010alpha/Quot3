@@ -10,6 +10,9 @@ import { getMeta } from './data/metaRepo'
 import { countRecords } from './data/db'
 import { loadVersionGate } from './ui/versionGate'
 import { setSetting } from './data/settingsRepo'
+import { LAYOUTS, planLayoutChange, resolveLayout, type LayoutId } from './ui/layouts/layoutRegistry'
+import type { ScreenProps } from './ui/layouts/types'
+import type { StatusActionId, StatusFlags } from './ui/kit/statusModel'
 import { BottomNav } from './ui/BottomNav'
 import { BillView } from './ui/BillView'
 import { Dashboard } from './ui/Dashboard'
@@ -26,6 +29,7 @@ import { AboutPage } from './ui/AboutPage'
 import type { AppServices } from './ui/services'
 import { DEFAULT_THEME, type ThemeName } from './ui/themes'
 import { settingsPageLabel } from './ui/settingsPages'
+import { plainText } from './ui/kit/plainWords'
 
 const VERSION = typeof __QUOT3_APP_VERSION__ === 'string' ? __QUOT3_APP_VERSION__ : 'unknown'
 
@@ -66,6 +70,8 @@ export function App(props: AppProps = {}): ReactElement {
   const [update, setUpdate] = useState<UpdateHandle | null>(null)
   const [caps, setCaps] = useState<Capabilities>(() => detectCapabilities(readBrowserEnv(false)))
   const [theme, setTheme] = useState<ThemeName>(services?.theme ?? DEFAULT_THEME)
+  // Phase 189: the chosen phone layout. Only `classic` is built so far; `LAYOUTS` is the registry (a new layout's phase adds its screens).
+  const [layout, setLayout] = useState<LayoutId>(() => resolveLayout(services?.layout))
   const [view, setView] = useState<DashboardView | null>(null)
   const [loadError, setLoadError] = useState<string | null>(services?.error ?? null)
   // Phase 182: the open bill's dirty flag (reported by the editor). While it is set, every way out asks Save / Discard first.
@@ -74,6 +80,8 @@ export function App(props: AppProps = {}): ReactElement {
   // Phase 185: the PIN screen shows first when the app lock was on at start.
   const [locked, setLocked] = useState(services?.startLocked === true)
   const appLock = useMemo<AppLock | null>(() => (services?.db ? createAppLock(services.db) : null), [services?.db])
+  // Phase 192: the bill that was just saved from a NEW layout's editor, so its bill view shows the "Saved" sheet (classic never sets it).
+  const [savedId, setSavedId] = useState<string | null>(null)
   const editorApi = useRef<EditorApi | null>(null)
   const silentSaved = useRef(false)
 
@@ -81,6 +89,13 @@ export function App(props: AppProps = {}): ReactElement {
   routerRef.current = router
   const unsavedRef = useRef(hasUnsavedWork)
   unsavedRef.current = hasUnsavedWork
+  // Phase 193: the guided layout steps back inside its editor before the unsaved guard runs (`interceptBack`).
+  const layoutRef = useRef(layout)
+  layoutRef.current = layout
+  const stepBackInEditor = (): boolean => {
+    const def = LAYOUTS[layoutRef.current]
+    return currentRoute(routerRef.current).name === 'create' && def !== undefined && def.id !== 'classic' && def.interceptBack?.() === true
+  }
 
   useEffect(() => {
     const instEnv = browserInstallEnv()
@@ -116,12 +131,18 @@ export function App(props: AppProps = {}): ReactElement {
     document.documentElement.dataset.theme = theme
   }, [theme])
 
+  // The CSS scope for the new layouts' larger tokens (`:root[data-layout=...]`). Classic has no rules under it.
+  useEffect(() => {
+    document.documentElement.dataset.layout = (LAYOUTS[layout] ?? LAYOUTS.classic)!.id
+  }, [layout])
+
   // System Back: step back inside the app; at the Dashboard let it leave. An unsaved bill blocks it (Phase 182 shows the Save / Discard prompt).
   useEffect(() => {
     const env = props.backEnv === undefined ? browserBackEnv() : props.backEnv
     if (!env) return undefined
     return installBackGuard(env, {
       handleBack: () => {
+        if (stepBackInEditor()) return true
         if (unsavedRef.current) { setPendingLeave(() => () => setRouter((r) => goBack(r))); return true }
         if (!canGoBack(routerRef.current)) return false
         setRouter((r) => goBack(r))
@@ -134,6 +155,16 @@ export function App(props: AppProps = {}): ReactElement {
   const route = cur.name
   const db = services?.db ?? null
   const now = services?.now
+
+  useEffect(() => { if (route !== 'billview') setSavedId(null) }, [route])
+
+  // Phase 192: the flags the status pill of a new layout draws (the SAME values the classic banners above use).
+  const readOnly = db ? !db.canWrite() : false
+  const statusFlags = useMemo<StatusFlags>(() => ({
+    readOnly, offline: !online, gateNote, clearedNote,
+    update: update ? { text: updateBannerModel({ hasUnsavedWork }).text, canReload: updateBannerModel({ hasUnsavedWork }).canReload } : null,
+    installOffer: installReady && !installHidden && !update, sync: null
+  }), [readOnly, online, gateNote, clearedNote, update, hasUnsavedWork, installReady, installHidden])
 
   // Phase 186: version gate (records from a newer app are kept aside) and the "storage cleared" check, at start and when Home / Settings opens.
   useEffect(() => {
@@ -188,12 +219,85 @@ export function App(props: AppProps = {}): ReactElement {
     { label: 'Installed or installable', value: yesNo(caps.installable) }
   ]
 
+  /** Phase 189: a layout change applies at once and is saved (settings store only: no bill, party, draft or outbox write). With an unsaved bill it is
+   *  held behind the same Save / Discard / Keep editing prompt as every other way out. The page stays when the new layout has it, otherwise Home. */
+  const chooseLayout = (next: LayoutId): void => {
+    const plan = planLayoutChange({ current: layout, next, hasUnsaved: unsavedRef.current, route })
+    if (plan.action === 'none') return
+    const apply = (): void => {
+      setLayout(plan.layout)
+      if (!plan.keepRoute) setRouter(createRouter('home'))
+      if (db && db.canWrite()) void setSetting(db, 'ui.layout', plan.layout).catch(() => undefined)
+    }
+    if (plan.action === 'hold') setPendingLeave(() => apply)
+    else apply()
+  }
+
   const chooseTheme = (next: ThemeName): void => {
     setTheme(next)
     if (db && db.canWrite()) void setSetting(db, 'theme.name', next).catch(() => undefined)
   }
 
   if (locked && appLock) return <LockScreen lock={appLock} onUnlocked={() => setLocked(false)} />
+
+  /** Phase 192: a NEW layout draws the same state with its own Shell and screens. App keeps every guard (this prompt included). */
+  const built = LAYOUTS[layout]
+  if (built && built.id !== 'classic') {
+    const Shell = built.Shell
+    const Screen = built.screens[route]
+    const title = route === 'settings' && cur.param ? plainText(settingsPageLabel(cur.param)) : TITLES[route]
+    const screenProps: ScreenProps = {
+      db, now, param: cur.param, onNavigate: (r, p) => setRouter((x) => navigate(x, r, p)), onChanged: services?.onDataChanged,
+      onBack: () => setRouter((r) => goBack(r)), dashboard: { view, error: loadError },
+      justSaved: route === 'billview' && savedId !== null && savedId === cur.param, onSavedDone: () => setSavedId(null)
+    }
+    const onStatusAction = (a: StatusActionId): void => {
+      if (a === 'tryAgain') { try { window.location.reload() } catch { /* nothing else to do */ } }
+      else if (a === 'reload') update?.apply(() => !unsavedRef.current)
+      else if (a === 'install') void installRef.current?.prompt()
+      else if (a === 'hideInstall') setInstallHidden(true)
+    }
+    return (
+      <>
+        <Shell route={route} param={cur.param} canGoBack={canGoBack(router)} onBack={() => { if (!stepBackInEditor()) leave(() => setRouter((r) => goBack(r))) }} onSelectTab={selectTab} activeTab={activeTab(router)} title={title} status={statusFlags} onStatusAction={onStatusAction}>
+          {route === 'create' ? (
+            <built.Editor
+              key={cur.param ?? 'new'} db={db} id={cur.param} now={now} apiRef={editorApi} onDirtyChange={setHasUnsavedWork} onChanged={services?.onDataChanged}
+              onSaved={(id) => { if (!silentSaved.current) { setSavedId(id); setRouter((r) => navigate(goBack(r), 'billview', id)) } }}
+            />
+          ) : Screen ? (
+            <Screen {...screenProps} />
+          ) : route === 'trash' ? (
+            <Trash db={db} onChanged={services?.onDataChanged} />
+          ) : route === 'about' ? (
+            <AboutPage version={VERSION} rows={aboutRows} now={now} />
+          ) : route === 'settings' ? (
+            <Settings
+              db={db} version={VERSION} theme={theme} onTheme={chooseTheme} layout={layout} onLayout={chooseLayout} plain page={cur.param} onOpenPage={(id) => setRouter((r) => navigate(r, 'settings', id))} aboutRows={aboutRows}
+              sync={services?.sync} engine={services?.syncEngine} now={now} appLock={appLock ?? undefined} onChanged={services?.onDataChanged}
+            />
+          ) : route === 'customers' ? (
+            <Customers db={db} onOpen={(id) => setRouter((r) => navigate(r, 'customer', id))} onAdd={() => setRouter((r) => navigate(r, 'customer', 'new'))} />
+          ) : route === 'customer' && cur.param ? (
+            <CustomerPage
+              key={cur.param} db={db} id={cur.param} now={now} onChanged={services?.onDataChanged} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))}
+              onAdded={(id) => setRouter((r) => navigate(goBack(r), 'customer', id))}
+            />
+          ) : null}
+        </Shell>
+        {pendingLeave ? (
+          <div className="q3-modal" role="dialog" aria-modal="true" aria-label="Unsaved bill">
+            <div className="q3-modal-card">
+              <p>This bill has changes that are not saved.</p>
+              <button type="button" className="q3-btn q3-btn-primary" onClick={() => { void promptSave() }}>Save</button>
+              <button type="button" className="q3-btn" onClick={() => { void promptDiscard() }}>Discard</button>
+              <button type="button" className="q3-btn" onClick={() => setPendingLeave(null)}>Keep editing</button>
+            </div>
+          </div>
+        ) : null}
+      </>
+    )
+  }
 
   return (
     <div className="q3-shell">
@@ -247,7 +351,7 @@ export function App(props: AppProps = {}): ReactElement {
           <AboutPage version={VERSION} rows={aboutRows} now={now} />
         ) : route === 'settings' ? (
           <Settings
-            db={db} version={VERSION} theme={theme} onTheme={chooseTheme} page={cur.param} onOpenPage={(id) => setRouter((r) => navigate(r, 'settings', id))} aboutRows={aboutRows}
+            db={db} version={VERSION} theme={theme} onTheme={chooseTheme} layout={layout} onLayout={chooseLayout} page={cur.param} onOpenPage={(id) => setRouter((r) => navigate(r, 'settings', id))} aboutRows={aboutRows}
             sync={services?.sync} engine={services?.syncEngine} now={now} appLock={appLock ?? undefined} onChanged={services?.onDataChanged}
           />
         ) : route === 'customers' ? (

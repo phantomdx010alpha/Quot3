@@ -4,6 +4,7 @@ import type { PhoneSyncEngine } from '../sync/engine'
 import type { EngineReader } from './loadDashboard'
 
 import type { ThemeName } from './themes'
+import type { LayoutId } from './layouts/layoutRegistry'
 export type { ThemeName }
 
 /** What Settings needs to sign the phone in as its own seat / branch (Phase 178 `linkPhoneToOrganisation`) and out again.
@@ -23,6 +24,8 @@ export interface AppServices {
   /** Called after a screen changed bills (delete / restore). The sync engine's `notifySaved` goes here once it is wired. */
   readonly onDataChanged?: () => void
   readonly theme?: ThemeName
+  /** The saved phone layout (Phase 189), already checked by `resolveLayout`. Absent = classic. */
+  readonly layout?: LayoutId
   /** Sign in / sign out for Settings (Phase 185). */
   readonly sync?: SyncAdmin | null
   /** The full sync engine (first-sync choice, Sync now). Null until the phone is linked to a real transport. */

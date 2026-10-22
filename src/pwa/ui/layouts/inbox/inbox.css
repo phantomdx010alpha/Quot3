@@ -1,0 +1,33 @@
+/* Phase 194 - Layout C "Bills inbox". New file, tokens only (no raw colours). Names and amounts wrap, never clipped. Builds on the Tidy classes and the kit. */
+.q3x-inbox-icons { display: flex; flex: none; align-items: center; }
+.q3x-inbox-icon { display: inline-flex; align-items: center; justify-content: center; min-width: var(--touch-min); min-height: var(--touch-min); border: 0; background: none; color: var(--text-primary); cursor: pointer; }
+.q3x-inbox-icon:focus-visible, .q3x-inbox-fab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.q3x-inbox-fab { position: fixed; right: var(--space-3); bottom: var(--space-3); z-index: 6; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--fab-size, 56px); padding: 0 var(--space-4, var(--space-3)); border: 0; border-radius: calc(var(--fab-size, 56px) / 2); background: var(--accent); color: var(--text-on-accent); font: inherit; font-weight: 700; cursor: pointer; }
+.q3x-inbox-home { padding-bottom: calc(var(--fab-size, 56px) + var(--space-4, var(--space-3)) * 2); }
+.q3x-inbox-strip { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
+
+.q3x-paper { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; padding: var(--space-3); background: var(--paper-bg); color: var(--paper-ink); border: 1px solid var(--paper-line); border-radius: var(--radius-sm); }
+.q3x-paper-head { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.q3x-paper-party { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-grand, var(--font-size-title, var(--font-size-base))); font-weight: 700; }
+.q3x-paper-sub { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--paper-muted); font-size: var(--font-size-base); }
+.q3x-paper-table { width: 100%; border-collapse: collapse; table-layout: auto; }
+.q3x-paper-table th { text-align: left; padding: var(--space-1) var(--space-1); border-bottom: 2px solid var(--paper-ink); color: var(--paper-ink); font-weight: 700; font-size: var(--font-size-base); }
+.q3x-paper-table td { vertical-align: top; padding: var(--space-1); border-bottom: 1px solid var(--paper-line); font-size: var(--font-size-base); min-width: 0; }
+.q3x-paper-table .q3x-paper-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.q3x-paper-table .q3x-paper-slno { width: 1%; white-space: nowrap; color: var(--paper-muted); }
+.q3x-paper-name { white-space: normal; overflow-wrap: anywhere; min-width: 0; }
+.q3x-paper-extra { display: block; color: var(--paper-muted); }
+.q3x-paper .q3x-totals { color: var(--paper-ink); }
+.q3x-paper .q3x-totals dt, .q3x-paper .q3x-totals dd { color: var(--paper-ink); }
+.q3x-paper-cell { display: block; width: 100%; min-height: var(--touch-min); padding: var(--space-1); border: 0; background: none; color: inherit; font: inherit; text-align: inherit; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+.q3x-paper-input { width: 100%; min-width: 0; min-height: var(--touch-min); padding: var(--space-1); border: 1px solid var(--paper-line); border-radius: var(--radius-sm); background: var(--paper-bg); color: var(--paper-ink); font: inherit; font-size: var(--font-size-base); }
+.q3x-paper-input:focus-visible, .q3x-paper-cell:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.q3x-paper-table input.q3x-paper-input.q3x-num { text-align: right; }
+.q3x-paper-editor .q3x-paper-table td { padding: 0; }
+.q3x-paper-bill { padding-bottom: calc(var(--touch-min) * 2 + var(--space-4, var(--space-3)) * 2); }
+.q3x-inbox-float { position: fixed; left: var(--space-3); right: var(--space-3); bottom: var(--space-3); z-index: 6; }
+.q3x-inbox-float .q3x-sharebar { padding: var(--space-2); background: var(--surface-header); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); }
+.q3x-inbox-toolbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 7; display: flex; gap: var(--space-1); padding: var(--space-1) var(--space-2); background: var(--surface-header); border-top: 1px solid var(--border-subtle); }
+.q3x-inbox-toolbar .q3x-btn { flex: 1 1 0; min-width: 0; }
+.q3x-inbox-editor { padding-bottom: calc(var(--touch-min) * 3 + var(--space-3)); }
+.q3x-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

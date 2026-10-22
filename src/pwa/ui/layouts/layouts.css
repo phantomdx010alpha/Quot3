@@ -1,0 +1,37 @@
+/* Phase 190: the larger tokens of the NEW layouts, scoped to `:root[data-layout=...]` (App.tsx sets the attribute). Classic has no rule here, so its
+   15 px text / 40 px touch (ui/tokens.css, styles/pwa.css) stay as they are. `html:root[...]` is more specific than the classic `:root[data-theme=...]`
+   blocks, so these win whatever the load order. Sizes are proposals [A] (MILESTONE18_DESIGN.md section 8). Colours: none here, they come from the themes. */
+html:root[data-layout='tidy'],
+html:root[data-layout='guided'],
+html:root[data-layout='inbox'] {
+  --font-size-base: 16px;
+  --font-size-title: 17px;
+  --font-size-amount: 17px;
+  --font-size-grand: 18px;
+  --font-weight-amount: 600;
+  --touch-min: 48px;
+  --nav-height: 60px;
+  --fab-size: 56px;
+  --sheet-radius: 16px;
+  --sheet-handle: 36px;
+}
+
+/* Phase 194: the paper card of the Bills inbox layout. A LIGHT paper token pair (named colours, no raw hex), used only by `[data-layout='inbox']` paper cards, so a
+   bill reads like the paper bill in every theme. The card is a screen, not the printed bill (print is never themed). */
+html:root[data-layout='inbox'] {
+  --paper-bg: white;
+  --paper-ink: black;
+  --paper-line: silver;
+  --paper-muted: dimgray;
+}
+
+/* Phase 195: the closed "Advanced" fold in the new layouts' Settings pages (tokens only). */
+:root[data-layout='tidy'] .q3x-advanced,
+:root[data-layout='guided'] .q3x-advanced,
+:root[data-layout='inbox'] .q3x-advanced { margin: var(--space-2, 8px) 0; }
+:root[data-layout='tidy'] .q3x-advanced-summary,
+:root[data-layout='guided'] .q3x-advanced-summary,
+:root[data-layout='inbox'] .q3x-advanced-summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
+:root[data-layout='tidy'] .q3x-advanced-body,
+:root[data-layout='guided'] .q3x-advanced-body,
+:root[data-layout='inbox'] .q3x-advanced-body { display: flex; flex-direction: column; gap: var(--space-2, 8px); padding-bottom: var(--space-2, 8px); }

@@ -5,6 +5,8 @@ import { DEFAULT_RECENT_BILLS, type FirstSyncPreview } from '../sync/firstSync'
 import type { EngineState, PhoneSyncEngine } from '../sync/engine'
 import { toSyncFailure } from '../sync/errors'
 import type { SyncAdmin } from './services'
+import { AdvancedFold } from './layouts/shared/AdvancedFold'
+import { settingsWords } from './layouts/shared/SettingsWords'
 
 const STATE_TEXT: Record<EngineState, string> = {
   stopped: 'Sync is stopped. Tap Start sync.',
@@ -64,19 +66,22 @@ function SyncPanel(props: { engine: PhoneSyncEngine; onChanged?: () => void }): 
 
 const BLANK = { supabaseUrl: '', anonKey: '', licenseKey: '', email: '', password: '', branchName: '', poPrefix: '' }
 type Form = typeof BLANK
+const ADVANCED: (keyof Form)[] = ['supabaseUrl', 'anonKey', 'licenseKey']
 const LABELS: Record<keyof Form, string> = {
   supabaseUrl: 'Supabase URL', anonKey: 'Public (anon) key', licenseKey: 'License key', email: 'Seat email', password: 'Seat password', branchName: 'Branch name for this phone', poPrefix: 'PO prefix'
 }
 
 /** Settings > Branch and sync login (Phase 185). The phone is its own seat and own branch [A unconfirmed].
  *  The form checks with the shared validators first; the real sign-in is `sync.link` (Phase 178). The password is never kept after the call. */
-export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; engine?: PhoneSyncEngine | null; onChanged?: () => void }): ReactElement {
+/** `plain` (Phase 195, new layouts only): plain words, and the Supabase URL / anon key / license key sit in a closed Advanced fold (values kept, still reachable). */
+export function SettingsSync(props: { db: PhoneDb; plain?: boolean; sync?: SyncAdmin | null; engine?: PhoneSyncEngine | null; onChanged?: () => void }): ReactElement {
   const { db, sync } = props
   const [link, setLink] = useState<BranchLink | null>(null)
   const [form, setForm] = useState<Form>(BLANK)
   const [errors, setErrors] = useState<LinkFieldErrors>({})
   const [message, setMessage] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const words = settingsWords(props.plain)
 
   const refresh = (): void => { void getBranchLink(db).then(setLink, () => setLink(null)) }
   useEffect(() => { refresh() }, [db]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -111,14 +116,26 @@ export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; engi
     try { await sync.signOut(); setMessage('Signed out. Bills stay on this phone; syncing is paused.'); props.onChanged?.() } catch (e) { setMessage(e instanceof Error ? e.message : String(e)) } finally { setBusy(false) }
   }
 
+  const keys = Object.keys(BLANK) as (keyof Form)[]
+  const renderField = (k: keyof Form): ReactElement => (
+    <label key={k} className="q3-field">
+      <span className="q3-muted">{words.t(LABELS[k])}</span>
+      <input
+        className="q3-input" aria-label={words.t(LABELS[k])} value={form[k]} onChange={set(k)} disabled={!sync || busy}
+        type={k === 'password' ? 'password' : k === 'email' ? 'email' : 'text'} autoComplete={k === 'password' ? 'current-password' : 'off'} autoCapitalize="off" spellCheck={false}
+      />
+      {errors[k] ? <span className="q3-note q3-note-warn" role="alert">{errors[k]}</span> : null}
+    </label>
+  )
+
   return (
-    <section className="q3-set" aria-label="Branch and sync">
-      <h2 className="q3-h2">Branch and sync</h2>
+    <section className="q3-set" aria-label={words.t('Branch and sync')}>
+      <h2 className="q3-h2">{words.t('Branch and sync')}</h2>
       {link?.linked ? (
         <>
           <div className="q3-row"><span>Branch</span><span>{link.branchName}</span></div>
-          <div className="q3-row"><span>PO prefix</span><span>{link.poPrefix}</span></div>
-          <p className="q3-muted">The branch name and PO prefix are fixed once this phone is linked.</p>
+          <div className="q3-row"><span>{words.t('PO prefix')}</span><span>{link.poPrefix}</span></div>
+          <p className="q3-muted">The branch name and {words.t('PO prefix').toLowerCase()} are fixed once this phone is linked.</p>
           {props.engine ? <SyncPanel engine={props.engine} onChanged={props.onChanged} /> : null}
           <button type="button" className="q3-btn" disabled={!sync || busy} onClick={() => void signOut()}>Sign out of sync</button>
         </>
@@ -126,16 +143,8 @@ export function SettingsSync(props: { db: PhoneDb; sync?: SyncAdmin | null; engi
         <>
           <p className="q3-muted">Not linked. Sign in with a seat from your organisation to share bills with your other computers.</p>
           {!sync ? <p className="q3-note">Sync sign-in is not available right now (the phone data could not be opened).</p> : null}
-          {(Object.keys(BLANK) as (keyof Form)[]).map((k) => (
-            <label key={k} className="q3-field">
-              <span className="q3-muted">{LABELS[k]}</span>
-              <input
-                className="q3-input" aria-label={LABELS[k]} value={form[k]} onChange={set(k)} disabled={!sync || busy}
-                type={k === 'password' ? 'password' : k === 'email' ? 'email' : 'text'} autoComplete={k === 'password' ? 'current-password' : 'off'} autoCapitalize="off" spellCheck={false}
-              />
-              {errors[k] ? <span className="q3-note q3-note-warn" role="alert">{errors[k]}</span> : null}
-            </label>
-          ))}
+          {keys.filter((k) => !(words.plain && ADVANCED.includes(k))).map(renderField)}
+          {words.plain ? <AdvancedFold forceOpen={ADVANCED.some((k) => Boolean(errors[k]))}>{ADVANCED.map(renderField)}</AdvancedFold> : null}
           <button type="button" className="q3-btn q3-btn-primary" disabled={!sync || busy || !db.canWrite()} onClick={() => void submit()}>Sign in</button>
         </>
       )}

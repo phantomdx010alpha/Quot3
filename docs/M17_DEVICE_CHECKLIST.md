@@ -52,3 +52,5 @@ Phone model / Android / Chrome version: ______________________    Date: ________
 ## 9. Touch and reading
 - [ ] Every button can be hit with a thumb without mis-taps (nav, chips, row buttons).
 - [ ] Text is readable in both themes outdoors; TalkBack reads button names (optional).
+
+The Milestone 18 layouts (Tidy tabs, Guided flow, Bills inbox) have their own checklist: `docs/M18_DEVICE_CHECKLIST.md` (UNFILLED; use it after Phase 196).

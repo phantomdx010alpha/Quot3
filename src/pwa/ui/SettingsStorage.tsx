@@ -5,6 +5,7 @@ import { getMeta } from '../data/metaRepo'
 import { resetPhoneData } from '../data/resetData'
 import { getSetting } from '../data/settingsRepo'
 import { formatBytes, readStorageHealth, requestPersistence, type StorageEnv, type StorageHealth } from '../platform/storage'
+import { plainText } from './kit/plainWords'
 import { lastExportText, nextResetStep, type ResetStep } from './settingsModel'
 
 function browserDownload(blob: Blob, name: string): void {
@@ -20,6 +21,8 @@ const msg = (e: unknown): string => (e instanceof Error ? e.message : String(e))
 
 /** Settings > Storage and backup (Phase 185): persistence, usage, Export / Import, and "Reset phone data" behind TWO confirms. */
 export function SettingsStorage(props: {
+  /** Phase 195: true in the new layouts ("Last backup" instead of "Last export"). Absent = classic wording. */
+  plain?: boolean
   db: PhoneDb; version: string; now?: () => Date
   storageEnv?: StorageEnv; download?: (blob: Blob, name: string) => void
   onChanged?: () => void
@@ -90,7 +93,7 @@ export function SettingsStorage(props: {
       <h2 className="q3-h2">Storage and backup</h2>
       <div className="q3-row"><span>Kept by the browser</span><span>{yn(health?.persisted ?? null)}</span></div>
       <div className="q3-row"><span>Used</span><span>{formatBytes(health?.usageBytes ?? null)} of {formatBytes(health?.quotaBytes ?? null)}</span></div>
-      <div className="q3-row"><span>Last export</span><span>{lastExportText(lastExport, nowDate())}</span></div>
+      <div className="q3-row"><span>{props.plain ? plainText('Last export') : 'Last export'}</span><span>{lastExportText(lastExport, nowDate())}</span></div>
       {health?.persisted === false && health.persistApiAvailable ? (
         <button type="button" className="q3-btn" disabled={!canWrite} onClick={() => void requestPersistence(env).then(refresh)}>Ask the browser to keep my data</button>
       ) : null}

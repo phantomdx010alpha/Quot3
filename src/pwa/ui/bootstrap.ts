@@ -7,6 +7,8 @@ import { createPhoneSyncRuntime } from '../sync/runtime'
 import { acquireWriterLock, browserWriterEnv } from '../platform/writerLock'
 import type { AppServices } from './services'
 import { DEFAULT_THEME, isThemeName, type ThemeName } from './themes'
+import { resolveLayout } from './layouts/layoutRegistry'
+import { schedulePartyPrebuild } from './kit/partyPrebuild'
 
 /** Opens the phone database for the real app: single-writer lock, database, first-run meta, persistence request, saved theme.
  *  Never throws: a failure becomes `services.error` and the Dashboard shows it. Only the browser calls this (tests build `AppServices` by hand). */
@@ -26,13 +28,15 @@ async function startServices(): Promise<AppServices> {
     if (db.canWrite() && typeof navigator !== 'undefined') await requestPersistence(navigator)
     const savedTheme = await getSetting(db, 'theme.name')
     const theme: ThemeName = isThemeName(savedTheme) ? savedTheme : DEFAULT_THEME
+    const layout = resolveLayout(await getSetting(db, 'ui.layout'))
+    schedulePartyPrebuild(db, layout) // Phase 191 [A]: new layouts only (idle moment); classic does nothing
     const startLocked = await createAppLock(db).isEnabled().catch(() => false)
     // Phase 187b: the real sync. The runtime only starts workers in the writer tab (engine.start checks db.canWrite()).
     const version = typeof __QUOT3_APP_VERSION__ === 'string' ? __QUOT3_APP_VERSION__ : 'unknown'
     const runtime = createPhoneSyncRuntime({ db, appVer: version })
     void runtime.init()
     return {
-      db, theme, startLocked,
+      db, theme, layout, startLocked,
       engine: runtime.engine, syncEngine: runtime.engine,
       sync: { link: (i) => runtime.link(i), signOut: () => runtime.signOut() },
       onDataChanged: () => runtime.notifySaved()

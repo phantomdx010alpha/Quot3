@@ -9,6 +9,9 @@ import { SettingsStorage } from './SettingsStorage'
 import { AboutPage } from './AboutPage'
 import { SettingsSync } from './SettingsSync'
 import { ThemePicker } from './ThemePicker'
+import { LayoutPicker } from './layouts/LayoutPicker'
+import { plainHint, settingsWords } from './layouts/shared/SettingsWords'
+import type { LayoutId } from './layouts/layoutRegistry'
 import { SETTINGS_PAGES, isSettingsPage, type SettingsPageId } from './settingsPages'
 import { themeLabel } from './themes'
 import { checkCompany, checkLogoFile, type CompanyProfile } from './settingsModel'
@@ -30,6 +33,10 @@ function readAsDataUrl(file: Blob): Promise<string> {
  *  app lock, theme, About. Company settings do NOT sync (Phase 173 finding), so this phone has its own. */
 export function Settings(props: {
   db: PhoneDb | null; version: string; theme: ThemeName; onTheme: (t: ThemeName) => void
+  /** Phase 189: the layout chooser under the themes (shown only when the app passes `onLayout`). */
+  layout?: LayoutId; onLayout?: (l: LayoutId) => void
+  /** Phase 195: true inside a NEW layout; plain words and the Advanced fold. Absent (classic) = today's screens unchanged. */
+  plain?: boolean
   /** Which sub page to show; absent = the home list. `onOpenPage` is how a home row opens one (the app pushes a route, so Back returns to the list). */
   page?: string; onOpenPage?: (id: SettingsPageId) => void; aboutRows?: readonly { label: string; value: string }[]
   sync?: SyncAdmin | null; engine?: PhoneSyncEngine | null; now?: () => Date; appLock?: AppLock; storageEnv?: StorageEnv; download?: (blob: Blob, name: string) => void; onChanged?: () => void
@@ -54,6 +61,7 @@ export function Settings(props: {
 
   const page: SettingsPageId | null = isSettingsPage(props.page) ? props.page : null
   const themeRow = <ThemePicker theme={props.theme} onTheme={props.onTheme} />
+  const words = settingsWords(props.plain)
   const about = <AboutPage version={props.version} rows={props.aboutRows ?? []} now={props.now} />
   const home = (
     <ul className="q3-menu" aria-label="Settings">
@@ -61,8 +69,8 @@ export function Settings(props: {
         <li key={p.id}>
           <button type="button" className="q3-menu-item" onClick={() => props.onOpenPage?.(p.id)}>
             <span className="q3-menu-text">
-              <span className="q3-menu-label">{p.label}</span>
-              <span className="q3-menu-hint">{p.id === 'appearance' ? themeLabel(props.theme) : p.hint}</span>
+              <span className="q3-menu-label">{words.t(p.label)}</span>
+              <span className="q3-menu-hint">{p.id === 'appearance' ? themeLabel(props.theme) : plainHint(words, p.hint)}</span>
             </span>
             <span className="q3-menu-chev" aria-hidden="true">›</span>
           </button>
@@ -70,7 +78,7 @@ export function Settings(props: {
       ))}
     </ul>
   )
-  if (page === 'appearance') return <div className="q3-settings">{themeRow}</div>
+  if (page === 'appearance') return <div className="q3-settings">{themeRow}{props.onLayout && props.layout ? <LayoutPicker layout={props.layout} onLayout={props.onLayout} /> : null}</div>
   if (page === 'about') return <div className="q3-settings">{about}</div>
   if (!db) return <div className="q3-placeholder">{page === null ? home : null}<p className="q3-note q3-note-warn" role="alert">Your data could not be opened, so the other settings are unavailable.</p></div>
   if (error) return <p className="q3-note q3-note-warn" role="alert">{error}</p>
@@ -127,7 +135,7 @@ export function Settings(props: {
       </section>
       ) : null}
 
-      {page === 'sync' ? <SettingsSync db={db} sync={props.sync} engine={props.engine} onChanged={props.onChanged} /> : null}
+      {page === 'sync' ? <SettingsSync db={db} plain={props.plain} sync={props.sync} engine={props.engine} onChanged={props.onChanged} /> : null}
 
       {page === 'share' ? (
       <section className="q3-set" aria-label="Share defaults">
@@ -143,7 +151,7 @@ export function Settings(props: {
       </section>
       ) : null}
 
-      {page === 'storage' ? <SettingsStorage db={db} version={props.version} now={props.now} storageEnv={props.storageEnv} download={props.download} onChanged={props.onChanged} /> : null}
+      {page === 'storage' ? <SettingsStorage db={db} plain={props.plain} version={props.version} now={props.now} storageEnv={props.storageEnv} download={props.download} onChanged={props.onChanged} /> : null}
       {page === 'lock' ? <SettingsLock db={db} appLock={props.appLock} /> : null}
     </div>
   )

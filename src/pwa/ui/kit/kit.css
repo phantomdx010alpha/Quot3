@@ -1,0 +1,67 @@
+/* Phase 190 kit CSS (new layouts only). Every selector is `.q3x-`. Tokens only (no colours here). The wrap rule: names, titles and details wrap fully
+   (`white-space: normal; overflow-wrap: anywhere; min-width: 0`), and NOTHING here uses an ellipsis. Amounts are never clipped. Scanned by kitWrap.test.ts. */
+
+.q3x-item { display: flex; flex-direction: column; gap: 2px; padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); }
+.q3x-item-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.q3x-item-name { flex: 1 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-title, var(--font-size-base)); }
+.q3x-item-detail { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
+
+.q3x-amount { flex: none; text-align: right; font-size: var(--font-size-amount, var(--font-size-base)); font-weight: var(--font-weight-amount, 600); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.q3x-totals { margin: 0; padding: var(--space-2) 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.q3x-totals-row, .q3x-totals-grand { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.q3x-totals dt { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
+.q3x-totals dd { margin: 0; }
+.q3x-totals-grand { padding-top: var(--space-2); border-top: 1px solid var(--border-subtle); }
+.q3x-totals-grand dt { color: var(--text-primary); font-weight: 600; }
+.q3x-amount-grand { flex: none; text-align: right; font-size: var(--font-size-grand, var(--font-size-amount, var(--font-size-base))); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.q3x-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--touch-min); min-width: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: transparent; color: var(--text-primary); font: inherit; font-size: var(--font-size-base); cursor: pointer; }
+.q3x-btn-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: center; }
+.q3x-btn-icon { display: inline-flex; flex: none; }
+.q3x-btn-primary { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent); font-weight: 600; }
+.q3x-btn-secondary { background: var(--surface-raised); }
+.q3x-btn-text { background: transparent; border-color: transparent; color: var(--accent); }
+.q3x-btn:disabled { opacity: 0.5; }
+.q3x-btn:focus-visible, .q3x-seg-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+.q3x-seg { display: flex; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); overflow: hidden; }
+.q3x-seg-btn { flex: 1 1 0; min-width: 0; min-height: var(--touch-min); padding: 0 var(--space-3); border: 0; border-right: 1px solid var(--border-subtle); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+.q3x-seg-btn:last-child { border-right: 0; }
+.q3x-seg-btn[aria-pressed='true'] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+/* ---- Phase 191 (kit 2): bottom sheet, snackbar, status pill, share bar, saved sheet, date field. Tokens only, no colours, no ellipsis. ---- */
+.q3x-sheet-root { position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column; justify-content: flex-end; }
+.q3x-sheet-backdrop { position: absolute; inset: 0; background: var(--surface-base); opacity: 0.7; }
+.q3x-sheet { position: relative; display: flex; flex-direction: column; max-height: 85%; padding: 0 var(--space-3); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--surface-raised); color: var(--text-primary); border-top: 1px solid var(--border-subtle); border-radius: var(--sheet-radius, 16px) var(--sheet-radius, 16px) 0 0; outline: none; }
+.q3x-sheet-handle { flex: none; align-self: center; width: var(--sheet-handle, 36px); height: 4px; margin: var(--space-2) 0; border-radius: 2px; background: var(--border-subtle); }
+.q3x-sheet-head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.q3x-sheet-title { flex: 1 1 auto; min-width: 0; margin: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-title, var(--font-size-base)); font-weight: 600; }
+.q3x-sheet-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-bottom: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3); }
+
+.q3x-snack { position: fixed; left: var(--space-3); right: var(--space-3); bottom: calc(var(--nav-height) + var(--space-3)); z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-header); color: var(--text-primary); }
+.q3x-snack-text { flex: 1 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }
+
+.q3x-status { display: flex; flex-direction: column; gap: var(--space-1); }
+.q3x-readonly-line { padding: var(--space-2) var(--space-3); border: 1px solid var(--status-warn); border-radius: var(--radius-sm); background: var(--surface-inset); color: var(--text-primary); font-size: var(--font-size-base); white-space: normal; overflow-wrap: anywhere; }
+.q3x-pill { display: inline-flex; align-items: center; align-self: flex-start; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--status-warn); border-radius: var(--tile-radius, var(--radius-sm)); background: var(--surface-inset); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); cursor: pointer; }
+.q3x-pill:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.q3x-pill-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.q3x-pill-more { flex: none; color: var(--text-muted); }
+.q3x-status-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.q3x-status-item { display: flex; flex-direction: column; gap: var(--space-1); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle); }
+.q3x-status-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.q3x-status-text { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
+.q3x-status-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.q3x-sharebar { display: flex; flex-direction: column; gap: var(--space-2); }
+.q3x-sharebar-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.q3x-sharebar-row > .q3x-btn-primary { flex: 1 1 auto; }
+.q3x-sharebar-text { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
+.q3x-sharebar-warn { color: var(--text-primary); border-left: 3px solid var(--status-warn); padding-left: var(--space-2); }
+.q3x-saved-text { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }
+
+.q3x-date { display: flex; flex-direction: column; gap: var(--space-1); }
+.q3x-date-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
+.q3x-date-input { min-height: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-inset); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); }
+.q3x-date-input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }

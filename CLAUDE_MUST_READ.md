@@ -68,7 +68,7 @@ When handing off the zip, the owner uses exactly this prompt (replace NN with th
 
 ---
 
-You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, PLANNED 2026-10-21, see section 10l) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
+You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, PLANNED 2026-10-21, see section 10l; Milestone 18 = the phone UI layouts, Phases 189-196, PLANNED 2026-10-22, see section 10m) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
 
 ---
 
@@ -398,6 +398,20 @@ Read `docs/MILESTONE17_DESIGN.md` before any Phase 173-188. Phase 69 still runs 
 - **TESTING RULE (owner's standing rule, repeated): do NOT run the full test suite in any Phase 173-188 except the Phase 188 gate, and then only if the owner agrees.** Run `npm run typecheck` once plus only the files written or changed plus those that could plausibly conflict. Name them in the phase log. No desktop build, no dev server.
 - Docs-only changes need no version bump and no tag. Each code phase bumps the version in `package.json` and both spots in `package-lock.json` as listed in `PHASES.md`.
 - Items marked [A] are unconfirmed assumptions; say so in every phase log.
+
+## 10m. Milestone 18 supersessions (Phases 189-196, releases 0.1.32-0.1.39): phone UI layouts
+
+Read `docs/MILESTONE18_DESIGN.md` before any Phase 189-196. Phase 188 (M17 gate) and Phase 69 (release gate) are separate and still run. Sections 2 and 3 above describe the DESKTOP app; the desktop is not touched by this milestone.
+- Three NEW phone layouts (`tidy`, `guided`, `inbox`) are switched by the phone setting `ui.layout` (default `classic`). **Classic is the current UI and must not change**: no edit to `src/pwa/ui/ui.css`, `tokens.css`, `themes.css`, `src/pwa/styles/pwa.css`; no change to classic screens. New code goes in NEW files only (`src/pwa/ui/layouts/*`, `src/pwa/ui/kit/*`). `classicParity.test.ts` (DOM snapshot + SHA-256 of the four CSS files) is created first in Phase 189 and runs in every later phase; never edit its snapshot or pins without the owner's approval.
+- The layouts are views over the SAME data, sync, share, `*Model.ts` and `src/shared/*` code. Do not edit `src/shared/*` (in particular never change `shared/calc/billTotals.ts` output or the format registry labels: desktop grid, print and snapshots use them). Money is shown through `kit/display.ts` (Indian format over shared `fmtMoney`), never `toFixed`, never raw "12988.00", never number maths (rule 4.3). No format-name branching; plain-word renames are a phone display map keyed by column key.
+- Switching layouts never loses or changes bill data and writes nothing to bills, parties, drafts or the outbox. `ui.layout` is a per-phone setting like `theme.name`: not synced, kept in the backup file, unknown value = `classic`.
+- Phone only. Names and amounts are never truncated (no ellipsis, no nowrap) in the new layouts; names wrap, the editor name box grows while typing. Whether classic gets the same is an [A] opt-in (`ui.wrapNames`).
+- Keep the owner rules in every layout: Create always opens a clean bill (A31), unsaved-changes guard (all guards stay in `App.tsx` above the layout choice), name required, drafts and recovery, share image / PDF only (no print), "Edit on PC" for hybrid and stock transfer, version gate and read-only shown (status pill in new layouts, never hidden).
+- Tokens only, no raw colours; Phosphor icons only, no emoji; the larger tokens (16-17 px text, 17-18 px amounts, 48 px touch) are scoped to the new layouts only (`:root[data-layout=...]`). Apply the Phase 92 selector rule to every store / selector.
+- Real Android behaviour (look, keyboard, text selection in the growing name box, the docked toolbar, share to WhatsApp, speed) is never "verified" from the sandbox; it goes in Standing gaps until the owner confirms (`docs/M18_DEVICE_CHECKLIST.md`).
+- **TESTING RULE (owner's standing rule, repeated on purpose): DO NOT RUN THE FULL TEST SUITE. Never `npm test`, never a bare `npx vitest run`, never the whole `src` folder: run ONLY the required tests. Do NOT run the full test suite in any Phase 189-196 except the Phase 196 gate, and then only if the owner agrees.** Run `npm run typecheck` once plus ONLY the files you wrote or changed and those that could plausibly conflict (the files named in the phase entry and `src/__tests__/importBoundaries.test.ts`). No desktop build, no dev server. Name them in the phase log; list what you did not run. No repeated checking.
+- Docs-only changes need no version bump and no tag. Each code phase bumps the version in `package.json` and both spots in `package-lock.json` as listed in `PHASES.md`.
+- Items marked [A] are unconfirmed assumptions (`MILESTONE18_DESIGN.md` section 8); say so in every phase log.
 
 ## 11. Before you finish — checklist
 

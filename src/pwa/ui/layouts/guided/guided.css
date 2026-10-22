@@ -1,0 +1,13 @@
+/* Phase 193 - Layout B "Guided flow". New file, tokens only (no raw colours). Builds on the Tidy classes (`q3x-tidy-*`) and the kit; names and amounts wrap, never clipped. */
+.q3x-guided-new { display: flex; align-items: center; justify-content: center; gap: var(--space-2); width: 100%; min-height: calc(var(--touch-min) * 2); border: 0; border-radius: var(--radius-sm); background: var(--accent); color: var(--text-on-accent); font: inherit; font-size: var(--font-size-grand, var(--font-size-title, var(--font-size-base))); font-weight: 700; cursor: pointer; }
+.q3x-guided-new:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.q3x-guided-bill { display: flex; align-items: flex-start; gap: var(--space-2); border-bottom: 1px solid var(--border-subtle); }
+.q3x-guided-bill .q3x-tidy-row { flex: 1 1 auto; min-width: 0; }
+.q3x-guided-bill .q3x-btn { flex: none; }
+.q3x-guided-steps { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: 0; }
+.q3x-guided-stepname { margin: 0; font-size: var(--font-size-title, var(--font-size-base)); font-weight: 700; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.q3x-guided-quick { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-2) var(--space-3); margin: 0 calc(var(--space-3) * -1); background: var(--surface-raised); border-top: 1px solid var(--border-subtle); }
+.q3x-guided-quicknums { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-2); }
+.q3x-guided-quicknums.q3x-guided-two { grid-template-columns: 1fr 1fr; }
+.q3x-guided-dock { position: sticky; bottom: calc(var(--space-3) * -1); z-index: 5; display: flex; flex-direction: column; gap: 0; margin: 0 calc(var(--space-3) * -1) calc(var(--space-3) * -1); }
+.q3x-guided-review { display: flex; flex-direction: column; gap: var(--space-3); }
