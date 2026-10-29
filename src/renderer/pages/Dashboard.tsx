@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { DbInfo } from '@shared/ipc'
 import { formatHistoryDate, formatHistoryTotal } from '@shared/history/historyList'
 import { formatBackupTime } from '@shared/dashboard/dashboardStats'
+import { ROUTES } from '@shared/routes'
 import { NAV_ITEMS } from '../components/layout/navItems'
 import { Icon, Kbd } from '../components/ui'
 import { DraftRecovery } from '../components/create/DraftRecovery'
@@ -41,7 +42,7 @@ export default function Dashboard(): React.JSX.Element {
     window.addEventListener('focus', onFocus)
     return () => window.removeEventListener('focus', onFocus)
   }, [])
-  const cards = NAV_ITEMS.filter((i) => i.path !== '/')
+  const cards = NAV_ITEMS.filter((i) => i.path !== '/' && i.path !== ROUTES.games)
   const s = st.stats
   const sync = useSyncStatusStore((x) => x.overview)
   const progressChip = useProgressChip()

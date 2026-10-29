@@ -8,6 +8,7 @@ import type { ThemeService } from '../services/themeService'
 import { AppError, fail, wrapHandler } from './envelope'
 import { settingsHandlers } from './settings'
 import { themeHandlers } from './themes'
+import { gamesHandlers, type GamesPorts } from './games'
 import type { ThemeShareService } from '../sync/themeShare'
 import { partyHandlers } from './parties'
 import { customerHandlers } from './customers'
@@ -67,6 +68,8 @@ import type { ImageService } from '../services/imageService'
 import type { PrintService } from '../services/printService'
 
 export interface IpcContext {
+  /** Phase 198: the games catalogue and the per-PC state (absent in tests that do not need it). */
+  games?: GamesPorts
   info: AppInfo
   log: Logger
   themes: ThemeService
@@ -193,6 +196,7 @@ export function registerIpc(ctx: IpcContext): void {
     'app:getDbInfo': wrapHandler(emptyInput, () => ctx.dbInfo()),
     'app:confirmQuit': wrapHandler(emptyInput, () => { ctx.confirmQuit(); return {} }, emptyOutput),
     ...themeHandlers(ctx.themes, ctx.themeShare),
+    ...(ctx.games ? gamesHandlers(ctx.games) : {}),
     ...settingsHandlers(ctx.settings),
     ...appSettingsHandlers(ctx.appSettings),
     ...partyHandlers(ctx.parties),

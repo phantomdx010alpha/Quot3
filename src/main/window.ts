@@ -1,6 +1,7 @@
 import { BrowserWindow, session } from 'electron'
 import type { Logger } from './logger'
 import { buildCsp, isTrustedUrl, type TrustConfig } from './security'
+import { isLeaveGameInput } from './games/gameProtocol'
 
 /** Phase 98: Navy Ember defaults until the renderer reports the active theme (themes.setTitleBar). */
 export const DEFAULT_TITLEBAR_OVERLAY = { color: '#0b1424', symbolColor: '#e6ecf7', height: 32 } as const
@@ -23,6 +24,8 @@ export function installSessionSecurity(isDev: boolean): void {
   const ses = session.defaultSession
   const csp = buildCsp(isDev)
   ses.webRequest.onHeadersReceived((details, callback) => {
+    // Phase 198: a game page keeps the per-response CSP set by the q3game handler (the app's own CSP would break it).
+    if (details.url.startsWith('q3game:')) { callback({ responseHeaders: details.responseHeaders }); return }
     callback({
       responseHeaders: { ...details.responseHeaders, 'Content-Security-Policy': [csp] }
     })
@@ -64,6 +67,10 @@ export function createMainWindow(opts: WindowOptions): BrowserWindow {
     }
   })
   wc.on('will-attach-webview', (event) => event.preventDefault())
+  // Phase 198 (design rule 8, [A]): Alt+Left leaves a game even while the game frame has the keyboard. Main only tells the page; the page decides.
+  wc.on('before-input-event', (_event, input) => {
+    if (isLeaveGameInput({ type: input.type, key: input.key, alt: input.alt, control: input.control, shift: input.shift, meta: input.meta })) wc.send('games:leave', {})
+  })
 
   win.once('ready-to-show', () => { if (!opts.startHidden) win.show() })
 

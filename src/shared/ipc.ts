@@ -28,6 +28,8 @@ import type { SharedSyncBridge } from './sync/sharedUi'
 import type { CutoverBridge } from './sync/cutover'
 import type { BootstrapPreview, BootstrapResult } from './sync/bootstrap'
 import type { AuditFacets, AuditPage, AuditQuery } from './audit'
+import type { GameEntry } from './games/manifest'
+import type { GamesState } from './games/gamesState'
 import type { CrashNotice, RendererReportKind } from './diagnostics'
 import type { UpdateChannel, UpdateState } from './updater'
 import type { VersionList } from './rollback'
@@ -190,7 +192,9 @@ export const EVENT_CHANNELS = [
   'legacyImport:progress',
   'items:progress',
   /** Phase 171: a shared theme file was written or removed on this PC; reload the theme list. */
-  'themes:changed'
+  'themes:changed',
+  /** Phase 198: Alt+Left was pressed (also while a game frame has focus); the Games player leaves the game. */
+  'games:leave'
 ] as const
 export type EventChannel = (typeof EVENT_CHANNELS)[number]
 
@@ -537,6 +541,16 @@ export interface Quot3Bridge {
     copy(input: { bill: PrintDecideInput['bill']; mode: PrintMode }): Promise<Result<ImageCopyResponse>>
     /** Phase 71: render the PNG in the background into the cache (same input as `copy`); the next `copy` of an unchanged bill is then instant. */
     prerender(input: { bill: PrintDecideInput['bill']; mode: PrintMode }): Promise<Result<{ cached: boolean; skipped?: boolean }>>
+  }
+  games: {
+    /** Phase 198: the validated catalogue; `skipped` counts manifest entries that were dropped. */
+    list(): Promise<Result<{ games: GameEntry[]; skipped: number }>>
+    getState(): Promise<Result<GamesState>>
+    setState(state: GamesState): Promise<Result<GamesState>>
+    /** A random game that is not the last played one (when more than one exists), or null when there are no games. */
+    pickRandom(): Promise<Result<GameEntry | null>>
+    getCredits(): Promise<Result<{ id: string; title: string; author: string; source: string; licence: string; commit: string }[]>>
+    getLicense(id: string): Promise<Result<{ text: string }>>
   }
   on(channel: EventChannel, callback: (payload: unknown) => void): () => void
 }

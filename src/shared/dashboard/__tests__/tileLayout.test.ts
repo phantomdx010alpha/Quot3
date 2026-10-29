@@ -4,7 +4,7 @@ import { ageLabel, daysAwayLabel, enabledTiles, localIsoDate, tileRows, tileSpan
 
 describe('tileRows (Phase 126)', () => {
   for (const w of [1024, 1280, 1920]) {
-    for (let n = 1; n <= 6; n++) {
+    for (let n = 1; n <= 7; n++) {
       it(`${n} tile(s) at ${w}px: every row is full (no orphan)`, () => {
         const rows = tileRows(n, w)
         expect(rows.flat()).toHaveLength(n)
@@ -16,10 +16,14 @@ describe('tileRows (Phase 126)', () => {
     expect(tileRows(6, 1920)).toEqual([[4, 4, 4], [4, 4, 4]])
     expect(tileRows(6, 1279)).toEqual([[6, 6], [6, 6], [6, 6]])
   })
+  it('seven tiles (Phase 203): 3 + 4 wide, 2 + 2 + 3 narrow, rows full', () => {
+    expect(tileRows(7, 1280)).toEqual([[4, 4, 4], [3, 3, 3, 3]])
+    expect(tileRows(7, 1024)).toEqual([[6, 6], [6, 6], [4, 4, 4]])
+  })
   it('five tiles never leave a lone tile: 3 + 2 wide ones', () => { expect(tileRows(5, 1024)).toEqual([[4, 4, 4], [6, 6]]) })
   it('zero and out-of-range counts are safe', () => {
     expect(tileSpans(0, 1280)).toEqual([])
-    expect(tileSpans(9, 1280)).toHaveLength(6)
+    expect(tileSpans(9, 1280)).toHaveLength(7)
     expect(tileSpans(-2, 1280)).toEqual([])
   })
 })
@@ -27,8 +31,9 @@ describe('tileRows (Phase 126)', () => {
 describe('tile helpers', () => {
   it('enabledTiles keeps the fixed order and honours flags', () => {
     expect(enabledTiles(DEFAULT_DASH_TILES)).toEqual([...DASH_TILE_KEYS])
-    expect(enabledTiles({ ...DEFAULT_DASH_TILES, usd: false, clock: false })).toEqual(['weather', 'majors', 'metals', 'holidays'])
+    expect(enabledTiles({ ...DEFAULT_DASH_TILES, usd: false, clock: false })).toEqual(['weather', 'majors', 'metals', 'holidays', 'games'])
   })
+  it('the games tile is named exactly "(?)" and is last', () => { expect(TILE_LABELS.games).toBe('(?)'); expect(DASH_TILE_KEYS[DASH_TILE_KEYS.length - 1]).toBe('games'); expect(DASH_TILE_KEYS).toHaveLength(7) })
   it('every tile has a label', () => { for (const k of DASH_TILE_KEYS) expect(TILE_LABELS[k]).not.toBe('') })
   it('localIsoDate uses local fields', () => { expect(localIsoDate(new Date(2026, 0, 5, 23, 59))).toBe('2026-01-05') })
   it('ageLabel', () => {

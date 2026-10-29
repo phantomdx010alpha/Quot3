@@ -14,6 +14,22 @@ describe('security', () => {
     expect(PROD_CSP).toContain("frame-ancestors 'none'")
   })
 
+  it('Phase 198: the games frame is the only CSP addition (frame-src q3game:, in both strings); nothing else loosened', () => {
+    for (const csp of [PROD_CSP, buildCsp(true)]) {
+      expect(csp).toContain('frame-src q3game:')
+      expect(csp.split('; ').filter((d) => d.startsWith('frame-src'))).toEqual(['frame-src q3game:'])
+      expect(csp).toContain("object-src 'none'")
+      expect(csp).toContain("frame-ancestors 'none'")
+      expect(csp).toContain("form-action 'none'")
+      expect(csp).not.toContain('unsafe-eval')
+    }
+    // Same directives as before, plus exactly the frame-src one.
+    expect(PROD_CSP.split('; ').filter((d) => !d.startsWith('frame-src'))).toEqual([
+      "default-src 'self'", "script-src 'self'", "style-src 'self' 'unsafe-inline'", "img-src 'self' data: blob:", "font-src 'self'",
+      "connect-src 'self'", "object-src 'none'", "base-uri 'none'", "form-action 'none'", "frame-ancestors 'none'"
+    ])
+  })
+
   it('dev CSP is only relaxed for scripts/websocket, and only in dev', () => {
     expect(buildCsp(true)).toContain('ws://localhost')
     expect(PROD_CSP).not.toContain('localhost')

@@ -41,9 +41,9 @@ describe('Today tiles (Phase 126)', () => {
     expect(host.querySelector('[data-testid="dash-today"]')).toBeNull()
   })
 
-  it('shows six tiles in order with their data, INR in Indian grouping, and the forex attribution', async () => {
+  it('shows the six live tiles (no games installed, so "(?)" stays hidden) in order with their data, INR in Indian grouping, and the forex attribution', async () => {
     bridge(); await mount()
-    expect(tiles().map((t) => t.dataset.tile)).toEqual([...DASH_TILE_KEYS])
+    expect(tiles().map((t) => t.dataset.tile)).toEqual(DASH_TILE_KEYS.filter((k) => k !== 'games'))
     const txt = (k: string): string => host.querySelector(`[data-tile="${k}"]`)!.textContent!
     expect(txt('weather')).toContain('24°C')
     expect(txt('usd')).toContain('₹83.12')
@@ -104,7 +104,7 @@ describe('Settings > Dashboard tiles (Phase 126)', () => {
     bridge({}, { setTiles, setCity, getCity: vi.fn(async () => ({ ok: true as const, data: { name: 'Bangalore', region: 'Karnataka', country: 'India', lat: 1, lon: 2 } })), searchCities: vi.fn(async () => ({ ok: true as const, data: [hit] })) })
     await act(async () => { root.render(createElement(DashboardSection)) }); await flush()
     const boxes = host.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')
-    expect(boxes).toHaveLength(6)
+    expect(boxes).toHaveLength(7)
     await act(async () => { boxes[3]!.click() }); await flush()
     expect(setTiles).toHaveBeenCalledWith({ metals: false })
     const input = host.querySelector<HTMLInputElement>('input:not([type="checkbox"])')!

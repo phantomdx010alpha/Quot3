@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Chess against the computer or against a friend on the same PC.">
+<link rel="stylesheet" href="css/chessboard.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<main class="wrap">
+  <section class="board-col">
+    <div id="board"></div>
+  </section>
+  <section class="side-col">
+    <h1>Chess</h1>
+    <p id="status" class="status" role="status" aria-live="polite">White to move.</p>
+    <div class="grid">
+      <label for="mode">Play</label>
+      <select id="mode">
+        <option value="computer" selected>Against the computer</option>
+        <option value="two">Two players on this PC</option>
+      </select>
+      <label for="side" id="sideLabel">I play</label>
+      <select id="side">
+        <option value="w" selected>White</option>
+        <option value="b">Black</option>
+        <option value="r">Random</option>
+      </select>
+      <label for="level" id="levelLabel">Level</label>
+      <select id="level">
+        <option value="1">1 - Beginner</option>
+        <option value="2">2 - Easy</option>
+        <option value="3" selected>3 - Medium</option>
+        <option value="4">4 - Hard (slower)</option>
+      </select>
+      <label for="promo">Pawn promotes to</label>
+      <select id="promo">
+        <option value="q" selected>Queen</option>
+        <option value="r">Rook</option>
+        <option value="b">Bishop</option>
+        <option value="n">Knight</option>
+      </select>
+    </div>
+    <div class="buttons">
+      <button id="newBtn" type="button">New game</button>
+      <button id="undoBtn" type="button">Undo</button>
+      <button id="flipBtn" type="button">Flip board</button>
+    </div>
+    <h2>Moves</h2>
+    <ol id="moves" class="moves" aria-label="Move list"></ol>
+    <p class="credit">Rules: chess.js (BSD-2-Clause). Board: chessboard.js (MIT). Computer: chess-ai by Zhang Zeyu (MIT). Pieces are plain text symbols. Full notices are on the Credits screen.</p>
+  </section>
+</main>
+<script src="js/jquery-3.5.1.js"></script>
+<script src="js/chessboard.js"></script>
+<script src="js/chess.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

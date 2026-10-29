@@ -413,6 +413,23 @@ Read `docs/MILESTONE18_DESIGN.md` before any Phase 189-196. Phase 188 (M17 gate)
 - Docs-only changes need no version bump and no tag. Each code phase bumps the version in `package.json` and both spots in `package-lock.json` as listed in `PHASES.md`.
 - Items marked [A] are unconfirmed assumptions (`MILESTONE18_DESIGN.md` section 8); say so in every phase log.
 
+## 10n. Milestone 19 supersessions (Phases 197-204, releases 0.1.40-0.1.47): Games (desktop only)
+
+Read `docs/MILESTONE19_DESIGN.md` before any Phase 197-204. Phase 188 (M17 gate) and Phase 69 (release gate) are separate and still run. This milestone is DESKTOP ONLY: do not touch `src/pwa` or anything phone.
+- **There is NO games API.** An early RAWG idea was scrapped (it returns data about games, not playable games). Never add RAWG, PokéAPI or any games / data API, key, or network call for games.
+- The games are COPIED from public GitHub repos (list in design section 2) into `resources/games/<gameId>/`, not written by us and not rewritten: only minimum recorded patches. **Only repos whose real LICENSE file you opened and which are MIT / BSD / ISC / Apache-2.0 / Unlicense / CC0 are allowed. Never GPL, AGPL, CC-BY-NC, "no licence", or unknown.** Keep each game's LICENSE, list it in `docs/THIRD_PARTY_GAMES.md` and on the Credits screen. If a repo cannot be fetched, ask the owner for a zip; do not guess a licence.
+- Every game must pass `tools/audit-games.mjs` (no remote URLs or CDNs, no `fetch` / XHR / WebSocket / `eval` / `new Function`, no trackers, no oversized or binary-executable files). `vendoredGames.test.ts` runs the audit over the real folder permanently.
+- Do not ship a game that copies a commercial game's name, art or characters (Mario, Pac-Man, Galaga, Tetris-branded, Flappy-branded ...). MIT covers code, not the name or look. Rename generically, drop copied sprites / sounds, list renames and drops in the phase log.
+- Security model: games run only through the private `q3game://<gameId>/` scheme, read-only, per-game origin, in `<iframe sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms">`, per-response CSP, non-`q3game:` requests cancelled. **The app CSP changes by exactly one entry: `frame-src q3game:`.** The renderer and main process make no network call for games. No `unsafe-eval` in game frames.
+- Games add no bill / party / item data, no schema or migration, no Supabase / sync change. Per-PC state is the settings `games.state` and `games.enabled` only; high scores live in each game's own `localStorage`.
+- The Dashboard tile's visible name is exactly "(?)" and nothing else; it opens a RANDOM game [A]; existing PCs keep their other tiles (a stored `dash.tiles` without `games` reads as the default).
+- Stockfish (GPLv3) is NOT shipped unless the owner explicitly agrees (A5 / design rule 10). If Quot3 is ever sold or shared, re-check the IP filter and the GPL decision first.
+- Tokens only, Phosphor only, no emoji in Quot3's own UI (game content keeps its own look); Phase 92 selector rule; keyboard first (the way out of a game is the Back button or `Alt+Left`).
+- Real Windows behaviour (how a game plays, sound, focus, installer size) is never "verified" from the sandbox; it goes in Standing gaps (`docs/M19_OWNER_CHECKLIST.md`).
+- **TESTING RULE (owner's standing rule, repeated on purpose): DO NOT RUN THE FULL TEST SUITE. Never `npm test`, never a bare `npx vitest run`, never the whole `src` folder: run ONLY the required tests.** Do NOT run the full test suite in any Phase 197-204 except the Phase 204 gate, and then only if the owner agrees. Run `npm run typecheck` once plus ONLY the files you wrote or changed and those that could plausibly conflict (named per phase in `PHASES.md`); no desktop build, no dev server; list what you ran and what you did not. Note: `npm run typecheck` stops at 2 pre-existing errors in `src/renderer/components/grid/__tests__/formatSwitch.test.ts` until Phase 197 repairs them (A11).
+- Docs-only changes need no version bump and no tag. Each code phase bumps the version in `package.json` and both spots in `package-lock.json` as listed in `PHASES.md`.
+- Items marked [A] are unconfirmed assumptions (`MILESTONE19_DESIGN.md` section 5); say so in every phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched

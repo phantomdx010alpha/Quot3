@@ -1,7 +1,8 @@
 import { useEffect, useRef, type KeyboardEvent } from 'react'
 import { Icon, Tooltip } from '../ui'
 import { primaryKeys } from '@shared/shortcuts'
-import { NAV_ITEMS } from './navItems'
+import { NAV_ITEMS, visibleNavItems } from './navItems'
+import { useGamesStore } from '../../stores/gamesStore'
 import { usePath, useRouter } from '../../router/routerStore'
 import { ROUTES } from '@shared/routes'
 import { useLegacyWatchStore } from '../../stores/legacyWatchStore'
@@ -13,6 +14,7 @@ export function SideRail(): React.JSX.Element {
   const ref = useRef<HTMLElement>(null)
   // Phase 163: a small dot on Settings while legacy files wait for the owner's decision (checked now and every 30 s).
   const waiting = useLegacyWatchStore((s) => s.reviewCount)
+  const gamesOn = useGamesStore((s) => s.enabled)
   useEffect(() => {
     void useLegacyWatchStore.getState().refreshCount()
     const t = window.setInterval(() => { void useLegacyWatchStore.getState().refreshCount() }, 30_000)
@@ -32,7 +34,7 @@ export function SideRail(): React.JSX.Element {
 
   return (
     <nav ref={ref} className="q3-rail nm-raised" aria-label="Main navigation" onKeyDown={onKeyDown}>
-      {NAV_ITEMS.map((item) => {
+      {visibleNavItems(NAV_ITEMS, gamesOn).map((item) => {
         const active = item.path === path
         return (
           <Tooltip key={item.path} label={item.label} shortcut={primaryKeys(item.action)}>

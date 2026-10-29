@@ -11,6 +11,8 @@ export const PROD_CSP = [
   "object-src 'none'",
   "base-uri 'none'",
   "form-action 'none'",
+  // Phase 198: the games player frame (q3game://<gameId>/). The ONLY CSP change of Milestone 19.
+  'frame-src q3game:',
   "frame-ancestors 'none'"
 ].join('; ')
 
@@ -25,6 +27,7 @@ export const DEV_CSP = [
   "object-src 'none'",
   "base-uri 'none'",
   "form-action 'none'",
+  'frame-src q3game:',
   "frame-ancestors 'none'"
 ].join('; ')
 

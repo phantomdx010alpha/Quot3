@@ -1,0 +1,24 @@
+:root { color-scheme: light dark; --bg: #f4f1ea; --fg: #222; --panel: #fff; --line: #c9c2b3; --accent: #3d6b4f; --accent-fg: #fff; --last: rgba(255, 214, 0, 0.55); --hint: rgba(61, 107, 79, 0.55); }
+@media (prefers-color-scheme: dark) { :root { --bg: #1d1f21; --fg: #e8e6e1; --panel: #2a2d30; --line: #44484d; --accent: #6fae88; --accent-fg: #10140f; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.4 "Segoe UI", system-ui, sans-serif; }
+.wrap { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px; justify-content: center; align-items: flex-start; }
+.board-col { flex: 0 1 auto; width: min(560px, 100%); }
+#board { width: 100%; }
+.side-col { flex: 1 1 260px; max-width: 340px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+h1 { margin: 0 0 6px; font-size: 22px; }
+h2 { margin: 14px 0 6px; font-size: 15px; }
+.status { margin: 0 0 12px; min-height: 2.8em; font-weight: 600; }
+.grid { display: grid; grid-template-columns: auto 1fr; gap: 8px 10px; align-items: center; }
+select, button { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
+button { cursor: pointer; background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+button:disabled { opacity: 0.5; cursor: default; }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.moves { list-style: none; margin: 0; padding: 6px 8px; height: 150px; overflow-y: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); font-variant-numeric: tabular-nums; }
+.moves li { display: grid; grid-template-columns: 2.4em 1fr 1fr; gap: 4px; }
+.moves li .n { opacity: 0.6; }
+.credit { margin: 12px 0 0; font-size: 12px; opacity: 0.7; }
+.highlight-last { box-shadow: inset 0 0 0 3px var(--last); }
+.highlight-hint { box-shadow: inset 0 0 0 3px var(--hint); }
+.highlight-check { box-shadow: inset 0 0 0 3px #d03030; }

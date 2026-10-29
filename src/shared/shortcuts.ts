@@ -15,6 +15,7 @@ export type ActionId =
   | 'nav.history'
   | 'nav.customers'
   | 'nav.items'
+  | 'nav.games'
   | 'nav.settings'
   | 'nav.back'
   | 'bill.new'
@@ -175,6 +176,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'nav.history', label: 'Go to History', group: 'Navigate' },
   { id: 'nav.customers', label: 'Go to Customers', group: 'Navigate' },
   { id: 'nav.items', label: 'Go to Items', group: 'Navigate' },
+  { id: 'nav.games', label: 'Go to Games', group: 'Navigate' },
   { id: 'nav.settings', label: 'Go to Settings', group: 'Navigate' },
   { id: 'nav.back', label: 'Back', group: 'Navigate' },
   { id: 'bill.new', label: 'New bill', group: 'Bill' },
@@ -311,6 +313,8 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'nav.customers', keys: 'Ctrl+3', label: 'Go to Customers', scope: 'global', action: 'nav.customers' },
   // Phase 112: Items is the sixth page; Ctrl+5 was free (the frozen map only covers Ctrl+0..4, which are unchanged).
   { id: 'nav.items', keys: 'Ctrl+5', label: 'Go to Items', scope: 'global', action: 'nav.items' },
+  // Phase 202 (M19): Ctrl+6 was free [A]. Does nothing while Games is switched off in Settings.
+  { id: 'nav.games', keys: 'Ctrl+6', label: 'Go to Games', scope: 'global', action: 'nav.games' },
   { id: 'nav.settings', keys: 'Ctrl+4', label: 'Go to Settings', scope: 'global', action: 'nav.settings' },
   { id: 'nav.back', keys: 'Escape', label: 'Back', scope: 'global', action: 'nav.back' },
   { id: 'bill.new', keys: 'Ctrl+N', label: 'New bill', scope: 'global', action: 'bill.new' },

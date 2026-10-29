@@ -219,8 +219,9 @@ describe('Phase 20 — switcher and palette', () => {
 
   it('the switcher shows the format shortcut from the registry', () => {
     mount()
-    expect(btn(/^GST/).querySelector('.q3-kbds')?.getAttribute('aria-label')).toBe('Alt+1')
-    expect(btn(/Non-GST/).querySelector('.q3-kbds')?.getAttribute('aria-label')).toBe('Alt+2')
+    const label = (v: string): string => [...sel().options].find((o) => o.value === v)?.textContent ?? '' // the switcher is a dropdown since Phase 154; each option carries its shortcut
+    expect(label('gst')).toContain('Alt+1')
+    expect(label('non_gst')).toContain('Alt+2')
   })
 
   it('palette: "switch to gst" is listed and running it switches the format', async () => {

@@ -1,0 +1,33 @@
+--- /tmp/claude-0/src/jquery-3.5.1.orig.js	2026-10-29 08:41:40.045124452 +0000
++++ jquery-3.5.1.js	2026-10-29 08:41:40.070013153 +0000
+@@ -9954,10 +9954,9 @@
+ 
+ 
+ 
++// Quot3 patch: network requests are disabled in bundled games, so no request object is ever created.
+ jQuery.ajaxSettings.xhr = function() {
+-	try {
+-		return new window.XMLHttpRequest();
+-	} catch ( e ) {}
++	return null;
+ };
+ 
+ var xhrSuccessStatus = {
+@@ -9977,7 +9976,7 @@
+ jQuery.ajaxTransport( function( options ) {
+ 	var callback, errorCallback;
+ 
+-	// Cross domain only allowed if supported through XMLHttpRequest
++	// Cross domain only allowed if the browser supports it (never the case here: see the Quot3 patch above)
+ 	if ( support.cors || xhrSupported && !options.crossDomain ) {
+ 		return {
+ 			send: function( headers, complete ) {
+@@ -10010,7 +10009,7 @@
+ 				// (it can always be set on a per-request basis or even using ajaxSetup)
+ 				// For same-domain requests, won't change header if already provided.
+ 				if ( !options.crossDomain && !headers[ "X-Requested-With" ] ) {
+-					headers[ "X-Requested-With" ] = "XMLHttpRequest";
++					headers[ "X-Requested-With" ] = "ajax";
+ 				}
+ 
+ 				// Set headers

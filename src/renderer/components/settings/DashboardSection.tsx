@@ -9,7 +9,7 @@ const api = (): Partial<Api> | undefined => (window as unknown as { quot3?: { da
 const cityText = (c: Pick<DashCity, 'name' | 'region' | 'country'>): string => [c.name, c.region, c.country].filter((x) => x !== '').join(', ')
 
 /**
- * Phase 126 - Settings > Dashboard tiles: which of the six Today tiles show (the Dashboard re-flows so no row is left part-empty) and
+ * Phase 126 - Settings > Dashboard tiles: which of the seven Today tiles show (the last is "(?)", the random game) (the Dashboard re-flows so no row is left part-empty) and
  * the weather city. Only the typed city name is sent to the geocoder; the city is saved as `dash.city`.
  */
 export function DashboardSection(): React.JSX.Element {

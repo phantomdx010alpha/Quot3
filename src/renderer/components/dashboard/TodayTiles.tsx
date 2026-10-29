@@ -7,6 +7,9 @@ import { upcomingHolidays } from '@shared/dashboard/holidays'
 import { ageLabel, daysAwayLabel, enabledTiles, localIsoDate, tileSpans, TILE_LABELS, MIN_TILE_WIDTH } from '@shared/dashboard/tileLayout'
 import { formatHistoryTotal } from '@shared/history/historyList'
 import { Icon } from '../ui'
+import { GamesTile } from './GamesTile'
+import { useGamesStore } from '../../stores/gamesStore'
+import { loadGames, loadGamesEnabled } from '../../stores/gamesActions'
 
 type Api = Quot3Bridge['dashboard']
 const api = (): Partial<Api> | undefined => (window as unknown as { quot3?: { dashboard?: Partial<Api> } }).quot3?.dashboard
@@ -147,7 +150,7 @@ function useWindowWidth(): number {
 }
 
 /**
- * Phase 126 - the Dashboard "Today" section: up to six small tiles (weather, USD/INR, EUR/GBP/AED, gold and silver, clock, holidays)
+ * Phase 126 - the Dashboard "Today" section: up to seven small tiles (weather, USD/INR, EUR/GBP/AED, gold and silver, clock, holidays and the Phase 203 "(?)" games tile)
  * in a 12-column grid whose rows are always full, whatever number is switched on in Settings. All data comes from the main process
  * through `window.quot3.dashboard.*` (cached; a failed refresh shows the last good value dimmed with an 'offline' badge). Nothing here
  * blocks the Dashboard opening: the tiles fill in as their data arrives.
@@ -167,7 +170,11 @@ export function TodayTiles(): React.JSX.Element | null {
     window.addEventListener('focus', onFocus)
     return () => { alive = false; window.removeEventListener('focus', onFocus) }
   }, [])
-  const keys = useMemo(() => (flags ? enabledTiles(flags) : []), [flags])
+  // Phase 203: the "(?)" tile also needs Games switched on and at least one game; otherwise it is hidden and the others re-flow.
+  const gamesOn = useGamesStore((s) => s.enabled)
+  const gameCount = useGamesStore((s) => s.games.length)
+  useEffect(() => { void loadGamesEnabled(); void loadGames() }, [])
+  const keys = useMemo(() => (flags ? enabledTiles(flags).filter((k) => k !== 'games' || (gamesOn && gameCount > 0)) : []), [flags, gamesOn, gameCount])
   const spans = tileSpans(keys.length, width)
   if (flags === null || keys.length === 0) return null
   return (
@@ -182,6 +189,7 @@ export function TodayTiles(): React.JSX.Element | null {
             case 'majors': return <RatesTile key={k} id="majors" span={span} />
             case 'metals': return <MetalsTile key={k} span={span} />
             case 'clock': return <ClockTile key={k} span={span} />
+            case 'games': return <GamesTile key={k} span={span} />
             default: return <HolidaysTile key={k} span={span} />
           }
         })}

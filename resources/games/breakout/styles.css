@@ -1,0 +1,11 @@
+/* ---------- 打砖块 ---------- */
+.game-frame { width: min(480px, 94vw); aspect-ratio: 480 / 680; cursor: none; }
+.game-frame .screen { cursor: default; }
+.pause-btn {
+  position: absolute; right: 10px; top: 8px; z-index: 12; width: 34px; height: 34px; border-radius: 10px; cursor: pointer;
+  font-size: 15px; background: var(--ui-card); border: 1px solid var(--ui-card-border); color: var(--ui-text); opacity: .85;
+}
+.medal-big { font-size: 54px; animation: amg-bob 1.6s ease-in-out infinite; }
+.level-select { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+.dex span b { font-weight: 800; }
+@media (max-width: 520px) { .level-select { max-width: 300px !important; } }

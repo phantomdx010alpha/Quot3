@@ -1,0 +1,26 @@
+/* ---------- 五子棋 · 黑白对弈 ---------- */
+.page { max-width: 1060px; }
+.col { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; width: min(600px, 94vw, calc(100vh - 210px)); min-width: 300px; }
+.game-frame { width: 100%; aspect-ratio: 1; background: transparent; border: none !important; box-shadow: 0 18px 40px rgba(90, 52, 18, .28) !important; }
+.game-frame .screen.clear-bg { background: radial-gradient(ellipse at 50% 40%, rgba(255, 244, 222, .8), rgba(240, 214, 170, .94)) !important; gap: 10px; justify-content: safe center; border-radius: 18px; }
+.screen.clear-bg .title-badge { letter-spacing: 6px; background: linear-gradient(90deg, #2a2a2a, #555) !important; }
+.screen.clear-bg .game-title { font-size: 60px; color: #2a2118 !important; -webkit-text-fill-color: #2a2118 !important; text-shadow: 0 3px 0 rgba(255, 255, 255, .6) !important; letter-spacing: 6px; }
+.stones-deco { font-size: 30px; letter-spacing: 6px; }
+.opts { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.medal-big { font-size: 54px; animation: amg-bob 1.6s ease-in-out infinite; }
+.toolbar { width: 100%; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.status { flex: 1 1 100%; font-weight: 800; font-size: 14px; padding: 9px 14px; border-radius: 12px; background: var(--ui-card); border: 1px solid var(--ui-card-border); color: var(--ui-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status::before { content: '⚫'; margin-right: 6px; font-size: 12px; }
+.status.white::before { content: '⚪'; }
+.status.busy::after { content: ' ···'; display: inline-block; animation: gm-dots 1s steps(4) infinite; width: 2.2em; overflow: hidden; vertical-align: bottom; }
+@keyframes gm-dots { from { width: 0; } }
+.tools { display: flex; gap: 6px; width: 100%; }
+.tools button { flex: 1; font-family: inherit; font-size: 13px; font-weight: 800; padding: 8px 6px; border-radius: 11px; cursor: pointer; background: var(--ui-card); color: var(--ui-text-soft); border: 2px solid var(--ui-card-border); transition: .15s; white-space: nowrap; }
+.tools button:hover:not(:disabled) { border-color: var(--ui-primary); color: var(--ui-text); }
+.tools button.on { border-color: var(--ui-primary); background: var(--ui-primary-soft); }
+.tools button:disabled { opacity: .4; cursor: not-allowed; }
+@media (max-width: 520px) {
+  .screen.clear-bg .game-title, .screen.clear-bg .title-badge, .screen.clear-bg .mini-board, .stones-deco { display: none; }
+  .game-frame .screen.clear-bg { gap: 7px; padding: 10px; }
+  .tools button { font-size: 12px; }
+}

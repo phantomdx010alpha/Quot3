@@ -9,9 +9,12 @@ import Create from './pages/Create'
 import History from './pages/History'
 import Customers from './pages/Customers'
 import Items from './pages/Items'
+import Games from './pages/Games'
 import Settings from './pages/Settings'
 import { TitleBar } from './components/layout/TitleBar'
+import { useEffect } from 'react'
 import { usePath } from './router/routerStore'
+import { loadGamesEnabled } from './stores/gamesActions'
 import { RouteToastClear } from './components/RouteToastClear'
 
 function Page({ path }: { path: string }): React.JSX.Element {
@@ -24,6 +27,8 @@ function Page({ path }: { path: string }): React.JSX.Element {
       return <Customers />
     case ROUTES.items:
       return <Items />
+    case ROUTES.games:
+      return <Games />
     case ROUTES.settings:
       return <Settings />
     case ROUTES.designPreview:
@@ -41,6 +46,8 @@ function Page({ path }: { path: string }): React.JSX.Element {
 
 export default function App(): React.JSX.Element {
   const path = usePath()
+  // Phase 202: read the Games on / off setting once so the side rail, palette and key follow it.
+  useEffect(() => { void loadGamesEnabled() }, [])
   return (
     <div className="q3-app">
       <TitleBar />

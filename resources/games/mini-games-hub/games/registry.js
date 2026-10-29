@@ -1,0 +1,136 @@
+/**
+ * 游戏注册表：大厅卡片与懒加载入口。
+ *
+ * load 用动态 import —— Vite 会为每款游戏单独切 chunk，大厅首屏只加载卡片信息。
+ * 新增一款游戏 = 写一个 game<Name>.js + 在这里加一行，大厅与深链（?g=<id>）自动生效。
+ *
+ * bestLower: 计时制游戏（越快越好），最高分按「更低更好」计（扫雷/记忆翻牌）。
+ */
+export const GAMES = [
+  {
+    id: '4096',
+    name: '4096',
+    icon: '🔢',
+    hue: 268,
+    tagline: '合并同数冲到 4096，可 AI 自动托管',
+    controls: '方向键 / WASD 移动，手机可滑动；空格切换 AI 自动托管（1~10× 倍速），Backspace 撤销一步',
+    load: () => import('./game4096.js'),
+  },
+  {
+    id: 'snake',
+    name: '贪吃蛇',
+    icon: '🐍',
+    hue: 200,
+    tagline: '吃食物变长加速，撞墙即终',
+    controls: '方向键 / WASD 转向，空格暂停，R 重开',
+    load: () => import('./gameSnake.js'),
+  },
+  {
+    id: 'tetris',
+    name: '俄罗斯方块',
+    icon: '🧱',
+    hue: 280,
+    tagline: '7-bag 随机、暂存、硬降、幽灵落点',
+    controls: '←→ 移动 · ↑ 旋转 · ↓ 软降 · 空格硬降 · C 暂存',
+    load: () => import('./gameTetris.js'),
+  },
+  {
+    id: 'minesweeper',
+    name: '扫雷',
+    icon: '💣',
+    hue: 0,
+    tagline: '首点必安全，排雷计时赛',
+    controls: '点击翻开，右键 / 插旗模式标旗',
+    bestLower: true,
+    load: () => import('./gameMinesweeper.js'),
+  },
+  {
+    id: 'breakout',
+    name: '打砖块',
+    icon: '🎯',
+    hue: 210,
+    tagline: '击球角度随命中位置变化',
+    controls: '鼠标 / 触摸移动挡板，空格发球，P 暂停',
+    load: () => import('./gameBreakout.js'),
+  },
+  {
+    id: 'flappy',
+    name: '小鸟飞行',
+    icon: '🐦',
+    hue: 45,
+    tagline: '穿管得分，10/20/30 解锁奖牌',
+    controls: '点击 / 空格扑翅，R 重开',
+    load: () => import('./gameFlappy.js'),
+  },
+  {
+    id: 'memory',
+    name: '记忆翻牌',
+    icon: '🃏',
+    hue: 320,
+    tagline: '配对消除，用时越短越强',
+    controls: '点击翻牌，两两配对',
+    bestLower: true,
+    load: () => import('./gameMemory.js'),
+  },
+  {
+    id: 'whack',
+    name: '打地鼠',
+    icon: '🔨',
+    hue: 30,
+    tagline: '30 秒连击挑战，小心炸弹',
+    controls: '点击冒头的地鼠，金鼠 +5，炸弹 -3',
+    load: () => import('./gameWhack.js'),
+  },
+  {
+    id: 'slide',
+    name: '数字华容道',
+    icon: '🧩',
+    hue: 190,
+    tagline: '滑动复原，计时越短越强',
+    controls: '点击方块或方向键滑动，R 重开',
+    bestLower: true,
+    fresh: true,
+    load: () => import('./gameSlide.js'),
+  },
+  {
+    id: 'shooter',
+    name: '星空战机',
+    icon: '🚀',
+    hue: 250,
+    tagline: '蜂群编队压境，逐波升级',
+    controls: '←→ / AD 移动，空格射击，P 暂停；手机按住拖动自动开火',
+    fresh: true,
+    load: () => import('./gameShooter.js'),
+  },
+  {
+    id: 'dino',
+    name: '跑酷小恐龙',
+    icon: '🦖',
+    hue: 100,
+    tagline: '无尽奔跑，昼夜交替提速',
+    controls: '空格 / 点击跳跃（长按跳更高），↓ 下蹲加速落，R 重开',
+    fresh: true,
+    load: () => import('./gameDino.js'),
+  },
+  {
+    id: 'gomoku',
+    name: '五子棋',
+    icon: '⚫',
+    hue: 225,
+    tagline: '人机对弈，三档棋力可切换',
+    controls: '点击交叉点落子，U 悔棋，R 重开；AI 棋力随时可换',
+    fresh: true,
+    load: () => import('./gameGomoku.js'),
+  },
+  {
+    // href 型条目：不内嵌进游戏厅，点卡片跳独立页面（RoguelikeView 的 iframe 托管）
+    id: 'roguelike',
+    name: '风之剑修',
+    icon: '⚔️',
+    hue: 150,
+    tagline: '水墨仙侠生存肉鸽，可 3 人联机',
+    href: '/tools/roguelike',
+  },
+]
+
+export const findGame = (id) => GAMES.find((g) => g.id === id)

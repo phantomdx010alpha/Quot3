@@ -1,0 +1,16 @@
+/* ---------- 宝石消除 ---------- */
+.game-frame { width: min(480px, 94vw); padding: 14px; display: flex; flex-direction: column; gap: 12px; min-height: 560px; }
+.hud .goal { flex: 1.4; position: relative; }
+.hud .bar { display: block; height: 5px; border-radius: 4px; background: var(--ui-inner); margin-top: 3px; overflow: hidden; }
+.hud .bar s { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #e8954f, #5a9e63); transition: width .35s; }
+.hud .box b.warn { color: #d6443a !important; animation: pulse .8s infinite; }
+@keyframes pulse { 50% { transform: scale(1.12); } }
+.board-wrap { position: relative; width: 100%; aspect-ratio: 1; }
+.board-cv { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 16px; touch-action: none; cursor: pointer; }
+.tools { display: flex; gap: 8px; justify-content: center; }
+.tools .btn.small { padding: 7px 13px; font-size: 13px; }
+.medal-big { font-size: 54px; animation: amg-bob 1.6s ease-in-out infinite; }
+.stars { font-size: 30px; letter-spacing: 6px; margin: 2px 0 8px; }
+.stars span { display: inline-block; animation: amg-pop .4s cubic-bezier(.2, 1.6, .4, 1) backwards; }
+.stars span.off { filter: grayscale(1); opacity: .3; }
+.level-select { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }

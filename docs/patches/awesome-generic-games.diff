@@ -1,0 +1,92 @@
+--- a/gomoku/index.html
++++ b/gomoku/index.html
+@@ -4,12 +4,6 @@
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+ <meta name="description" content="五子棋网页版：15×15 标准棋盘，三档电脑 AI、双人对弈，可选连珠禁手（三三、四四、长连），支持悔棋、提示、显示手数，连成五子发光庆祝，打开即玩。">
+-<link rel="canonical" href="https://awesome-mini-game.vercel.app/games/gomoku/">
+-<link rel="alternate" hreflang="zh-CN" href="https://awesome-mini-game.vercel.app/games/gomoku/">
+-<link rel="alternate" hreflang="en" href="https://awesome-mini-game.vercel.app/games/gomoku/?lang=en">
+-<link rel="alternate" hreflang="ja" href="https://awesome-mini-game.vercel.app/games/gomoku/?lang=ja">
+-<link rel="alternate" hreflang="ko" href="https://awesome-mini-game.vercel.app/games/gomoku/?lang=ko">
+-<link rel="alternate" hreflang="x-default" href="https://awesome-mini-game.vercel.app/games/gomoku/">
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="Awesome Mini Game">
+ <meta property="og:title" content="五子棋 · 黑白对弈">
+@@ -37,7 +31,6 @@
+ </script>
+ <link rel="icon" href="/favicon.svg" />
+ <title>五子棋 · 黑白对弈</title>
+-<link rel="preload" href="../../assets/fonts/zcool-qkhy-subset.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="../../assets/game-page.css?v=bb426f56" />
+ <link rel="stylesheet" href="styles.css?v=7e6422c4" />
+ <link rel="stylesheet" href="../../assets/ui.css?v=af398126" />
+--- a/memory/index.html
++++ b/memory/index.html
+@@ -4,12 +4,6 @@
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+ <meta name="description" content="记忆翻牌网页版：翻开两张卡片找相同的图案！4 档难度、动物/水果/太空/海洋 4 套卡面，单人计时挑战或双人轮流对战，3D 翻牌动画。">
+-<link rel="canonical" href="https://awesome-mini-game.vercel.app/games/memory/">
+-<link rel="alternate" hreflang="zh-CN" href="https://awesome-mini-game.vercel.app/games/memory/">
+-<link rel="alternate" hreflang="en" href="https://awesome-mini-game.vercel.app/games/memory/?lang=en">
+-<link rel="alternate" hreflang="ja" href="https://awesome-mini-game.vercel.app/games/memory/?lang=ja">
+-<link rel="alternate" hreflang="ko" href="https://awesome-mini-game.vercel.app/games/memory/?lang=ko">
+-<link rel="alternate" hreflang="x-default" href="https://awesome-mini-game.vercel.app/games/memory/">
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="Awesome Mini Game">
+ <meta property="og:title" content="记忆翻牌 · 益智配对">
+@@ -36,7 +30,6 @@
+ </script>
+ <link rel="icon" href="/favicon.svg" />
+ <title>记忆翻牌 · 益智配对</title>
+-<link rel="preload" href="../../assets/fonts/zcool-qkhy-subset.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="../../assets/game-page.css?v=bb426f56" />
+ <link rel="stylesheet" href="styles.css?v=f349329f" />
+ <link rel="stylesheet" href="../../assets/ui.css?v=af398126" />
+--- a/breakout/index.html
++++ b/breakout/index.html
+@@ -4,12 +4,6 @@
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+ <meta name="description" content="打砖块网页版：10 个精心设计的关卡，硬砖、钢砖、爆炸砖，加长、多球、激光、火球、磁吸等 8 种道具，连击加分，鼠标、键盘、触屏都能玩。">
+-<link rel="canonical" href="https://awesome-mini-game.vercel.app/games/breakout/">
+-<link rel="alternate" hreflang="zh-CN" href="https://awesome-mini-game.vercel.app/games/breakout/">
+-<link rel="alternate" hreflang="en" href="https://awesome-mini-game.vercel.app/games/breakout/?lang=en">
+-<link rel="alternate" hreflang="ja" href="https://awesome-mini-game.vercel.app/games/breakout/?lang=ja">
+-<link rel="alternate" hreflang="ko" href="https://awesome-mini-game.vercel.app/games/breakout/?lang=ko">
+-<link rel="alternate" hreflang="x-default" href="https://awesome-mini-game.vercel.app/games/breakout/">
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="Awesome Mini Game">
+ <meta property="og:title" content="打砖块 · 弹射街机">
+@@ -36,7 +30,6 @@
+ </script>
+ <link rel="icon" href="/favicon.svg" />
+ <title>打砖块 · 弹射街机</title>
+-<link rel="preload" href="../../assets/fonts/zcool-qkhy-subset.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="../../assets/game-page.css?v=bb426f56" />
+ <link rel="stylesheet" href="styles.css?v=2b3fe189" />
+ <link rel="stylesheet" href="../../assets/ui.css?v=af398126" />
+--- a/match3/index.html
++++ b/match3/index.html
+@@ -4,12 +4,6 @@
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+ <meta name="description" content="宝石消除网页版：交换相邻宝石三连消除，4 连生成条纹宝石、L/T 形生成炸弹、5 连生成彩虹宝石，15 个步数关卡加限时模式，连锁 combo 爽感拉满。">
+-<link rel="canonical" href="https://awesome-mini-game.vercel.app/games/match3/">
+-<link rel="alternate" hreflang="zh-CN" href="https://awesome-mini-game.vercel.app/games/match3/">
+-<link rel="alternate" hreflang="en" href="https://awesome-mini-game.vercel.app/games/match3/?lang=en">
+-<link rel="alternate" hreflang="ja" href="https://awesome-mini-game.vercel.app/games/match3/?lang=ja">
+-<link rel="alternate" hreflang="ko" href="https://awesome-mini-game.vercel.app/games/match3/?lang=ko">
+-<link rel="alternate" hreflang="x-default" href="https://awesome-mini-game.vercel.app/games/match3/">
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="Awesome Mini Game">
+ <meta property="og:title" content="宝石消除 · 三消连击">
+@@ -36,7 +30,6 @@
+ </script>
+ <link rel="icon" href="/favicon.svg" />
+ <title>宝石消除 · 三消连击</title>
+-<link rel="preload" href="../../assets/fonts/zcool-qkhy-subset.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="../../assets/game-page.css?v=bb426f56" />
+ <link rel="stylesheet" href="styles.css?v=b96c1be1" />
+ <link rel="stylesheet" href="../../assets/ui.css?v=af398126" />

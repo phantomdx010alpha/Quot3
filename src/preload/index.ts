@@ -236,6 +236,14 @@ const bridge: Quot3Bridge = {
     copy: (input) => ipcRenderer.invoke('image:copy', input),
     prerender: (input) => ipcRenderer.invoke('image:prerender', input)
   },
+  games: {
+    list: () => ipcRenderer.invoke('games:list', {}),
+    getState: () => ipcRenderer.invoke('games:getState', {}),
+    setState: (state) => ipcRenderer.invoke('games:setState', state),
+    pickRandom: () => ipcRenderer.invoke('games:pickRandom', {}),
+    getCredits: () => ipcRenderer.invoke('games:getCredits', {}),
+    getLicense: (id) => ipcRenderer.invoke('games:getLicense', { id })
+  },
   on(channel, callback) {
     if (!isEventChannel(channel)) return () => undefined
     const listener = (_event: unknown, payload: unknown): void => callback(payload)

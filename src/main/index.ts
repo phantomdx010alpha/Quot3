@@ -112,12 +112,16 @@ import { confirmCloseAction, readBackgroundSettings, secondInstanceAction, shoul
 import { createBackgroundService, type BackgroundService } from './services/backgroundService'
 import { createElectronBackgroundPorts } from './services/backgroundElectron'
 import { resolveRuntimePaths } from './runtimePaths'
+import { registerGameScheme, installGameHost } from './games/gameProtocolElectron'
+import { createGameCatalog } from './games/gameCatalog'
 import { APP_ID, APP_NAME } from '../shared/appInfo'
 
 const isDev = !app.isPackaged
 // Phase 64: shipped files (migrations, fonts, icons) - beside the asar when installed, in the source tree in dev.
 const runtimePaths = resolveRuntimePaths({ isPackaged: app.isPackaged, resourcesPath: process.resourcesPath, appPath: app.getAppPath() })
 const devUrl = isDev ? process.env['ELECTRON_RENDERER_URL'] : undefined
+// Phase 198 (M19 Games): the q3game:// scheme must be registered before the app is ready.
+registerGameScheme()
 
 // Phase 2: data lives under %LOCALAPPDATA%\Quot3 (not Roaming). MUST run before app is ready.
 const layout = dataLayout(
@@ -545,6 +549,10 @@ if (!app.requestSingleInstanceLock()) {
     updates.start()
     app.on('will-quit', () => updates.stop())
     installSessionSecurity(isDev)
+    // Phase 198: the read-only games host (nothing is listed until Phase 199 adds games; no network is ever used for games).
+    const gamesRoot = join(runtimePaths.resourcesRoot, 'games')
+    const gameCatalog = createGameCatalog({ gamesRoot, warn: (m, extra) => log.warn(m, extra as Record<string, unknown>) })
+    installGameHost({ gamesRoot, frameAncestors: devUrl ? new URL(devUrl).origin : 'file:', warn: (m, extra) => log.warn(m, extra as Record<string, unknown>) })
     registerIpc({
       info: {
         version: app.getVersion(),
@@ -555,6 +563,7 @@ if (!app.requestSingleInstanceLock()) {
       log,
       themes: themeServiceRef,
       themeShare: themeShareRef,
+      games: { catalog: gameCatalog, readState: () => settings.get('games.state'), writeState: (json) => { settings.set('games.state', JSON.parse(json)) } },
       settings: settingsForIpc,
       appSettings,
       backup,

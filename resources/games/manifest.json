@@ -1,0 +1,1089 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "id": "auto-composer",
+      "title": "Star Composer",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Place notes on a starry sky and let it play a tune for you. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "cat-seesaw",
+      "title": "Cat Seesaw",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Balance a seesaw with a cat on it. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "dodge-blocks",
+      "title": "Neon Dodge",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Dodge the falling neon blocks for as long as you can. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "em-lab",
+      "title": "Electromagnetic Lab",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "Play with electric and magnetic field simulations. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "farm-tycoon",
+      "title": "Star Farm",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Grow crops and run a small farm. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "fractal-gallery",
+      "title": "Fractal Gallery",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Explore and draw colourful fractals. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "hydrogen-atom",
+      "title": "Hydrogen Atom Explorer",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Look at hydrogen orbitals and probability clouds. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "iso-snake",
+      "title": "Isometric Snake",
+      "tags": [
+        "arcade"
+      ],
+      "description": "A snake game on a 3D isometric board. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "math-lab",
+      "title": "Math Lab",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "Interactive maths experiments and plots. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "merge-2048",
+      "title": "Merge Numbers",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Slide and merge numbers to make bigger ones. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "merge-cats",
+      "title": "Merge Cats",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "Drop and merge cats into bigger cats. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "merge-town",
+      "title": "Merge Town",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "Merge items to build up a small town. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "newton-lab",
+      "title": "Newton Lab",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "Try force and motion experiments (Newton second law). Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "room-styler",
+      "title": "Room Styler",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Arrange and style a room. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "sky-shooter",
+      "title": "Sky Shooter",
+      "tags": [
+        "shooter",
+        "arcade"
+      ],
+      "description": "Fly a ship and shoot down waves of enemies. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "neon-snake",
+      "title": "Neon Snake",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Classic snake with a neon look. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "stickman-runner",
+      "title": "Stickman Runner",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Run and jump with a flaming stickman. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "stickman-stage",
+      "title": "Stickman Stage",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "Watch a stickman dance on stage. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "neon-sudoku",
+      "title": "Neon Sudoku",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Sudoku with a neon look. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "star-tarot",
+      "title": "Star Tarot",
+      "tags": [
+        "card",
+        "relaxing"
+      ],
+      "description": "Draw tarot cards for fun. Interface is in Chinese.",
+      "source": "https://github.com/skymoon173/mini-game-collection",
+      "commit": "3fa43546e65c54eccc5066942d343799b58ab256",
+      "licence": "MIT",
+      "author": "Joney Lee (skymoon173)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "mini-games-hub",
+      "title": "Mini Games Hub",
+      "tags": [
+        "arcade",
+        "puzzle",
+        "retro"
+      ],
+      "description": "Twelve small games in one page: 4096, snake, blocks, minesweeper, breakout, memory, whack-a-mole, sliding puzzle, space shooter, dino run, gomoku and more.",
+      "source": "https://github.com/bushimashen/games",
+      "commit": "336ff7d441da379da4b1365048072fa38c598128",
+      "licence": "MIT",
+      "author": "codegoder (bushimashen)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "bounce-ball",
+      "title": "Bounce Ball",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Guide a bouncing ball through levels full of platforms and traps.",
+      "source": "https://github.com/TomMalbran/games",
+      "commit": "ad25e5be146850942cb42cf98c2c342a8a45cea2",
+      "licence": "MIT",
+      "author": "Tomas Malbran",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "tower-defence",
+      "title": "Tower Defence",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Build towers on the map to stop waves of monsters reaching the exit.",
+      "source": "https://github.com/TomMalbran/games",
+      "commit": "ad25e5be146850942cb42cf98c2c342a8a45cea2",
+      "licence": "MIT",
+      "author": "Tomas Malbran",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "snake",
+      "title": "Snake",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Classic snake: eat, grow, and do not hit yourself.",
+      "source": "https://github.com/TomMalbran/games",
+      "commit": "ad25e5be146850942cb42cf98c2c342a8a45cea2",
+      "licence": "MIT",
+      "author": "Tomas Malbran",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "spider-solitaire",
+      "title": "Spider Solitaire",
+      "tags": [
+        "card"
+      ],
+      "description": "The Spider solitaire card game with one, two or four suits.",
+      "source": "https://github.com/TomMalbran/games",
+      "commit": "ad25e5be146850942cb42cf98c2c342a8a45cea2",
+      "licence": "MIT",
+      "author": "Tomas Malbran",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "blocks",
+      "title": "Blocks",
+      "tags": [
+        "puzzle",
+        "retro"
+      ],
+      "description": "Falling-blocks puzzle: fit the pieces and clear full lines.",
+      "source": "https://github.com/TomMalbran/games",
+      "commit": "ad25e5be146850942cb42cf98c2c342a8a45cea2",
+      "licence": "MIT",
+      "author": "Tomas Malbran",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "2048",
+      "title": "2048",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Slide the tiles and join equal numbers to reach 2048.",
+      "source": "https://github.com/gd4Ark/2048",
+      "commit": "3ff85b27a73eaafb307af9cb03e7f18192e36a46",
+      "licence": "MIT",
+      "author": "4Ark (gd4Ark)",
+      "entry": "index.html",
+      "players": 1,
+      "touch": true,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "ball-arena",
+      "title": "Star Cluster Arena",
+      "tags": [
+        "arcade"
+      ],
+      "description": "A crowded arena game where you steer a cluster and grow against rivals. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "ball-arena.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "shan-hai",
+      "title": "Mountain and Sea Demon Hunt",
+      "tags": [
+        "arcade"
+      ],
+      "description": "An action game set in a mythical mountains-and-seas world. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "shan-hai.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "starforge-idle",
+      "title": "Starforge Workshop",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "An idle crafting game: feed a star forge and grow your workshop. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "starforge-idle.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "garden-front",
+      "title": "Sprout Front",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Defend a garden by placing sprouts along the lanes, over six regions. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "garden-front.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "moba-frontier",
+      "title": "Crystal Tower Front",
+      "tags": [
+        "arcade"
+      ],
+      "description": "A lane-pushing battle game: break the enemy crystal tower. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "moba-frontier.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "slingstorm",
+      "title": "Slingstorm",
+      "tags": [
+        "arcade",
+        "puzzle"
+      ],
+      "description": "Pull back the sling and launch shots at targets. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "slingstorm.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "spud-arena",
+      "title": "Spud Breakout",
+      "tags": [
+        "arcade",
+        "shooter"
+      ],
+      "description": "Survive waves in an arena as a potato with growing weapons. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "spud-arena.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "tank-arena",
+      "title": "Neon Armour",
+      "tags": [
+        "shooter"
+      ],
+      "description": "A neon tank battle arena. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "tank-arena.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "abyss-sonar",
+      "title": "Abyss Sonar",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Navigate dark waters with sonar pings on a silent route. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "abyss-sonar.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "auto-chess-forge",
+      "title": "Rune Auto-Battler",
+      "tags": [
+        "board"
+      ],
+      "description": "Build a team of runes between rounds and watch them fight on their own. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "auto-chess-forge.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "beat-bento",
+      "title": "Beat Bento",
+      "tags": [
+        "arcade"
+      ],
+      "description": "A rhythm game set at a night-market food stall. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "beat-bento.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "chalk-billiards",
+      "title": "Chalk Billiards",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Cue sports over nine tables of chalk-drawn trick shots. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "chalk-billiards.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "comet-weaver",
+      "title": "Comet Weaver",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Weave comet trails across a star curtain. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "comet-weaver.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "dice-delver",
+      "title": "Dice Delver",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "A dice-driven expedition with forks in the road. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "dice-delver.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "drift-racer",
+      "title": "Drift Racer",
+      "tags": [
+        "arcade"
+      ],
+      "description": "A drifting race tour. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "drift-racer.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "dungeon-delver",
+      "title": "Candlelit Dungeon",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Explore a dungeon by candlelight on the way to the throne. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "dungeon-delver.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "ember-tactics",
+      "title": "Ember Tactics",
+      "tags": [
+        "board"
+      ],
+      "description": "A turn-based tactics game over nine regions. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "ember-tactics.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "gem-garden",
+      "title": "Gem Garden",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "A gem-and-candy garden with seasonal orders. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "gem-garden.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "moon-lander",
+      "title": "Moon Lander",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Land a craft gently on the moon across nine contract stations. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "moon-lander.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "orbital-pinball",
+      "title": "Orbital Pinball",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Pinball across three orbital tables. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "orbital-pinball.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "pocket-farm",
+      "title": "Pocket Farm",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "A small four-season farm in a stream valley. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "pocket-farm.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "river-holdem",
+      "title": "River Poker",
+      "tags": [
+        "card"
+      ],
+      "description": "A three-table poker game against computer players. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "river-holdem.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "shadow-post",
+      "title": "Shadow Post",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "A twelve-night stealth delivery game. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "shadow-post.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "thunder-vanguard",
+      "title": "Thunder Vanguard",
+      "tags": [
+        "shooter"
+      ],
+      "description": "A vertical shooter campaign. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "thunder-vanguard.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "air-hockey",
+      "title": "Air Hockey",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Air hockey in a twelve-seat cup. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "air-hockey.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "sokoban-quest",
+      "title": "Warehouse Pusher",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Push crates into place across twelve warehouse shifts. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "sokoban-quest.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "mine-matrix",
+      "title": "Deep-Space Sweeper",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "A logic grid game: clear the field without hitting a mine. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "mine-matrix.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "solitaire-classic",
+      "title": "Quiet Night Solitaire",
+      "tags": [
+        "card",
+        "relaxing"
+      ],
+      "description": "Klondike solitaire with twelve seeded deals. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "solitaire-classic.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "pocket-golf",
+      "title": "Pocket Golf",
+      "tags": [
+        "arcade",
+        "relaxing"
+      ],
+      "description": "Mini golf across three courses. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "pocket-golf.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "curling-endgame",
+      "title": "Curling Endgame",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Twelve curling end-of-game puzzles. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "curling-endgame.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "pulse-studio",
+      "title": "Pulse Studio",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "A free-form music maker with four sections. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "pulse-studio.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "mosaic-jigsaw",
+      "title": "Stained Glass Jigsaw",
+      "tags": [
+        "puzzle",
+        "relaxing"
+      ],
+      "description": "Repair twelve stained-glass windows piece by piece. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "mosaic-jigsaw.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "elemental-sandbox",
+      "title": "Elemental Sandbox",
+      "tags": [
+        "relaxing"
+      ],
+      "description": "A falling-sand sandbox where elements react. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "elemental-sandbox.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "crossword-cafe",
+      "title": "Crossword Cafe",
+      "tags": [
+        "word",
+        "puzzle"
+      ],
+      "description": "Twelve themed English-word grids. Interface is in Chinese.",
+      "source": "https://github.com/wangzifan396-wzf/mini-browser-games",
+      "commit": "02106d2f52963fdaace080280b9f065f885d77b0",
+      "licence": "MIT",
+      "author": "wangzifan396-wzf",
+      "entry": "crossword-cafe.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "gomoku",
+      "title": "Gomoku",
+      "tags": [
+        "board",
+        "two-player"
+      ],
+      "description": "Five in a row on a 15 by 15 board against the computer (three levels) or a friend, with undo and hints. Interface is in Chinese.",
+      "source": "https://github.com/davidzhanghui/awesome-mini-game",
+      "commit": "2a1f77f7355a60521d8ff5e6a2d9946cd41ab7d9",
+      "licence": "MIT",
+      "author": "davidzhanghui",
+      "entry": "index.html",
+      "players": 2,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "memory",
+      "title": "Memory Match",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Flip two cards to find pairs; four difficulty levels, timed solo play or two players taking turns. Interface is in Chinese.",
+      "source": "https://github.com/davidzhanghui/awesome-mini-game",
+      "commit": "2a1f77f7355a60521d8ff5e6a2d9946cd41ab7d9",
+      "licence": "MIT",
+      "author": "davidzhanghui",
+      "entry": "index.html",
+      "players": 2,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "breakout",
+      "title": "Brick Breaker",
+      "tags": [
+        "arcade",
+        "retro"
+      ],
+      "description": "Ten levels of bricks with power-ups; mouse, keyboard or touch. Interface is in Chinese.",
+      "source": "https://github.com/davidzhanghui/awesome-mini-game",
+      "commit": "2a1f77f7355a60521d8ff5e6a2d9946cd41ab7d9",
+      "licence": "MIT",
+      "author": "davidzhanghui",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "match3",
+      "title": "Gem Match",
+      "tags": [
+        "puzzle"
+      ],
+      "description": "Swap neighbouring gems to match three or more, with combos and fifteen move-limited levels. Interface is in Chinese.",
+      "source": "https://github.com/davidzhanghui/awesome-mini-game",
+      "commit": "2a1f77f7355a60521d8ff5e6a2d9946cd41ab7d9",
+      "licence": "MIT",
+      "author": "davidzhanghui",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-10-29"
+    },
+    {
+      "id": "chess",
+      "title": "Chess",
+      "tags": [
+        "chess",
+        "board",
+        "two-player"
+      ],
+      "description": "Play chess against the computer (four levels, White, Black or random side) or against a friend on the same PC, with undo, flip board and a move list.",
+      "source": "https://github.com/zeyu2001/chess-ai",
+      "commit": "30e96db3b77495ea462c5d9990fc375ba5a1ae7e",
+      "licence": "MIT",
+      "author": "Zhang Zeyu (zeyu2001), with chess.js by Jeff Hlywa and chessboard.js by Chris Oakman",
+      "entry": "index.html",
+      "players": 2,
+      "touch": false,
+      "added": "2026-10-29"
+    }
+  ]
+}

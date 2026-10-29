@@ -58,6 +58,9 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   [SCENES_ENABLED_KEY]: SCENES_ENABLED_DEFAULT,
   /** Phase 171: "Share my themes with the other PCs" (OFF by default [A]). Needs the shared notebook; see shared/theme/themeShare.ts. */
   [THEME_SHARE_KEY]: THEME_SHARE_DEFAULT,
+  /** Phase 198 (M19 Games): switch for the Games page, its nav item, shortcut, palette entry and Dashboard tile; and the per-PC favourites / history (see shared/games/gamesState.ts). */
+  'games.enabled': true,
+  'games.state': { favourites: [], lastPlayed: {}, plays: {} },
   'ui.rowHeight': null,
   'ui.gridFontSize': null,
   /** Phase 160: legacy watch (folder path, on / off, rescan seconds). All OFF by default; see shared/legacyWatch/watchConfig.ts. */

@@ -61,7 +61,7 @@ describe('Phase 125 - settings + cache rules', () => {
     expect(normalizeCity(undefined)).toEqual(DEFAULT_CITY)
     expect(normalizeCity({ name: 'X', lat: 200, lon: 0 })).toEqual(DEFAULT_CITY)
     expect(normalizeCity({ name: ' Pune ', lat: 18.5, lon: 73.8 })).toMatchObject({ name: 'Pune', region: '', country: '' })
-    expect(normalizeTiles({ weather: false, nope: true, usd: 'x' })).toEqual({ weather: false, usd: true, majors: true, metals: true, clock: true, holidays: true })
+    expect(normalizeTiles({ weather: false, nope: true, usd: 'x' })).toEqual({ weather: false, usd: true, majors: true, metals: true, clock: true, holidays: true, games: true })
   })
   it('freshness: same key and younger than the refresh period only', () => {
     const e = { key: 'k', fetchedAt: '2026-10-11T10:00:00.000Z', data: 1 }

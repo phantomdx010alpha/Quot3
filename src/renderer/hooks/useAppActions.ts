@@ -27,6 +27,7 @@ import { useHistoryStore } from '../stores/historyStore'
 import { useCustomersStore } from '../stores/customersStore'
 import { useDuplicatesStore } from '../stores/duplicatesStore'
 import { useItemsStore } from '../stores/itemsStore'
+import { useGamesStore } from '../stores/gamesStore'
 import { onCustomersPage, showCustomerBills } from '../stores/customersActions'
 import { toggleRevisions } from '../stores/revisionActions'
 import { useLegacyImportStore } from '../stores/legacyImportStore'
@@ -89,6 +90,8 @@ export function useAppActions(): ActionHandlers {
       'nav.history': () => navigate(ROUTES.history),
       'nav.customers': () => navigate(ROUTES.customers),
       'nav.items': () => navigate(ROUTES.items),
+      // Phase 202: off when Games is switched off in Settings (the key and palette entry then do nothing).
+      'nav.games': () => { if (useGamesStore.getState().enabled) navigate(ROUTES.games) },
       'nav.settings': () => navigate(ROUTES.settings),
       'nav.back': () => back(),
       // Until Phase 25+, "new bill" simply opens the (placeholder) Create page.

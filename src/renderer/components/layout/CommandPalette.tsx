@@ -3,6 +3,7 @@ import { MagnifyingGlass } from '@phosphor-icons/react'
 import { allActions, primaryKeys, type ActionId } from '@shared/shortcuts'
 import { searchActions } from '@shared/commandSearch'
 import { Icon, Kbd } from '../ui'
+import { useGamesStore } from '../../stores/gamesStore'
 
 export interface CommandPaletteProps {
   open: boolean
@@ -16,7 +17,9 @@ export function CommandPalette({ open, onClose, onRun }: CommandPaletteProps): R
   const [index, setIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
-  const results = useMemo(() => searchActions(query, allActions()), [query])
+  const gamesOn = useGamesStore((s) => s.enabled)
+  // Phase 202: no "Go to Games" entry while Games is switched off.
+  const results = useMemo(() => searchActions(query, allActions().filter((a) => gamesOn || a.id !== 'nav.games')), [query, gamesOn])
 
   useEffect(() => {
     if (!open) return

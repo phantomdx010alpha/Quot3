@@ -1,0 +1,481 @@
+# THIRD_PARTY_GAMES — Quot3 games: licence record (Milestone 19)
+
+**Master record for every open-source game, library and asset copied into Quot3. Written in Phase 197 on 2026-10-29. Batch 1 (Phase 199) and batch 2 (Phase 200), both 2026-10-29, are copied into `resources/games`; chess (Phase 201, 2026-10-29) is copied too.** Each later phase adds a row to section 3 for every game it vendors, with its patches and its audit result. The text of this file is also bundled as `resources/games/THIRD_PARTY.txt` (Phase 198+).
+
+Not legal advice. The owner uses Quot3 personally today ([A1], unconfirmed). If Quot3 is ever sold or given to others, re-check the design rule 5 (names and art of commercial games) and section 4 item 3 (piece art) first.
+
+## 1. How this was checked (Phase 197, 2026-10-29)
+
+Every repo below was cloned with `git clone --depth 1` from GitHub inside the sandbox, its real LICENSE file was opened and its text compared with the standard MIT / BSD-2-Clause wording (the grant paragraph "Permission is hereby granted..." was present in each MIT file; chess.js is BSD-2-Clause). The commit SHA and commit date are those of the cloned HEAD. **If a later phase re-clones, record the new SHA and diff the LICENSE.** All twelve repos could be fetched, so no zip was requested from the owner.
+
+## 2. Source repos (all on the allowed list)
+
+| Repo | Licence file | Licence | Copyright holder (from the file) | HEAD commit (SHA) | Commit date | Status |
+|---|---|---|---|---|---|---|
+| `skymoon173/mini-game-collection` | `LICENSE` | MIT (the file also lists third-party notices for Recorder.js and opus-recorder under a legacy folder we do not use) | 2026 Joney Lee (skymoon173) | `3fa43546e65c54eccc5066942d343799b58ab256` | 2026-09-19 | USED (21 folders under `games/`) |
+| `bushimashen/games` | `LICENSE` | MIT | 2026 codegoder | `336ff7d441da379da4b1365048072fa38c598128` | 2026-10-27 | USED |
+| `wangzifan396-wzf/mini-browser-games` | `LICENSE` | MIT (text seen and standard; `star-cluster-arena/` carries a second identical MIT file) | 2026 wangzifan396-wzf | `02106d2f52963fdaace080280b9f065f885d77b0` | 2026-10-23 | USED (Phase 200, grades S / A only) |
+| `TomMalbran/games` | `LICENSE` | MIT | 2013 Tomás Malbrán | `ad25e5be146850942cb42cf98c2c342a8a45cea2` | 2024-02-18 | USED |
+| `mumuy/pacman` | `LICENSE` | MIT | 2016 Haole Zheng | `8a96194f7cf0102db2d7f0e69450166beb1d7116` | 2026-05-07 | USED ONLY AFTER PATCH + RENAME (index.html loads scripts, CSS and images from passer-by.com and navigates to it; the name "Pac-Man" is a trademark, see design rule 5) |
+| `gd4Ark/2048` | `LICENSE` | MIT | 2019 4Ark | `3ff85b27a73eaafb307af9cb03e7f18192e36a46` | 2021-03-08 | USED (2048) |
+| `gabrielecirulli/2048` | `LICENSE.txt` | MIT | 2014 Gabriele Cirulli | `478b6ec346e3787f589e4af751378d06ded4cbbc` | 2024-10-24 | RESERVE (gd4Ark/2048 is the planned copy; [CHECK] answered: this repo IS MIT) |
+| `davidzhanghui/awesome-mini-game` | `LICENSE` | MIT (code only; the README says names, designs and rules belong to their original creators) | 2026 davidzhanghui | `2a1f77f7355a60521d8ff5e6a2d9946cd41ab7d9` | 2026-10-23 | USED for generic games only (Phase 200); the audit found 162 remote <link> tags and an importScripts in chinese-chess, so each game is checked and patched or dropped |
+| `jhlywa/chess.js` | `LICENSE` | BSD-2-Clause | 2025, Jeff Hlywa (jhlywa@gmail.com) | `d43e6683efeefbd07f8c53e8e7a47c62cf612439` | 2026-08-11 | USED (Phase 201) |
+| `zeyu2001/chess-ai` | `LICENSE` | MIT | 2020 Zhang Zeyu | `30e96db3b77495ea462c5d9990fc375ba5a1ae7e` | 2021-08-31 | USED (Phase 201) after vendoring its CDN files (Bootstrap, jQuery, Material Icons, a Font Awesome kit and chessboard.js are loaded from the internet; the audit flags 4 remote references) |
+| `kbjorklu/chess` | `LICENSE` | MIT (its bundled jQuery etc. keep their own licences) | 2013 Kaj Björklund | `61c19eaa8afbb54a73870c2be883023b06a455bc` | 2018-02-09 | OPTIONAL, "Chess (classic)" (Phase 201). Audit found 11 remote references, 6 XMLHttpRequest uses and a minified file: likely DROPPED unless patched |
+| `oakmac/chessboardjs` | `LICENSE.md` | MIT ([CHECK] answered: it IS MIT) | 2019 Chris Oakman | `bfb9315cd44d22c4a3ccc883ab4c0b42e902557e` | 2022-12-09 | USED (Phase 201), copy `lib/chessboard.js` + `lib/chessboard.css` (readable source) instead of the CDN min file |
+
+**Dropped or not used (unchanged from the design):** `AlexNisnevich/untrusted` (CC-BY-NC-SA), `FreezingMoon/AncientBeast` (AGPL-3.0), `linrock/blitz-tactics` (GPL-3.0), unblocked-games sites, `mshvarts/Chess` (no licence), Lozza (GPLv3), the RAWG / PokeAPI / freepublicapis data APIs. `nmrugg/stockfish.js` (GPLv3) is NOT shipped (design rule 10, [A5]). Nothing from the Chinese-named legacy folders of `skymoon173/mini-game-collection` (Python scripts, Recorder.js, opus-recorder) is used.
+
+## 3. Vendored games (one row per game, added by Phases 199-201)
+
+| Game id | Title | Source repo + folder | Commit | Licence | Patches (unified diff kept under `docs/patches/`) | Audit | Renamed / dropped sprites |
+|---|---|---|---|---|---|---|---|
+| `auto-composer` | Star Composer | `skymoon173/mini-game-collection` `games/auto-composer` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `cat-seesaw` | Cat Seesaw | `skymoon173/mini-game-collection` `games/cat-seesaw` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `dodge-blocks` | Neon Dodge | `skymoon173/mini-game-collection` `games/dodge-blocks` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `em-lab` | Electromagnetic Lab | `skymoon173/mini-game-collection` `games/em-lab` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `farm-tycoon` | Star Farm | `skymoon173/mini-game-collection` `games/farm-tycoon` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `fractal-gallery` | Fractal Gallery | `skymoon173/mini-game-collection` `games/fractal-gallery` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `hydrogen-atom` | Hydrogen Atom Explorer | `skymoon173/mini-game-collection` `games/hydrogen-atom` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `iso-snake` | Isometric Snake | `skymoon173/mini-game-collection` `games/iso-snake` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `math-lab` | Math Lab | `skymoon173/mini-game-collection` `games/math-lab` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `merge-2048` | Merge Numbers | `skymoon173/mini-game-collection` `games/merge-2048` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `merge-cats` | Merge Cats | `skymoon173/mini-game-collection` `games/merge-cats` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `merge-town` | Merge Town | `skymoon173/mini-game-collection` `games/merge-town` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `newton-lab` | Newton Lab | `skymoon173/mini-game-collection` `games/newton-lab` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `room-styler` | Room Styler | `skymoon173/mini-game-collection` `games/room-styler` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `sky-shooter` | Sky Shooter | `skymoon173/mini-game-collection` `games/sky-shooter` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `neon-snake` | Neon Snake | `skymoon173/mini-game-collection` `games/snake` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `stickman-runner` | Stickman Runner | `skymoon173/mini-game-collection` `games/stickman-runner` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `stickman-stage` | Stickman Stage | `skymoon173/mini-game-collection` `games/stickman-stage` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `neon-sudoku` | Neon Sudoku | `skymoon173/mini-game-collection` `games/sudoku` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `star-tarot` | Star Tarot | `skymoon173/mini-game-collection` `games/tarot` | `3fa43546e65c` | MIT | none | PASS (0 failures) | none Interface in Chinese; the in-page "back to portal" link points at the parent folder and only reloads this game. |
+| `mini-games-hub` | Mini Games Hub | `bushimashen/games` (whole repo, one page) | `336ff7d441da` | MIT | `docs/patches/hub-and-tower-rename.diff` (Flappy name in registry.js, gameFlappy.js, meta description) | PASS (0 failures) | "Flappy" renamed to a plain Chinese title ("little bird flight"); art is canvas-drawn, no copied sprites. 12 games in one page; Chinese interface. |
+| `bounce-ball` | Bounce Ball | `TomMalbran/games` `bounce/` + its `utils/` copied into the game root (its modules import `../../utils/`) | `ad25e5be1468` | MIT | none | PASS (0 failures) | none `.htaccess` and `cache.manifest` not copied (server files). |
+| `tower-defence` | Tower Defence | `TomMalbran/games` `defender/` + its `utils/` copied into the game root (its modules import `../../utils/`) | `ad25e5be1468` | MIT | `docs/patches/hub-and-tower-rename.diff` (title, 2 headings) | PASS (0 failures) | Renamed "Defender" to "Tower Defence". `.htaccess` and `cache.manifest` not copied (server files). |
+| `snake` | Snake | `TomMalbran/games` `snake/` + its `utils/` copied into the game root (its modules import `../../utils/`) | `ad25e5be1468` | MIT | none | PASS (0 failures) | none `.htaccess` and `cache.manifest` not copied (server files). |
+| `spider-solitaire` | Spider Solitaire | `TomMalbran/games` `spider/` + its `utils/` copied into the game root (its modules import `../../utils/`) | `ad25e5be1468` | MIT | none | PASS (0 failures) | none `.htaccess` and `cache.manifest` not copied (server files). |
+| `blocks` | Blocks | `TomMalbran/games` `tetris/` + its `utils/` copied into the game root (its modules import `../../utils/`) | `ad25e5be1468` | MIT | `docs/patches/blocks-rename-title.diff` (page title and heading) | PASS (0 failures) | Renamed "Tetris" to "Blocks" (title, heading). Source files keep upstream class names in comments. Sounds are the repo's own [A]. `.htaccess` and `cache.manifest` not copied (server files). |
+| `2048` | 2048 | `gd4Ark/2048` (whole repo) | `3ff85b27a73e` | MIT | none | PASS (0 failures) | none `.gitignore` not copied. |
+| `ball-arena` | Star Cluster Arena | `wangzifan396-wzf/mini-browser-games` `ball-arena.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `shan-hai` | Mountain and Sea Demon Hunt | `wangzifan396-wzf/mini-browser-games` `shan-hai.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `starforge-idle` | Starforge Workshop | `wangzifan396-wzf/mini-browser-games` `starforge-idle.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `garden-front` | Sprout Front | `wangzifan396-wzf/mini-browser-games` `garden-front.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `moba-frontier` | Crystal Tower Front | `wangzifan396-wzf/mini-browser-games` `moba-frontier.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `slingstorm` | Slingstorm | `wangzifan396-wzf/mini-browser-games` `slingstorm.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `spud-arena` | Spud Breakout | `wangzifan396-wzf/mini-browser-games` `spud-arena.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `tank-arena` | Neon Armour | `wangzifan396-wzf/mini-browser-games` `tank-arena.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `abyss-sonar` | Abyss Sonar | `wangzifan396-wzf/mini-browser-games` `abyss-sonar.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `auto-chess-forge` | Rune Auto-Battler | `wangzifan396-wzf/mini-browser-games` `auto-chess-forge.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `beat-bento` | Beat Bento | `wangzifan396-wzf/mini-browser-games` `beat-bento.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `chalk-billiards` | Chalk Billiards | `wangzifan396-wzf/mini-browser-games` `chalk-billiards.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `comet-weaver` | Comet Weaver | `wangzifan396-wzf/mini-browser-games` `comet-weaver.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `dice-delver` | Dice Delver | `wangzifan396-wzf/mini-browser-games` `dice-delver.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `drift-racer` | Drift Racer | `wangzifan396-wzf/mini-browser-games` `drift-racer.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `dungeon-delver` | Candlelit Dungeon | `wangzifan396-wzf/mini-browser-games` `dungeon-delver.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `ember-tactics` | Ember Tactics | `wangzifan396-wzf/mini-browser-games` `ember-tactics.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `gem-garden` | Gem Garden | `wangzifan396-wzf/mini-browser-games` `gem-garden.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `moon-lander` | Moon Lander | `wangzifan396-wzf/mini-browser-games` `moon-lander.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `orbital-pinball` | Orbital Pinball | `wangzifan396-wzf/mini-browser-games` `orbital-pinball.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `pocket-farm` | Pocket Farm | `wangzifan396-wzf/mini-browser-games` `pocket-farm.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `river-holdem` | River Poker | `wangzifan396-wzf/mini-browser-games` `river-holdem.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `shadow-post` | Shadow Post | `wangzifan396-wzf/mini-browser-games` `shadow-post.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `thunder-vanguard` | Thunder Vanguard | `wangzifan396-wzf/mini-browser-games` `thunder-vanguard.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `air-hockey` | Air Hockey | `wangzifan396-wzf/mini-browser-games` `air-hockey.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `sokoban-quest` | Warehouse Pusher | `wangzifan396-wzf/mini-browser-games` `sokoban-quest.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `mine-matrix` | Deep-Space Sweeper | `wangzifan396-wzf/mini-browser-games` `mine-matrix.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `solitaire-classic` | Quiet Night Solitaire | `wangzifan396-wzf/mini-browser-games` `solitaire-classic.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `pocket-golf` | Pocket Golf | `wangzifan396-wzf/mini-browser-games` `pocket-golf.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `curling-endgame` | Curling Endgame | `wangzifan396-wzf/mini-browser-games` `curling-endgame.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `pulse-studio` | Pulse Studio | `wangzifan396-wzf/mini-browser-games` `pulse-studio.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `mosaic-jigsaw` | Stained Glass Jigsaw | `wangzifan396-wzf/mini-browser-games` `mosaic-jigsaw.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `elemental-sandbox` | Elemental Sandbox | `wangzifan396-wzf/mini-browser-games` `elemental-sandbox.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `crossword-cafe` | Crossword Cafe | `wangzifan396-wzf/mini-browser-games` `crossword-cafe.html` (single file) | `02106d2f5296` | MIT | none | PASS (0 failures) | none Interface in Chinese. Upstream tier per `GAME_TIERS.json`: see section 3b. |
+| `gomoku` | Gomoku | `davidzhanghui/awesome-mini-game` `games/gomoku` + shared `assets/` copied into the game root (pages reference `../../assets/`) | `2a1f77f7355a` | MIT | `docs/patches/awesome-generic-games.diff` (removes the SEO `canonical` / `alternate` links to awesome-mini-game.vercel.app and the font preload) | PASS (0 failures; plain-link warnings only: og / schema.org metadata text) | Generic game, upstream title replaced by a neutral English title. `assets/fonts` (ZCOOL font, no licence stated) and `og-cover.jpg` NOT copied; the page falls back to a system font. Interface in Chinese / English / Japanese / Korean (pages default to Chinese). |
+| `memory` | Memory Match | `davidzhanghui/awesome-mini-game` `games/memory` + shared `assets/` copied into the game root (pages reference `../../assets/`) | `2a1f77f7355a` | MIT | `docs/patches/awesome-generic-games.diff` (removes the SEO `canonical` / `alternate` links to awesome-mini-game.vercel.app and the font preload) | PASS (0 failures; plain-link warnings only: og / schema.org metadata text) | Generic game, upstream title replaced by a neutral English title. `assets/fonts` (ZCOOL font, no licence stated) and `og-cover.jpg` NOT copied; the page falls back to a system font. Interface in Chinese / English / Japanese / Korean (pages default to Chinese). |
+| `breakout` | Brick Breaker | `davidzhanghui/awesome-mini-game` `games/breakout` + shared `assets/` copied into the game root (pages reference `../../assets/`) | `2a1f77f7355a` | MIT | `docs/patches/awesome-generic-games.diff` (removes the SEO `canonical` / `alternate` links to awesome-mini-game.vercel.app and the font preload) | PASS (0 failures; plain-link warnings only: og / schema.org metadata text) | Generic game, upstream title replaced by a neutral English title. `assets/fonts` (ZCOOL font, no licence stated) and `og-cover.jpg` NOT copied; the page falls back to a system font. Interface in Chinese / English / Japanese / Korean (pages default to Chinese). |
+| `match3` | Gem Match | `davidzhanghui/awesome-mini-game` `games/match3` + shared `assets/` copied into the game root (pages reference `../../assets/`) | `2a1f77f7355a` | MIT | `docs/patches/awesome-generic-games.diff` (removes the SEO `canonical` / `alternate` links to awesome-mini-game.vercel.app and the font preload) | PASS (0 failures; plain-link warnings only: og / schema.org metadata text) | Generic game, upstream title replaced by a neutral English title. `assets/fonts` (ZCOOL font, no licence stated) and `og-cover.jpg` NOT copied; the page falls back to a system font. Interface in Chinese / English / Japanese / Korean (pages default to Chinese). |
+| `chess` | Chess | `zeyu2001/chess-ai` `js/main.js` (evaluation + minimax, copied unchanged into `js/engine.js`) and its bundled modified `js/chess.js`; `oakmac/chessboardjs` `lib/chessboard.js` + `lib/chessboard.css`; jQuery 3.5.1 (`jquery/jquery` npm package `dist/jquery.js`); our own `index.html`, `css/app.css`, `js/app.js` and 12 piece SVGs | chess-ai `30e96db3b77495ea462c5d9990fc375ba5a1ae7e`; chessboard.js `bfb9315cd44d`; jQuery 3.5.1 | MIT (chess-ai, chessboard.js, jQuery, our files) + BSD-2-Clause (chess.js, kept as `LICENSES/chessjs-BSD-2-Clause.txt`; the file header inside `js/chess.js` is kept too) | `docs/patches/chess-jquery-no-xhr.diff` (jQuery: the ajax request object is never created, so the file has no network code and the audit passes; 3 lines). chess-ai `main.js` is NOT patched: only its DOM-free part is copied (`js/engine.js`), the page and controller are new files | PASS (0 failures; plain-link warnings only: comment links in the libraries) | Pieces: NO upstream piece images copied (licence unconfirmed, section 4 item 3); 12 original SVGs drawn as Unicode chess symbols (U+265A-U+265F). Rules, board and engine are upstream behaviour. |
+
+### 3a. Batch 1 (Phase 199, 2026-10-29): dropped, and why
+
+- `skymoon173/mini-game-collection` `code-generator` (Little Game Workshop): FAILS the audit (`window.open(blobUrl)` at `game.js:1981`). Dropped, not patched. The other 20 games are shipped.
+- `TomMalbran/games` `pacman` and `mumuy/pacman`: both dropped (design rule 5). Both use the trademarked name and the four ghost names (Blinky, Pinky, Inky, Clyde); `TomMalbran` ships start / death / eat sound files whose origin is not stated; `mumuy` also loads scripts, CSS and images from passer-by.com, navigates to it, and bundles a font (Press Start 2P, an OFL font) that has no entry here. `mumuy/pacman` is therefore not used at all; the "Ghost Maze" rename in the plan is not done. A generic maze game may come later from another source.
+- `TomMalbran/games` `puzzle`: dropped for size (about 22 MB of photo images with no stated image licence beyond the repo MIT line [A]).
+- `gd4Ark/2048` ships under its own title "2048" (an open-source game, no commercial trademark on the name [A]); `gabrielecirulli/2048` stays the reserve.
+- Not copied from any repo: `.git`, `.github`, `.gitignore`, `.htaccess`, `cache.manifest`, the Chinese-named legacy folders and portal files of `skymoon173`.
+- Games ids that differ from the folder: skymoon `snake` -> `neon-snake`, `sudoku` -> `neon-sudoku`, `tarot` -> `star-tarot` (to avoid clashes with `snake` from TomMalbran and for neutral names); TomMalbran `bounce` -> `bounce-ball`, `defender` -> `tower-defence`, `spider` -> `spider-solitaire`, `tetris` -> `blocks`.
+- Size added to the installer: about 4.7 MB of game files (26 games, plus the 4-file `_selftest` that is not in the manifest).
+- The skymoon games and the hub have a Chinese interface; our titles and descriptions are English. Whether a Chinese-only interface is acceptable is for the owner to decide (Standing gap).
+
+### 3b. Batch 2 (Phase 200, 2026-10-29): selection, dropped games and reasons
+
+**Method.** `mini-browser-games` has 124 root games; `GAME_TIERS.json` grades SSS 3, SS 6, S 18, A 78, C 1, E 18. All 105 SSS-A files were staged one per folder with the repo LICENSE and run through `tools/audit-games.mjs`: **all 105 passed with 0 failures** (single self-contained HTML files, no remote loads). Then OUR filters were applied (IP lookalikes, duplicates of games we already ship, chess is Phase 201, size). From `awesome-mini-game` only generic games were taken; every game page there needed a recorded patch (remote SEO `<link>` tags).
+
+**Shipped (38):** 34 from `mini-browser-games` (24 of the 27 grade SSS / SS / S files, plus 10 grade-A files) and 4 from `awesome-mini-game` (Gomoku, Memory Match, Brick Breaker, Gem Match). Single-file games keep the upstream file name as the entry (for example `ball-arena.html`); the repo LICENSE sits in each folder. About 3.2 MB for batch 2 in total.
+
+**Dropped from grades SSS / SS / S, and why:** `courtroom-clash` (court game built on objections, evidence and lawyers: too close to a commercial courtroom game, design rule 5); `snake-game` (duplicate: we already ship `snake`, `neon-snake`, `iso-snake` and the hub); `neon-2048` (duplicate of `2048`, `merge-2048` and the hub's 4096).
+**Dropped from grade A and why:** `maze-chase` (ghost maze chase, the Pac-Man pattern that batch 1 also refused); `midnight-chess` (chess belongs to Phase 201); `sudoku-studio` (duplicate of `neon-sudoku`); `monster-tamer` (capture-and-collect monsters, too close to a commercial monster game); `fruit-slice` (slice-the-fruit pattern, too close to a commercial game). The other 63 grade-A files and every grade E file were not taken for size and variety (target 30-40 from this repo); they stay available upstream for a later pass.
+**Dropped from `awesome-mini-game` and why:** `pacman`, `super-mario-bros`, `galaga`, `raiden`, `tank-battle`, `flappy-bird`, `fruit-ninja`, `pvz`, `pvz-moe`, `talking-cat`, `bubble-dragon`, `suika`, `dou-dizhu`, `tower-defense`, `abyss`, `idiom-guess`, `chinese-chess` (commercial clones or lookalikes by name, art or characters; `chinese-chess` also has an `importScripts`; the rest are Chinese-language word, card or defence games that were not needed and were NOT audited in this phase); `tetris` and `snake`, `game-2048` (duplicates of `blocks`, `snake`, `2048`); `sokoban` (duplicate of `sokoban-quest`, and its level set has no stated origin [A]); `minesweeper` (duplicate of `mine-matrix`).
+**Duplicates collapsed (best one per type kept):** Sokoban = `sokoban-quest`; Minesweeper = `mine-matrix`; Snake, 2048, Blocks, Sudoku = the batch-1 copies.
+
+**Patches (diff in `docs/patches/awesome-generic-games.diff`):** in `gomoku`, `memory`, `breakout`, `match3` `index.html`: removed the six or seven `<link rel="canonical">` / `<link rel="alternate" hreflang>` lines (they point at awesome-mini-game.vercel.app and failed the audit) and the `<link rel="preload">` of the ZCOOL font. Nothing else in any game was changed.
+
+**Licence notes for batch 2.** Every game carries the upstream repo `LICENSE` (MIT). `mini-browser-games` also holds a second identical MIT file inside `star-cluster-arena/`, a folder we do not use. The README of `awesome-mini-game` says names, designs and rules belong to their original creators, so only generic games were taken and they are shown under neutral titles. The `awesome-mini-game` font file (ZCOOL, subset) and `og-cover.jpg` were NOT copied because no licence for them is stated in the repo [A]. Sounds are generated in code (WebAudio, `bgm.js`); images in the single-file games are drawn in code or embedded as data in the file [A: the repo MIT line is the only licence stated].
+**Audit tool run:** `node tools/audit-games.mjs --root resources/games` over the whole folder after copying (result in the Phase 200 log).
+
+### 3c. Chess (Phase 201, 2026-10-29): what was built, what was not
+
+**Built (`resources/games/chess/`, about 0.5 MB).** One game, "Chess": play against the computer (White / Black / random side, four levels = search depth 1-4) or two players on one PC, undo, flip board, new game, move list, last-move and check marks, legal-move hints on hover, a "pawn promotes to" choice (the computer always promotes to a queen, as upstream), game-over messages (checkmate, stalemate, insufficient material, threefold repetition, fifty-move rule; wording by us from chess.js's own checks). Files: upstream `js/chess.js` (the modified chess.js that `zeyu2001/chess-ai` ships; BSD-2-Clause header kept), `js/chessboard.js` + `css/chessboard.css` (oakmac/chessboardjs `lib/`, unchanged), `js/jquery-3.5.1.js` (readable build, 3 lines patched, see the table row), `js/engine.js` (the evaluation tables, `evaluateBoard` and `minimax` copied unchanged from chess-ai `main.js` plus our 8-line `chooseMove`), and our own `index.html`, `css/app.css`, `js/app.js`, `img/pieces/*.svg`. Licence files: `LICENSE` (chess-ai, MIT) and `LICENSES/` (chessboard.js MIT, chess.js BSD-2-Clause, jQuery MIT).
+**Why not the repo's own page:** `chess-ai/index.html` loads Bootstrap, jQuery, Material Icons, a Font Awesome kit and chessboard.js from CDNs (audit: remote references) and its controller is a computer-vs-computer demo with no side choice. Bootstrap and the icon fonts are not needed; jQuery (needed by chessboard.js, which uses `.animate` / `.fadeOut`, so the slim build is not enough) is vendored locally.
+**Piece art:** the Wikipedia piece images are NOT copied (licence unconfirmed, section 4 item 3). The 12 pieces are our own SVG files that draw the Unicode chess symbols as text with `U+FE0E` (text presentation); they use the system font (Segoe UI Symbol on Windows) [A: looks acceptable on Windows; checked only in Chromium on Linux].
+**Search detail changed:** the original keeps a running evaluation (`globalSum`) between moves; `chooseMove` starts each search at 0 (the search only compares differences). The endgame-king table switch in `evaluateBoard` (triggered at a running sum below -1500) therefore applies relative to the position being searched [A: play strength not measured].
+**Not shipped:** `kbjorklu/chess` as "Chess (classic)" (6 `XMLHttpRequest` uses, 11 remote references, minified jQuery; it would add only a second look-alike game); Stockfish (GPLv3, design rule 10 / [A5]: the owner did not confirm it, so no engine download, no worker, no GPL component); opening books; online play.
+
+## 4. The [CHECK] answers (Phase 197)
+
+1. **`gabrielecirulli/2048`**: opened, `LICENSE.txt` is MIT, "Copyright (c) 2014 Gabriele Cirulli". Usable. The plan still copies `gd4Ark/2048` (MIT, "Copyright (c) 2019 4Ark") first; this one is the reserve.
+2. **`chessboard.js` (`oakmac/chessboardjs`)**: opened, `LICENSE.md` is MIT, "Copyright 2019 Chris Oakman". Usable. `zeyu2001/chess-ai` loads it from unpkg (a CDN); Phase 201 must copy the readable `lib/chessboard.js` and `lib/chessboard.css` into the game folder.
+3. **Chess piece art (`img/chesspieces/wikipedia`, also in `zeyu2001/chess-ai`)**: **NOT CONFIRMED.** Neither repo carries a licence or credit file for the PNG / SVG pieces (searched the whole of `oakmac/chessboardjs` and `zeyu2001/chess-ai` for licence, credit and Creative Commons text). The "Wikipedia" set is widely believed to be the Wikimedia Commons set by Colin M. L. Burnett under CC BY-SA 3.0 (and GFDL), but that is a belief from memory, not something the repos prove, and the other two sets (`alpha`, `uscf`) have no stated licence either. **Decision for Phase 201: do NOT copy any of those piece images (done: Phase 201 draws its own 12 symbol SVGs).** Draw the pieces from a source whose licence file can be opened (a CC0 / MIT / Unlicense set added with its licence file) or use the Unicode chess glyphs (U+2654 to U+265F) as text, which needs no art licence. If the owner prefers the Wikipedia set, it must be credited on the Credits screen as CC BY-SA 3.0 with the artist named, kept apart from the MIT code, and the owner must accept the share-alike term. [A] unconfirmed.
+4. **chess.js** is BSD-2-Clause (not MIT): its LICENSE (text below) must be shipped with any copy in source or binary form, so `resources/games/chess/` keeps it and the Credits screen lists it.
+5. **CDN dependencies found by the audit** (Phase 201 replaced each: Bootstrap, Material Icons and Font Awesome were dropped, jQuery and chessboard.js are local copies): `zeyu2001/chess-ai/index.html` loads Bootstrap 4.4.1 (MIT), jQuery 3.5.1 (MIT), Google Material Icons, a Font Awesome kit script, and chessboard.js 1.0.0 from the internet. `kbjorklu/chess` has 11 remote references and 6 `XMLHttpRequest` uses.
+
+## 5. What the audit tool found on the real repos (Phase 197, `node tools/audit-games.mjs <folder>`; counts only, per-game audits happen when each game is vendored)
+
+- `skymoon173/mini-game-collection/games` (21 games): clean except `code-generator/game.js` line 1981 `window.open(blobUrl, '_blank')` (FAIL rule `window-open`; that game is not on the first list, or needs a recorded patch). The "no LICENSE" line is only because the audit was run on the parent `games/` folder, which has no top-level LICENSE of its own (each vendored game gets a copy).
+- `mumuy/pacman`: 6 remote references, 2 remote `<link>` tags, 1 `location.href` to another site, 1 `window.open`: needs a patch plus the rename, or is dropped.
+- `davidzhanghui/awesome-mini-game`: 162 remote `<link>` tags overall, 1 `importScripts`, 1 minified-only file: per-game decisions in Phase 200.
+- `bushimashen/games`, `TomMalbran/games`, `gd4Ark/2048`: the only failures were `.git` folder internals of the sandbox clone (a game copy never contains `.git`); no code rule failed.
+- `wangzifan396-wzf/mini-browser-games`: 138 root entries (about 111 single-file games); not yet audited per game (Phase 200).
+
+## 6. Licence texts (verbatim from the files opened on 2026-10-29)
+
+### skymoon173/mini-game-collection — `LICENSE`
+
+```text
+MIT License
+
+Copyright (c) 2026 Joney Lee (skymoon173)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===========================================================================
+THIRD-PARTY NOTICES
+===========================================================================
+
+The following third-party components bundled under
+"小游戏59-自动作曲/Recorderjs-master/" and
+"小游戏59-自动作曲/opus-recorder-master/" retain their own licenses:
+
+1. Recorder.js - MIT License
+   Original Work Copyright (c) 2013 Matt Diamond
+   See: 小游戏59-自动作曲/Recorderjs-master/Recorderjs-master/README.md
+
+2. opus-recorder - MIT License
+   Original Work Copyright (c) 2013 Matt Diamond
+   Modified Work Copyright (c) 2014 Christopher Rudmin
+   The bundled Opus codec is licensed under the BSD 2-Clause License.
+   See: 小游戏59-自动作曲/opus-recorder-master/opus-recorder-master/LICENSE.md
+```
+
+### bushimashen/games — `LICENSE`
+
+```text
+MIT License
+
+Copyright (c) 2026 codegoder
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### wangzifan396-wzf/mini-browser-games — `LICENSE`
+
+```text
+MIT License
+
+Copyright (c) 2026 wangzifan396-wzf
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### TomMalbran/games — `LICENSE`
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2013 Tomás Malbrán
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+### mumuy/pacman — `LICENSE`
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2016 Haole Zheng
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### gd4Ark/2048 — `LICENSE`
+
+```text
+MIT License
+
+Copyright (c) 2019 4Ark
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### gabrielecirulli/2048 — `LICENSE.txt`
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2014 Gabriele Cirulli
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```
+
+### davidzhanghui/awesome-mini-game — `LICENSE`
+
+```text
+MIT License
+
+Copyright (c) 2026 davidzhanghui
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### jhlywa/chess.js — `LICENSE`
+
+```text
+Copyright (c) 2025, Jeff Hlywa (jhlywa@gmail.com)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+```
+
+### zeyu2001/chess-ai — `LICENSE`
+
+```text
+MIT License
+
+Copyright (c) 2020 Zhang Zeyu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### kbjorklu/chess — `LICENSE`
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2013 Kaj Björklund
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+### oakmac/chessboardjs — `LICENSE.md`
+
+```text
+Copyright 2019 Chris Oakman
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```

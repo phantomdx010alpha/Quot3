@@ -19,9 +19,9 @@ export type LiveKind = 'weather' | 'rates' | 'metals'
 export interface DashCity { name: string; region: string; country: string; lat: number; lon: number }
 export const DEFAULT_CITY: DashCity = { name: 'Bangalore', region: 'Karnataka', country: 'India', lat: 12.9719, lon: 77.5937 }
 
-export const DASH_TILE_KEYS = ['weather', 'usd', 'majors', 'metals', 'clock', 'holidays'] as const
+export const DASH_TILE_KEYS = ['weather', 'usd', 'majors', 'metals', 'clock', 'holidays', 'games'] as const
 export type DashTileKey = (typeof DASH_TILE_KEYS)[number]
-export const DEFAULT_DASH_TILES: Readonly<Record<DashTileKey, boolean>> = { weather: true, usd: true, majors: true, metals: true, clock: true, holidays: true }
+export const DEFAULT_DASH_TILES: Readonly<Record<DashTileKey, boolean>> = { weather: true, usd: true, majors: true, metals: true, clock: true, holidays: true, games: true }
 
 /** What every live call returns: the value, when it was fetched, and whether it is a stale cache copy (network failed => show dimmed 'offline'). */
 export interface LiveResult<T> {

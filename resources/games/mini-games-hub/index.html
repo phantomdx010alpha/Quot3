@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>小游戏厅 · 12 款开源小游戏（浏览器直接玩，不用装）</title>
+<meta name="description" content="12 款浏览器小游戏合集：4096、贪吃蛇、俄罗斯方块、扫雷、打砖块、2048、恐龙跳、Bird flight、五子棋、记忆翻牌、太空射击、数字华容道、打地鼠。纯本地运行，最高分存本机。" />
+<meta property="og:title" content="小游戏厅 · 13 款小游戏" />
+<meta property="og:description" content="12 款浏览器小游戏，纯本地运行，最高分存本机。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='11' rx='4'/%3E%3Cpath d='M7 12h3M8.5 10.5v3M15.5 12h.01M18 12h.01'/%3E%3C/svg%3E" />
+<style>
+[hidden] { display: none !important; }
+
+:root {
+  --bg: #0f1420; --surface: #171e2b; --surface2: #1e2635; --surface3: #273144;
+  --text: #e8ecf4; --muted: #8b93a7; --border: #2a3346;
+  --primary: #7c3aed; --accent: #22d3ee;
+  --shadow: 0 12px 36px rgba(0, 0, 0, .45);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background:
+    radial-gradient(1000px 500px at 80% -10%, rgba(124, 58, 237, .18), transparent 60%),
+    radial-gradient(900px 460px at -10% 110%, rgba(34, 211, 238, .12), transparent 60%),
+    var(--bg);
+  color: var(--text); min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 26px 20px 48px; }
+
+/* ---------- 大厅 ---------- */
+.hall-head h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: .3px; }
+.hall-head p { margin: 0 0 22px; color: var(--muted); }
+.hall-head b { color: var(--text); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(238px, 1fr)); gap: 14px; }
+.card {
+  position: relative; text-align: left; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 16px 16px 14px; color: var(--text); font-family: inherit;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+  overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; inset: -1px; border-radius: 16px; pointer-events: none;
+  background: linear-gradient(135deg, hsl(var(--hue) 80% 60% / .16), transparent 55%);
+}
+.card:hover { transform: translateY(-3px); border-color: hsl(var(--hue) 70% 55% / .55); box-shadow: var(--shadow); }
+.card .ico {
+  width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+  font-size: 22px; margin-bottom: 10px;
+  background: hsl(var(--hue) 70% 55% / .14); border: 1px solid hsl(var(--hue) 70% 55% / .35);
+}
+.card h3 { margin: 0 0 4px; font-size: 15.5px; }
+.card .tag { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.55; min-height: 38px; }
+.card .best {
+  margin-top: 10px; display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; color: hsl(var(--hue) 75% 70%);
+  background: hsl(var(--hue) 70% 55% / .12); border-radius: 999px; padding: 3px 9px;
+}
+
+/* ---------- 游戏页 ---------- */
+.play-head {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+}
+.back {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  border-radius: 10px; padding: 8px 14px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.back:hover { background: var(--surface2); }
+.play-head h2 { margin: 0; font-size: 19px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.chip {
+  font-size: 12.5px; color: var(--muted); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 999px; padding: 4px 11px;
+}
+.chip b { color: var(--text); font-variant-numeric: tabular-nums; }
+.chip.accent { color: #c4b5fd; border-color: rgba(124, 58, 237, .5); background: rgba(124, 58, 237, .12); }
+.chip.accent b { color: #ddd6fe; }
+
+.play-body {
+  display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;
+}
+.stage-box {
+  flex: 1; min-width: 300px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 14px; display: grid; place-items: center; box-shadow: var(--shadow);
+}
+.stage-box canvas { max-width: 100%; height: auto; display: block; border-radius: 10px; }
+
+.side { width: 220px; flex: none; display: flex; flex-direction: column; gap: 10px; }
+.side .pane {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 13px;
+}
+.side .lbl { color: var(--muted); font-size: 11.5px; font-weight: 700; letter-spacing: .4px; margin-bottom: 6px; }
+.side .controls { color: var(--muted); font-size: 12.5px; line-height: 1.7; }
+.side select {
+  width: 100%; background: var(--surface2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 9px; padding: 7px 9px; font-size: 13px; font-family: inherit; outline: none;
+}
+.side .row + .row { margin-top: 9px; }
+.side .status { color: var(--accent); font-size: 12.5px; min-height: 18px; }
+
+@media (max-width: 760px) {
+  .side { width: 100%; }
+}
+
+.foot {
+  margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--border);
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  color: var(--muted); font-size: 12.5px;
+}
+.foot a { color: #c4b5fd; text-decoration: none; }
+.foot a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="hall">
+    <div class="hall-head">
+      <h1>小游戏厅</h1>
+      <p><b>12 款小游戏</b>，全部在浏览器里跑，不用安装、不用登录；最高分只存在你自己的浏览器里。</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="play" hidden>
+    <div class="play-head">
+      <button class="back" id="backBtn">← 返回大厅</button>
+      <h2 id="gname">—</h2>
+      <div class="chips">
+        <span class="chip">得分 <b id="score">0</b></span>
+        <span class="chip accent" id="bestChip">🏆 最高 <b id="best">—</b></span>
+      </div>
+    </div>
+
+    <div class="play-body">
+      <div class="stage-box"><div id="stage"></div></div>
+      <aside class="side">
+        <div class="pane">
+          <div class="lbl">状态</div>
+          <div class="status" id="status">—</div>
+        </div>
+        <div class="pane" id="optPane" hidden>
+          <div class="lbl">选项</div>
+          <div id="opts"></div>
+        </div>
+        <div class="pane">
+          <div class="lbl">操作</div>
+          <div class="controls" id="controls">—</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>纯前端 · 无后端 · 最高分存本机</span>
+    <span>
+      <a href="https://github.com/bushimashen/games" target="_blank" rel="noopener">GitHub</a>
+      · <a href="https://gitee.com/codegoder/games" target="_blank" rel="noopener">Gitee</a>
+    </span>
+  </footer>
+</div>
+
+<script type="module">
+import { GAMES, findGame } from './games/registry.js'
+
+/* 注册表里有一项是「风之剑修」——它是另一个 29MB 的独立游戏（有自己的全屏页面），
+   这里只保留能直接 mount 的模块化小游戏。 */
+const PLAYABLE = GAMES.filter((g) => typeof g.load === 'function')
+
+const $ = (id) => document.getElementById(id)
+const BEST_PREFIX = 'games-hall:best:'
+
+/* ================= 最高分（每款一个 key，存本机） ================= */
+function loadBests() {
+  const out = {}
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)
+      if (k && k.startsWith(BEST_PREFIX)) out[k.slice(BEST_PREFIX.length)] = Number(localStorage.getItem(k)) || 0
+    }
+  } catch (e) { /* 隐私模式可能禁用 */ }
+  return out
+}
+let bests = loadBests()
+
+/** 计时制游戏（bestLower）只在赢的时候落榜，且越小越好 */
+function saveBest(id, v, lower) {
+  if (v == null || v <= 0) return
+  const cur = bests[id] || 0
+  if (lower ? (cur && v >= cur) : v <= cur) return
+  bests[id] = v
+  try { localStorage.setItem(BEST_PREFIX + id, String(v)) } catch (e) {}
+}
+function bestOf(id) { return bests[id] || 0 }
+
+/* ================= 大厅 ================= */
+function renderHall() {
+  const grid = $('grid')
+  grid.innerHTML = ''
+  for (const g of PLAYABLE) {
+    const b = document.createElement('button')
+    b.className = 'card'
+    b.style.setProperty('--hue', g.hue)
+    const best = bestOf(g.id)
+    b.innerHTML = `
+      <div class="ico">${g.icon}</div>
+      <h3>${esc(g.name)}</h3>
+      <p class="tag">${esc(g.tagline || '')}</p>
+      ${best ? `<span class="best">${g.bestLower ? '⚡ 最快' : '🏆 最高'} ${best}</span>` : ''}
+    `
+    b.addEventListener('click', () => openGame(g.id))
+    grid.appendChild(b)
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+}
+
+/* ================= 游戏生命周期 ================= */
+let instance = null
+let current = null
+let score = 0
+let options = {}
+let runtime = {}
+
+const api = {
+  score(v) {
+    score = v
+    $('score').textContent = v
+    if (current && !current.bestLower) { saveBest(current.id, v, false); syncBest() }
+  },
+  over(v) {
+    if (current && !current.bestLower) { saveBest(current.id, v, false); syncBest() }
+    $('status').textContent = '本局结束'
+  },
+  win(v) {
+    saveBest(current.id, v, !!current.bestLower)
+    syncBest()
+    $('status').textContent = current.bestLower ? '新纪录！' : '达成目标，可继续挑战更高分'
+  },
+  status(v) { $('status').textContent = v },
+  get options() { return options },
+  setRuntime(key, v) {
+    runtime = { ...runtime, [key]: v }
+    syncRuntimeSelects()
+  }
+}
+
+function syncBest() {
+  const v = bestOf(current.id)
+  $('best').textContent = v || '—'
+  $('bestChip').firstChild.textContent = current.bestLower ? '⚡ 最快 ' : '🏆 最高 '
+}
+
+function syncRuntimeSelects() {
+  document.querySelectorAll('#opts select[data-kind="runtime"]').forEach((sel) => {
+    if (runtime[sel.dataset.key] !== undefined) sel.value = String(runtime[sel.dataset.key])
+  })
+}
+
+function renderOptions(mod) {
+  const box = $('opts')
+  box.innerHTML = ''
+  const optDefs = (mod && mod.options) || []
+  const rtDefs = (mod && mod.runtime) || []
+  const all = [...optDefs.map((d) => ({ ...d, kind: 'option' })), ...rtDefs.map((d) => ({ ...d, kind: 'runtime' }))]
+  $('optPane').hidden = all.length === 0
+  for (const d of all) {
+    const row = document.createElement('div')
+    row.className = 'row'
+    const sel = document.createElement('select')
+    sel.dataset.key = d.key
+    sel.dataset.kind = d.kind
+    sel.innerHTML = (d.values || []).map((v) => `<option value="${v.v}">${esc(v.t)}</option>`).join('')
+    sel.value = String(d.kind === 'runtime' ? runtime[d.key] ?? d.def : options[d.key] ?? d.def)
+    sel.addEventListener('change', () => {
+      if (d.kind === 'runtime') {
+        runtime = { ...runtime, [d.key]: sel.value }
+        if (instance && instance.setRuntime) instance.setRuntime(d.key, sel.value)
+      } else {
+        options = { ...options, [d.key]: sel.value }
+        // 盘面/目标这类选项改动后需要重开一局，直接重挂载最简单可靠
+        if (instance && instance.destroy) instance.destroy()
+        mount(current)
+      }
+    })
+    const lab = document.createElement('div')
+    lab.className = 'lbl'
+    lab.textContent = d.label
+    row.appendChild(lab)
+    row.appendChild(sel)
+    box.appendChild(row)
+  }
+}
+
+async function openGame(id) {
+  const g = findGame(id)
+  if (!g) return
+  destroy()
+  current = g
+  score = 0
+  options = {}
+  runtime = {}
+  $('score').textContent = '0'
+  $('gname').textContent = g.name
+  $('controls').textContent = g.controls || '—'
+  $('status').textContent = '准备开始'
+  $('hall').hidden = true
+  $('play').hidden = false
+  syncBest()
+
+  // 记录当前游戏，刷新后还能回到同一款
+  history.replaceState(null, '', '?g=' + encodeURIComponent(id))
+
+  try {
+    const mod = await g.load()
+    const def = mod.default || mod
+    current = { ...g, ...def, id: g.id }
+    $('gname').textContent = current.name || g.name
+    $('controls').textContent = current.controls || g.controls || '—'
+    renderOptions(current)
+    mount(current)
+  } catch (e) {
+    $('status').textContent = '加载失败：' + (e.message || e)
+  }
+}
+
+function mount(def) {
+  $('stage').innerHTML = ''
+  instance = def.mount($('stage'), api)
+}
+
+function destroy() {
+  if (instance && instance.destroy) {
+    try { instance.destroy() } catch (e) {}
+  }
+  instance = null
+  $('stage').innerHTML = ''
+}
+
+function backToHall() {
+  destroy()
+  current = null
+  $('play').hidden = true
+  $('hall').hidden = false
+  renderHall()
+  history.replaceState(null, '', location.pathname)
+}
+
+$('backBtn').addEventListener('click', backToHall)
+window.addEventListener('beforeunload', destroy)
+
+/* ================= 启动 ================= */
+renderHall()
+const deep = new URLSearchParams(location.search).get('g')
+if (deep) openGame(deep)
+</script>
+</body>
+</html>

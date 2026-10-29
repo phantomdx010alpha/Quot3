@@ -1,0 +1,405 @@
+/* ==========================================================================
+   AMG Design System · 暖色系游戏大厅皮肤
+   参考：字节 aiforce「游戏大厅」—— 奶油底 / 焦糖橙 / 大圆角 / 圆胖展示字
+   用法：各游戏页在自身 styles.css 之后加
+     <link rel="stylesheet" href="../../assets/ui.css">
+   本文件后加载，同名变量与同优先级规则自动覆盖游戏旧配色；
+   画布（canvas）内部像素画面不动，只统一页面骨架与菜单/弹窗。
+   ========================================================================== */
+
+/* ---------- 自托管展示字（ZCOOL 青客黄油体子集，OFL 协议） ---------- */
+@font-face {
+  font-family: "AMG Display";
+  src: url("fonts/zcool-qkhy-subset.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 设计变量 · 白天（默认，奶油暖色） ---------- */
+:root {
+  /* 新 token */
+  --ui-bg: #f1ebe4;
+  --ui-text: #392d22;
+  --ui-text-soft: #6b5a45;
+  --ui-muted-text: #98846c;
+  --ui-card: #faf8f5;
+  --ui-card-border: #e6dcc9;
+  --ui-chip: #e5dfd7;
+  --ui-chip-text: #817365;
+  --ui-inner: #f4ecdd;
+  --ui-inner-border: #e7dcc8;
+  --ui-primary: #d08039;
+  --ui-primary-fg: #faf8f4;
+  --ui-primary-edge: #a5662c;
+  --ui-primary-soft: #f6e3c9;
+  --ui-secondary: #5a9e63;
+  --ui-secondary-edge: #40794a;
+  --ui-kbd-bg: #fffdf8;
+  --ui-kbd-border: #d9cdb8;
+  --ui-scrim: rgba(56, 42, 26, .45);
+  --ui-menu-a: rgba(252, 247, 238, .97);
+  --ui-menu-b: rgba(243, 233, 215, .97);
+  --ui-orb-1: #f2c894;
+  --ui-orb-2: #bcd9a0;
+  --ui-orb-3: #f0bfa4;
+  --ui-orb-op: .5;
+  --ui-frame-shadow: 0 24px 60px rgba(74, 54, 32, .18);
+  --ui-shadow-card: 0 2px 10px rgba(74, 54, 32, .05), 0 16px 40px rgba(74, 54, 32, .09);
+  --ui-shadow-pop: 0 24px 60px rgba(74, 54, 32, .22);
+
+  /* 旧变量桥接：游戏 styles.css 的 :root 定义被这里覆盖（本文件后加载） */
+  --bg1: #f4ede1;
+  --bg2: #f1e7d4;
+  --bg3: #eddfc7;
+  --card: #faf8f5;
+  --card-border: #e6dcc9;
+  --text: #392d22;
+  --muted: #98846c;
+  --accent: #d08039;
+  --accent2: #e09a52;
+  --green: #5a9e63;
+  /* raiden 专用变量 */
+  --bg: #f1ebe4;
+  --panel: #faf8f5;
+  --line: #e6dcc9;
+  --acc: #d08039;
+  --acc2: #c25705;
+  --gold: #c78b2d;
+  --txt: #392d22;
+}
+
+/* ---------- 设计变量 · 夜间（暖黑） ---------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ui-bg: #241b12;
+  --ui-text: #f2e7d4;
+  --ui-text-soft: #d3c0a4;
+  --ui-muted-text: #a08b6e;
+  --ui-card: #312618;
+  --ui-card-border: #4a3a26;
+  --ui-chip: #403325;
+  --ui-chip-text: #cbb691;
+  --ui-inner: #3a2c1c;
+  --ui-inner-border: #4d3c27;
+  --ui-primary: #e08f4a;
+  --ui-primary-fg: #2b1c0c;
+  --ui-primary-edge: #8f5c26;
+  --ui-primary-soft: #4a3418;
+  --ui-kbd-bg: #41332a;
+  --ui-kbd-border: #5a4732;
+  --ui-scrim: rgba(10, 7, 4, .6);
+  --ui-menu-a: rgba(46, 36, 25, .97);
+  --ui-menu-b: rgba(34, 26, 17, .97);
+  --ui-orb-1: #6b4a26;
+  --ui-orb-2: #3d5228;
+  --ui-orb-3: #5f3a26;
+  --ui-orb-op: .4;
+  --ui-frame-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  --ui-shadow-card: 0 2px 10px rgba(0, 0, 0, .25), 0 16px 40px rgba(0, 0, 0, .35);
+  --ui-shadow-pop: 0 24px 60px rgba(0, 0, 0, .55);
+
+  --bg1: #271e14;
+  --bg2: #241a10;
+  --bg3: #20170e;
+  --card: #312618;
+  --card-border: #4a3a26;
+  --text: #f2e7d4;
+  --muted: #a08b6e;
+  --accent: #e09a52;
+  --accent2: #d08039;
+  --bg: #241b12;
+  --panel: #312618;
+  --line: #4a3a26;
+  --acc: #e09a52;
+  --acc2: #e08f4a;
+  --gold: #e0a94d;
+  --txt: #f2e7d4;
+}
+
+/* ---------- 页面骨架 ---------- */
+body {
+  background: linear-gradient(160deg, var(--bg1), var(--bg2) 55%, var(--bg3)) !important;
+  color: var(--ui-text);
+}
+.bg-orbs span { opacity: var(--ui-orb-op) !important; }
+.bg-orbs span:nth-child(1) { background: var(--ui-orb-1) !important; }
+.bg-orbs span:nth-child(2) { background: var(--ui-orb-2) !important; }
+.bg-orbs span:nth-child(3) { background: var(--ui-orb-3) !important; }
+
+/* ---------- 顶部品牌栏 ---------- */
+.logo {
+  background: var(--ui-card) !important;
+  border-color: var(--ui-card-border) !important;
+  box-shadow: var(--ui-shadow-card);
+  filter: none;
+}
+.brand h1 {
+  font-family: "AMG Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--ui-text);
+}
+.brand h1 em {
+  font-style: normal;
+  color: var(--ui-primary-fg) !important;
+  background: var(--ui-primary);
+  border: none !important;
+}
+.brand p { color: var(--ui-muted-text) !important; }
+.icon-btn, .ghost-btn {
+  background: var(--ui-card) !important;
+  border-color: var(--ui-card-border) !important;
+  color: var(--ui-text) !important;
+  box-shadow: 0 2px 8px rgba(74, 54, 32, .06);
+}
+.icon-btn:hover, .ghost-btn:hover {
+  border-color: var(--ui-primary) !important;
+  color: var(--ui-primary) !important;
+  background: var(--ui-primary-soft) !important;
+}
+select.icon-btn option { background: var(--ui-card); color: var(--ui-text); }
+/* 语言下拉框：.icon-btn 在各游戏 styles.css 里是 20px 图标字号，这里压小 */
+select#amg-lang-btn { font-size: 13px; font-weight: 700; }
+
+/* ---------- 游戏框（画布外框统一暖色描边+暖阴影） ---------- */
+.game-frame {
+  border-color: var(--ui-card-border) !important;
+  box-shadow: var(--ui-frame-shadow) !important;
+}
+
+/* ---------- 屏内界面：菜单整屏奶油渐变，暂停/结算用暖色遮罩+卡片 ---------- */
+.game-frame .screen {
+  background: linear-gradient(180deg, var(--ui-menu-a), var(--ui-menu-b)) !important;
+  color: var(--ui-text);
+}
+.game-frame .screen.dim { background: var(--ui-scrim) !important; }
+
+.title-badge {
+  font-family: "AMG Display", "PingFang SC", system-ui, sans-serif;
+  background: linear-gradient(90deg, #e09a52, var(--ui-primary)) !important;
+  color: var(--ui-primary-fg) !important;
+  box-shadow: 0 8px 24px rgba(208, 128, 57, .3) !important;
+}
+.game-title {
+  font-family: "AMG Display", "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--ui-text) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--ui-text) !important;
+  text-shadow: 0 3px 0 rgba(74, 54, 32, .12) !important;
+}
+.hint, .pick-hint { color: var(--ui-text-soft) !important; text-shadow: none !important; }
+.hint kbd, .card kbd, footer kbd, .screen kbd {
+  background: var(--ui-kbd-bg) !important;
+  border: 1px solid var(--ui-kbd-border) !important;
+  border-bottom-width: 3px !important;
+  color: var(--ui-text-soft) !important;
+}
+.mini-board {
+  background: var(--ui-inner) !important;
+  border-color: var(--ui-inner-border) !important;
+  color: var(--ui-primary) !important;
+}
+.stage-label { color: var(--ui-primary) !important; }
+
+/* ---------- 面板 / 结算卡 ---------- */
+.panel, .ready-card, .modal-card {
+  background: var(--ui-card) !important;
+  border-color: var(--ui-card-border) !important;
+  color: var(--ui-text);
+  box-shadow: var(--ui-shadow-pop) !important;
+}
+.panel h3, .ready-card h3 { color: var(--ui-text); font-family: "AMG Display", "PingFang SC", system-ui, sans-serif; font-weight: 400; }
+.panel p, .ready-card p { color: var(--ui-muted-text) !important; }
+.over-sub { color: var(--ui-muted-text) !important; }
+
+.over-title, .win-title {
+  font-family: "AMG Display", "PingFang SC", system-ui, sans-serif;
+  background: linear-gradient(90deg, #e08f4a, #c25705) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.clear-title {
+  font-family: "AMG Display", "PingFang SC", system-ui, sans-serif;
+  background: linear-gradient(90deg, #6ab872, #3f8a4e) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.score-row, .stat-list {
+  background: var(--ui-inner) !important;
+  border: 1px solid var(--ui-inner-border);
+}
+.score-row label { color: var(--ui-muted-text) !important; }
+.score-row b { color: var(--ui-text) !important; }
+.stat-list { color: var(--ui-text-soft); }
+.stat-list b { color: var(--ui-primary) !important; }
+.divider { background: var(--ui-inner-border) !important; }
+.new-record {
+  background: linear-gradient(90deg, #e08f4a, #c25705) !important;
+  color: var(--ui-primary-fg) !important;
+}
+.medal { filter: drop-shadow(0 8px 16px rgba(74, 54, 32, .2)); }
+
+/* ---------- 按钮 ---------- */
+.btn {
+  font-family: "AMG Display", "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif !important;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.btn.primary {
+  background: var(--ui-primary) !important;
+  color: var(--ui-primary-fg) !important;
+  box-shadow: 0 4px 0 var(--ui-primary-edge), 0 12px 24px rgba(208, 128, 57, .3) !important;
+}
+.btn.primary:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.btn.primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--ui-primary-edge) !important;
+}
+.btn.ghost {
+  background: var(--ui-chip) !important;
+  color: var(--ui-chip-text) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.btn.ghost:hover { background: var(--ui-inner-border) !important; color: var(--ui-text) !important; }
+.btn.duel {
+  background: var(--ui-secondary) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 0 var(--ui-secondary-edge), 0 12px 24px rgba(90, 158, 99, .3) !important;
+}
+.btn.duel:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ui-secondary-edge) !important; }
+
+/* 菜单里的模式/难度格子按钮（复用 .btn 的游戏自动继承，这里兜住自定义类） */
+.mode-grid .btn { width: 100%; }
+
+/* mario 选关 / 通用格子按钮 */
+.world-btn, .lvl-btn, .stage-chip {
+  font-family: inherit;
+  background: var(--ui-card) !important;
+  border: 2px solid var(--ui-card-border) !important;
+  color: var(--ui-text) !important;
+}
+.world-btn .w-sub, .lvl-btn small { color: var(--ui-muted-text) !important; }
+.world-btn:hover:not(.locked), .lvl-btn:hover:not(.locked), .stage-chip:hover {
+  background: var(--ui-primary-soft) !important;
+  border-color: var(--ui-primary) !important;
+}
+.world-btn.active, .lvl-btn.active {
+  border-color: var(--ui-primary) !important;
+  background: var(--ui-primary-soft) !important;
+  box-shadow: 0 0 18px rgba(208, 128, 57, .35) !important;
+}
+.world-btn.done, .lvl-btn.done { border-color: var(--ui-secondary) !important; }
+.world-btn.locked, .lvl-btn.locked { opacity: .45; }
+.stage-chip b { color: var(--ui-text) !important; }
+.stage-chip span { color: var(--ui-muted-text) !important; }
+
+/* ---------- 侧边信息卡 ---------- */
+.side .card, .card {
+  background: var(--ui-card) !important;
+  border-color: var(--ui-card-border) !important;
+  box-shadow: var(--ui-shadow-card);
+  backdrop-filter: none;
+}
+.card h4, .card h3 { color: var(--ui-text); }
+.card ul, .card p, .card li { color: var(--ui-text-soft) !important; }
+/* 侧栏提示卡正文统一 13px（参考 mario 页 .card p） */
+.card p { font-size: 13px; line-height: 1.7; }
+.card.diff { border-color: var(--ui-primary) !important; }
+
+/* ---------- 屏内悬浮工具条/计数（扫雷/五子棋/象棋等，限游戏页 .page 内） ---------- */
+.page .toolbar, .page .counter {
+  background: var(--ui-card) !important;
+  border: 1px solid var(--ui-card-border) !important;
+  color: var(--ui-text) !important;
+  box-shadow: var(--ui-shadow-card);
+}
+.turn { color: var(--ui-text) !important; }
+
+/* 菜单选项行（五子棋/象棋/坦克大战等） */
+.opt-row { color: var(--ui-text-soft) !important; }
+.opt-row label { color: var(--ui-text-soft) !important; }
+.screen select, .opt-row select, .screen input[type="text"] {
+  background: var(--ui-card) !important;
+  color: var(--ui-text) !important;
+  border: 1px solid var(--ui-card-border) !important;
+}
+.screen input[type="checkbox"] { accent-color: var(--ui-primary); }
+.screen select option { background: var(--ui-card); color: var(--ui-text); }
+
+/* ---------- 其它 ---------- */
+.rotate-tip { color: var(--ui-muted-text) !important; }
+.custom-note { color: var(--ui-muted-text) !important; }
+footer { color: var(--ui-muted-text) !important; }
+::selection { background: rgba(208, 128, 57, .28); }
+
+/* ---------- 移动端顶栏：标题给足宽度，按钮排不下时换行右对齐 ---------- */
+@media (max-width: 640px) {
+  .brand { flex-wrap: wrap; row-gap: 10px; }
+  .brand > div:nth-child(2) { flex: 1 1 170px; min-width: 170px; }
+  .brand h1 { font-size: 21px !important; }
+  .brand h1 em { font-size: 11px !important; padding: 1px 7px !important; margin-left: 5px !important; }
+  .brand p { font-size: 12.5px !important; }
+  .brand-btns { margin-left: auto; }
+}
+
+.modal { background: var(--ui-scrim) !important; }
+#hi-score-top { color: var(--ui-primary) !important; }
+.p-row { color: var(--ui-text-soft) !important; }
+.p-row.total { color: var(--ui-text) !important; border-top-color: var(--ui-inner-border) !important; }
+.wpn { background: var(--ui-inner) !important; color: var(--ui-text-soft) !important; }
+.help-cols h4 { color: var(--ui-primary) !important; }
+.help-cols p, .help-list { color: var(--ui-text-soft) !important; }
+#end-stats { color: var(--ui-text-soft) !important; }
+.touch-hint { color: var(--ui-muted-text) !important; }
+.pill { background: var(--ui-chip) !important; border-color: var(--ui-inner-border) !important; color: var(--ui-chip-text) !important; }
+.pill.red { background: #f6dcd4 !important; border-color: #e0a795 !important; color: #b4502e !important; }
+.pill.blue { background: #dce9f6 !important; border-color: #a9c4e0 !important; color: #38608c !important; }
+.pill.purple { background: #eadff5 !important; border-color: #c5a9dd !important; color: #74508c !important; }
+.pill.yellow { background: #f6ecd0 !important; border-color: #dec27e !important; color: #8c6a1e !important; }
+.pill.green { background: #ddf0d8 !important; border-color: #a5cf9a !important; color: #3d7a3f !important; }
+.pill.cyan { background: #d8eef0 !important; border-color: #93cdd4 !important; color: #2e7079 !important; }
+[data-theme="dark"] .pill.red { background: #4a241c !important; color: #e8a08c !important; }
+[data-theme="dark"] .pill.blue { background: #1e3048 !important; color: #9cc0e8 !important; }
+[data-theme="dark"] .pill.purple { background: #342144 !important; color: #cdaee8 !important; }
+[data-theme="dark"] .pill.yellow { background: #463614 !important; color: #e8cc80 !important; }
+[data-theme="dark"] .pill.green { background: #1e3a20 !important; color: #a2d89c !important; }
+[data-theme="dark"] .pill.cyan { background: #143a40 !important; color: #8cd4de !important; }
+
+/* ---------- 关卡选择（马里奥式卡片格，明暗通吃） ---------- */
+.pick-hint { font-size: 11px !important; letter-spacing: 3px !important; color: var(--ui-muted-text) !important; margin: 4px 0 0 !important; }
+.level-select { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 6px !important; width: 100% !important; max-width: 360px !important; }
+.lvl-btn { font-family: inherit !important; font-weight: 800 !important; font-size: 13px !important; color: var(--ui-text) !important; background: var(--ui-card) !important; border: 2px solid var(--ui-card-border) !important; border-radius: 12px !important; padding: 8px 6px !important; cursor: pointer !important; transition: .18s !important; line-height: 1.25 !important; min-width: 0 !important; }
+.lvl-btn small { font-weight: 400 !important; color: var(--ui-muted-text) !important; font-size: 10px !important; display: block !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; margin-top: 1px !important; }
+.lvl-btn .lv-emo { font-size: 16px !important; display: block !important; line-height: 1.2 !important; }
+.lvl-btn:hover:not(.locked) { border-color: var(--ui-primary) !important; transform: translateY(-2px) !important; }
+.lvl-btn.active { border-color: var(--ui-primary) !important; background: var(--ui-primary-soft) !important; box-shadow: 0 0 0 3px rgba(208, 128, 57, .2) !important; }
+.lvl-btn.locked { opacity: .42 !important; cursor: not-allowed !important; }
+
+/* ---------- SEO 简介折叠卡（各游戏页底部） ---------- */
+details.seo-about { margin-top: 18px; }
+details.seo-about summary {
+  cursor: pointer; list-style: none; font-weight: 700; font-size: 14px;
+  color: var(--ui-text) !important; user-select: none;
+}
+details.seo-about summary::-webkit-details-marker { display: none; }
+details.seo-about summary::after {
+  content: "▾"; float: right; color: var(--ui-muted-text); transition: transform .2s;
+}
+details.seo-about[open] summary::after { transform: rotate(180deg); }
+details.seo-about p { margin-top: 10px; font-size: 13px; line-height: 1.8; color: var(--ui-text-soft) !important; }
+
+/* 尊重系统“减少动态效果”偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

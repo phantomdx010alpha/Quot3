@@ -6,6 +6,8 @@ export const ROUTES = {
   history: '/history',
   customers: '/customers',
   items: '/items',
+  /** Phase 202 (M19): the Games page (shown only while the setting `games.enabled` is on). */
+  games: '/games',
   settings: '/settings',
   designPreview: '/dev/design-preview',
   devGrid: '/dev/grid',

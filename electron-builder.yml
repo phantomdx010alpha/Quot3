@@ -38,6 +38,12 @@ extraResources:
     to: migrations
   - from: resources/fonts
     to: fonts
+  # Phase 198 (Milestone 19): the bundled games, read-only, served through q3game://. The self-test game is for tests only and never ships.
+  - from: resources/games
+    to: games
+    filter:
+      - "**/*"
+      - "!_selftest/**"
   - from: resources/icons
     to: icons
     filter:

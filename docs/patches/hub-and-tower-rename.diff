@@ -1,0 +1,66 @@
+diff -ru a/mini-games-hub/games/gameFlappy.js b/mini-games-hub/games/gameFlappy.js
+--- a/mini-games-hub/games/gameFlappy.js	2026-10-29 08:17:09.272028715 +0000
++++ b/mini-games-hub/games/gameFlappy.js	2026-10-29 08:17:09.275152230 +0000
+@@ -9,7 +9,7 @@
+ 
+ export default {
+   id: 'flappy',
+-  name: 'Flappy 小鸟',
++  name: '小鸟飞行',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+diff -ru a/mini-games-hub/games/registry.js b/mini-games-hub/games/registry.js
+--- a/mini-games-hub/games/registry.js	2026-10-29 08:17:09.271006042 +0000
++++ b/mini-games-hub/games/registry.js	2026-10-29 08:17:09.275136754 +0000
+@@ -55,7 +55,7 @@
+   },
+   {
+     id: 'flappy',
+-    name: 'Flappy 小鸟',
++    name: '小鸟飞行',
+     icon: '🐦',
+     hue: 45,
+     tagline: '穿管得分，10/20/30 解锁奖牌',
+diff -ru a/mini-games-hub/index.html b/mini-games-hub/index.html
+--- a/mini-games-hub/index.html	2026-10-29 08:17:09.273069448 +0000
++++ b/mini-games-hub/index.html	2026-10-29 08:17:09.276045475 +0000
+@@ -4,7 +4,7 @@
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>小游戏厅 · 12 款开源小游戏（浏览器直接玩，不用装）</title>
+-<meta name="description" content="12 款浏览器小游戏合集：4096、贪吃蛇、俄罗斯方块、扫雷、打砖块、2048、恐龙跳、Flappy、五子棋、记忆翻牌、太空射击、数字华容道、打地鼠。纯本地运行，最高分存本机。" />
++<meta name="description" content="12 款浏览器小游戏合集：4096、贪吃蛇、俄罗斯方块、扫雷、打砖块、2048、恐龙跳、Bird flight、五子棋、记忆翻牌、太空射击、数字华容道、打地鼠。纯本地运行，最高分存本机。" />
+ <meta property="og:title" content="小游戏厅 · 13 款小游戏" />
+ <meta property="og:description" content="12 款浏览器小游戏，纯本地运行，最高分存本机。" />
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='11' rx='4'/%3E%3Cpath d='M7 12h3M8.5 10.5v3M15.5 12h.01M18 12h.01'/%3E%3C/svg%3E" />
+diff -ru a/tower-defence/index.html b/tower-defence/index.html
+--- a/tower-defence/index.html	2026-10-29 08:17:09.274094703 +0000
++++ b/tower-defence/index.html	2026-10-29 08:17:09.276948518 +0000
+@@ -2,7 +2,7 @@
+ <html lang="en">
+ <head>
+     <meta charset="utf-8" />
+-    <title>Defender</title>
++    <title>Tower Defence</title>
+     <link rel="stylesheet" href="design/design.css" />
+     <link rel="stylesheet" href="design/sidebar.css" />
+     <link rel="stylesheet" href="design/towers.css" />
+@@ -12,7 +12,7 @@
+ 
+ <body>
+     <div id="container" class="mainScreen">
+-        <h1>Defender</h1>
++        <h1>Tower Defence</h1>
+ 
+         <div class="overlay"></div>
+         <div class="main">
+@@ -37,7 +37,7 @@
+             </div>
+ 
+             <div class="main-menu menu">
+-                <h2>Defender</h2>
++                <h2>Tower Defence</h2>
+                 <div class="content">
+                     <p>Select an option</p>
+                     <button class="menu-button" data-action="selectMap"><u>N</u>ew Game</button>

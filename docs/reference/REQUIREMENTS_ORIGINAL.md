@@ -166,6 +166,20 @@ The owner attached a design canvas of 9 phone mockups (rows A "Tidy tabs", B "Gu
 
 **Marked [A] (unconfirmed, owner may flip; full list in `docs/MILESTONE18_DESIGN.md` section 8):** classic keeps its truncation and words, with an opt-in `ui.wrapNames`; plain-word renames only in the new layouts; `ui.layout` not synced; bill date picker; row Undo; Saved sheet; party index pre-build; GST % chips with `ui.lastGstPct`; no swipe gestures; one status pill; the larger token sizes; the placeholder version numbers. Planning-session note: finding 7 is correct behaviour in the code (the highlight follows the tab the bill was opened from), so it is "leave as is".
 
+### Part A addendum 8 — Milestone 19, Games (2026-10-29, owner's words, typos kept, condensed only by removing repeats)
+
+> WE NEED TO ADD A GAMES PAGE AND A FREE BILLIONS OF GAMES API TO CONNECT A GAMING PAGE TO THIS SHIT. ON DASHBOARD ANOTHER TILES WITH NAME "(?)" ONLY. IT SHOULD HAVE ANY SEARCHABLE GAMES AND SHIT. (planning only, no code changes)
+
+> (after a RAWG catalogue plan was drafted) DUDE WAIT SCRAP IT. I THINK YOU CONFUSED IT. I MEANT FREE PLAYABLE GAMES OR MINIGAMES AND SHIT.
+
+> WHAT IF WE ADD MULTIPLE FREE GITHUB PUBLIC REPOS FOR THIS, SO WE DONT HAVE TO WRITE CODES OURSELVES. AND IT DONT HAVE TO BE BILLIONS, THAT WAS JUST EXAGGERATION FROM MY END. DO A DEEP SCAN AND FIND MULTIPLE GOOD REPOS FOR THIS REQUIREMENTS.
+
+> GREAT, WE ADD ALL THESE SO WE DONT HAVE TO WRITE CODES FROM SCRATCH. ALSO KINDLY SEARCH FOR A CHESS AS WELL.
+
+> GO, ADD EVERYTHING NOW BUT TELL ME WE DONT NEED APIS FOR THEM FIRST. ALSO ITS ONLY FOR THE DESKTOP, NO NEED FOR THE PHONE.
+
+**Owner decisions (firm):** playable games (no catalogue API); taken from free public GitHub repos; chess included; Dashboard tile named exactly "(?)"; searchable Games page; DESKTOP ONLY; update the docs only (this session writes no code). **Assistant defaults, all [A] until confirmed:** see `docs/MILESTONE19_DESIGN.md` section 5 (personal use today, bundled in the installer, only MIT / BSD-style licences, tile opens a random game, Stockfish not shipped, `Ctrl+6`).
+
 ## Part B — Confirmed clarifications and assumptions (planning session, 2026-10-07)
 
 The owner confirmed "your assumptions are right" for all of the following:
@@ -277,3 +291,4 @@ Understanding the owner confirmed in the same session (no objection raised):
 | Row reorder | 123–124 |
 | Dashboard weather / forex / other tiles | 125–126 |
 | Phone version (Android PWA, Vercel, IndexedDB, compact bills, share image / PDF only) | 173–188 |
+| Games page with bundled open-source playable games + chess, "(?)" Dashboard tile (desktop only, no API) | 197–204 |
