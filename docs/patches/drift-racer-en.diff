@@ -1,0 +1,577 @@
+--- a/resources/games/drift-racer/drift-racer.html
++++ b/resources/games/drift-racer/drift-racer.html
+@@ -1,9 +1,9 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>巅峰漂移巡回赛</title>
++<title>Summit Drift Tour</title>
+ <style>
+   :root {
+     color-scheme: dark;
+@@ -677,132 +677,132 @@
+ </head>
+ <body>
+ <main class="app">
+-  <section class="stage" aria-label="漂移赛道游戏区">
++  <section class="stage" aria-label="Drift track play area">
+-    <canvas id="gameCanvas" aria-label="漂移赛车画布"></canvas>
++    <canvas id="gameCanvas" aria-label="Drift racing canvas"></canvas>
+     <div class="hud">
+       <div class="brand">
+-        <h1>巅峰漂移</h1>
++        <h1>Summit Drift</h1>
+-        <div class="subline"><span id="eventNameText">海港排位</span> · <span id="statusText">待命</span> · <span id="lapText">第 1/2 圈</span></div>
++        <div class="subline"><span id="eventNameText">Harbor Qualifier</span> · <span id="statusText">Ready</span> · <span id="lapText">Lap 1/2</span></div>
+       </div>
+-      <div class="race-strip" aria-label="比赛状态">
++      <div class="race-strip" aria-label="Race status">
+-        <div class="race-stat"><span>速度</span><strong id="speedText">0</strong></div>
++        <div class="race-stat"><span>Speed</span><strong id="speedText">0</strong></div>
+-        <div class="race-stat"><span>名次</span><strong id="positionText">1/4</strong></div>
++        <div class="race-stat"><span>Place</span><strong id="positionText">1/4</strong></div>
+-        <div class="race-stat"><span>圈速</span><strong id="timeText">00:00.00</strong></div>
++        <div class="race-stat"><span>Lap time</span><strong id="timeText">00:00.00</strong></div>
+       </div>
+       <div class="hud-actions">
+-        <button class="icon-btn" id="audioBtn" title="切换音效" aria-label="切换音效">♫</button>
++        <button class="icon-btn" id="audioBtn" title="Toggle sound" aria-label="Toggle sound">♫</button>
+-        <button class="icon-btn" id="garageBtn" title="返回巡回赛" aria-label="返回巡回赛">⚑</button>
++        <button class="icon-btn" id="garageBtn" title="Back to tour" aria-label="Back to tour">⚑</button>
+-        <button class="icon-btn" id="pauseBtn" title="暂停" aria-label="暂停">Ⅱ</button>
++        <button class="icon-btn" id="pauseBtn" title="Pause" aria-label="Pause">Ⅱ</button>
+-        <button class="icon-btn" id="restartBtn" title="重新开始" aria-label="重新开始">↻</button>
++        <button class="icon-btn" id="restartBtn" title="Restart" aria-label="Restart">↻</button>
+       </div>
+     </div>
+     <div class="toast" id="toast">Ready</div>
+-    <div class="touch-controls" aria-label="触屏控制">
++    <div class="touch-controls" aria-label="Touch controls">
+       <div class="pad">
+-        <button class="control-btn" data-control="accel" title="加速" aria-label="加速">▲</button>
++        <button class="control-btn" data-control="accel" title="Gas" aria-label="Gas">▲</button>
+-        <button class="control-btn" data-control="left" title="左转" aria-label="左转">◀</button>
++        <button class="control-btn" data-control="left" title="Left" aria-label="Left">◀</button>
+-        <button class="control-btn" data-control="brake" title="制动" aria-label="制动">▼</button>
++        <button class="control-btn" data-control="brake" title="Brake" aria-label="Brake">▼</button>
+-        <button class="control-btn" data-control="right" title="右转" aria-label="右转">▶</button>
++        <button class="control-btn" data-control="right" title="Right" aria-label="Right">▶</button>
+       </div>
+       <div class="boost-pad">
+-        <button class="control-btn" data-control="nitro" title="氮气" aria-label="氮气">N</button>
++        <button class="control-btn" data-control="nitro" title="Nitro" aria-label="Nitro">N</button>
+       </div>
+     </div>
+     <div class="modal show" id="startModal">
+       <div class="modal-card tour-card">
+         <div class="tour-head">
+           <div>
+-            <h2>巅峰漂移巡回赛</h2>
++            <h2>Summit Drift Tour</h2>
+-            <p>赢取赛事星章，解锁赛车与调校模块。</p>
++            <p>Win event badges to unlock cars and tuning modules.</p>
+           </div>
+-          <div class="career-strip" aria-label="生涯进度">
++          <div class="career-strip" aria-label="Career progress">
+-            <div class="career-stat"><small>星章</small><strong id="careerStars">0/27</strong></div>
++            <div class="career-stat"><small>Badges</small><strong id="careerStars">0/27</strong></div>
+-            <div class="career-stat"><small>车币</small><strong id="careerCredits">0</strong></div>
++            <div class="career-stat"><small>Coins</small><strong id="careerCredits">0</strong></div>
+-            <div class="career-stat"><small>冠军</small><strong id="careerWins">0</strong></div>
++            <div class="career-stat"><small>Wins</small><strong id="careerWins">0</strong></div>
+           </div>
+         </div>
+-        <div class="tabs" role="tablist" aria-label="巡回赛页面">
++        <div class="tabs" role="tablist" aria-label="Tour page">
+-          <button class="tab-btn active" data-tab="tour" role="tab">巡回赛</button>
++          <button class="tab-btn active" data-tab="tour" role="tab">Tour</button>
+-          <button class="tab-btn" data-tab="garage" role="tab">车库</button>
++          <button class="tab-btn" data-tab="garage" role="tab">Garage</button>
+-          <button class="tab-btn" data-tab="archive" role="tab">档案</button>
++          <button class="tab-btn" data-tab="archive" role="tab">Profile</button>
+         </div>
+         <section class="tab-panel active" data-panel="tour">
+-          <div class="section-title"><h3>九站赛历</h3><small id="tourHint">完成目标可获得三星</small></div>
++          <div class="section-title"><h3>Nine-stop calendar</h3><small id="tourHint">Complete goals to earn three stars</small></div>
+           <div class="event-grid" id="eventGrid"></div>
+         </section>
+         <section class="tab-panel" data-panel="garage">
+-          <div class="section-title"><h3>赛车</h3><small>不同车辆会改变速度、抓地与热管理</small></div>
++          <div class="section-title"><h3>Cars</h3><small>Different cars change speed, grip and heat</small></div>
+           <div class="garage-grid" id="vehicleGrid"></div>
+-          <div class="section-title"><h3>调校模块</h3><small id="moduleHint">最多安装 2 件</small></div>
++          <div class="section-title"><h3>Tuning modules</h3><small id="moduleHint">Max 2 installed</small></div>
+           <div class="module-grid" id="moduleGrid"></div>
+         </section>
+         <section class="tab-panel" data-panel="archive">
+-          <div class="section-title"><h3>生涯档案</h3><small>跨设备码不包含本机幽灵轨迹</small></div>
++          <div class="section-title"><h3>Career profile</h3><small>The cross-device code does not include local ghosts</small></div>
+           <div class="archive-box">
+             <div class="medal-grid" id="medalGrid"></div>
+-            <textarea id="archiveCode" aria-label="跨设备存档码" placeholder="导出后在这里获得存档码，或粘贴另一台设备的 DRIFT2 存档码"></textarea>
++            <textarea id="archiveCode" aria-label="Cross-device save code" placeholder="Export to get a save code here, or paste a DRIFT2 code from another device"></textarea>
+             <div class="archive-actions">
+-              <button class="secondary-btn" id="exportBtn">导出档案</button>
++              <button class="secondary-btn" id="exportBtn">Export profile</button>
+-              <button class="secondary-btn" id="importBtn">导入档案</button>
++              <button class="secondary-btn" id="importBtn">Import profile</button>
+-              <button class="secondary-btn" id="soundBtn">音效：开</button>
++              <button class="secondary-btn" id="soundBtn">Sound: On</button>
+             </div>
+           </div>
+         </section>
+         <div class="tour-actions" style="margin-top:14px">
+-          <button class="primary-btn" id="startBtn">出赛</button>
++          <button class="primary-btn" id="startBtn">Race</button>
+         </div>
+       </div>
+     </div>
+     <div class="modal" id="resultModal">
+       <div class="modal-card">
+-        <h2 id="resultTitle">完赛</h2>
++        <h2 id="resultTitle">Finished</h2>
+-        <p id="resultCopy">总用时 00:00.00</p>
++        <p id="resultCopy">Total time 00:00.00</p>
+         <div class="result-grade" id="resultGrade">☆☆☆</div>
+         <div class="objective-box" id="resultObjectives"></div>
+         <div class="result-actions" style="margin-top:14px">
+-          <button class="secondary-btn" id="lobbyBtn">返回赛历</button>
++          <button class="secondary-btn" id="lobbyBtn">Back to calendar</button>
+-          <button class="primary-btn" id="againBtn">再跑一场</button>
++          <button class="primary-btn" id="againBtn">Race again</button>
+         </div>
+       </div>
+     </div>
+   </section>
+-  <aside class="rail" aria-label="漂移赛道状态栏">
++  <aside class="rail" aria-label="Drift track status bar">
+     <div class="meter-grid">
+       <div class="meter-card">
+-        <span>氮气</span>
++        <span>Nitro</span>
+         <strong id="nitroText">100%</strong>
+         <div class="bar"><i id="nitroBar"></i></div>
+       </div>
+       <div class="meter-card">
+-        <span>漂移</span>
++        <span>Drift</span>
+         <strong id="driftText">0</strong>
+         <div class="bar"><i id="driftBar"></i></div>
+       </div>
+       <div class="meter-card">
+-        <span>倍率</span>
++        <span>Multiplier</span>
+         <strong id="comboText">x1.0</strong>
+         <div class="bar"><i id="comboBar"></i></div>
+       </div>
+       <div class="meter-card">
+-        <span>胎温</span>
++        <span>Tires</span>
+-        <strong id="heatText">冷</strong>
++        <strong id="heatText">Cold</strong>
+         <div class="bar"><i id="heatBar"></i></div>
+       </div>
+     </div>
+     <section class="leaderboard">
+-      <h2>排名</h2>
++      <h2>Rank</h2>
+       <div id="leaderboard"></div>
+     </section>
+     <section class="splits">
+-      <h2>计时</h2>
++      <h2>Timer</h2>
+-      <div class="split-row"><span>当前</span><strong id="currentLapText">00:00.00</strong><em></em></div>
++      <div class="split-row"><span>Current</span><strong id="currentLapText">00:00.00</strong><em></em></div>
+-      <div class="split-row"><span>最佳</span><strong id="bestLapText">--:--.--</strong><em></em></div>
++      <div class="split-row"><span>Best</span><strong id="bestLapText">--:--.--</strong><em></em></div>
+-      <div class="split-row"><span>总计</span><strong id="totalText">00:00.00</strong><em></em></div>
++      <div class="split-row"><span>Total</span><strong id="totalText">00:00.00</strong><em></em></div>
+     </section>
+     <section class="objective-box">
+-      <p class="rail-label" id="conditionText">晴天 · 2 圈</p>
++      <p class="rail-label" id="conditionText">Sunny · 2 laps</p>
+       <div id="objectiveList"></div>
+-      <div class="objective-row"><span>◇</span><span>最佳幽灵</span><strong id="ghostText">暂无</strong></div>
++      <div class="objective-row"><span>◇</span><span>Best ghost</span><strong id="ghostText">None</strong></div>
+     </section>
+   </aside>
+ </main>
+@@ -868,7 +868,7 @@
+   const SAVE_PREFIX = "DRIFT2.";
+   const tracks = {
+     harbor: {
+-      name: "潮汐港环",
++      name: "Tidal Harbor Loop",
+       width: 250,
+       theme: ["#173b2b", "#1e4b31", "#23381d"],
+       points: [
+@@ -880,7 +880,7 @@
+       clips: [[1448, 1042], [1502, 470], [635, 480], [405, 885]]
+     },
+     alpine: {
+-      name: "云岭折线",
++      name: "Cloudridge Zigzag",
+       width: 224,
+       theme: ["#253c3d", "#31504d", "#263b34"],
+       points: [
+@@ -892,7 +892,7 @@
+       clips: [[1545, 1195], [1665, 500], [835, 415], [350, 835], [650, 1325]]
+     },
+     foundry: {
+-      name: "熔炉工业环",
++      name: "Foundry Industrial Loop",
+       width: 238,
+       theme: ["#3b3029", "#49372d", "#2f332a"],
+       points: [
+@@ -905,43 +905,43 @@
+     }
+   };
+   const events = [
+-    { id: "harbor-qualifier", name: "海港排位", track: "harbor", condition: "clear", laps: 2, unlock: 0, ai: 0.76, reward: 120, objectives: [["place", 3], ["drift", 800], ["time", 50]] },
++    { id: "harbor-qualifier", name: "Harbor Qualifier", track: "harbor", condition: "clear", laps: 2, unlock: 0, ai: 0.76, reward: 120, objectives: [["place", 3], ["drift", 800], ["time", 50]] },
+-    { id: "alpine-rain", name: "云岭雨线", track: "alpine", condition: "rain", laps: 2, unlock: 1, ai: 0.81, reward: 150, objectives: [["place", 3], ["clips", 4], ["drift", 1200]] },
++    { id: "alpine-rain", name: "Cloudridge Rain Line", track: "alpine", condition: "rain", laps: 2, unlock: 1, ai: 0.81, reward: 150, objectives: [["place", 3], ["clips", 4], ["drift", 1200]] },
+-    { id: "foundry-heat", name: "熔炉热圈", track: "foundry", condition: "heat", laps: 2, unlock: 3, ai: 0.86, reward: 180, objectives: [["place", 2], ["drift", 1600], ["time", 54]] },
++    { id: "foundry-heat", name: "Foundry Hot Lap", track: "foundry", condition: "heat", laps: 2, unlock: 3, ai: 0.86, reward: 180, objectives: [["place", 2], ["drift", 1600], ["time", 54]] },
+-    { id: "harbor-night", name: "港湾夜战", track: "harbor", condition: "night", laps: 3, unlock: 6, ai: 0.9, reward: 220, objectives: [["place", 2], ["clips", 8], ["drift", 2400]] },
++    { id: "harbor-night", name: "Harbor Night Battle", track: "harbor", condition: "night", laps: 3, unlock: 6, ai: 0.9, reward: 220, objectives: [["place", 2], ["clips", 8], ["drift", 2400]] },
+-    { id: "alpine-pure", name: "云岭纯走", track: "alpine", condition: "clear", laps: 3, unlock: 9, ai: 0.94, reward: 260, objectives: [["place", 2], ["clean", 10], ["drift", 2800]] },
++    { id: "alpine-pure", name: "Cloudridge Pure Run", track: "alpine", condition: "clear", laps: 3, unlock: 9, ai: 0.94, reward: 260, objectives: [["place", 2], ["clean", 10], ["drift", 2800]] },
+-    { id: "foundry-rain", name: "熔炉骤雨", track: "foundry", condition: "rain", laps: 3, unlock: 12, ai: 0.98, reward: 300, objectives: [["place", 1], ["time", 76], ["clips", 9]] },
++    { id: "foundry-rain", name: "Foundry Downpour", track: "foundry", condition: "rain", laps: 3, unlock: 12, ai: 0.98, reward: 300, objectives: [["place", 1], ["time", 76], ["clips", 9]] },
+-    { id: "harbor-heat", name: "红线海港", track: "harbor", condition: "heat", laps: 3, unlock: 15, ai: 1, reward: 360, objectives: [["place", 1], ["drift", 4200], ["time", 70]] },
++    { id: "harbor-heat", name: "Redline Harbor", track: "harbor", condition: "heat", laps: 3, unlock: 15, ai: 1, reward: 360, objectives: [["place", 1], ["drift", 4200], ["time", 70]] },
+-    { id: "alpine-midnight", name: "午夜云岭", track: "alpine", condition: "night", laps: 3, unlock: 18, ai: 1.03, reward: 420, objectives: [["place", 1], ["clean", 6], ["clips", 10]] },
++    { id: "alpine-midnight", name: "Midnight Cloudridge", track: "alpine", condition: "night", laps: 3, unlock: 18, ai: 1.03, reward: 420, objectives: [["place", 1], ["clean", 6], ["clips", 10]] },
+-    { id: "apex-final", name: "巅峰风暴", track: "foundry", condition: "storm", laps: 4, unlock: 21, ai: 1.06, reward: 600, objectives: [["place", 1], ["drift", 5600], ["time", 98]] }
++    { id: "apex-final", name: "Summit Storm", track: "foundry", condition: "storm", laps: 4, unlock: 21, ai: 1.06, reward: 600, objectives: [["place", 1], ["drift", 5600], ["time", 98]] }
+   ];
+   const vehicles = [
+-    { id: "pulse", name: "脉冲 S1", unlock: 0, price: 0, color: "#f1f7ed", accent: "#55d8a5", speed: 1, accel: 1, grip: 1, cooling: 1, nitro: 1, trait: "均衡底盘，易于连续漂移" },
++    { id: "pulse", name: "Pulse S1", unlock: 0, price: 0, color: "#f1f7ed", accent: "#55d8a5", speed: 1, accel: 1, grip: 1, cooling: 1, nitro: 1, trait: "Balanced chassis, easy chain drifts" },
+-    { id: "comet", name: "彗星 R", unlock: 6, price: 520, color: "#66c9ff", accent: "#f6c75e", speed: 1.09, accel: 0.97, grip: 0.92, cooling: 0.94, nitro: 1.12, trait: "极速与氮气更强，弯中更活跃" },
++    { id: "comet", name: "Comet R", unlock: 6, price: 520, color: "#66c9ff", accent: "#f6c75e", speed: 1.09, accel: 0.97, grip: 0.92, cooling: 0.94, nitro: 1.12, trait: "Higher top speed and nitro, lively mid-corner" },
+-    { id: "ember", name: "赤炉 GT", unlock: 12, price: 980, color: "#ff6d5f", accent: "#ffd166", speed: 1.03, accel: 1.08, grip: 1.06, cooling: 0.84, nitro: 0.96, trait: "出弯加速凶猛，需要管理胎温" },
++    { id: "ember", name: "Redfurnace GT", unlock: 12, price: 980, color: "#ff6d5f", accent: "#ffd166", speed: 1.03, accel: 1.08, grip: 1.06, cooling: 0.84, nitro: 0.96, trait: "Fierce corner exit, manage tire heat" },
+-    { id: "zenith", name: "天穹 X", unlock: 20, price: 1600, color: "#d8c7ff", accent: "#66c9ff", speed: 1.06, accel: 1.04, grip: 1.1, cooling: 1.08, nitro: 1.04, trait: "终局全能赛车，雨夜稳定" }
++    { id: "zenith", name: "Skydome X", unlock: 20, price: 1600, color: "#d8c7ff", accent: "#66c9ff", speed: 1.06, accel: 1.04, grip: 1.1, cooling: 1.08, nitro: 1.04, trait: "Ultimate all-rounder, stable on rainy nights" }
+   ];
+   const modules = [
+-    { id: "overdrive", name: "高转涡轮", unlock: 0, price: 0, text: "极速 +7%，抓地 -4%", speed: 1.07, grip: 0.96 },
++    { id: "overdrive", name: "High-Boost Turbo", unlock: 0, price: 0, text: "Top speed +7%, grip -4%", speed: 1.07, grip: 0.96 },
+-    { id: "streetTires", name: "街道胎", unlock: 2, price: 180, text: "抓地 +10%", grip: 1.1 },
++    { id: "streetTires", name: "Street Tires", unlock: 2, price: 180, text: "Grip +10%", grip: 1.1 },
+-    { id: "coolant", name: "冷却风道", unlock: 4, price: 260, text: "散热 +22%", cooling: 1.22 },
++    { id: "coolant", name: "Cooling Duct", unlock: 4, price: 260, text: "Cooling +22%", cooling: 1.22 },
+-    { id: "boostTank", name: "增压储罐", unlock: 6, price: 380, text: "氮气效率 +18%", nitro: 1.18 },
++    { id: "boostTank", name: "Boost Tank", unlock: 6, price: 380, text: "Nitro efficiency +18%", nitro: 1.18 },
+-    { id: "driftKit", name: "漂移舵角", unlock: 8, price: 520, text: "漂移得分 +22%", drift: 1.22 },
++    { id: "driftKit", name: "Drift Angle Kit", unlock: 8, price: 520, text: "Drift score +22%", drift: 1.22 },
+-    { id: "lightFrame", name: "轻量车架", unlock: 11, price: 680, text: "加速 +9%，碰撞更敏感", accel: 1.09, mass: 0.82 },
++    { id: "lightFrame", name: "Light Frame", unlock: 11, price: 680, text: "Acceleration +9%, more crash-prone", accel: 1.09, mass: 0.82 },
+-    { id: "rainTires", name: "雨战配方", unlock: 14, price: 760, text: "削弱雨地抓地损失", rain: 1.18 },
++    { id: "rainTires", name: "Rain Compound", unlock: 14, price: 760, text: "Reduces grip loss on wet roads", rain: 1.18 },
+-    { id: "clipSensor", name: "弯心雷达", unlock: 17, price: 900, text: "弯心奖励 +30%", clip: 1.3 }
++    { id: "clipSensor", name: "Apex Radar", unlock: 17, price: 900, text: "Apex bonus +30%", clip: 1.3 }
+   ];
+   const rivals = [
+-    { name: "岚", color: "#66c9ff", accent: "#f6c75e", style: "late" },
++    { name: "Ran", color: "#66c9ff", accent: "#f6c75e", style: "late" },
+-    { name: "焰", color: "#ff6d5f", accent: "#ffd166", style: "attack" },
++    { name: "Yan", color: "#ff6d5f", accent: "#ffd166", style: "attack" },
+-    { name: "律", color: "#b48cff", accent: "#66c9ff", style: "clean" }
++    { name: "Lu", color: "#b48cff", accent: "#66c9ff", style: "clean" }
+   ];
+   const conditions = {
+-    clear: { name: "晴天", grip: 1, cooling: 1 },
++    clear: { name: "Sunny", grip: 1, cooling: 1 },
+-    rain: { name: "雨战", grip: 0.76, cooling: 1.12 },
++    rain: { name: "Rain", grip: 0.76, cooling: 1.12 },
+-    heat: { name: "热浪", grip: 0.95, cooling: 0.7 },
++    heat: { name: "Heat wave", grip: 0.95, cooling: 0.7 },
+-    night: { name: "夜赛", grip: 0.98, cooling: 1 },
++    night: { name: "Night race", grip: 0.98, cooling: 1 },
+-    storm: { name: "风暴夜", grip: 0.72, cooling: 1.08 }
++    storm: { name: "Storm night", grip: 0.72, cooling: 1.08 }
+   };
+ 
+   let ROAD_W = tracks.harbor.width;
+@@ -1119,7 +1119,7 @@
+     try {
+       localStorage.setItem(SAVE_KEY, JSON.stringify(career));
+     } catch {
+-      showToast("档案空间不足，幽灵未保存");
++      showToast("Not enough profile space, ghost not saved");
+       career.ghosts = {};
+       localStorage.setItem(SAVE_KEY, JSON.stringify(career));
+     }
+@@ -1138,11 +1138,11 @@
+   }
+ 
+   function importCareer(code) {
+-    if (!String(code).trim().startsWith(SAVE_PREFIX)) throw new Error("存档码前缀不正确");
++    if (!String(code).trim().startsWith(SAVE_PREFIX)) throw new Error("Save code prefix is incorrect");
+     const binary = atob(String(code).trim().slice(SAVE_PREFIX.length));
+     const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+     const incoming = JSON.parse(new TextDecoder().decode(bytes));
+-    if (incoming.version !== 2) throw new Error("存档版本不兼容");
++    if (incoming.version !== 2) throw new Error("Save version is incompatible");
+     const localGhosts = career.ghosts;
+     career = sanitizeCareer(incoming, false);
+     career.ghosts = localGhosts;
+@@ -1162,9 +1162,9 @@
+     boostPads = currentTrack.pads.map(([x, y, angle, width]) => ({ x, y, angle, w: width, h: 48 }));
+     clippingZones = currentTrack.clips.map(([x, y]) => ({ x, y, r: 56 }));
+     eventNameText.textContent = event.name;
+-    conditionText.textContent = `${conditions[event.condition].name} · ${currentTrack.name} · ${event.laps} 圈`;
++    conditionText.textContent = `${conditions[event.condition].name} · ${currentTrack.name} · ${event.laps} laps`;
+     activeGhost = Array.isArray(career.ghosts[event.id]) ? career.ghosts[event.id] : [];
+-    ghostText.textContent = career.bestTimes[event.id] ? formatTime(career.bestTimes[event.id]) : "暂无";
++    ghostText.textContent = career.bestTimes[event.id] ? formatTime(career.bestTimes[event.id]) : "None";
+   }
+ 
+   function getVehicleStats(vehicleId = career.selectedCar) {
+@@ -1180,11 +1180,11 @@
+ 
+   function objectiveLabel(objective) {
+     const [kind, target] = objective;
+-    if (kind === "place") return `以第 ${target} 名或更高完赛`;
++    if (kind === "place") return `Finish in place ${target} or higher`;
+-    if (kind === "drift") return `漂移得分达到 ${target}`;
++    if (kind === "drift") return `Reach a drift score of ${target}`;
+-    if (kind === "time") return `总用时不超过 ${formatTime(target)}`;
++    if (kind === "time") return `Total time under ${formatTime(target)}`;
+-    if (kind === "clips") return `命中 ${target} 个弯心`;
++    if (kind === "clips") return `Hit ${target} apexes`;
+-    return `草地时间不超过 ${target.toFixed(0)} 秒`;
++    return `Grass time under ${target.toFixed(0)} s`;
+   }
+ 
+   function objectiveProgress(objective, stats) {
+@@ -1221,19 +1221,19 @@
+       const done = objectiveDone(objective, stats);
+       return `<div class="objective-row ${done ? "done" : ""}"><span>${done ? "●" : "○"}</span><span>${objectiveLabel(objective)}</span><strong>${objectiveProgress(objective, stats)}</strong></div>`;
+     }).join("");
+-    if (final) target.setAttribute("aria-label", "赛事目标结算");
++    if (final) target.setAttribute("aria-label", "Event goals results");
+   }
+ 
+   function medalState() {
+     const stars = getTotalStars();
+     const playedTracks = new Set(events.filter(item => career.eventStars[item.id]).map(item => item.track));
+     return [
+-      ["初次完赛", Object.keys(career.eventStars).length > 0],
++      ["First Finish", Object.keys(career.eventStars).length > 0],
+-      ["六星车手", stars >= 6],
++      ["Six-Star Driver", stars >= 6],
+-      ["调校专家", stars >= 12],
++      ["Tuning Expert", stars >= 12],
+-      ["三环巡礼", playedTracks.size === 3],
++      ["Triple Loop Tour", playedTracks.size === 3],
+-      ["黄金车手", stars >= 18],
++      ["Gold Driver", stars >= 18],
+-      ["巅峰冠军", Boolean(career.eventStars["apex-final"])]
++      ["Summit Champion", Boolean(career.eventStars["apex-final"])]
+     ];
+   }
+ 
+@@ -1242,7 +1242,7 @@
+     careerStars.textContent = `${stars}/27`;
+     careerCredits.textContent = career.credits;
+     careerWins.textContent = career.wins;
+-    soundBtn.textContent = `音效：${career.sound ? "开" : "关"}`;
++    soundBtn.textContent = `Sound: ${career.sound ? "On" : "Off"}`;
+     audioBtn.style.opacity = career.sound ? "1" : "0.45";
+     eventGrid.innerHTML = events.map((event, index) => {
+       const locked = stars < event.unlock;
+@@ -1251,15 +1251,14 @@
+       return `<button class="event-card ${locked ? "locked" : ""} ${selected ? "selected" : ""}" data-event="${event.id}" ${locked ? "disabled" : ""}>
+         <small>${String(index + 1).padStart(2, "0")} · ${tracks[event.track].name}</small><strong>${event.name}</strong>
+         <div class="stars">${"★".repeat(earned)}${"☆".repeat(3 - earned)}</div>
+-        <div class="event-meta"><span>${conditions[event.condition].name}</span><span>${event.laps} 圈</span><span>${locked ? `${event.unlock} 星解锁` : `${event.reward} 车币`}</span></div>
++        <div class="event-meta"><span>${conditions[event.condition].name}</span><span>${event.laps} laps</span><span>${locked ? `${event.unlock} stars to unlock` : `${event.reward} coins`}</span></div>
+       </button>`;
+     }).join("");
+     vehicleGrid.innerHTML = vehicles.map(vehicle => {
+       const locked = stars < vehicle.unlock;
+       const owned = career.ownedCars.includes(vehicle.id);
+       return `<button class="vehicle-card ${locked ? "locked" : ""} ${career.selectedCar === vehicle.id ? "selected" : ""}" data-vehicle="${vehicle.id}" ${locked ? "disabled" : ""}>
+-        <small>${locked ? `${vehicle.unlock} 星解锁` : owned ? career.selectedCar === vehicle.id ? "当前赛车" : "已拥有" : `${vehicle.price} 车币购置`}</small><strong>${vehicle.name}</strong><span>${vehicle.trait}</span>
+-        <div class="stat-dots"><span>速 ${Math.round(vehicle.speed * 100)}</span><span>控 ${Math.round(vehicle.grip * 100)}</span><span>冷 ${Math.round(vehicle.cooling * 100)}</span><span>氮 ${Math.round(vehicle.nitro * 100)}</span>${!owned && !locked ? `<span>${vehicle.price} 车币</span>` : ""}</div>
++        <small>${locked ? `${vehicle.unlock} stars to unlock` : owned ? career.selectedCar === vehicle.id ? "Selected" : "Owned" : `${vehicle.price} coins to buy`}</small><strong>${vehicle.name}</strong><span>${vehicle.trait}</span>\\n        <div class="stat-dots"><span>Spd ${Math.round(vehicle.speed * 100)}</span><span>Ctl ${Math.round(vehicle.grip * 100)}</span><span>Cool ${Math.round(vehicle.cooling * 100)}</span><span>Nit ${Math.round(vehicle.nitro * 100)}</span>${!owned && !locked ? `<span>${vehicle.price} coins</span>` : ""}</div>
+       </button>`;
+     }).join("");
+     moduleGrid.innerHTML = modules.map(module => {
+@@ -1267,10 +1266,10 @@
+       const owned = career.ownedModules.includes(module.id);
+       const selected = career.modules.includes(module.id);
+       return `<button class="module-card ${locked ? "locked" : ""} ${selected ? "selected" : ""}" data-module="${module.id}" ${locked ? "disabled" : ""}>
+-        <small>${locked ? `${module.unlock} 星解锁` : !owned ? `${module.price} 车币购置` : selected ? "已安装" : "可安装"}</small><strong>${module.name}</strong><span>${module.text}</span>
++        <small>${locked ? `${module.unlock} stars to unlock` : !owned ? `${module.price} coins to buy` : selected ? "Installed" : "Can install"}</small><strong>${module.name}</strong><span>${module.text}</span>
+       </button>`;
+     }).join("");
+-    moduleHint.textContent = `已安装 ${career.modules.length}/2`;
++    moduleHint.textContent = `Installed ${career.modules.length}/2`;
+     medalGrid.innerHTML = medalState().map(([name, done]) => `<span class="medal" style="opacity:${done ? 1 : 0.38}">${done ? "◆" : "◇"} ${name}</span>`).join("");
+     const event = events.find(item => item.id === career.selectedEvent) || events[0];
+     configureEvent(event);
+@@ -1341,7 +1340,7 @@
+   function startRace(eventId = career.selectedEvent) {
+     const event = events.find(item => item.id === eventId) || events[0];
+     if (event.unlock > getTotalStars()) {
+-      showToast(`需要 ${event.unlock} 枚星章`);
++      showToast(`Needs ${event.unlock} badges`);
+       return;
+     }
+     career.selectedEvent = event.id;
+@@ -1393,7 +1392,7 @@
+     startEngine();
+     tone(330, 0.08, 0.035);
+     setTimeout(() => tone(520, 0.12, 0.04), 90);
+-    showToast(`${currentEvent.name} · 发车`);
++    showToast(`${currentEvent.name} · Start`);
+     updateUI();
+   }
+ 
+@@ -1436,7 +1435,7 @@
+     if (!started || finished) return;
+     paused = !paused;
+     pauseBtn.textContent = paused ? "▶" : "Ⅱ";
+-    showToast(paused ? "暂停" : "继续");
++    showToast(paused ? "Pause" : "Resume");
+   }
+ 
+   function updateCamera(dt, snap = false) {
+@@ -1570,7 +1569,7 @@
+       car.nitro = Math.min(100, car.nitro + 14);
+       car.heat = Math.min(100, car.heat + 7);
+       spawnPadBurst(car, boostPad);
+-      if (car.isPlayer) showToast("加速带");
++      if (car.isPlayer) showToast("Boost pad");
+     }
+ 
+     if (nitroOn) {
+@@ -1640,7 +1639,7 @@
+       car.driftMultiplier = Math.min(4, car.driftMultiplier + 0.45);
+       car.nitro = Math.min(100, car.nitro + 24);
+       spawnClipBurst(zone);
+-      showToast(`弯心 +${bonus}`);
++      showToast(`Apex +${bonus}`);
+       tone(680 + Math.min(260, bonus * 0.3), 0.07, 0.025, "triangle");
+     }
+   }
+@@ -1661,7 +1660,7 @@
+         }
+         car.checkpoint = 0;
+         if (car.isPlayer && !car.finished) {
+-          showToast(`第 ${car.lap} 圈`);
++          showToast(`Lap ${car.lap}!`);
+           tone(540 + car.lap * 70, 0.1, 0.03, "triangle");
+         }
+       } else {
+@@ -1736,14 +1735,14 @@
+     const total = getTotalStars();
+     const newlyUnlocked = events.filter(event => event.unlock > previousTotal && event.unlock <= total).map(event => event.name);
+     saveCareer();
+-    resultTitle.textContent = place === 1 ? `${currentEvent.name} · 冠军` : `${currentEvent.name} · 第 ${place} 名`;
++    resultTitle.textContent = place === 1 ? `${currentEvent.name} · Champion` : `${currentEvent.name} · Place ${place}.`;
+-    resultCopy.textContent = `总用时 ${formatTime(stats.time)} · 最佳圈 ${Number.isFinite(stats.bestLap) ? formatTime(stats.bestLap) : "--:--.--"} · 漂移 ${Math.round(stats.driftScore)} · +${credits} 车币${improved ? " · 新幽灵" : ""}`;
++    resultCopy.textContent = `Total time ${formatTime(stats.time)} · Best lap ${Number.isFinite(stats.bestLap) ? formatTime(stats.bestLap) : "--:--.--"} · Drift ${Math.round(stats.driftScore)} · +${credits} coins${improved ? " · New ghost" : ""}`;
+     resultGrade.textContent = `${"★".repeat(stars)}${"☆".repeat(3 - stars)}`;
+     renderObjectives(resultObjectives, stats, true);
+     resultModal.classList.add("show");
+     renderLobby();
+-    if (newlyUnlocked.length) showToast(`解锁 ${newlyUnlocked.join("、")}`);
++    if (newlyUnlocked.length) showToast(`Unlocked ${newlyUnlocked.join(", ")}`);
+-    else showToast(stars === 3 ? "三星达成" : "赛事结算");
++    else showToast(stars === 3 ? "Three stars earned" : "Event results");
+     tone(place === 1 ? 760 : 520, 0.18, 0.045, "triangle");
+     setTimeout(() => tone(place === 1 ? 980 : 650, 0.24, 0.04, "triangle"), 150);
+   }
+@@ -1878,8 +1877,8 @@
+     const ranks = sortedCars();
+     const place = ranks.findIndex(car => car === player) + 1;
+     eventNameText.textContent = currentEvent.name;
+-    statusText.textContent = finished ? "完赛" : paused ? "暂停" : player.heat > 88 ? "胎热" : player.offroad ? "草地" : player.driftChain > 18 ? "漂移" : conditions[currentEvent.condition].name;
++    statusText.textContent = finished ? "Finished" : paused ? "Pause" : player.heat > 88 ? "Hot tires" : player.offroad ? "Grass" : player.driftChain > 18 ? "Drift" : conditions[currentEvent.condition].name;
+-    lapText.textContent = `第 ${Math.min(TOTAL_LAPS, player.lap)}/${TOTAL_LAPS} 圈`;
++    lapText.textContent = `Lap ${Math.min(TOTAL_LAPS, player.lap)}/${TOTAL_LAPS} laps`;
+     speedText.textContent = speed;
+     positionText.textContent = `${place}/${cars.length}`;
+     timeText.textContent = formatTime(raceTime);
+@@ -1889,7 +1888,7 @@
+     driftBar.style.width = `${clamp(player.driftChain, 0, 100)}%`;
+     comboText.textContent = `x${player.driftMultiplier.toFixed(1)}`;
+     comboBar.style.width = `${clamp((player.driftMultiplier - 1) / 3 * 100, 0, 100)}%`;
+-    heatText.textContent = player.heat > 88 ? "热" : player.heat > 62 ? "温" : "冷";
++    heatText.textContent = player.heat > 88 ? "Hot" : player.heat > 62 ? "Warm" : "Cold";
+     heatBar.style.width = `${clamp(player.heat, 0, 100)}%`;
+     currentLapText.textContent = formatTime(raceTime - player.lapStart);
+     bestLapText.textContent = Number.isFinite(player.bestLap) ? formatTime(player.bestLap) : "--:--.--";
+@@ -2399,12 +2398,12 @@
+     const vehicle = vehicles.find(item => item.id === button.dataset.vehicle);
+     if (!career.ownedCars.includes(vehicle.id)) {
+       if (career.credits < vehicle.price) {
+-        showToast(`还需要 ${vehicle.price - career.credits} 车币`);
++        showToast(`Still need ${vehicle.price - career.credits} coins`);
+         return;
+       }
+       career.credits -= vehicle.price;
+       career.ownedCars.push(vehicle.id);
+-      showToast(`已购置 ${vehicle.name}`);
++      showToast(`Purchased ${vehicle.name}`);
+     }
+     career.selectedCar = vehicle.id;
+     saveCareer();
+@@ -2419,7 +2418,7 @@
+     let purchased = false;
+     if (!career.ownedModules.includes(id)) {
+       if (career.credits < module.price) {
+-        showToast(`还需要 ${module.price - career.credits} 车币`);
++        showToast(`Still need ${module.price - career.credits} coins`);
+         return;
+       }
+       career.credits -= module.price;
+@@ -2431,7 +2430,7 @@
+     else {
+       saveCareer();
+       renderLobby();
+-      showToast(purchased ? "已购置，请先拆下一件模块" : "最多安装 2 件模块");
++      showToast(purchased ? "Purchased, remove a module first" : "Up to 2 modules can be installed");
+       return;
+     }
+     saveCareer();
+@@ -2445,7 +2444,7 @@
+     else if (started && !finished && !paused) startEngine();
+     saveCareer();
+     renderLobby();
+-    showToast(career.sound ? "音效已开启" : "音效已关闭");
++    showToast(career.sound ? "Sound on" : "Sound off");
+   }
+ 
+   exportBtn.addEventListener("click", async () => {
+@@ -2453,17 +2452,17 @@
+     archiveCode.select();
+     try {
+       await navigator.clipboard.writeText(archiveCode.value);
+-      showToast("档案码已复制");
++      showToast("Profile code copied");
+     } catch {
+-      showToast("档案码已生成");
++      showToast("Profile code generated");
+     }
+   });
+   importBtn.addEventListener("click", () => {
+     try {
+       importCareer(archiveCode.value);
+-      showToast("档案导入成功");
++      showToast("Profile imported");
+     } catch (error) {
+-      showToast(error.message || "档案码无效");
++      showToast(error.message || "Invalid profile code");
+     }
+   });
+   soundBtn.addEventListener("click", toggleSound);

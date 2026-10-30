@@ -75,3 +75,17 @@ describe('Settings > Games', () => {
     expect(document.body.textContent).toContain('Unicode chess symbols')
   })
 })
+
+describe('Settings > Games language switch (Phase 205, M20)', () => {
+  const MIX = (): ReturnType<typeof game>[] => [game('a-game', 'A'), game('b-game', 'B', { lang: 'zh' }), game('c-game', 'C', { lang: 'zh' })]
+  it('is off by default, shows "N of M games shown", and saves games.showChinese when ticked', async () => {
+    api = installApi(MIX())
+    await show()
+    const box = [...host.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')].find((i) => i.parentElement?.textContent?.includes('Chinese interface'))!
+    expect(box.checked).toBe(false)
+    expect(host.textContent).toContain('1 of 3 games shown.')
+    await click(box)
+    expect(api.settings.set).toHaveBeenCalledWith('games.showChinese', true)
+    expect(host.textContent).toContain('3 of 3 games shown.')
+  })
+})

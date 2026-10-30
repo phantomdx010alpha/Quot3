@@ -1,0 +1,375 @@
+--- a/resources/games/abyss-sonar/abyss-sonar.html
++++ b/resources/games/abyss-sonar/abyss-sonar.html
+@@ -1,9 +1,9 @@
+ <!doctype html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+-  <title>深渊声呐：静默航线</title>
++  <title>Abyss Sonar: Silent Route</title>
+   <style>
+     :root {
+       color-scheme: dark;
+@@ -241,54 +241,54 @@
+     <header class="topbar">
+       <div>
+         <p class="eyebrow">TACTICAL SONAR COMMAND</p>
+-        <h1>深渊声呐：静默航线</h1>
++        <h1>Abyss Sonar: Silent Route</h1>
+-        <div class="subline" id="missionLine">黑潮入口 · 等待下潜</div>
++        <div class="subline" id="missionLine">Black Current Gate · Waiting to dive</div>
+       </div>
+       <div class="top-actions">
+-        <button class="btn" id="patrolBtn">航线</button>
++        <button class="btn" id="patrolBtn">Route</button>
+-        <button class="btn" id="pauseBtn">暂停</button>
++        <button class="btn" id="pauseBtn">Pause</button>
+-        <button class="btn" id="restartBtn">重启</button>
++        <button class="btn" id="restartBtn">Restart</button>
+       </div>
+     </header>
+ 
+     <section class="layout">
+       <div class="radar-panel">
+-        <canvas id="sonar" aria-label="深渊声呐战术显示"></canvas>
++        <canvas id="sonar" aria-label="Abyss Sonar tactical display"></canvas>
+         <div class="radar-hud">
+-          <div class="radar-label" id="modeLabel">被动监听 · 航向 000°</div>
++          <div class="radar-label" id="modeLabel">Passive listening · Heading 000°</div>
+-          <div class="message" id="message">选择航线后开始潜航。</div>
++          <div class="message" id="message">Pick a route to start the dive.</div>
+         </div>
+       </div>
+ 
+       <aside class="side-panel">
+         <div class="status-grid">
+-          <div class="stat"><small>艇体</small><strong id="hullText">100</strong><div class="meter"><i id="hullBar"></i></div></div>
++          <div class="stat"><small>Hull</small><strong id="hullText">100</strong><div class="meter"><i id="hullBar"></i></div></div>
+-          <div class="stat"><small>噪声</small><strong id="noiseText">0</strong><div class="meter"><i id="noiseBar"></i></div></div>
++          <div class="stat"><small>Noise</small><strong id="noiseText">0</strong><div class="meter"><i id="noiseBar"></i></div></div>
+-          <div class="stat"><small>鱼雷</small><strong id="torpedoText">0</strong></div>
++          <div class="stat"><small>Torpedoes</small><strong id="torpedoText">0</strong></div>
+-          <div class="stat"><small>诱饵</small><strong id="decoyText">0</strong></div>
++          <div class="stat"><small>Decoys</small><strong id="decoyText">0</strong></div>
+         </div>
+ 
+         <section class="section">
+-          <h3>航向与声呐</h3>
++          <h3>Heading and sonar</h3>
+           <div class="button-row">
+-            <button class="btn" data-turn="-15">左转</button>
++            <button class="btn" data-turn="-15">Turn left</button>
+-            <button class="btn" data-turn="15">右转</button>
++            <button class="btn" data-turn="15">Turn right</button>
+-            <button class="btn primary" id="pingBtn">主动声呐</button>
++            <button class="btn primary" id="pingBtn">Active sonar</button>
+           </div>
+           <div class="button-row" style="margin-top:8px">
+-            <button class="btn danger" id="fireBtn">发射鱼雷</button>
++            <button class="btn danger" id="fireBtn">Fire torpedo</button>
+-            <button class="btn" id="silentBtn">静默航行</button>
++            <button class="btn" id="silentBtn">Run silent</button>
+-            <button class="btn" id="decoyBtn">释放诱饵</button>
++            <button class="btn" id="decoyBtn">Drop decoy</button>
+           </div>
+         </section>
+ 
+         <section class="section">
+-          <h3>可辨认接触</h3>
++          <h3>Identified contacts</h3>
+           <div class="contacts" id="contactList"></div>
+         </section>
+ 
+         <section class="section">
+-          <h3 id="objectiveTitle">任务目标</h3>
++          <h3 id="objectiveTitle">Mission goals</h3>
+           <div id="goalList"></div>
+         </section>
+       </aside>
+@@ -299,27 +299,27 @@
+     <div class="modal">
+       <div id="lobbyView">
+         <div class="modal-head">
+-          <div><h2>静默航线</h2><p class="subline">八次潜航逐步解锁敌型、残骸扫描与双槽潜艇模块。</p></div>
++          <div><h2>Silent Route</h2><p class="subline">Eight dives unlock new enemy types, wreck scans and two-slot sub modules.</p></div>
+           <div class="career-strip">
+-            <div class="career-pill"><small>星章</small><strong id="careerStars">0/24</strong></div>
++            <div class="career-pill"><small>Stars</small><strong id="careerStars">0/24</strong></div>
+-            <div class="career-pill"><small>完成</small><strong id="careerClears">0/8</strong></div>
++            <div class="career-pill"><small>Cleared</small><strong id="careerClears">0/8</strong></div>
+-            <div class="career-pill"><small>勋章</small><strong id="careerMedals">0/6</strong></div>
++            <div class="career-pill"><small>Medals</small><strong id="careerMedals">0/6</strong></div>
+           </div>
+         </div>
+         <div class="mission-grid" id="missionGrid"></div>
+-        <h3>潜艇模块 <span class="subline" id="moduleHint">已安装 0/2</span></h3>
++        <h3>Sub modules <span class="subline" id="moduleHint">Installed 0/2</span></h3>
+         <div class="module-grid" id="moduleGrid"></div>
+         <div class="archive-row">
+-          <input id="archiveCode" aria-label="声呐存档码" placeholder="SONAR2 跨设备存档码">
++          <input id="archiveCode" aria-label="Sonar save code" placeholder="SONAR2 cross-device save code">
+-          <div class="archive-actions"><button class="btn" id="exportBtn">导出</button><button class="btn" id="importBtn">导入</button><button class="btn" id="soundBtn">音效：开</button></div>
++          <div class="archive-actions"><button class="btn" id="exportBtn">Export</button><button class="btn" id="importBtn">Import</button><button class="btn" id="soundBtn">Sound: On</button></div>
+         </div>
+-        <button class="btn primary" id="diveBtn" style="width:100%;margin-top:12px">开始下潜</button>
++        <button class="btn primary" id="diveBtn" style="width:100%;margin-top:12px">Start dive</button>
+       </div>
+       <div id="resultView" class="hidden">
+-        <h2 id="resultTitle">任务完成</h2>
++        <h2 id="resultTitle">Mission complete</h2>
+         <p class="subline" id="resultText"></p>
+         <div class="result-box" id="resultGoals"></div>
+-        <div class="archive-actions"><button class="btn" id="backBtn">返回航线</button><button class="btn primary" id="againBtn">再次下潜</button></div>
++        <div class="archive-actions"><button class="btn" id="backBtn">Back to routes</button><button class="btn primary" id="againBtn">Dive again</button></div>
+       </div>
+     </div>
+   </div>
+@@ -332,29 +332,29 @@
+       const SAVE_KEY = "abyssSonarCareerV2";
+       const SAVE_PREFIX = "SONAR2.";
+       const missions = [
+-        { id: "threshold", name: "黑潮入口", zone: "第一海沟", unlock: 0, hostiles: ["hunter", "hunter"], neutrals: ["whale"], wrecks: 0, hullGoal: 75, torpedoGoal: 3 },
++        { id: "threshold", name: "Black Current Gate", zone: "First Trench", unlock: 0, hostiles: ["hunter", "hunter"], neutrals: ["whale"], wrecks: 0, hullGoal: 75, torpedoGoal: 3 },
+-        { id: "whale-road", name: "鲸歌航道", zone: "第一海沟", unlock: 1, hostiles: ["hunter", "mine"], neutrals: ["whale", "whale"], wrecks: 1, hullGoal: 78, torpedoGoal: 3 },
++        { id: "whale-road", name: "Whale Song Channel", zone: "First Trench", unlock: 1, hostiles: ["hunter", "mine"], neutrals: ["whale", "whale"], wrecks: 1, hullGoal: 78, torpedoGoal: 3 },
+-        { id: "broken-array", name: "失联阵列", zone: "回声荒原", unlock: 3, hostiles: ["hunter", "frigate"], neutrals: [], wrecks: 2, hullGoal: 72, torpedoGoal: 3 },
++        { id: "broken-array", name: "Lost Array", zone: "Echo Wastes", unlock: 3, hostiles: ["hunter", "frigate"], neutrals: [], wrecks: 2, hullGoal: 72, torpedoGoal: 3 },
+-        { id: "mine-bloom", name: "水雷花园", zone: "回声荒原", unlock: 5, hostiles: ["mine", "mine", "hunter"], neutrals: ["whale"], wrecks: 1, hullGoal: 70, torpedoGoal: 3 },
++        { id: "mine-bloom", name: "Mine Garden", zone: "Echo Wastes", unlock: 5, hostiles: ["mine", "mine", "hunter"], neutrals: ["whale"], wrecks: 1, hullGoal: 70, torpedoGoal: 3 },
+-        { id: "cold-convoy", name: "寒流护航", zone: "冰脊断层", unlock: 7, hostiles: ["frigate", "hunter", "hunter"], neutrals: ["whale"], wrecks: 1, hullGoal: 68, torpedoGoal: 3 },
++        { id: "cold-convoy", name: "Cold Current Escort", zone: "Icy Ridge Fault", unlock: 7, hostiles: ["frigate", "hunter", "hunter"], neutrals: ["whale"], wrecks: 1, hullGoal: 68, torpedoGoal: 3 },
+-        { id: "silent-fleet", name: "静默舰群", zone: "冰脊断层", unlock: 9, hostiles: ["frigate", "frigate", "mine"], neutrals: [], wrecks: 2, hullGoal: 66, torpedoGoal: 3 },
++        { id: "silent-fleet", name: "Silent Fleet", zone: "Icy Ridge Fault", unlock: 9, hostiles: ["frigate", "frigate", "mine"], neutrals: [], wrecks: 2, hullGoal: 66, torpedoGoal: 3 },
+-        { id: "leviathan", name: "利维坦阴影", zone: "无光层", unlock: 12, hostiles: ["hunter", "frigate", "hunter", "mine"], neutrals: ["whale"], wrecks: 2, hullGoal: 62, torpedoGoal: 3 },
++        { id: "leviathan", name: "Leviathan's Shadow", zone: "Lightless Zone", unlock: 12, hostiles: ["hunter", "frigate", "hunter", "mine"], neutrals: ["whale"], wrecks: 2, hullGoal: 62, torpedoGoal: 3 },
+-        { id: "abyss-core", name: "深渊核心", zone: "无光层", unlock: 15, hostiles: ["frigate", "frigate", "hunter", "mine", "mine"], neutrals: [], wrecks: 3, hullGoal: 58, torpedoGoal: 3 }
++        { id: "abyss-core", name: "Abyss Core", zone: "Lightless Zone", unlock: 15, hostiles: ["frigate", "frigate", "hunter", "mine", "mine"], neutrals: [], wrecks: 3, hullGoal: 58, torpedoGoal: 3 }
+       ];
+       const modules = [
+-        { id: "hull", name: "复层耐压壳", unlock: 0, text: "初始艇体 +25", hull: 25 },
++        { id: "hull", name: "Double-Layer Pressure Hull", unlock: 0, text: "Starting hull +25", hull: 25 },
+-        { id: "quiet", name: "静音推进器", unlock: 2, text: "噪声增长 -35%", noise: 0.65 },
++        { id: "quiet", name: "Quiet Thrusters", unlock: 2, text: "Noise growth -35%", noise: 0.65 },
+-        { id: "array", name: "宽域阵列", unlock: 4, text: "回波持续 +2 秒", reveal: 2 },
++        { id: "array", name: "Wide Array", unlock: 4, text: "Echo lasts +2 s", reveal: 2 },
+-        { id: "seeker", name: "线导鱼雷", unlock: 7, text: "锁定容差 +6°", cone: 6 },
++        { id: "seeker", name: "Wire-Guided Torpedo", unlock: 7, text: "Lock tolerance +6°", cone: 6 },
+-        { id: "rack", name: "诱饵挂架", unlock: 10, text: "诱饵 +1", decoy: 1 },
++        { id: "rack", name: "Decoy Rack", unlock: 10, text: "Decoys +1", decoy: 1 },
+-        { id: "magazine", name: "扩容弹舱", unlock: 13, text: "鱼雷 +2", torpedoes: 2 }
++        { id: "magazine", name: "Extended Magazine", unlock: 13, text: "Torpedoes +2", torpedoes: 2 }
+       ];
+       const contactDefs = {
+-        hunter: { name: "猎潜艇", hostile: true, hp: 1, speed: 9, noise: 0.65, damage: 9, color: "#ef716b" },
++        hunter: { name: "Hunter Sub", hostile: true, hp: 1, speed: 9, noise: 0.65, damage: 9, color: "#ef716b" },
+-        frigate: { name: "深水护卫", hostile: true, hp: 2, speed: 6, noise: 0.9, damage: 12, color: "#f0a36a" },
++        frigate: { name: "Deepwater Frigate", hostile: true, hp: 2, speed: 6, noise: 0.9, damage: 12, color: "#f0a36a" },
+-        mine: { name: "锚定水雷", hostile: true, hp: 1, speed: 0, noise: 0.2, damage: 15, color: "#c56a91" },
++        mine: { name: "Anchored Mine", hostile: true, hp: 1, speed: 0, noise: 0.2, damage: 15, color: "#c56a91" },
+-        whale: { name: "迁徙鲸群", hostile: false, hp: 1, speed: 3, noise: 0.75, damage: 0, color: "#69bde0" },
++        whale: { name: "Migrating Whales", hostile: false, hp: 1, speed: 3, noise: 0.75, damage: 0, color: "#69bde0" },
+-        wreck: { name: "沉没残骸", hostile: false, hp: 1, speed: 0, noise: 0.12, damage: 0, color: "#56d4c1" }
++        wreck: { name: "Sunken Wreck", hostile: false, hp: 1, speed: 0, noise: 0.12, damage: 0, color: "#56d4c1" }
+       };
+ 
+       const ui = Object.fromEntries([
+@@ -419,10 +419,10 @@
+ 
+       function importCareer(code) {
+         const text = String(code || "").trim();
+-        if (!text.startsWith(SAVE_PREFIX)) throw new Error("存档码前缀不正确");
++        if (!text.startsWith(SAVE_PREFIX)) throw new Error("Save code prefix is incorrect");
+         const binary = atob(text.slice(SAVE_PREFIX.length));
+         const value = JSON.parse(new TextDecoder().decode(Uint8Array.from(binary, (char) => char.charCodeAt(0))));
+-        if (value.version !== 2) throw new Error("存档版本不兼容");
++        if (value.version !== 2) throw new Error("Save version is not compatible");
+         career = sanitizeCareer(value);
+         currentMission = missions.find((mission) => mission.id === career.selectedMission) || missions[0];
+         saveCareer();
+@@ -470,15 +470,15 @@
+         return {
+           mode: "running", heading: 0, hull: 100 + stats.hull, maxHull: 100 + stats.hull, noise: 12,
+           torpedoes: 10 + stats.torpedoes, decoys: 2 + stats.decoy, silent: false, pingTime: 0, pingAge: 0,
+-          contacts: makeContacts(mission), selectedId: null, scans: 0, elapsed: 0, message: "被动阵列上线，等待回波。", ended: false, stats
++          contacts: makeContacts(mission), selectedId: null, scans: 0, elapsed: 0, message: "Passive array online, waiting for echoes.", ended: false, stats
+         };
+       }
+ 
+       function medalState() {
+         const stars = totalStars();
+         return [
+-          ["首次下潜", career.clears > 0], ["回声六星", stars >= 6], ["无伤返航", Object.values(career.bestHull).some((value) => value >= 100)],
++          ["First dive", career.clears > 0], ["Six echo stars", stars >= 6], ["Unscathed return", Object.values(career.bestHull).some((value) => value >= 100)],
+-          ["双槽艇长", career.modules.length === 2], ["无光层", stars >= 15], ["深渊归航", Boolean(career.stageStars["abyss-core"])]
++          ["Two-slot captain", career.modules.length === 2], ["Lightless Zone", stars >= 15], ["Abyss homecoming", Boolean(career.stageStars["abyss-core"])]
+         ];
+       }
+ 
+@@ -488,9 +488,9 @@
+ 
+       function goalRows(stats = missionStats(false)) {
+         const goals = [
+-          [stats.completed, `清除威胁并扫描 ${currentMission.wrecks} 处残骸`, `${stats.scans}/${currentMission.wrecks}`],
++          [stats.completed, `Clear threats and scan ${currentMission.wrecks} wrecks`, `${stats.scans}/${currentMission.wrecks}`],
+-          [stats.completed && stats.hull >= currentMission.hullGoal, `艇体不少于 ${currentMission.hullGoal}`, `${stats.hull}`],
++          [stats.completed && stats.hull >= currentMission.hullGoal, `Hull at least ${currentMission.hullGoal}`, `${stats.hull}`],
+-          [stats.completed && stats.torpedoes >= currentMission.torpedoGoal, `保留 ${currentMission.torpedoGoal} 枚鱼雷`, `${stats.torpedoes}`]
++          [stats.completed && stats.torpedoes >= currentMission.torpedoGoal, `Keep ${currentMission.torpedoGoal} torpedoes`, `${stats.torpedoes}`]
+         ];
+         return goals.map(([done, label, progress]) => `<div class="goal-row ${done ? "done" : ""}"><span>${done ? "●" : "○"}</span><span>${label}</span><strong>${progress}</strong></div>`).join("");
+       }
+@@ -500,18 +500,18 @@
+         ui.careerStars.textContent = `${stars}/24`;
+         ui.careerClears.textContent = `${Object.keys(career.stageStars).length}/8`;
+         ui.careerMedals.textContent = `${medalState().filter(([, done]) => done).length}/6`;
+-        ui.soundBtn.textContent = `音效：${career.sound ? "开" : "关"}`;
++        ui.soundBtn.textContent = `Sound: ${career.sound ? "On" : "Off"}`;
+         ui.missionGrid.innerHTML = missions.map((mission, index) => {
+           const locked = mission.unlock > stars;
+           const earned = career.stageStars[mission.id] || 0;
+-          return `<button class="mission-card ${career.selectedMission === mission.id ? "selected" : ""}" data-mission="${mission.id}" ${locked ? "disabled" : ""}><small>${String(index + 1).padStart(2, "0")} · ${mission.zone}</small><strong>${mission.name}</strong><div class="stars">${"★".repeat(earned)}${"☆".repeat(3 - earned)}</div><div class="meta"><span>${mission.hostiles.length} 威胁</span><span>${mission.wrecks} 残骸</span><span>${locked ? `${mission.unlock} 星解锁` : `艇体 ${mission.hullGoal}`}</span></div></button>`;
++          return `<button class="mission-card ${career.selectedMission === mission.id ? "selected" : ""}" data-mission="${mission.id}" ${locked ? "disabled" : ""}><small>${String(index + 1).padStart(2, "0")} · ${mission.zone}</small><strong>${mission.name}</strong><div class="stars">${"★".repeat(earned)}${"☆".repeat(3 - earned)}</div><div class="meta"><span>${mission.hostiles.length} threats</span><span>${mission.wrecks} wrecks</span><span>${locked ? `${mission.unlock} stars to unlock` : `Hull ${mission.hullGoal}`}</span></div></button>`;
+         }).join("");
+         ui.moduleGrid.innerHTML = modules.map((module) => {
+           const locked = module.unlock > stars;
+           const selected = career.modules.includes(module.id);
+-          return `<button class="module-card ${selected ? "selected" : ""}" data-module="${module.id}" ${locked ? "disabled" : ""}><small>${locked ? `${module.unlock} 星解锁` : selected ? "已安装" : "可安装"}</small><strong>${module.name}</strong><span>${module.text}</span></button>`;
++          return `<button class="module-card ${selected ? "selected" : ""}" data-module="${module.id}" ${locked ? "disabled" : ""}><small>${locked ? `${module.unlock} stars to unlock` : selected ? "Installed" : "Available"}</small><strong>${module.name}</strong><span>${module.text}</span></button>`;
+         }).join("");
+-        ui.moduleHint.textContent = `已安装 ${career.modules.length}/2`;
++        ui.moduleHint.textContent = `Installed ${career.modules.length}/2`;
+         currentMission = missions.find((mission) => mission.id === career.selectedMission) || missions[0];
+       }
+ 
+@@ -531,7 +531,7 @@
+         saveCareer();
+         state = makeState(mission);
+         lastTime = performance.now();
+-        ui.pauseBtn.textContent = "暂停";
++        ui.pauseBtn.textContent = "Pause";
+         ui.modalLayer.classList.add("hidden");
+         ensureAudio();
+         tone(220, 0.12, 0.035);
+@@ -585,7 +585,7 @@
+             state.scans += 1;
+           }
+         }
+-        state.message = "主动回波完成：敌方也听见了你。";
++        state.message = "Active echo complete: the enemy heard you too.";
+         tone(160, 0.5, 0.05, "sine");
+         setTimeout(() => tone(320, 0.35, 0.025, "sine"), 130);
+         updateUI();
+@@ -595,7 +595,7 @@
+         if (!state || state.mode !== "running" || state.torpedoes <= 0) return;
+         const target = state.contacts.find((contact) => contact.id === state.selectedId && !contact.destroyed);
+         if (!target || (!target.identified && target.seen <= 0)) {
+-          state.message = "没有有效锁定。先用回波辨认接触。";
++          state.message = "No valid lock. Use an echo to identify contacts first.";
+           updateUI();
+           return;
+         }
+@@ -605,16 +605,16 @@
+         if (Math.abs(angleDiff(target.bearing, state.heading)) <= cone && target.distance <= 440) {
+           if (!contactDefs[target.kind].hostile) {
+             state.hull = Math.max(1, state.hull - 18);
+-            state.message = "误击非敌对接触，任务评价受损。";
++            state.message = "Friendly fire on a non-hostile contact; mission rating reduced.";
+           } else {
+             target.hp -= 1;
+             target.alert = 1;
+-            state.message = `${contactDefs[target.kind].name} 被鱼雷命中。`;
++            state.message = `${contactDefs[target.kind].name} was hit by a torpedo.`;
+             if (target.hp <= 0) target.destroyed = true;
+           }
+           tone(520, 0.12, 0.045, "triangle");
+         } else {
+-          state.message = `线导丢失：需对准 ${formatBearing(target.bearing)}，当前 ${formatBearing(state.heading)}。`;
++          state.message = `Wire guidance lost: aim at ${formatBearing(target.bearing)}, now ${formatBearing(state.heading)}.`;
+           tone(120, 0.12, 0.035, "square");
+         }
+         checkMission();
+@@ -626,7 +626,7 @@
+         state.decoys -= 1;
+         state.noise = Math.max(0, state.noise - 38);
+         for (const contact of state.contacts) contact.alert *= 0.35;
+-        state.message = "诱饵脱离，敌方解算暂时偏离。";
++        state.message = "Decoy released; enemy fire solution thrown off for now.";
+         tone(380, 0.18, 0.035, "triangle");
+         updateUI();
+       }
+@@ -654,7 +654,7 @@
+               state.hull = Math.max(0, state.hull - def.damage);
+               state.noise = clamp(state.noise + 12, 0, 100);
+               contact.attackCd = contact.kind === "frigate" ? 3.8 : 5.4;
+-              state.message = `${def.name} 完成一次攻击解算，艇体受损。`;
++              state.message = `${def.name} completed an attack solution; hull damaged.`;
+               tone(90, 0.22, 0.05, "square");
+             }
+           } else if (contact.kind !== "wreck") {
+@@ -686,8 +686,8 @@
+         }
+         ui.lobbyView.classList.add("hidden");
+         ui.resultView.classList.remove("hidden");
+-        ui.resultTitle.textContent = completed ? `${currentMission.name} · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}` : "潜艇失联";
++        ui.resultTitle.textContent = completed ? `${currentMission.name} · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}` : "Submarine lost";
+-        ui.resultText.textContent = completed ? `艇体 ${stats.hull}，剩余鱼雷 ${stats.torpedoes}，扫描残骸 ${stats.scans}。` : "噪声管理和敌方攻击窗口需要重新规划。";
++        ui.resultText.textContent = completed ? `Hull ${stats.hull}, torpedoes left ${stats.torpedoes}, wrecks scanned ${stats.scans}.` : "Noise control and enemy attack windows need replanning.";
+         ui.resultGoals.innerHTML = goalRows(stats);
+         ui.modalLayer.classList.remove("hidden");
+         tone(completed ? 720 : 100, 0.28, 0.045, completed ? "triangle" : "square");
+@@ -696,7 +696,7 @@
+       function updateUI() {
+         if (!state) return;
+         ui.missionLine.textContent = `${currentMission.zone} · ${currentMission.name}`;
+-        ui.modeLabel.textContent = `${state.silent ? "静默推进" : state.pingTime > 0 ? "主动回波" : "被动监听"} · 航向 ${formatBearing(state.heading)}`;
++        ui.modeLabel.textContent = `${state.silent ? "Silent running" : state.pingTime > 0 ? "Active echo" : "Passive listening"} · Heading ${formatBearing(state.heading)}`;
+         ui.message.textContent = state.message;
+         ui.hullText.textContent = Math.round(state.hull);
+         ui.hullBar.style.width = `${state.hull / state.maxHull * 100}%`;
+@@ -704,7 +704,7 @@
+         ui.noiseBar.style.width = `${state.noise}%`;
+         ui.torpedoText.textContent = state.torpedoes;
+         ui.decoyText.textContent = state.decoys;
+-        ui.silentBtn.textContent = state.silent ? "恢复常速" : "静默航行";
++        ui.silentBtn.textContent = state.silent ? "Resume speed" : "Run silent";
+         ui.silentBtn.classList.toggle("selected", state.silent);
+         ui.fireBtn.disabled = state.torpedoes <= 0 || !state.selectedId;
+         ui.decoyBtn.disabled = state.decoys <= 0;
+@@ -712,9 +712,9 @@
+         ui.contactList.innerHTML = visible.length ? visible.map((contact) => {
+           const def = contactDefs[contact.kind];
+           const exact = contact.identified || contact.seen > 0;
+-          return `<button class="contact ${state.selectedId === contact.id ? "locked" : ""}" data-contact="${contact.id}"><strong><span>${exact ? def.name : "宽带噪声"}</span><b>${exact ? formatBearing(contact.bearing) : `约 ${formatBearing(Math.round(contact.bearing / 15) * 15)}`}</b></strong><span>${exact ? `距离 ${Math.round(contact.distance)} · ${def.hostile ? `结构 ${contact.hp}` : contact.kind === "wreck" ? contact.scanned ? "已扫描" : "待扫描" : "非敌对"}` : "需主动声呐辨认"}</span></button>`;
++          return `<button class="contact ${state.selectedId === contact.id ? "locked" : ""}" data-contact="${contact.id}"><strong><span>${exact ? def.name : "Broadband noise"}</span><b>${exact ? formatBearing(contact.bearing) : `About ${formatBearing(Math.round(contact.bearing / 15) * 15)}`}</b></strong><span>${exact ? `Range ${Math.round(contact.distance)} · ${def.hostile ? `Structure ${contact.hp}` : contact.kind === "wreck" ? contact.scanned ? "Scanned" : "To scan" : "Non-hostile"}` : "Needs active sonar to identify"}</span></button>`;
+-        }).join("") : '<div class="contact"><span>没有可辨认接触，保持监听或主动探测。</span></div>';
++        }).join("") : '<div class="contact"><span>No identified contacts. Keep listening or ping actively.</span></div>';
+-        ui.objectiveTitle.textContent = `${currentMission.name} · 任务目标`;
++        ui.objectiveTitle.textContent = `${currentMission.name} · Mission goals`;
+         ui.goalList.innerHTML = goalRows();
+       }
+ 
+@@ -797,7 +797,7 @@
+       ui.pauseBtn.addEventListener("click", () => {
+         if (!state || state.ended) return;
+         state.mode = state.mode === "paused" ? "running" : "paused";
+-        ui.pauseBtn.textContent = state.mode === "paused" ? "继续" : "暂停";
++        ui.pauseBtn.textContent = state.mode === "paused" ? "Resume" : "Pause";
+       });
+       ui.missionGrid.addEventListener("click", (event) => {
+         const button = event.target.closest("[data-mission]");
+@@ -811,11 +811,11 @@
+         const id = button.dataset.module;
+         if (career.modules.includes(id)) career.modules = career.modules.filter((item) => item !== id);
+         else if (career.modules.length < 2) career.modules.push(id);
+-        else { ui.archiveCode.value = "最多安装 2 件模块"; return; }
++        else { ui.archiveCode.value = "At most 2 modules can be installed"; return; }
+         saveCareer(); renderLobby();
+       });
+       ui.exportBtn.addEventListener("click", async () => { ui.archiveCode.value = encodeCareer(); ui.archiveCode.select(); try { await navigator.clipboard.writeText(ui.archiveCode.value); } catch (error) {} });
+-      ui.importBtn.addEventListener("click", () => { try { importCareer(ui.archiveCode.value); } catch (error) { ui.archiveCode.value = error.message || "存档码无效"; } });
++      ui.importBtn.addEventListener("click", () => { try { importCareer(ui.archiveCode.value); } catch (error) { ui.archiveCode.value = error.message || "Invalid save code"; } });
+       ui.soundBtn.addEventListener("click", () => { career.sound = !career.sound; saveCareer(); renderLobby(); });
+       ui.diveBtn.addEventListener("click", () => startMission());
+       ui.backBtn.addEventListener("click", openLobby);

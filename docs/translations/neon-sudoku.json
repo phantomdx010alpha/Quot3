@@ -1,0 +1,314 @@
+{
+  "version": 1,
+  "game": "neon-sudoku",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 23,
+      "zh": "简单",
+      "en": "Easy"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 24,
+      "zh": "普通",
+      "en": "Normal"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "困难",
+      "en": "Hard"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 547,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 547,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 756,
+      "zh": "刷新最佳纪录，太强了！",
+      "en": "New best time, awesome!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 756,
+      "zh": "全部填写正确，继续挑战更快速度吧",
+      "en": "All filled correctly; try for a faster time"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "霓虹数独",
+      "en": "Neon Sudoku"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "独",
+      "en": "S"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "计时",
+      "en": "Time"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "难度",
+      "en": "Difficulty"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "错误",
+      "en": "Mistakes"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 41,
+      "zh": "数独棋盘",
+      "en": "Sudoku board"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "正在生成数独题目",
+      "en": "Generating puzzle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 46,
+      "zh": "校验唯一解，请稍候…",
+      "en": "Verifying unique solution, please wait…"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 52,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 53,
+      "zh": "棋盘已遮挡，休息一下",
+      "en": "Board hidden; take a break"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 54,
+      "zh": "继续游戏",
+      "en": "Resume game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "擦除",
+      "en": "Erase"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 74,
+      "zh": "提示",
+      "en": "Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "笔记",
+      "en": "Notes"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "撤销",
+      "en": "Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 77,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "新游戏",
+      "en": "New game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 84,
+      "zh": "数字键 1-9 填写，Backspace 擦除，方向键移动，N 切换笔记模式",
+      "en": "Number keys 1-9 to fill, Backspace to erase, arrow keys to move, N toggles notes mode"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 85,
+      "zh": "笔记模式下再次点击数字可取消候选；填错 3 次挑战失败",
+      "en": "In notes mode, tap a number again to remove a candidate; 3 wrong entries fails the challenge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 94,
+      "zh": "回溯算法实时生成，每题均保证唯一解",
+      "en": "Generated live by backtracking; every puzzle has a unique solution"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 99,
+      "zh": "简单",
+      "en": "Easy"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "已知 38-42 格 · 轻松入门",
+      "en": "38-42 givens · Easy start"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 102,
+      "zh": "最佳",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 106,
+      "zh": "普通",
+      "en": "Normal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "已知 30-34 格 · 小有挑战",
+      "en": "30-34 givens · A fair challenge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 113,
+      "zh": "困难",
+      "en": "Hard"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 114,
+      "zh": "已知 24-28 格 · 高手专属",
+      "en": "24-28 givens · For experts"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 122,
+      "zh": "错误达到 3 次后允许继续游戏（不弹出失败遮罩）",
+      "en": "After 3 mistakes you may keep playing (no failure overlay)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 130,
+      "zh": "挑战成功",
+      "en": "Challenge complete"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 131,
+      "zh": "太棒了，全部填写正确！",
+      "en": "Great job, everything is correct!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 133,
+      "zh": "本局用时",
+      "en": "Time this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 137,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 138,
+      "zh": "选择难度",
+      "en": "Choose difficulty"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 146,
+      "zh": "挑战失败",
+      "en": "Challenge failed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 147,
+      "zh": "错误次数已达到 3 次上限",
+      "en": "Mistake limit of 3 reached"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 149,
+      "zh": "重新开始",
+      "en": "Restart"
+    }
+  ]
+}

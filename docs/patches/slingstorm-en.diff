@@ -1,0 +1,666 @@
+--- a/resources/games/slingstorm/slingstorm.html
++++ b/resources/games/slingstorm/slingstorm.html
+@@ -1,9 +1,9 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+-<title>弹弓风暴</title>
++<title>Slingstorm</title>
+ <style>
+   :root {
+     color-scheme: dark;
+@@ -637,101 +637,101 @@
+ </head>
+ <body>
+ <main class="shell">
+-  <section class="stage" aria-label="弹弓风暴游戏区">
++  <section class="stage" aria-label="Slingstorm play area">
+     <header class="topbar">
+       <div>
+-        <h1>弹弓风暴 <b>风眼 V4</b></h1>
++        <h1>Slingstorm <b>Eye of the Storm V4</b></h1>
+-        <div class="subline"><span id="levelName">风口试射</span> · <span id="statusText">准备</span></div>
++        <div class="subline"><span id="levelName">Wind Gap Test Shot</span> · <span id="statusText">Ready</span></div>
+       </div>
+       <div class="top-actions">
+-        <button class="icon-btn home-btn" id="homeBtn" title="返回远征站">远征站</button>
++        <button class="icon-btn home-btn" id="homeBtn" title="Back to expedition base">Base</button>
+-        <button class="icon-btn" id="soundBtn" title="音效开关" aria-label="音效开关" aria-pressed="true">🔊</button>
++        <button class="icon-btn" id="soundBtn" title="Sound toggle" aria-label="Sound toggle" aria-pressed="true">🔊</button>
+-        <button class="icon-btn" id="pauseBtn" title="暂停/继续" aria-label="暂停/继续">Ⅱ</button>
++        <button class="icon-btn" id="pauseBtn" title="Pause/Resume" aria-label="Pause/Resume">Ⅱ</button>
+-        <button class="icon-btn" id="restartBtn" title="重新开始" aria-label="重新开始">↻</button>
++        <button class="icon-btn" id="restartBtn" title="Restart" aria-label="Restart">↻</button>
+       </div>
+     </header>
+ 
+     <div class="canvas-wrap">
+-      <canvas id="gameCanvas" aria-label="弹弓物理谜题画布"></canvas>
++      <canvas id="gameCanvas" aria-label="Slingshot physics puzzle canvas"></canvas>
+       <div class="toast" id="toast"></div>
+       <div class="modal show" id="startModal">
+         <div class="dialog setup-dialog">
+           <div class="setup-head">
+             <div>
+-              <h2>风眼远征</h2>
++              <h2>Storm Eye Expedition</h2>
+-              <p>穿越三片风暴带，用弹丸技能、风向与结构连锁完成 18 份物理契约。</p>
++              <p>Cross three storm belts and complete 18 physics contracts using projectile skills, wind direction and structural chain reactions.</p>
+             </div>
+-            <div class="progress-pill" id="progressPill">★ 0/54 · 光核 0</div>
++            <div class="progress-pill" id="progressPill">★ 0/54 · Cores 0</div>
+           </div>
+           <div class="chapter-strip" id="chapterStrip"></div>
+           <div class="campaign-grid" id="campaignGrid"></div>
+           <div class="level-detail" id="levelDetail"></div>
+-          <div class="workshop-title">风暴工坊</div>
++          <div class="workshop-title">Storm Workshop</div>
+           <div class="workshop-grid" id="workshopGrid"></div>
+           <div class="save-tools">
+-            <button id="exportSaveBtn">导出存档</button>
++            <button id="exportSaveBtn">Export save</button>
+-            <button id="importSaveBtn">导入存档</button>
++            <button id="importSaveBtn">Import save</button>
+           </div>
+           <div class="dialog-actions setup-actions">
+-            <button class="primary-btn" id="startBtn">进入风场</button>
++            <button class="primary-btn" id="startBtn">Enter the wind field</button>
+           </div>
+         </div>
+       </div>
+       <div class="modal" id="resultModal">
+         <div class="dialog">
+-          <h2 id="resultTitle">关卡完成</h2>
++          <h2 id="resultTitle">Level complete</h2>
+-          <p id="resultCopy">星级与分数会显示在这里。</p>
++          <p id="resultCopy">Stars and score will appear here.</p>
+           <div class="dialog-actions">
+-            <button class="primary-btn" id="nextBtn">下一关</button>
++            <button class="primary-btn" id="nextBtn">Next level</button>
+-            <button class="wide-btn" id="retryBtn">再来一次</button>
++            <button class="wide-btn" id="retryBtn">Try again</button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+ 
+-  <aside class="rail" aria-label="弹弓风暴状态栏">
++  <aside class="rail" aria-label="Slingstorm status bar">
+     <div class="stat-grid">
+       <div class="stat">
+-        <div class="stat-label">分数</div>
++        <div class="stat-label">Score</div>
+         <div class="stat-value" id="scoreValue">0</div>
+       </div>
+       <div class="stat">
+-        <div class="stat-label">晶核</div>
++        <div class="stat-label">Crystals</div>
+         <div class="stat-value" id="targetValue">0/0</div>
+       </div>
+       <div class="stat">
+-        <div class="stat-label">风场</div>
++        <div class="stat-label">Wind</div>
+         <div class="stat-value" id="windValue">0</div>
+       </div>
+       <div class="stat">
+-        <div class="stat-label">星级</div>
++        <div class="stat-label">Stars</div>
+         <div class="stat-value stars" id="starValue">---</div>
+       </div>
+     </div>
+ 
+     <section>
+       <div class="mission-card">
+-        <b id="missionTitle">节点挑战</b>
++        <b id="missionTitle">Node challenge</b>
+-        <span id="missionText">完成关卡 · 标准弹数 · 独立挑战</span>
++        <span id="missionText">Clear level · Standard shots · Solo challenge</span>
+       </div>
+     </section>
+ 
+     <section>
+-      <p class="panel-title">弹丸序列</p>
++      <p class="panel-title">Projectile queue</p>
+       <div class="ammo-list" id="ammoList"></div>
+     </section>
+ 
+     <section>
+-      <p class="panel-title">主动装置</p>
++      <p class="panel-title">Active device</p>
+       <div class="control-grid">
+-        <button class="wide-btn" id="abilityBtn" title="触发当前弹丸技能">技能</button>
++        <button class="wide-btn" id="abilityBtn" title="Trigger current projectile skill">Skill</button>
+-        <button class="wide-btn" id="windBtn" title="切换风向">换风</button>
++        <button class="wide-btn" id="windBtn" title="Switch wind direction">Wind shift</button>
+       </div>
+     </section>
+ 
+     <section>
+-      <p class="panel-title">关卡</p>
++      <p class="panel-title">Levels</p>
+       <div class="level-list" id="levelList"></div>
+     </section>
+   </aside>
+@@ -782,7 +782,7 @@
+   const missionText = document.getElementById("missionText");
+ 
+   if (!window.Matter) {
+-    statusTextEl.textContent = "物理引擎未加载";
++    statusTextEl.textContent = "Physics engine not loaded";
+     startModal.classList.add("show");
+     return;
+   }
+@@ -811,53 +811,53 @@
+ 
+   const chapters = [
+     {
+-      name: "岚口边境",
++      name: "Gale Pass Frontier",
+       range: "1-6",
+       color: "#69d47c",
+-      desc: "掌握风向、材料弱点与四类弹丸的基础连锁。"
++      desc: "Master wind direction, material weak points and the basic chains of the four projectile types."
+     },
+     {
+-      name: "雷幕旧城",
++      name: "Thunder Curtain Old Town",
+       range: "7-12",
+       color: "#48c8d9",
+-      desc: "脉动横风、轻重力与装甲晶核开始组合。"
++      desc: "Pulsing crosswinds, light gravity and armored crystals begin to combine."
+     },
+     {
+-      name: "风暴王冠",
++      name: "Storm Crown",
+       range: "13-18",
+       color: "#b78cff",
+-      desc: "高密度塔群、爆桶链和多层风眼组成最终远征。"
++      desc: "Dense tower clusters, barrel chains and multi-layer storm eyes make up the final expedition."
+     }
+   ];
+ 
+   const workshop = {
+     tension: {
+-      name: "星索张力",
++      name: "Star Cable Tension",
+-      desc: "每级发射速度 +2%",
++      desc: "Launch speed +2% per level",
+       max: 6,
+       cost: level => 10 + level * 8
+     },
+     guide: {
+-      name: "轨迹测绘",
++      name: "Trajectory Mapping",
+-      desc: "每级增加 4 个预测点",
++      desc: "+4 prediction points per level",
+       max: 6,
+       cost: level => 8 + level * 7
+     },
+     rudder: {
+-      name: "风舵储能",
++      name: "Wind Rudder Storage",
+-      desc: "每 2 级额外换风 1 次",
++      desc: "1 extra wind shift every 2 levels",
+       max: 6,
+       cost: level => 12 + level * 9
+     },
+     ability: {
+-      name: "弹丸共鸣",
++      name: "Projectile Resonance",
+-      desc: "每级技能范围与伤害 +5%",
++      desc: "Skill range and damage +5% per level",
+       max: 6,
+       cost: level => 14 + level * 10
+     },
+     salvage: {
+-      name: "残骸回收",
++      name: "Wreck Recycling",
+-      desc: "每级结算光核 +8%",
++      desc: "Result cores +8% per level",
+       max: 6,
+       cost: level => 13 + level * 9
+     }
+@@ -865,7 +865,7 @@
+ 
+   const materials = {
+     wood: {
+-      name: "木",
++      name: "Wood",
+       fill: "#8f5d35",
+       stroke: "#d8a15e",
+       hp: 42,
+@@ -875,7 +875,7 @@
+       score: 80
+     },
+     glass: {
+-      name: "璃",
++      name: "Glass",
+       fill: "#4db7c8",
+       stroke: "#a4eef4",
+       hp: 25,
+@@ -885,7 +885,7 @@
+       score: 100
+     },
+     stone: {
+-      name: "石",
++      name: "Stone",
+       fill: "#798579",
+       stroke: "#c2cfc0",
+       hp: 68,
+@@ -895,7 +895,7 @@
+       score: 130
+     },
+     barrel: {
+-      name: "爆",
++      name: "Explosive",
+       fill: "#bd533f",
+       stroke: "#ffc063",
+       hp: 28,
+@@ -905,7 +905,7 @@
+       score: 160
+     },
+     steel: {
+-      name: "钢",
++      name: "Steel",
+       fill: "#364241",
+       stroke: "#778a83",
+       hp: 999,
+@@ -918,8 +918,8 @@
+ 
+   const ammoTypes = {
+     pulse: {
+-      name: "冲击星",
++      name: "Impact Star",
+-      tag: "震波",
++      tag: "Shock",
+       color: "#ff735e",
+       glow: "rgba(255, 115, 94, 0.45)",
+       radius: 22,
+@@ -927,8 +927,8 @@
+       restitution: 0.18
+     },
+     split: {
+-      name: "裂光星",
++      name: "Splitlight Star",
+-      tag: "三裂",
++      tag: "Split",
+       color: "#48c8d9",
+       glow: "rgba(72, 200, 217, 0.45)",
+       radius: 19,
+@@ -936,8 +936,8 @@
+       restitution: 0.25
+     },
+     flux: {
+-      name: "磁涡星",
++      name: "Magnet Star",
+-      tag: "牵引",
++      tag: "Pull",
+       color: "#b78cff",
+       glow: "rgba(183, 140, 255, 0.42)",
+       radius: 20,
+@@ -945,8 +945,8 @@
+       restitution: 0.2
+     },
+     ember: {
+-      name: "爆燃星",
++      name: "Blast Star",
+-      tag: "爆破",
++      tag: "Blast",
+       color: "#f5c857",
+       glow: "rgba(245, 200, 87, 0.45)",
+       radius: 20,
+@@ -957,110 +957,110 @@
+ 
+   const levels = [
+     {
+-      name: "风口试射", desc: "顺风托起第一发弹丸，击穿玻璃横梁完成校准。", par: 2,
++      name: "Wind Gap Test Shot", desc: "Let the tailwind lift your first shot and break the glass beam to calibrate.", par: 2,
+-      wind: 0.000018, shifts: 1, challenge: { type: "noShift", target: 0, label: "不换风完成" },
++      wind: 0.000018, shifts: 1, challenge: { type: "noShift", target: 0, label: "Finish without shifting wind" },
+       ammo: ["pulse", "split", "pulse"], targets: [[842, 515, 22], [954, 594, 22]],
+       blocks: [["wood",782,604,30,92,0],["wood",902,604,30,92,0],["glass",842,552,128,24,0],["stone",842,622,150,24,0],["wood",954,620,34,58,0],["glass",1002,620,34,58,0],["wood",978,574,96,20,0]]
+     },
+     {
+-      name: "斜塔回声", desc: "逆风与倾斜支柱会改变倒塌方向，寻找一次连锁两枚晶核的角度。", par: 3,
++      name: "Leaning Tower Echo", desc: "Headwind and tilted pillars change the collapse direction; find an angle that chains two crystals.", par: 3,
+-      wind: -0.000026, shifts: 2, challenge: { type: "combo", target: 2, label: "单发击破 2 核" },
++      wind: -0.000026, shifts: 2, challenge: { type: "combo", target: 2, label: "Break 2 crystals in one shot" },
+       ammo: ["split", "pulse", "flux", "pulse"], targets: [[790,586,22],[912,500,22],[1030,592,22]],
+       blocks: [["stone",760,612,32,74,-0.12],["wood",822,612,30,88,0.1],["glass",790,548,112,20,0.1],["wood",912,600,34,100,0],["wood",974,600,34,100,0],["stone",943,532,118,22,-0.09],["glass",912,462,28,84,0.12],["glass",1030,610,92,22,0],["wood",1000,574,26,72,0],["wood",1060,574,26,72,0]]
+     },
+     {
+-      name: "爆桶栈桥", desc: "引爆红色风桶，把局部冲击扩散成整座栈桥的连锁。", par: 3,
++      name: "Barrel Trestle", desc: "Detonate the red wind barrels to spread a local impact into a chain across the whole trestle.", par: 3,
+-      wind: 0.000035, shifts: 1, challenge: { type: "material", key: "barrel", target: 2, label: "引爆 2 个风桶" },
++      wind: 0.000035, shifts: 1, challenge: { type: "material", key: "barrel", target: 2, label: "Detonate 2 wind barrels" },
+       ammo: ["ember", "split", "pulse", "flux"], targets: [[820,593,23],[955,523,23],[1080,591,23]],
+       blocks: [["wood",750,620,32,60,0],["wood",890,620,32,60,0],["stone",820,582,172,22,0],["barrel",820,540,36,46,0],["glass",930,604,30,88,0],["glass",980,604,30,88,0],["wood",955,546,110,22,0],["stone",1038,620,32,60,0.06],["wood",1122,620,32,60,-0.06],["glass",1080,575,118,20,0],["barrel",1080,530,34,42,0]]
+     },
+     {
+-      name: "磁涡双门", desc: "钢门不可摧毁，磁涡星可以把两侧结构拉进门内相撞。", par: 4,
++      name: "Magnet Double Gate", desc: "Steel gates cannot be destroyed; Magnet Stars can pull structures from both sides into the gate to collide.", par: 4,
+-      wind: -0.00004, shifts: 2, challenge: { type: "abilityMax", target: 2, label: "技能不超过 2 次" },
++      wind: -0.00004, shifts: 2, challenge: { type: "abilityMax", target: 2, label: "Use skills at most 2 times" },
+       ammo: ["flux", "pulse", "ember", "split", "pulse"], targets: [[780,526,24],[925,585,24],[1055,510,24]],
+       blocks: [["steel",706,626,46,38,0],["wood",758,602,28,96,0],["wood",810,602,28,96,0],["glass",784,540,92,20,0],["stone",914,620,34,62,0],["stone",976,620,34,62,0],["wood",945,578,126,22,0],["barrel",925,534,34,44,0],["glass",1032,590,28,108,0.06],["glass",1090,590,28,108,-0.06],["stone",1061,520,126,22,0],["wood",1061,470,88,22,0]]
+     },
+     {
+-      name: "三塔压轴", desc: "三座不同材料的塔群要求连续切换弹丸思路。", par: 5,
++      name: "Three-Tower Finale", desc: "Three towers of different materials demand constantly switching projectile ideas.", par: 5,
+-      wind: 0.000012, shifts: 3, challenge: { type: "score", target: 9200, label: "节点得分 9200" },
++      wind: 0.000012, shifts: 3, challenge: { type: "score", target: 9200, label: "Node score 9200" },
+       ammo: ["split", "flux", "ember", "pulse", "split", "pulse"], targets: [[730,594,22],[858,498,24],[975,592,22],[1084,484,24]],
+       blocks: [["glass",704,620,28,58,0],["glass",758,620,28,58,0],["wood",730,580,108,20,0],["stone",828,612,30,78,0],["stone",888,612,30,78,0],["wood",858,552,120,22,0],["glass",858,484,30,84,0],["barrel",858,442,34,42,0],["wood",944,620,28,58,0.08],["wood",1004,620,28,58,-0.08],["stone",974,578,122,22,0],["glass",1054,608,30,82,0],["glass",1116,608,30,82,0],["stone",1084,548,132,22,0],["wood",1084,496,98,20,0],["barrel",1038,610,32,44,0]]
+     },
+     {
+-      name: "岚眼守门", desc: "第一枚多层风眼藏在双塔中心，击穿护塔后持续破坏核心。", par: 4,
++      name: "Gale Eye Guardian", desc: "The first multi-layer storm eye hides in the middle of twin towers; break the tower guard, then keep damaging the core.", par: 4,
+-      wind: -0.000022, shifts: 2, challenge: { type: "noShift", target: 0, label: "不换风击破风眼" },
++      wind: -0.000022, shifts: 2, challenge: { type: "noShift", target: 0, label: "Break the storm eye without shifting wind" },
+       ammo: ["pulse","ember","flux","split","pulse"], targets: [[790,585,22],[940,510,30,"boss",170],[1070,585,22]],
+       blocks: [["stone",740,615,34,74,0],["wood",840,615,34,74,0],["glass",790,560,132,22,0],["steel",900,620,28,64,0],["steel",980,620,28,64,0],["wood",940,574,132,22,0],["glass",940,470,30,86,0],["barrel",940,430,34,42,0],["wood",1020,615,32,74,0],["stone",1120,615,32,74,0],["glass",1070,560,132,22,0]]
+     },
+     {
+-      name: "玻璃合唱", desc: "脆弱玻璃构成高塔，裂光星能从多个角度同时敲响结构。", par: 3,
++      name: "Glass Chorus", desc: "Fragile glass forms tall towers; Splitlight Stars can strike the structure from many angles at once.", par: 3,
+-      wind: 0.00003, shifts: 1, challenge: { type: "material", key: "glass", target: 5, label: "击碎 5 块玻璃" },
++      wind: 0.00003, shifts: 1, challenge: { type: "material", key: "glass", target: 5, label: "Shatter 5 glass blocks" },
+       ammo: ["split","split","pulse","flux"], targets: [[810,545,22],[930,470,22],[1050,545,22]],
+       blocks: [["glass",760,610,26,84,0],["glass",860,610,26,84,0],["glass",810,558,126,20,0],["glass",900,590,24,124,0],["glass",960,590,24,124,0],["wood",930,516,112,22,0],["glass",1020,610,26,84,0],["glass",1080,610,26,84,0],["glass",1050,558,126,20,0],["stone",930,634,350,18,0]]
+     },
+     {
+-      name: "脉风棋盘", desc: "风场周期性增强与减弱，观察风线后再决定释放时机。", par: 4,
++      name: "Pulse Wind Chessboard", desc: "The wind field strengthens and weakens periodically; watch the wind lines before choosing when to fire.", par: 4,
+-      wind: 0.000012, windPulse: 0.000025, shifts: 2, challenge: { type: "windShift", target: 1, label: "至少换风 1 次" },
++      wind: 0.000012, windPulse: 0.000025, shifts: 2, challenge: { type: "windShift", target: 1, label: "Shift wind at least once" },
+       ammo: ["pulse","flux","split","ember","pulse"], targets: [[760,590,22],[900,520,24,"armored",105],[1040,590,22]],
+       blocks: [["wood",720,610,30,82,0],["wood",800,610,30,82,0],["glass",760,560,116,22,0],["stone",850,614,28,76,0],["stone",950,614,28,76,0],["wood",900,566,128,22,0],["barrel",900,522,34,42,0],["glass",1000,610,28,82,0],["glass",1080,610,28,82,0],["stone",1040,560,118,22,0]]
+     },
+     {
+-      name: "浮城断桥", desc: "低重力延长飞行时间，适合在高点释放分裂与磁涡。", par: 4,
++      name: "Floating City Broken Bridge", desc: "Low gravity extends flight time, ideal for releasing splits and magnets from high points.", par: 4,
+-      wind: -0.00002, gravity: 0.68, shifts: 2, challenge: { type: "combo", target: 3, label: "单发击破 3 核" },
++      wind: -0.00002, gravity: 0.68, shifts: 2, challenge: { type: "combo", target: 3, label: "Break 3 crystals in one shot" },
+       ammo: ["split","flux","pulse","split","ember"], targets: [[770,500,21],[900,420,23],[1030,500,21]],
+       blocks: [["steel",720,590,120,18,0],["wood",770,550,28,90,0],["glass",820,550,28,90,0],["stone",795,490,120,20,0],["steel",850,520,90,18,0],["glass",900,480,28,100,0],["wood",950,480,28,100,0],["glass",925,420,120,20,0],["steel",990,590,120,18,0],["wood",1030,550,28,90,0],["glass",1080,550,28,90,0]]
+     },
+     {
+-      name: "重雨钟楼", desc: "强重力压低抛物线，爆燃星需要更直接地命中承重点。", par: 4,
++      name: "Heavy Rain Bell Tower", desc: "Strong gravity flattens the arc; Blast Stars need to hit load-bearing points more directly.", par: 4,
+-      wind: 0.000016, gravity: 1.26, shifts: 2, challenge: { type: "abilityMax", target: 1, label: "技能不超过 1 次" },
++      wind: 0.000016, gravity: 1.26, shifts: 2, challenge: { type: "abilityMax", target: 1, label: "Use skills at most 1 time" },
+       ammo: ["ember","pulse","flux","split","pulse"], targets: [[830,570,23],[950,455,25,"armored",115],[1070,570,23]],
+       blocks: [["stone",780,610,32,82,0],["stone",880,610,32,82,0],["wood",830,558,132,22,0],["glass",920,590,28,122,0],["glass",980,590,28,122,0],["stone",950,515,130,22,0],["barrel",950,470,36,44,0],["wood",1020,610,30,82,0],["wood",1120,610,30,82,0],["glass",1070,558,130,22,0]]
+     },
+     {
+-      name: "装甲回廊", desc: "蓝色装甲晶核更耐冲击，利用结构重量而非只靠直接命中。", par: 5,
++      name: "Armored Corridor", desc: "Blue armored crystals resist impact better; use structural weight, not just direct hits.", par: 5,
+-      wind: -0.000036, shifts: 3, challenge: { type: "score", target: 10800, label: "节点得分 10800" },
++      wind: -0.000036, shifts: 3, challenge: { type: "score", target: 10800, label: "Node score 10800" },
+       ammo: ["flux","pulse","ember","split","pulse","flux"], targets: [[760,580,25,"armored",115],[900,500,25,"armored",125],[1040,580,25,"armored",115]],
+       blocks: [["steel",700,620,32,64,0],["stone",760,610,34,84,0],["glass",820,610,30,84,0],["wood",790,552,124,22,0],["steel",860,620,32,64,0],["stone",900,570,34,114,0],["glass",960,570,30,114,0],["wood",930,500,124,22,0],["steel",1000,620,32,64,0],["stone",1040,610,34,84,0],["glass",1100,610,30,84,0],["wood",1070,552,124,22,0]]
+     },
+     {
+-      name: "雷幕双眼", desc: "两枚风眼在脉动风场中共振，先拆分防线再同时压垮核心。", par: 5,
++      name: "Thunder Curtain Twin Eyes", desc: "Two storm eyes resonate in the pulsing wind field; split the defense first, then crush the cores together.", par: 5,
+-      wind: 0.000018, windPulse: 0.00003, shifts: 3, challenge: { type: "combo", target: 2, label: "单发击破 2 核" },
++      wind: 0.000018, windPulse: 0.00003, shifts: 3, challenge: { type: "combo", target: 2, label: "Break 2 crystals in one shot" },
+       ammo: ["flux","split","ember","pulse","flux","pulse"], targets: [[820,500,30,"boss",145],[1010,500,30,"boss",145],[915,590,22]],
+       blocks: [["stone",760,610,34,84,0],["wood",880,610,34,84,0],["glass",820,552,154,22,0],["barrel",820,460,36,44,0],["steel",915,620,34,64,0],["stone",950,610,34,84,0],["wood",1070,610,34,84,0],["glass",1010,552,154,22,0],["barrel",1010,460,36,44,0],["wood",915,570,110,20,0]]
+     },
+     {
+-      name: "逆岚镜塔", desc: "镜像塔群在反向强风中互相支撑，破坏一侧会改变另一侧落点。", par: 5,
++      name: "Counterstorm Mirror Towers", desc: "Mirrored tower clusters support each other in reverse strong wind; breaking one side changes where the other falls.", par: 5,
+-      wind: -0.000046, shifts: 3, challenge: { type: "noShift", target: 0, label: "不换风完成" },
++      wind: -0.000046, shifts: 3, challenge: { type: "noShift", target: 0, label: "Finish without shifting wind" },
+       ammo: ["split","flux","pulse","ember","split","pulse"], targets: [[760,540,22],[900,450,24],[1040,540,22]],
+       blocks: [["glass",720,610,28,84,0.05],["stone",800,610,32,84,-0.05],["wood",760,560,126,22,0],["glass",860,585,28,134,0.04],["stone",940,585,32,134,-0.04],["wood",900,505,126,22,0],["stone",1000,610,32,84,0.05],["glass",1080,610,28,84,-0.05],["wood",1040,560,126,22,0],["barrel",900,462,34,42,0]]
+     },
+     {
+-      name: "雷桶星座", desc: "分散爆桶组成星座，正确的第一颗会点亮整条爆破路径。", par: 4,
++      name: "Thunder Barrel Constellation", desc: "Scattered blast barrels form a constellation; the right first one lights the whole blast path.", par: 4,
+-      wind: 0.000028, shifts: 2, challenge: { type: "material", key: "barrel", target: 4, label: "引爆 4 个风桶" },
++      wind: 0.000028, shifts: 2, challenge: { type: "material", key: "barrel", target: 4, label: "Detonate 4 wind barrels" },
+       ammo: ["ember","split","flux","pulse","ember"], targets: [[780,580,22],[920,500,23],[1060,580,22]],
+       blocks: [["wood",740,610,30,80,0],["glass",820,610,30,80,0],["stone",780,558,124,22,0],["barrel",820,520,34,42,0],["glass",880,590,28,120,0],["wood",960,590,28,120,0],["stone",920,520,124,22,0],["barrel",920,475,34,42,0],["wood",1020,610,30,80,0],["glass",1100,610,30,80,0],["stone",1060,558,124,22,0],["barrel",1020,520,34,42,0],["barrel",1060,515,34,42,0]]
+     },
+     {
+-      name: "失重祭坛", desc: "极低重力让残骸长时间漂浮，磁涡可把它们重新聚成撞击群。", par: 5,
++      name: "Zero-G Altar", desc: "Extremely low gravity lets wreckage float for a long time; magnets can regroup it into an impact swarm.", par: 5,
+-      wind: -0.000014, gravity: 0.48, shifts: 2, challenge: { type: "abilityMax", target: 2, label: "技能不超过 2 次" },
++      wind: -0.000014, gravity: 0.48, shifts: 2, challenge: { type: "abilityMax", target: 2, label: "Use skills at most 2 times" },
+       ammo: ["flux","split","pulse","flux","ember","pulse"], targets: [[780,470,22],[910,390,25,"armored",120],[1040,470,22]],
+       blocks: [["steel",720,590,120,18,0],["glass",780,530,26,120,0],["wood",830,530,26,120,0],["stone",805,460,120,20,0],["steel",860,520,80,18,0],["glass",910,455,28,130,0],["wood",960,455,28,130,0],["stone",935,380,120,20,0],["steel",1000,590,120,18,0],["glass",1040,530,26,120,0],["wood",1090,530,26,120,0]]
+     },
+     {
+-      name: "钢脊裂谷", desc: "不可摧毁的钢脊把战场切成三段，只能让冲击穿过狭窄窗口。", par: 5,
++      name: "Steel Ridge Rift", desc: "Indestructible steel ridges cut the battlefield into three parts; impact can only pass through narrow windows.", par: 5,
+-      wind: 0.00004, shifts: 3, challenge: { type: "combo", target: 3, label: "单发击破 3 核" },
++      wind: 0.00004, shifts: 3, challenge: { type: "combo", target: 3, label: "Break 3 crystals in one shot" },
+       ammo: ["split","flux","pulse","ember","split","pulse"], targets: [[760,585,22],[910,505,24],[1060,585,22]],
+       blocks: [["steel",700,540,34,224,0],["steel",840,570,34,164,0],["steel",980,540,34,224,0],["wood",740,610,28,80,0],["glass",790,610,28,80,0],["stone",765,560,110,20,0],["wood",880,585,28,130,0],["glass",940,585,28,130,0],["stone",910,510,120,20,0],["wood",1020,610,28,80,0],["glass",1100,610,28,80,0],["stone",1060,560,120,20,0]]
+     },
+     {
+-      name: "风暴坩埚", desc: "脉动风、重力变化和混合材料在同一座坩埚中叠加。", par: 6,
++      name: "Storm Crucible", desc: "Pulsing wind, gravity changes and mixed materials stack in a single crucible.", par: 6,
+-      wind: -0.000022, windPulse: 0.000036, gravity: 1.12, shifts: 4, challenge: { type: "score", target: 13600, label: "节点得分 13600" },
++      wind: -0.000022, windPulse: 0.000036, gravity: 1.12, shifts: 4, challenge: { type: "score", target: 13600, label: "Node score 13600" },
+       ammo: ["flux","ember","split","pulse","flux","ember","pulse"], targets: [[730,585,22],[850,500,24,"armored",115],[970,585,22],[1080,480,24,"armored",125]],
+       blocks: [["glass",700,610,28,84,0],["wood",760,610,28,84,0],["stone",730,560,120,22,0],["barrel",730,520,34,42,0],["stone",820,610,30,84,0],["glass",880,610,28,84,0],["wood",850,560,120,22,0],["steel",930,620,30,64,0],["wood",970,600,30,104,0],["glass",1020,600,28,104,0],["stone",995,535,118,22,0],["glass",1050,590,28,124,0],["wood",1110,590,28,124,0],["stone",1080,515,126,22,0],["barrel",1080,470,34,42,0]]
+     },
+     {
+-      name: "风暴王冠", desc: "终局风眼拥有厚重核心与三枚护卫，必须调度全部弹丸完成最终连锁。", par: 6,
++      name: "Storm Crown", desc: "The final storm eye has a thick core and three guards; use every projectile to finish the last chain.", par: 6,
+-      wind: 0.000026, windPulse: 0.00004, gravity: 0.92, shifts: 4, challenge: { type: "combo", target: 4, label: "单发击破 4 核" },
++      wind: 0.000026, windPulse: 0.00004, gravity: 0.92, shifts: 4, challenge: { type: "combo", target: 4, label: "Break 4 crystals in one shot" },
+       ammo: ["flux","split","ember","pulse","flux","split","pulse"], targets: [[760,585,23,"armored",105],[900,455,34,"boss",270],[1040,585,23,"armored",105],[1120,510,22]],
+       blocks: [["stone",720,610,32,84,0],["glass",800,610,28,84,0],["wood",760,560,124,22,0],["barrel",800,515,34,42,0],["steel",850,620,34,64,0],["wood",870,585,28,134,0],["stone",930,585,32,134,0],["glass",900,505,130,22,0],["barrel",900,460,36,44,0],["steel",980,620,34,64,0],["glass",1000,610,28,84,0],["stone",1080,610,32,84,0],["wood",1040,560,124,22,0],["barrel",1040,515,34,42,0],["glass",1090,565,28,114,0],["wood",1150,565,28,114,0],["stone",1120,495,122,22,0]]
+     }
+@@ -1211,9 +1211,9 @@
+ 
+   function importSave(code) {
+     const [prefix, payload, checksum] = String(code || "").trim().split(".");
+-    if (prefix !== "SLG4" || !payload || saveHash(payload) !== checksum) throw new Error("存档码校验失败");
++    if (prefix !== "SLG4" || !payload || saveHash(payload) !== checksum) throw new Error("Save code verification failed");
+     const parsed = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(payload), char => char.charCodeAt(0))));
+-    if (parsed.game !== "slingstorm" || parsed.version !== 4 || !parsed.data) throw new Error("不是弹弓风暴 V4 存档");
++    if (parsed.game !== "slingstorm" || parsed.version !== 4 || !parsed.data) throw new Error("Not a Slingstorm V4 save");
+     save = normalizeSave(parsed.data);
+     storeSave();
+     bestStars = levels.map((_, index) => Math.max(0, Math.min(3, Number(save.stars[index + 1]) || 0)));
+@@ -1243,7 +1243,7 @@
+   }
+ 
+   function renderStation() {
+-    progressPill.textContent = `★ ${totalStars()}/54 · 光核 ${save.cores} · 解锁 ${save.unlocked}/18`;
++    progressPill.textContent = `★ ${totalStars()}/54 · Cores ${save.cores} · Unlocked ${save.unlocked}/18`;
+     chapterStrip.innerHTML = chapters.map((chapter, chapterIndex) => {
+       const start = chapterIndex * 6;
+       const stars = bestStars.slice(start, start + 6).reduce((sum, value) => sum + value, 0);
+@@ -1257,14 +1257,14 @@
+     const level = levels[selectedLevel];
+     const chapter = chapterInfo(selectedLevel);
+     const stars = bestStars[selectedLevel] || 0;
+-    levelDetail.innerHTML = `<b style="color:${chapter.color}">第 ${selectedLevel + 1} 节点 · ${level.name}</b><p>${level.desc}</p><div class="challenge-row"><span class="challenge-chip ${stars >= 1 ? "done" : ""}">★ 完成节点</span><span class="challenge-chip ${stars >= 2 ? "done" : ""}">★ ${level.par} 发内完成</span><span class="challenge-chip ${stars >= 3 ? "done" : ""}">★ ${level.challenge.label}</span></div>`;
++    levelDetail.innerHTML = `<b style="color:${chapter.color}">Node ${selectedLevel + 1} · ${level.name}</b><p>${level.desc}</p><div class="challenge-row"><span class="challenge-chip ${stars >= 1 ? "done" : ""}">★ Clear node</span><span class="challenge-chip ${stars >= 2 ? "done" : ""}">★ ${level.par} shots or fewer</span><span class="challenge-chip ${stars >= 3 ? "done" : ""}">★ ${level.challenge.label}</span></div>`;
+     workshopGrid.innerHTML = Object.entries(workshop).map(([key, item]) => {
+       const levelValue = save.lab[key] || 0;
+       const cost = item.cost(levelValue);
+       const maxed = levelValue >= item.max;
+-      return `<button class="workshop-btn" data-workshop="${key}" ${maxed || save.cores < cost ? "disabled" : ""}><b>${item.name} Lv.${levelValue}</b><span>${item.desc}</span><em>${maxed ? "已满级" : `光核 ${cost}`}</em></button>`;
++      return `<button class="workshop-btn" data-workshop="${key}" ${maxed || save.cores < cost ? "disabled" : ""}><b>${item.name} Lv.${levelValue}</b><span>${item.desc}</span><em>${maxed ? "Max level" : `Cores ${cost}`}</em></button>`;
+     }).join("");
+-    startBtn.textContent = `进入第 ${selectedLevel + 1} 节点`;
++    startBtn.textContent = `Enter node ${selectedLevel + 1}.`;
+     campaignGrid.querySelectorAll("[data-campaign]").forEach(button => {
+       button.addEventListener("click", () => {
+         selectedLevel = Number(button.dataset.campaign);
+@@ -1641,7 +1641,7 @@
+       state.score += reward;
+       spawnTrail(body.position.x, body.position.y, color, data.targetType === "boss" ? 72 : 44, 5.2);
+       playSound(data.targetType === "boss" ? "boss" : "target");
+-      showToast(data.targetType === "boss" ? "风眼核心崩解" : `晶核碎裂 +${reward}`);
++      showToast(data.targetType === "boss" ? "Storm eye core collapses" : `Crystal shattered +${reward}`);
+     } else if (data.kind === "block") {
+       const mat = materials[data.mat] || materials.wood;
+       state.score += mat.score;
+@@ -1650,7 +1650,7 @@
+       if (data.mat === "barrel") {
+         shockwave(body.position.x, body.position.y, 172, 0.011, 34, "#ff735e");
+         playSound("barrel");
+-        showToast("爆桶连锁");
++        showToast("Barrel chain");
+       }
+     }
+ 
+@@ -1699,10 +1699,10 @@
+ 
+     if (type === "pulse") {
+       shockwave(projectile.position.x, projectile.position.y, 190, 0.012, 42, ammoTypes[type].color, true);
+-      showToast("冲击星释放震波");
++      showToast("Impact Star shockwave");
+     } else if (type === "split") {
+       splitProjectile(projectile);
+-      showToast("裂光星三裂");
++      showToast("Splitlight Star splits in three");
+     } else if (type === "flux") {
+       const boost = 1 + (save.lab.ability || 0) * 0.05;
+       wells.push({
+@@ -1716,11 +1716,11 @@
+         push: false
+       });
+       spawnTrail(projectile.position.x, projectile.position.y, ammoTypes[type].color, 28, 4.4);
+-      showToast("磁涡展开");
++      showToast("Magnet vortex opens");
+     } else if (type === "ember") {
+       shockwave(projectile.position.x, projectile.position.y, 156, 0.014, 52, ammoTypes[type].color, true);
+       removeBody(projectile);
+-      showToast("爆燃星引爆");
++      showToast("Blast Star detonates");
+     }
+     updateUI();
+   }
+@@ -1755,7 +1755,7 @@
+     state.windShiftLeft -= 1;
+     state.windShiftsUsed += 1;
+     playSound("wind");
+-    showToast("风向切换");
++    showToast("Wind shifted");
+     updateUI();
+   }
+ 
+@@ -1876,19 +1876,19 @@
+       const milestone = settleMilestones();
+       selectedLevel = state.level === levels.length - 1 ? state.level : state.level + 1;
+       storeSave();
+-      resultTitle.textContent = "关卡完成";
++      resultTitle.textContent = "Level complete";
+-      resultCopy.textContent = `${level.name} · ${renderStars(state.stars)} · ${state.score} 分 · 光核 +${cores}${milestone ? ` · 里程碑 +${milestone}` : ""}`;
++      resultCopy.textContent = `${level.name} · ${renderStars(state.stars)} · ${state.score} pts · Cores +${cores}${milestone ? ` · Milestone +${milestone}` : ""}`;
+-      nextBtn.textContent = state.level === levels.length - 1 ? "返回远征站" : "下一节点";
++      nextBtn.textContent = state.level === levels.length - 1 ? "Back to base" : "Next node";
+       playSound("win");
+-      showToast("完成 " + renderStars(state.stars));
++      showToast("Cleared " + renderStars(state.stars));
+     } else {
+       state.stars = 0;
+       storeSave();
+-      resultTitle.textContent = "挑战失败";
++      resultTitle.textContent = "Challenge failed";
+-      resultCopy.textContent = "晶核还没有全部碎裂，换个角度再试。";
++      resultCopy.textContent = "Not every crystal has shattered; try another angle.";
+-      nextBtn.textContent = "重新挑战";
++      nextBtn.textContent = "Retry";
+       playSound("lose");
+-      showToast("还差一点");
++      showToast("Almost there");
+     }
+     resultModal.classList.add("show");
+     renderStation();
+@@ -2028,25 +2028,25 @@
+     const level = levels[state.level];
+     levelNameEl.textContent = level.name;
+     const statusLabels = {
+-      ready: "准备",
++      ready: "Ready",
+-      aiming: "蓄力",
++      aiming: "Charging",
+-      flying: "飞行中",
++      flying: "In flight",
+-      settling: "结算",
++      settling: "Settling",
+-      spent: "弹丸用尽",
++      spent: "Out of shots",
+-      won: "完成",
++      won: "Complete",
+-      lost: "失败"
++      lost: "Failed"
+     };
+-    statusTextEl.textContent = statusLabels[state.status] || "准备";
++    statusTextEl.textContent = statusLabels[state.status] || "Ready";
+     scoreValue.textContent = String(state.score);
+     const boss = targets.find(target => target.game?.targetType === "boss");
+-    targetValue.textContent = boss ? `风眼 ${Math.max(0, Math.ceil(boss.game.hp))}` : `${state.targetDestroyed}/${state.targetStart}`;
++    targetValue.textContent = boss ? `Eye ${Math.max(0, Math.ceil(boss.game.hp))}` : `${state.targetDestroyed}/${state.targetStart}`;
+     windValue.textContent = windLabel();
+     starValue.textContent = renderStars(state.stars);
+-    missionTitle.textContent = `${chapterInfo(state.level).name} · 第 ${state.level + 1} 节点`;
++    missionTitle.textContent = `${chapterInfo(state.level).name} · Node ${state.level + 1}.`;
+-    missionText.textContent = `完成 · ${level.par} 发内 · ${level.challenge.label}`;
++    missionText.textContent = `Goal: ${level.par} shots or fewer · ${level.challenge.label}`;
+     abilityBtn.disabled = state.abilityUsed || (state.status !== "flying" && state.status !== "settling");
+     windBtn.disabled = state.windShiftLeft <= 0 || state.status === "won" || state.status === "lost";
+-    windBtn.textContent = `换风 ${state.windShiftLeft}`;
++    windBtn.textContent = `Wind shift ${state.windShiftLeft}`;
+ 
+     ammoList.innerHTML = "";
+     level.ammo.forEach((typeKey, index) => {
+@@ -2093,7 +2093,7 @@
+   }
+ 
+   function windLabel() {
+-    if (Math.abs(state.wind) < 0.000004) return "静";
++    if (Math.abs(state.wind) < 0.000004) return "Calm";
+     const arrow = state.wind > 0 ? "→" : "←";
+     const strength = Math.min(5, Math.max(1, Math.round(Math.abs(state.wind) / 0.00001)));
+     return arrow.repeat(strength);
+@@ -2483,12 +2483,12 @@
+     if (!started || state.status === "won" || state.status === "lost") return;
+     paused = !paused;
+     pauseBtn.textContent = paused ? "▶" : "Ⅱ";
+-    showToast(paused ? "暂停" : "继续");
++    showToast(paused ? "Paused" : "Resumed");
+   }
+ 
+   function openStation() {
+     if (started && !paused && !["won", "lost"].includes(state.status)) {
+-      if (!confirm("当前弹丸进度不会保留，返回远征站？")) return;
++      if (!confirm("Progress on the current shot will not be kept. Return to base?")) return;
+     }
+     paused = true;
+     selectedLevel = Math.min(state.level, save.unlocked - 1);
+@@ -2548,16 +2548,16 @@
+     try {
+       await navigator.clipboard.writeText(code);
+     } catch (error) {}
+-    prompt("弹弓风暴 V4 存档码（已尝试复制）", code);
++    prompt("Slingstorm V4 save code (copy attempted)", code);
+   });
+   document.getElementById("importSaveBtn").addEventListener("click", () => {
+-    const code = prompt("粘贴弹弓风暴 V4 存档码：");
++    const code = prompt("Paste Slingstorm V4 save code:");
+     if (!code) return;
+     try {
+       importSave(code);
+-      alert("存档导入成功，远征与工坊数据已恢复。");
++      alert("Save imported; expedition and workshop data restored.");
+     } catch (error) {
+-      alert(`导入失败：${error.message}`);
++      alert(`Import failed: ${error.message}`);
+     }
+   });
+ 

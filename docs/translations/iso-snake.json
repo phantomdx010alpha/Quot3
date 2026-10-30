@@ -1,0 +1,237 @@
+{
+  "version": 1,
+  "game": "iso-snake",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 815,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 822,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 926,
+      "zh": "按 方向键 / WASD 开始移动（Q/E 旋转视角）",
+      "en": "Press arrow keys / WASD to start moving (Q/E rotate the view)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "立体贪吃蛇",
+      "en": "Isometric Snake"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 13,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 18,
+      "zh": "立体贪吃蛇游戏画布",
+      "en": "Isometric Snake game canvas"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "长度",
+      "en": "Length"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "最高分",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "在悬浮于深空的等距立方体平台上吞食发光晶体，蛇身会越来越长、速度越来越快。开局蛇会原地等待，按下方向键后才开始移动；按 Q / E 可旋转视角，切勿从平台边缘坠落。",
+      "en": "Eat glowing crystals on an isometric cube platform floating in deep space; the snake grows longer and faster. It waits in place at the start and only moves after you press an arrow key; use Q / E to rotate the view, and never fall off the platform edge."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "方向键 / WASD 移动",
+      "en": "Arrow keys / WASD to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 35,
+      "zh": "Q / E 旋转视角",
+      "en": "Q / E rotate view"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "空格 暂停",
+      "en": "Space to pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 46,
+      "zh": "深呼吸，深空不会跑掉。",
+      "en": "Take a deep breath; deep space isn't going anywhere."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "继续游戏",
+      "en": "Resume game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 54,
+      "zh": "游戏结束",
+      "en": "Game over"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "新纪录！",
+      "en": "New record!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 57,
+      "zh": "本局长度",
+      "en": "Length this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "本局分数",
+      "en": "Score this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 59,
+      "zh": "历史最高",
+      "en": "All-time best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "再玩一次",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 68,
+      "zh": "向上移动",
+      "en": "Move up"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 69,
+      "zh": "向左移动",
+      "en": "Move left"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 70,
+      "zh": "向右移动",
+      "en": "Move right"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 71,
+      "zh": "向下移动",
+      "en": "Move down"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 74,
+      "zh": "逆时针旋转平台",
+      "en": "Rotate platform counterclockwise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "逆时针 Q",
+      "en": "Counterclockwise Q"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 77,
+      "zh": "顺时针旋转平台",
+      "en": "Rotate platform clockwise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "顺时针 E",
+      "en": "Clockwise E"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 84,
+      "zh": "方向键移动 · Q/E 旋转视角 · 空格暂停 · 不要从边缘坠落",
+      "en": "Arrow keys to move · Q/E rotate view · Space to pause · Don't fall off the edge"
+    }
+  ]
+}

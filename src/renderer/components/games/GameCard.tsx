@@ -31,6 +31,7 @@ export function GameCard({ game, favourite, lastPlayed, onOpen, onToggleFavourit
         <span className="q3-games__tags">
           {game.tags.map((t) => <span key={t} className="q3-games__tag">{TAG_LABELS[t] ?? t}</span>)}
           <span className="q3-games__tag">{game.players === 2 ? '2 players' : '1 player'}</span>
+          {game.lang === 'zh' && <span className="q3-games__tag q3-games__tag--lang">Chinese</span>}
         </span>
         {last !== '' && <span className="q3-games__last">{last}</span>}
       </button>

@@ -1,0 +1,1161 @@
+{
+  "version": 1,
+  "game": "dungeon-delver",
+  "entries": [
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 1,
+      "zh": "烛火地牢：余烬王座",
+      "en": "Candlelight Dungeon: Ember Throne"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "五层分支地牢、三种职业、精英遗物与多阶段守门者；失败也会带回永久余烬。",
+      "en": "Five-floor branching dungeon, three classes, elite relics and multi-phase guardians; even defeat brings back permanent embers."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "层 / 房间",
+      "en": "Floor / Room"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "等级",
+      "en": "Level"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "金币",
+      "en": "Gold"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "敌人",
+      "en": "Enemies"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "生命",
+      "en": "HP"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "经验",
+      "en": "XP"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "职业技能",
+      "en": "Class skill"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "待选择",
+      "en": "Not chosen"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "按住攻击",
+      "en": "Hold to attack"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "冲刺 Shift",
+      "en": "Dash Shift"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "战技 Q",
+      "en": "Skill Q"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "暂停 P",
+      "en": "Pause P"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "存档码",
+      "en": "Save code"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "选择行者后进入地牢。",
+      "en": "Pick a walker to enter the dungeon."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "本层路线",
+      "en": "Floor route"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "当前构筑",
+      "en": "Current build"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "遗物",
+      "en": "Relics"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "战斗记录",
+      "en": "Battle log"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "选择烛火行者",
+      "en": "Choose your Candle Walker"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "三种职业的攻击方式和战技完全不同。永久天赋会作用于所有新远征。",
+      "en": "The three classes attack and use skills in completely different ways. Permanent talents apply to every new expedition."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "余烬天赋 ·",
+      "en": "Ember Talents ·"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "余烬",
+      "en": "embers"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "选择祝福",
+      "en": "Choose a blessing"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "远征档案",
+      "en": "Expedition log"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "返回地牢",
+      "en": "Back to dungeon"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 7,
+      "zh": "圣焰守望",
+      "en": "Holy Flame Warden"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 7,
+      "zh": "发射爆裂烛火；战技释放环形圣焰并点燃敌人。",
+      "en": "Fires bursting candle flames; skill releases a ring of holy flame that ignites enemies."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 7,
+      "zh": "裂隙游侠",
+      "en": "Rift Ranger"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 7,
+      "zh": "高速穿透箭矢；战技在短时间内齐射三发。",
+      "en": "Fast piercing arrows; skill fires a three-shot volley in a short time."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 7,
+      "zh": "余烬剑舞",
+      "en": "Ember Blade Dancer"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 7,
+      "zh": "近距离扇形斩击；战技化身剑风并获得吸血。",
+      "en": "Close-range fan slashes; skill becomes a sword wind with lifesteal."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "不熄烛心",
+      "en": "Unquenched Wick"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "最大生命 +25",
+      "en": "Max HP +25"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "夜兽獠牙",
+      "en": "Nightbeast Fang"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "暴击率 +12%",
+      "en": "Crit chance +12%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "逆流沙漏",
+      "en": "Backflow Hourglass"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "攻击冷却 -12%",
+      "en": "Attack cooldown -12%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "寻路灯",
+      "en": "Wayfinder Lamp"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "金币获取 +35%",
+      "en": "Gold gain +35%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "裂隙镜",
+      "en": "Rift Mirror"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "每第5次攻击复制一次",
+      "en": "Every 5th attack is duplicated"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "风旅靴",
+      "en": "Windwalker Boots"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "移速 +28，冲刺冷却降低",
+      "en": "Move speed +28, dash cooldown reduced"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "荆棘冠",
+      "en": "Thorn Crown"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "受击反伤 8",
+      "en": "Reflect 8 damage when hit"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "余烬杯",
+      "en": "Ember Cup"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "战技伤害 +40%",
+      "en": "Skill damage +40%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "灰羽",
+      "en": "Gray Feather"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "每房首次致命伤保留1生命",
+      "en": "Once per room, a fatal hit leaves you at 1 HP"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "活地图",
+      "en": "Living Map"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "精英奖励额外出现一项",
+      "en": "Elite rewards offer one extra choice"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "王室钱币",
+      "en": "Royal Coin"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "进入新层获得25金币",
+      "en": "Gain 25 gold on entering a new floor"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "烛王冠",
+      "en": "Candle Crown"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 8,
+      "zh": "每件遗物使攻击 +4%",
+      "en": "Each relic gives +4% attack"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "锋芒刻印",
+      "en": "Sharp Sigil"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "攻击 +5",
+      "en": "Attack +5"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "迅燃灯芯",
+      "en": "Quickburn Wick"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "攻击速度 +14%",
+      "en": "Attack speed +14%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "生命烛芯",
+      "en": "Life Wick"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "最大生命 +22 并恢复",
+      "en": "Max HP +22 and heal"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "风行印记",
+      "en": "Wind Mark"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "移速 +22",
+      "en": "Move speed +22"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "分形火种",
+      "en": "Fractal Spark"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "额外投射物 +1",
+      "en": "Extra projectile +1"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "穿界锋刃",
+      "en": "Worldpiercer Blade"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "穿透 +1",
+      "en": "Pierce +1"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "猎杀直觉",
+      "en": "Hunting Instinct"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "暴击率 +9%",
+      "en": "Crit chance +9%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "温热余烬",
+      "en": "Warm Ember"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "每秒恢复 0.7 生命",
+      "en": "Restore 0.7 HP per second"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "秘火共鸣",
+      "en": "Secret Flame Resonance"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "战技伤害 +30%",
+      "en": "Skill damage +30%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "淘金符",
+      "en": "Gold Panner Charm"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "获得 25 金币",
+      "en": "Gain 25 gold"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "闪烁步",
+      "en": "Flicker Step"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "冲刺冷却 -18%",
+      "en": "Dash cooldown -18%"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "终结契约",
+      "en": "Finisher Pact"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "敌人低于20%生命时伤害提高",
+      "en": "More damage when an enemy is below 20% HP"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "坚韧",
+      "en": "Fortitude"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "每级最大生命 +6",
+      "en": "Max HP +6 per level"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "锋锐",
+      "en": "Sharpness"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "每级攻击 +2",
+      "en": "Attack +2 per level"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "寻宝",
+      "en": "Treasure Hunt"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "每级金币掉率 +5%",
+      "en": "Gold drop rate +5% per level"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "灰烬墓廊",
+      "en": "Ashen Crypt"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "墓门守卫",
+      "en": "Crypt Gate Guard"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "菌光洞窟",
+      "en": "Glowcap Cavern"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "孢子母体",
+      "en": "Spore Mother"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "熔炉深井",
+      "en": "Forge Depths"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "锁链巨像",
+      "en": "Chain Colossus"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "镜月庭院",
+      "en": "Moonmirror Court"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "镜月术士",
+      "en": "Moonmirror Sorcerer"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "余烬王座",
+      "en": "Ember Throne"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "无烛之王",
+      "en": "Candleless King"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "存档码校验失败",
+      "en": "Save code verification failed"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "版本不兼容",
+      "en": "Version incompatible"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 19,
+      "zh": "苏醒了！",
+      "en": " awakens!"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 19,
+      "zh": "精英烛卫封锁了房间",
+      "en": "Elite Candle Guards seal the room"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 19,
+      "zh": "阴影中传来脚步声",
+      "en": "Footsteps echo from the shadows"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "圣焰环爆发！",
+      "en": "Holy flame ring bursts!"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "裂隙齐射！",
+      "en": "Rift volley!"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "余烬剑风席卷房间！",
+      "en": "Ember wind sweeps the room!"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "灰羽替你承受了致命一击",
+      "en": "Gray Feather took the fatal blow for you"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "升级至 Lv.",
+      "en": "Level up to Lv."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "选择一项祝福，构筑本次远征。",
+      "en": "Choose a blessing to build this expedition."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "获得祝福：",
+      "en": "Blessing gained: "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "烛卫回廊",
+      "en": "Candle Guard Hall"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "常规战斗，稳定获得经验与金币",
+      "en": "Regular battle; steady XP and gold"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "精英封印",
+      "en": "Elite Seal"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "危险战斗，胜利后获得一件遗物",
+      "en": "Dangerous battle; win to gain a relic"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "余烬祭坛",
+      "en": "Ember Altar"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "恢复生命或交换力量",
+      "en": "Restore HP or trade for power"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "地牢商队",
+      "en": "Dungeon Caravan"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "花费金币购买祝福",
+      "en": "Spend gold to buy blessings"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "选择下一道门",
+      "en": "Choose the next door"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "路线决定风险与构筑速度。第五间固定为守门者。",
+      "en": "The route sets risk and build speed. Room five is always the guardian."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "温火休憩",
+      "en": "Warm Rest"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "恢复 45% 最大生命",
+      "en": "Restore 45% max HP"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "血烛交易",
+      "en": "Blood Candle Deal"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "失去 18% 当前生命，攻击 +8",
+      "en": "Lose 18% current HP, attack +8"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "收集余烬",
+      "en": "Gather Embers"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "本局余烬 +10",
+      "en": "Embers this run +10"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "火焰回应了你的祈愿。",
+      "en": "The flame answers your prayer."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 36,
+      "zh": " · 价格 18",
+      "en": " · Price 18"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "金币不足",
+      "en": "Not enough gold"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "每件祝福售价 18 金币；也可以直接离开。",
+      "en": "Each blessing costs 18 gold; you can also just leave."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "<button class=\"choice\" data-skip=\"1\"><span class=\"big\">🚪</span><h3>离开</h3><p>保留金币继续前进</p></button>",
+      "en": "<button class=\"choice\" data-skip=\"1\"><span class=\"big\">🚪</span><h3>Leave</h3><p>Keep your gold and move on</p></button>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "精英战利品",
+      "en": "Elite Spoils"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "守门者遗物",
+      "en": "Guardian Relic"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "选择一件能改变构筑方向的遗物。",
+      "en": "Choose a relic that changes your build direction."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "遗物已集齐，余烬将强化你的基础属性。",
+      "en": "All relics collected; embers will strengthen your base stats."
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "<button class=\"choice\" id=\"relicOverflow\"><span class=\"big\">🔥</span><h3>余烬灌注</h3><p>生命上限 +18、攻击 +3，并恢复 18 点生命。</p></button>",
+      "en": "<button class=\"choice\" id=\"relicOverflow\"><span class=\"big\">🔥</span><h3>Ember Infusion</h3><p>Max HP +18, attack +3, and restore 18 HP.</p></button>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "烛火熄灭",
+      "en": "The Candle Goes Out"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "<h3>远征止步于 ",
+      "en": "<h3>Expedition ended at floor "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": " · 房间 ",
+      "en": " · Room "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "</h3><p>带回 ",
+      "en": "</h3><p>Brought back "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": " 余烬。它们可以在新远征开始前强化永久天赋。</p><button class=\"btn primary\" id=\"restartRun\">返回地牢入口</button>",
+      "en": " embers. They can strengthen permanent talents before a new expedition begins.</p><button class=\"btn primary\" id=\"restartRun\">Back to dungeon entrance</button>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "余烬王座重燃",
+      "en": "Ember Throne Relit"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "<h3>无烛之王倒下，五层地牢重新燃起烛光。</h3><p>本次获得 ",
+      "en": "<h3>The Candleless King falls and the five-floor dungeon is lit once more.</h3><p>You gained "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 40,
+      "zh": " 余烬。你可以继续提升永久天赋，并用其他职业挑战新的构筑路线。</p><button class=\"btn primary\" id=\"restartRun\">开启新远征</button>",
+      "en": " embers. You can keep upgrading permanent talents and try new builds with other classes.</p><button class=\"btn primary\" id=\"restartRun\">Start new expedition</button>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "攻击",
+      "en": "Attack"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "理论秒伤",
+      "en": "Est. DPS"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "暴击",
+      "en": "Crit"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "投射物",
+      "en": "Projectiles"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "穿透",
+      "en": "Pierce"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "移速",
+      "en": "Speed"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "<div class=\"sub\">击败精英与守门者获取。</div>",
+      "en": "<div class=\"sub\">Earned by defeating elites and guardians.</div>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "冲刺 ",
+      "en": "Dash "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "就绪",
+      "en": "Ready"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "战技 ",
+      "en": "Skill "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "<br>生命 ",
+      "en": "<br>HP "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": " · 攻击 ",
+      "en": " · ATK "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": " · 移速 ",
+      "en": " · Speed "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": ">升级 ",
+      "en": ">Upgrade "
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "余烬不足",
+      "en": "Not enough embers"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "跨设备远征档案",
+      "en": "Cross-device expedition log"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "<p>永久天赋、当前构筑、层数、遗物与祝福都会导出，并带完整性校验。</p><textarea class=\"savebox\" id=\"saveCode\">",
+      "en": "<p>Permanent talents, current build, floor, relics and blessings are all exported, with an integrity check.</p><textarea class=\"savebox\" id=\"saveCode\">"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyCode\">复制导出</button><button class=\"btn\" id=\"importCodeBtn\">导入上方存档</button></div><div class=\"build-row\"><span>永久余烬</span><strong>",
+      "en": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyCode\">Copy export</button><button class=\"btn\" id=\"importCodeBtn\">Import code above</button></div><div class=\"build-row\"><span>Permanent embers</span><strong>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "</strong></div><div class=\"build-row\"><span>通关次数</span><strong>",
+      "en": "</strong></div><div class=\"build-row\"><span>Clears</span><strong>"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "导入成功",
+      "en": "Import successful"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "继续 P",
+      "en": "Resume P"
+    },
+    {
+      "file": "dungeon-delver.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "暂停 P",
+      "en": "Pause P"
+    }
+  ]
+}

@@ -1,0 +1,728 @@
+{
+  "version": 1,
+  "game": "curling-endgame",
+  "entries": [
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 1,
+      "zh": "冰壶残局：十二局定线",
+      "en": "Curling Endgame: Twelve-End Lines"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "每局三次投壶：选择出手角度与力度，利用碰撞、占位和按钮区计分。这里是抽象物理益智模型，不用于真实冰壶训练或比赛安全决策。",
+      "en": "Three throws per end: choose release angle and power, and score using collisions, positioning and the button zone. This is an abstract physics puzzle model and is not for real curling training or match safety decisions."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "残局",
+      "en": "Endgame"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "投壶",
+      "en": "Throw"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "得分",
+      "en": "Score"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "资源",
+      "en": "Resource"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "最佳",
+      "en": "Best"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "attr",
+      "line": 3,
+      "zh": "冰壶赛道与石头位置",
+      "en": "Curling sheet and stone positions"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "提交残局",
+      "en": "Submit end"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "教练示范",
+      "en": "Coach demo"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "撤回投壶",
+      "en": "Undo throw"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "重置残局",
+      "en": "Reset end"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "档案码",
+      "en": "Profile code"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "残局目录",
+      "en": "End list"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "出手角度",
+      "en": "Release angle"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "出手力度",
+      "en": "Release power"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "本局验收",
+      "en": "End check"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "残局规则",
+      "en": "End rules"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "物理",
+      "en": "Physics"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "冰壶从左侧出发，力度决定前进距离，角度决定横向落点；接近已有冰壶会发生可解释的碰撞位移。",
+      "en": "Stones start from the left; power sets the distance and angle sets the sideways landing point. Getting close to existing stones causes explainable collision displacement."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "三星",
+      "en": "Three stars"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "三次投壶后得分达到本局目标，并使用不超过正式参考的总力度；提示示范最高两星。模型仅用于抽象益智玩法，不代表真实冰面或比赛策略。",
+      "en": "Reach the end target score after three throws using no more than the official reference total power; hinted demos give at most two stars. The model is only for abstract puzzle play and does not represent real ice or match strategy."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "十二局定线残局",
+      "en": "Twelve-End Line Puzzles"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "四章逐步加入守卫石、双碰撞和高分按钮区。正式枚举器遍历 25 种角度/力度组合的三次序列，用同一碰撞与计分函数找出最低总力度的目标得分路线。",
+      "en": "Four chapters add guard stones, double collisions and high-scoring button zones. The official enumerator walks three-throw sequences across 25 angle/power combinations, using the same collision and scoring function to find the lowest-total-power route to the target score."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "返回冰壶台",
+      "en": "Back to curling table"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "北岸护卫",
+      "en": "North Shore Guard"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "清掉按钮区前的守卫石，再留下两枚得分石。",
+      "en": "Clear the guard stone in front of the button, then leave two scoring stones."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "双线切入",
+      "en": "Double-Line Cut-In"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "两枚对手石分居按钮两侧，需要一轻一重的线路。",
+      "en": "Two opponent stones sit on either side of the button; you need one light and one heavy line."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "角落占位",
+      "en": "Corner Placement"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "角落石不计分，第三投要把自己的石送入中心圈。",
+      "en": "Corner stones do not score; the third throw must send your stone into the center ring."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "中线碰撞",
+      "en": "Center-Line Collision"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "中线守卫会挡住直线，碰撞后才能进入按钮区。",
+      "en": "A center-line guard blocks the straight line; you must collide before entering the button zone."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "蓝冰反弧",
+      "en": "Blue Ice Counter-Curve"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "右旋偏移放大，角度比力度更重要。",
+      "en": "Right-hand curl is amplified; angle matters more than power."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "双守卫",
+      "en": "Double Guards"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "两个守卫石压住按钮，第三投需要保留足够力度。",
+      "en": "Two guard stones press down on the button; the third throw needs enough power in reserve."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "后手保护",
+      "en": "Last-Rock Protection"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "先手石要留在中心，后两投负责把对手推出圈。",
+      "en": "Keep the first stone at the center; the last two throws must push the opponent out of the ring."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "窄口入营",
+      "en": "Narrow-Entry Camp"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "目标窗口很窄，三次投壶的总力度受到限制。",
+      "en": "The target window is narrow, and total power across three throws is limited."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "撞击换位",
+      "en": "Hit and Swap"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "对手石靠近中心，直接得分与撞击得分都可行。",
+      "en": "An opponent stone sits near the center; scoring directly and scoring by impact both work."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "远端回旋",
+      "en": "Far-End Loop"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "第一投需要为后续碰撞留下线路。",
+      "en": "The first throw must leave a line open for later collisions."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "三石封锁",
+      "en": "Three-Stone Blockade"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "按钮边缘被三颗石头包围，稳定进分更优于冒险清台。",
+      "en": "The button edge is surrounded by three stones; steady scoring beats a risky clear."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "终局：最后一线",
+      "en": "Finale: Last Line"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 4,
+      "zh": "四章规则汇合，三投后必须保留两颗最近的己方石。",
+      "en": "All four chapters rules combine; after three throws you must keep the two nearest stones as your own."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "三次投壶尚未完成",
+      "en": "Three throws not yet complete"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 9,
+      "zh": "得分 ",
+      "en": "Score "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 9,
+      "zh": " 未达到目标 ",
+      "en": " is below target "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 12,
+      "zh": " 参考击球未三星",
+      "en": " reference throw misses three stars"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 12,
+      "zh": " 初始击球已通过",
+      "en": " initial throw already passes"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 12,
+      "zh": " 最低力度求解失败",
+      "en": " lowest-power solve failed"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "选择角度和力度，然后投出第 1 壶。",
+      "en": "Choose an angle and power, then make throw 1."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "档案校验失败",
+      "en": "Profile check failed"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "档案版本不兼容",
+      "en": "Profile version incompatible"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "三次投壶已经用完",
+      "en": "All three throws used"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "第 ",
+      "en": "Throw "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": " 壶已投出。",
+      "en": " made."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "没有可撤回的投壶",
+      "en": "No throw to undo"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "已撤回上一壶。",
+      "en": "Last throw undone."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "教练已完成三壶示范；本局最高两星。",
+      "en": "Coach has demonstrated all three throws; this end gives at most two stars."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "残局未通过：",
+      "en": "End not passed: "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "得分不足",
+      "en": "Score too low"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "残局记录归档 · ",
+      "en": "End record archived · "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "</strong><ul><li>三壶结束得分：",
+      "en": "</strong><ul><li>Score after three throws: "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": " / 目标 ",
+      "en": " / target "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "</li><li>总力度：",
+      "en": "</li><li>Total power: "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": " / 三星线 ",
+      "en": " / three-star line "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "</li><li>按钮区最近距离：",
+      "en": "</li><li>Closest to button: "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "</li><li>教练示范：",
+      "en": "</li><li>Coach demos: "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": " 次</li></ul>",
+      "en": " times</li></ul>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "<button class=\"btn primary\" id=\"nextBtn\">下一局残局</button>",
+      "en": "<button class=\"btn primary\" id=\"nextBtn\">Next end</button>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "投壶线",
+      "en": "Throw line"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "我",
+      "en": "Y"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "对",
+      "en": "O"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "当前 ",
+      "en": "Now "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " 项风险",
+      "en": " risks"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "当前得分 ",
+      "en": "Current score "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " · 可提交",
+      "en": " · ready to submit"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "</h3><p>第 ",
+      "en": "</h3><p>Chapter "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " 章 · 三次投壶 · 目标 ",
+      "en": " · three throws · target "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " 分 · 三星力度 ",
+      "en": " pts · three-star power "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " 章 · 三壶残局",
+      "en": " · three-throw end"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "\"><b>第 ",
+      "en": "\"><b>Throw "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " 壶</b><small>",
+      "en": "</b><small>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "° · 力度 ",
+      "en": "° · power "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "待投",
+      "en": "Pending"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "°</b><small>横向线路</small></button>",
+      "en": "°</b><small>Lateral line</small></button>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "</b><small>力度档</small></button>",
+      "en": "</b><small>Power tier</small></button>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "<div class=\"metric\"><b>目标得分</b>≥ ",
+      "en": "<div class=\"metric\"><b>Target score</b>≥ "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "<br>当前 ",
+      "en": "<br>Current "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "</div><div class=\"metric\"><b>总力度</b>≤ ",
+      "en": "</div><div class=\"metric\"><b>Total power</b>≤ "
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "</div><div class=\"metric\"><b>按钮区最近</b>",
+      "en": "</div><div class=\"metric\"><b>Closest to button</b>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": " 格</div><div class=\"metric\"><b>投壶进度</b>",
+      "en": " cells</div><div class=\"metric\"><b>Throw progress</b>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "跨设备冰壶档案",
+      "en": "Cross-device curling profile"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "<p class=\"sub\">星级、最低力度记录与当前三壶策略已封装在带校验的档案码中。</p><textarea class=\"savebox\" id=\"saveCode\">",
+      "en": "<p class=\"sub\">Stars, lowest-power records and the current three-throw plan are packed into a checksummed profile code.</p><textarea class=\"savebox\" id=\"saveCode\">"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyBtn\">复制导出</button><button class=\"btn\" id=\"importBtn\">导入上方档案</button></div>",
+      "en": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyBtn\">Copy export</button><button class=\"btn\" id=\"importBtn\">Import profile above</button></div>"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "冰壶档案导入成功",
+      "en": "Curling profile imported successfully"
+    },
+    {
+      "file": "curling-endgame.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "第 ",
+      "en": "Chapter ",
+      "onlyLine": true
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { GameEntry } from '../manifest'
 import { emptyGamesState } from '../gamesState'
-import { pickRandom, searchGames, sortGames } from '../search'
+import { filterByLanguage, pickRandom, searchGames, sortGames } from '../search'
 
 const mk = (id: string, title: string, tags: GameEntry['tags'], description: string, players: 1 | 2 = 1): GameEntry => ({
-  id, title, tags, description, source: 'https://github.com/example/games', commit: 'abcdef1', licence: 'MIT', author: 'A', entry: 'index.html', players, touch: false, added: '2026-10-29'
+  id, title, tags, description, source: 'https://github.com/example/games', commit: 'abcdef1', licence: 'MIT', lang: 'en', author: 'A', entry: 'index.html', players, touch: false, added: '2026-10-29'
 })
 const LIST = [
   mk('snake', 'Snake', ['arcade', 'retro'], 'Eat and grow.'),
@@ -79,5 +79,30 @@ describe('pickRandom', () => {
     expect(pickRandom(LIST, emptyGamesState(), () => NaN)?.id).toBe('snake')
     expect(pickRandom(LIST, emptyGamesState(), () => 5)?.id).toBe('blocks')
     expect(pickRandom(LIST, emptyGamesState(), () => -1)?.id).toBe('snake')
+  })
+})
+
+describe('filterByLanguage (Phase 205, M20)', () => {
+  const zh = (id: string, title: string): GameEntry => ({ ...mk(id, title, ['puzzle'], 'Interface is in Chinese.'), lang: 'zh' })
+  const MIXED = [mk('snake', 'Snake', ['arcade'], 'Eat and grow.'), zh('cat-seesaw', 'Cat Seesaw'), mk('chess', 'Chess', ['chess'], 'Board.'), zh('beat-bento', 'Beat Bento')]
+  it('keeps English games only when the switch is off, everything when on, and never changes the input', () => {
+    const copy = [...MIXED]
+    expect(filterByLanguage(MIXED, false).map((g) => g.id)).toEqual(['snake', 'chess'])
+    expect(filterByLanguage(MIXED, true).map((g) => g.id)).toEqual(['snake', 'cat-seesaw', 'chess', 'beat-bento'])
+    expect(MIXED).toEqual(copy)
+  })
+  it('search, sort and random on the filtered list can never return a hidden game', () => {
+    const vis = filterByLanguage(MIXED, false)
+    expect(searchGames(vis, 'seesaw').map((g) => g.id)).toEqual([])
+    expect(sortGames(vis).every((g) => g.lang === 'en')).toBe(true)
+    for (const v of [0, 0.25, 0.5, 0.75, 0.999]) expect(pickRandom(vis, emptyGamesState(), () => v)!.lang).toBe('en')
+  })
+  it('state of hidden games is kept: a favourite zh game is not in the list but is back when shown', () => {
+    const st = { favourites: ['cat-seesaw'], lastPlayed: {}, plays: {} }
+    expect(searchGames(filterByLanguage(MIXED, false), '', { onlyFavourites: true }, st)).toEqual([])
+    expect(searchGames(filterByLanguage(MIXED, true), '', { onlyFavourites: true }, st).map((g) => g.id)).toEqual(['cat-seesaw'])
+  })
+  it('an empty visible list gives no random pick', () => {
+    expect(pickRandom(filterByLanguage([zh('a-b', 'AB')], false))).toBeNull()
   })
 })

@@ -11,7 +11,7 @@ for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) HOLES.push({ x: 70 + c *
 
 export default {
   id: 'whack',
-  name: '打地鼠',
+  name: 'Whack-a-Mole',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -62,7 +62,7 @@ export default {
         if (best.kind === 'bomb') {
           score = Math.max(0, score - 3)
           combo = 1
-          api.status('💥 炸弹！连击清零')
+          api.status('💥 Bomb! Combo reset')
         } else {
           const base = best.kind === 'gold' ? 5 : 1
           score += base * combo
@@ -137,8 +137,8 @@ export default {
       ctx.fill()
       // 顶栏
       centerText(ctx, `⏱ ${left.toFixed(1)}s`, W / 2 - 110, 52, 20, left < 6 ? '#FF5C8A' : '#FFFFFF', '700')
-      centerText(ctx, `连击 x${combo}`, W / 2, 52, 18, '#22D3EE', '700')
-      centerText(ctx, `${score} 分`, W / 2 + 110, 52, 20, '#F0D878', '700')
+      centerText(ctx, `Combo x${combo}`, W / 2, 52, 18, '#22D3EE', '700')
+      centerText(ctx, `${score} pts`, W / 2 + 110, 52, 20, '#F0D878', '700')
 
       // 洞
       HOLES.forEach((h) => {
@@ -163,10 +163,10 @@ export default {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, W, H, 16)
         ctx.fill()
-        centerText(ctx, '时间到！', W / 2, H / 2 - 16, 34, '#FFFFFF')
-        centerText(ctx, `本局 ${score} 分`, W / 2, H / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 再来一局', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
+        centerText(ctx, 'Time\'s up!', W / 2, H / 2 - 16, 34, '#FFFFFF')
+        centerText(ctx, `Score: ${score} pts`, W / 2, H / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R to play again', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
     }
 
     // 画布内相对坐标 → 逻辑坐标（onPointer 给的是 0~1 比例）

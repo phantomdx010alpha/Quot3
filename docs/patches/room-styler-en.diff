@@ -1,0 +1,359 @@
+--- a/resources/games/room-styler/game.js
++++ b/resources/games/room-styler/game.js
+@@ -143,7 +143,7 @@
+   var FURNITURE = {
+     /* ---------- 沙发 ---------- */
+     sofa: {
+-      name: '沙发', w: 252, h: 152,
++      name: 'Sofa', w: 252, h: 152,
+       draw: function (c) {
+         // 落地阴影
+         c.fillStyle = 'rgba(0,0,0,.22)';
+@@ -186,7 +186,7 @@
+ 
+     /* ---------- 绿植 ---------- */
+     plant: {
+-      name: '绿植', w: 124, h: 188,
++      name: 'Plant', w: 124, h: 188,
+       draw: function (c) {
+         c.fillStyle = 'rgba(0,0,0,.2)';
+         c.beginPath(); c.ellipse(0, 88, 44, 10, 0, 0, Math.PI * 2); c.fill();
+@@ -236,7 +236,7 @@
+ 
+     /* ---------- 落地灯 ---------- */
+     lamp: {
+-      name: '落地灯', w: 104, h: 214,
++      name: 'Floor lamp', w: 104, h: 214,
+       draw: function (c) {
+         // 光晕
+         var glow = c.createRadialGradient(0, -68, 6, 0, -68, 78);
+@@ -270,7 +270,7 @@
+ 
+     /* ---------- 挂画 ---------- */
+     painting: {
+-      name: '挂画', w: 164, h: 124,
++      name: 'Wall art', w: 164, h: 124,
+       draw: function (c) {
+         c.fillStyle = 'rgba(0,0,0,.22)';
+         c.beginPath(); c.ellipse(0, 58, 72, 10, 0, 0, Math.PI * 2); c.fill();
+@@ -300,7 +300,7 @@
+ 
+     /* ---------- 地毯 ---------- */
+     rug: {
+-      name: '地毯', w: 262, h: 162,
++      name: 'Rug', w: 262, h: 162,
+       draw: function (c) {
+         c.fillStyle = 'rgba(0,0,0,.18)';
+         c.beginPath(); c.ellipse(0, 8, 130, 76, 0, 0, Math.PI * 2); c.fill();
+@@ -330,7 +330,7 @@
+ 
+     /* ---------- 圆桌 ---------- */
+     table: {
+-      name: '圆桌', w: 172, h: 164,
++      name: 'Round table', w: 172, h: 164,
+       draw: function (c) {
+         c.fillStyle = 'rgba(0,0,0,.22)';
+         c.beginPath(); c.ellipse(0, 88, 46, 11, 0, 0, Math.PI * 2); c.fill();
+@@ -359,7 +359,7 @@
+ 
+     /* ---------- 书架 ---------- */
+     bookshelf: {
+-      name: '书架', w: 172, h: 214,
++      name: 'Bookshelf', w: 172, h: 214,
+       draw: function (c) {
+         c.fillStyle = 'rgba(0,0,0,.24)';
+         c.beginPath(); c.ellipse(0, 104, 80, 12, 0, 0, Math.PI * 2); c.fill();
+@@ -407,7 +407,7 @@
+ 
+     /* ---------- 猫咪 ---------- */
+     cat: {
+-      name: '猫咪', w: 144, h: 128,
++      name: 'Cat', w: 144, h: 128,
+       draw: function (c) {
+         c.fillStyle = 'rgba(0,0,0,.2)';
+         c.beginPath(); c.ellipse(0, 66, 52, 10, 0, 0, Math.PI * 2); c.fill();
+@@ -1370,7 +1370,7 @@
+ 
+     function loadFile(file) {
+       if (!file || !/^image\//.test(file.type)) {
+-        alert('请选择图片文件（JPG / PNG / WebP 等）');
++        alert('Please choose an image file (JPG / PNG / WebP, etc.)');
+         return;
+       }
+       if (currentUrl) URL.revokeObjectURL(currentUrl);
+@@ -1388,7 +1388,7 @@
+         setProcessing(false);
+         URL.revokeObjectURL(url);
+         if (currentUrl === url) currentUrl = null;
+-        alert('图片读取失败，请换一张试试');
++        alert('Could not read the image, please try another one');
+       };
+       img.src = url;
+     }
+@@ -1405,8 +1405,8 @@
+       try {
+         setupImage(makeSampleRoom(document.createElement('canvas')));
+       } catch (err) {
+-        console.error('示例房间生成失败：', err);
++        console.error('Sample room failed to generate: ', err);
+-        alert('示例房间生成失败，请刷新页面重试或直接上传照片');
++        alert('Sample room failed to generate. Reload the page and try again, or upload a photo');
+       }
+     });
+     $('pickBtn').addEventListener('click', function (e) {
+@@ -1446,13 +1446,13 @@
+     /* ---------- 工具与颜色 UI ---------- */
+     function updateHint() {
+       if (!hasImage) {
+-        hintEl.textContent = '先上传一张房间照片，或试试示例房间';
++        hintEl.textContent = 'Upload a room photo first, or try the sample room';
+       } else if (tool === 'brush') {
+-        hintEl.textContent = '涂抹要换色的墙面区域';
++        hintEl.textContent = 'Paint over the wall area to recolor';
+       } else if (tool === 'eraser') {
+-        hintEl.textContent = '按住拖动擦除蒙版，被擦区域恢复墙面原色';
++        hintEl.textContent = 'Hold and drag to erase the mask; erased areas return to the original wall color';
+       } else {
+-        hintEl.textContent = '拖动家具移动；四角手柄缩放，顶部手柄旋转；双指捏合；侧键翻转与删除';
++        hintEl.textContent = 'Drag furniture to move it; corner handles resize, top handle rotates; pinch with two fingers; side buttons flip and delete';
+       }
+     }
+     function syncToolUI() {
+@@ -1569,7 +1569,7 @@
+ 
+       tile.addEventListener('pointerdown', function (e) {
+         if (!hasImage) {
+-          hintEl.textContent = '请先上传照片或打开示例房间，再摆放家具';
++          hintEl.textContent = 'Upload a photo or open the sample room before placing furniture';
+           return;
+         }
+         safeCapture(tile, e.pointerId);
+@@ -1650,7 +1650,7 @@
+       }
+     }
+     function downloadBlob(blob, name) {
+-      if (!blob) { alert('导出失败，请重试'); return; }
++      if (!blob) { alert('Export failed, please try again'); return; }
+       var url = URL.createObjectURL(blob);
+       var a = document.createElement('a');
+       a.href = url;
+@@ -1669,7 +1669,7 @@
+         compositeTo(ec.getContext('2d'), true);
+         canvasToPNGBlob(ec, function (blob) {
+           setProcessing(false);
+-          downloadBlob(blob, '智能装修工坊-装修后.png');
++          downloadBlob(blob, 'Smart-Room-Styler-after.png');
+         });
+       });
+     });
+@@ -1697,12 +1697,12 @@
+         c.textBaseline = 'middle';
+         c.font = '600 34px system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif';
+         c.fillStyle = '#9aa3c7';
+-        c.fillText('装修前', imgW / 2, imgH + labelH / 2);
++        c.fillText('Before', imgW / 2, imgH + labelH / 2);
+         c.fillStyle = '#22d3ee';
+-        c.fillText('装修后', imgW + gap + imgW / 2, imgH + labelH / 2);
++        c.fillText('After', imgW + gap + imgW / 2, imgH + labelH / 2);
+         canvasToPNGBlob(ec, function (blob) {
+           setProcessing(false);
+-          downloadBlob(blob, '智能装修工坊-前后对比.png');
++          downloadBlob(blob, 'Smart-Room-Styler-before-after.png');
+         });
+       });
+     });
+--- a/resources/games/room-styler/index.html
++++ b/resources/games/room-styler/index.html
+@@ -1,126 +1,126 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+ <meta name="theme-color" content="#0b0e20">
+-<title>智能装修工坊</title>
++<title>Smart Room Styler</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+ 
+   <!-- 顶部栏 -->
+   <header class="topbar">
+-    <h1 class="logo">智能装修工坊</h1>
++    <h1 class="logo">Smart Room Styler</h1>
+     <div class="top-right">
+-      <span class="privacy" id="privacyNote">照片不会上传，全程在浏览器内处理</span>
++      <span class="privacy" id="privacyNote">Photos are not uploaded; everything is processed in your browser</span>
+-      <a class="btn btn-ghost" href="../../index.html">← 返回门户</a>
++      <a class="btn btn-ghost" href="../../index.html">← Back to portal</a>
+     </div>
+   </header>
+ 
+   <main class="layout">
+ 
+     <!-- 左侧工具箱（移动端折叠为底部抽屉） -->
+-    <aside class="panel sidebar" id="sidebar" aria-label="工具箱">
++    <aside class="panel sidebar" id="sidebar" aria-label="Toolbox">
+       <div class="side-head">
+-        <span>工具箱</span>
++        <span>Toolbox</span>
+-        <button class="btn btn-ghost2 btn-mini" id="drawerClose" type="button">收起</button>
++        <button class="btn btn-ghost2 btn-mini" id="drawerClose" type="button">Hide</button>
+       </div>
+ 
+       <!-- 墙面工具 -->
+       <section class="side-sec">
+-        <h3 class="side-title">墙面工具</h3>
++        <h3 class="side-title">Wall tools</h3>
+         <div class="tool-grid" id="toolGrid">
+           <button class="tool-btn active" type="button" data-tool="brush">
+             <span class="tool-ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M20.4 3.6a2.2 2.2 0 0 0-3.1 0L9.5 11.4l3.1 3.1 7.8-7.8a2.2 2.2 0 0 0 0-3.1zM8.2 12.8c-2.8.2-5 2-5.7 4.6-.5 1.9.2 3.2 1.3 3.4.8.2 1.7-.4 2.5-1.3.5 1 1.4 1.6 2.3 1.4 1.3-.3 1.9-2 1.4-4.1l-1.8-4z"/></svg></span>
+-            <span>墙面刷</span>
++            <span>Wall brush</span>
+           </button>
+           <button class="tool-btn" type="button" data-tool="eraser">
+             <span class="tool-ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M15.1 3.3c-.8-.8-2.1-.8-2.9 0L4.3 11.2c-.8.8-.8 2.1 0 2.9l4.2 4.2h9.8l-3.2-15zm-1.4 4.1 1.9 1.9L8.7 16.2l-1.9-1.9 6.9-6.9z"/></svg></span>
+-            <span>橡皮擦</span>
++            <span>Eraser</span>
+           </button>
+           <button class="tool-btn" type="button" data-tool="select">
+             <span class="tool-ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M4 3l16 7.2-6.8 1.7L9.5 19 4 3z"/></svg></span>
+-            <span>选择摆放</span>
++            <span>Select / place</span>
+           </button>
+         </div>
+ 
+         <div class="swatches" id="swatches">
+-          <button class="swatch" type="button" data-color="#f1ece1" style="background:#f1ece1" title="米白" aria-label="米白"></button>
++          <button class="swatch" type="button" data-color="#f1ece1" style="background:#f1ece1" title="Off-white" aria-label="Off-white"></button>
+-          <button class="swatch" type="button" data-color="#c3d4e6" style="background:#c3d4e6" title="雾蓝" aria-label="雾蓝"></button>
++          <button class="swatch" type="button" data-color="#c3d4e6" style="background:#c3d4e6" title="Misty blue" aria-label="Misty blue"></button>
+-          <button class="swatch" type="button" data-color="#c7e8d8" style="background:#c7e8d8" title="薄荷" aria-label="薄荷"></button>
++          <button class="swatch" type="button" data-color="#c7e8d8" style="background:#c7e8d8" title="Mint" aria-label="Mint"></button>
+-          <button class="swatch" type="button" data-color="#f5e6b8" style="background:#f5e6b8" title="奶油黄" aria-label="奶油黄"></button>
++          <button class="swatch" type="button" data-color="#f5e6b8" style="background:#f5e6b8" title="Cream yellow" aria-label="Cream yellow"></button>
+-          <button class="swatch" type="button" data-color="#e8c9c9" style="background:#e8c9c9" title="脏粉" aria-label="脏粉"></button>
++          <button class="swatch" type="button" data-color="#e8c9c9" style="background:#e8c9c9" title="Dusty pink" aria-label="Dusty pink"></button>
+-          <button class="swatch" type="button" data-color="#c2d2c2" style="background:#c2d2c2" title="灰绿" aria-label="灰绿"></button>
++          <button class="swatch" type="button" data-color="#c2d2c2" style="background:#c2d2c2" title="Gray green" aria-label="Gray green"></button>
+-          <button class="swatch" type="button" data-color="#d8cddd" style="background:#d8cddd" title="藕紫" aria-label="藕紫"></button>
++          <button class="swatch" type="button" data-color="#d8cddd" style="background:#d8cddd" title="Lilac" aria-label="Lilac"></button>
+-          <button class="swatch" type="button" data-color="#6b6f76" style="background:#6b6f76" title="炭灰" aria-label="炭灰"></button>
++          <button class="swatch" type="button" data-color="#6b6f76" style="background:#6b6f76" title="Charcoal" aria-label="Charcoal"></button>
+         </div>
+         <label class="custom-color">
+-          <span>自定义墙色</span>
++          <span>Custom wall color</span>
+           <input type="color" id="customColor" value="#a9c7e0">
+         </label>
+ 
+         <label class="range-row">
+-          <span>笔刷大小 <b id="brushSizeVal">44</b></span>
++          <span>Brush size <b id="brushSizeVal">44</b></span>
+           <input type="range" id="brushSize" min="10" max="120" step="1" value="44">
+         </label>
+-        <button class="btn btn-ghost2 btn-block" id="clearMask" type="button">清空墙面蒙版</button>
++        <button class="btn btn-ghost2 btn-block" id="clearMask" type="button">Clear wall mask</button>
+       </section>
+ 
+       <!-- 光感增强 -->
+       <section class="side-sec">
+-        <h3 class="side-title">光感增强</h3>
++        <h3 class="side-title">Lighting boost</h3>
+         <label class="range-row">
+-          <span>亮度 <b id="brightnessVal">0</b></span>
++          <span>Brightness <b id="brightnessVal">0</b></span>
+           <input type="range" id="brightness" min="-100" max="100" step="1" value="0">
+         </label>
+         <label class="range-row">
+-          <span>对比度 <b id="contrastVal">0</b></span>
++          <span>Contrast <b id="contrastVal">0</b></span>
+           <input type="range" id="contrast" min="-100" max="100" step="1" value="0">
+         </label>
+         <label class="range-row">
+-          <span>饱和度 <b id="saturationVal">0</b></span>
++          <span>Saturation <b id="saturationVal">0</b></span>
+           <input type="range" id="saturation" min="-100" max="100" step="1" value="0">
+         </label>
+         <label class="range-row">
+-          <span>色温 <b class="temp-ends"><i>冷</i><b id="temperatureVal">0</b><i>暖</i></b></span>
++          <span>Temperature <b class="temp-ends"><i>Cool</i><b id="temperatureVal">0</b><i>Warm</i></b></span>
+           <input type="range" id="temperature" min="-100" max="100" step="1" value="0">
+         </label>
+         <div class="btn-row">
+-          <button class="btn btn-primary" id="autoBtn" type="button">一键焕新</button>
++          <button class="btn btn-primary" id="autoBtn" type="button">One-tap refresh</button>
+-          <button class="btn btn-ghost2" id="resetFilterBtn" type="button">重置</button>
++          <button class="btn btn-ghost2" id="resetFilterBtn" type="button">Reset</button>
+         </div>
+       </section>
+ 
+       <!-- 家具贴纸库（缩略图由 JS 程序化矢量绘制） -->
+       <section class="side-sec">
+-        <h3 class="side-title">家具贴纸</h3>
++        <h3 class="side-title">Furniture stickers</h3>
+-        <p class="side-tip">点击放到画布中央，或直接拖拽到画面位置</p>
++        <p class="side-tip">Click to place at the center of the canvas, or drag onto the picture</p>
+         <div class="sticker-grid" id="stickerLib"></div>
+       </section>
+ 
+       <!-- 操作与导出 -->
+       <section class="side-sec">
+-        <h3 class="side-title">操作与导出</h3>
++        <h3 class="side-title">Actions and export</h3>
+         <div class="btn-row">
+-          <button class="btn btn-ghost2" id="undoBtn" type="button">撤销</button>
++          <button class="btn btn-ghost2" id="undoBtn" type="button">Undo</button>
+-          <button class="btn btn-ghost2" id="redoBtn" type="button">重做</button>
++          <button class="btn btn-ghost2" id="redoBtn" type="button">Redo</button>
+         </div>
+-        <button class="btn btn-amber btn-block" id="compareBtn" type="button">按住查看装修前</button>
++        <button class="btn btn-amber btn-block" id="compareBtn" type="button">Hold to see before</button>
+-        <button class="btn btn-cyan btn-block" id="exportBtn" type="button">导出装修图</button>
++        <button class="btn btn-cyan btn-block" id="exportBtn" type="button">Export styled image</button>
+-        <button class="btn btn-pink btn-block" id="exportCompareBtn" type="button">导出前后对比图</button>
++        <button class="btn btn-pink btn-block" id="exportCompareBtn" type="button">Export before/after image</button>
+-        <button class="btn btn-ghost2 btn-block" id="newPhotoBtn" type="button">换一张照片</button>
++        <button class="btn btn-ghost2 btn-block" id="newPhotoBtn" type="button">Change photo</button>
+       </section>
+     </aside>
+ 
+     <!-- 移动端抽屉开关 -->
+-    <button class="drawer-fab" id="drawerBtn" type="button">工具箱</button>
++    <button class="drawer-fab" id="drawerBtn" type="button">Toolbox</button>
+ 
+     <!-- 主舞台 -->
+     <section class="stage">
+       <div class="canvas-frame" id="canvasFrame">
+-        <canvas id="canvas" aria-label="装修画布"></canvas>
++        <canvas id="canvas" aria-label="Styling canvas"></canvas>
+-        <div class="processing-badge" id="processing" hidden>处理中…</div>
++        <div class="processing-badge" id="processing" hidden>Processing…</div>
+ 
+         <!-- 空状态上传卡片 -->
+         <div class="empty-card" id="emptyCard">
+@@ -131,17 +131,17 @@
+               <path fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" d="M18 46h28"/>
+             </svg>
+           </div>
+-          <p class="empty-title">点击或拖入房间照片</p>
++          <p class="empty-title">Click or drop a room photo here</p>
+-          <p class="empty-sub">支持 JPG / PNG / WebP，手机可直接拍照</p>
++          <p class="empty-sub">Supports JPG / PNG / WebP; on a phone you can take a photo directly</p>
+           <div class="empty-actions">
+-            <button class="btn btn-primary" id="pickBtn" type="button">选择照片</button>
++            <button class="btn btn-primary" id="pickBtn" type="button">Choose photo</button>
+-            <button class="btn btn-cyan" id="sampleBtn" type="button">试试示例房间</button>
++            <button class="btn btn-cyan" id="sampleBtn" type="button">Try the sample room</button>
+           </div>
+           <input type="file" id="fileInput" accept="image/*" capture="environment" hidden>
+-          <p class="empty-note">照片不会上传，全程在浏览器内处理</p>
++          <p class="empty-note">Photos are not uploaded; everything is processed in your browser</p>
+         </div>
+       </div>
+-      <div class="stage-hint" id="stageHint">先上传一张房间照片，或试试示例房间</div>
++      <div class="stage-hint" id="stageHint">Upload a room photo first, or try the sample room</div>
+     </section>
+   </main>
+ 

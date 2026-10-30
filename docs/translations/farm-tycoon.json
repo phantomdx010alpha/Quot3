@@ -1,0 +1,538 @@
+{
+  "version": 1,
+  "game": "farm-tycoon",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 21,
+      "zh": "小麦",
+      "en": "Wheat"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 22,
+      "zh": "玉米",
+      "en": "Corn"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 23,
+      "zh": "草莓",
+      "en": "Strawberry"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 252,
+      "zh": "雨天降临，作物生长加速 50%",
+      "en": "Rain falls; crops grow 50% faster"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 253,
+      "zh": "今日丰收日，收购价 x1.5",
+      "en": "Harvest day: sale prices x1.5"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 262,
+      "zh": "虫害爆发，点击红色害虫除虫",
+      "en": "Pest outbreak! Click the red pests to clear them"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 340,
+      "zh": "除虫完成",
+      "en": "Pests cleared"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 350,
+      "zh": "今日目标达成，奖励 +",
+      "en": "Daily goal reached, reward +"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 350,
+      "zh": " 金币",
+      "en": " coins"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 360,
+      "zh": "金币不足，无法扩展耕地",
+      "en": "Not enough coins to expand the fields"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 365,
+      "zh": "新的耕地已开垦：",
+      "en": "New field cleared: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 368,
+      "zh": "金币不足，无法购买洒水器",
+      "en": "Not enough coins to buy a sprinkler"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 371,
+      "zh": "洒水器开始运转，生长速度 +30%",
+      "en": "Sprinkler is running, growth speed +30%"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 374,
+      "zh": "金币不足，无法购买稻草人",
+      "en": "Not enough coins to buy a scarecrow"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 377,
+      "zh": "稻草人已就位，虫害大幅减少",
+      "en": "Scarecrow in place; pests greatly reduced"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 388,
+      "zh": "确定要清空当前存档，重新经营星空农场吗？",
+      "en": "Clear the current save and restart your Starry Farm?"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 397,
+      "zh": "新的农场已开启",
+      "en": "A new farm has begun"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 444,
+      "zh": "雨天",
+      "en": "Rainy"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 448,
+      "zh": "晴天",
+      "en": "Sunny"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 464,
+      "zh": "<span class=\"goods-trend trend-up\">涨 ",
+      "en": "<span class=\"goods-trend trend-up\">Up "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 465,
+      "zh": "<span class=\"goods-trend trend-down\">跌 ",
+      "en": "<span class=\"goods-trend trend-down\">Down "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 466,
+      "zh": "<span class=\"goods-trend trend-flat\">平稳 ",
+      "en": "<span class=\"goods-trend trend-flat\">Steady "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 473,
+      "zh": "<div class=\"goods-sub\">种子 ",
+      "en": "<div class=\"goods-sub\">Seed "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 473,
+      "zh": " 金 · ",
+      "en": " gold · "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 473,
+      "zh": " 秒成熟</div>",
+      "en": " s to mature</div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 480,
+      "zh": "距第 ",
+      "en": "Until day "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 480,
+      "zh": " 天还有 ",
+      "en": " in "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 480,
+      "zh": " 秒 · 行情每日随机浮动 ±25%",
+      "en": " s · Market prices fluctuate randomly ±25% each day"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 481,
+      "zh": " · 今日售价额外 x1.5",
+      "en": " · Today's sale price an extra x1.5"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 495,
+      "zh": "<div class=\"shop-name\">扩展耕地</div>",
+      "en": "<div class=\"shop-name\">Expand Fields</div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 496,
+      "zh": "，获得更多可种植格</div>",
+      "en": ", unlock more plantable plots</div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 498,
+      "zh": " 金</button>",
+      "en": " gold</button>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 503,
+      "zh": "<div class=\"shop-desc\">已扩展至上限 ",
+      "en": "<div class=\"shop-desc\">Expanded to the maximum "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 505,
+      "zh": "<button class=\"btn-buy is-off\" disabled>已满级</button>",
+      "en": "<button class=\"btn-buy is-off\" disabled>Maxed</button>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 514,
+      "zh": "<div class=\"shop-info\"><div class=\"shop-name\">洒水器</div>",
+      "en": "<div class=\"shop-info\"><div class=\"shop-name\">Sprinkler</div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 515,
+      "zh": "<div class=\"shop-desc\">所有作物生长速度 +30%</div></div>",
+      "en": "<div class=\"shop-desc\">Growth speed +30% for all crops</div></div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 516,
+      "zh": "<button class=\"btn-buy is-off\" disabled>已拥有</button>",
+      "en": "<button class=\"btn-buy is-off\" disabled>Owned</button>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 521,
+      "zh": "<div class=\"shop-desc\">所有作物生长速度 +30%，日夜自动浇灌</div></div>",
+      "en": "<div class=\"shop-desc\">Growth speed +30% for all crops, watering day and night</div></div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 531,
+      "zh": "<div class=\"shop-info\"><div class=\"shop-name\">稻草人</div>",
+      "en": "<div class=\"shop-info\"><div class=\"shop-name\">Scarecrow</div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 532,
+      "zh": "<div class=\"shop-desc\">大幅降低随机虫害发生概率</div></div>",
+      "en": "<div class=\"shop-desc\">Greatly lowers the chance of random pest attacks</div></div>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 538,
+      "zh": "<div class=\"shop-desc\">伫立田边，大幅降低虫害侵扰</div></div>",
+      "en": "Stands by the field and greatly reduces pest trouble"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 550,
+      "zh": "已达成 · ",
+      "en": "Done · "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 550,
+      "zh": " 金币已发放",
+      "en": " coins paid out"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 553,
+      "zh": "目标进行中，继续收获吧",
+      "en": "Goal in progress; keep harvesting"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 588,
+      "zh": "<span class=\"cc-line\">种子 <b>",
+      "en": "<span class=\"cc-line\">Seed <b>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 588,
+      "zh": "</b> 金币</span>",
+      "en": "</b> coins</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 589,
+      "zh": "</b> 秒成熟</span>",
+      "en": "</b> s to mature</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 590,
+      "zh": "<span class=\"cc-line\">今日约 <b>",
+      "en": "<span class=\"cc-line\">Today about <b>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 824,
+      "zh": "开垦",
+      "en": "Cultivate"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1361,
+      "zh": "可在右侧商店开垦更多土地",
+      "en": "Buy more land in the shop on the right"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1388,
+      "zh": "还剩 ",
+      "en": "Remaining "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1388,
+      "zh": " 秒",
+      "en": " s"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1427,
+      "zh": "一株作物遭虫了，快点击除虫",
+      "en": "A crop has pests! Click to clear them"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1520,
+      "zh": "雨天，作物生长加速 50%",
+      "en": "Rainy; crops grow 50% faster"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "星空农场",
+      "en": "Starry Farm"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "金币",
+      "en": "Coins"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "第",
+      "en": "Day"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "天",
+      "en": "(60 s)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "晴天",
+      "en": "Sunny"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "丰收日 ×1.5",
+      "en": "Harvest Day ×1.5"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "夜幕之下，发光的田地等待你开垦。",
+      "en": "Under the night sky, glowing fields await your tilling."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "点击空地选择作物播种，金币会在成熟后回流。",
+      "en": "Click an empty plot, choose a crop to sow; coins flow back once it ripens."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 67,
+      "zh": "作物经历 种子 · 幼苗 · 成长 · 成熟 四个阶段",
+      "en": "Crops pass four stages: seed · sprout · growth · ripe"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "成熟后头顶出现金色标记，点击即可收获",
+      "en": "A golden marker appears over ripe crops; click to harvest"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "雨天自动加速生长，红色害虫需点击除虫",
+      "en": "Rain speeds up growth automatically; click red pests to clear them"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 70,
+      "zh": "每日行情有涨有跌，丰收日售价翻倍半",
+      "en": "Daily market prices rise and fall; harvest-day prices are ×1.5"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 72,
+      "zh": "开垦你的第一块地",
+      "en": "Till your first plot"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "今日行情",
+      "en": "Today's market"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 92,
+      "zh": "农场商店",
+      "en": "Farm shop"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "今日目标",
+      "en": "Daily goal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 103,
+      "zh": "累计收获赚得",
+      "en": "Harvest earnings so far"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 104,
+      "zh": "奖励 +",
+      "en": "Reward +"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "目标进行中",
+      "en": "Goal in progress"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 108,
+      "zh": "清空存档 · 重新开始",
+      "en": "Clear save · Restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 115,
+      "zh": "点击空地播种 · 成熟后点击金色标记收获 · 点击红色害虫除虫 · 每 60 秒进入新的一天，雨天生长加速 · 进度自动保存",
+      "en": "Click an empty plot to sow · Click the golden marker on ripe crops to harvest · Click red pests to clear them · A new day starts every 60 seconds; rain speeds up growth · Progress saves automatically"
+    }
+  ]
+}

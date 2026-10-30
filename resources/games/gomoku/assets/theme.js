@@ -30,8 +30,8 @@
     b.textContent = dark ? '☀️' : '🌙';
     var lang = (window.AMG && AMG.lang) || 'zh';
     b.title = dark
-      ? (lang === 'zh' ? '切换到白天' : 'Switch to light')
-      : (lang === 'zh' ? '切换到夜间' : 'Switch to dark');
+      ? (lang === 'zh' ? 'Switch to day' : 'Switch to light')
+      : (lang === 'zh' ? 'Switch to night' : 'Switch to dark');
   }
   apply();
 
@@ -62,15 +62,15 @@
 
   // ---- a11y：给纯符号按钮补 aria-label，画布标 role=img ----
   var SYM = {
-    '▲': { zh: '上', en: 'Up', ja: '上', ko: '위' },
-    '▼': { zh: '下', en: 'Down', ja: '下', ko: '아래' },
-    '◀': { zh: '左', en: 'Left', ja: '左', ko: '왼쪽' },
-    '▶': { zh: '右', en: 'Right', ja: '右', ko: '오른쪽' },
-    '⏸': { zh: '暂停', en: 'Pause', ja: '一時停止', ko: '일시정지' },
-    '🔊': { zh: '声音', en: 'Sound', ja: 'サウンド', ko: '소리' },
-    '🔇': { zh: '声音', en: 'Sound', ja: 'サウンド', ko: '소리' },
-    '☀️': { zh: '主题', en: 'Theme', ja: 'テーマ', ko: '테마' },
-    '🌙': { zh: '主题', en: 'Theme', ja: 'テーマ', ko: '테마' }
+    '▲': { zh: 'Up', en: 'Up', ja: 'Up', ko: 'Up' },
+    '▼': { zh: 'Down', en: 'Down', ja: 'Down', ko: 'Down' },
+    '◀': { zh: 'Left', en: 'Left', ja: 'Left', ko: 'Left' },
+    '▶': { zh: 'Right', en: 'Right', ja: 'Right', ko: 'Right' },
+    '⏸': { zh: 'Pause', en: 'Pause', ja: 'Pause', ko: 'Pause' },
+    '🔊': { zh: 'Sound', en: 'Sound', ja: 'Sound', ko: 'Sound' },
+    '🔇': { zh: 'Sound', en: 'Sound', ja: 'Sound', ko: 'Sound' },
+    '☀️': { zh: 'Theme', en: 'Theme', ja: 'Theme', ko: 'Theme' },
+    '🌙': { zh: 'Theme', en: 'Theme', ja: 'Theme', ko: 'Theme' }
   };
   function a11y() {
     var lang = (window.AMG && AMG.lang) || 'zh';

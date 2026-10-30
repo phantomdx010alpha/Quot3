@@ -1,0 +1,1714 @@
+{
+  "version": 1,
+  "game": "memory",
+  "entries": [
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "中文",
+      "en": "ZH"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "日本語",
+      "en": "JA"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "한국어",
+      "en": "KO"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 27,
+      "zh": "切换语言",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "言語を切り替え",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "언어 변경",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "返回游戏库",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "ゲーム一覧へ戻る",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 162,
+      "zh": "게임 목록으로",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 33,
+      "zh": "切换到白天",
+      "en": "Switch to light"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 34,
+      "zh": "切换到夜间",
+      "en": "Switch to dark"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "上",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "위",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "下",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "아래",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "左",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "왼쪽",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "右",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "오른쪽",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "暂停",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "一時停止",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "일시정지",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "声音",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "サウンド",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "소리",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "主题",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "テーマ",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "테마",
+      "en": "Theme"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 6,
+      "zh": "记忆翻牌网页版：翻开两张卡片找相同的图案！4 档难度、动物/水果/太空/海洋 4 套卡面，单人计时挑战或双人轮流对战，3D 翻牌动画。",
+      "en": "Memory match for the web: flip two cards and find the matching picture! 4 difficulty levels, 4 card sets (animals, fruit, space, ocean), solo timed challenge or two-player turns, 3D flip animation."
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 9,
+      "zh": "记忆翻牌 · 益智配对",
+      "en": "Memory Match · Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 10,
+      "zh": "记忆翻牌网页版：翻开两张卡片找相同的图案！4 档难度、4 套卡面，单人或双人对战。",
+      "en": "Memory match for the web: flip two cards and find the matching picture! 4 difficulty levels, 4 card sets, solo or two-player."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 21,
+      "zh": "记忆翻牌 · 益智配对",
+      "en": "Memory Match · Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 22,
+      "zh": "记忆翻牌网页版：翻开两张卡片找相同的图案！4 档难度、4 套卡面，单人或双人对战。",
+      "en": "Memory match for the web: flip two cards and find the matching picture! 4 difficulty levels, 4 card sets, solo or two-player."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 24,
+      "zh": "益智解谜",
+      "en": "Puzzle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "记忆翻牌 · 益智配对",
+      "en": "Memory Match · Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "记忆翻牌",
+      "en": "Memory Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "益智配对",
+      "en": "Find the Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "翻开两张卡片，找到一模一样的一对！",
+      "en": "Flip two cards and find the matching pair!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "时间",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "步数",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 57,
+      "zh": "配对",
+      "en": "PAIRS"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "得分",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "玩家 1",
+      "en": "PLAYER 1"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "玩家 2",
+      "en": "PLAYER 2"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 67,
+      "zh": "🔄 重新开始",
+      "en": "🔄 Restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "⚙️ 设置",
+      "en": "⚙️ Settings"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "难度",
+      "en": "DIFFICULTY"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "🐣 简单",
+      "en": "🐣 Easy"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "🙂 普通",
+      "en": "🙂 Normal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "🤓 困难",
+      "en": "🤓 Hard"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "🧠 大师",
+      "en": "🧠 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 80,
+      "zh": "卡面主题",
+      "en": "CARD THEME"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 84,
+      "zh": "玩法",
+      "en": "MODE"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 86,
+      "zh": "👤 单人挑战",
+      "en": "👤 Solo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 86,
+      "zh": "👥 双人轮流",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 89,
+      "zh": "🚀 开始翻牌",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "新纪录！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "🔄 再来一局",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 106,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "🖱️ 点击卡片翻开，每回合翻两张",
+      "en": "🖱️ Click a card to flip it — two per turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 108,
+      "zh": "👆 触屏直接点卡片",
+      "en": "👆 Touch: just tap the cards"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 109,
+      "zh": "键盘选择并翻牌",
+      "en": "pick & flip with keyboard"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 109,
+      "zh": "重新开始",
+      "en": "restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 110,
+      "zh": "⚡ 没配上时直接点下一张，会立刻盖回去",
+      "en": "⚡ After a miss, tap the next card to flip them back instantly"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 112,
+      "zh": "⭐ 计分规则",
+      "en": "⭐ Scoring"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 114,
+      "zh": "配对成功 +100 分",
+      "en": "Each pair +100"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 115,
+      "zh": "连续配对有连击奖励：第二对 +50，第三对 +100……",
+      "en": "Combo bonus for back-to-back pairs: 2nd +50, 3rd +100…"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 116,
+      "zh": "步数越少星星越多，最多三颗星",
+      "en": "Fewer moves = more stars, up to three"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 117,
+      "zh": "双人模式：配对成功可以继续翻，失败换人",
+      "en": "2 Players: a match keeps your turn, a miss passes it"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 120,
+      "zh": "🧠 记忆秘诀",
+      "en": "🧠 Memory Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 121,
+      "zh": "开局偷看的那一秒要抓紧！翻牌时有规律地一行一行翻，把图案和位置编成小故事，比如「左上角的小狗在追右下角的小猫」，会记得更牢。",
+      "en": "Use the peek second wisely! Flip cards row by row in order, and turn positions into little stories — \"the puppy in the top left is chasing the kitten in the bottom right\" — they stick much better."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 125,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 125,
+      "zh": "记忆翻牌（Memory / 翻牌配对）网页版：每回合翻开两张卡片，图案相同就配对成功，找出所有配对即可获胜。提供简单 4×3、普通 4×4、困难 5×4、大师 6×5 四档难度，动物、水果、太空、海洋四套卡面，单人计时挑战或双人轮流对战，3D 翻牌动画，开局有偷看时间。锻炼记忆力和专注力，适合小朋友和全家一起玩，完全免费。",
+      "en": "Memory Match in your browser: flip two cards each turn; matching pictures make a pair, and finding every pair wins. Four difficulties — Easy 4×3, Normal 4×4, Hard 5×4 and Master 6×5 — four card themes (animals, fruits, space, ocean), timed solo play or 2-player turns, smooth 3D flips and a peek at the start. Great memory training for kids and families, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 126,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 支持鼠标、键盘和触屏",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "记忆翻牌 · 益智配对",
+      "en": "Memory Match · Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "记忆翻牌",
+      "en": "Memory Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "益智配对",
+      "en": "Find the Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "翻开两张卡片，找到一模一样的一对！",
+      "en": "Flip two cards and find the matching pair!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "时间",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "步数",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "配对",
+      "en": "PAIRS"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "得分",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "玩家 1",
+      "en": "PLAYER 1"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "玩家 2",
+      "en": "PLAYER 2"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "🔄 重新开始",
+      "en": "🔄 Restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "⚙️ 设置",
+      "en": "⚙️ Settings"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "难度",
+      "en": "DIFFICULTY"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "🐣 简单",
+      "en": "🐣 Easy"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "🙂 普通",
+      "en": "🙂 Normal"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "🤓 困难",
+      "en": "🤓 Hard"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "🧠 大师",
+      "en": "🧠 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "卡面主题",
+      "en": "CARD THEME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "玩法",
+      "en": "MODE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "👤 单人挑战",
+      "en": "👤 Solo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "👥 双人轮流",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "🚀 开始翻牌",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "新纪录！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "🔄 再来一局",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "🖱️ 点击卡片翻开，每回合翻两张",
+      "en": "🖱️ Click a card to flip it — two per turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "👆 触屏直接点卡片",
+      "en": "👆 Touch: just tap the cards"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "键盘选择并翻牌",
+      "en": "pick & flip with keyboard"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "重新开始",
+      "en": "restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "⚡ 没配上时直接点下一张，会立刻盖回去",
+      "en": "⚡ After a miss, tap the next card to flip them back instantly"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "⭐ 计分规则",
+      "en": "⭐ Scoring"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "配对成功 +100 分",
+      "en": "Each pair +100"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "连续配对有连击奖励：第二对 +50，第三对 +100……",
+      "en": "Combo bonus for back-to-back pairs: 2nd +50, 3rd +100…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "步数越少星星越多，最多三颗星",
+      "en": "Fewer moves = more stars, up to three"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "双人模式：配对成功可以继续翻，失败换人",
+      "en": "2 Players: a match keeps your turn, a miss passes it"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "🧠 记忆秘诀",
+      "en": "🧠 Memory Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "开局偷看的那一秒要抓紧！翻牌时有规律地一行一行翻，把图案和位置编成小故事，比如「左上角的小狗在追右下角的小猫」，会记得更牢。",
+      "en": "Use the peek second wisely! Flip cards row by row in order, and turn positions into little stories — \"the puppy in the top left is chasing the kitten in the bottom right\" — they stick much better."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "记忆翻牌（Memory / 翻牌配对）网页版：每回合翻开两张卡片，图案相同就配对成功，找出所有配对即可获胜。提供简单 4×3、普通 4×4、困难 5×4、大师 6×5 四档难度，动物、水果、太空、海洋四套卡面，单人计时挑战或双人轮流对战，3D 翻牌动画，开局有偷看时间。锻炼记忆力和专注力，适合小朋友和全家一起玩，完全免费。",
+      "en": "Memory Match in your browser: flip two cards each turn; matching pictures make a pair, and finding every pair wins. Four difficulties — Easy 4×3, Normal 4×4, Hard 5×4 and Master 6×5 — four card themes (animals, fruits, space, ocean), timed solo play or 2-player turns, smooth 3D flips and a peek at the start. Great memory training for kids and families, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 141,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 支持鼠标、键盘和触屏",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 141,
+      "zh": "声音开 / 关 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 142,
+      "zh": " 对卡片",
+      "en": " pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 143,
+      "zh": "🏆 最佳：",
+      "en": "🏆 Best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 143,
+      "zh": " 步 · ",
+      "en": " moves · "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 143,
+      "zh": "🏆 还没有纪录，来挑战吧！",
+      "en": "🏆 No record yet — give it a try!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 144,
+      "zh": "👀 偷看 2 秒，记住它们！",
+      "en": "👀 2-second peek — memorize!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 144,
+      "zh": "开始！",
+      "en": "GO!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 144,
+      "zh": "连击 ×",
+      "en": "COMBO ×"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 144,
+      "zh": "！",
+      "en": "!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 144,
+      "zh": "轮到玩家 ",
+      "en": "Turn: Player "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 145,
+      "zh": "全部配对成功！",
+      "en": "All pairs found!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 145,
+      "zh": "玩家 ",
+      "en": "Player "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 145,
+      "zh": " 获胜！",
+      "en": " wins!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 145,
+      "zh": "平局！旗鼓相当",
+      "en": "It's a tie!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 146,
+      "zh": "用时",
+      "en": "Time"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 146,
+      "zh": "最高连击",
+      "en": "Best combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 146,
+      "zh": "最佳步数",
+      "en": "Best moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "神経衰弱 · ペア探し",
+      "en": "Memory Match · Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "神経衰弱",
+      "en": "Memory Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "ペア探し",
+      "en": "Find the Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "カードを2枚めくって、同じ絵のペアを見つけよう！",
+      "en": "Flip two cards and find the matching pair!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "タイム",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "手数",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "ペア",
+      "en": "PAIRS"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "スコア",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "プレイヤー1",
+      "en": "PLAYER 1"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "プレイヤー2",
+      "en": "PLAYER 2"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "🔄 やり直し",
+      "en": "🔄 Restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "⚙️ 設定",
+      "en": "⚙️ Settings"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "難易度",
+      "en": "DIFFICULTY"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "🐣 かんたん",
+      "en": "🐣 Easy"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "🙂 ふつう",
+      "en": "🙂 Normal"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "🤓 むずかしい",
+      "en": "🤓 Hard"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "🧠 マスター",
+      "en": "🧠 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "カードのテーマ",
+      "en": "CARD THEME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "モード",
+      "en": "MODE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "👤 ひとり",
+      "en": "👤 Solo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "👥 ふたりで",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "🚀 スタート",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "新記録！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "🔄 もう一回",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "メニュー",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "🖱️ クリックでカードをめくる、1ターン2枚",
+      "en": "🖱️ Click a card to flip it — two per turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "👆 タッチでカードをタップ",
+      "en": "👆 Touch: just tap the cards"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "キーボードで選んでめくる",
+      "en": "pick & flip with keyboard"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "やり直し",
+      "en": "restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "⚡ ハズレの後は次のカードをタップですぐ裏返る",
+      "en": "⚡ After a miss, tap the next card to flip them back instantly"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "⭐ 得点ルール",
+      "en": "⭐ Scoring"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "ペア成立 +100点",
+      "en": "Each pair +100"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "連続ペアでコンボボーナス：2組目 +50、3組目 +100…",
+      "en": "Combo bonus for back-to-back pairs: 2nd +50, 3rd +100…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "手数が少ないほど星が増える（最大3つ）",
+      "en": "Fewer moves = more stars, up to three"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "ふたりモード：当たれば続けて、ハズレたら交代",
+      "en": "2 Players: a match keeps your turn, a miss passes it"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "🧠 記憶のコツ",
+      "en": "🧠 Memory Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "最初ののぞき見の時間を大切に！1列ずつ順番にめくり、絵と場所をお話にして覚えよう——「左上の子犬が右下の子猫を追いかけている」みたいに。",
+      "en": "Use the peek second wisely! Flip cards row by row in order, and turn positions into little stories — \"the puppy in the top left is chasing the kitten in the bottom right\" — they stick much better."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "📖 このゲームについて",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "ブラウザで遊べる神経衰弱：毎ターン2枚めくり、同じ絵ならペア成立、全部そろえればクリア。かんたん4×3・ふつう4×4・むずかしい5×4・マスター6×5の4難易度、動物・フルーツ・宇宙・海の4テーマ、ひとりタイムアタックとふたり対戦、3Dめくりアニメと開始時ののぞき見付き。子どもや家族の記憶力トレーニングに、完全無料。",
+      "en": "Memory Match in your browser: flip two cards each turn; matching pictures make a pair, and finding every pair wins. Four difficulties — Easy 4×3, Normal 4×4, Hard 5×4 and Master 6×5 — four card themes (animals, fruits, space, ocean), timed solo play or 2-player turns, smooth 3D flips and a peek at the start. Great memory training for kids and families, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "🕹️ すぐ遊べる · 完全無料 · マウス・キーボード・タッチ対応",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "サウンド ON/OFF (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 176,
+      "zh": " ペア",
+      "en": " pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "🏆 ベスト：",
+      "en": "🏆 Best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": " 手 · ",
+      "en": " moves · "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "🏆 記録なし、挑戦しよう！",
+      "en": "🏆 No record yet — give it a try!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "👀 2秒のぞき見、覚えて！",
+      "en": "👀 2-second peek — memorize!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "スタート！",
+      "en": "GO!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "コンボ ×",
+      "en": "COMBO ×"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "プレイヤー",
+      "en": "Player "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "の番",
+      "en": "'s turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "全部そろった！",
+      "en": "All pairs found!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "の勝ち！",
+      "en": " wins!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "引き分け！",
+      "en": "It's a tie!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "最大コンボ",
+      "en": "Best combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "ベスト手数",
+      "en": "Best moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "기억력 카드 · 짝 맞추기",
+      "en": "Memory Match · Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "기억력 카드",
+      "en": "Memory Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "짝 맞추기",
+      "en": "Find the Pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "카드 두 장을 뒤집어 똑같은 짝을 찾아보세요!",
+      "en": "Flip two cards and find the matching pair!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "시간",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "이동",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "짝",
+      "en": "PAIRS"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "점수",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "플레이어 1",
+      "en": "PLAYER 1"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "플레이어 2",
+      "en": "PLAYER 2"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "🔄 다시 시작",
+      "en": "🔄 Restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "⚙️ 설정",
+      "en": "⚙️ Settings"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "난이도",
+      "en": "DIFFICULTY"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "🐣 쉬움",
+      "en": "🐣 Easy"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "🙂 보통",
+      "en": "🙂 Normal"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "🤓 어려움",
+      "en": "🤓 Hard"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "🧠 마스터",
+      "en": "🧠 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "카드 테마",
+      "en": "CARD THEME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "모드",
+      "en": "MODE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "👤 혼자",
+      "en": "👤 Solo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "👥 2인 대전",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "🚀 시작",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "신기록!",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "🔄 다시 하기",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "메뉴",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "🎮 조작",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "🖱️ 카드를 클릭해 뒤집기, 한 턴에 두 장",
+      "en": "🖱️ Click a card to flip it — two per turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "👆 터치로 카드를 탭",
+      "en": "👆 Touch: just tap the cards"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "키보드로 선택해 뒤집기",
+      "en": "pick & flip with keyboard"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "다시 시작",
+      "en": "restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "⚡ 틀린 뒤 다음 카드를 누르면 바로 덮여요",
+      "en": "⚡ After a miss, tap the next card to flip them back instantly"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "⭐ 점수 규칙",
+      "en": "⭐ Scoring"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "짝 맞추기 +100점",
+      "en": "Each pair +100"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "연속으로 맞히면 콤보 보너스: 두 번째 +50, 세 번째 +100…",
+      "en": "Combo bonus for back-to-back pairs: 2nd +50, 3rd +100…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "이동 수가 적을수록 별이 많아요 (최대 3개)",
+      "en": "Fewer moves = more stars, up to three"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "2인 모드: 맞히면 계속, 틀리면 차례 넘김",
+      "en": "2 Players: a match keeps your turn, a miss passes it"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 189,
+      "zh": "🧠 기억 비결",
+      "en": "🧠 Memory Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 189,
+      "zh": "처음 엿보기 시간을 놓치지 마세요! 한 줄씩 순서대로 뒤집고, 그림과 위치를 이야기로 엮으면 — \"왼쪽 위 강아지가 오른쪽 아래 고양이를 쫓아가요\" — 훨씬 오래 기억돼요.",
+      "en": "Use the peek second wisely! Flip cards row by row in order, and turn positions into little stories — \"the puppy in the top left is chasing the kitten in the bottom right\" — they stick much better."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 190,
+      "zh": "📖 게임 소개",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 191,
+      "zh": "브라우저에서 즐기는 기억력 카드: 매 턴 카드 두 장을 뒤집어 같은 그림이면 짝 성공, 모든 짝을 찾으면 승리. 쉬움 4×3, 보통 4×4, 어려움 5×4, 마스터 6×5 네 가지 난이도와 동물·과일·우주·바다 네 가지 테마, 혼자 타임어택 또는 2인 대전, 3D 뒤집기 애니메이션과 시작 엿보기. 아이와 가족의 기억력 훈련에 딱, 완전 무료.",
+      "en": "Memory Match in your browser: flip two cards each turn; matching pictures make a pair, and finding every pair wins. Four difficulties — Easy 4×3, Normal 4×4, Hard 5×4 and Master 6×5 — four card themes (animals, fruits, space, ocean), timed solo play or 2-player turns, smooth 3D flips and a peek at the start. Great memory training for kids and families, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 192,
+      "zh": "🕹️ 바로 플레이 · 완전 무료 · 마우스·키보드·터치 지원",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 192,
+      "zh": "사운드 켜기/끄기 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 193,
+      "zh": "쌍",
+      "en": " pairs"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 194,
+      "zh": "🏆 최고: ",
+      "en": "🏆 Best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 194,
+      "zh": "수 · ",
+      "en": " moves · "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 194,
+      "zh": "🏆 아직 기록 없음, 도전!",
+      "en": "🏆 No record yet — give it a try!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 195,
+      "zh": "👀 2초 엿보기, 외워요!",
+      "en": "👀 2-second peek — memorize!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 195,
+      "zh": "시작!",
+      "en": "GO!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 195,
+      "zh": "콤보 ×",
+      "en": "COMBO ×"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 195,
+      "zh": "플레이어 ",
+      "en": "Player "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 195,
+      "zh": " 차례",
+      "en": "'s turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 196,
+      "zh": "모든 짝을 찾았어요!",
+      "en": "All pairs found!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 196,
+      "zh": " 승리!",
+      "en": " wins!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 196,
+      "zh": "무승부!",
+      "en": "It's a tie!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 197,
+      "zh": "최대 콤보",
+      "en": "Best combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 197,
+      "zh": "최고 이동 수",
+      "en": "Best moves"
+    }
+  ]
+}

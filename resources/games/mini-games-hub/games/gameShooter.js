@@ -16,7 +16,7 @@ const EY0 = 96 // 编队起始纵坐标
 
 export default {
   id: 'shooter',
-  name: '星空战机',
+  name: 'Star Fighter',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -53,7 +53,7 @@ export default {
       baseY = EY0 + Math.min(wave - 1, 4) * 12
       fireTimer = rand(0.8, 1.4)
       banner = { text: `WAVE ${wave}`, t: 1.4 }
-      api.status(`第 ${wave} 波 · 剩余 ${enemies.length} 架敌机`)
+      api.status(`Wave ${wave} · ${enemies.length} enemy ships left`)
     }
 
     function reset() {
@@ -200,7 +200,7 @@ export default {
       if (!aliveCount()) {
         score += 100 + wave * 25
         api.score(score)
-        api.status(`第 ${wave} 波清空！奖励 +${100 + wave * 25}`)
+        api.status(`Wave ${wave} cleared! Bonus +${100 + wave * 25}`)
         wave++
         spawnWave()
       }
@@ -301,14 +301,14 @@ export default {
         ctx.globalAlpha = 1
       }
 
-      if (paused && !over) centerText(ctx, '已暂停 · P 继续', W / 2, H / 2, 24, '#FFFFFF')
+      if (paused && !over) centerText(ctx, 'Paused · P to resume', W / 2, H / 2, 24, '#FFFFFF')
       if (over) {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, W, H, 16)
         ctx.fill()
-        centerText(ctx, '战机坠毁', W / 2, H / 2 - 30, 34, '#E05B5B')
-        centerText(ctx, `本局 ${score} 分 · 抵达第 ${wave} 波`, W / 2, H / 2 + 12, 18, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 重开', W / 2, H / 2 + 48, 15, 'rgba(232,238,249,0.55)', '500')
+        centerText(ctx, 'Fighter destroyed', W / 2, H / 2 - 30, 34, '#E05B5B')
+        centerText(ctx, `Score: ${score} pts · reached wave ${wave}.`, W / 2, H / 2 + 12, 18, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R to restart', W / 2, H / 2 + 48, 15, 'rgba(232,238,249,0.55)', '500')
       }
     }
 

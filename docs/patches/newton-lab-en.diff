@@ -1,0 +1,297 @@
+--- a/resources/games/newton-lab/game.js
++++ b/resources/games/newton-lab/game.js
+@@ -237,22 +237,22 @@
+       const rm = params.mass / prev.m;
+       const rF = mag / prev.F;
+       if (rF > 0.7 && rF < 1.4 && rm >= 1.55) {
+-        txt = '力几乎相同（' + fmt(mag, 1) + ' N），质量约加倍：a 由 ' + fmt(prev.a, 2) +
++        txt = 'Nearly the same force (' + fmt(mag, 1) + ' N), about double the mass: a falls from ' + fmt(prev.a, 2) +
+-              ' 减为 ' + fmt(a, 2) + ' m/s²，约为原来的一半。';
++              ' down to ' + fmt(a, 2) + ' m/s², about half as before.';
+       } else if (rF > 0.7 && rF < 1.4 && rm <= 0.66) {
+-        txt = '力几乎相同（' + fmt(mag, 1) + ' N），质量约减半：a 由 ' + fmt(prev.a, 2) +
++        txt = 'Nearly the same force (' + fmt(mag, 1) + ' N), about half the mass: a rises from ' + fmt(prev.a, 2) +
+-              ' 增至 ' + fmt(a, 2) + ' m/s²，约为原来的两倍。';
++              ' up to ' + fmt(a, 2) + ' m/s², about twice as before.';
+       } else if (rm > 0.8 && rm < 1.25 && rF >= 1.55) {
+-        txt = '质量不变而作用力约加倍，a 也成比例加倍：' + fmt(prev.a, 2) +
++        txt = 'Same mass but about double the force, so a also doubles in proportion: ' + fmt(prev.a, 2) +
+-              ' → ' + fmt(a, 2) + ' m/s²。';
++              ' → ' + fmt(a, 2) + ' m/s².';
+       } else if (rm > 0.8 && rm < 1.25 && rF <= 0.66) {
+-        txt = '质量不变而作用力约减半，a 也随之减半：' + fmt(prev.a, 2) +
++        txt = 'Same mass but about half the force, so a halves too: ' + fmt(prev.a, 2) +
+-              ' → ' + fmt(a, 2) + ' m/s²。';
++              ' → ' + fmt(a, 2) + ' m/s².';
+       }
+     }
+     if (!txt) {
+-      txt = '本次施力 F = ' + fmt(mag, 1) + ' N，质量 m = ' + fmt(params.mass, 1) +
++      txt = 'This push: F = ' + fmt(mag, 1) + ' N, mass m = ' + fmt(params.mass, 1) +
+-            ' kg，由 F = m·a 得 a = ' + fmt(a, 2) + ' m/s²。';
++            ' kg; from F = m·a, a = ' + fmt(a, 2) + ' m/s².';
+     }
+ 
+     ball.pulse = { fx: fx, fy: fy, t: PULSE_T };
+@@ -438,12 +438,12 @@
+   // 面板折叠（移动端）
+   panelToggle.addEventListener('click', () => {
+     const collapsed = panel.classList.toggle('collapsed');
+-    panelToggle.textContent = collapsed ? '展开' : '收起';
++    panelToggle.textContent = collapsed ? 'Expand' : 'Collapse';
+     if (!collapsed) resizeChart();
+   });
+   if (window.matchMedia && window.matchMedia('(max-width: 860px)').matches) {
+     panel.classList.add('collapsed');
+-    panelToggle.textContent = '展开';
++    panelToggle.textContent = 'Expand';
+   }
+ 
+   /* ---------------- 暂停 / 引导 ---------------- */
+@@ -451,7 +451,7 @@
+     if (introOpen && v) return;
+     paused = v;
+     pauseOverlay.classList.toggle('hidden', !v);
+-    pauseBtn.textContent = v ? '继续' : '暂停';
++    pauseBtn.textContent = v ? 'Resume' : 'Pause';
+   }
+   pauseBtn.addEventListener('click', () => setPaused(!paused));
+   btnResume.addEventListener('click', () => setPaused(false));
+@@ -592,7 +592,7 @@
+     for (let x = bd.l + 44; x < bd.r - 20; x += 72) drawNormalArrow(x, bd.b - 2, 15);
+     ctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
+     ctx.fillStyle = 'rgba(34,211,238,.85)';
+-    ctx.fillText('支持力 N（地面法线）', bd.l + 8, bd.b - 24);
++    ctx.fillText('Normal force N (ground normal)', bd.l + 8, bd.b - 24);
+     ctx.restore();
+   }
+ 
+@@ -712,7 +712,7 @@
+     if (params.air) { px += ball.lastDrag.x; py += ball.lastDrag.y; }
+     const fMag = Math.hypot(px, py);
+     if (fMag > 0.3) {
+-      const lab = (params.air ? 'F合=' : 'F=') + fmt(fMag, 1) + ' N  a=' +
++      const lab = (params.air ? 'F_net=' : 'F=') + fmt(fMag, 1) + ' N  a=' +
+                   fmt(fMag / params.mass, 2);
+       drawVector(ball.x, ball.y, px / params.mass, py / params.mass, COL.pink, lab);
+     }
+@@ -772,7 +772,7 @@
+     ctx.restore();
+ 
+     // 力度文字
+-    const text = '蓄力 ' + fmt(mag, 0) + ' N · 松开发射';
++    const text = 'Charge ' + fmt(mag, 0) + ' N · release to launch';
+     ctx.save();
+     ctx.font = '600 12px system-ui, "Microsoft YaHei", sans-serif';
+     const tw = ctx.measureText(text).width;
+@@ -809,9 +809,9 @@
+     ctx.save();
+     ctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
+     const items = [
+-      [COL.yellow, 'G 重力'],
++      [COL.yellow, 'G Gravity'],
+-      [COL.cyan, 'v 速度'],
++      [COL.cyan, 'v Velocity'],
+-      [COL.pink, params.air ? 'F合 合力' : 'F 施加力']
++      [COL.pink, params.air ? 'F_net Net force' : 'F Applied force']
+     ];
+     let x = W - 10;
+     for (let i = items.length - 1; i >= 0; i--) {
+@@ -882,7 +882,7 @@
+       cctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
+       cctx.textAlign = 'center';
+       cctx.textBaseline = 'middle';
+-      cctx.fillText('发射小球后开始记录速度', cW / 2, cH / 2);
++      cctx.fillText('Launch the ball to start recording speed', cW / 2, cH / 2);
+       cctx.restore();
+       return;
+     }
+--- a/resources/games/newton-lab/index.html
++++ b/resources/games/newton-lab/index.html
+@@ -1,20 +1,20 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ <meta name="theme-color" content="#0b0e20">
+-<title>牛顿第二定律实验室</title>
++<title>Newton's Second Law Lab</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+ 
+   <!-- 顶部栏 -->
+   <header class="topbar">
+-    <h1 class="logo">牛顿第二定律实验室</h1>
++    <h1 class="logo">Newton's Second Law Lab</h1>
+     <div class="top-actions">
+-      <button id="pauseBtn" class="btn-ghost" type="button">暂停</button>
++      <button id="pauseBtn" class="btn-ghost" type="button">Pause</button>
+-      <a class="btn-ghost" href="../../index.html">← 返回门户</a>
++      <a class="btn-ghost" href="../../index.html">← Back to portal</a>
+     </div>
+   </header>
+ 
+@@ -24,8 +24,8 @@
+     <!-- 左侧玻璃控制面板 -->
+     <aside class="panel glass" id="panel">
+       <div class="panel-head">
+-        <h2 class="panel-title">实验参数</h2>
++        <h2 class="panel-title">Parameters</h2>
+-        <button id="panelToggle" class="panel-toggle" type="button" aria-label="折叠参数面板">收起</button>
++        <button id="panelToggle" class="panel-toggle" type="button" aria-label="Collapse parameter panel">Collapse</button>
+       </div>
+ 
+       <div class="panel-body">
+@@ -33,46 +33,46 @@
+         <!-- 物理参数 -->
+         <section class="ctl-group">
+           <div class="ctl-row">
+-            <label class="ctl-label" for="massSlider">质量 m</label>
++            <label class="ctl-label" for="massSlider">Mass m</label>
+             <span class="ctl-value"><b id="massVal">1.0</b><i>kg</i></span>
+           </div>
+           <input id="massSlider" class="slider" type="range" min="0.5" max="10" step="0.1" value="1">
+-          <div class="scale-hint"><span>0.5</span><span>半径随质量增大</span><span>10</span></div>
++          <div class="scale-hint"><span>0.5</span><span>Radius grows with mass</span><span>10</span></div>
+ 
+           <div class="ctl-row">
+-            <label class="ctl-label" for="gSlider">重力加速度 g</label>
++            <label class="ctl-label" for="gSlider">Gravity g</label>
+             <span class="ctl-value"><b id="gVal">9.80</b><i>m/s²</i></span>
+           </div>
+           <input id="gSlider" class="slider" type="range" min="0" max="25" step="0.01" value="9.8">
+           <div class="quick-row">
+-            <button class="chip-btn" type="button" data-g="9.8">地球 9.8</button>
++            <button class="chip-btn" type="button" data-g="9.8">Earth 9.8</button>
+-            <button class="chip-btn" type="button" data-g="1.62">月球 1.62</button>
++            <button class="chip-btn" type="button" data-g="1.62">Moon 1.62</button>
+-            <button class="chip-btn" type="button" data-g="3.71">火星 3.71</button>
++            <button class="chip-btn" type="button" data-g="3.71">Mars 3.71</button>
+-            <button class="chip-btn" type="button" data-g="0">失重 0</button>
++            <button class="chip-btn" type="button" data-g="0">Zero-G 0</button>
+           </div>
+ 
+           <div class="ctl-row">
+-            <label class="ctl-label" for="eSlider">弹性系数（恢复系数）</label>
++            <label class="ctl-label" for="eSlider">Elasticity (restitution)</label>
+             <span class="ctl-value"><b id="eVal">0.78</b><i>0~1</i></span>
+           </div>
+           <input id="eSlider" class="slider" type="range" min="0" max="1" step="0.01" value="0.78">
+ 
+           <div class="switch-row">
+-            <label class="switch-label" for="dragToggle">空气阻力（与速度平方成正比）</label>
++            <label class="switch-label" for="dragToggle">Air drag (proportional to speed squared)</label>
+             <label class="switch">
+               <input id="dragToggle" type="checkbox">
+               <span class="track"><span class="knob"></span></span>
+             </label>
+           </div>
+           <div class="switch-row">
+-            <label class="switch-label" for="trailToggle">轨迹残影</label>
++            <label class="switch-label" for="trailToggle">Trail ghosting</label>
+             <label class="switch">
+               <input id="trailToggle" type="checkbox" checked>
+               <span class="track"><span class="knob"></span></span>
+             </label>
+           </div>
+           <div class="switch-row">
+-            <label class="switch-label" for="chartToggle">速度曲线 v-t</label>
++            <label class="switch-label" for="chartToggle">Velocity graph v-t</label>
+             <label class="switch">
+               <input id="chartToggle" type="checkbox" checked>
+               <span class="track"><span class="knob"></span></span>
+@@ -80,34 +80,34 @@
+           </div>
+ 
+           <div class="btn-row">
+-            <button id="resetBtn" class="btn-primary" type="button">重置小球</button>
++            <button id="resetBtn" class="btn-primary" type="button">Reset ball</button>
+-            <button id="clearBtn" class="btn-ghost btn-asbtn" type="button">清空数据</button>
++            <button id="clearBtn" class="btn-ghost btn-asbtn" type="button">Clear data</button>
+           </div>
+         </section>
+ 
+         <!-- 实时读数 -->
+         <section class="ctl-group">
+-          <h3 class="group-title">实时读数</h3>
++          <h3 class="group-title">Live readings</h3>
+-          <div class="read-row"><span class="rd-k">水平位置 x</span><span class="rd-v" id="rX">0.00 <i>m</i></span></div>
++          <div class="read-row"><span class="rd-k">Horizontal position x</span><span class="rd-v" id="rX">0.00 <i>m</i></span></div>
+-          <div class="read-row"><span class="rd-k">离地高度 h</span><span class="rd-v" id="rY">0.00 <i>m</i></span></div>
++          <div class="read-row"><span class="rd-k">Height above ground h</span><span class="rd-v" id="rY">0.00 <i>m</i></span></div>
+-          <div class="read-row"><span class="rd-k">速度大小 |v|</span><span class="rd-v" id="rV">0.00 <i>m/s</i></span></div>
++          <div class="read-row"><span class="rd-k">Speed |v|</span><span class="rd-v" id="rV">0.00 <i>m/s</i></span></div>
+-          <div class="read-row"><span class="rd-k">加速度大小 |a|</span><span class="rd-v" id="rA">0.00 <i>m/s²</i></span></div>
++          <div class="read-row"><span class="rd-k">Acceleration |a|</span><span class="rd-v" id="rA">0.00 <i>m/s²</i></span></div>
+-          <div class="read-row"><span class="rd-k">动能 ½mv²</span><span class="rd-v" id="rKE">0.0 <i>J</i></span></div>
++          <div class="read-row"><span class="rd-k">Kinetic energy ½mv²</span><span class="rd-v" id="rKE">0.0 <i>J</i></span></div>
+-          <div class="read-row"><span class="rd-k">重力势能 mgh</span><span class="rd-v" id="rPE">0.0 <i>J</i></span></div>
++          <div class="read-row"><span class="rd-k">Gravitational PE mgh</span><span class="rd-v" id="rPE">0.0 <i>J</i></span></div>
+-          <div class="read-row"><span class="rd-k">机械能 E</span><span class="rd-v" id="rE">0.0 <i>J</i></span></div>
++          <div class="read-row"><span class="rd-k">Mechanical energy E</span><span class="rd-v" id="rE">0.0 <i>J</i></span></div>
+-          <div class="read-row"><span class="rd-k">重力 G = mg</span><span class="rd-v" id="rG">0.0 <i>N</i></span></div>
++          <div class="read-row"><span class="rd-k">Weight G = mg</span><span class="rd-v" id="rG">0.0 <i>N</i></span></div>
+         </section>
+ 
+         <!-- v-t 迷你图表 -->
+         <section class="ctl-group" id="chartGroup">
+           <div class="chart-head">
+-            <h3 class="group-title">速度-时间曲线</h3>
++            <h3 class="group-title">Velocity-time graph</h3>
+-            <button id="chartClearBtn" class="link-btn" type="button">清空曲线</button>
++            <button id="chartClearBtn" class="link-btn" type="button">Clear graph</button>
+           </div>
+           <div class="chart-wrap">
+             <canvas id="chart"></canvas>
+           </div>
+-          <p class="chart-note">纵轴：速度 m/s · 横轴：最近 20 秒</p>
++          <p class="chart-note">Y axis: speed m/s · X axis: last 20 seconds</p>
+         </section>
+ 
+       </div>
+@@ -132,31 +132,31 @@
+       <!-- 暂停遮罩 -->
+       <div class="overlay hidden" id="pauseOverlay">
+         <div class="mini-panel glass">
+-          <h2 class="ov-title">实验已暂停</h2>
++          <h2 class="ov-title">Experiment paused</h2>
+-          <p class="ov-desc">计时与物理模拟都已停止</p>
++          <p class="ov-desc">Timing and physics simulation are both stopped</p>
+-          <button id="btnResume" class="btn-primary" type="button">继续实验</button>
++          <button id="btnResume" class="btn-primary" type="button">Resume experiment</button>
+         </div>
+       </div>
+ 
+       <!-- 开场引导浮层 -->
+       <div class="overlay" id="introOverlay">
+         <div class="mini-panel glass intro-panel">
+-          <h2 class="ov-title">动手感受 <span class="hl">F = m · a</span></h2>
++          <h2 class="ov-title">Hands-on <span class="hl">F = m · a</span></h2>
+           <ul class="guide-list">
+-            <li>在场地中<b>按住鼠标拖拽</b>（或触屏拖动），松开发射小球</li>
++            <li>In the arena, <b>hold and drag the mouse</b> (or drag on touch), then release to launch the ball</li>
+-            <li>按住<b>空格</b>蓄力，左右方向键可瞄准，松开发射</li>
++            <li>Hold <b>Space</b> to charge; left/right arrow keys aim; release to launch</li>
+-            <li>运动中按 <b>↑ ↓ ← →</b> 可持续施加小力</li>
++            <li>While moving, press  <b>↑ ↓ ← →</b>  to keep applying a small force</li>
+-            <li>调整质量、重力、弹性，观察三个矢量与能量读数</li>
++            <li>Adjust mass, gravity and elasticity, and watch the three vectors and energy readouts</li>
+-            <li>换不同质量重复发射，验证：力相同时，加速度与质量成反比</li>
++            <li>Launch again with different masses to verify: with equal force, acceleration is inversely proportional to mass</li>
+           </ul>
+-          <button id="btnStart" class="btn-primary" type="button">开始实验</button>
++          <button id="btnStart" class="btn-primary" type="button">Start experiment</button>
+         </div>
+       </div>
+     </section>
+   </main>
+ 
+   <!-- 底部操作说明 -->
+-  <footer class="tips">拖拽蓄力发射 · 空格蓄力（方向键瞄准/施力） · 滑块调整物理参数</footer>
++  <footer class="tips">Drag to charge and launch · Space to charge (arrows aim / apply force) · Sliders adjust physics parameters</footer>
+ 
+ <script src="game.js"></script>
+ </body>

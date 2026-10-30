@@ -1,0 +1,727 @@
+{
+  "version": 1,
+  "game": "elemental-sandbox",
+  "entries": [
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "元素落沙实验室：反应档案",
+      "en": "Elemental Falling-Sand Lab: Reaction Archive"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "元素落沙实验室",
+      "en": "Elemental Falling-Sand Lab"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "绘制材料、观察真实传播链，并用反应记录完成九项研究。所有内容离线运行。",
+      "en": "Draw materials, watch real propagation chains, and complete nine studies with reaction records. Everything runs offline."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "实验档案",
+      "en": "Lab profile"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "重置进度",
+      "en": "Reset progress"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "attr",
+      "line": 23,
+      "zh": "元素落沙实验区",
+      "en": "Elemental falling-sand lab area"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "模拟运行中",
+      "en": "Simulation running"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "笔刷",
+      "en": "Brush"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "清空实验区",
+      "en": "Clear lab area"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "提交研究",
+      "en": "Submit study"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "第一章",
+      "en": "Chapter 1"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "研究进度",
+      "en": "Study progress"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "实验记录",
+      "en": "Lab record"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "用时",
+      "en": "Time"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "绘制",
+      "en": "Strokes"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "预估",
+      "en": "Estimate"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 33,
+      "zh": "反应发现",
+      "en": "Reactions found"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "研究提示",
+      "en": "Research tip"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "跨设备实验档案",
+      "en": "Cross-device lab profile"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "复制档案码可在另一台设备恢复章节星级、反应图鉴与累计研究数据。",
+      "en": "Copy the profile code to restore chapter stars, the reaction codex and cumulative study data on another device."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "attr",
+      "line": 38,
+      "zh": "实验档案码",
+      "en": "Lab profile code"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "橡皮",
+      "en": "Eraser"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "沙",
+      "en": "Sand"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "水",
+      "en": "Water"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "墙",
+      "en": "Wall"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "火",
+      "en": "Fire"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "植物",
+      "en": "Plant"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "油",
+      "en": "Oil"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "冰",
+      "en": "Ice"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "酸",
+      "en": "Acid"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "金属",
+      "en": "Metal"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "电弧",
+      "en": "Arc"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "盐",
+      "en": "Salt"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "蒸汽生成",
+      "en": "Steam Generation"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "熔砂成玻璃",
+      "en": "Molten Sand to Glass"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "水培生长",
+      "en": "Hydroponic Growth"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "油火连燃",
+      "en": "Oil-Fire Chain"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "水冷灭火",
+      "en": "Water Cooling Extinguish"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "冰相融化",
+      "en": "Ice Phase Melt"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "酸蚀金属",
+      "en": "Acid Etches Metal"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "盐析中和",
+      "en": "Salting-Out Neutralization"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "水体导电",
+      "en": "Water Conducts"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "第一章 · 重力",
+      "en": "Chapter 1 · Gravity"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "沉降标本",
+      "en": "Sedimentation Specimen"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "让沙粒穿过空气并在实验区最底部形成连续沉积。",
+      "en": "Let sand grains fall through the air and form a continuous deposit at the very bottom of the lab area."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "底层沉积 90 格",
+      "en": "Bottom deposit: 90 cells"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "在上方横向铺沙，让它自行下落；墙体可以塑造漏斗。",
+      "en": "Spread sand sideways at the top and let it fall by itself; walls can shape a funnel."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "静水围堰",
+      "en": "Still-Water Cofferdam"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "用墙体围出容器，让足够多的水稳定留在实验区下半部。",
+      "en": "Build a container with walls and keep enough water stable in the lower half of the lab area."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "下半区蓄水 260 格",
+      "en": "Water in lower half: 260 cells"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "先画 U 形墙，再从上方注水。封闭容器比堆满屏幕更省笔画。",
+      "en": "Draw a U-shaped wall first, then pour water in from above. A closed container takes fewer strokes than filling the whole screen."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "热压回路",
+      "en": "Thermal Pressure Loop"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "让水与火接触，累计生成蒸汽并观察它上浮。",
+      "en": "Bring water and fire into contact, accumulate steam and watch it rise."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "生成 70 份蒸汽",
+      "en": "Make 70 steam"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "用墙围住水池，在水面持续补火；蒸汽会上升并缓慢凝结。",
+      "en": "Surround a pool with walls and keep adding fire at the water surface; steam rises and slowly condenses."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "第二章 · 相变",
+      "en": "Chapter 2 · Phase Change"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "晶化窑炉",
+      "en": "Crystallization Kiln"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "高温会把沙熔成玻璃，完成一批稳定晶化样本。",
+      "en": "High heat melts sand into glass; complete a batch of stable crystallized samples."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "熔制 55 格玻璃",
+      "en": "Fuse 55 cells of glass"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "先铺沙，再让火沿沙层传播；玻璃会保持为固体。",
+      "en": "Lay sand first, then let fire travel along the sand layer; glass stays solid."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "温室复苏",
+      "en": "Greenhouse Revival"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "让水滋养植物，新生组织会在湿润边界扩张。",
+      "en": "Let water nourish plants; new tissue expands along damp borders."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "培育 65 格新植物",
+      "en": "Grow 65 cells of new plants"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "植物与水相邻时会向附近空气生长，狭长水渠很有效。",
+      "en": "Plants grow into nearby air when next to water; a long narrow channel works well."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "可控燃烧",
+      "en": "Controlled Burn"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "先让油形成燃烧链，再用水或冰抑制火势。",
+      "en": "Let oil form a burning chain first, then suppress the fire with water or ice."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "连燃 55，灭火 18",
+      "en": "Chain 55, extinguish 18"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "油在低处聚集；完成连燃后，从上方浇水或铺冰。",
+      "en": "Oil gathers in low spots; after the chain burn, pour water or lay ice from above."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "第三章 · 催化",
+      "en": "Chapter 3 · Catalysis"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "腐蚀窗口",
+      "en": "Corrosion Window"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "用酸处理金属，并保留足够的金属作为反应边界。",
+      "en": "Treat metal with acid and keep enough metal as a reaction boundary."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "完成 45 次酸蚀",
+      "en": "Complete 45 acid etches"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "把金属画成薄片，再让酸从上方流过，接触面积决定速度。",
+      "en": "Draw metal as thin sheets and let acid flow over from above; contact area decides the speed."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "盐析缓冲",
+      "en": "Salting-Out Buffer"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "用盐中和酸液，避免残余酸继续扩散。",
+      "en": "Neutralize the acid with salt so residual acid does not keep spreading."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "完成 60 次中和",
+      "en": "Complete 60 neutralizations"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "先用墙围住酸，再从液面撒盐；盐会下沉并逐步消耗酸。",
+      "en": "Wall in the acid first, then sprinkle salt from the surface; salt sinks and gradually consumes the acid."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "综合穹顶",
+      "en": "Grand Dome"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "在同一实验中记录至少七类不同反应，建立综合反应档案。",
+      "en": "In a single experiment, record at least seven different kinds of reactions to build a complete reaction archive."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "本次发现 7 类反应",
+      "en": "Discover 7 reaction types this run"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "合理分区：水火、沙火、油火、冰火、植物水、酸金属、盐酸、电弧水都可计入。",
+      "en": "Zone sensibly: water-fire, sand-fire, oil-fire, ice-fire, plant-water, acid-metal, salt-acid and arc-water all count."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 75,
+      "zh": "新反应：",
+      "en": "New reaction: "
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "三星参考：",
+      "en": "Three-star target: within "
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 105,
+      "zh": " 秒内、",
+      "en": " s, within "
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 105,
+      "zh": " 次绘制内。重玩可刷新最高星级。",
+      "en": " strokes. Replay to improve your best star rating."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 106,
+      "zh": "模拟已暂停",
+      "en": "Simulation paused"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 106,
+      "zh": "模拟运行中",
+      "en": "Simulation running"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 107,
+      "zh": "研究提交成功：",
+      "en": "Study submitted: "
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 107,
+      "zh": "，下一实验已解锁",
+      "en": ", next experiment unlocked"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 107,
+      "zh": "，全部档案完成",
+      "en": ", all archives complete"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 108,
+      "zh": "实验区与本次计数已清空",
+      "en": "Lab area and run counters cleared"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 112,
+      "zh": "档案码格式或校验不正确",
+      "en": "Profile code format or checksum is incorrect"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 112,
+      "zh": "档案版本不兼容",
+      "en": "Profile version incompatible"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "档案码已生成并复制。",
+      "en": "Profile code generated and copied."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "档案码已生成，请手动复制。",
+      "en": "Profile code generated; copy it manually."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "导入成功，研究进度已恢复。",
+      "en": "Import successful; research progress restored."
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "确定清除全部实验星级与反应图鉴吗？",
+      "en": "Clear all lab stars and the reaction codex?"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "elemental-sandbox.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "暂停",
+      "en": "Pause"
+    }
+  ]
+}

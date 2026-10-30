@@ -6,6 +6,10 @@ export type GameLicence = (typeof ALLOWED_LICENCES)[number]
 export const GAME_TAGS = ['puzzle', 'arcade', 'card', 'board', 'shooter', 'word', 'retro', 'two-player', 'chess', 'relaxing'] as const
 export type GameTag = (typeof GAME_TAGS)[number]
 
+/** Interface language of a game (Milestone 20, Phase 205). `zh` games are hidden unless the setting `games.showChinese` is on. */
+export const GAME_LANGS = ['en', 'zh'] as const
+export type GameLang = (typeof GAME_LANGS)[number]
+
 export interface GameEntry {
   id: string
   title: string
@@ -16,6 +20,8 @@ export interface GameEntry {
   /** Upstream commit SHA the files were copied from. */
   commit: string
   licence: GameLicence
+  /** Interface language: 'en' or 'zh' (required from Phase 205). */
+  lang: GameLang
   author: string
   /** Relative html path inside resources/games/<id>/ (no '..', no leading '/'). */
   entry: string
@@ -76,6 +82,7 @@ export function validateGameEntry(raw: unknown): EntryCheck {
   if (!source || !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+/.test(source)) return { ok: false, error: `${id}: source must be a GitHub repo URL` }
   if (typeof r.commit !== 'string' || !SHA_RE.test(r.commit)) return { ok: false, error: `${id}: commit must be a git SHA` }
   if (typeof r.licence !== 'string' || !(ALLOWED_LICENCES as readonly string[]).includes(r.licence)) return { ok: false, error: `${id}: licence not allowed: ${String(r.licence)}` }
+  if (r.lang !== 'en' && r.lang !== 'zh') return { ok: false, error: `${id}: lang must be "en" or "zh"` }
   if (!isSafeGamePath(r.entry) || !/\.html?$/i.test(r.entry)) return { ok: false, error: `${id}: entry must be a relative .html path inside the game folder` }
   if (r.players !== 1 && r.players !== 2) return { ok: false, error: `${id}: players must be 1 or 2` }
   if (typeof r.touch !== 'boolean') return { ok: false, error: `${id}: touch must be true or false` }
@@ -85,7 +92,7 @@ export function validateGameEntry(raw: unknown): EntryCheck {
   if (new Set(r.tags).size !== r.tags.length) return { ok: false, error: `${id}: duplicate tag` }
   return {
     ok: true,
-    entry: { id, title, tags: [...(r.tags as GameTag[])], description, source, commit: r.commit, licence: r.licence as GameLicence, author, entry: r.entry, players: r.players, touch: r.touch, added: r.added }
+    entry: { id, title, tags: [...(r.tags as GameTag[])], description, source, commit: r.commit, licence: r.licence as GameLicence, lang: r.lang, author, entry: r.entry, players: r.players, touch: r.touch, added: r.added }
   }
 }
 

@@ -977,58 +977,58 @@ function updateReadout() {
   var txt = '';
   if (S.tab === 'charge') {
     var t = S.charge;
-    txt += '<span class="rd-title">点电荷电场</span>';
-    txt += '电荷数：' + t.items.length + ' / 8\n';
+    txt += '<span class="rd-title">Point-Charge Field</span>';
+    txt += 'Charges: ' + t.items.length + ' / 8\n';
     if (S.pointer.inside) {
       var E = electricFieldAt(S.pointer.x, S.pointer.y, t.items, 90);
       var ph = potentialAt(S.pointer.x, S.pointer.y, t.items, 144);
-      txt += '指针处：Ex=' + fmt(E.x, 4) + '，Ey=' + fmt(E.y, 4) +
-             '，|E|=' + fmt(Math.hypot(E.x, E.y), 4) + '，φ=' + fmt(ph, 3) + '\n';
+      txt += 'At pointer: Ex=' + fmt(E.x, 4) + ', Ey=' + fmt(E.y, 4) +
+             ', |E|=' + fmt(Math.hypot(E.x, E.y), 4) + ', φ=' + fmt(ph, 3) + '\n';
     }
-    if (t.sel >= 0) txt += '选中：q = ' + (t.items[t.sel].q > 0 ? '+1' : '−1') + '\n';
+    if (t.sel >= 0) txt += 'Selected: q = ' + (t.items[t.sel].q > 0 ? '+1' : '−1') + '\n';
     if (t.probe) {
-      txt += '试探电荷 q=' + (t.probeSign > 0 ? '+1' : t.probeSign < 0 ? '−1' : '0（中性，不受力）') +
-             '，|v|=' + fmt(Math.hypot(t.probe.vx, t.probe.vy), 2);
+      txt += 'Test charge q=' + (t.probeSign > 0 ? '+1' : t.probeSign < 0 ? '−1' : '0 (neutral, no force)') +
+             ', |v|=' + fmt(Math.hypot(t.probe.vx, t.probe.vy), 2);
     }
   } else if (S.tab === 'current') {
     var c = S.current;
-    txt += '<span class="rd-title">电流与磁场</span>';
-    txt += '导线数：' + c.wires.length + ' / 8，磁针数：' + c.needles.length + '\n';
+    txt += '<span class="rd-title">Current and Magnetic Field</span>';
+    txt += 'Wires: ' + c.wires.length + ' / 8, compasses: ' + c.needles.length + '\n';
     if (S.pointer.inside) {
       var B = magneticFieldAt(S.pointer.x, S.pointer.y, c.wires, 64);
-      txt += '指针处：Bx=' + fmt(B.x, 4) + '，By=' + fmt(B.y, 4) +
-             '，|B|=' + fmt(Math.hypot(B.x, B.y), 4) + '\n';
+      txt += 'At pointer: Bx=' + fmt(B.x, 4) + ', By=' + fmt(B.y, 4) +
+             ', |B|=' + fmt(Math.hypot(B.x, B.y), 4) + '\n';
     }
     if (c.sel) {
       txt += c.sel.t === 'w'
-        ? '选中：导线，I=' + fmt(c.wires[c.sel.i].I, 0) + '（点按可换向）'
-        : '选中：小磁针';
+        ? 'Selected: wire, I=' + fmt(c.wires[c.sel.i].I, 0) + ' (click to flip direction)'
+        : 'Selected: compass needle';
     }
   } else if (S.tab === 'magnet') {
     var mg = S.magnet;
-    txt += '<span class="rd-title">磁铁相互作用</span>';
+    txt += '<span class="rd-title">Magnet Interaction</span>';
     for (var i = 0; i < mg.items.length; i++) {
       var deg = (mg.items[i].ang * 180 / Math.PI) % 360;
       if (deg < 0) deg += 360;
-      txt += '磁铁' + (i + 1) + ' 朝向：' + deg.toFixed(0) + '°\n';
+      txt += 'Magnet' + (i + 1) + ' heading: ' + deg.toFixed(0) + '°\n';
     }
     if (mg.items.length === 2) txt += facingDescription(mg.items);
   } else {
     var a = S.amp, r = a.result;
-    txt += '<span class="rd-title">安培环路定理验证</span>';
+    txt += '<span class="rd-title">Ampère\'s Circuital Law Check</span>';
     if (r) {
       var denom = Math.abs(r.mu0I) > 1e-6 ? Math.abs(r.mu0I) : 1;
       var err = Math.abs(r.integral - r.mu0I) / denom * 100;
       var list = a.wires.filter(function (w) { return pointInLoop(w.x, w.y, a.loop); })
-        .map(function (w) { return fmt(w.I, 1); }).join('，');
+        .map(function (w) { return fmt(w.I, 1); }).join(', ');
       txt += '∮ B·dl = ' + fmt(r.integral, 3) + '\n';
       txt += '<span class="rd-eq">μ₀ I_encl = 2π × (' +
              (list || '0') + ') = ' + fmt(r.mu0I, 3) + '</span>\n';
-      txt += 'I_encl = ' + fmt(r.iEncl, 2) + '（环路包围 ' +
-             a.wires.filter(function (w) { return pointInLoop(w.x, w.y, a.loop); }).length + ' 根导线）\n';
-      txt += '相对误差：' + err.toFixed(2) + ' %\n';
-      txt += err < 5 ? '<span class="rd-ok">结论：两边数值一致，符合安培环路定理</span>'
-                     : '<span class="rd-bad">结论：偏差较大（导线可能与环路相交）</span>';
+      txt += 'I_encl = ' + fmt(r.iEncl, 2) + ' (loop encloses ' +
+             a.wires.filter(function (w) { return pointInLoop(w.x, w.y, a.loop); }).length + ' wires)\\n';
+      txt += 'Relative error: ' + err.toFixed(2) + ' %\n';
+      txt += err < 5 ? '<span class="rd-ok">Result: both sides agree, consistent with Ampère\'s law</span>'
+                     : '<span class="rd-bad">Result: large deviation (a wire may cross the loop)</span>';
     }
   }
   readoutEl.innerHTML = txt;
@@ -1039,8 +1039,8 @@ function facingDescription(mags) {
   var base = Math.atan2(m2.cy - m1.cy, m2.cx - m1.cx);
   var n1 = Math.cos(m1.ang - base) > 0 ? 'N' : 'S';      // m1 朝向对方的极
   var n2 = Math.cos(m2.ang - (base + Math.PI)) > 0 ? 'N' : 'S'; // m2 朝向对方的极
-  if (n1 === n2) return '当前：同极相对（' + n1 + '–' + n2 + '）——磁感线应相互排斥、不跨接';
-  return '当前：异极相对（' + n1 + '–' + n2 + '）——磁感线应从 N 极跨接到 S 极';
+  if (n1 === n2) return 'Current: like poles facing (' + n1 + '–' + n2 + ') - field lines should repel and not bridge';
+  return 'Current: opposite poles facing (' + n1 + '–' + n2 + ') - field lines should bridge from N pole to S pole';
 }
 
 /* ---------- 交互 ---------- */
@@ -1374,7 +1374,7 @@ document.getElementById('chProbeBtn').addEventListener('click', function () {
 var chPotBtn = document.getElementById('chPotBtn');
 chPotBtn.addEventListener('click', function () {
   S.charge.showPot = !S.charge.showPot;
-  chPotBtn.textContent = '等势线：' + (S.charge.showPot ? '开' : '关');
+  chPotBtn.textContent = 'Equipotentials: ' + (S.charge.showPot ? 'On' : 'Off');
   chPotBtn.classList.toggle('toggle-on', S.charge.showPot);
   chPotBtn.classList.toggle('toggle-off', !S.charge.showPot);
 });
@@ -1435,7 +1435,7 @@ document.getElementById('amDelBtn').addEventListener('click', deleteSelected);
 
 function togglePause() {
   S.paused = !S.paused;
-  pauseBtn.textContent = S.paused ? '继续' : '暂停';
+  pauseBtn.textContent = S.paused ? 'Resume' : 'Pause';
   pauseBtn.classList.toggle('is-paused', S.paused);
 }
 pauseBtn.addEventListener('click', togglePause);
@@ -1444,20 +1444,20 @@ resetBtn.addEventListener('click', resetCurrentTab);
 /* ---------- 标签切换 ---------- */
 var TAB_INFO = {
   charge: {
-    formula: 'E = k Σ qᵢ r̂ / r² ，　φ = Σ qᵢ / r　（k = 1，相对单位）',
-    hint: '双击空白处添加电荷（或选“添加”工具后点按画布），拖动移动，右键或选中后按 Delete 删除（最多 8 个）；试探电荷满足 F = qE，带阻尼与边界反弹。'
+    formula: 'E = k Σ qᵢ r̂ / r² ,  φ = Σ qᵢ / r  (k = 1, relative units)',
+    hint: 'Double-click empty space to add a charge (or pick the Add tool and click the canvas); drag to move, right-click or press Delete on a selection to remove (max 8); the test charge obeys F = qE, with damping and boundary bounce.'
   },
   current: {
-    formula: 'B = μ₀ I / (2π r)，方向沿圆周切向（右手螺旋定则）　（相对单位 μ₀ = 2π）',
-    hint: '用工具在空白处点按添加导线；点按已有导线在 ⊙ 向外（红）与 ⊗ 向里（蓝）间切换；可拖动，右键删除；小磁针沿 B 方向实时偏转。'
+    formula: 'B = μ₀ I / (2π r), tangent to the circle (right-hand rule)  (relative units μ₀ = 2π)',
+    hint: 'Use the tool to click empty space to add a wire; click an existing wire to toggle between ⊙ out of the page (red) and ⊗ into the page (blue); drag to move, right-click to delete; compass needles turn live along B.'
   },
   magnet: {
-    formula: '磁偶极子（磁极对）近似：B 由 N、S 两极的 1/r² 场叠加，磁感线自 N 极出发回到 S 极',
-    hint: '拖动磁铁移动；选中后拖动 N 极端的青色圆点旋转（也可用上方按钮）；异极相对时场线跨接，同极相对时场线相斥；铁屑沿 B 方向排列。'
+    formula: 'Magnetic dipole (pole pair) approximation: B is the 1/r² fields of the N and S poles superposed; field lines leave the N pole and return to the S pole',
+    hint: 'Drag a magnet to move it; after selecting, drag the cyan dot at the N-pole end to rotate (or use the buttons above); opposite poles facing bridge the field lines, like poles repel them; iron filings align along B.'
   },
   ampere: {
-    formula: '∮ B·dl = μ₀ I_encl ，　B = μ₀ I / (2π r)',
-    hint: '拖动环路边缘移动整个环路，拖橙色圆点改变尺寸；点按导线切换电流方向，滑块调节 |I|；环路不包围导线时积分应接近 0。'
+    formula: '∮ B·dl = μ₀ I_encl ,  B = μ₀ I / (2π r)',
+    hint: 'Drag the loop edge to move the whole loop and drag the orange dot to resize; click a wire to flip its current and use the slider for |I|; with no wire enclosed the integral should be near 0.'
   }
 };
 document.querySelectorAll('.tab-btn').forEach(function (btn) {

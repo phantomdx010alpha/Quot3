@@ -1,0 +1,1047 @@
+{
+  "version": 1,
+  "game": "ember-tactics",
+  "entries": [
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "余烬战棋：九境远征",
+      "en": "Ember Tactics: Nine-Realm Expedition"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "三章九任务 · 六名职业英雄 · 八枚规则徽记 · 地形与差异目标 · 跨设备战团档案",
+      "en": "Three chapters, nine missions · six class heroes · eight rule sigils · terrain and varied objectives · cross-device warband profile"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "重开任务",
+      "en": "Restart mission"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "战团档案",
+      "en": "Warband profile"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "回合",
+      "en": "Turn"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "战术星火",
+      "en": "Sparks"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "敌军",
+      "en": "Enemies"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 21,
+      "zh": "职业技能",
+      "en": "Class skill"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 21,
+      "zh": "结束回合",
+      "en": "End turn"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 21,
+      "zh": "开始任务",
+      "en": "Start mission"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "在右侧选择三名英雄与至多两枚徽记，然后开始任务。",
+      "en": "Pick three heroes and up to two sigils on the right, then start the mission."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "九境战图",
+      "en": "Nine-realm map"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "出征小队",
+      "en": "Expedition squad"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "非战斗时点击英雄调整三人小队。总星章会解锁守卫、医师与影刃。",
+      "en": "Click a hero outside combat to adjust the three-hero squad. Total star badges unlock the Warden, Medic and Shadowblade."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "余烬徽记（最多两枚）",
+      "en": "Ember sigils (up to two)"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "战场状态",
+      "en": "Battlefield status"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 29,
+      "zh": "战报",
+      "en": "Battle log"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "战团生涯",
+      "en": "Warband career"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "总星章",
+      "en": "Total star badges"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "完成任务",
+      "en": "Missions complete"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "全员生还",
+      "en": "All survived"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "跨设备战团档案",
+      "en": "Cross-device warband profile"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "档案包含九任务星级、英雄编组、徽记配置、解锁进度和战团纪录。",
+      "en": "The profile contains nine-mission stars, hero squad, sigil setup, unlock progress and warband records."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "烬骑",
+      "en": "Ember Knight"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "裂阵：攻击相邻全部敌人",
+      "en": "Cleave: hit all adjacent",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "弦手",
+      "en": "Bowman"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "贯星：五格强力射击",
+      "en": "Starpierce: 5-tile power shot",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "星术师",
+      "en": "Star Mage"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "星爆：目标周围范围伤害",
+      "en": "Starburst: area damage",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "守卫",
+      "en": "Warden"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "壁垒：全队获得护盾",
+      "en": "Bulwark: team shield",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "医师",
+      "en": "Medic"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "复燃：远程恢复生命",
+      "en": "Rekindle: ranged heal",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "影刃",
+      "en": "Shadowblade"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "闪袭：四格突进并重击",
+      "en": "Flash Strike: 4-tile dash attack",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "劫掠兵",
+      "en": "Raider"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "灰弩手",
+      "en": "Ash Archer"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "熔甲兽",
+      "en": "Magma Beast"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "烬祭师",
+      "en": "Ember Priest"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "灰烬君王",
+      "en": "Ash King"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "炽刃",
+      "en": "Blazing Blade"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "所有英雄攻击 +2",
+      "en": "All heroes attack +2"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "疾行",
+      "en": "Swiftness"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "所有英雄移动 +1",
+      "en": "All heroes move +1"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "坚壁",
+      "en": "Bulwark"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "英雄受到伤害 -2",
+      "en": "Heroes take 2 less damage"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "回春",
+      "en": "Renewal"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "每回合开始全队恢复 2",
+      "en": "Whole team heals 2 at turn start"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "专注",
+      "en": "Focus"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "职业技能伤害/治疗 +4",
+      "en": "Class skill damage/healing +4"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "猎火",
+      "en": "Hunter Flame"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "击败敌人额外获得 1 星火",
+      "en": "Defeating an enemy gives 1 extra spark"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "后备",
+      "en": "Reserve"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "任务开始额外获得 2 星火",
+      "en": "Start missions with 2 extra sparks"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "余命",
+      "en": "Second Life"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "首名倒下英雄以 12 生命复燃",
+      "en": "First fallen hero revives with 12 HP"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "碎桥清剿",
+      "en": "Broken Bridge Clearance"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "灰原",
+      "en": "Gray Plains"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "清除桥面上的全部劫掠兵。",
+      "en": "Clear every raider off the bridge."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "双印封锁",
+      "en": "Twin Seal Blockade"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "让英雄踏上两座裂隙并完成封印。",
+      "en": "Step heroes onto both rifts and complete the seals."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "火种守夜",
+      "en": "Ember Night Watch"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "保护中央火种，坚持三个敌军回合。",
+      "en": "Protect the central ember and hold out for three enemy turns."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "峡谷撤离",
+      "en": "Canyon Evacuation"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "赤峡",
+      "en": "Red Canyon"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "让至少两名英雄抵达北侧撤离点。",
+      "en": "Get at least two heroes to the north exit."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "熔流追猎",
+      "en": "Lava Chase"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "利用掩体穿过熔流，清除祭师小队。",
+      "en": "Use cover to cross the lava flow and wipe out the priest squad."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "铁兽断首",
+      "en": "Ironbeast Beheading"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "击败熔甲统领及其护卫。",
+      "en": "Defeat the Magma Commander and his guards."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "三塔点火",
+      "en": "Three-Tower Ignition"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "烬都",
+      "en": "Ember City"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "在烬都封印三座失控火塔。",
+      "en": "Seal three runaway fire towers in Ember City."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "王庭壁垒",
+      "en": "Royal Court Bulwark"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "保护王庭信标，坚持四个敌军回合。",
+      "en": "Protect the Royal Court beacon and hold out for four enemy turns."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "灰烬王座",
+      "en": "Ash Throne"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "击败灰烬君王，结束九境远征。",
+      "en": "Defeat the Ash King and end the nine-realm expedition."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "选择三名英雄和徽记后开始任务。",
+      "en": "Pick three heroes and sigils, then start the mission."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "任务开始：",
+      "en": "Mission started: "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 60,
+      "zh": " 对 ",
+      "en": " hits "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 60,
+      "zh": " 造成 ",
+      "en": " for "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 60,
+      "zh": " 伤害。",
+      "en": " damage."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "王庭信标",
+      "en": "Court Beacon"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 62,
+      "zh": " 被击败，星火增加。",
+      "en": " was defeated; sparks increased."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 62,
+      "zh": " 触发余命徽记，以 12 生命复燃。",
+      "en": " triggers Second Life and revives with 12 HP."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 62,
+      "zh": " 退出战场。",
+      "en": " leaves the battlefield."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 63,
+      "zh": " 封印了一座火塔。",
+      "en": " sealed a fire tower."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 63,
+      "zh": " 已撤离战场。",
+      "en": " has evacuated."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 64,
+      "zh": "守卫展开壁垒，全队获得护盾。",
+      "en": "The Warden raises a bulwark; the whole team gains shields."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 64,
+      "zh": "医师为 ",
+      "en": "Medic heals "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 64,
+      "zh": " 恢复 ",
+      "en": " for "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 64,
+      "zh": " 生命。",
+      "en": " HP."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "已选择 ",
+      "en": "Selected "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "该位置不是当前职业技能的有效目标。",
+      "en": "That tile is not a valid target for this class skill."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "该格不在可移动或可攻击范围内。",
+      "en": "That tile is not within movement or attack range."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 68,
+      "zh": " 攻击信标，造成 ",
+      "en": " attacks the beacon for "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 69,
+      "zh": " 被熔流灼伤 4 点。",
+      "en": " takes 4 lava damage."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 69,
+      "zh": "王庭信标被摧毁。",
+      "en": "The Court Beacon was destroyed."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 70,
+      "zh": "小队失去继续作战能力。",
+      "en": "The squad can no longer fight."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 70,
+      "zh": "任务超过回合上限。",
+      "en": "Mission turn limit exceeded."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "任务完成：",
+      "en": "Mission complete: "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "，用时 ",
+      "en": ", took "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 71,
+      "zh": " 回合。",
+      "en": " turns."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "任务失败：",
+      "en": "Mission failed: "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "战斗中不能更换徽记。",
+      "en": "Sigils cannot be changed during battle."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 76,
+      "zh": "火",
+      "en": "F"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 76,
+      "zh": "掩",
+      "en": "C"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 76,
+      "zh": "撤",
+      "en": "E"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 76,
+      "zh": "印",
+      "en": "S"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 76,
+      "zh": " · 已动",
+      "en": " · moved"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " 建议 ",
+      "en": " Par "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " 回合，最迟 ",
+      "en": " turns, limit "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "清剿",
+      "en": "Eliminate"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "封印",
+      "en": "Seal"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "撤离",
+      "en": "Escape"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "首领",
+      "en": "Boss"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " · 攻 ",
+      "en": " · ATK "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " · 移 ",
+      "en": " · MOV "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " · 射 ",
+      "en": " · RNG "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "需 ",
+      "en": "Needs "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " 星",
+      "en": " stars"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "护盾 ",
+      "en": "Shield "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "本回合已行动",
+      "en": "Acted this turn"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "<div class=\"unit-row\">已撤离英雄：",
+      "en": "<div class=\"unit-row\">Evacuated heroes: "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "剩余敌军 ",
+      "en": "Enemies left "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "\">任务进度：",
+      "en": "\">Mission progress: "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "\">全员生还：损失 ",
+      "en": "\">All survive: lost "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "\">建议回合：",
+      "en": "\">Suggested turns: "
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "重新出征",
+      "en": "Redeploy"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "开始任务",
+      "en": "Start mission"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "技能：",
+      "en": "Skill: ",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "：",
+      "en": ":",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "（2）",
+      "en": " (2)",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "先选择英雄",
+      "en": "Select a hero first"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 78,
+      "zh": "附近没有有效目标或星火不足。",
+      "en": "No valid target nearby, or not enough sparks."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 78,
+      "zh": "选择 ",
+      "en": "Select the ",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 78,
+      "zh": " 的目标。",
+      "en": " target.",
+      "risky": true
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 79,
+      "zh": "战团档案校验失败",
+      "en": "Warband profile check failed"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 79,
+      "zh": "档案版本不兼容",
+      "en": "Profile version incompatible"
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 80,
+      "zh": "战团档案已复制。",
+      "en": "Warband profile copied."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 80,
+      "zh": "档案已生成，请手动复制。",
+      "en": "Profile generated; copy it manually."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 80,
+      "zh": "导入成功。",
+      "en": "Import successful."
+    },
+    {
+      "file": "ember-tactics.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "守卫",
+      "en": "Defend",
+      "onlyLine": true
+    }
+  ]
+}

@@ -25,7 +25,7 @@
     graceTime: 3.0,                // 开局宽限期（秒）
     playerMasses: [60, 85, 120],   // 玩家三档重量
     playerSizes: [0.9, 1.0, 1.14], // 三档体型缩放
-    gearNames: ['轻', '中', '重'],
+    gearNames: ['Light', 'Medium', 'Heavy'],
     playerStartS: -110,
     catMass: 75,
     catSitMul: 1.5,                // 坐下打盹时增重倍数
@@ -253,7 +253,7 @@
 
     items = [];
     popups = [];
-    notices = [{ text: '稳住，别动太快！', t: 1.8, max: 1.8 }];
+    notices = [{ text: 'Steady, don\'t move too fast!', t: 1.8, max: 1.8 }];
     elapsed = 0;
     score = 0;
     level = 1;
@@ -292,21 +292,21 @@
     const playerLifted = player.s * highSide > 30;
     const catLifted = cat.s * highSide > 30;
     if (playerLifted && !catLifted) {
-      overTitle.textContent = '你被翘飞啦';
-      overReason.textContent = '跷跷板倾斜太久，你从高的一端摔了下去。';
+      overTitle.textContent = 'You got launched!';
+      overReason.textContent = 'The seesaw tilted too long and you fell off the high end.';
     } else if (catLifted && !playerLifted) {
-      overTitle.textContent = '小猫摔下去了';
-      overReason.textContent = '橘猫被翘到了半空，生气地跑掉了。';
+      overTitle.textContent = 'The kitten fell off';
+      overReason.textContent = 'The orange cat was flung into the air and ran off angrily.';
     } else {
-      overTitle.textContent = '平衡告破';
-      overReason.textContent = '跷跷板翻过了临界角度。';
+      overTitle.textContent = 'Balance broken';
+      overReason.textContent = 'The seesaw tipped past the critical angle.';
     }
 
     const finalScore = Math.floor(score);
     const isRecord = finalScore > best;
     if (isRecord) saveBest(finalScore);
 
-    finalTimeEl.textContent = elapsed.toFixed(1) + '秒';
+    finalTimeEl.textContent = elapsed.toFixed(1) + 's';
     finalLevelEl.textContent = String(level);
     finalScoreEl.textContent = String(finalScore);
     finalBestEl.textContent = String(best);
@@ -419,7 +419,7 @@
       age: 0,
       life: 14
     });
-    addNotice('有东西掉到板上了，点它！');
+    addNotice('Something dropped on the board, click it!');
   }
 
   function updateItems(dt) {
@@ -456,7 +456,7 @@
       if (dx * dx + dy * dy < 32 * 32) {
         items.splice(i, 1);
         score += 30;
-        addPopup(bx, by - 24, '+30 小猫开心', '#ff5ca8');
+        addPopup(bx, by - 24, '+30 Kitten happy', '#ff5ca8');
         // 猫开心地移向中心，给玩家约 2 秒喘息奖励
         catAI.happy = 2.3;
         catAI.mode = 'walk';
@@ -477,7 +477,7 @@
     weightLabel.textContent = CFG.gearNames[playerGear];
     const bx = player.s * Math.cos(world.theta);
     const by = player.s * Math.sin(world.theta) - 78;
-    addPopup(bx, by, '重量：' + CFG.gearNames[playerGear], '#ffb347');
+    addPopup(bx, by, 'Weight: ' + CFG.gearNames[playerGear], '#ffb347');
   }
 
   function cycleWeight() {
@@ -487,7 +487,7 @@
     weightLabel.textContent = CFG.gearNames[playerGear];
     const bx = player.s * Math.cos(world.theta);
     const by = player.s * Math.sin(world.theta) - 78;
-    addPopup(bx, by, '重量：' + CFG.gearNames[playerGear], '#ffb347');
+    addPopup(bx, by, 'Weight: ' + CFG.gearNames[playerGear], '#ffb347');
   }
 
   // ==================== 主更新 ====================
@@ -516,7 +516,7 @@
     if (newLevel > level) {
       level = newLevel;
       score += 20 * level;
-      addNotice('第 ' + level + ' 关 · 橘猫更活跃了');
+      addNotice('Level ' + level + ' · The orange cat is more active');
       spawnItem();
     }
 
@@ -531,7 +531,7 @@
       if (perfectT >= 2) {
         perfectT = 0;
         score += 50;
-        addPopup(0, -70, '+50 完美平衡', '#22d3ee');
+        addPopup(0, -70, '+50 Perfect balance', '#22d3ee');
       }
     } else {
       perfectT = 0;
@@ -566,7 +566,7 @@
   }
 
   function updateHud() {
-    timeVal.textContent = elapsed.toFixed(1) + '秒';
+    timeVal.textContent = elapsed.toFixed(1) + 's';
     levelVal.textContent = String(level);
     scoreVal.textContent = String(Math.floor(score));
   }
@@ -1355,7 +1355,7 @@
     ctx.textBaseline = 'alphabetic';
     const deg = Math.round(world.theta * 180 / Math.PI);
     ctx.fillStyle = danger > 0.9 ? '#ff7788' : '#aab1dd';
-    ctx.fillText('倾斜 ' + (deg > 0 ? '+' : '') + deg + '°', x, y - 8);
+    ctx.fillText('Tilt ' + (deg > 0 ? '+' : '') + deg + '°', x, y - 8);
 
     roundRect(ctx, x - w / 2, y, w, h, 6);
     ctx.fillStyle = 'rgba(255,255,255,0.08)';
@@ -1398,7 +1398,7 @@
     if (dangerT > 0) {
       ctx.font = '800 13px system-ui, "Microsoft YaHei", sans-serif';
       ctx.fillStyle = 'rgba(255,90,110,' + (0.55 + 0.45 * Math.sin(animT * 14)) + ')';
-      ctx.fillText('危险！快平衡！', x, y + h + 18);
+      ctx.fillText('Danger! Balance now!', x, y + h + 18);
     }
     ctx.restore();
   }

@@ -10,11 +10,11 @@ const PAD = 12 // 盘面内边距
 
 export default {
   id: 'slide',
-  name: '数字华容道',
+  name: 'Number Slide Puzzle',
   bestLower: true,
   options: [{
     key: 'size',
-    label: '盘面',
+    label: 'Board',
     def: 4,
     values: [
       { v: 3, t: '3×3' },
@@ -114,12 +114,12 @@ export default {
       if (won) return
       moves++
       if (!startAt) startAt = performance.now()
-      api.status(`已走 ${moves} 步 · 用时 ${elapsed.toFixed(0)}s`)
+      api.status(`Moves ${moves} · Time ${elapsed.toFixed(0)}s`)
       if (isSolved()) {
         won = true
         api.score(elapsed)
         api.win(Math.round(elapsed * 10) / 10)
-        api.status(`完成！${moves} 步 · ${Math.round(elapsed * 10) / 10}s`)
+        api.status(`Done! ${moves} moves · ${Math.round(elapsed * 10) / 10}s`)
       }
     }
 
@@ -131,7 +131,7 @@ export default {
       shuffle()
       anims = [] // 打乱过程产生的移动记录不需要动画
       api.score(0)
-      api.status('点击方块或用方向键开始，计时从第一步起')
+      api.status('Click a tile or use the arrow keys to start; the timer starts on the first move')
     }
 
     // 品牌蓝→紫的色相插值
@@ -179,9 +179,9 @@ export default {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, SIZE, SIZE, 16)
         ctx.fill()
-        centerText(ctx, '🧩 复原成功！', SIZE / 2, SIZE / 2 - 26, 32, '#7EE2B8')
-        centerText(ctx, `${moves} 步 · ${Math.round(elapsed * 10) / 10} 秒`, SIZE / 2, SIZE / 2 + 18, 20, '#E8EEF9', '500')
-        centerText(ctx, '按 R 重开', SIZE / 2, SIZE / 2 + 54, 15, 'rgba(232,238,249,0.55)', '500')
+        centerText(ctx, '🧩 Solved!', SIZE / 2, SIZE / 2 - 26, 32, '#7EE2B8')
+        centerText(ctx, `${moves} moves · ${Math.round(elapsed * 10) / 10} sec`, SIZE / 2, SIZE / 2 + 18, 20, '#E8EEF9', '500')
+        centerText(ctx, 'Press R to restart', SIZE / 2, SIZE / 2 + 54, 15, 'rgba(232,238,249,0.55)', '500')
       }
     }
 
@@ -230,7 +230,7 @@ export default {
         if (sec !== shownSec) {
           shownSec = sec
           api.score(sec)
-          if (moves) api.status(`已走 ${moves} 步 · 用时 ${sec}s`)
+          if (moves) api.status(`Moves ${moves} · Time ${sec}s`)
         }
       }
       draw()

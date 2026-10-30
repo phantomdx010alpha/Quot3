@@ -1,0 +1,2022 @@
+{
+  "version": 1,
+  "game": "spud-arena",
+  "entries": [
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 10,
+      "zh": "薯仔突围：丰收行动",
+      "en": "Spud Breakout: Harvest Operation"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 840,
+      "zh": "薯",
+      "en": "S"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 842,
+      "zh": "薯仔突围",
+      "en": "Spud Breakout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 842,
+      "zh": "丰收季 V3",
+      "en": "Harvest Season V3"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 843,
+      "zh": "六战薯 · 六行动区 · 十二武器 · 营地任务",
+      "en": "Six fighter spuds · six operation zones · twelve weapons · camp missions"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "attr",
+      "line": 847,
+      "zh": "倍速",
+      "en": "Speed"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "attr",
+      "line": 848,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 849,
+      "zh": "行动营地",
+      "en": "Operation camp"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "attr",
+      "line": 850,
+      "zh": "重开",
+      "en": "Restart"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 857,
+      "zh": "行动时间",
+      "en": "Operation time"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 860,
+      "zh": "气血 / 护盾",
+      "en": "HP / Shield"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 862,
+      "zh": "等级",
+      "en": "Level"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 863,
+      "zh": "击倒",
+      "en": "Kills"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 864,
+      "zh": "晶薯",
+      "en": "Gems"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 865,
+      "zh": "阶段",
+      "en": "Stage"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "attr",
+      "line": 868,
+      "zh": "薯仔突围战场",
+      "en": "Spud Breakout battlefield"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 869,
+      "zh": "阶段开始",
+      "en": "Stage start"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 872,
+      "zh": "选择行动",
+      "en": "Choose operation"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 875,
+      "zh": "冲刺",
+      "en": "Dash"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 877,
+      "zh": "战技",
+      "en": "Skill"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 885,
+      "zh": "丰收行动：",
+      "en": "Harvest operation:"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 885,
+      "zh": "整装出发",
+      "en": "Gear up"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 887,
+      "zh": "选择战薯与行动区域；击败敌人，把晶薯带回营地强化下一轮。",
+      "en": "Pick a fighter spud and an operation zone; defeat enemies and bring gems back to camp to power up the next run."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 890,
+      "zh": "营地晶薯 0",
+      "en": "Camp gems 0"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 894,
+      "zh": "选择战薯",
+      "en": "Choose fighter"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 902,
+      "zh": "危险度",
+      "en": "Danger"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 906,
+      "zh": "营地永久强化",
+      "en": "Permanent camp upgrades"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 910,
+      "zh": "丰收档案",
+      "en": "Harvest log"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 915,
+      "zh": "导出存档码",
+      "en": "Export save code"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 916,
+      "zh": "导入存档码",
+      "en": "Import save code"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 917,
+      "zh": "开始突围",
+      "en": "Start breakout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 921,
+      "zh": "行动结束",
+      "en": "Operation over"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 924,
+      "zh": "存活",
+      "en": "Survived"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 926,
+      "zh": "带回晶薯",
+      "en": "Gems brought back"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 927,
+      "zh": "首领",
+      "en": "Boss"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 930,
+      "zh": "同配置再战",
+      "en": "Replay same setup"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 932,
+      "zh": "返回营地",
+      "en": "Back to camp"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 945,
+      "zh": "行动待命",
+      "en": "Operation standby"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 946,
+      "zh": "在营地选择一次行动",
+      "en": "Pick an operation at camp"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 953,
+      "zh": "武器构筑",
+      "en": "Weapon build"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 960,
+      "zh": "战斗属性",
+      "en": "Combat stats"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 961,
+      "zh": "0 遗物",
+      "en": "0 relics"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 967,
+      "zh": "战况记录",
+      "en": "Battle log"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 976,
+      "zh": "等级提升",
+      "en": "Level up"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 977,
+      "zh": "选择一项强化",
+      "en": "Choose a boost"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 980,
+      "zh": "重抽（3）",
+      "en": "Reroll (3)"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "text",
+      "line": 981,
+      "zh": "转化为 15% 治疗",
+      "en": "Convert to 15% heal"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1019,
+      "zh": "原皮队长",
+      "en": "Plain-Skin Captain"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1021,
+      "zh": "均衡可靠 · 战技震荡全场",
+      "en": "Balanced and reliable · Skill shocks the whole field"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1025,
+      "zh": "薯能震荡",
+      "en": "Spud Surge"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1028,
+      "zh": "脆皮斥候",
+      "en": "Thin-Skin Scout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1030,
+      "zh": "移速与暴击更高 · 战技极速穿行",
+      "en": "Higher speed and crit · Skill: lightning dash"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1035,
+      "zh": "金皮疾走",
+      "en": "Gold-Skin Dash"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1038,
+      "zh": "铁皮卫士",
+      "en": "Iron-Skin Guard"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1040,
+      "zh": "高气血护甲 · 战技展开锅盖壁垒",
+      "en": "High HP and armor · Skill unfolds a pot-lid bulwark"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1045,
+      "zh": "锅盖壁垒",
+      "en": "Pot-Lid Bulwark"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1048,
+      "zh": "芽眼园丁",
+      "en": "Sprout Gardener"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1050,
+      "zh": "自愈与拾取增强 · 战技回春聚宝",
+      "en": "Self-heal and pickup boosts · Skill: regrowth and treasure draw"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1056,
+      "zh": "萌芽回春",
+      "en": "Sprout Revival"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1059,
+      "zh": "火花爆破手",
+      "en": "Spark Blaster"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1061,
+      "zh": "范围与爆炸强化 · 战技投放连锁薯雷",
+      "en": "Area and explosion boosts · Skill drops chain spud mines"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1066,
+      "zh": "连锁薯雷",
+      "en": "Chain Spud Mines"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1069,
+      "zh": "紫心武僧",
+      "en": "Purple Heart Monk"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1071,
+      "zh": "近战吸血与闪避 · 战技进入金刚连击",
+      "en": "Melee lifesteal and dodge · Skill enters a diamond combo"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1077,
+      "zh": "金刚薯身",
+      "en": "Diamond Spud Body"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1082,
+      "zh": "青苗防线",
+      "en": "Green Sprout Line"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1086,
+      "zh": "四分钟标准行动，资源充足。",
+      "en": "Standard four-minute run with plentiful resources."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1092,
+      "zh": "菌雾夜袭",
+      "en": "Fungal Fog Raid"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1096,
+      "zh": "浓雾压缩视野，远程敌人增多。",
+      "en": "Thick fog shrinks vision and ranged enemies increase."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1102,
+      "zh": "铁锅工坊",
+      "en": "Iron Pot Workshop"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1106,
+      "zh": "灼热区域周期出现，重装敌群压境。",
+      "en": "Scorching zones appear periodically and heavy enemy packs close in."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1112,
+      "zh": "霜糖高原",
+      "en": "Frostsugar Plateau"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1116,
+      "zh": "寒潮周期减速，冰甲敌人与狙击手出没。",
+      "en": "Cold waves periodically slow you; ice-armored enemies and snipers lurk."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1122,
+      "zh": "遗迹深田",
+      "en": "Ruins Deep Field"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1126,
+      "zh": "古代装置唤醒护盾军团与重型首领。",
+      "en": "Ancient devices awaken a shield legion and a heavy boss."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1139,
+      "zh": "无尽丰收",
+      "en": "Endless Harvest"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1143,
+      "zh": "每五分钟出现首领，强度持续增长。",
+      "en": "A boss appears every five minutes and difficulty keeps rising."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1159,
+      "zh": "训练",
+      "en": "Training"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1160,
+      "zh": "普通",
+      "en": "Normal"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1161,
+      "zh": "硬核",
+      "en": "Hardcore"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1162,
+      "zh": "噩梦",
+      "en": "Nightmare"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1166,
+      "zh": "树枝枪",
+      "en": "Twig Gun"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1167,
+      "zh": "枝",
+      "en": "TWG"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1177,
+      "zh": "千枝齐发",
+      "en": "Thousand Twigs"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1180,
+      "zh": "平底锅",
+      "en": "Frying Pan"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1181,
+      "zh": "锅",
+      "en": "PAN"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1188,
+      "zh": "回旋铁宴",
+      "en": "Boomerang Feast"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1191,
+      "zh": "电芽",
+      "en": "Spark Sprout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1192,
+      "zh": "电",
+      "en": "ZAP"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1199,
+      "zh": "雷根网络",
+      "en": "Thunder Root Network"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1202,
+      "zh": "豆籽铳",
+      "en": "Pea Blaster"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1203,
+      "zh": "籽",
+      "en": "PEA"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1213,
+      "zh": "丰收风暴",
+      "en": "Harvest Storm"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1216,
+      "zh": "回旋薯片",
+      "en": "Boomerang Chip"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1217,
+      "zh": "旋",
+      "en": "SPN"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1227,
+      "zh": "黄金涡轮",
+      "en": "Golden Turbine"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1230,
+      "zh": "锅盖卫星",
+      "en": "Pot-Lid Satellite"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1231,
+      "zh": "环",
+      "en": "ORB"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1238,
+      "zh": "六锅星阵",
+      "en": "Six-Pot Star Array"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1241,
+      "zh": "孢泥罐",
+      "en": "Spore Mud Jar"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1242,
+      "zh": "菌",
+      "en": "FNG"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1249,
+      "zh": "万菌温床",
+      "en": "Fungal Hotbed"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1252,
+      "zh": "芽尖火箭",
+      "en": "Sprout-Tip Rocket"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1253,
+      "zh": "箭",
+      "en": "RKT"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1262,
+      "zh": "薯星坠落",
+      "en": "Falling Spud Star"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1266,
+      "zh": "雷",
+      "en": "MIN"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1273,
+      "zh": "丰收雷区",
+      "en": "Harvest Minefield"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1276,
+      "zh": "齿轮薯片",
+      "en": "Gear Chip"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1277,
+      "zh": "锯",
+      "en": "SAW"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "日轮切割阵",
+      "en": "Sunwheel Cutter Array"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1287,
+      "zh": "霜糖喷壶",
+      "en": "Frostsugar Sprayer"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1288,
+      "zh": "霜",
+      "en": "ICE"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1295,
+      "zh": "极寒甜点",
+      "en": "Arctic Dessert"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1298,
+      "zh": "棱芽射线",
+      "en": "Prism Sprout Beam"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1299,
+      "zh": "光",
+      "en": "RAY"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1306,
+      "zh": "万色折光",
+      "en": "Rainbow Refraction"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1311,
+      "zh": "田鼠芽",
+      "en": "Vole Sprout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1320,
+      "zh": "快苗",
+      "en": "Swift Seedling"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1329,
+      "zh": "厚皮萝卜",
+      "en": "Thick-Skin Radish"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1338,
+      "zh": "孢子射手",
+      "en": "Spore Shooter"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1348,
+      "zh": "角盔冲锋手",
+      "en": "Horned Charger"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1358,
+      "zh": "地钻虫",
+      "en": "Burrow Worm"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1368,
+      "zh": "蜜露医师",
+      "en": "Honeydew Medic"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1378,
+      "zh": "团团菇",
+      "en": "Round Mushroom"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1388,
+      "zh": "霜壳糖虫",
+      "en": "Frostshell Candy Bug"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1398,
+      "zh": "茎叶狙击手",
+      "en": "Stalk Sniper"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1410,
+      "zh": "遗迹盾芽",
+      "en": "Ruins Shield Sprout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1420,
+      "zh": "宝箱拟态薯",
+      "en": "Chest Mimic Spud"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1430,
+      "zh": "锅盖甲虫",
+      "en": "Pot-Lid Beetle"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1440,
+      "zh": "铁锅王",
+      "en": "Iron Pot King"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1451,
+      "zh": "冰糖巨像",
+      "en": "Rock Candy Colossus"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1462,
+      "zh": "丰收机神",
+      "en": "Harvest Machina"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1477,
+      "zh": "蒜",
+      "en": "GAR"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1478,
+      "zh": "蒜香护符",
+      "en": "Garlic Charm"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1479,
+      "zh": "获得 25 护盾，每阶段再补充 8。",
+      "en": "Gain 25 shield, refilled by 8 each stage."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1487,
+      "zh": "刺",
+      "en": "THN"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1488,
+      "zh": "反口薯皮",
+      "en": "Thorn Skin"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1489,
+      "zh": "受到接触伤害时反弹 45% 伤害。",
+      "en": "Reflect 45% of contact damage taken."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1494,
+      "zh": "饮",
+      "en": "SIP"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1495,
+      "zh": "红汁吸管",
+      "en": "Red Juice Straw"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1496,
+      "zh": "击倒敌人有 8% 概率回复 2 气血。",
+      "en": "Defeating an enemy has an 8% chance to restore 2 HP."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1501,
+      "zh": "钟",
+      "en": "CLK"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1502,
+      "zh": "急收怀表",
+      "en": "Quick Harvest Pocket Watch"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1503,
+      "zh": "所有武器冷却额外缩短 14%。",
+      "en": "All weapon cooldowns shortened by an extra 14%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1508,
+      "zh": "冠",
+      "en": "CRN"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1509,
+      "zh": "丰收王冠",
+      "en": "Harvest Crown"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1510,
+      "zh": "精英与首领受到伤害 +25%。",
+      "en": "+25% damage to elites and bosses."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1515,
+      "zh": "跃",
+      "en": "HOP"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1516,
+      "zh": "弹簧芽靴",
+      "en": "Spring Sprout Boots"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1517,
+      "zh": "冲刺冷却 -35%，冲刺留下伤害轨迹。",
+      "en": "Dash cooldown -35%; dash leaves a damaging trail."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1525,
+      "zh": "镜",
+      "en": "LNS"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1526,
+      "zh": "芽眼镜片",
+      "en": "Sprout-Eye Lens"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1527,
+      "zh": "暴击率 +12%，暴击伤害 +35%。",
+      "en": "Crit chance +12%, crit damage +35%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1535,
+      "zh": "复",
+      "en": "REV"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1536,
+      "zh": "备用芽眼",
+      "en": "Spare Sprout Eye"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1537,
+      "zh": "本局倒下时复活一次并回复 50%。",
+      "en": "Revive once when downed this run, restoring 50%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1543,
+      "zh": "霜糖核心",
+      "en": "Frostsugar Core"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1544,
+      "zh": "范围伤害 +20%，所有领域持续时间提高。",
+      "en": "Area damage +20%; all zone durations increased."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1552,
+      "zh": "旗",
+      "en": "FLG"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1553,
+      "zh": "丰收战旗",
+      "en": "Harvest Banner"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1554,
+      "zh": "每个阶段永久获得 4% 伤害。",
+      "en": "Permanently gain 4% damage each stage."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1559,
+      "zh": "核",
+      "en": "COR"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1560,
+      "zh": "遗迹硬币引擎",
+      "en": "Ruins Coin Engine"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1561,
+      "zh": "拾取晶薯时有 20% 概率额外获得 1 枚。",
+      "en": "20% chance to gain 1 extra gem when picking one up."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1566,
+      "zh": "云",
+      "en": "CLD"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1567,
+      "zh": "装瓶雷云",
+      "en": "Bottled Thundercloud"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1568,
+      "zh": "战技释放后引发三次全屏雷击。",
+      "en": "After the skill, trigger three screen-wide lightning strikes."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1575,
+      "zh": "伤",
+      "en": "DMG"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1576,
+      "zh": "尖刺芽",
+      "en": "Spiked Sprout"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1577,
+      "zh": "所有武器伤害 +16%。",
+      "en": "All weapon damage +16%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1582,
+      "zh": "速",
+      "en": "SPD"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1583,
+      "zh": "滑皮靴",
+      "en": "Slick-Skin Boots"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1584,
+      "zh": "移动速度 +11%。",
+      "en": "Move speed +11%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1589,
+      "zh": "频",
+      "en": "RTE"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1590,
+      "zh": "急性子",
+      "en": "Impatient"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1591,
+      "zh": "攻击冷却 -10%。",
+      "en": "Attack cooldown -10%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1596,
+      "zh": "血",
+      "en": "HP"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1597,
+      "zh": "厚薯皮",
+      "en": "Thick Spud Skin"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1598,
+      "zh": "最大气血 +12 并回复 12。",
+      "en": "Max HP +12 and heal 12."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1606,
+      "zh": "愈",
+      "en": "RGN"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1607,
+      "zh": "发芽自愈",
+      "en": "Sprouting Regen"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1608,
+      "zh": "每秒回复 +0.3。",
+      "en": "Regen +0.3 per second."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1613,
+      "zh": "吸",
+      "en": "MAG"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1614,
+      "zh": "磁铁根须",
+      "en": "Magnet Roots"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1615,
+      "zh": "拾取范围 +35%。",
+      "en": "Pickup range +35%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1620,
+      "zh": "甲",
+      "en": "ARM"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1621,
+      "zh": "锅盖甲",
+      "en": "Pot-Lid Armor"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1622,
+      "zh": "护甲 +2。",
+      "en": "Armor +2."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1627,
+      "zh": "域",
+      "en": "AOE"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1628,
+      "zh": "膨大薯块",
+      "en": "Swollen Tuber"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1629,
+      "zh": "范围效果尺寸 +15%。",
+      "en": "Area effect size +15%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1634,
+      "zh": "暴",
+      "en": "CRT"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1635,
+      "zh": "芽眼瞄具",
+      "en": "Sprout-Eye Sight"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1636,
+      "zh": "暴击率 +8%。",
+      "en": "Crit chance +8%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1641,
+      "zh": "技",
+      "en": "SKL"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1642,
+      "zh": "丰收电池",
+      "en": "Harvest Battery"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1643,
+      "zh": "战技能量获取 +25%。",
+      "en": "Skill energy gain +25%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1648,
+      "zh": "闪",
+      "en": "DGE"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1649,
+      "zh": "滑溜薯皮",
+      "en": "Slippery Spud Skin"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1650,
+      "zh": "闪避率 +6%。",
+      "en": "Dodge chance +6%."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1655,
+      "zh": "晶",
+      "en": "GEM"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1656,
+      "zh": "晶薯嗅觉",
+      "en": "Gem Nose"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1657,
+      "zh": "结算晶薯额外 +10%。",
+      "en": "Settled gems +10% extra."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1662,
+      "zh": "王",
+      "en": "BOS"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1663,
+      "zh": "首领猎手",
+      "en": "Boss Hunter"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1664,
+      "zh": "对精英与首领伤害 +12%。",
+      "en": "+12% damage to elites and bosses."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1669,
+      "zh": "盾",
+      "en": "SHD"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1670,
+      "zh": "阶段护盾",
+      "en": "Stage Shield"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1671,
+      "zh": "每次进入新阶段获得 14 护盾。",
+      "en": "Gain 14 shield on entering each new stage."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1680,
+      "zh": "磨尖树枝",
+      "en": "Sharpened Twigs"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1681,
+      "zh": "每级伤害 +4%",
+      "en": "Damage +4% per level"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1686,
+      "zh": "加厚薯皮",
+      "en": "Thicker Skin"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1687,
+      "zh": "每级气血 +3",
+      "en": "HP +3 per level"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1692,
+      "zh": "丰收背包",
+      "en": "Harvest Backpack"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1693,
+      "zh": "每级结算晶薯 +5%",
+      "en": "Settled gems +5% per level"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1769,
+      "zh": "存档码校验失败",
+      "en": "Save code verification failed"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1776,
+      "zh": "不是薯仔突围存档",
+      "en": "Not a Spud Breakout save"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1878,
+      "zh": "营地晶薯 ",
+      "en": "Camp gems "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1878,
+      "zh": " · 总击倒 ",
+      "en": " · Total kills "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1882,
+      "zh": "<br>初始：",
+      "en": "<br>Starts with: "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1888,
+      "zh": "纪录 ",
+      "en": "Record "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1900,
+      "zh": "已满级",
+      "en": "Max level"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1900,
+      "zh": "晶薯 ",
+      "en": "Gems "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1904,
+      "zh": "🏆 胜利 ",
+      "en": "🏆 Wins "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1905,
+      "zh": "☠ 首领 ",
+      "en": "☠ Bosses "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1906,
+      "zh": "⚔ 总击倒 ",
+      "en": "⚔ Total kills "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1907,
+      "zh": "📜 任务 ",
+      "en": "📜 Missions "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1908,
+      "zh": "🧭 发现 ",
+      "en": "🧭 Discoveries "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1963,
+      "zh": "进入",
+      "en": " enters "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1963,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1969,
+      "zh": "击倒 180 名敌人",
+      "en": "Defeat 180 enemies"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1974,
+      "zh": "达到 12 级",
+      "en": "Reach level 12"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1979,
+      "zh": "获得 2 件遗物",
+      "en": "Obtain 2 relics"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1984,
+      "zh": "击败行动首领",
+      "en": "Defeat the operation boss"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 1994,
+      "zh": "营地任务：",
+      "en": "Camp mission: "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2028,
+      "zh": "阶段 ",
+      "en": "Stage "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2028,
+      "zh": " · 敌群强化",
+      "en": " · Enemy swarm empowered"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2202,
+      "zh": "！",
+      "en": "!"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2572,
+      "zh": "备用芽眼让你重新站起！",
+      "en": "Spare Sprout Eye gets you back on your feet!"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2623,
+      "zh": "精英倒下，遗物箱落地。",
+      "en": "The elite falls and a relic chest drops."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2639,
+      "zh": "首领击倒，无尽行动继续",
+      "en": "Boss down; the endless run continues"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2688,
+      "zh": "精英锅盖甲虫闯入战场。",
+      "en": "An elite Pot-Lid Beetle storms the field."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2723,
+      "zh": "⚠ 快苗迁徙",
+      "en": "⚠ Swift Seedling migration"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2726,
+      "zh": "✦ 丰收磁暴",
+      "en": "✦ Harvest magnetic storm"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2737,
+      "zh": "⚠ 灼热孢坑",
+      "en": "⚠ Scorching spore pit"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2740,
+      "zh": "⚠ 重装小队",
+      "en": "⚠ Heavy squad"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2743,
+      "zh": "❄ 霜糖寒潮",
+      "en": "❄ Frostsugar cold wave"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2747,
+      "zh": "✦ 遗迹宝箱苏醒",
+      "en": "✦ Ruins chest awakens"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2810,
+      "zh": "进入战场",
+      "en": " enters the battlefield"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2811,
+      "zh": "最终首领",
+      "en": "Final boss "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2811,
+      "zh": "压入行动区域。",
+      "en": " pushes into the operation zone."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2847,
+      "zh": "精英遗物",
+      "en": "Elite relic"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2847,
+      "zh": "等级提升",
+      "en": "Level up"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2849,
+      "zh": "选择一件遗物",
+      "en": "Choose a relic"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2849,
+      "zh": "选择一项强化",
+      "en": "Choose a boost"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2853,
+      "zh": "拆解为 12 晶薯",
+      "en": "Dismantle for 12 gems"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2853,
+      "zh": "转化为 15% 治疗",
+      "en": "Convert to 15% heal"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2866,
+      "zh": "遗物",
+      "en": "Relic"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2886,
+      "zh": "史诗",
+      "en": "Epic"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2890,
+      "zh": "精良",
+      "en": "Fine"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2914,
+      "zh": "提升至 Lv.",
+      "en": "Raised to Lv."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2914,
+      "zh": "；六级进化为「",
+      "en": "; evolves at level 6 into “"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2914,
+      "zh": "」。",
+      "en": "”."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2915,
+      "zh": "获得新武器；六级可进化为「",
+      "en": "New weapon; evolves at level 6 into “"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2923,
+      "zh": "获得遗物：",
+      "en": "Relic gained: "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 2945,
+      "zh": " · 武器进化！",
+      "en": " · Weapon evolution!"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3001,
+      "zh": "营地任务完成，额外带回 12 晶薯。",
+      "en": "Camp mission complete; 12 extra gems brought back."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3017,
+      "zh": "被击倒了",
+      "en": "Knocked out"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3018,
+      "zh": "薯仔暂时倒下",
+      "en": "Spud is down for now"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3020,
+      "zh": "行动完成，所有收获已运回营地。",
+      "en": "Operation complete; all gains shipped back to camp."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3021,
+      "zh": "这次构筑已经结算，强化营地后再来一轮。",
+      "en": "This build has been settled; upgrade the camp and go again."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3114,
+      "zh": "距下个首领 ",
+      "en": "Next boss in "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3115,
+      "zh": "距首领 ",
+      "en": "Boss in "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3127,
+      "zh": " 遗物",
+      "en": " relics"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3129,
+      "zh": "伤害",
+      "en": "Damage"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3130,
+      "zh": "攻速",
+      "en": "Atk speed"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3131,
+      "zh": "移速",
+      "en": "Move speed"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3132,
+      "zh": "护甲",
+      "en": "Armor"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3133,
+      "zh": "暴击",
+      "en": "Crit"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3134,
+      "zh": "拾取",
+      "en": "Pickup"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3142,
+      "zh": "重抽（",
+      "en": "Reroll ("
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3142,
+      "zh": "）",
+      "en": ")"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3523,
+      "zh": "薯仔突围存档码（已尝试复制，可在其他设备导入）",
+      "en": "Spud Breakout save code (copy attempted; import on another device)"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3526,
+      "zh": "粘贴薯仔突围存档码：",
+      "en": "Paste Spud Breakout save code:"
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3530,
+      "zh": "存档导入成功，营地成长与丰收档案已恢复。",
+      "en": "Import successful; camp growth and harvest log restored."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3532,
+      "zh": "导入失败：",
+      "en": "Import failed: "
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3542,
+      "zh": "当前行动尚未结算，返回营地将放弃本局收获。",
+      "en": "The current operation is not settled; returning to camp forfeits this run's gains."
+    },
+    {
+      "file": "spud-arena.html",
+      "kind": "js",
+      "line": 3550,
+      "zh": "重新开始当前行动？",
+      "en": "Restart the current operation?"
+    }
+  ]
+}

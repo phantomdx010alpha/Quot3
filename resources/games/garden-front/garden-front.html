@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <meta name="theme-color" content="#10251a" />
-    <title>芽阵前线：六境繁花</title>
+    <title>Sprout Front: Six Realms in Bloom</title>
     <style>
       :root {
         color-scheme: dark;
@@ -786,70 +786,70 @@
   <body>
     <main class="app">
       <section class="stage">
-        <canvas id="gameCanvas" aria-label="芽阵前线五路战场"></canvas>
+        <canvas id="gameCanvas" aria-label="Sprout Front five-lane battlefield"></canvas>
         <div class="hud">
           <div class="brand">
-            <h1>芽阵前线 <b>六境 V3</b></h1>
+            <h1>Sprout Front <b>Six Realms V3</b></h1>
             <div class="subline">
-              <span id="statusText">远征待命</span> ·
-              <span id="regionText">晨露庭院</span>
+              <span id="statusText">Expedition on standby</span> ·
+              <span id="regionText">Dewdrop Courtyard</span>
             </div>
           </div>
           <div class="top-stats">
             <div class="stat sun">
-              <span>日光</span><strong id="sunText">150</strong>
+              <span>Sun</span><strong id="sunText">150</strong>
             </div>
             <div class="stat">
-              <span>波次</span><strong id="waveStat">0/0</strong>
+              <span>Wave</span><strong id="waveStat">0/0</strong>
             </div>
             <div class="stat">
-              <span>威胁</span><strong id="threatText">0</strong>
+              <span>Threat</span><strong id="threatText">0</strong>
             </div>
             <div class="stat">
-              <span>击退</span><strong id="killText">0</strong>
+              <span>Repelled</span><strong id="killText">0</strong>
             </div>
           </div>
           <div class="hud-actions">
-            <button class="icon-btn" id="speedBtn" title="倍速">1×</button
-            ><button class="icon-btn" id="pauseBtn" title="暂停">Ⅱ</button
-            ><button class="icon-btn" id="menuBtn" title="返回远征地图">
+            <button class="icon-btn" id="speedBtn" title="Game speed">1×</button
+            ><button class="icon-btn" id="pauseBtn" title="Pause">Ⅱ</button
+            ><button class="icon-btn" id="menuBtn" title="Back to expedition map">
               ☰
             </button>
           </div>
         </div>
         <div class="wave-track">
           <div class="fill"><i id="waveBar"></i></div>
-          <span id="waveText">选择行动</span>
+          <span id="waveText">Choose a mission</span>
         </div>
-        <div class="toast" id="toast">准备就绪</div>
+        <div class="toast" id="toast">Ready</div>
         <div class="modal show" id="startModal">
           <div class="modal-card">
             <div class="title-row">
               <div>
-                <h2>芽阵前线：<b>六境繁花</b></h2>
-                <p>24 株芽阵、18 关远征、Boss 机制与挑战词条。</p>
+                <h2>Sprout Front: <b>Six Realms in Bloom</b></h2>
+                <p>24 sprouts, 18 expedition levels, boss mechanics and challenge modifiers.</p>
               </div>
-              <div class="save-pill" id="savePill">远征进度 1/18</div>
+              <div class="save-pill" id="savePill">Expedition progress 1/18</div>
             </div>
             <div class="tabs">
               <button class="tab-btn selected" data-tab="adventure">
-                冒险地图</button
-              ><button class="tab-btn" data-tab="special">特别行动</button
-              ><button class="tab-btn" data-tab="almanac">芽阵图鉴</button>
+                Adventure map</button
+              ><button class="tab-btn" data-tab="special">Special missions</button
+              ><button class="tab-btn" data-tab="almanac">Sprout codex</button>
             </div>
             <div id="adventureTab">
               <div class="menu-grid">
                 <section class="menu-section">
-                  <h3>四境路线</h3>
+                  <h3>Four-realm route</h3>
                   <div class="level-grid" id="levelGrid"></div>
                   <div class="level-info" id="levelInfo"></div>
-                  <h3>挑战词条</h3>
+                  <h3>Challenge modifiers</h3>
                   <div class="tabs" id="challengeGrid"></div>
                 </section>
                 <section class="menu-section">
                   <div class="loadout-head">
-                    <h3>出战芽阵 <span id="loadoutCount">0/8</span></h3>
-                    <button class="mini-btn" id="autoLoadoutBtn">推荐</button>
+                    <h3>Deploy sprouts <span id="loadoutCount">0/8</span></h3>
+                    <button class="mini-btn" id="autoLoadoutBtn">Recommended</button>
                   </div>
                   <div class="loadout-grid" id="loadoutGrid"></div>
                 </section>
@@ -863,25 +863,25 @@
               <div class="almanac-grid" id="almanacGrid"></div>
             </div>
             <div class="start-row">
-              <button class="mini-btn" id="exportSaveBtn">导出存档码</button>
-              <button class="mini-btn" id="importSaveBtn">导入存档码</button>
-              <button class="mini-btn" id="resetSaveBtn">重置进度</button
-              ><button class="primary-btn" id="startBtn">开始行动</button>
+              <button class="mini-btn" id="exportSaveBtn">Export save code</button>
+              <button class="mini-btn" id="importSaveBtn">Import save code</button>
+              <button class="mini-btn" id="resetSaveBtn">Reset progress</button
+              ><button class="primary-btn" id="startBtn">Start mission</button>
             </div>
           </div>
         </div>
         <div class="modal" id="resultModal">
           <div class="modal-card compact">
-            <h2 id="resultTitle">防线稳固</h2>
+            <h2 id="resultTitle">Defense held</h2>
             <p id="resultCopy"></p>
             <div class="result-stats">
-              <div><strong id="resultKills">0</strong><span>击退</span></div>
-              <div><strong id="resultSun">0</strong><span>日光</span></div>
-              <div><strong id="resultGuards">5</strong><span>防线</span></div>
+              <div><strong id="resultKills">0</strong><span>Repelled</span></div>
+              <div><strong id="resultSun">0</strong><span>Sun</span></div>
+              <div><strong id="resultGuards">5</strong><span>Defense</span></div>
             </div>
             <div class="start-row" style="justify-content: center">
-              <button class="mini-btn" id="againBtn">再战一次</button
-              ><button class="primary-btn" id="nextBtn">继续远征</button>
+              <button class="mini-btn" id="againBtn">Play again</button
+              ><button class="primary-btn" id="nextBtn">Continue expedition</button>
             </div>
           </div>
         </div>
@@ -890,31 +890,31 @@
         <section class="panel mission">
           <div class="mission-icon" id="missionIcon">🌤</div>
           <div>
-            <strong id="missionTitle">选择行动</strong
-            ><small id="missionText">从远征地图进入战场</small>
+            <strong id="missionTitle">Choose a mission</strong
+            ><small id="missionText">Enter the battlefield from the expedition map</small>
           </div>
         </section>
         <div class="resource-row">
           <section class="panel meter">
-            <span>叶能</span><strong id="chargeText">0/3</strong>
+            <span>Leaf energy</span><strong id="chargeText">0/3</strong>
             <div class="bar"><i id="chargeBar"></i></div>
           </section>
           <section class="panel meter guards">
-            <span>最后防线</span><strong id="guardText">5/5</strong>
+            <span>Last defense</span><strong id="guardText">5/5</strong>
             <div class="bar"><i id="guardBar"></i></div>
           </section>
         </div>
         <div class="toolbox">
-          <button class="icon-btn" id="shovelBtn" title="铲除">铲</button
-          ><button class="icon-btn leaf-btn" id="overloadBtn" title="叶能绽放">
-            叶<em id="leafCount">0</em></button
-          ><button class="icon-btn" id="hintBtn" title="查看提示">?</button
-          ><button class="icon-btn" id="restartBtn" title="重新开始">↻</button>
+          <button class="icon-btn" id="shovelBtn" title="Remove">Dig</button
+          ><button class="icon-btn leaf-btn" id="overloadBtn" title="Leaf-energy bloom">
+            Leaf<em id="leafCount">0</em></button
+          ><button class="icon-btn" id="hintBtn" title="Show hint">?</button
+          ><button class="icon-btn" id="restartBtn" title="Restart">↻</button>
         </div>
         <div class="seed-bank" id="seedBank"></div>
         <section class="panel brief" id="briefText">
-          <b>操作：</b
-          >选择卡片再点草坪；点击日光收集。叶能充满一格后点“叶”，再点植物释放专属绽放。
+          <b>Controls: </b
+          >Pick a card, then click the lawn; click sunlight to collect it. When a leaf-energy cell fills, click Leaf, then a plant, to unleash its unique bloom.
         </section>
       </aside>
     </main>
@@ -956,341 +956,341 @@
           pointer = { x: 0, y: 0, inside: false };
         const regions = {
           meadow: {
-            name: "晨露庭院",
+            name: "Dewdrop Courtyard",
             icon: "🌤",
             sky: "#38784d",
             ground: "#4d8a49",
             sunRate: 7.2,
-            note: "标准生态，日光会从天空落下。",
+            note: "Standard ecosystem; sunlight falls from the sky.",
           },
           night: {
-            name: "萤雾湿地",
+            name: "Glowmist Wetlands",
             icon: "🌙",
             sky: "#172c3a",
             ground: "#315246",
             sunRate: 15,
-            note: "浓雾遮蔽远端，天空日光稀少。",
+            note: "Thick fog hides the far end and sunlight from the sky is scarce.",
           },
           frost: {
-            name: "霜风高地",
+            name: "Frostwind Highlands",
             icon: "❄",
             sky: "#31566b",
             ground: "#577d72",
             sunRate: 9,
-            note: "霜风会周期冻结最右侧的植物。",
+            note: "Frost winds periodically freeze the rightmost plants.",
           },
           ruins: {
-            name: "星辉遗迹",
+            name: "Starlight Ruins",
             icon: "✦",
             sky: "#4c394f",
             ground: "#66704f",
             sunRate: 8.5,
-            note: "辉能地砖会联动释放叶能。",
+            note: "Radiant tiles trigger leaf energy in sync.",
           },
           volcano: {
-            name: "熔岩花谷",
+            name: "Lava Bloom Valley",
             icon: "🌋",
             sky: "#6b342d",
             ground: "#714936",
             sunRate: 7.8,
-            note: "熔岩裂隙会灼伤随机格，爆破与治疗同样重要。",
+            note: "Lava rifts scorch random tiles; blasting and healing matter equally.",
           },
           sky: {
-            name: "云顶天园",
+            name: "Cloud-top Sky Garden",
             icon: "☁",
             sky: "#4d82a3",
             ground: "#6d9a78",
             sunRate: 6.8,
-            note: "强风推动敌群，飞行单位会越过地面芽阵。",
+            note: "Strong winds push the horde forward and flyers pass over the ground sprouts.",
           },
         };
         const plantsDef = [
           {
             key: "sunleaf",
-            name: "向光芽",
+            name: "Sunseeker Sprout",
             icon: "☀",
             cost: 50,
             cd: 6,
             hp: 100,
-            tag: "生产",
-            desc: "周期生产日光；绽放时连续生产。",
+            tag: "Produce",
+            desc: "Produces sunlight periodically; produces continuously when bloomed.",
             unlock: 1,
             color: "#f4c957",
           },
           {
             key: "sprout",
-            name: "豆荚芽",
+            name: "Pod Sprout",
             icon: "●",
             cost: 100,
             cd: 4.5,
             hp: 120,
-            tag: "直射",
-            desc: "稳定发射豆籽；绽放时高速连射。",
+            tag: "Direct",
+            desc: "Fires pea seeds steadily; rapid fire when bloomed.",
             unlock: 1,
             color: "#72d66b",
           },
           {
             key: "shell",
-            name: "坚壳墩",
+            name: "Hardshell Stump",
             icon: "▰",
             cost: 50,
             cd: 8,
             hp: 650,
-            tag: "防御",
-            desc: "高耐久阻挡；绽放时回满并获得护甲。",
+            tag: "Defense",
+            desc: "High durability blocker; fully heals and gains armor when bloomed.",
             unlock: 1,
             color: "#b99159",
           },
           {
             key: "burst",
-            name: "爆裂莓",
+            name: "Burst Berry",
             icon: "✹",
             cost: 150,
             cd: 20,
             hp: 1,
-            tag: "爆破",
-            desc: "短暂延迟后大范围爆炸。",
+            tag: "Blast",
+            desc: "Explodes over a wide area after a short delay.",
             unlock: 2,
             color: "#f2645a",
           },
           {
             key: "frost",
-            name: "霜瓣草",
+            name: "Frostpetal",
             icon: "❄",
             cost: 125,
             cd: 6.5,
             hp: 110,
-            tag: "减速",
-            desc: "寒籽降低敌人速度。",
+            tag: "Slow",
+            desc: "Cold seeds slow enemies down.",
             unlock: 2,
             color: "#6fd4ea",
           },
           {
             key: "twin",
-            name: "双籽花",
+            name: "Twin-seed Flower",
             icon: "∞",
             cost: 175,
             cd: 7,
             hp: 120,
-            tag: "双发",
-            desc: "一次连续发射两颗豆籽。",
+            tag: "Double",
+            desc: "Fires two pea seeds in a row.",
             unlock: 3,
             color: "#6bd48c",
           },
           {
             key: "spike",
-            name: "地刺藤",
+            name: "Spike Vine",
             icon: "▲",
             cost: 100,
             cd: 6,
             hp: 140,
-            tag: "地面",
-            desc: "持续伤害踩在身上的地面敌人。",
+            tag: "Ground",
+            desc: "Deals continuous damage to ground enemies stepping on it.",
             unlock: 4,
             color: "#426f42",
           },
           {
             key: "mortar",
-            name: "玉粒炮",
+            name: "Jade Cannon",
             icon: "⌒",
             cost: 175,
             cd: 9,
             hp: 115,
-            tag: "抛射",
-            desc: "抛射玉粒，对落点造成溅射。",
+            tag: "Lob",
+            desc: "Lobs jade kernels that splash at the landing point.",
             unlock: 5,
             color: "#edbd51",
           },
           {
             key: "gourd",
-            name: "护壳瓜",
+            name: "Shield Melon",
             icon: "⬡",
             cost: 75,
             cd: 9,
             hp: 360,
-            tag: "护甲",
-            desc: "给同格植物套上护壳，可叠种。",
+            tag: "Armor",
+            desc: "Wraps a plant on the same tile in a shell; can be stacked.",
             unlock: 5,
             color: "#e3a04e",
             overlay: true,
           },
           {
             key: "mint",
-            name: "蚀露薄荷",
+            name: "Corrosive Dew Mint",
             icon: "≈",
             cost: 125,
             cd: 7,
             hp: 105,
-            tag: "持续",
-            desc: "毒露会持续腐蚀目标。",
+            tag: "Lasting",
+            desc: "Toxic dew keeps corroding its target.",
             unlock: 6,
             color: "#42c9a7",
           },
           {
             key: "melon",
-            name: "震波瓜",
+            name: "Shockwave Melon",
             icon: "◉",
             cost: 225,
             cd: 10,
             hp: 120,
-            tag: "溅射",
-            desc: "沉重果实攻击一整片区域。",
+            tag: "Splash",
+            desc: "A heavy fruit that hits a whole area.",
             unlock: 7,
             color: "#81c657",
           },
           {
             key: "lantern",
-            name: "引路灯苔",
+            name: "Guidelamp Moss",
             icon: "◇",
             cost: 75,
             cd: 8,
             hp: 140,
-            tag: "辅助",
-            desc: "驱散周围浓雾并加速邻近植物。",
+            tag: "Support",
+            desc: "Clears nearby fog and speeds up neighboring plants.",
             unlock: 7,
             color: "#ffe28a",
           },
           {
             key: "root",
-            name: "绊足根",
+            name: "Tripvine Root",
             icon: "⌁",
             cost: 75,
             cd: 8,
             hp: 80,
-            tag: "控制",
-            desc: "束缚首个踩中的敌人并造成伤害。",
+            tag: "Control",
+            desc: "Binds the first enemy to step on it and deals damage.",
             unlock: 8,
             color: "#b47a58",
           },
           {
             key: "beam",
-            name: "棱光草",
+            name: "Prism Grass",
             icon: "➤",
             cost: 200,
             cd: 11,
             hp: 100,
-            tag: "贯穿",
-            desc: "光束贯穿整行所有敌人。",
+            tag: "Pierce",
+            desc: "A beam of light pierces every enemy in the row.",
             unlock: 9,
             color: "#b487ec",
           },
           {
             key: "magnet",
-            name: "磁绒花",
+            name: "Magnet Fluff",
             icon: "∪",
             cost: 125,
             cd: 10,
             hp: 110,
-            tag: "拆甲",
-            desc: "周期吸走附近敌人的金属护甲。",
+            tag: "Shred",
+            desc: "Periodically pulls metal armor off nearby enemies.",
             unlock: 9,
             color: "#d184da",
           },
           {
             key: "bloom",
-            name: "拳叶兰",
+            name: "Fist Orchid",
             icon: "✿",
             cost: 150,
             cd: 7,
             hp: 250,
-            tag: "近战",
-            desc: "快速拍击前方近距离敌人。",
+            tag: "Melee",
+            desc: "Rapidly slaps nearby enemies in front.",
             unlock: 10,
             color: "#f08bb0",
           },
           {
             key: "storm",
-            name: "雷铃草",
+            name: "Thunderbell",
             icon: "ϟ",
             cost: 225,
             cd: 12,
             hp: 105,
-            tag: "连锁",
-            desc: "电弧在多个敌人间跳跃。",
+            tag: "Chain",
+            desc: "Electric arcs jump between several enemies.",
             unlock: 11,
             color: "#79bff2",
           },
           {
             key: "comet",
-            name: "彗星果",
+            name: "Comet Fruit",
             icon: "★",
             cost: 250,
             cd: 24,
             hp: 1,
-            tag: "终结",
-            desc: "呼叫彗光横扫一整行。",
+            tag: "Finisher",
+            desc: "Calls down a comet that sweeps an entire row.",
             unlock: 12,
             color: "#ff9c62",
           },
           {
             key: "nectar",
-            name: "蜜疗花",
+            name: "Honeyheal Flower",
             icon: "✚",
             cost: 125,
             cd: 8,
             hp: 120,
-            tag: "治疗",
-            desc: "周期治疗全场最虚弱的芽阵。",
+            tag: "Heal",
+            desc: "Periodically heals the weakest sprout on the field.",
             unlock: 13,
             color: "#f3a6bd",
           },
           {
             key: "vortex",
-            name: "旋风蕨",
+            name: "Whirlwind Fern",
             icon: "↶",
             cost: 175,
             cd: 9,
             hp: 110,
-            tag: "击退",
-            desc: "卷起前方敌人并将其推回。",
+            tag: "Knockback",
+            desc: "Sweeps up enemies in front and pushes them back.",
             unlock: 14,
             color: "#82d6bd",
           },
           {
             key: "nova",
-            name: "熔芯莲",
+            name: "Magma-core Lotus",
             icon: "☄",
             cost: 225,
             cd: 12,
             hp: 125,
-            tag: "燃烧",
-            desc: "投射熔芯，对邻行造成灼热爆发。",
+            tag: "Burn",
+            desc: "Launches a molten core that bursts into scorching heat on neighboring rows.",
             unlock: 15,
             color: "#f07a4e",
           },
           {
             key: "chrono",
-            name: "时芽钟",
+            name: "Time Sprout Bell",
             icon: "◷",
             cost: 150,
             cd: 10,
             hp: 135,
-            tag: "加速",
-            desc: "加速两格范围内所有芽阵。",
+            tag: "Haste",
+            desc: "Speeds up all sprouts within two tiles.",
             unlock: 16,
             color: "#d0b4f2",
           },
           {
             key: "prism",
-            name: "虹镜花",
+            name: "Rainbow Mirror Flower",
             icon: "◆",
             cost: 250,
             cd: 12,
             hp: 105,
-            tag: "多路",
-            desc: "同时向本行与相邻两行发射折光束。",
+            tag: "Multi-lane",
+            desc: "Fires refracted beams into its own row and both adjacent rows at once.",
             unlock: 17,
             color: "#f1a8df",
           },
           {
             key: "dragon",
-            name: "龙息果",
-            icon: "龙",
+            name: "Dragonbreath Fruit",
+            icon: "🐉",
             cost: 300,
             cd: 15,
             hp: 160,
-            tag: "终极",
-            desc: "蓄力喷吐贯穿火焰，对首领伤害更高。",
+            tag: "Ultimate",
+            desc: "Charges up and spits piercing flame; deals extra damage to bosses.",
             unlock: 18,
             color: "#ffb45f",
           },
@@ -1298,14 +1298,14 @@
         const plantMap = Object.fromEntries(plantsDef.map((x) => [x.key, x]));
         const enemiesDef = {
           walker: {
-            name: "灰步客",
+            name: "Gray Walker",
             hp: 130,
             speed: 17,
             damage: 15,
             color: "#9caf98",
           },
           cone: {
-            name: "路标客",
+            name: "Signpost Walker",
             hp: 260,
             speed: 15,
             damage: 17,
@@ -1313,7 +1313,7 @@
             armor: 80,
           },
           bucket: {
-            name: "铁桶客",
+            name: "Bucket Walker",
             hp: 420,
             speed: 12,
             damage: 20,
@@ -1322,14 +1322,14 @@
             metal: true,
           },
           runner: {
-            name: "疾行客",
+            name: "Sprinter",
             hp: 100,
             speed: 34,
             damage: 13,
             color: "#e8785e",
           },
           pole: {
-            name: "跃杆客",
+            name: "Pole Vaulter",
             hp: 170,
             speed: 25,
             damage: 15,
@@ -1337,7 +1337,7 @@
             jump: true,
           },
           shield: {
-            name: "门盾客",
+            name: "Door Shield Walker",
             hp: 290,
             speed: 12,
             damage: 18,
@@ -1346,7 +1346,7 @@
             metal: true,
           },
           horn: {
-            name: "号角客",
+            name: "Horn Walker",
             hp: 210,
             speed: 15,
             damage: 14,
@@ -1354,7 +1354,7 @@
             aura: true,
           },
           brute: {
-            name: "重锤客",
+            name: "Hammer Walker",
             hp: 820,
             speed: 9,
             damage: 38,
@@ -1362,7 +1362,7 @@
             heavy: true,
           },
           medic: {
-            name: "缝补师",
+            name: "Patcher",
             hp: 220,
             speed: 13,
             damage: 12,
@@ -1370,7 +1370,7 @@
             heal: true,
           },
           miner: {
-            name: "掘地客",
+            name: "Digger",
             hp: 190,
             speed: 18,
             damage: 17,
@@ -1379,7 +1379,7 @@
             metal: true,
           },
           wisp: {
-            name: "浮灯怪",
+            name: "Floating Lantern",
             hp: 145,
             speed: 21,
             damage: 16,
@@ -1387,7 +1387,7 @@
             flying: true,
           },
           ram: {
-            name: "冲撞客",
+            name: "Rammer",
             hp: 330,
             speed: 27,
             damage: 24,
@@ -1395,7 +1395,7 @@
             ram: true,
           },
           swarm: {
-            name: "团团客",
+            name: "Blob Walker",
             hp: 75,
             speed: 25,
             damage: 10,
@@ -1403,7 +1403,7 @@
             small: true,
           },
           titan: {
-            name: "遗迹泰坦",
+            name: "Ruin Titan",
             hp: 2400,
             speed: 7,
             damage: 52,
@@ -1412,7 +1412,7 @@
             heavy: true,
           },
           thief: {
-            name: "窃光客",
+            name: "Light Thief",
             hp: 155,
             speed: 29,
             damage: 15,
@@ -1420,7 +1420,7 @@
             thief: true,
           },
           freezer: {
-            name: "寒灯术士",
+            name: "Frost Lantern Warlock",
             hp: 240,
             speed: 14,
             damage: 17,
@@ -1428,7 +1428,7 @@
             freezer: true,
           },
           glider: {
-            name: "云帆客",
+            name: "Cloud Sail Walker",
             hp: 190,
             speed: 27,
             damage: 19,
@@ -1436,7 +1436,7 @@
             flying: true,
           },
           lavaLord: {
-            name: "熔岩花王",
+            name: "Lava Flower King",
             hp: 3200,
             speed: 6,
             damage: 58,
@@ -1446,7 +1446,7 @@
             aura: true,
           },
           cloudEmperor: {
-            name: "云冠帝君",
+            name: "Cloud Crown Emperor",
             hp: 3900,
             speed: 8,
             damage: 62,
@@ -1460,183 +1460,183 @@
           {
             id: 1,
             region: "meadow",
-            name: "初芽试炼",
+            name: "First Sprout Trial",
             waves: 5,
             diff: 0.78,
             plant: "sunleaf",
-            mission: "认识日光与基础防线。",
+            mission: "Learn about sunlight and basic defenses.",
             pool: ["walker", "cone"],
           },
           {
             id: 2,
             region: "meadow",
-            name: "路标来袭",
+            name: "Signposts Incoming",
             waves: 6,
             diff: 0.86,
             plant: "burst",
-            mission: "爆裂芽阵首次加入行动。",
+            mission: "Burst sprouts join the mission for the first time.",
             pool: ["walker", "cone", "runner"],
           },
           {
             id: 3,
             region: "meadow",
-            name: "疾行队列",
+            name: "Sprinting Column",
             waves: 7,
             diff: 0.94,
             plant: "twin",
-            mission: "快速单位会冲击薄弱行。",
+            mission: "Fast units rush the weak rows.",
             pool: ["walker", "cone", "runner", "pole"],
           },
           {
             id: 4,
             region: "meadow",
-            name: "庭院旗阵",
+            name: "Courtyard Banner Formation",
             waves: 8,
             diff: 1.02,
             plant: "spike",
-            mission: "守住全部五条最后防线。",
+            mission: "Hold all five last-defense lines.",
             pool: ["walker", "cone", "bucket", "runner", "pole"],
           },
           {
             id: 5,
             region: "night",
-            name: "萤雾初临",
+            name: "Glowmist Arrives",
             waves: 6,
             diff: 1.02,
             plant: "mortar",
-            mission: "浓雾中远端威胁难以辨认。",
+            mission: "In the thick fog, far-off threats are hard to make out.",
             pool: ["walker", "cone", "shield", "wisp"],
           },
           {
             id: 6,
             region: "night",
-            name: "地底回声",
+            name: "Echoes Underground",
             waves: 7,
             diff: 1.08,
             plant: "mint",
-            mission: "掘地客会从阵地中段钻出。",
+            mission: "Diggers burst out from the middle of your formation.",
             pool: ["walker", "bucket", "miner", "wisp", "horn"],
           },
           {
             id: 7,
             region: "night",
-            name: "雾灯守望",
+            name: "Fog Lamp Watch",
             waves: 8,
             diff: 1.14,
             plant: "lantern",
-            mission: "引路灯苔可照亮并鼓舞邻格。",
+            mission: "Guidelamp Moss can light up and inspire neighboring tiles.",
             pool: ["shield", "runner", "miner", "medic", "wisp"],
           },
           {
             id: 8,
             region: "frost",
-            name: "霜线骤起",
+            name: "Frost Line Rises",
             waves: 7,
             diff: 1.16,
             plant: "root",
-            mission: "霜风会冻结最靠右的芽阵。",
+            mission: "Frost winds freeze the rightmost sprouts.",
             pool: ["walker", "cone", "bucket", "ram"],
           },
           {
             id: 9,
             region: "frost",
-            name: "铁甲长队",
+            name: "Ironclad Column",
             waves: 8,
             diff: 1.22,
             plant: "beam",
-            mission: "磁绒花能快速拆除金属护甲。",
+            mission: "Magnet Fluff strips metal armor quickly.",
             pool: ["bucket", "shield", "horn", "medic", "ram"],
           },
           {
             id: 10,
             region: "frost",
-            name: "重锤压境",
+            name: "Hammers Close In",
             waves: 9,
             diff: 1.28,
             plant: "bloom",
-            mission: "重型单位需要控制与集中火力。",
+            mission: "Heavy units need control and focused fire.",
             pool: ["bucket", "brute", "medic", "ram", "swarm"],
           },
           {
             id: 11,
             region: "ruins",
-            name: "辉能回路",
+            name: "Radiant Circuit",
             waves: 9,
             diff: 1.32,
             plant: "storm",
-            mission: "紫色辉能格会联动叶能绽放。",
+            mission: "Purple radiant tiles link up with leaf-energy blooms.",
             pool: ["shield", "horn", "miner", "wisp", "brute"],
           },
           {
             id: 12,
             region: "ruins",
-            name: "泰坦终局",
+            name: "Titan Finale",
             waves: 10,
             diff: 1.42,
             plant: "comet",
-            mission: "击退遗迹泰坦，完成四境远征。",
+            mission: "Repel the Ruin Titan and complete the four-realm expedition.",
             pool: ["bucket", "brute", "medic", "ram", "wisp", "titan"],
             boss: "titan",
           },
           {
             id: 13,
             region: "volcano",
-            name: "热土初开",
+            name: "Hot Ground Opens",
             waves: 8,
             diff: 1.34,
             plant: "nectar",
-            mission: "熔岩裂隙会持续考验芽阵续航。",
+            mission: "Lava rifts keep testing your sprouts' staying power.",
             pool: ["walker", "runner", "thief", "ram", "medic"],
           },
           {
             id: 14,
             region: "volcano",
-            name: "窃光风暴",
+            name: "Light-thief Storm",
             waves: 9,
             diff: 1.4,
             plant: "vortex",
-            mission: "窃光客会夺走日光，利用击退争取时间。",
+            mission: "Light Thieves steal sunlight; use knockback to buy time.",
             pool: ["thief", "runner", "bucket", "freezer", "brute"],
           },
           {
             id: 15,
             region: "volcano",
-            name: "熔王苏醒",
+            name: "Lava King Awakens",
             waves: 10,
             diff: 1.5,
             plant: "nova",
-            mission: "击败熔岩花王，避免整片阵地被灼穿。",
+            mission: "Defeat the Lava Flower King before the whole position is scorched through.",
             pool: ["thief", "bucket", "ram", "medic", "brute", "lavaLord"],
             boss: "lavaLord",
           },
           {
             id: 16,
             region: "sky",
-            name: "云路迁徙",
+            name: "Cloud Road Migration",
             waves: 9,
             diff: 1.44,
             plant: "chrono",
-            mission: "飞行敌群越过地面陷阱，利用加速重整火力。",
+            mission: "Flying hordes pass over ground traps; use haste to regroup your firepower.",
             pool: ["glider", "wisp", "runner", "shield", "freezer"],
           },
           {
             id: 17,
             region: "sky",
-            name: "三路折光",
+            name: "Three-lane Refraction",
             waves: 10,
             diff: 1.52,
             plant: "prism",
-            mission: "敌群跨行压境，虹镜花可同时支援三路。",
+            mission: "Hordes press across lanes; Rainbow Mirror Flowers support three lanes at once.",
             pool: ["glider", "wisp", "horn", "medic", "ram", "brute"],
           },
           {
             id: 18,
             region: "sky",
-            name: "云冠终章",
+            name: "Cloud Crown Finale",
             waves: 12,
             diff: 1.62,
             plant: "dragon",
-            mission: "守住六境最终防线，击退云冠帝君。",
+            mission: "Hold the final line of the six realms and repel the Cloud Crown Emperor.",
             pool: [
               "glider",
               "shield",
@@ -1650,41 +1650,41 @@
         ];
         const specialModes = {
           survival: {
-            name: "无尽花圃",
+            name: "Endless Garden Bed",
             icon: "∞",
-            desc: "波次不断增强，每三波补充一格叶能。",
+            desc: "Waves keep growing stronger, and every third wave refills one cell of leaf energy.",
             region: "meadow",
           },
           conveyor: {
-            name: "传送育苗",
+            name: "Conveyor Seeding",
             icon: "⇢",
-            desc: "无需日光，传送带会持续送来随机芽阵。",
+            desc: "No sunlight needed; a conveyor keeps delivering random sprouts.",
             region: "ruins",
           },
           daily: {
-            name: "今日异象",
+            name: "Daily Omen",
             icon: "◈",
-            desc: "每日固定种子生成敌群、区域与初始卡组。",
+            desc: "A fixed daily seed generates the horde, region and starting deck.",
             region: "frost",
           },
         };
         const CHALLENGES = {
-          standard: { name: "标准", desc: "完整基础规则", diff: 1, sun: 1 },
+          standard: { name: "Standard", desc: "Full basic rules", diff: 1, sun: 1 },
           drought: {
-            name: "旱季",
-            desc: "初始与掉落日光 -25%",
+            name: "Dry Season",
+            desc: "Starting and dropped sunlight -25%",
             diff: 1.08,
             sun: 0.75,
           },
           armored: {
-            name: "铁潮",
-            desc: "敌人气血与护甲强化",
+            name: "Iron Tide",
+            desc: "Enemy health and armor boosted",
             diff: 1.22,
             sun: 1,
           },
           swarm: {
-            name: "虫群",
-            desc: "敌群数量增加，结算星级更高",
+            name: "Swarm",
+            desc: "More enemies, higher star rating on results",
             diff: 1.12,
             sun: 1,
           },
@@ -1799,14 +1799,14 @@
             .trim()
             .split(".");
           if (prefix !== "GDF3" || !payload || saveHash(payload) !== checksum)
-            throw new Error("存档码校验失败");
+            throw new Error("Save code check failed");
           const parsed = JSON.parse(
             new TextDecoder().decode(
               Uint8Array.from(atob(payload), (char) => char.charCodeAt(0)),
             ),
           );
           if (parsed.game !== "garden-front" || !parsed.data)
-            throw new Error("不是芽阵前线存档");
+            throw new Error("Not a Sprout Front save");
           localStorage.setItem(SAVE_KEY, JSON.stringify(parsed.data));
           save = loadSave();
           selectedLevel = Math.min(save.unlocked, 18);
@@ -1850,37 +1850,37 @@
           return levels[selectedLevel - 1] || levels[0];
         }
         function levelReward(id) {
-          if (id >= 18) return "六境王冠";
-          if (id === 12) return "四境徽记";
+          if (id >= 18) return "Six Realms Crown";
+          if (id === 12) return "Four Realms Emblem";
           const names = plantsDef
             .filter((p) => p.unlock === id + 1)
             .map((p) => p.name);
-          return names.join("、") || "远征补给";
+          return names.join(", ") || "Expedition supplies";
         }
         function renderMenu() {
           $("savePill").textContent =
-            `远征进度 ${Math.min(save.unlocked, 18)}/18 · 王冠 ${save.crowns || 0} · 总击退 ${save.totalKills || 0}`;
+            `Expedition progress ${Math.min(save.unlocked, 18)}/18 · Crowns ${save.crowns || 0} · Total repelled ${save.totalKills || 0}`;
           $("levelGrid").innerHTML = levels
             .map((l) => {
               const locked = l.id > save.unlocked,
                 stars = save.stars[l.id] || 0;
-              return `<button class="level-btn ${selectedLevel === l.id ? "selected" : ""} ${locked ? "locked" : ""}" data-level="${l.id}" ${locked ? "disabled" : ""}><span>${regions[l.region].icon} ${l.id}</span><small>${locked ? "尚未解锁" : l.name}${stars ? ` · ${"★".repeat(stars)}` : ""}</small></button>`;
+              return `<button class="level-btn ${selectedLevel === l.id ? "selected" : ""} ${locked ? "locked" : ""}" data-level="${l.id}" ${locked ? "disabled" : ""}><span>${regions[l.region].icon} ${l.id}</span><small>${locked ? "Locked" : l.name}${stars ? ` · ${"★".repeat(stars)}` : ""}</small></button>`;
             })
             .join("");
           const l = currentLevel();
           $("levelInfo").innerHTML =
-            `<strong>${regions[l.region].icon} ${l.id}. ${l.name}</strong><p>${l.mission}<br>${regions[l.region].note} · ${l.waves} 波 · 通关奖励「${levelReward(l.id)}」</p>`;
+            `<strong>${regions[l.region].icon} ${l.id}. ${l.name}</strong><p>${l.mission}<br>${regions[l.region].note} · ${l.waves} waves · Clear reward: '${levelReward(l.id)}'</p>`;
           $("challengeGrid").innerHTML = Object.entries(CHALLENGES)
             .map(
               ([key, c]) =>
-                `<button class="mini-btn ${selectedChallenge === key ? "selected" : ""}" data-challenge="${key}" title="${c.desc}">${c.name}${save.challengeWins[key] ? ` · ${save.challengeWins[key]}胜` : ""}</button>`,
+                `<button class="mini-btn ${selectedChallenge === key ? "selected" : ""}" data-challenge="${key}" title="${c.desc}">${c.name}${save.challengeWins[key] ? ` · ${save.challengeWins[key]} wins` : ""}</button>`,
             )
             .join("");
           renderLoadout();
           $("modeCards").innerHTML = Object.entries(specialModes)
             .map(
               ([k, m]) =>
-                `<button class="mode-btn ${selectedSpecial === k ? "selected" : ""}" data-special="${k}"><b>${m.icon} ${m.name}</b><small>${m.desc}${k === "survival" ? `<br>纪录：${save.bestSurvival || 0} 波` : ""}</small></button>`,
+                `<button class="mode-btn ${selectedSpecial === k ? "selected" : ""}" data-special="${k}"><b>${m.icon} ${m.name}</b><small>${m.desc}${k === "survival" ? `<br>Record: ${save.bestSurvival || 0} waves` : ""}</small></button>`,
             )
             .join("");
           const sm = specialModes[selectedSpecial];
@@ -1892,24 +1892,24 @@
               regions[
                 previewLevel?.region || specialModes[selectedSpecial].region
               ];
-            UI.status.textContent = "远征待命";
+            UI.status.textContent = "Expedition on standby";
             UI.region.textContent = previewRegion.name;
             UI.missionIcon.textContent = previewRegion.icon;
             UI.missionTitle.textContent = previewLevel
               ? `${previewLevel.id}. ${previewLevel.name}`
               : selectedTab === "special"
                 ? sm.name
-                : "芽阵图鉴";
+                : "Sprout codex";
             UI.missionText.textContent = previewLevel
               ? previewLevel.mission
               : selectedTab === "special"
                 ? sm.desc
-                : "查看 24 株芽阵的能力与永久熟练记录。";
+                : "View the abilities and permanent mastery records of all 24 sprouts.";
           }
           $("almanacGrid").innerHTML = plantsDef
             .map(
               (p) =>
-                `<div class="codex-card" style="opacity:${unlockedPlant(p) ? 1 : 0.32}"><b style="color:${p.color}">${unlockedPlant(p) ? p.icon : "?"}</b><strong>${unlockedPlant(p) ? p.name : "未发现芽阵"}</strong><small>${unlockedPlant(p) ? `${p.tag} · ${p.cost} 日光<br>${p.desc}<br>熟练击退 ${save.mastery[p.key] || 0}` : `通过第 ${p.unlock} 关发现`}</small></div>`,
+                `<div class="codex-card" style="opacity:${unlockedPlant(p) ? 1 : 0.32}"><b style="color:${p.color}">${unlockedPlant(p) ? p.icon : "?"}</b><strong>${unlockedPlant(p) ? p.name : "Undiscovered sprout"}</strong><small>${unlockedPlant(p) ? `${p.tag} · ${p.cost} sun<br>${p.desc}<br>Mastery kills ${save.mastery[p.key] || 0}` : `Clear level ${p.unlock} to discover`}</small></div>`,
             )
             .join("");
           $("startBtn").hidden = selectedTab === "almanac";
@@ -1926,7 +1926,7 @@
           $("loadoutGrid").innerHTML = plantsDef
             .map(
               (p) =>
-                `<button class="loadout-card ${loadout.includes(p.key) ? "selected" : ""} ${!unlockedPlant(p) ? "locked" : ""}" data-loadout="${p.key}" ${!unlockedPlant(p) ? "disabled" : ""}><b style="color:${p.color}">${unlockedPlant(p) ? p.icon : "?"}</b><span>${unlockedPlant(p) ? p.name : "未发现"}</span>${loadout.includes(p.key) ? `<i>${loadout.indexOf(p.key) + 1}</i>` : ""}</button>`,
+                `<button class="loadout-card ${loadout.includes(p.key) ? "selected" : ""} ${!unlockedPlant(p) ? "locked" : ""}" data-loadout="${p.key}" ${!unlockedPlant(p) ? "disabled" : ""}><b style="color:${p.color}">${unlockedPlant(p) ? p.icon : "?"}</b><span>${unlockedPlant(p) ? p.name : "Undiscovered"}</span>${loadout.includes(p.key) ? `<i>${loadout.indexOf(p.key) + 1}</i>` : ""}</button>`,
             )
             .join("");
         }
@@ -1952,7 +1952,7 @@
                 if (loadout.includes(k))
                   loadout = loadout.filter((x) => x !== k);
                 else if (loadout.length < 8) loadout.push(k);
-                else return showToast("最多选择 8 株");
+                else return showToast("Choose up to 8");
                 renderLoadout();
               }),
           );
@@ -1981,7 +1981,7 @@
             selectedLevel = state.levelId;
           if (selectedTab === "almanac") return;
           if (selectedTab === "adventure" && loadout.length < 3)
-            return showToast("至少选择 3 株芽阵");
+            return showToast("Choose at least 3 sprouts");
           plants = [];
           enemies = [];
           bullets = [];
@@ -2058,7 +2058,7 @@
           $("resultModal").classList.remove("show");
           showToast(
             isLevel
-              ? `第 ${level.id} 关 · ${level.name}`
+              ? `Level ${level.id} - ${level.name}`
               : specialModes[special].name,
           );
           renderSeeds(true);
@@ -2171,18 +2171,18 @@
             overlay = overlayAt(row, col);
           if (def.overlay) {
             if (!existing || overlay)
-              return showToast(existing ? "已有护壳" : "护壳需要覆盖在植物上");
-          } else if (existing) return showToast("这里已经有芽阵");
+              return showToast(existing ? "Already shielded" : "A shell must cover a plant");
+          } else if (existing) return showToast("There is already a sprout here");
           const conveyorMode = state.kind === "conveyor";
           if (conveyorMode) {
             const item = conveyor.find((x) => x.id === selectedConveyorId);
             if (!item || item.key !== def.key)
-              return showToast("从传送带选择一株");
+              return showToast("Pick one from the conveyor");
             conveyor = conveyor.filter((x) => x.id !== item.id);
             selectedConveyorId = null;
           } else {
-            if (state.sun < def.cost) return showToast("日光不足");
-            if ((cooldowns[def.key] || 0) > 0) return showToast("还在育苗");
+            if (state.sun < def.cost) return showToast("Not enough sunlight");
+            if ((cooldowns[def.key] || 0) > 0) return showToast("Still seeding");
             state.sun -= def.cost;
             cooldowns[def.key] = def.cd;
           }
@@ -2250,7 +2250,7 @@
             if (s.type === "flag") {
               state.wave = s.wave;
               showToast(
-                s.wave % 5 === 0 ? `⚑ 大型波次 ${s.wave}` : `第 ${s.wave} 波`,
+                s.wave % 5 === 0 ? `⚑ Big wave ${s.wave}` : `Wave ${s.wave} incoming`,
               );
             } else spawnEnemy(s.type, s.row, s.charged);
           }
@@ -2311,7 +2311,7 @@
           });
           if (d.boss && !state.bossSeen) {
             state.bossSeen = true;
-            showToast(`⚠ ${d.name}进入战场`);
+            showToast(`⚠ ${d.name}Enter the battlefield`);
           }
         }
         function updateEnvironment(dt) {
@@ -2337,7 +2337,7 @@
                 .sort((a, b) => b.col - a.col)
                 .slice(0, 3);
               candidates.forEach((p) => (p.frozen = 3.5));
-              showToast("❄ 霜风冻结前排芽阵");
+              showToast("❄ Frost wind freezes the frontmost sprouts");
               particles.push({
                 kind: "gust",
                 life: 1.1,
@@ -2364,7 +2364,7 @@
                   max: 0.7,
                   color: "#ff714f",
                 });
-                showToast("🌋 熔岩裂隙灼伤芽阵");
+                showToast("🌋 Lava rift scorches the sprouts");
               }
             }
           }
@@ -2379,7 +2379,7 @@
                 max: 1.1,
                 color: "#d8f4ff",
               });
-              showToast("☁ 强风推动敌群靠近防线");
+              showToast("☁ Strong wind pushes the horde toward the defense line");
             }
           }
           if (state.kind === "conveyor") {
@@ -2742,7 +2742,7 @@
                 e.speed *= 1.35;
                 e.damage = Math.round(e.damage * 1.15);
                 e.armor += Math.round(420 * state.difficulty);
-                showToast("🌋 熔岩花王进入炽怒阶段");
+                showToast("🌋 The Lava Flower King enters a blazing rage");
               }
               e.abilityTimer -= dt;
               if (e.abilityTimer <= 0) {
@@ -2763,7 +2763,7 @@
                       color: "#ff714f",
                     });
                   });
-                showToast("🔥 熔王降下灼热花雨");
+                showToast("🔥 The Lava King rains down scorching petals");
               }
             } else if (e.type === "cloudEmperor") {
               const ratio = e.hp / e.maxHp;
@@ -2773,7 +2773,7 @@
                 e.shield += Math.round(260 * state.difficulty);
                 spawnEnemy("glider", (e.row + 1) % ROWS, false);
                 spawnEnemy("glider", (e.row + ROWS - 1) % ROWS, false);
-                showToast(`☁ 云冠帝君展开第 ${nextPhase + 1} 重天幕`);
+                showToast(`☁ The Cloud Crown Emperor opens layer ${nextPhase + 1} of the sky`);
               }
               e.abilityTimer -= dt;
               if (e.abilityTimer <= 0) {
@@ -2789,7 +2789,7 @@
                   max: 1.1,
                   color: "#d8f4ff",
                 });
-                showToast("🌪 云冠帝君换道并召来天风");
+                showToast("🌪 The Cloud Crown Emperor changes lanes and summons a gale");
               }
             }
             if (e.heal) {
@@ -2822,7 +2822,7 @@
                 e.stealTimer = 4.5;
                 const stolen = Math.min(18, state.sun);
                 state.sun -= stolen;
-                showToast(`窃光客夺走 ${Math.round(stolen)} 日光`);
+                showToast(`Light Thief steals ${Math.round(stolen)} sunlight`);
               }
             }
             const aura = enemies.some(
@@ -2905,7 +2905,7 @@
         function breach(e) {
           if (state.laneGuards[e.row]) {
             state.laneGuards[e.row] = false;
-            showToast("最后防线启动");
+            showToast("Last defense activated");
             enemies.forEach((x) => {
               if (x.row === e.row) x.dead = true;
             });
@@ -3067,7 +3067,7 @@
             p.evolved = true;
             p.maxHp = Math.round(p.maxHp * 1.25);
             p.hp = p.maxHp;
-            showToast(`${plantMap[p.key].name}完成本局进化！`);
+            showToast(`${plantMap[p.key].name}Evolution complete for this run!`);
           }
           p.frozen = 0;
           const def = plantMap[p.key];
@@ -3121,7 +3121,7 @@
                 q.boost = Math.max(q.boost, 5);
                 q.cool = 0;
               });
-            showToast("辉能回路联动！");
+            showToast("Radiant circuit link!");
           }
           particles.push({
             kind: "ring",
@@ -3193,35 +3193,35 @@
           if (state.kind === "survival")
             save.bestSurvival = Math.max(save.bestSurvival || 0, state.wave);
           saveProgress();
-          $("resultTitle").textContent = won ? "防线稳固" : "防线失守";
+          $("resultTitle").textContent = won ? "Defense held" : "Defense breached";
           $("resultCopy").textContent = won
             ? state.kind === "level"
-              ? `行动完成，获得「${levelReward(state.levelId)}」。`
-              : "特别行动完成。"
-            : `推进队伍突破了庭院入口。`;
+              ? `Mission complete. Earned '${levelReward(state.levelId)}'.`
+              : "Special mission complete."
+            : `The advance team broke through the courtyard entrance.`;
           $("resultKills").textContent = state.kills;
           $("resultSun").textContent = Math.floor(state.sun);
           $("resultGuards").textContent =
             state.laneGuards.filter(Boolean).length;
           $("nextBtn").textContent =
             state.kind === "level" && state.levelId < 18 && won
-              ? "下一关"
-              : "返回地图";
+              ? "Next level"
+              : "Back to map";
           $("resultModal").classList.add("show");
         }
         function updateUI() {
           const reg = regions[state.region];
           UI.status.textContent = state.over
             ? state.won
-              ? "行动完成"
-              : "防线失守"
+              ? "Mission complete"
+              : "Defense breached"
             : state.paused
-              ? "暂停"
+              ? "Paused"
               : leafMode
-                ? "选择绽放目标"
+                ? "Choose bloom target"
                 : shovel
-                  ? "铲除模式"
-                  : "交战中";
+                  ? "Dig mode"
+                  : "In combat";
           UI.region.textContent = reg.name;
           UI.sun.textContent = Math.floor(state.sun);
           UI.wave.textContent =
@@ -3232,9 +3232,9 @@
           UI.kills.textContent = state.kills;
           UI.waveText.textContent = state.started
             ? state.kind === "survival"
-              ? `无尽第 ${state.wave} 波 · 威胁 ${enemies.length}`
-              : `第 ${state.wave}/${state.totalWaves} 波 · ${state.mission}`
-            : "选择行动";
+              ? `Endless wave ${state.wave} · Threat ${enemies.length}`
+              : `Wave ${state.wave}/${state.totalWaves} · ${state.mission}`
+            : "Choose a mission";
           let progress =
             state.kind === "survival"
               ? (state.wave % 10) * 10
@@ -3253,8 +3253,8 @@
           UI.missionIcon.textContent = reg.icon;
           UI.missionTitle.textContent =
             state.kind === "level"
-              ? `${state.levelId}. ${levels[state.levelId - 1]?.name || "行动"}`
-              : specialModes[state.kind]?.name || "选择行动";
+              ? `${state.levelId}. ${levels[state.levelId - 1]?.name || "Mission"}`
+              : specialModes[state.kind]?.name || "Choose a mission";
           UI.missionText.textContent = state.mission || reg.note;
           $("shovelBtn").classList.toggle("active", shovel);
           $("overloadBtn").classList.toggle("active", leafMode);
@@ -3334,7 +3334,7 @@
             );
             if (targets.length) {
               targets.forEach((x) => (x.dead = true));
-              showToast("已铲除");
+              showToast("Removed");
             }
             shovel = false;
             updateUI();
@@ -3465,7 +3465,7 @@
           ctx.font = "900 11px sans-serif";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillText(d.kind === "sun" ? d.value : "叶", 0, 1);
+          ctx.fillText(d.kind === "sun" ? d.value : "Leaf", 0, 1);
           ctx.restore();
         }
         function drawPlant(p) {
@@ -3803,7 +3803,7 @@
           if (
             state.started &&
             !state.over &&
-            !confirm("当前行动尚未结束，返回地图？")
+            !confirm("The current mission is not over. Return to the map?")
           )
             return;
           state.started = false;
@@ -3812,7 +3812,7 @@
           renderMenu();
         };
         $("restartBtn").onclick = () => {
-          if (state.started && confirm("重新开始当前行动？")) startGame(true);
+          if (state.started && confirm("Restart the current mission?")) startGame(true);
         };
         $("pauseBtn").onclick = () => {
           if (!state.started || state.over) return;
@@ -3839,7 +3839,7 @@
         };
         $("hintBtn").onclick = () => showToast(regions[state.region].note);
         $("resetSaveBtn").onclick = () => {
-          if (confirm("确定重置远征关卡、星级和纪录？")) {
+          if (confirm("Reset expedition levels, stars and records?")) {
             localStorage.removeItem(SAVE_KEY);
             save = loadSave();
             selectedLevel = 1;
@@ -3851,16 +3851,16 @@
           try {
             await navigator.clipboard.writeText(code);
           } catch (error) {}
-          prompt("芽阵前线存档码（已尝试复制，可在其他设备导入）", code);
+          prompt("Sprout Front save code (copy attempted; you can import it on another device)", code);
         };
         $("importSaveBtn").onclick = () => {
-          const code = prompt("粘贴芽阵前线存档码：");
+          const code = prompt("Paste Sprout Front save code:");
           if (!code) return;
           try {
             importSave(code);
-            alert("存档导入成功，远征、熟练与挑战纪录已恢复。");
+            alert("Save imported; expedition, mastery and challenge records restored.");
           } catch (error) {
-            alert(`导入失败：${error.message}`);
+            alert(`Import failed: ${error.message}`);
           }
         };
         canvas.addEventListener("click", canvasClick);

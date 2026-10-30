@@ -112,3 +112,41 @@ describe('Games page', () => {
     expect(host.textContent).toContain('Try again')
   })
 })
+
+describe('Games page language filter (Phase 205, M20)', () => {
+  const MIX = (): ReturnType<typeof game>[] => [game('chess', 'Chess'), game('cat-seesaw', 'Cat Seesaw', { lang: 'zh' }), game('beat-bento', 'Beat Bento', { lang: 'zh' })]
+  it('hides Chinese games by default, says how many, and Show them brings them back with a Chinese label', async () => {
+    api = installApi(MIX())
+    await show()
+    expect(titles()).toEqual(['Chess'])
+    expect(host.textContent).toContain('2 games with a Chinese interface are hidden.')
+    expect(host.textContent).toContain('1 of 1 games')
+    const showBtn = [...host.querySelectorAll<HTMLButtonElement>('button')].find((b) => b.textContent === 'Show them')!
+    await act(async () => { showBtn.click() }); await flush()
+    expect(api.settings.set).toHaveBeenCalledWith('games.showChinese', true)
+    expect(titles().sort()).toEqual(['Beat Bento', 'Cat Seesaw', 'Chess'])
+    expect(host.querySelector('[data-game-id="cat-seesaw"]')!.textContent).toContain('Chinese')
+    expect(host.querySelector('[data-game-id="chess"]')!.textContent).not.toContain('Chinese')
+    expect(host.textContent).not.toContain('are hidden')
+  })
+  it('search never finds a hidden game; with the switch on it does', async () => {
+    api = installApi(MIX())
+    await show()
+    await type(host.querySelector('input[aria-label="Search games"]')!, 'seesaw')
+    expect(titles()).toEqual([])
+    await act(async () => { root.unmount() }); root = createRoot(host)
+    api = installApi(MIX(), { showChinese: true })
+    await show()
+    await type(host.querySelector('input[aria-label="Search games"]')!, 'seesaw')
+    expect(titles()).toEqual(['Cat Seesaw'])
+  })
+  it('no note is shown when no game is hidden, and a favourite hidden game is kept in the state', async () => {
+    api = installApi([game('chess', 'Chess')])
+    await show()
+    expect(host.textContent).not.toContain('Chinese interface')
+    api = installApi(MIX(), { state: { favourites: ['cat-seesaw'], lastPlayed: {}, plays: {} } })
+    await show()
+    expect(titles()).toEqual(['Chess'])
+    expect(api.state.favourites).toEqual(['cat-seesaw'])
+  })
+})

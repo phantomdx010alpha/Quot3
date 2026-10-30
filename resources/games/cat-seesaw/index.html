@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0e20">
-<title>和小猫玩跷跷板</title>
+<title>Seesaw with the Kitten</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,8 +12,8 @@
 
   <!-- 顶部栏 -->
   <header class="topbar">
-    <h1 class="logo">和小猫玩跷跷板</h1>
-    <a class="back-link" href="../../index.html">← 返回门户</a>
+    <h1 class="logo">Seesaw with the Kitten</h1>
+    <a class="back-link" href="../../index.html">← Back to portal</a>
   </header>
 
   <!-- 游戏舞台 -->
@@ -23,26 +23,26 @@
     <!-- 抬头显示 -->
     <div class="hud">
       <div class="hud-group">
-        <div class="hud-item">坚持<span id="timeVal">0.0秒</span></div>
-        <div class="hud-item small">最高<span id="bestVal">0</span></div>
+        <div class="hud-item">Survived<span id="timeVal">0.0s</span></div>
+        <div class="hud-item small">Best<span id="bestVal">0</span></div>
       </div>
       <div class="hud-group right">
-        <div class="chip level-chip">关卡<b id="levelVal">1</b></div>
-        <div class="chip score-chip">分数<b id="scoreVal">0</b></div>
-        <button class="icon-btn" id="pauseBtn" type="button">暂停</button>
+        <div class="chip level-chip">Level<b id="levelVal">1</b></div>
+        <div class="chip score-chip">Score<b id="scoreVal">0</b></div>
+        <button class="icon-btn" id="pauseBtn" type="button">Pause</button>
       </div>
     </div>
 
     <!-- 触屏控制按钮 -->
     <div class="touch-controls" id="touchControls">
-      <button class="touch-btn move-btn" id="btnLeft" type="button" aria-label="向左移动">
+      <button class="touch-btn move-btn" id="btnLeft" type="button" aria-label="Move left">
         <span class="arrow-left"></span>
       </button>
       <button class="touch-btn weight-btn" id="btnWeight" type="button">
-        <span class="weight-label" id="weightLabel">中</span>
-        <span class="weight-sub">重量</span>
+        <span class="weight-label" id="weightLabel">Medium</span>
+        <span class="weight-sub">Weight</span>
       </button>
-      <button class="touch-btn move-btn" id="btnRight" type="button" aria-label="向右移动">
+      <button class="touch-btn move-btn" id="btnRight" type="button" aria-label="Move right">
         <span class="arrow-right"></span>
       </button>
     </div>
@@ -50,46 +50,46 @@
     <!-- 开始遮罩 -->
     <div class="overlay" id="startOverlay">
       <section class="panel">
-        <h2 class="panel-title">和小猫玩跷跷板</h2>
+        <h2 class="panel-title">Seesaw with the Kitten</h2>
         <ul class="intro">
-          <li>夜晚的霓虹公园，你和一只橘猫站上跷跷板，角度超过 22° 持续过久就会有人摔下去</li>
-          <li>A / D 或 ← / → 沿木板移动；W 增重、S 减重，共三档，越重体型越大</li>
-          <li>板身倾斜时你会自己往下滑，必须主动走位抵消；橘猫会随机散步、坐下打盹增重</li>
-          <li>点击掉落的鱼和毛线球捡起给猫，它会开心地跑向中心；保持近水平可获得完美平衡奖分</li>
+          <li>In a neon park at night, you and an orange cat stand on a seesaw; if the angle stays above 22° too long, someone falls off</li>
+          <li>A / D or ← / → to move along the plank; W adds weight, S reduces it, three levels, heavier means bigger</li>
+          <li>When the board tilts you slide downhill and must move to counter it; the orange cat wanders randomly and sits down for naps, gaining weight</li>
+          <li>Click fish and yarn balls that drop to pick them up for the cat, who happily runs to the center; stay near level for perfect-balance bonus points</li>
         </ul>
-        <button class="btn primary" id="startBtn" type="button">开始平衡</button>
+        <button class="btn primary" id="startBtn" type="button">Start balancing</button>
       </section>
     </div>
 
     <!-- 暂停遮罩 -->
     <div class="overlay hidden" id="pauseOverlay">
       <section class="panel">
-        <h2 class="panel-title">已暂停</h2>
-        <p class="tip">按 Esc 键或点击下方按钮继续游戏</p>
-        <button class="btn primary" id="resumeBtn" type="button">继续游戏</button>
+        <h2 class="panel-title">Paused</h2>
+        <p class="tip">Press Esc or click the button below to continue</p>
+        <button class="btn primary" id="resumeBtn" type="button">Resume game</button>
       </section>
     </div>
 
     <!-- 结束遮罩 -->
     <div class="overlay hidden" id="overOverlay">
       <section class="panel">
-        <h2 class="panel-title" id="overTitle">平衡告破</h2>
-        <p class="tip" id="overReason">跷跷板翻了过去。</p>
+        <h2 class="panel-title" id="overTitle">Balance broken</h2>
+        <p class="tip" id="overReason">The seesaw flipped over.</p>
         <div class="result">
-          <div class="result-row">坚持时间<span id="finalTime">0秒</span></div>
-          <div class="result-row">到达关卡<span id="finalLevel">1</span></div>
-          <div class="result-row">本次得分<span id="finalScore">0</span></div>
-          <div class="result-row">历史最高<span id="finalBest">0</span></div>
+          <div class="result-row">Time survived<span id="finalTime">0s</span></div>
+          <div class="result-row">Level reached<span id="finalLevel">1</span></div>
+          <div class="result-row">Score this run<span id="finalScore">0</span></div>
+          <div class="result-row">All-time best<span id="finalBest">0</span></div>
         </div>
-        <p class="record hidden" id="recordTip">恭喜刷新最高纪录！</p>
-        <button class="btn primary" id="againBtn" type="button">再玩一次</button>
+        <p class="record hidden" id="recordTip">New high score, congratulations!</p>
+        <button class="btn primary" id="againBtn" type="button">Play again</button>
       </section>
     </div>
   </main>
 
   <!-- 底部操作说明 -->
   <footer class="footer">
-    A / D 或 ← / → 移动 · W / S 切换重量档位 · 点击鱼或毛线球喂猫 · Esc 暂停 · 触屏使用下方按钮
+    A / D or ← / → move · W / S change weight · Click fish or yarn balls to feed the cat · Esc to pause · On touch screens use the buttons below
   </footer>
 </div>
 <script src="game.js"></script>

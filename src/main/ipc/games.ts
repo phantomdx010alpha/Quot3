@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { GameCatalog } from '../games/gameCatalog'
 import { GAME_ID_RE, type GameEntry } from '../../shared/games/manifest'
 import { parseGamesState, pruneGamesState, serializeGamesState, type GamesState } from '../../shared/games/gamesState'
-import { pickRandom } from '../../shared/games/search'
+import { filterByLanguage, pickRandom } from '../../shared/games/search'
 import { AppError, wrapHandler } from './envelope'
 
 const empty = z.object({}).strict()
@@ -21,6 +21,8 @@ export interface GamesPorts {
   /** The stored `games.state` value (any shape) and its writer. */
   readState(): unknown
   writeState(json: string): void
+  /** Phase 205: the stored `games.showChinese` value (anything but `true` means hidden). Absent in older tests = hidden. */
+  readShowChinese?(): unknown
   rng?: () => number
 }
 
@@ -36,7 +38,7 @@ export function gamesHandlers(p: GamesPorts): Record<string, (raw: unknown) => P
       p.writeState(serializeGamesState(clean))
       return clean
     }),
-    'games:pickRandom': wrapHandler(empty, (): GameEntry | null => pickRandom(p.catalog.list().games, state(), p.rng)),
+    'games:pickRandom': wrapHandler(empty, (): GameEntry | null => pickRandom(filterByLanguage(p.catalog.list().games, p.readShowChinese?.() === true), state(), p.rng)),
     'games:getCredits': wrapHandler(empty, () => p.catalog.credits()),
     'games:getLicense': wrapHandler(idInput, ({ id }) => {
       const text = p.catalog.license(id)

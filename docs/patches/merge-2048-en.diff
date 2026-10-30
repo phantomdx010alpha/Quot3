@@ -1,0 +1,100 @@
+--- a/resources/games/merge-2048/game.js
++++ b/resources/games/merge-2048/game.js
+@@ -435,17 +435,17 @@
+ 
+   function showOverlay(kind) {
+     if (kind === 'win') {
+-      overlayTitle.textContent = '达成 2048！';
++      overlayTitle.textContent = 'You reached 2048!';
+       overlayTitle.className = 'overlay-title win';
+-      overlayText.textContent = '恭喜合成 2048！可以继续挑战，冲击 4096 甚至更高数字。';
++      overlayText.textContent = 'Congratulations on merging 2048! Keep going and aim for 4096 or higher.';
+       continueBtn.classList.remove('hidden');
+-      overlayNewBtn.textContent = '新游戏';
++      overlayNewBtn.textContent = 'New game';
+     } else {
+-      overlayTitle.textContent = '游戏结束';
++      overlayTitle.textContent = 'Game over';
+       overlayTitle.className = 'overlay-title lose';
+-      overlayText.textContent = '棋盘已满且没有可合并的数字，最终得分 ' + state.score + ' 分。';
++      overlayText.textContent = 'The board is full and nothing can merge. Final score: ' + state.score + '.';
+       continueBtn.classList.add('hidden');
+-      overlayNewBtn.textContent = '再来一局';
++      overlayNewBtn.textContent = 'Play again';
+     }
+     overlay.classList.remove('hidden');
+   }
+--- a/resources/games/merge-2048/index.html
++++ b/resources/games/merge-2048/index.html
+@@ -1,9 +1,9 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+-<title>合成数字 2048</title>
++<title>Merge Numbers 2048</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+@@ -13,9 +13,9 @@
+   <header class="topbar">
+     <div class="brand">
+       <span class="brand-mark" aria-hidden="true">2048</span>
+-      <h1 class="brand-title">合成数字 2048</h1>
++      <h1 class="brand-title">Merge Numbers 2048</h1>
+     </div>
+-    <a class="back-link" href="../../index.html">← 返回门户</a>
++    <a class="back-link" href="../../index.html">← Back to portal</a>
+   </header>
+ 
+   <main class="stage">
+@@ -23,22 +23,22 @@
+     <!-- 计分与操作区 -->
+     <section class="hud panel">
+       <div class="score-box" id="scoreBox">
+-        <span class="score-label">当前分数</span>
++        <span class="score-label">Score</span>
+         <span class="score-value" id="scoreValue">0</span>
+       </div>
+       <div class="score-box">
+-        <span class="score-label">最高分</span>
++        <span class="score-label">Best</span>
+         <span class="score-value" id="bestValue">0</span>
+       </div>
+       <div class="hud-actions">
+-        <button class="btn btn-ghost" id="undoBtn" type="button">撤销</button>
++        <button class="btn btn-ghost" id="undoBtn" type="button">Undo</button>
+-        <button class="btn btn-primary" id="newBtn" type="button">新游戏</button>
++        <button class="btn btn-primary" id="newBtn" type="button">New game</button>
+       </div>
+     </section>
+ 
+     <!-- 棋盘 -->
+     <section class="board-wrap">
+-      <div class="board" id="board" aria-label="2048 游戏棋盘">
++      <div class="board" id="board" aria-label="2048 game board">
+         <div class="cell-layer" id="cellLayer"></div>
+         <div class="tile-layer" id="tileLayer"></div>
+         <div class="fx-layer" id="fxLayer"></div>
+@@ -49,8 +49,8 @@
+             <h2 class="overlay-title" id="overlayTitle"></h2>
+             <p class="overlay-text" id="overlayText"></p>
+             <div class="overlay-actions">
+-              <button class="btn btn-primary" id="continueBtn" type="button">继续挑战</button>
++              <button class="btn btn-primary" id="continueBtn" type="button">Keep going</button>
+-              <button class="btn btn-ghost" id="overlayNewBtn" type="button">新游戏</button>
++              <button class="btn btn-ghost" id="overlayNewBtn" type="button">New game</button>
+             </div>
+           </div>
+         </div>
+@@ -58,7 +58,7 @@
+     </section>
+ 
+     <!-- 底部操作说明 -->
+-    <footer class="tips">方向键 / WASD / 触屏滑动移动方块 · 相同数字相撞合并翻倍 · 单次移动每个方块最多参与一次合并</footer>
++    <footer class="tips">Arrow keys / WASD / swipe to move tiles · Equal numbers merge and double · Each tile can merge only once per move</footer>
+   </main>
+ 
+ </div>

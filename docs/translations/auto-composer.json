@@ -1,0 +1,433 @@
+{
+  "version": 1,
+  "game": "auto-composer",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 63,
+      "zh": "C大调",
+      "en": "C major"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 64,
+      "zh": "G大调",
+      "en": "G major"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "F大调",
+      "en": "F major"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "a小调",
+      "en": "A minor"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "e小调",
+      "en": "E minor"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "d小调",
+      "en": "D minor"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "轻快",
+      "en": "Upbeat"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 73,
+      "zh": "神秘",
+      "en": "Mysterious"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 74,
+      "zh": "爵士摇摆",
+      "en": "Jazz Swing"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 75,
+      "zh": "电子",
+      "en": "Electronic"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 76,
+      "zh": "中国五声",
+      "en": "Chinese Pentatonic"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 796,
+      "zh": "和弦",
+      "en": "Chords"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 805,
+      "zh": "步进",
+      "en": "Steps"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 813,
+      "zh": "旋律",
+      "en": "Melody"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 813,
+      "zh": "贝斯",
+      "en": "Bass"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": "底鼓",
+      "en": "Kick"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": "踩镲",
+      "en": "Hi-hat"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": "军鼓",
+      "en": "Snare"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1093,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1099,
+      "zh": "播放",
+      "en": "Play"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1113,
+      "zh": "导出中…",
+      "en": "Exporting…"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1130,
+      "zh": "星空作曲机_",
+      "en": "starry-composer_"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1136,
+      "zh": "导出失败，请重试",
+      "en": "Export failed, please retry"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1137,
+      "zh": "导出 WAV",
+      "en": "Export WAV"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1141,
+      "zh": "失败",
+      "en": "Failed"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1375,
+      "zh": "点击“开始创作”后激活音频与频谱",
+      "en": "Click “Start composing” to activate audio and the spectrum"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "星空作曲机",
+      "en": "Starry Composer"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "和弦进行",
+      "en": "Chord progression"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "小节",
+      "en": "Bar"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "走带",
+      "en": "Transport"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "播放",
+      "en": "Play"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 35,
+      "zh": "速度",
+      "en": "Tempo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "主音色",
+      "en": "Lead voice"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "方波",
+      "en": "Square"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 42,
+      "zh": "三角波",
+      "en": "Triangle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 49,
+      "zh": "自动作曲",
+      "en": "Auto compose"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 51,
+      "zh": "调性",
+      "en": "Key"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 54,
+      "zh": "风格",
+      "en": "Style"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "复杂度",
+      "en": "Complexity"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 67,
+      "zh": "重新生成",
+      "en": "Regenerate"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "灵感再生成",
+      "en": "Regenerate with inspiration"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "撤销",
+      "en": "Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 70,
+      "zh": "重做",
+      "en": "Redo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "种子与导出",
+      "en": "Seed and export"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 77,
+      "zh": "随机种子",
+      "en": "Random seed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 80,
+      "zh": "换一个种子",
+      "en": "New seed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 81,
+      "zh": "导出 WAV",
+      "en": "Export WAV"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "当前输入音：",
+      "en": "Current input note: "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "点格子写入，在旋律格上下拖拽改音高",
+      "en": "Click a cell to write; drag up or down on a melody cell to change pitch"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "旋律",
+      "en": "Melody"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 99,
+      "zh": "贝斯（低八度根音）",
+      "en": "Bass (root, octave lower)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "底鼓",
+      "en": "Kick"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 101,
+      "zh": "踩镲",
+      "en": "Hi-hat"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 102,
+      "zh": "军鼓",
+      "en": "Snare"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 113,
+      "zh": "纯 WebAudio 随机旋律生成器与步进音序器。选择调性、风格与复杂度，由种子生成可复现的 2 或 4 小节循环；可逐格编辑旋律、贝斯与鼓组，并将作品混录为 WAV 下载。",
+      "en": "A pure WebAudio random melody generator and step sequencer. Pick a key, style and complexity, and a seed produces a reproducible 2- or 4-bar loop; edit melody, bass and drums cell by cell and mix the piece down to a WAV download."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 115,
+      "zh": "马尔可夫式音程走向，旋律落音倾向主音",
+      "en": "Markov-style interval movement, with melody notes leaning toward the tonic"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 116,
+      "zh": "五声音阶真实使用宫、商、角、徵、羽音程",
+      "en": "The pentatonic scale really uses the gong, shang, jue, zhi and yu intervals"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 117,
+      "zh": "底鼓、踩镲、军鼓全部由振荡器与噪声实时合成",
+      "en": "Kick, hi-hat and snare are all synthesized in real time from oscillators and noise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 119,
+      "zh": "开始创作",
+      "en": "Start composing"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 120,
+      "zh": "建议佩戴耳机；点击开始后会激活浏览器音频引擎。",
+      "en": "Headphones recommended; after you start, the browser audio engine is activated."
+    }
+  ]
+}

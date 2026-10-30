@@ -1,0 +1,329 @@
+--- a/resources/games/beat-bento/beat-bento.html
++++ b/resources/games/beat-bento/beat-bento.html
+@@ -1,9 +1,9 @@
+ <!doctype html>
+-<html lang="zh-CN">
++<html lang="en">
+   <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+-    <title>节拍饭团：夜市巡演</title>
++    <title>Beat Bento: Night Market Tour</title>
+     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23131a1c'/%3E%3Cpath d='M31 9c14 11 20 28 12 42H19C11 36 17 19 31 9Z' fill='%23f7f1df'/%3E%3Cpath d='M25 35h15v16H25z' fill='%23243d36'/%3E%3Ccircle cx='24' cy='28' r='3' fill='%23e65f58'/%3E%3Ccircle cx='38' cy='28' r='3' fill='%23e65f58'/%3E%3C/svg%3E">
+     <style>
+       :root {
+@@ -515,47 +515,47 @@
+       <header class="topbar">
+         <div>
+           <p class="eyebrow">RHYTHM COOKING</p>
+-          <h1>节拍饭团：夜市巡演</h1>
++          <h1>Beat Bento: Night Market Tour</h1>
+         </div>
+         <div class="actions">
+-          <button class="btn" id="startBtn">巡演</button>
++          <button class="btn" id="startBtn">Tour</button>
+-          <button class="btn secondary" id="pauseBtn">暂停</button>
++          <button class="btn secondary" id="pauseBtn">Pause</button>
+-          <button class="btn secondary" id="resetBtn">重开</button>
++          <button class="btn secondary" id="resetBtn">Restart</button>
+         </div>
+       </header>
+ 
+       <section class="layout">
+         <div class="stage">
+-          <canvas id="gameCanvas" aria-label="节拍饭团游戏画面"></canvas>
++          <canvas id="gameCanvas" aria-label="Beat Bento game screen"></canvas>
+           <div class="overlay" id="overlay">
+             <div class="modal">
+               <div id="lobbyView">
+                 <div class="tour-head">
+-                  <div><h2>夜市巡演</h2><p>跟着谱面完成配方，在十二场演出里赢取星章。</p></div>
++                  <div><h2>Night Market Tour</h2><p>Follow the notes to finish recipes and win stars across twelve shows.</p></div>
+                   <div class="career-strip">
+-                    <div class="career-pill"><small>星章</small><strong id="careerStars">0/36</strong></div>
++                    <div class="career-pill"><small>Stars</small><strong id="careerStars">0/36</strong></div>
+-                    <div class="career-pill"><small>演出</small><strong id="careerShows">0</strong></div>
++                    <div class="career-pill"><small>Shows</small><strong id="careerShows">0</strong></div>
+-                    <div class="career-pill"><small>勋章</small><strong id="careerMedals">0/6</strong></div>
++                    <div class="career-pill"><small>Medals</small><strong id="careerMedals">0/6</strong></div>
+                   </div>
+                 </div>
+                 <div class="show-grid" id="showGrid"></div>
+-                <h3>主厨</h3>
++                <h3>Chef</h3>
+                 <div class="chef-grid" id="chefGrid"></div>
+                 <div class="archive-row">
+-                  <input id="archiveCode" aria-label="巡演存档码" placeholder="BENTO2 跨设备存档码">
++                  <input id="archiveCode" aria-label="Tour save code" placeholder="BENTO2 cross-device save code">
+                   <div class="archive-actions">
+-                    <button class="btn secondary" id="exportBtn">导出</button>
++                    <button class="btn secondary" id="exportBtn">Export</button>
+-                    <button class="btn secondary" id="importBtn">导入</button>
++                    <button class="btn secondary" id="importBtn">Import</button>
+-                    <button class="btn secondary" id="soundBtn">音效：开</button>
++                    <button class="btn secondary" id="soundBtn">Sound: On</button>
+                   </div>
+                 </div>
+-                <button class="btn" id="overlayStartBtn">开始本场</button>
++                <button class="btn" id="overlayStartBtn">Start show</button>
+               </div>
+               <div id="messageView" class="hidden">
+-                <h2 id="overlayTitle">开灶</h2>
++                <h2 id="overlayTitle">Fire up</h2>
+-                <p id="overlayText">跟着下落节拍补齐饭团配方，连击越稳，饭团越香。</p>
++                <p id="overlayText">Hit the falling beats to finish the recipe. A steady combo makes tastier rice balls.</p>
+                 <div class="goal-box" id="resultGoals"></div>
+-                <div class="archive-actions"><button class="btn secondary" id="lobbyBtn">返回巡演</button><button class="btn" id="overlayBtn">继续</button></div>
++                <div class="archive-actions"><button class="btn secondary" id="lobbyBtn">Back to tour</button><button class="btn" id="overlayBtn">Continue</button></div>
+               </div>
+             </div>
+           </div>
+@@ -563,32 +563,32 @@
+ 
+         <aside class="side">
+           <div class="meter">
+-            <span><b>热度</b><em id="feverText">0%</em></span>
++            <span><b>Heat</b><em id="feverText">0%</em></span>
+             <div class="bar"><i id="feverBar"></i></div>
+           </div>
+           <div class="meter">
+-            <span><b>灶台耐心</b><em id="patienceText">100%</em></span>
++            <span><b>Stove patience</b><em id="patienceText">100%</em></span>
+             <div class="bar"><i id="patienceBar"></i></div>
+           </div>
+           <div class="recipe">
+             <div class="recipe-title">
+-              <span id="recipeName">招牌饭团</span>
++              <span id="recipeName">House rice ball</span>
+               <span id="recipeBonus">+0</span>
+             </div>
+             <div class="ingredients" id="recipeList"></div>
+           </div>
+-          <div class="goal-box"><strong id="showName">码头试演</strong><div id="goalList"></div></div>
++          <div class="goal-box"><strong id="showName">Pier Trial</strong><div id="goalList"></div></div>
+           <div class="stats">
+-            <div class="stat"><b id="scoreText">0</b><small>分数</small></div>
++            <div class="stat"><b id="scoreText">0</b><small>Score</small></div>
+-            <div class="stat"><b id="comboText">0</b><small>连击</small></div>
++            <div class="stat"><b id="comboText">0</b><small>Combo</small></div>
+-            <div class="stat"><b id="servedText">0</b><small>完成</small></div>
++            <div class="stat"><b id="servedText">0</b><small>Done</small></div>
+-            <div class="stat"><b id="bestText">0</b><small>最佳</small></div>
++            <div class="stat"><b id="bestText">0</b><small>Best</small></div>
+           </div>
+           <div class="touch">
+-            <button data-lane="0">A 米</button>
++            <button data-lane="0">A Rice</button>
+-            <button data-lane="1">S 苔</button>
++            <button data-lane="1">S Nori</button>
+-            <button data-lane="2">D 鱼</button>
++            <button data-lane="2">D Fish</button>
+-            <button data-lane="3">F 汤</button>
++            <button data-lane="3">F Soup</button>
+           </div>
+         </aside>
+       </section>
+@@ -637,43 +637,43 @@
+         const SAVE_PREFIX = "BENTO2.";
+ 
+         const lanes = [
+-          { key: "KeyA", label: "A", icon: "米", color: "#f7f1df", dark: "#6b6a5d" },
++          { key: "KeyA", label: "A", icon: "Rice", color: "#f7f1df", dark: "#6b6a5d" },
+-          { key: "KeyS", label: "S", icon: "苔", color: "#2f5d50", dark: "#dff1e7" },
++          { key: "KeyS", label: "S", icon: "Nori", color: "#2f5d50", dark: "#dff1e7" },
+-          { key: "KeyD", label: "D", icon: "鱼", color: "#e65f58", dark: "#fff4ef" },
++          { key: "KeyD", label: "D", icon: "Fish", color: "#e65f58", dark: "#fff4ef" },
+-          { key: "KeyF", label: "F", icon: "汤", color: "#e4a43f", dark: "#3c2a10" }
++          { key: "KeyF", label: "F", icon: "Soup", color: "#e4a43f", dark: "#3c2a10" }
+         ];
+ 
+         const recipes = [
+-          { name: "盐烤饭团", seq: [0, 1, 2], value: 520 },
++          { name: "Salted Rice Ball", seq: [0, 1, 2], value: 520 },
+-          { name: "海苔双拼", seq: [1, 0, 1, 3], value: 720 },
++          { name: "Nori Duo", seq: [1, 0, 1, 3], value: 720 },
+-          { name: "鲑鱼茶泡", seq: [2, 0, 3, 1], value: 820 },
++          { name: "Salmon Chazuke", seq: [2, 0, 3, 1], value: 820 },
+-          { name: "深夜套餐", seq: [3, 0, 2, 1, 3], value: 1080 },
++          { name: "Late-Night Set", seq: [3, 0, 2, 1, 3], value: 1080 },
+-          { name: "满月便当", seq: [0, 2, 1, 2, 3], value: 1160 }
++          { name: "Full Moon Bento", seq: [0, 2, 1, 2, 3], value: 1160 }
+         ];
+ 
+         const shows = [
+-          { id: "dock", name: "码头试演", district: "潮港篇", unlock: 0, bpm: 96, duration: 32000, recipes: [0, 1], modifier: "steady", targets: { served: 4, score: 4800, combo: 16 } },
++          { id: "dock", name: "Pier Trial", district: "Tidal Harbor", unlock: 0, bpm: 96, duration: 32000, recipes: [0, 1], modifier: "steady", targets: { served: 4, score: 4800, combo: 16 } },
+-          { id: "lantern", name: "灯笼横街", district: "潮港篇", unlock: 1, bpm: 104, duration: 34000, recipes: [0, 1, 2], modifier: "swing", targets: { served: 5, score: 6200, combo: 20 } },
++          { id: "lantern", name: "Lantern Street", district: "Tidal Harbor", unlock: 1, bpm: 104, duration: 34000, recipes: [0, 1, 2], modifier: "swing", targets: { served: 5, score: 6200, combo: 20 } },
+-          { id: "ferry", name: "末班渡口", district: "潮港篇", unlock: 2, bpm: 112, duration: 36000, recipes: [1, 2], modifier: "double", targets: { served: 5, score: 7600, combo: 24 } },
++          { id: "ferry", name: "Last Ferry Dock", district: "Tidal Harbor", unlock: 2, bpm: 112, duration: 36000, recipes: [1, 2], modifier: "double", targets: { served: 5, score: 7600, combo: 24 } },
+-          { id: "harbor-fest", name: "潮港祭典", district: "潮港终演", unlock: 4, bpm: 118, duration: 40000, recipes: [0, 2, 3], modifier: "rush", targets: { served: 6, score: 9200, combo: 28 } },
++          { id: "harbor-fest", name: "Harbor Festival", district: "Harbor Finale", unlock: 4, bpm: 118, duration: 40000, recipes: [0, 2, 3], modifier: "rush", targets: { served: 6, score: 9200, combo: 28 } },
+-          { id: "alley", name: "烟火后巷", district: "霓城篇", unlock: 7, bpm: 122, duration: 36000, recipes: [1, 2, 3], modifier: "swing", targets: { served: 6, score: 9800, combo: 30 } },
++          { id: "alley", name: "Fireworks Alley", district: "Neon City", unlock: 7, bpm: 122, duration: 36000, recipes: [1, 2, 3], modifier: "swing", targets: { served: 6, score: 9800, combo: 30 } },
+-          { id: "arcade", name: "游戏厅前", district: "霓城篇", unlock: 10, bpm: 128, duration: 38000, recipes: [0, 3, 4], modifier: "double", targets: { served: 7, score: 11200, combo: 34 } },
++          { id: "arcade", name: "Arcade Front", district: "Neon City", unlock: 10, bpm: 128, duration: 38000, recipes: [0, 3, 4], modifier: "double", targets: { served: 7, score: 11200, combo: 34 } },
+-          { id: "rooftop", name: "天台夜风", district: "霓城篇", unlock: 13, bpm: 134, duration: 40000, recipes: [2, 3, 4], modifier: "hush", targets: { served: 7, score: 12600, combo: 38 } },
++          { id: "rooftop", name: "Rooftop Breeze", district: "Neon City", unlock: 13, bpm: 134, duration: 40000, recipes: [2, 3, 4], modifier: "hush", targets: { served: 7, score: 12600, combo: 38 } },
+-          { id: "neon-fest", name: "霓城百摊", district: "霓城终演", unlock: 16, bpm: 140, duration: 42000, recipes: [0, 1, 3, 4], modifier: "rush", targets: { served: 8, score: 14600, combo: 42 } },
++          { id: "neon-fest", name: "Neon Stall Row", district: "Neon Finale", unlock: 16, bpm: 140, duration: 42000, recipes: [0, 1, 3, 4], modifier: "rush", targets: { served: 8, score: 14600, combo: 42 } },
+-          { id: "moon-gate", name: "月门长阶", district: "满月篇", unlock: 20, bpm: 144, duration: 40000, recipes: [2, 4], modifier: "hush", targets: { served: 8, score: 15200, combo: 44 } },
++          { id: "moon-gate", name: "Moon Gate Steps", district: "Full Moon", unlock: 20, bpm: 144, duration: 40000, recipes: [2, 4], modifier: "hush", targets: { served: 8, score: 15200, combo: 44 } },
+-          { id: "shrine", name: "神社回廊", district: "满月篇", unlock: 24, bpm: 150, duration: 42000, recipes: [1, 3, 4], modifier: "double", targets: { served: 9, score: 17400, combo: 48 } },
++          { id: "shrine", name: "Shrine Corridor", district: "Full Moon", unlock: 24, bpm: 150, duration: 42000, recipes: [1, 3, 4], modifier: "double", targets: { served: 9, score: 17400, combo: 48 } },
+-          { id: "summit", name: "山顶朝市", district: "满月篇", unlock: 28, bpm: 156, duration: 44000, recipes: [0, 2, 3, 4], modifier: "swing", targets: { served: 9, score: 19200, combo: 52 } },
++          { id: "summit", name: "Summit Market", district: "Full Moon", unlock: 28, bpm: 156, duration: 44000, recipes: [0, 2, 3, 4], modifier: "swing", targets: { served: 9, score: 19200, combo: 52 } },
+-          { id: "full-moon", name: "满月大巡演", district: "终章", unlock: 32, bpm: 162, duration: 48000, recipes: [0, 1, 2, 3, 4], modifier: "rush", targets: { served: 10, score: 22800, combo: 58 } }
++          { id: "full-moon", name: "Full Moon Grand Tour", district: "Finale", unlock: 32, bpm: 162, duration: 48000, recipes: [0, 1, 2, 3, 4], modifier: "rush", targets: { served: 10, score: 22800, combo: 58 } }
+         ];
+ 
+         const chefs = [
+-          { id: "nagi", name: "凪", unlock: 0, trait: "均衡判定与热度", window: 1, score: 1, fever: 1, patience: 1 },
++          { id: "nagi", name: "Nagi", unlock: 0, trait: "Balanced timing and heat", window: 1, score: 1, fever: 1, patience: 1 },
+-          { id: "mio", name: "澪", unlock: 8, trait: "判定窗口 +18%，得分 -6%", window: 1.18, score: 0.94, fever: 1, patience: 1.12 },
++          { id: "mio", name: "Mio", unlock: 8, trait: "Timing window +18%, score -6%", window: 1.18, score: 0.94, fever: 1, patience: 1.12 },
+-          { id: "jin", name: "迅", unlock: 16, trait: "得分 +14%，判定更严格", window: 0.92, score: 1.14, fever: 1, patience: 0.94 },
++          { id: "jin", name: "Jin", unlock: 16, trait: "Score +14%, stricter timing", window: 0.92, score: 1.14, fever: 1, patience: 0.94 },
+-          { id: "tsuki", name: "月", unlock: 26, trait: "热度获取 +35%", window: 1, score: 1, fever: 1.35, patience: 1 }
++          { id: "tsuki", name: "Tsuki", unlock: 26, trait: "Heat gain +35%", window: 1, score: 1, fever: 1.35, patience: 1 }
+         ];
+ 
+-        const modifierNames = { steady: "正拍", swing: "摇摆拍", double: "双押", rush: "加速段", hush: "暗拍" };
++        const modifierNames = { steady: "Straight", swing: "Swing", double: "Double", rush: "Rush", hush: "Hush" };
+ 
+         let dpr = 1;
+         let w = 900;
+@@ -750,10 +750,10 @@
+ 
+         function importCareer(code) {
+           const text = String(code || "").trim();
+-          if (!text.startsWith(SAVE_PREFIX)) throw new Error("存档码前缀不正确");
++          if (!text.startsWith(SAVE_PREFIX)) throw new Error("Wrong save code prefix");
+           const binary = atob(text.slice(SAVE_PREFIX.length));
+           const value = JSON.parse(new TextDecoder().decode(Uint8Array.from(binary, (char) => char.charCodeAt(0))));
+-          if (value.version !== 2) throw new Error("存档版本不兼容");
++          if (value.version !== 2) throw new Error("Save version not supported");
+           career = sanitizeCareer(value);
+           currentShow = shows.find((item) => item.id === career.selectedShow) || shows[0];
+           saveCareer();
+@@ -841,12 +841,12 @@
+         function medalState() {
+           const stars = totalStars();
+           return [
+-            ["初次开灶", career.clears > 0],
++            ["First Fire", career.clears > 0],
+-            ["潮港九星", stars >= 9],
++            ["Harbor 9 Stars", stars >= 9],
+-            ["霓城节拍", stars >= 18],
++            ["Neon Beat", stars >= 18],
+-            ["四厨同台", stars >= 26],
++            ["Four Chefs", stars >= 26],
+-            ["三十星章", stars >= 30],
++            ["30 Stars", stars >= 30],
+-            ["满月主厨", Boolean(career.stageStars["full-moon"])]
++            ["Full Moon Chef", Boolean(career.stageStars["full-moon"])]
+           ];
+         }
+ 
+@@ -856,9 +856,9 @@
+ 
+         function goalRows(stats = showStats()) {
+           const goals = [
+-            [stats.cleared, `完成 ${currentShow.targets.served} 份配方`, `${stats.served}/${currentShow.targets.served}`],
++            [stats.cleared, `Make ${currentShow.targets.served} recipes`, `${stats.served}/${currentShow.targets.served}`],
+-            [stats.score >= currentShow.targets.score, `得分达到 ${currentShow.targets.score}`, `${stats.score}/${currentShow.targets.score}`],
++            [stats.score >= currentShow.targets.score, `Reach score ${currentShow.targets.score}`, `${stats.score}/${currentShow.targets.score}`],
+-            [stats.combo >= currentShow.targets.combo, `连击达到 ${currentShow.targets.combo}`, `${stats.combo}/${currentShow.targets.combo}`]
++            [stats.combo >= currentShow.targets.combo, `Reach combo ${currentShow.targets.combo}`, `${stats.combo}/${currentShow.targets.combo}`]
+           ];
+           return goals.map(([done, label, progress]) => `<div class="goal-row ${done ? "done" : ""}"><span>${done ? "●" : "○"}</span><span>${label}</span><strong>${progress}</strong></div>`).join("");
+         }
+@@ -868,18 +868,18 @@
+           careerStars.textContent = `${stars}/36`;
+           careerShows.textContent = Object.keys(career.stageStars).length;
+           careerMedals.textContent = `${medalState().filter(([, done]) => done).length}/6`;
+-          soundBtn.textContent = `音效：${career.sound ? "开" : "关"}`;
++          soundBtn.textContent = `Sound: ${career.sound ? "On" : "Off"}`;
+           showGrid.innerHTML = shows.map((show, index) => {
+             const locked = show.unlock > stars;
+             const earned = career.stageStars[show.id] || 0;
+             return `<button class="show-card ${career.selectedShow === show.id ? "selected" : ""}" data-show="${show.id}" ${locked ? "disabled" : ""}>
+               <small>${String(index + 1).padStart(2, "0")} · ${show.district}</small><strong>${show.name}</strong><div class="stars">${"★".repeat(earned)}${"☆".repeat(3 - earned)}</div>
+-              <div class="show-meta"><span>${show.bpm} BPM</span><span>${modifierNames[show.modifier]}</span><span>${locked ? `${show.unlock} 星解锁` : `${Math.round(show.duration / 1000)} 秒`}</span></div>
++              <div class="show-meta"><span>${show.bpm} BPM</span><span>${modifierNames[show.modifier]}</span><span>${locked ? `${show.unlock} stars to unlock` : `${Math.round(show.duration / 1000)} s`}</span></div>
+             </button>`;
+           }).join("");
+           chefGrid.innerHTML = chefs.map((chef) => {
+             const locked = chef.unlock > stars;
+-            return `<button class="chef-card ${career.selectedChef === chef.id ? "selected" : ""}" data-chef="${chef.id}" ${locked ? "disabled" : ""}><small>${locked ? `${chef.unlock} 星解锁` : "可用主厨"}</small><strong>${chef.name}</strong><span>${chef.trait}</span></button>`;
++            return `<button class="chef-card ${career.selectedChef === chef.id ? "selected" : ""}" data-chef="${chef.id}" ${locked ? "disabled" : ""}><small>${locked ? `${chef.unlock} stars to unlock` : "Available"}</small><strong>${chef.name}</strong><span>${chef.trait}</span></button>`;
+           }).join("");
+           currentShow = shows.find((item) => item.id === career.selectedShow) || shows[0];
+           showName.textContent = `${currentShow.name} · ${currentShow.bpm} BPM · ${modifierNames[currentShow.modifier]}`;
+@@ -932,7 +932,7 @@
+           if (state.mode === "running") {
+             state.mode = "paused";
+             state.pausedAt = performance.now();
+-            setOverlay("暂停中", "灶火还在，节拍等你回来。", "继续");
++            setOverlay("Paused", "The stove is still lit. The beat waits for you.", "Resume");
+           } else if (state.mode === "paused") {
+             const gap = performance.now() - state.pausedAt;
+             state.startedAt += gap;
+@@ -960,7 +960,7 @@
+           state.best = loadBest();
+           updateHud();
+           resultGoals.innerHTML = goalRows(stats);
+-          setOverlay(stats.cleared ? `${currentShow.name} · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}` : "观众散场", `完成 ${state.served} 份，得分 ${state.score}，最高连击 ${state.maxCombo}。`, "再演本场");
++          setOverlay(stats.cleared ? `${currentShow.name} · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}` : "Show over", `Served ${state.served} dishes, score ${state.score}, best combo ${state.maxCombo}.`, "Replay show");
+         }
+ 
+         function spawnNotes(now) {
+@@ -1015,7 +1015,7 @@
+             state.combo = 0;
+             state.misses += 1;
+             state.patience = Math.max(0, state.patience - 7 / chef.patience);
+-            addFloat("空拍", laneCenter(lane), targetY() - 36, "#b9453d");
++            addFloat("Empty", laneCenter(lane), targetY() - 36, "#b9453d");
+             beep(120, 0.08, 0.035);
+             if (state.patience <= 0) finishGame();
+             updateHud();
+@@ -1027,10 +1027,10 @@
+           let label = "OK";
+           let base = 80;
+           if (bestDiff <= 65 * chef.window) {
+-            label = "极准";
++            label = "Perfect";
+             base = 160;
+           } else if (bestDiff <= 115 * chef.window) {
+-            label = "稳";
++            label = "Good";
+             base = 115;
+           }
+           state.combo += 1;
+@@ -1039,7 +1039,7 @@
+           if (state.fever >= 100 && !feverActive) {
+             state.fever = 0;
+             state.feverUntil = state.elapsed + 8000;
+-            addFloat("热度爆发", w * 0.5, targetY() - 86, "#d99f37");
++            addFloat("Fever burst", w * 0.5, targetY() - 86, "#d99f37");
+           }
+           const mult = feverActive ? 2 : 1;
+           state.score += Math.round((base + state.combo * 4) * mult * chef.score);
+@@ -1084,7 +1084,7 @@
+               state.combo = 0;
+               state.misses += 1;
+               state.patience = Math.max(0, state.patience - 4.5);
+-              addFloat("漏拍", laneCenter(note.lane), targetY() + 24, "#b9453d");
++              addFloat("Missed", laneCenter(note.lane), targetY() + 24, "#b9453d");
+             }
+             return state.elapsed - note.hitAt < 650;
+           });
+@@ -1301,7 +1301,7 @@
+         });
+         importBtn.addEventListener("click", () => {
+           try { importCareer(archiveCode.value); }
+-          catch (error) { archiveCode.value = error.message || "存档码无效"; }
++          catch (error) { archiveCode.value = error.message || "Invalid save code"; }
+         });
+         soundBtn.addEventListener("click", () => {
+           career.sound = !career.sound;

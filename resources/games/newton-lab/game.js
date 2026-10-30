@@ -237,22 +237,22 @@
       const rm = params.mass / prev.m;
       const rF = mag / prev.F;
       if (rF > 0.7 && rF < 1.4 && rm >= 1.55) {
-        txt = '力几乎相同（' + fmt(mag, 1) + ' N），质量约加倍：a 由 ' + fmt(prev.a, 2) +
-              ' 减为 ' + fmt(a, 2) + ' m/s²，约为原来的一半。';
+        txt = 'Nearly the same force (' + fmt(mag, 1) + ' N), about double the mass: a falls from ' + fmt(prev.a, 2) +
+              ' down to ' + fmt(a, 2) + ' m/s², about half as before.';
       } else if (rF > 0.7 && rF < 1.4 && rm <= 0.66) {
-        txt = '力几乎相同（' + fmt(mag, 1) + ' N），质量约减半：a 由 ' + fmt(prev.a, 2) +
-              ' 增至 ' + fmt(a, 2) + ' m/s²，约为原来的两倍。';
+        txt = 'Nearly the same force (' + fmt(mag, 1) + ' N), about half the mass: a rises from ' + fmt(prev.a, 2) +
+              ' up to ' + fmt(a, 2) + ' m/s², about twice as before.';
       } else if (rm > 0.8 && rm < 1.25 && rF >= 1.55) {
-        txt = '质量不变而作用力约加倍，a 也成比例加倍：' + fmt(prev.a, 2) +
-              ' → ' + fmt(a, 2) + ' m/s²。';
+        txt = 'Same mass but about double the force, so a also doubles in proportion: ' + fmt(prev.a, 2) +
+              ' → ' + fmt(a, 2) + ' m/s².';
       } else if (rm > 0.8 && rm < 1.25 && rF <= 0.66) {
-        txt = '质量不变而作用力约减半，a 也随之减半：' + fmt(prev.a, 2) +
-              ' → ' + fmt(a, 2) + ' m/s²。';
+        txt = 'Same mass but about half the force, so a halves too: ' + fmt(prev.a, 2) +
+              ' → ' + fmt(a, 2) + ' m/s².';
       }
     }
     if (!txt) {
-      txt = '本次施力 F = ' + fmt(mag, 1) + ' N，质量 m = ' + fmt(params.mass, 1) +
-            ' kg，由 F = m·a 得 a = ' + fmt(a, 2) + ' m/s²。';
+      txt = 'This push: F = ' + fmt(mag, 1) + ' N, mass m = ' + fmt(params.mass, 1) +
+            ' kg; from F = m·a, a = ' + fmt(a, 2) + ' m/s².';
     }
 
     ball.pulse = { fx: fx, fy: fy, t: PULSE_T };
@@ -438,12 +438,12 @@
   // 面板折叠（移动端）
   panelToggle.addEventListener('click', () => {
     const collapsed = panel.classList.toggle('collapsed');
-    panelToggle.textContent = collapsed ? '展开' : '收起';
+    panelToggle.textContent = collapsed ? 'Expand' : 'Collapse';
     if (!collapsed) resizeChart();
   });
   if (window.matchMedia && window.matchMedia('(max-width: 860px)').matches) {
     panel.classList.add('collapsed');
-    panelToggle.textContent = '展开';
+    panelToggle.textContent = 'Expand';
   }
 
   /* ---------------- 暂停 / 引导 ---------------- */
@@ -451,7 +451,7 @@
     if (introOpen && v) return;
     paused = v;
     pauseOverlay.classList.toggle('hidden', !v);
-    pauseBtn.textContent = v ? '继续' : '暂停';
+    pauseBtn.textContent = v ? 'Resume' : 'Pause';
   }
   pauseBtn.addEventListener('click', () => setPaused(!paused));
   btnResume.addEventListener('click', () => setPaused(false));
@@ -592,7 +592,7 @@
     for (let x = bd.l + 44; x < bd.r - 20; x += 72) drawNormalArrow(x, bd.b - 2, 15);
     ctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
     ctx.fillStyle = 'rgba(34,211,238,.85)';
-    ctx.fillText('支持力 N（地面法线）', bd.l + 8, bd.b - 24);
+    ctx.fillText('Normal force N (ground normal)', bd.l + 8, bd.b - 24);
     ctx.restore();
   }
 
@@ -712,7 +712,7 @@
     if (params.air) { px += ball.lastDrag.x; py += ball.lastDrag.y; }
     const fMag = Math.hypot(px, py);
     if (fMag > 0.3) {
-      const lab = (params.air ? 'F合=' : 'F=') + fmt(fMag, 1) + ' N  a=' +
+      const lab = (params.air ? 'F_net=' : 'F=') + fmt(fMag, 1) + ' N  a=' +
                   fmt(fMag / params.mass, 2);
       drawVector(ball.x, ball.y, px / params.mass, py / params.mass, COL.pink, lab);
     }
@@ -772,7 +772,7 @@
     ctx.restore();
 
     // 力度文字
-    const text = '蓄力 ' + fmt(mag, 0) + ' N · 松开发射';
+    const text = 'Charge ' + fmt(mag, 0) + ' N · release to launch';
     ctx.save();
     ctx.font = '600 12px system-ui, "Microsoft YaHei", sans-serif';
     const tw = ctx.measureText(text).width;
@@ -809,9 +809,9 @@
     ctx.save();
     ctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
     const items = [
-      [COL.yellow, 'G 重力'],
-      [COL.cyan, 'v 速度'],
-      [COL.pink, params.air ? 'F合 合力' : 'F 施加力']
+      [COL.yellow, 'G Gravity'],
+      [COL.cyan, 'v Velocity'],
+      [COL.pink, params.air ? 'F_net Net force' : 'F Applied force']
     ];
     let x = W - 10;
     for (let i = items.length - 1; i >= 0; i--) {
@@ -882,7 +882,7 @@
       cctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
       cctx.textAlign = 'center';
       cctx.textBaseline = 'middle';
-      cctx.fillText('发射小球后开始记录速度', cW / 2, cH / 2);
+      cctx.fillText('Launch the ball to start recording speed', cW / 2, cH / 2);
       cctx.restore();
       return;
     }

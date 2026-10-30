@@ -200,9 +200,9 @@
     hall.render(); // 强制按当前状态完整绘制一帧（含背景）
     const url = hall.canvas.toDataURL('image/png');
     const a = document.createElement('a');
-    const nameMap = { koch: '科赫雪花', dragon2: '龙曲线', dragon3: '三维龙曲线', tree: '分形树' };
+    const nameMap = { koch: 'Koch Snowflake', dragon2: 'Dragon Curve', dragon3: '3D Dragon Curve', tree: 'Fractal Tree' };
     a.href = url;
-    a.download = '分形艺术馆-' + nameMap[activeName] + '.png';
+    a.download = 'Fractal-Gallery-' + nameMap[activeName] + '.png';
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -354,15 +354,15 @@
         const ratio = Math.pow(4 / 3, n);
         $('kochSegVal').innerHTML = (sides === 3 ? '3 × 4' + sup(n) + ' = ' : '4' + sup(n) + ' = ') + seg;
         $('kochLenVal').textContent = '× ' + ratio.toFixed(3);
-        $('kochLenLabel').textContent = st.mode === 'curve' ? '长度 / 初始长度' : '周长 / 初始周长';
+        $('kochLenLabel').textContent = st.mode === 'curve' ? 'Length / initial length' : 'Perimeter / initial perimeter';
         $('kochFact').innerHTML = st.mode === 'curve'
-          ? '科赫曲线：每条边的中间三分之一替换为等边凸起，无限迭代后有限区间内容纳无限长度。当前线段 <b>' + seg + '</b> 条，长度比 <b>(4/3)<sup>' + n + '</sup> = ' + ratio.toFixed(3) + '</b>，自相似维数 <b>log 4 / log 3 ≈ 1.262</b>。'
-          : '科赫雪花：周长随深度按 <b>4/3</b> 倍率增长并趋于无穷，而围成的面积始终有限。当前线段 <b>3 × 4<sup>' + n + '</sup> = ' + seg + '</b> 条，周长比 <b>3 × (4/3)<sup>' + n + '</sup> = ' + (3 * ratio).toFixed(3) + '</b>，维数 <b>≈ 1.262</b>。';
+          ? 'Koch curve: the middle third of every edge is replaced by an equilateral bump; iterated forever, a finite span holds infinite length. Current segments: <b>' + seg + '</b>, length ratio <b>(4/3)<sup>' + n + '</sup> = ' + ratio.toFixed(3) + '</b>, self-similarity dimension <b>log 4 / log 3 ≈ 1.262</b>.'
+          : 'Koch snowflake: the perimeter grows by a factor of <b>4/3</b> per level and tends to infinity, while the enclosed area stays finite. Current segments: <b>3 × 4<sup>' + n + '</sup> = ' + seg + '</b>, perimeter ratio <b>3 × (4/3)<sup>' + n + '</sup> = ' + (3 * ratio).toFixed(3) + '</b>, dimension <b>≈ 1.262</b>.';
       }
       function sup(n) { return '<sup>' + n + '</sup>'; }
 
       function syncPlayButton() {
-        $('kochPlayBtn').textContent = st.playing ? '暂停描边' : '播放描边';
+        $('kochPlayBtn').textContent = st.playing ? 'Pause tracing' : 'Play tracing';
       }
 
       function render() {
@@ -521,16 +521,16 @@
         $('d2SegVal').textContent = '2' + '<sup>' + st.depth + '</sup> = ' + seg;
         $('d2VertVal').textContent = seg + 1;
         $('d2Fact').innerHTML =
-          '折叠规则：D<sub>n</sub> = D<sub>n-1</sub> + L + 翻转(reverse(D<sub>n-1</sub>))，即把整条折线绕末端旋转 90° 后接上。'
-          + '当前 <b>2<sup>' + st.depth + '</sup> = ' + seg + '</b> 条线段、<b>' + (seg + 1) + '</b> 个顶点；'
-          + '折线遍历每个折叠格点且永不自交，自相似维数恰为 <b>2</b>。';
+          'Folding rule: D<sub>n</sub> = D<sub>n-1</sub> + L + flip(reverse(D<sub>n-1</sub>)), i.e. rotate the whole polyline 90° about its end and attach it.'
+          + 'Currently <b>2<sup>' + st.depth + '</sup> = ' + seg + '</b> segments, <b>' + (seg + 1) + '</b> vertices; '
+          + 'The polyline visits every fold lattice point and never crosses itself; its self-similarity dimension is exactly <b>2</b>.';
       }
 
       function syncButton() {
         const btn = $('d2DrawBtn');
-        if (st.playing) btn.textContent = '暂停绘制';
-        else if (st.prog >= st.segCount) btn.textContent = '再画一次';
-        else btn.textContent = '一笔画绘制';
+        if (st.playing) btn.textContent = 'Pause drawing';
+        else if (st.prog >= st.segCount) btn.textContent = 'Draw again';
+        else btn.textContent = 'Draw in one stroke';
       }
 
       function render() {
@@ -718,8 +718,8 @@
         const seg = Math.pow(2, st.depth);
         $('d3SegVal').innerHTML = '2<sup>' + st.depth + '</sup> = ' + seg + ' / ' + (seg + 1);
         $('d3Fact').innerHTML =
-          '三维变体规则：中点 <b>m = (p₁+p₂)/2 + ((p₂−p₁)×ẑ) / 2</b>，在水平垂直方向抬升后继续二分递归。'
-          + '当前 <b>' + seg + '</b> 段、<b>' + (seg + 1) + '</b> 顶点；按深度排序绘制，近处亮、远处暗。可拖拽旋转、滚轮缩放。';
+          '3D variant rule: midpoint <b>m = (p₁+p₂)/2 + ((p₂−p₁)×ẑ) / 2</b>, lifted perpendicular to the plane, then bisected recursively.'
+          + 'Currently <b>' + seg + '</b> segments, <b>' + (seg + 1) + '</b> vertices; drawn sorted by depth, near parts bright and far parts dim. Drag to rotate, scroll to zoom.';
       }
 
       function render() {
@@ -915,9 +915,9 @@
         $('treeLeafVal').innerHTML = '2<sup>' + st.depth + '</sup> = ' + tips;
         $('treeBranchVal').textContent = tips - 1;
         $('treeFact').innerHTML =
-          '递归规则：每根枝条末端旋转 <b>±' + st.angleDeg + '°</b> 复制为两枝，长度乘 <b>' + st.ratio.toFixed(2)
-          + '</b>。当前末端 <b>' + tips + '</b> 个生长点、<b>' + (tips - 1) + '</b> 段枝条；'
-          + '微风下摆动角按正弦变化，末端为光点粒子。';
+          'Recursion rule: each branch tip splits into two branches rotated by <b>±' + st.angleDeg + '°</b>, with length multiplied by <b>' + st.ratio.toFixed(2)
+          + '</b>. Currently <b>' + tips + '</b> growth tips, <b>' + (tips - 1) + '</b> branches; '
+          + 'In a breeze the swing angle varies sinusoidally, and the tips are glowing particles.';
       }
 
       // 递归画枝，末端记录叶点

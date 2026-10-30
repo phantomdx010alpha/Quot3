@@ -1,0 +1,769 @@
+{
+  "version": 1,
+  "game": "comet-weaver",
+  "entries": [
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "彗尾织者：星幕远征",
+      "en": "Comet Weaver: Star Curtain Expedition"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "彗尾织者",
+      "en": "Comet Weaver"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "十二幕可学习弹幕、擦弹充能与双槽星械。闪现穿幕，满能量释放彗核冲击。",
+      "en": "Twelve acts to learn bullet patterns, graze charging and dual star devices. Blink through curtains and release a Comet Core Burst at full energy."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "开始穿梭",
+      "en": "Start Run"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "彗核冲击",
+      "en": "Comet Core Burst"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "相位闪现",
+      "en": "Phase Blink"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "远征档案",
+      "en": "Expedition profile"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "attr",
+      "line": 18,
+      "zh": "彗尾织者星幕远征画面",
+      "en": "Comet Weaver star curtain expedition view"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "用时",
+      "en": "Time"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "星幕核心",
+      "en": "Curtain core"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "护盾",
+      "en": "Shield"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "擦弹",
+      "en": "Graze"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "待机",
+      "en": "Idle"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "弹幕预告",
+      "en": "Pattern preview"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "核心耐久",
+      "en": "Core durability"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "彗能",
+      "en": "Comet energy"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "相位",
+      "en": "Phase"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "就绪",
+      "en": "Ready"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 21,
+      "zh": "选择星幕",
+      "en": "Choose a curtain"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 21,
+      "zh": "擦过弹幕外缘会积攒彗能；满能量释放冲击可清弹并重创核心。相位闪现沿当前移动方向穿越危险区。",
+      "en": "Grazing the outer edge of bullets builds comet energy; at full energy, release a burst to clear bullets and badly damage the core. Phase Blink passes through danger zones in your current movement direction."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "第一章",
+      "en": "Chapter 1"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "十二幕航线",
+      "en": "Twelve-act route"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "远征记录",
+      "en": "Expedition record"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "星章",
+      "en": "Badges"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "通关",
+      "en": "Clears"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "最高擦弹",
+      "en": "Best graze"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "触屏操纵",
+      "en": "Touch controls"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "WASD / 方向键或拖动画面移动；Space 闪现，Q 释放彗核冲击。",
+      "en": "Move with WASD / arrow keys or by dragging the screen; Space to blink, Q to release Comet Core Burst."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "双槽星械",
+      "en": "Two star-device slots"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "跨设备远征档案",
+      "en": "Cross-device expedition profile"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "档案包含星幕星级、已解锁节点、星械配置、通关次数和最高擦弹。",
+      "en": "The profile contains curtain stars, unlocked nodes, device setup, clear count and best graze."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "第一章 · 近星层",
+      "en": "Chapter 1 · Near-Star Layer"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "环雨初航",
+      "en": "Ring Rain Maiden Voyage"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "规律圆环从核心向外扩散，寻找环与环之间的呼吸间隙。",
+      "en": "Regular rings spread out from the core; look for the breathing gaps between rings."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "扇面追光",
+      "en": "Fan Light Chase"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "扇形弹幕锁定发射瞬间的位置，持续侧移比慌乱折返更安全。",
+      "en": "Fan barrages lock onto your position at the moment of firing; sustained sidestepping is safer than panicked reversals."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "裂隙车道",
+      "en": "Rift Lanes"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "平行弹墙留下会移动的缺口，预判下一条安全车道。",
+      "en": "Parallel bullet walls leave moving gaps; predict the next safe lane."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "双旋风眼",
+      "en": "Twin Cyclone Eye"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "顺逆两股螺旋交替出现，贴近弹流内缘可以快速充能。",
+      "en": "Clockwise and counterclockwise spirals alternate; hugging the inner edge of the stream charges quickly."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "第二章 · 彗尾带",
+      "en": "Chapter 2 · Comet Tail Belt"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "折返彗片",
+      "en": "Boomerang Shards"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "彗片越过左界后会折返一次，不要把退路留在身后。",
+      "en": "Shards turn back once after crossing the left border; do not leave your retreat behind you."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "引力花冠",
+      "en": "Gravity Corona"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "花瓣弹会缓慢弯向你，短促换向比长距离逃离更有效。",
+      "en": "Petal bullets slowly curve toward you; short direction changes beat long escapes."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "交叉星桥",
+      "en": "Cross Star Bridge"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "横纵弹列同时切割战场，用闪现跨越交叉封锁。",
+      "en": "Horizontal and vertical bullet rows cut the field at once; use blink to cross the intersecting blockade."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "镜像猎手",
+      "en": "Mirror Hunters"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "两枚追踪核心从上下夹击，先诱导再穿过中线。",
+      "en": "Two homing cores pincer from above and below; lure them first, then cross the center line."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "第三章 · 星幕心",
+      "en": "Chapter 3 · Star Curtain Heart"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "脉冲王冠",
+      "en": "Pulse Crown"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "快慢圆环交错形成假缺口，观察颜色分辨速度。",
+      "en": "Fast and slow rings interleave to form false gaps; read the colors to tell the speed."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "坠星瀑布",
+      "en": "Falling Star Cascade"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "上方弹雨与核心扇面叠加，横向移动必须保留回转空间。",
+      "en": "Bullet rain from above stacks with the core fans; keep room to turn around when moving sideways."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "静默迷宫",
+      "en": "Silent Maze"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "弹墙逐段闭合，预告线消失后仍要记住安全入口。",
+      "en": "Bullet walls close in sections; remember the safe entrance after the warning line vanishes."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "终焉织机",
+      "en": "Final Loom"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "所有弹幕规则轮转登场；主动擦弹、清屏与闪现缺一不可。",
+      "en": "Every bullet rule takes a turn; active grazing, screen clearing and blinking are all essential."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "宽域感应",
+      "en": "Wide-Area Sensor"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "擦弹半径 +7，彗能获取 +20%",
+      "en": "Graze radius +7, comet energy gain +20%"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "聚焦棱镜",
+      "en": "Focus Prism"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "自动织光伤害 +22%",
+      "en": "Auto weave damage +22%"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "双相电容",
+      "en": "Dual-Phase Capacitor"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "彗核冲击所需能量 -18",
+      "en": "Comet Core Burst energy cost -18"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "余烬回收",
+      "en": "Ember Recovery"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "受击后立刻获得 32 彗能",
+      "en": "Gain 32 comet energy right after being hit"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "相位余量",
+      "en": "Phase Margin"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "闪现冷却 -1.3 秒",
+      "en": "Blink cooldown -1.3 s"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "星壳阵列",
+      "en": "Star Shell Array"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "每幕额外 1 层护盾",
+      "en": "1 extra shield layer per act"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "扩散圆环",
+      "en": "Spreading Rings"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "三连狙击",
+      "en": "Triple Snipe"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "追光扇面",
+      "en": "Chasing Light Fan"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "待机",
+      "en": "Idle"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 65,
+      "zh": " 擦弹目标 ",
+      "en": " Graze goal "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 65,
+      "zh": "，三星参考 ",
+      "en": ", three-star target: "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 65,
+      "zh": " 秒内或零受击。",
+      "en": " s or no hits."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 65,
+      "zh": "开始穿梭",
+      "en": "Start Run"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 82,
+      "zh": "相位",
+      "en": "Phase"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "清除 ",
+      "en": "Cleared "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": " 星幕击穿",
+      "en": " Curtain Broken"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "星梭失联",
+      "en": "Starship Lost"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "用时 ",
+      "en": "Time "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": " 秒，擦弹 ",
+      "en": " s, grazes "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "，受击 ",
+      "en": ", hits "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "下一幕已经解锁。",
+      "en": " Next act unlocked."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "再次穿梭",
+      "en": "Run Again"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "护盾受击",
+      "en": "Shield hit"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "擦",
+      "en": "Graze"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 94,
+      "zh": "就绪",
+      "en": "Ready"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "击穿星幕核心",
+      "en": "Break the curtain core"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "擦弹 ",
+      "en": "Graze "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": " 次",
+      "en": " times"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "零受击或 ",
+      "en": "No hits or within "
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": " 秒内",
+      "en": " s"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "完成",
+      "en": "Done"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "进行中",
+      "en": "In progress"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 96,
+      "zh": "点击装配",
+      "en": "Click to equip"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 96,
+      "zh": " 星解锁",
+      "en": " stars to unlock"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "远征档案校验失败",
+      "en": "Expedition profile check failed"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "档案版本不兼容",
+      "en": "Profile version incompatible"
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 101,
+      "zh": "远征档案已复制。",
+      "en": "Expedition profile copied."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 101,
+      "zh": "档案已生成，请手动复制。",
+      "en": "Profile generated; copy it manually."
+    },
+    {
+      "file": "comet-weaver.html",
+      "kind": "js",
+      "line": 101,
+      "zh": "导入成功。",
+      "en": "Import successful."
+    }
+  ]
+}

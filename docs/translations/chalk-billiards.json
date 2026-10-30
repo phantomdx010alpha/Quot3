@@ -1,0 +1,720 @@
+{
+  "version": 1,
+  "game": "chalk-billiards",
+  "entries": [
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "粉笔台球：九桌杆法赛",
+      "en": "Chalk Billiards: Nine-Table Cue Challenge"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "重摆本球",
+      "en": "Reset Shot"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "档案",
+      "en": "Profile"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "attr",
+      "line": 17,
+      "zh": "粉笔台球杆法挑战球桌",
+      "en": "Chalk Billiards cue challenge table"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "球房待命",
+      "en": "Hall ready"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "球型",
+      "en": "Shot"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "· 杆数",
+      "en": "· Strokes"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "力度印记",
+      "en": "Power marks"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "拖拽白球反向蓄力",
+      "en": "Drag the cue ball back to charge"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "三馆九桌",
+      "en": "Three halls, nine tables"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "0 / 27 星",
+      "en": "0 / 27 stars"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "完赛",
+      "en": "Cleared"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "徽章",
+      "en": "Badges"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "最佳杆",
+      "en": "Best strokes"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "固定球型",
+      "en": "Fixed shots"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "球杆框架",
+      "en": "Cue rack"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "全部可用",
+      "en": "All available"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "双槽巧粉",
+      "en": "Two chalk slots"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "进入球桌",
+      "en": "Enter table"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "参考球路",
+      "en": "Reference shot"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "在白球附近按下并向后拖拽，松手出杆。每桌连续完成三个固定球型；目标球必须进入发光袋口，力度落在标记区且无白球/干扰球落袋，才获得第三星。",
+      "en": "Press near the cue ball, drag back and release to shoot. Clear three fixed shots on each table; the target ball must enter the glowing pocket, power must land in the marked zone, and no cue or blocker ball may be potted to earn the third star."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "杆法赛档案",
+      "en": "Cue Match Profile"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "档案码保存桌次星级、最佳杆数、球杆、巧粉与徽章，可跨设备恢复。",
+      "en": "The profile code saves table stars, best strokes, cues, chalks and badges, and can be restored across devices."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "attr",
+      "line": 31,
+      "zh": "杆法赛档案码",
+      "en": "Cue match profile code"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "细线杆",
+      "en": "Slim Cue"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "长引导",
+      "en": "Long guide"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "平衡杆",
+      "en": "Balanced Cue"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "标准手感",
+      "en": "Standard feel"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "重芯杆",
+      "en": "Heavy-Core Cue"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "强劲短线",
+      "en": "Strong, short line"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "长线粉",
+      "en": "Long-Line Chalk"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "瞄准线 +120",
+      "en": "Aim line +120"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "轨迹粉",
+      "en": "Trace Chalk"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "显示目标球路",
+      "en": "Shows target path"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "柔触粉",
+      "en": "Soft-Touch Chalk"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "出力 -8%",
+      "en": "Power -8%"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "硬触粉",
+      "en": "Hard-Touch Chalk"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "出力 +8%",
+      "en": "Power +8%"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "防污粉",
+      "en": "Anti-Foul Chalk"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "首次犯规不扣印记",
+      "en": "First foul costs no mark"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "金章粉",
+      "en": "Gold Badge Chalk"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "得分 +20%",
+      "en": "Score +20%"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "粉线初试",
+      "en": "Chalk Line Trial"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "晨光球房",
+      "en": "Dawn Hall"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "三颗直线目标依次送入上方袋口，熟悉反向拖杆。",
+      "en": "Sink three straight targets into the top pockets in turn and learn the reverse drag."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "下袋巡礼",
+      "en": "Pocket Tour"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "转向下半桌，保持中等力度完成三个底袋球型。",
+      "en": "Turn to the lower half of the table and clear three bottom-pocket shots at medium power."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "浅角切球",
+      "en": "Thin Cut"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "白球离开目标轴线，沿幽灵球位置完成第一组切球。",
+      "en": "The cue ball leaves the target line; follow the ghost ball position to finish the first set of cuts."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "横桌远征",
+      "en": "Cross-Table Trek"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "青岩会馆",
+      "en": "Bluerock Club"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "加长白球行程，在速度衰减前保持足够入袋动量。",
+      "en": "Longer cue ball travel; keep enough momentum to reach the pocket before speed fades."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "障碍间隙",
+      "en": "Blocker Gaps"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "干扰球守在非目标区域，进错球会失去力度印记。",
+      "en": "Blocker balls guard the non-target areas; potting the wrong ball loses a power mark."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "三色礼球",
+      "en": "Tri-Color Showcase"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "每个球型加入两颗干扰球，只认编号 1 的目标球。",
+      "en": "Each shot adds two blocker balls; only the ball numbered 1 is the target."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "深角切线",
+      "en": "Deep Angle Cut"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "暮金俱乐部",
+      "en": "Dusk Gold Club"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "更大的侧向偏移压缩容错，瞄准幽灵球而非目标球心。",
+      "en": "A larger sideways offset shrinks the margin; aim at the ghost ball, not the target ball center."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "长台强攻",
+      "en": "Long-Table Assault"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "三次长台都要求强力区间，过轻会在袋口前停下。",
+      "en": "All three long shots need the strong power zone; too soft and the ball stops short of the pocket."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "终场签名",
+      "en": "Final Signature"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "长台、深切与干扰球同时出现，完成九桌最后签名。",
+      "en": "Long shots, deep cuts and blocker balls all appear together; finish the last signature of the nine tables."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "第一记粉线",
+      "en": "First Chalk Line"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "无污球局",
+      "en": "Clean Game"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "三杆清桌",
+      "en": "Three-Stroke Clear"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "晨光全星",
+      "en": "Dawn Full Stars"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "十八星球手",
+      "en": "Eighteen-Star Player"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "九桌大师",
+      "en": "Nine-Table Master"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "目标入袋 · 力度印记",
+      "en": "Target potted · Power mark"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "目标入袋 · 力度偏离",
+      "en": "Target potted · Power off"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "目标进入错误袋口",
+      "en": "Target went into the wrong pocket"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "本杆未能入袋",
+      "en": "No pot this stroke"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "三式杆法完成",
+      "en": "All three shots complete"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "合同杆数用尽",
+      "en": "Contract strokes used up"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "</b><small>总杆数</small></div><div><b>",
+      "en": "</b><small>Total strokes</small></div><div><b>"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "/3</b><small>力度印记</small></div><div><b>",
+      "en": "/3</b><small>Power marks</small></div><div><b>"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "</b><small>杆法分</small></div></div><p>",
+      "en": "</b><small>Shot score</small></div></div><p>"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "三星球路已经成立。",
+      "en": "Three-star line established."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "下一星目标：不超过 ",
+      "en": "Next star goal: no more than "
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": " 杆 / 3 枚力度印记。",
+      "en": " strokes / 3 power marks."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "可重摆本桌，按发光袋口和力度区间重新规划。",
+      "en": "Reset this table and replan using the glowing pockets and power zone."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "</p><div class=\"button-row\"><button class=\"btn\" id=\"retryBtn\">再试一桌</button><button class=\"btn ghost\" id=\"returnBtn\">返回赛历</button></div>",
+      "en": "</p><div class=\"button-row\"><button class=\"btn\" id=\"retryBtn\">Retry table</button><button class=\"btn ghost\" id=\"returnBtn\">Back to calendar</button></div>"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "</p><p>已获 ",
+      "en": "</p><p>Earned "
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " 星 · 最佳 ",
+      "en": " stars · Best "
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 77,
+      "zh": " 杆</p><div class=\"button-row\"><button class=\"btn\" id=\"overlayStart\">进入球桌</button><button class=\"btn secondary\" id=\"overlayReference\">查看参考结果</button></div>",
+      "en": "  strokes</p><div class=\"button-row\"><button class=\"btn\" id=\"overlayStart\">Enter table</button><button class=\"btn secondary\" id=\"overlayReference\">View reference shot</button></div>"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 78,
+      "zh": "当前球型已重摆",
+      "en": "Current shot reset"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "锁定",
+      "en": "Locked"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 83,
+      "zh": " / 27 星",
+      "en": " / 27 stars"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "<div class=\"goal-row\"><span>完成三个指定袋口</span><b>★</b></div><div class=\"goal-row\"><span>总杆数不超过 ",
+      "en": "<div class=\"goal-row\"><span>Clear three marked pockets</span><b>★</b></div><div class=\"goal-row\"><span>Total strokes no more than "
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "</span><b>★</b></div><div class=\"goal-row\"><span>取得 3 枚力度印记</span><b>★</b></div>",
+      "en": "</span><b>★</b></div><div class=\"goal-row\"><span>Get 3 power marks</span><b>★</b></div>"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 83,
+      "zh": " 星解锁",
+      "en": " stars to unlock"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "球房待命",
+      "en": "Hall ready"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "目标力度 ",
+      "en": "Target power "
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "杆法档案校验失败",
+      "en": "Profile check failed"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "杆法档案版本不兼容",
+      "en": "Profile version incompatible"
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "档案已复制。",
+      "en": "Profile copied."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "档案已生成，请手动复制。",
+      "en": "Profile generated; copy it manually."
+    },
+    {
+      "file": "chalk-billiards.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "导入成功。",
+      "en": "Import successful."
+    }
+  ]
+}

@@ -143,7 +143,7 @@
   var FURNITURE = {
     /* ---------- 沙发 ---------- */
     sofa: {
-      name: '沙发', w: 252, h: 152,
+      name: 'Sofa', w: 252, h: 152,
       draw: function (c) {
         // 落地阴影
         c.fillStyle = 'rgba(0,0,0,.22)';
@@ -186,7 +186,7 @@
 
     /* ---------- 绿植 ---------- */
     plant: {
-      name: '绿植', w: 124, h: 188,
+      name: 'Plant', w: 124, h: 188,
       draw: function (c) {
         c.fillStyle = 'rgba(0,0,0,.2)';
         c.beginPath(); c.ellipse(0, 88, 44, 10, 0, 0, Math.PI * 2); c.fill();
@@ -236,7 +236,7 @@
 
     /* ---------- 落地灯 ---------- */
     lamp: {
-      name: '落地灯', w: 104, h: 214,
+      name: 'Floor lamp', w: 104, h: 214,
       draw: function (c) {
         // 光晕
         var glow = c.createRadialGradient(0, -68, 6, 0, -68, 78);
@@ -270,7 +270,7 @@
 
     /* ---------- 挂画 ---------- */
     painting: {
-      name: '挂画', w: 164, h: 124,
+      name: 'Wall art', w: 164, h: 124,
       draw: function (c) {
         c.fillStyle = 'rgba(0,0,0,.22)';
         c.beginPath(); c.ellipse(0, 58, 72, 10, 0, 0, Math.PI * 2); c.fill();
@@ -300,7 +300,7 @@
 
     /* ---------- 地毯 ---------- */
     rug: {
-      name: '地毯', w: 262, h: 162,
+      name: 'Rug', w: 262, h: 162,
       draw: function (c) {
         c.fillStyle = 'rgba(0,0,0,.18)';
         c.beginPath(); c.ellipse(0, 8, 130, 76, 0, 0, Math.PI * 2); c.fill();
@@ -330,7 +330,7 @@
 
     /* ---------- 圆桌 ---------- */
     table: {
-      name: '圆桌', w: 172, h: 164,
+      name: 'Round table', w: 172, h: 164,
       draw: function (c) {
         c.fillStyle = 'rgba(0,0,0,.22)';
         c.beginPath(); c.ellipse(0, 88, 46, 11, 0, 0, Math.PI * 2); c.fill();
@@ -359,7 +359,7 @@
 
     /* ---------- 书架 ---------- */
     bookshelf: {
-      name: '书架', w: 172, h: 214,
+      name: 'Bookshelf', w: 172, h: 214,
       draw: function (c) {
         c.fillStyle = 'rgba(0,0,0,.24)';
         c.beginPath(); c.ellipse(0, 104, 80, 12, 0, 0, Math.PI * 2); c.fill();
@@ -407,7 +407,7 @@
 
     /* ---------- 猫咪 ---------- */
     cat: {
-      name: '猫咪', w: 144, h: 128,
+      name: 'Cat', w: 144, h: 128,
       draw: function (c) {
         c.fillStyle = 'rgba(0,0,0,.2)';
         c.beginPath(); c.ellipse(0, 66, 52, 10, 0, 0, Math.PI * 2); c.fill();
@@ -1370,7 +1370,7 @@
 
     function loadFile(file) {
       if (!file || !/^image\//.test(file.type)) {
-        alert('请选择图片文件（JPG / PNG / WebP 等）');
+        alert('Please choose an image file (JPG / PNG / WebP, etc.)');
         return;
       }
       if (currentUrl) URL.revokeObjectURL(currentUrl);
@@ -1388,7 +1388,7 @@
         setProcessing(false);
         URL.revokeObjectURL(url);
         if (currentUrl === url) currentUrl = null;
-        alert('图片读取失败，请换一张试试');
+        alert('Could not read the image, please try another one');
       };
       img.src = url;
     }
@@ -1405,8 +1405,8 @@
       try {
         setupImage(makeSampleRoom(document.createElement('canvas')));
       } catch (err) {
-        console.error('示例房间生成失败：', err);
-        alert('示例房间生成失败，请刷新页面重试或直接上传照片');
+        console.error('Sample room failed to generate: ', err);
+        alert('Sample room failed to generate. Reload the page and try again, or upload a photo');
       }
     });
     $('pickBtn').addEventListener('click', function (e) {
@@ -1446,13 +1446,13 @@
     /* ---------- 工具与颜色 UI ---------- */
     function updateHint() {
       if (!hasImage) {
-        hintEl.textContent = '先上传一张房间照片，或试试示例房间';
+        hintEl.textContent = 'Upload a room photo first, or try the sample room';
       } else if (tool === 'brush') {
-        hintEl.textContent = '涂抹要换色的墙面区域';
+        hintEl.textContent = 'Paint over the wall area to recolor';
       } else if (tool === 'eraser') {
-        hintEl.textContent = '按住拖动擦除蒙版，被擦区域恢复墙面原色';
+        hintEl.textContent = 'Hold and drag to erase the mask; erased areas return to the original wall color';
       } else {
-        hintEl.textContent = '拖动家具移动；四角手柄缩放，顶部手柄旋转；双指捏合；侧键翻转与删除';
+        hintEl.textContent = 'Drag furniture to move it; corner handles resize, top handle rotates; pinch with two fingers; side buttons flip and delete';
       }
     }
     function syncToolUI() {
@@ -1569,7 +1569,7 @@
 
       tile.addEventListener('pointerdown', function (e) {
         if (!hasImage) {
-          hintEl.textContent = '请先上传照片或打开示例房间，再摆放家具';
+          hintEl.textContent = 'Upload a photo or open the sample room before placing furniture';
           return;
         }
         safeCapture(tile, e.pointerId);
@@ -1650,7 +1650,7 @@
       }
     }
     function downloadBlob(blob, name) {
-      if (!blob) { alert('导出失败，请重试'); return; }
+      if (!blob) { alert('Export failed, please try again'); return; }
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
@@ -1669,7 +1669,7 @@
         compositeTo(ec.getContext('2d'), true);
         canvasToPNGBlob(ec, function (blob) {
           setProcessing(false);
-          downloadBlob(blob, '智能装修工坊-装修后.png');
+          downloadBlob(blob, 'Smart-Room-Styler-after.png');
         });
       });
     });
@@ -1697,12 +1697,12 @@
         c.textBaseline = 'middle';
         c.font = '600 34px system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif';
         c.fillStyle = '#9aa3c7';
-        c.fillText('装修前', imgW / 2, imgH + labelH / 2);
+        c.fillText('Before', imgW / 2, imgH + labelH / 2);
         c.fillStyle = '#22d3ee';
-        c.fillText('装修后', imgW + gap + imgW / 2, imgH + labelH / 2);
+        c.fillText('After', imgW + gap + imgW / 2, imgH + labelH / 2);
         canvasToPNGBlob(ec, function (blob) {
           setProcessing(false);
-          downloadBlob(blob, '智能装修工坊-前后对比.png');
+          downloadBlob(blob, 'Smart-Room-Styler-before-after.png');
         });
       });
     });

@@ -1,0 +1,1378 @@
+{
+  "version": 1,
+  "game": "mini-games-hub",
+  "entries": [
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 48,
+      "zh": "盘面",
+      "en": "Board"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 49,
+      "zh": "目标",
+      "en": "Goal"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 56,
+      "zh": "操作",
+      "en": "Control"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 58,
+      "zh": "手动",
+      "en": "Manual"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 58,
+      "zh": "自动托管",
+      "en": "Auto-play"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 62,
+      "zh": "倍速",
+      "en": "Speed"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 255,
+      "zh": "AI 判断已无路可走",
+      "en": "AI sees no moves left"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 261,
+      "zh": "AI 第 ",
+      "en": "AI move "
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 261,
+      "zh": " 步 · 搜索深度 ",
+      "en": " · search depth "
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 261,
+      "zh": " 层 · ",
+      "en": " levels · "
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 269,
+      "zh": "AI 接管中…",
+      "en": "AI in control…"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 309,
+      "zh": "AI 自动 ×",
+      "en": "AI auto ×"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 309,
+      "zh": " · 深度 ",
+      "en": " · depth "
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 316,
+      "zh": "达成 ",
+      "en": "Reached "
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 316,
+      "zh": "！",
+      "en": "!"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 316,
+      "zh": "无路可走",
+      "en": "No moves left"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 317,
+      "zh": "继续合并刷更高分",
+      "en": "Keep merging for a higher score"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 317,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 317,
+      "zh": " 分",
+      "en": " pts"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 318,
+      "zh": "按 R 重开",
+      "en": "Press R to restart"
+    },
+    {
+      "file": "games/game4096.js",
+      "kind": "js",
+      "line": 338,
+      "zh": "已交还手动操作",
+      "en": "Back to manual control"
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 16,
+      "zh": "打砖块",
+      "en": "Breakout"
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 108,
+      "zh": "第 ",
+      "en": "Level "
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 108,
+      "zh": " 关，球速提升",
+      "en": ", ball speeds up"
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 117,
+      "zh": "剩 ",
+      "en": "Left: "
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 117,
+      "zh": " 条命",
+      "en": " lives"
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 128,
+      "zh": "分数 ",
+      "en": "Score "
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 129,
+      "zh": "命 ",
+      "en": "Lives "
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 130,
+      "zh": " 关",
+      "en": "."
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 150,
+      "zh": "点击 / 空格 发球",
+      "en": "Click / Space to serve"
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 157,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 157,
+      "zh": " 分 · 第 ",
+      "en": " pts · Level "
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 158,
+      "zh": "按 R 重开",
+      "en": "Press R to restart"
+    },
+    {
+      "file": "games/gameBreakout.js",
+      "kind": "js",
+      "line": 159,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 16,
+      "zh": "跑酷小恐龙",
+      "en": "Dino Run"
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "空格 / 点击起跑，↓ 下蹲",
+      "en": "Space / click to start, ↓ to duck"
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 271,
+      "zh": "已暂停 · P 继续",
+      "en": "Paused · P to resume"
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 276,
+      "zh": "撞上了！",
+      "en": "Crashed!"
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 277,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 277,
+      "zh": " 分",
+      "en": " pts"
+    },
+    {
+      "file": "games/gameDino.js",
+      "kind": "js",
+      "line": 278,
+      "zh": "按 R 或点击重跑",
+      "en": "Press R or click to run again"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 12,
+      "zh": "小鸟飞行",
+      "en": "Bird Flight"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 128,
+      "zh": "点击 / 空格 起飞",
+      "en": "Click / Space to flap"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 129,
+      "zh": "穿过管道缝隙得分",
+      "en": "Pass through the pipe gaps to score"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 136,
+      "zh": " 坠落了",
+      "en": " fell"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 137,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 137,
+      "zh": " 分",
+      "en": " pts"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 138,
+      "zh": "按 R 或点击重开",
+      "en": "Press R or click to restart"
+    },
+    {
+      "file": "games/gameFlappy.js",
+      "kind": "js",
+      "line": 139,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 32,
+      "zh": "五子棋",
+      "en": "Gomoku"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 35,
+      "zh": "AI 棋力",
+      "en": "AI level"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 38,
+      "zh": "随缘",
+      "en": "Casual"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 39,
+      "zh": "认真",
+      "en": "Serious"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 40,
+      "zh": "大师",
+      "en": "Master"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 200,
+      "zh": "🏆 你赢了！连胜 ",
+      "en": "🏆 You win! Streak of "
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 200,
+      "zh": " 场，点击棋盘再战",
+      "en": ", click the board to play again"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 204,
+      "zh": "AI 获胜，连胜清零。点击棋盘再战",
+      "en": "AI wins, streak reset. Click the board to play again"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 210,
+      "zh": "棋盘下满，平局。点击棋盘再战",
+      "en": "Board full, it's a draw. Click the board to play again"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 222,
+      "zh": "你执蓝先行 · 已下 ",
+      "en": "You are blue and move first · Moves "
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 222,
+      "zh": " 手 · 连胜 ",
+      "en": " · Streak "
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 229,
+      "zh": "AI 思考中…",
+      "en": "AI is thinking…"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 247,
+      "zh": "已悔 ",
+      "en": "Undid "
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 247,
+      "zh": " 手 · 轮到你落子",
+      "en": " move(s) · your turn"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 261,
+      "zh": "你执蓝先行 · 点击棋盘交叉点落子（U 悔棋）",
+      "en": "You are blue and move first · click an intersection to play (U to undo)"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 306,
+      "zh": "你",
+      "en": "You"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 343,
+      "zh": "🏆 你赢了！",
+      "en": "🏆 You win!"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 343,
+      "zh": "AI 获胜",
+      "en": "AI wins"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 343,
+      "zh": "平局",
+      "en": "Draw"
+    },
+    {
+      "file": "games/gameGomoku.js",
+      "kind": "js",
+      "line": 346,
+      "zh": "点击棋盘再战 · U 悔棋无效",
+      "en": "Click the board to play again · U (undo) disabled"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 31,
+      "zh": "记忆翻牌",
+      "en": "Memory Match"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 35,
+      "zh": "规模",
+      "en": "Size"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 38,
+      "zh": "轻松 4×3",
+      "en": "Easy 4×3"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 39,
+      "zh": "标准 4×4",
+      "en": "Standard 4×4"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 40,
+      "zh": "困难 6×5",
+      "en": "Hard 6×5"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "🔄 重开",
+      "en": "🔄 Restart"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 85,
+      "zh": "翻牌 <b>",
+      "en": "Flips <b>"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 87,
+      "zh": "配对 <b>",
+      "en": "Pairs <b>"
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 143,
+      "zh": "🎉 全部配对！用时 ",
+      "en": "🎉 All pairs matched! Time "
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 143,
+      "zh": "，共翻 ",
+      "en": ", total "
+    },
+    {
+      "file": "games/gameMemory.js",
+      "kind": "js",
+      "line": 143,
+      "zh": " 次",
+      "en": " flips"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 33,
+      "zh": "扫雷",
+      "en": "Minesweeper"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 37,
+      "zh": "难度",
+      "en": "Difficulty"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 40,
+      "zh": "简单 9×9",
+      "en": "Easy 9×9"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 41,
+      "zh": "标准 16×16",
+      "en": "Standard 16×16"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 42,
+      "zh": "困难 16×30",
+      "en": "Hard 16×30"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "🚩 插旗模式",
+      "en": "🚩 Flag mode"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 74,
+      "zh": "🙂 重开",
+      "en": "🙂 Restart"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 116,
+      "zh": "💣 剩余 <b>",
+      "en": "💣 Left <b>"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 193,
+      "zh": "💥 踩雷了，按重开再来",
+      "en": "💥 Boom! Press restart to try again"
+    },
+    {
+      "file": "games/gameMinesweeper.js",
+      "kind": "js",
+      "line": 212,
+      "zh": "🎉 排雷成功！用时 ",
+      "en": "🎉 Mines cleared! Time "
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 19,
+      "zh": "星空战机",
+      "en": "Star Fighter"
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 56,
+      "zh": "第 ",
+      "en": "Wave "
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 56,
+      "zh": " 波 · 剩余 ",
+      "en": " · "
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 56,
+      "zh": " 架敌机",
+      "en": " enemy ships left"
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 203,
+      "zh": " 波清空！奖励 +",
+      "en": " cleared! Bonus +"
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 304,
+      "zh": "已暂停 · P 继续",
+      "en": "Paused · P to resume"
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 309,
+      "zh": "战机坠毁",
+      "en": "Fighter destroyed"
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 310,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 310,
+      "zh": " 分 · 抵达第 ",
+      "en": " pts · reached wave "
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 310,
+      "zh": " 波",
+      "en": "."
+    },
+    {
+      "file": "games/gameShooter.js",
+      "kind": "js",
+      "line": 311,
+      "zh": "按 R 重开",
+      "en": "Press R to restart"
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 13,
+      "zh": "数字华容道",
+      "en": "Number Slide Puzzle"
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 17,
+      "zh": "盘面",
+      "en": "Board"
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 117,
+      "zh": "已走 ",
+      "en": "Moves "
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 117,
+      "zh": " 步 · 用时 ",
+      "en": " · Time "
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 122,
+      "zh": "完成！",
+      "en": "Done! "
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 122,
+      "zh": " 步 · ",
+      "en": " moves · "
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 134,
+      "zh": "点击方块或用方向键开始，计时从第一步起",
+      "en": "Click a tile or use the arrow keys to start; the timer starts on the first move"
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 182,
+      "zh": "🧩 复原成功！",
+      "en": "🧩 Solved!"
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 183,
+      "zh": " 秒",
+      "en": " sec"
+    },
+    {
+      "file": "games/gameSlide.js",
+      "kind": "js",
+      "line": 184,
+      "zh": "按 R 重开",
+      "en": "Press R to restart"
+    },
+    {
+      "file": "games/gameSnake.js",
+      "kind": "js",
+      "line": 12,
+      "zh": "贪吃蛇",
+      "en": "Snake"
+    },
+    {
+      "file": "games/gameSnake.js",
+      "kind": "js",
+      "line": 103,
+      "zh": "撞到了！",
+      "en": "Crashed!"
+    },
+    {
+      "file": "games/gameSnake.js",
+      "kind": "js",
+      "line": 104,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameSnake.js",
+      "kind": "js",
+      "line": 104,
+      "zh": " 分",
+      "en": " pts"
+    },
+    {
+      "file": "games/gameSnake.js",
+      "kind": "js",
+      "line": 105,
+      "zh": "按 R 重开",
+      "en": "Press R to restart"
+    },
+    {
+      "file": "games/gameSnake.js",
+      "kind": "js",
+      "line": 107,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "俄罗斯方块",
+      "en": "Tetris"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 189,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 191,
+      "zh": "等级 ",
+      "en": "Level "
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 192,
+      "zh": "消行 ",
+      "en": "Lines "
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 193,
+      "zh": "下一个",
+      "en": "Next"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 201,
+      "zh": "暂存 (C)",
+      "en": "Hold (C)"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 216,
+      "zh": "堆到顶了",
+      "en": "Stacked to the top"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 217,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 217,
+      "zh": " 分 · 消行 ",
+      "en": " pts · lines "
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 218,
+      "zh": "按 R 重开",
+      "en": "Press R to restart"
+    },
+    {
+      "file": "games/gameTetris.js",
+      "kind": "js",
+      "line": 219,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 14,
+      "zh": "打地鼠",
+      "en": "Whack-a-Mole"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "💥 炸弹！连击清零",
+      "en": "💥 Bomb! Combo reset"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 140,
+      "zh": "连击 x",
+      "en": "Combo x"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 141,
+      "zh": " 分",
+      "en": " pts"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 166,
+      "zh": "时间到！",
+      "en": "Time's up!"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 167,
+      "zh": "本局 ",
+      "en": "Score: "
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 168,
+      "zh": "按 R 再来一局",
+      "en": "Press R to play again"
+    },
+    {
+      "file": "games/gameWhack.js",
+      "kind": "js",
+      "line": 169,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 15,
+      "zh": "合并同数冲到 4096，可 AI 自动托管",
+      "en": "Merge equal tiles up to 4096, with optional AI auto-play"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 16,
+      "zh": "方向键 / WASD 移动，手机可滑动；空格切换 AI 自动托管（1~10× 倍速），Backspace 撤销一步",
+      "en": "Arrow keys / WASD to move, swipe on phones; Space toggles AI auto-play (1-10× speed), Backspace undoes a move"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 21,
+      "zh": "贪吃蛇",
+      "en": "Snake"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 24,
+      "zh": "吃食物变长加速，撞墙即终",
+      "en": "Eat food to grow and speed up; hit a wall and it's over"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "方向键 / WASD 转向，空格暂停，R 重开",
+      "en": "Arrow keys / WASD to turn, Space to pause, R to restart"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 30,
+      "zh": "俄罗斯方块",
+      "en": "Tetris"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 33,
+      "zh": "7-bag 随机、暂存、硬降、幽灵落点",
+      "en": "7-bag randomizer, hold, hard drop, ghost piece"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 34,
+      "zh": "←→ 移动 · ↑ 旋转 · ↓ 软降 · 空格硬降 · C 暂存",
+      "en": "←→ move · ↑ rotate · ↓ soft drop · Space hard drop · C hold"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 39,
+      "zh": "扫雷",
+      "en": "Minesweeper"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 42,
+      "zh": "首点必安全，排雷计时赛",
+      "en": "First click is always safe; timed mine clearing"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 43,
+      "zh": "点击翻开，右键 / 插旗模式标旗",
+      "en": "Click to reveal, right-click / flag mode to flag"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 49,
+      "zh": "打砖块",
+      "en": "Breakout"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 52,
+      "zh": "击球角度随命中位置变化",
+      "en": "Ball angle changes with where it hits the paddle"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 53,
+      "zh": "鼠标 / 触摸移动挡板，空格发球，P 暂停",
+      "en": "Mouse / touch moves the paddle, Space to serve, P to pause"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 58,
+      "zh": "小鸟飞行",
+      "en": "Bird Flight"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 61,
+      "zh": "穿管得分，10/20/30 解锁奖牌",
+      "en": "Pass through pipes to score; medals unlock at 10/20/30"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 62,
+      "zh": "点击 / 空格扑翅，R 重开",
+      "en": "Click / Space to flap, R to restart"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "记忆翻牌",
+      "en": "Memory Match"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "配对消除，用时越短越强",
+      "en": "Match pairs; the faster the better"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 71,
+      "zh": "点击翻牌，两两配对",
+      "en": "Click to flip cards and match pairs"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 77,
+      "zh": "打地鼠",
+      "en": "Whack-a-Mole"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 80,
+      "zh": "30 秒连击挑战，小心炸弹",
+      "en": "30-second combo challenge, watch out for bombs"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 81,
+      "zh": "点击冒头的地鼠，金鼠 +5，炸弹 -3",
+      "en": "Click moles as they pop up; golden mole +5, bomb -3"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 86,
+      "zh": "数字华容道",
+      "en": "Number Slide Puzzle"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 89,
+      "zh": "滑动复原，计时越短越强",
+      "en": "Slide to solve; the faster the better"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 90,
+      "zh": "点击方块或方向键滑动，R 重开",
+      "en": "Click a tile or use the arrow keys to slide, R to restart"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 97,
+      "zh": "星空战机",
+      "en": "Star Fighter"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 100,
+      "zh": "蜂群编队压境，逐波升级",
+      "en": "Swarm formations close in, with tougher waves each time"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 101,
+      "zh": "←→ / AD 移动，空格射击，P 暂停；手机按住拖动自动开火",
+      "en": "←→ / AD to move, Space to shoot, P to pause; on phones hold and drag to auto-fire"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 107,
+      "zh": "跑酷小恐龙",
+      "en": "Dino Run"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 110,
+      "zh": "无尽奔跑，昼夜交替提速",
+      "en": "Endless running; day and night alternate and speed picks up"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 111,
+      "zh": "空格 / 点击跳跃（长按跳更高），↓ 下蹲加速落，R 重开",
+      "en": "Space / click to jump (hold to jump higher), ↓ to duck and fall faster, R to restart"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 117,
+      "zh": "五子棋",
+      "en": "Gomoku"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 120,
+      "zh": "人机对弈，三档棋力可切换",
+      "en": "Play against the AI, three strength levels"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 121,
+      "zh": "点击交叉点落子，U 悔棋，R 重开；AI 棋力随时可换",
+      "en": "Click an intersection to place a stone, U to undo, R to restart; change AI level any time"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 128,
+      "zh": "风之剑修",
+      "en": "Wind Swordsman"
+    },
+    {
+      "file": "games/registry.js",
+      "kind": "js",
+      "line": 131,
+      "zh": "水墨仙侠生存肉鸽，可 3 人联机",
+      "en": "Ink-wash xianxia survival roguelike, up to 3 players online"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "小游戏厅 · 12 款开源小游戏（浏览器直接玩，不用装）",
+      "en": "Mini Games Hall · 12 open-source mini games (play in the browser, no install)"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 7,
+      "zh": "12 款浏览器小游戏合集：4096、贪吃蛇、俄罗斯方块、扫雷、打砖块、2048、恐龙跳、Bird flight、五子棋、记忆翻牌、太空射击、数字华容道、打地鼠。纯本地运行，最高分存本机。",
+      "en": "A collection of 12 browser mini games: 4096, Snake, Tetris, Minesweeper, Breakout, 2048, Dino Run, Bird Flight, Gomoku, Memory Match, Space Shooter, Number Slide Puzzle, Whack-a-Mole. Runs fully locally; high scores are kept on this device."
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 8,
+      "zh": "小游戏厅 · 13 款小游戏",
+      "en": "Mini Games Hall · 13 mini games"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 9,
+      "zh": "12 款浏览器小游戏，纯本地运行，最高分存本机。",
+      "en": "12 browser mini games, fully local, high scores kept on this device."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 125,
+      "zh": "小游戏厅",
+      "en": "Mini Games Hall"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 126,
+      "zh": "12 款小游戏",
+      "en": "12 mini games"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 126,
+      "zh": "，全部在浏览器里跑，不用安装、不用登录；最高分只存在你自己的浏览器里。",
+      "en": ", all running in the browser, no install, no login; high scores are stored only in your own browser."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 133,
+      "zh": "← 返回大厅",
+      "en": "← Back to hall"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 136,
+      "zh": "得分",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 137,
+      "zh": "🏆 最高",
+      "en": "🏆 Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 145,
+      "zh": "状态",
+      "en": "Status"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 149,
+      "zh": "选项",
+      "en": "Options"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 153,
+      "zh": "操作",
+      "en": "Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 161,
+      "zh": "纯前端 · 无后端 · 最高分存本机",
+      "en": "Front-end only · no backend · high scores stored locally"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 215,
+      "zh": "⚡ 最快",
+      "en": "⚡ Fastest"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 215,
+      "zh": "🏆 最高",
+      "en": "🏆 Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 241,
+      "zh": "本局结束",
+      "en": "Game over"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 246,
+      "zh": "新纪录！",
+      "en": "New record!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 246,
+      "zh": "达成目标，可继续挑战更高分",
+      "en": "Goal reached, keep going for a higher score"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 259,
+      "zh": "⚡ 最快 ",
+      "en": "⚡ Fastest "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 259,
+      "zh": "🏆 最高 ",
+      "en": "🏆 Best "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 314,
+      "zh": "准备开始",
+      "en": "Ready to start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 331,
+      "zh": "加载失败：",
+      "en": "Load failed: "
+    }
+  ]
+}

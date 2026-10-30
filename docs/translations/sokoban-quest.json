@@ -1,0 +1,839 @@
+{
+  "version": 1,
+  "game": "sokoban-quest",
+  "entries": [
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "仓库推箱：十二班调度",
+      "en": "Warehouse Sokoban: Twelve Shifts"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 120,
+      "zh": "固定仓库 · 可解释提示 · SOKO2 调度档案",
+      "en": "Fixed warehouses · Explainable hints · SOKO2 dispatch log"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 122,
+      "zh": "选择仓库",
+      "en": "Choose warehouse"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 123,
+      "zh": "调度档案",
+      "en": "Dispatch log"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 124,
+      "zh": "声音",
+      "en": "Sound"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 124,
+      "zh": "切换声音",
+      "en": "Toggle sound"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 128,
+      "zh": "仓库棋盘",
+      "en": "Warehouse board"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 130,
+      "zh": "第一章 · 入库训练",
+      "en": "Chapter 1 · Storage Training"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 130,
+      "zh": "01 直线入库",
+      "en": "01 Straight Shot"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 131,
+      "zh": "当前最佳星级",
+      "en": "Best stars"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 134,
+      "zh": "推箱仓库",
+      "en": "Sokoban warehouse"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 141,
+      "zh": "本班调度",
+      "en": "This shift"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 143,
+      "zh": "移动",
+      "en": "Moves"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 144,
+      "zh": "推动",
+      "en": "Pushes"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 145,
+      "zh": "入库",
+      "en": "Stored"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 148,
+      "zh": "最佳 --",
+      "en": "Best --"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 148,
+      "zh": "总星 0/36",
+      "en": "Stars 0/36"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 152,
+      "zh": "三星验收",
+      "en": "Three-star targets"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 157,
+      "zh": "调度台",
+      "en": "Control"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 159,
+      "zh": "撤回一步",
+      "en": "Undo one move"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 159,
+      "zh": "↶ 撤回",
+      "en": "↶ Undo"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 160,
+      "zh": "重开本关",
+      "en": "Restart level"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 160,
+      "zh": "↻ 重开",
+      "en": "↻ Restart"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 161,
+      "zh": "求解下一步",
+      "en": "Solve next move"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 161,
+      "zh": "提示",
+      "en": "Hint"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 163,
+      "zh": "移动方向键",
+      "en": "Move direction keys"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 164,
+      "zh": "向上",
+      "en": "Up"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 165,
+      "zh": "向左",
+      "en": "Left"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 166,
+      "zh": "向下",
+      "en": "Down"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 167,
+      "zh": "向右",
+      "en": "Right"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 169,
+      "zh": "方向键 / WASD 移动，Z 撤回，H 提示",
+      "en": "Arrow keys / WASD move, Z undo, H hint"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 176,
+      "zh": "十二班固定仓库",
+      "en": "Twelve fixed warehouses"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 176,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 180,
+      "zh": "SOKO2 调度档案",
+      "en": "SOKO2 dispatch log"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 182,
+      "zh": "档案包含十二班星级与最佳纪录，可跨设备导入；校验失败的内容会被拒绝。",
+      "en": "The log holds the stars and best records for all twelve shifts and can be imported on another device; content that fails verification is rejected."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "attr",
+      "line": 183,
+      "zh": "SOKO2 档案码",
+      "en": "SOKO2 log code"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 184,
+      "zh": "复制",
+      "en": "Copy"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 184,
+      "zh": "导入并校验",
+      "en": "Import and verify"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 184,
+      "zh": "返回仓库",
+      "en": "Back to warehouses"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 188,
+      "zh": "本班验收",
+      "en": "Shift review"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 190,
+      "zh": "调度完成",
+      "en": "Shift complete"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 194,
+      "zh": "再调度一次",
+      "en": "Play again"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "text",
+      "line": 194,
+      "zh": "下一班",
+      "en": "Next shift"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 202,
+      "zh": "向上",
+      "en": "Up"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 202,
+      "zh": "向下",
+      "en": "Down"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 202,
+      "zh": "向左",
+      "en": "Left"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 202,
+      "zh": "向右",
+      "en": "Right"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 204,
+      "zh": "第一章 · 入库训练",
+      "en": "Chapter 1 · Storage Training"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 204,
+      "zh": "直线入库",
+      "en": "Straight Shot"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 204,
+      "zh": "先确认箱体与库位的相对方向，一次推动完成入库。",
+      "en": "Check the box's direction relative to its goal, then store it with a single push."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 205,
+      "zh": "转角换位",
+      "en": "Corner Swap"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 205,
+      "zh": "不能拉动货箱；先绕到货箱下方，再沿竖线推进。",
+      "en": "Boxes cannot be pulled; walk around below the box first, then push it up the vertical line."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 206,
+      "zh": "双货分流",
+      "en": "Two-Box Split"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 206,
+      "zh": "两只货箱共享作业区，错误的先后顺序会封住横向通道。",
+      "en": "Two boxes share the work area; the wrong order will block the horizontal aisle."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 207,
+      "zh": "第二章 · 柱网货场",
+      "en": "Chapter 2 · Pillar Yard"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 207,
+      "zh": "中柱绕行",
+      "en": "Around the Pillar"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 207,
+      "zh": "承重柱切断直线路径，规划工人的绕行空间后再推箱。",
+      "en": "A load-bearing pillar blocks the straight path; plan the worker's way around it before pushing."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 208,
+      "zh": "双区接驳",
+      "en": "Twin Zones"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 208,
+      "zh": "隔墙把上层分成两个库区，底部通廊是唯一换边路线。",
+      "en": "A divider splits the upper level into two storage zones; the bottom corridor is the only way across."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 209,
+      "zh": "三列并仓",
+      "en": "Three Columns"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 209,
+      "zh": "三只货箱必须重新排队，先释放左侧站位才能横向调度。",
+      "en": "Three boxes must be re-queued; free the left-hand spot first to move sideways."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 210,
+      "zh": "第三章 · 狭道夜班",
+      "en": "Chapter 3 · Narrow Night Shift"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 210,
+      "zh": "侧仓回转",
+      "en": "Side Bay Turn"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 210,
+      "zh": "凹槽边缘没有多余站位，把最深处库位留到最后处理。",
+      "en": "The alcove edge has no spare standing room; leave the deepest goal for last."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 211,
+      "zh": "十字换轨",
+      "en": "Cross Switch"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 211,
+      "zh": "中央横道同时承担通行和换向，货箱进入前要留出回身空间。",
+      "en": "The central cross aisle serves for both passing and turning; leave turning room before a box enters."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 212,
+      "zh": "顺序锁仓",
+      "en": "Ordered Lock"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 212,
+      "zh": "三座库位排列紧密，从外向内推进会锁死入口。",
+      "en": "Three goals sit close together; pushing from the outside in will lock the entrance."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 213,
+      "zh": "第四章 · 总库会战",
+      "en": "Chapter 4 · Grand Depot"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 213,
+      "zh": "窄桥调头",
+      "en": "Narrow Bridge Turn"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 213,
+      "zh": "单格桥口不允许并排会车，先在宽区完成货箱排序。",
+      "en": "A one-tile bridge mouth allows no passing side by side; sort the boxes in the wide area first."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 214,
+      "zh": "三库联调",
+      "en": "Three-Depot Mix"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 214,
+      "zh": "三只货箱争用中央场地，边线库位与内线库位需要交替处理。",
+      "en": "Three boxes compete for the central floor; side goals and inner goals must be handled in turn."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 215,
+      "zh": "零点总调",
+      "en": "Zero Hour"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 215,
+      "zh": "承重墙、狭道与四只货箱叠加；每次推动都应保留下一次站位。",
+      "en": "Load-bearing walls, narrow lanes and four boxes combined; each push should keep a spot free for the next."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 259,
+      "zh": "档案校验失败",
+      "en": "Log verification failed"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 264,
+      "zh": "档案内容无效",
+      "en": "Log content invalid"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 352,
+      "zh": " 没有参考解",
+      "en": " has no reference solution"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 368,
+      "zh": "这一步没有可用空间",
+      "en": "No room for this move"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 373,
+      "zh": "检测到货箱死锁，可撤回这一步",
+      "en": "Box deadlock detected; you can undo this move"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 395,
+      "zh": " 次移动 · ",
+      "en": " moves · "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 395,
+      "zh": " 次推动 · ",
+      "en": " pushes · "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 395,
+      "zh": "使用 ",
+      "en": "Used "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 395,
+      "zh": " 次提示",
+      "en": " hints"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 395,
+      "zh": "独立完成",
+      "en": "No hints"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 396,
+      "zh": "查看仓库",
+      "en": "View warehouses"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 396,
+      "zh": "下一班",
+      "en": "Next shift"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 401,
+      "zh": "当前没有可撤回的步骤",
+      "en": "Nothing to undo"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 409,
+      "zh": "正在检查可行路线…",
+      "en": "Checking for a route…"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 413,
+      "zh": "当前局面无法完成，请撤回或重开",
+      "en": "This position cannot be finished; undo or restart"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 413,
+      "zh": "求解器确认当前局面已死锁",
+      "en": "Solver confirms this position is deadlocked"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 418,
+      "zh": "建议",
+      "en": "Try "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 418,
+      "zh": " · 尚有约 ",
+      "en": " · about "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 418,
+      "zh": " 步",
+      "en": " moves"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 419,
+      "zh": "路线提示：下一步",
+      "en": "Route hint: next move "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 422,
+      "zh": "本班已重新调度",
+      "en": "Shift reset"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 434,
+      "zh": "最佳 ",
+      "en": "Best "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 434,
+      "zh": " 步 / ",
+      "en": " moves / "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 434,
+      "zh": " 推",
+      "en": " pushes"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 434,
+      "zh": "最佳 --",
+      "en": "Best --"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 435,
+      "zh": "总星 ",
+      "en": "Stars "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 437,
+      "zh": "全部货箱入库",
+      "en": "All boxes stored"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 438,
+      "zh": "箱",
+      "en": "Box"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 438,
+      "zh": "推动不超过 ",
+      "en": "At most "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 438,
+      "zh": " 次",
+      "en": " pushes"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 439,
+      "zh": "步",
+      "en": "Move"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 439,
+      "zh": "无提示且 ",
+      "en": "No hints, within "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 439,
+      "zh": " 步内",
+      "en": " moves"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 449,
+      "zh": "完成上一班后解锁",
+      "en": "Finish the previous shift to unlock"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 449,
+      "zh": "锁定",
+      "en": "Locked"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 454,
+      "zh": "档案包含十二班星级与最佳纪录，可跨设备导入；校验失败的内容会被拒绝。",
+      "en": "The log holds the stars and best records for all twelve shifts and can be imported on another device; content that fails verification is rejected."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 516,
+      "zh": "死角",
+      "en": "Dead"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 544,
+      "zh": "必须配置 12 个唯一仓库",
+      "en": "Exactly 12 unique warehouses required"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 547,
+      "zh": " 箱体与库位配置不匹配",
+      "en": " box and goal layout mismatch"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 556,
+      "zh": "参考路线在 ",
+      "en": "Reference route stopped in "
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 556,
+      "zh": " 中断",
+      "en": "."
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 574,
+      "zh": "档案已复制",
+      "en": "Log copied"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 575,
+      "zh": "档案已导入并通过校验",
+      "en": "Log imported and verified"
+    },
+    {
+      "file": "sokoban-quest.html",
+      "kind": "js",
+      "line": 575,
+      "zh": "档案无效",
+      "en": "Log invalid"
+    }
+  ]
+}

@@ -1,0 +1,608 @@
+{
+  "version": 1,
+  "game": "em-lab",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 980,
+      "zh": "<span class=\"rd-title\">点电荷电场</span>",
+      "en": "<span class=\"rd-title\">Point-Charge Field</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 981,
+      "zh": "电荷数：",
+      "en": "Charges: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 985,
+      "zh": "指针处：Ex=",
+      "en": "At pointer: Ex="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 985,
+      "zh": "，Ey=",
+      "en": ", Ey="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 986,
+      "zh": "，|E|=",
+      "en": ", |E|="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 986,
+      "zh": "，φ=",
+      "en": ", φ="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 988,
+      "zh": "选中：q = ",
+      "en": "Selected: q = "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 990,
+      "zh": "试探电荷 q=",
+      "en": "Test charge q="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 990,
+      "zh": "0（中性，不受力）",
+      "en": "0 (neutral, no force)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 991,
+      "zh": "，|v|=",
+      "en": ", |v|="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 995,
+      "zh": "<span class=\"rd-title\">电流与磁场</span>",
+      "en": "<span class=\"rd-title\">Current and Magnetic Field</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 996,
+      "zh": "导线数：",
+      "en": "Wires: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 996,
+      "zh": " / 8，磁针数：",
+      "en": " / 8, compasses: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 999,
+      "zh": "指针处：Bx=",
+      "en": "At pointer: Bx="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 999,
+      "zh": "，By=",
+      "en": ", By="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1000,
+      "zh": "，|B|=",
+      "en": ", |B|="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1004,
+      "zh": "选中：导线，I=",
+      "en": "Selected: wire, I="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1004,
+      "zh": "（点按可换向）",
+      "en": " (click to flip direction)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1005,
+      "zh": "选中：小磁针",
+      "en": "Selected: compass needle"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1009,
+      "zh": "<span class=\"rd-title\">磁铁相互作用</span>",
+      "en": "<span class=\"rd-title\">Magnet Interaction</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1013,
+      "zh": "磁铁",
+      "en": "Magnet"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1013,
+      "zh": " 朝向：",
+      "en": " heading: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1018,
+      "zh": "<span class=\"rd-title\">安培环路定理验证</span>",
+      "en": "<span class=\"rd-title\">Ampère's Circuital Law Check</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1023,
+      "zh": "，",
+      "en": ", "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1027,
+      "zh": "（环路包围 ",
+      "en": " (loop encloses "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1028,
+      "zh": " 根导线）\n",
+      "en": " wires)\\n"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1029,
+      "zh": "相对误差：",
+      "en": "Relative error: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1030,
+      "zh": "<span class=\"rd-ok\">结论：两边数值一致，符合安培环路定理</span>",
+      "en": "<span class=\"rd-ok\">Result: both sides agree, consistent with Ampère's law</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1031,
+      "zh": "<span class=\"rd-bad\">结论：偏差较大（导线可能与环路相交）</span>",
+      "en": "<span class=\"rd-bad\">Result: large deviation (a wire may cross the loop)</span>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1042,
+      "zh": "当前：同极相对（",
+      "en": "Current: like poles facing ("
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1042,
+      "zh": "）——磁感线应相互排斥、不跨接",
+      "en": ") - field lines should repel and not bridge"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1043,
+      "zh": "当前：异极相对（",
+      "en": "Current: opposite poles facing ("
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1043,
+      "zh": "）——磁感线应从 N 极跨接到 S 极",
+      "en": ") - field lines should bridge from N pole to S pole"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1377,
+      "zh": "等势线：",
+      "en": "Equipotentials: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1377,
+      "zh": "开",
+      "en": "On"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1377,
+      "zh": "关",
+      "en": "Off"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1438,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1438,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1447,
+      "zh": "E = k Σ qᵢ r̂ / r² ，　φ = Σ qᵢ / r　（k = 1，相对单位）",
+      "en": "E = k Σ qᵢ r̂ / r² ,  φ = Σ qᵢ / r  (k = 1, relative units)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1448,
+      "zh": "双击空白处添加电荷（或选“添加”工具后点按画布），拖动移动，右键或选中后按 Delete 删除（最多 8 个）；试探电荷满足 F = qE，带阻尼与边界反弹。",
+      "en": "Double-click empty space to add a charge (or pick the Add tool and click the canvas); drag to move, right-click or press Delete on a selection to remove (max 8); the test charge obeys F = qE, with damping and boundary bounce."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1451,
+      "zh": "B = μ₀ I / (2π r)，方向沿圆周切向（右手螺旋定则）　（相对单位 μ₀ = 2π）",
+      "en": "B = μ₀ I / (2π r), tangent to the circle (right-hand rule)  (relative units μ₀ = 2π)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1452,
+      "zh": "用工具在空白处点按添加导线；点按已有导线在 ⊙ 向外（红）与 ⊗ 向里（蓝）间切换；可拖动，右键删除；小磁针沿 B 方向实时偏转。",
+      "en": "Use the tool to click empty space to add a wire; click an existing wire to toggle between ⊙ out of the page (red) and ⊗ into the page (blue); drag to move, right-click to delete; compass needles turn live along B."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1455,
+      "zh": "磁偶极子（磁极对）近似：B 由 N、S 两极的 1/r² 场叠加，磁感线自 N 极出发回到 S 极",
+      "en": "Magnetic dipole (pole pair) approximation: B is the 1/r² fields of the N and S poles superposed; field lines leave the N pole and return to the S pole"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1456,
+      "zh": "拖动磁铁移动；选中后拖动 N 极端的青色圆点旋转（也可用上方按钮）；异极相对时场线跨接，同极相对时场线相斥；铁屑沿 B 方向排列。",
+      "en": "Drag a magnet to move it; after selecting, drag the cyan dot at the N-pole end to rotate (or use the buttons above); opposite poles facing bridge the field lines, like poles repel them; iron filings align along B."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1459,
+      "zh": "∮ B·dl = μ₀ I_encl ，　B = μ₀ I / (2π r)",
+      "en": "∮ B·dl = μ₀ I_encl ,  B = μ₀ I / (2π r)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1460,
+      "zh": "拖动环路边缘移动整个环路，拖橙色圆点改变尺寸；点按导线切换电流方向，滑块调节 |I|；环路不包围导线时积分应接近 0。",
+      "en": "Drag the loop edge to move the whole loop and drag the orange dot to resize; click a wire to flip its current and use the slider for |I|; with no wire enclosed the integral should be near 0."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "电磁场实验室",
+      "en": "EM Field Lab"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "① 点电荷电场",
+      "en": "① Point-Charge Field"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 21,
+      "zh": "② 电流与磁场",
+      "en": "② Current and Magnetic Field"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "③ 磁铁相互作用",
+      "en": "③ Magnet Interaction"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "④ 安培环路定理",
+      "en": "④ Ampère's Law"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "工具",
+      "en": "Tools"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "选择 / 拖动",
+      "en": "Select / Drag"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 42,
+      "zh": "添加 ＋ 正电荷",
+      "en": "Add + Positive charge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 43,
+      "zh": "添加 － 负电荷",
+      "en": "Add - Negative charge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "试探电荷",
+      "en": "Test charge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "＋ 正",
+      "en": "+ Positive"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "－ 负",
+      "en": "- Negative"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 49,
+      "zh": "中性",
+      "en": "Neutral"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 51,
+      "zh": "放置 / 复位试探电荷",
+      "en": "Place / reset test charge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 52,
+      "zh": "等势线：开",
+      "en": "Equipotentials: On"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 53,
+      "zh": "删除选中",
+      "en": "Delete selected"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "导线工具",
+      "en": "Wire tools"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "添加 ⊙ 向外（红）",
+      "en": "Add ⊙ out of page (red)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 62,
+      "zh": "添加 ⊗ 向里（蓝）",
+      "en": "Add ⊗ into page (blue)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "添加小磁针",
+      "en": "Add compass needle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 70,
+      "zh": "选中磁铁",
+      "en": "Selected magnet"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "逆时针转 15°",
+      "en": "Rotate 15° counterclockwise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 72,
+      "zh": "顺时针转 15°",
+      "en": "Rotate 15° clockwise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 73,
+      "zh": "翻转 180°",
+      "en": "Flip 180°"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 74,
+      "zh": "重新撒铁屑",
+      "en": "Re-scatter filings"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 82,
+      "zh": "添加 ⊙ 向外",
+      "en": "Add ⊙ out of page"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "添加 ⊗ 向里",
+      "en": "Add ⊗ into page"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 85,
+      "zh": "电流大小 |I|＝",
+      "en": "Current |I| = "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 88,
+      "zh": "闭合环路",
+      "en": "Closed loop"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 90,
+      "zh": "圆形",
+      "en": "Circle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "矩形",
+      "en": "Rectangle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 93,
+      "zh": "环路尺寸＝",
+      "en": "Loop size = "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "删除选中导线",
+      "en": "Delete selected wire"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 101,
+      "zh": "网格密度",
+      "en": "Grid density"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 103,
+      "zh": "疏",
+      "en": "Sparse"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 104,
+      "zh": "中",
+      "en": "Medium"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 105,
+      "zh": "密",
+      "en": "Dense"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 108,
+      "zh": "重置本实验",
+      "en": "Reset experiment"
+    }
+  ]
+}

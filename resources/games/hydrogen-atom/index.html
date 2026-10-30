@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>氢原子探秘</title>
+<title>Hydrogen Atom Explorer</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,10 +12,10 @@
 <header class="topbar">
   <div class="brand">
     <span class="brand-dot"></span>
-    <span>氢原子探秘</span>
-    <span class="brand-sub">玻尔模型 × 量子电子云</span>
+    <span>Hydrogen Atom Explorer</span>
+    <span class="brand-sub">Bohr Model × Quantum Electron Cloud</span>
   </div>
-  <a class="back-link" href="../../index.html">← 返回门户</a>
+  <a class="back-link" href="../../index.html">← Back to portal</a>
 </header>
 
 <!-- 主体：左画布 + 右控制面板 -->
@@ -25,25 +25,25 @@
     <canvas id="view"></canvas>
 
     <!-- 对照模式下的两个视图标签 -->
-    <div class="view-label" id="labelL">玻尔轨道模型</div>
-    <div class="view-label" id="labelR">电子云（量子模型）</div>
+    <div class="view-label" id="labelL">Bohr orbit model</div>
+    <div class="view-label" id="labelR">Electron cloud (quantum model)</div>
 
     <!-- 底部说明文字 -->
     <div class="caption" id="caption"></div>
 
     <!-- 移动端展开面板按钮 -->
-    <button class="panel-toggle" id="panelToggle" type="button">控制面板 ▲</button>
+    <button class="panel-toggle" id="panelToggle" type="button">Controls ▲</button>
   </section>
 
   <aside class="panel" id="panel">
 
     <!-- 模式切换 -->
     <div class="group">
-      <div class="group-title">显示模式</div>
+      <div class="group-title">Display mode</div>
       <div class="seg" id="modeTabs">
-        <button type="button" data-mode="bohr" class="active">玻尔轨道</button>
-        <button type="button" data-mode="cloud">电子云</button>
-        <button type="button" data-mode="compare">模型对照</button>
+        <button type="button" data-mode="bohr" class="active">Bohr orbit</button>
+        <button type="button" data-mode="cloud">Electron cloud</button>
+        <button type="button" data-mode="compare">Compare models</button>
       </div>
     </div>
 
@@ -52,18 +52,18 @@
       <div class="switch-row">
         <label class="switch">
           <input type="checkbox" id="autoRotate" checked>
-          <span>自动慢转</span>
+          <span>Auto-rotate slowly</span>
         </label>
         <label class="switch">
           <input type="checkbox" id="soundOn" checked>
-          <span>跃迁音效</span>
+          <span>Jump sound</span>
         </label>
       </div>
     </div>
 
     <!-- 玻尔模型控制 -->
     <div class="group" id="bohrGroup">
-      <div class="group-title">玻尔模型 · 能级 n</div>
+      <div class="group-title">Bohr model · level n</div>
       <div class="seg seg-six" id="nTabs">
         <button type="button" data-n="1" class="active">n=1</button>
         <button type="button" data-n="2">n=2</button>
@@ -74,14 +74,14 @@
       </div>
       <label class="check-line">
         <input type="checkbox" id="allOrbits">
-        <span>同时叠加显示全部允许轨道（n=1…6）</span>
+        <span>Show all allowed orbits at once (n=1…6)</span>
       </label>
-      <div class="hint">向更低能级切换时，电子将螺旋跃迁并发出一个光子。</div>
+      <div class="hint">Switching to a lower level makes the electron spiral down and emit a photon.</div>
     </div>
 
     <!-- 电子云控制 -->
     <div class="group" id="cloudGroup">
-      <div class="group-title">量子模型 · 轨道状态</div>
+      <div class="group-title">Quantum model · orbital state</div>
       <div class="seg" id="stateTabs">
         <button type="button" data-state="1s" class="active">1s</button>
         <button type="button" data-state="2s">2s</button>
@@ -92,31 +92,31 @@
       </div>
 
       <div class="orient-wrap" id="orientWrap">
-        <div class="group-title small">空间取向</div>
+        <div class="group-title small">Orientation</div>
         <div class="seg seg-wrap" id="orientTabs"></div>
       </div>
 
       <div class="slider-line">
-        <span>云点数量</span>
+        <span>Cloud points</span>
         <input type="range" id="pointCount" min="2000" max="6000" step="500" value="4000">
         <b id="pointCountVal">4000</b>
       </div>
-      <div class="hint">按真实波函数 |ψ|² = |R<sub>nl</sub>(r)|²·|Y<sub>lm</sub>(θ,φ)|² 采样，分批生成。</div>
+      <div class="hint">Sampled from the real wave function |ψ|² = |R<sub>nl</sub>(r)|²·|Y<sub>lm</sub>(θ,φ)|², generated in batches.</div>
     </div>
 
     <!-- 教学信息卡 -->
     <div class="group">
-      <div class="group-title">教学信息卡</div>
+      <div class="group-title">Teaching info card</div>
       <div class="info-card" id="infoCard"></div>
     </div>
 
     <!-- 径向概率密度小图 -->
     <div class="group" id="radialGroup">
-      <div class="group-title">径向概率密度 P(r) = r²|R(r)|²</div>
+      <div class="group-title">Radial probability density P(r) = r²|R(r)|²</div>
       <div class="radial-wrap">
         <canvas id="radialCanvas"></canvas>
       </div>
-      <div class="hint">虚线标出概率峰对应的最概然半径（以玻尔半径 a₀ 为单位）。</div>
+      <div class="hint">The dashed line marks the most probable radius at the probability peak (in Bohr radii a₀).</div>
     </div>
 
   </aside>

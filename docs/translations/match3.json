@@ -1,0 +1,1567 @@
+{
+  "version": 1,
+  "game": "match3",
+  "entries": [
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "中文",
+      "en": "ZH"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "日本語",
+      "en": "JA"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "한국어",
+      "en": "KO"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 27,
+      "zh": "切换语言",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "言語を切り替え",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "언어 변경",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "返回游戏库",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "ゲーム一覧へ戻る",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 162,
+      "zh": "게임 목록으로",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 33,
+      "zh": "切换到白天",
+      "en": "Switch to light"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 34,
+      "zh": "切换到夜间",
+      "en": "Switch to dark"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "上",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "위",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "下",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "아래",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "左",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "왼쪽",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "右",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "오른쪽",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "暂停",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "一時停止",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "일시정지",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "声音",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "サウンド",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "소리",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "主题",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "テーマ",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "테마",
+      "en": "Theme"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 6,
+      "zh": "宝石消除网页版：交换相邻宝石三连消除，4 连生成条纹宝石、L/T 形生成炸弹、5 连生成彩虹宝石，15 个步数关卡加限时模式，连锁 combo 爽感拉满。",
+      "en": "Gem matching for the web: swap neighbouring gems to match three, match 4 for a striped gem, L/T shapes for a bomb, 5 in a row for a rainbow gem; 15 move-limited levels plus a timed mode, with big chain combos."
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 9,
+      "zh": "宝石消除 · 三消连击",
+      "en": "Jewel Match · Match-3"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 10,
+      "zh": "宝石消除网页版：交换相邻宝石三连消除，条纹、炸弹、彩虹特殊宝石，15 个关卡加限时模式。",
+      "en": "Gem matching for the web: swap neighbouring gems to match three; striped, bomb and rainbow special gems; 15 levels plus a timed mode."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 21,
+      "zh": "宝石消除 · 三消连击",
+      "en": "Jewel Match · Match-3"
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 22,
+      "zh": "宝石消除网页版：交换相邻宝石三连消除，条纹、炸弹、彩虹特殊宝石，15 个关卡加限时模式。",
+      "en": "Gem matching for the web: swap neighbouring gems to match three; striped, bomb and rainbow special gems; 15 levels plus a timed mode."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 24,
+      "zh": "益智解谜",
+      "en": "Puzzle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "宝石消除 · 三消连击",
+      "en": "Jewel Match · Match-3"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "宝石消除",
+      "en": "Jewel Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "三消连击",
+      "en": "Match-3 Combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "换一换，三颗连成线就消掉，连锁越多越爽！",
+      "en": "Swap gems, line up three to clear, chain for big combos!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "分数",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "目标",
+      "en": "GOAL"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 57,
+      "zh": "步数",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "💡 提示",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 62,
+      "zh": "🔀 洗牌",
+      "en": "🔀 Shuffle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "⏸ 暂停",
+      "en": "⏸ Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "选择关卡",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 74,
+      "zh": "🚀 开始闯关",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "⏱ 限时 90 秒",
+      "en": "⏱ 90s Blitz"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 82,
+      "zh": "⏸ 暂停中",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "▶ 继续",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 92,
+      "zh": "新纪录！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 101,
+      "zh": "🖱️ 拖动宝石到相邻格子，或先点一颗再点旁边那颗",
+      "en": "🖱️ Drag a gem onto a neighbor, or click one then its neighbor"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 102,
+      "zh": "👆 触屏：手指按住宝石往任意方向一滑",
+      "en": "👆 Touch: press a gem and flick in any direction"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 103,
+      "zh": "✨ 换完连不成线会自动换回来，不扣步数",
+      "en": "✨ Swaps that make no match bounce back for free"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 105,
+      "zh": "💎 特殊宝石",
+      "en": "💎 Special Gems"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "4 个连成一线 → 条纹宝石，消掉整行或整列",
+      "en": "4 in a line → Striped gem, clears a whole row or column"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 108,
+      "zh": "L 形或 T 形 → 炸弹宝石，炸掉周围 3×3",
+      "en": "L or T shape → Bomb gem, blasts a 3×3 area"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 109,
+      "zh": "5 个连成一线 → 彩虹宝石，和谁交换就清掉全场那种颜色",
+      "en": "5 in a line → Rainbow gem, swap it to clear every gem of that color"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 110,
+      "zh": "两颗特殊宝石互相交换，会触发超级组合技！",
+      "en": "Swap two special gems together for a super combo!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 113,
+      "zh": "🧠 连击秘诀",
+      "en": "🧠 Combo Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 114,
+      "zh": "尽量在棋盘下方消除：上面的宝石掉下来更容易自动连锁，连锁层数越多倍率越高。看到 4 连、5 连的机会先别急着三消，攒出特殊宝石收益更大！",
+      "en": "Match near the bottom: falling gems are more likely to cascade, and each cascade level raises the multiplier. When a 4 or 5 match is possible, hold off the plain three — special gems pay off much more!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 118,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 118,
+      "zh": "宝石消除（三消 / Match-3）网页版：交换相邻的两颗宝石，让三颗或以上同色宝石连成一线即可消除。4 连生成条纹宝石，L/T 形生成炸弹宝石，5 连生成彩虹宝石，特殊宝石之间还能互相组合。共 15 个步数限制关卡，另有 90 秒限时冲分模式，支持提示和自动洗牌，鼠标与触屏都能流畅操作，完全免费。",
+      "en": "Match-3 jewel puzzle in your browser: swap two neighboring gems to line up three or more of the same color. Four in a row makes a striped gem, L/T shapes make a bomb, five in a row makes a rainbow gem, and special gems can be combined. 15 move-limited levels plus a 90-second blitz mode, with hints and auto-shuffle. Smooth on mouse and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 119,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 支持鼠标和触屏",
+      "en": "🕹️ Play instantly · Free · Mouse & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "宝石消除 · 三消连击",
+      "en": "Jewel Match · Match-3"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "宝石消除",
+      "en": "Jewel Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "三消连击",
+      "en": "Match-3 Combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "换一换，三颗连成线就消掉，连锁越多越爽！",
+      "en": "Swap gems, line up three to clear, chain for big combos!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "分数",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "💡 提示",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "🔀 洗牌",
+      "en": "🔀 Shuffle"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "⏸ 暂停",
+      "en": "⏸ Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "选择关卡",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "🚀 开始闯关",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "⏱ 限时 90 秒",
+      "en": "⏱ 90s Blitz"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "⏸ 暂停中",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "▶ 继续",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "新纪录！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "🖱️ 拖动宝石到相邻格子，或先点一颗再点旁边那颗",
+      "en": "🖱️ Drag a gem onto a neighbor, or click one then its neighbor"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "👆 触屏：手指按住宝石往任意方向一滑",
+      "en": "👆 Touch: press a gem and flick in any direction"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "✨ 换完连不成线会自动换回来，不扣步数",
+      "en": "✨ Swaps that make no match bounce back for free"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "💎 特殊宝石",
+      "en": "💎 Special Gems"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "4 个连成一线 → 条纹宝石，消掉整行或整列",
+      "en": "4 in a line → Striped gem, clears a whole row or column"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "L 形或 T 形 → 炸弹宝石，炸掉周围 3×3",
+      "en": "L or T shape → Bomb gem, blasts a 3×3 area"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "5 个连成一线 → 彩虹宝石，和谁交换就清掉全场那种颜色",
+      "en": "5 in a line → Rainbow gem, swap it to clear every gem of that color"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "两颗特殊宝石互相交换，会触发超级组合技！",
+      "en": "Swap two special gems together for a super combo!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 131,
+      "zh": "🧠 连击秘诀",
+      "en": "🧠 Combo Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 131,
+      "zh": "尽量在棋盘下方消除：上面的宝石掉下来更容易自动连锁，连锁层数越多倍率越高。看到 4 连、5 连的机会先别急着三消，攒出特殊宝石收益更大！",
+      "en": "Match near the bottom: falling gems are more likely to cascade, and each cascade level raises the multiplier. When a 4 or 5 match is possible, hold off the plain three — special gems pay off much more!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "宝石消除（三消 / Match-3）网页版：交换相邻的两颗宝石，让三颗或以上同色宝石连成一线即可消除。4 连生成条纹宝石，L/T 形生成炸弹宝石，5 连生成彩虹宝石，特殊宝石之间还能互相组合。共 15 个步数限制关卡，另有 90 秒限时冲分模式，支持提示和自动洗牌，鼠标与触屏都能流畅操作，完全免费。",
+      "en": "Match-3 jewel puzzle in your browser: swap two neighboring gems to line up three or more of the same color. Four in a row makes a striped gem, L/T shapes make a bomb, five in a row makes a rainbow gem, and special gems can be combined. 15 move-limited levels plus a 90-second blitz mode, with hints and auto-shuffle. Smooth on mouse and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 支持鼠标和触屏",
+      "en": "🕹️ Play instantly · Free · Mouse & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "声音开 / 关 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "目标",
+      "en": "GOAL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "步数",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "时间",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "🏆 限时模式最高：",
+      "en": "🏆 Blitz best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "第 ",
+      "en": "Level "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": " 关过关！",
+      "en": " cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "步数用完了…",
+      "en": "Out of moves…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "时间到！",
+      "en": "Time's up!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "全部通关！",
+      "en": "All levels cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "▶ 下一关",
+      "en": "▶ Next Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "🔄 再试一次",
+      "en": "🔄 Try Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "🔄 再来一局",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "最大连锁",
+      "en": "Best chain"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "特殊宝石",
+      "en": "Specials"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "剩余步数",
+      "en": "Moves left"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "最高分",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "不错！",
+      "en": "Good!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "漂亮！",
+      "en": "Great!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "太棒了！",
+      "en": "Excellent!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "惊人！",
+      "en": "Amazing!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "无与伦比！",
+      "en": "Unbelievable!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "没有可走的了，洗牌！",
+      "en": "No moves left — shuffling!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "洗牌 −1 步",
+      "en": "Shuffle −1 move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "剩余步数奖励！",
+      "en": "Leftover move bonus!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "ジュエルマッチ · 3マッチ",
+      "en": "Jewel Match · Match-3"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "ジュエルマッチ",
+      "en": "Jewel Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "3マッチ連鎖",
+      "en": "Match-3 Combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "入れ替えて3つ並べて消そう、連鎖するほど気持ちいい！",
+      "en": "Swap gems, line up three to clear, chain for big combos!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "スコア",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "💡 ヒント",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "🔀 シャッフル",
+      "en": "🔀 Shuffle"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "⏸ 一時停止",
+      "en": "⏸ Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "ステージ選択",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "🚀 スタート",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "⏱ 90秒タイムアタック",
+      "en": "⏱ 90s Blitz"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "⏸ 一時停止中",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "▶ 再開",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "メニュー",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "新記録！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "🖱️ 宝石を隣へドラッグ、または2つを順にクリック",
+      "en": "🖱️ Drag a gem onto a neighbor, or click one then its neighbor"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "👆 タッチ：宝石を押して好きな方向へはじく",
+      "en": "👆 Touch: press a gem and flick in any direction"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "✨ そろわない入れ替えは自動で戻り、手数は減らない",
+      "en": "✨ Swaps that make no match bounce back for free"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "💎 スペシャル宝石",
+      "en": "💎 Special Gems"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "4つ一列 → ストライプ、縦か横一列を消す",
+      "en": "4 in a line → Striped gem, clears a whole row or column"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "L字・T字 → ボム、周囲3×3を爆破",
+      "en": "L or T shape → Bomb gem, blasts a 3×3 area"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "5つ一列 → レインボー、入れ替えた色を全消し",
+      "en": "5 in a line → Rainbow gem, swap it to clear every gem of that color"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "スペシャル同士を入れ替えると超コンボ！",
+      "en": "Swap two special gems together for a super combo!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "🧠 連鎖のコツ",
+      "en": "🧠 Combo Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "なるべく盤面の下で消そう：上から落ちる宝石で連鎖が起きやすく、連鎖が続くほど倍率アップ。4つ・5つのチャンスがあれば、普通の3消しは我慢してスペシャルを作ろう！",
+      "en": "Match near the bottom: falling gems are more likely to cascade, and each cascade level raises the multiplier. When a 4 or 5 match is possible, hold off the plain three — special gems pay off much more!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "📖 このゲームについて",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "ブラウザで遊べる3マッチパズル：隣り合う宝石を入れ替えて同じ色を3つ以上並べると消える。4つでストライプ、L/T字でボム、5つでレインボー宝石、スペシャル同士の組み合わせも。手数制限の15ステージと90秒タイムアタック、ヒント・自動シャッフル付き。マウス・タッチ対応、完全無料。",
+      "en": "Match-3 jewel puzzle in your browser: swap two neighboring gems to line up three or more of the same color. Four in a row makes a striped gem, L/T shapes make a bomb, five in a row makes a rainbow gem, and special gems can be combined. 15 move-limited levels plus a 90-second blitz mode, with hints and auto-shuffle. Smooth on mouse and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "🕹️ すぐ遊べる · 完全無料 · マウス・タッチ対応",
+      "en": "🕹️ Play instantly · Free · Mouse & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "サウンド ON/OFF (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "目標",
+      "en": "GOAL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "手数",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "タイム",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 169,
+      "zh": "🏆 タイムアタック最高：",
+      "en": "🏆 Blitz best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "ステージ ",
+      "en": "Level "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": " クリア！",
+      "en": " cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "手数切れ…",
+      "en": "Out of moves…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "タイムアップ！",
+      "en": "Time's up!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "全ステージクリア！",
+      "en": "All levels cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "▶ 次へ",
+      "en": "▶ Next Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "🔄 もう一回",
+      "en": "🔄 Try Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "最大連鎖",
+      "en": "Best chain"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "スペシャル",
+      "en": "Specials"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "残り手数",
+      "en": "Moves left"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "ベスト",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "グッド！",
+      "en": "Good!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "グレート！",
+      "en": "Great!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "エクセレント！",
+      "en": "Excellent!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "アメージング！",
+      "en": "Amazing!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "信じられない！",
+      "en": "Unbelievable!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "手がないのでシャッフル！",
+      "en": "No moves left — shuffling!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "シャッフル −1手",
+      "en": "Shuffle −1 move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "残り手数ボーナス！",
+      "en": "Leftover move bonus!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "보석 매치 · 3매치",
+      "en": "Jewel Match · Match-3"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "보석 매치",
+      "en": "Jewel Match"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "3매치 콤보",
+      "en": "Match-3 Combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "바꿔서 세 개를 맞추면 펑! 연쇄될수록 짜릿해요!",
+      "en": "Swap gems, line up three to clear, chain for big combos!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "점수",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "💡 힌트",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "🔀 섞기",
+      "en": "🔀 Shuffle"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "⏸ 일시정지",
+      "en": "⏸ Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "스테이지 선택",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "🚀 시작",
+      "en": "🚀 Start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "⏱ 90초 타임어택",
+      "en": "⏱ 90s Blitz"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "▶ 계속",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "메뉴",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "신기록!",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "🎮 조작",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "🖱️ 보석을 옆 칸으로 드래그하거나 두 개를 차례로 클릭",
+      "en": "🖱️ Drag a gem onto a neighbor, or click one then its neighbor"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "👆 터치: 보석을 누르고 원하는 방향으로 튕기기",
+      "en": "👆 Touch: press a gem and flick in any direction"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "✨ 맞춰지지 않으면 자동으로 돌아오고 이동 수는 그대로",
+      "en": "✨ Swaps that make no match bounce back for free"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "💎 특수 보석",
+      "en": "💎 Special Gems"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "4개 일렬 → 줄무늬 보석, 한 줄 전체 제거",
+      "en": "4 in a line → Striped gem, clears a whole row or column"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "L자·T자 → 폭탄 보석, 주변 3×3 폭파",
+      "en": "L or T shape → Bomb gem, blasts a 3×3 area"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "5개 일렬 → 무지개 보석, 바꾼 색을 전부 제거",
+      "en": "5 in a line → Rainbow gem, swap it to clear every gem of that color"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "특수 보석끼리 바꾸면 슈퍼 콤보!",
+      "en": "Swap two special gems together for a super combo!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "🧠 콤보 비결",
+      "en": "🧠 Combo Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "가능하면 보드 아래쪽에서 맞추세요: 위에서 떨어지는 보석이 연쇄를 만들기 쉽고 연쇄가 길수록 배율이 올라가요. 4개·5개 기회가 보이면 3매치는 참고 특수 보석을 만드세요!",
+      "en": "Match near the bottom: falling gems are more likely to cascade, and each cascade level raises the multiplier. When a 4 or 5 match is possible, hold off the plain three — special gems pay off much more!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "📖 게임 소개",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "브라우저에서 즐기는 3매치 보석 퍼즐: 이웃한 보석 두 개를 바꿔 같은 색 3개 이상을 일렬로 맞추면 사라집니다. 4개는 줄무늬, L/T자는 폭탄, 5개는 무지개 보석이 되고 특수 보석끼리 조합도 가능. 이동 수 제한 15개 스테이지와 90초 타임어택, 힌트와 자동 섞기 지원. 마우스·터치 지원, 완전 무료.",
+      "en": "Match-3 jewel puzzle in your browser: swap two neighboring gems to line up three or more of the same color. Four in a row makes a striped gem, L/T shapes make a bomb, five in a row makes a rainbow gem, and special gems can be combined. 15 move-limited levels plus a 90-second blitz mode, with hints and auto-shuffle. Smooth on mouse and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "🕹️ 바로 플레이 · 완전 무료 · 마우스·터치 지원",
+      "en": "🕹️ Play instantly · Free · Mouse & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "사운드 켜기/끄기 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "목표",
+      "en": "GOAL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "이동",
+      "en": "MOVES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "시간",
+      "en": "TIME"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "🏆 타임어택 최고: ",
+      "en": "🏆 Blitz best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "스테이지 ",
+      "en": "Level "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": " 클리어!",
+      "en": " cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "이동 수를 다 썼어요…",
+      "en": "Out of moves…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "시간 종료!",
+      "en": "Time's up!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "전 스테이지 클리어!",
+      "en": "All levels cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "▶ 다음",
+      "en": "▶ Next Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 188,
+      "zh": "🔄 다시 하기",
+      "en": "🔄 Try Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 189,
+      "zh": "최대 연쇄",
+      "en": "Best chain"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 189,
+      "zh": "특수 보석",
+      "en": "Specials"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 189,
+      "zh": "남은 이동",
+      "en": "Moves left"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 189,
+      "zh": "최고",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 190,
+      "zh": "굿!",
+      "en": "Good!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 190,
+      "zh": "그레이트!",
+      "en": "Great!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 190,
+      "zh": "엑설런트!",
+      "en": "Excellent!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 190,
+      "zh": "어메이징!",
+      "en": "Amazing!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 190,
+      "zh": "믿을 수 없어!",
+      "en": "Unbelievable!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 191,
+      "zh": "둘 곳이 없어 섞어요!",
+      "en": "No moves left — shuffling!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 191,
+      "zh": "섞기 −1 이동",
+      "en": "Shuffle −1 move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 191,
+      "zh": "남은 이동 보너스!",
+      "en": "Leftover move bonus!"
+    }
+  ]
+}

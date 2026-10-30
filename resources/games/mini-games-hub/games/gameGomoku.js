@@ -29,15 +29,15 @@ const DIRS = [[0, 1], [1, 0], [1, 1], [1, -1]]
 
 export default {
   id: 'gomoku',
-  name: '五子棋',
+  name: 'Gomoku',
   runtime: [{
     key: 'ai',
-    label: 'AI 棋力',
+    label: 'AI level',
     def: 'normal',
     values: [
-      { v: 'easy', t: '随缘' },
-      { v: 'normal', t: '认真' },
-      { v: 'hard', t: '大师' },
+      { v: 'easy', t: 'Casual' },
+      { v: 'normal', t: 'Serious' },
+      { v: 'hard', t: 'Master' },
     ],
   }],
 
@@ -197,17 +197,17 @@ export default {
           streak++
           api.score(streak)
           api.win(streak)
-          api.status(`🏆 你赢了！连胜 ${streak} 场，点击棋盘再战`)
+          api.status(`🏆 You win! Streak of ${streak}, click the board to play again`)
         } else {
           api.over(streak)
           streak = 0
-          api.status('AI 获胜，连胜清零。点击棋盘再战')
+          api.status('AI wins, streak reset. Click the board to play again')
         }
         return true
       }
       if (moves >= N * N) {
         ended = 'draw'
-        api.status('棋盘下满，平局。点击棋盘再战')
+        api.status('Board full, it\'s a draw. Click the board to play again')
         return true
       }
       return false
@@ -219,14 +219,14 @@ export default {
       if (!m) return
       if (place(m.r, m.c, AI)) return
       turn = HUMAN
-      api.status(`你执蓝先行 · 已下 ${moves} 手 · 连胜 ${streak}`)
+      api.status(`You are blue and move first · Moves ${moves} · Streak ${streak}`)
     }
 
     function humanPlay(r, c) {
       if (ended || turn !== HUMAN || board[idx(r, c)] !== EMPTY) return
       if (place(r, c, HUMAN)) return
       turn = AI
-      api.status('AI 思考中…')
+      api.status('AI is thinking…')
       thinkTimer = setTimeout(() => {
         thinkTimer = 0
         aiMove()
@@ -244,7 +244,7 @@ export default {
       moves = history.length
       last = history[history.length - 1] || null
       turn = HUMAN
-      api.status(`已悔 ${n} 手 · 轮到你落子`)
+      api.status(`Undid ${n} move(s) · your turn`)
     }
 
     function reset() {
@@ -258,7 +258,7 @@ export default {
       moves = 0
       history = []
       hover = null
-      api.status('你执蓝先行 · 点击棋盘交叉点落子（U 悔棋）')
+      api.status('You are blue and move first · click an intersection to play (U to undo)')
     }
 
     /* ---------- 绘制 ---------- */
@@ -303,7 +303,7 @@ export default {
       // 顶部阵营图例
       ctx.fillStyle = '#2563EB'
       ctx.beginPath(); ctx.arc(CELL * 1.2, CELL * 0.42, 6, 0, Math.PI * 2); ctx.fill()
-      centerText(ctx, '你', CELL * 1.2 + 14, CELL * 0.42, 12, 'rgba(232,238,249,0.75)', '600')
+      centerText(ctx, 'You', CELL * 1.2 + 14, CELL * 0.42, 12, 'rgba(232,238,249,0.75)', '600')
       ctx.fillStyle = '#7C3AED'
       ctx.beginPath(); ctx.arc(SIZE - CELL * 1.2 - 30, CELL * 0.42, 6, 0, Math.PI * 2); ctx.fill()
       centerText(ctx, 'AI', SIZE - CELL * 1.2 - 16, CELL * 0.42, 12, 'rgba(232,238,249,0.75)', '600')
@@ -340,10 +340,10 @@ export default {
         ctx.fillStyle = 'rgba(6,10,24,0.6)'
         roundRect(ctx, 0, SIZE / 2 - 52, SIZE, 104, 14)
         ctx.fill()
-        const msg = ended === 'win' ? '🏆 你赢了！' : ended === 'lose' ? 'AI 获胜' : '平局'
+        const msg = ended === 'win' ? '🏆 You win!' : ended === 'lose' ? 'AI wins' : 'Draw'
         const color = ended === 'win' ? '#7EE2B8' : ended === 'lose' ? '#E05B5B' : '#E8EEF9'
         centerText(ctx, msg, SIZE / 2, SIZE / 2 - 12, 28, color)
-        centerText(ctx, '点击棋盘再战 · U 悔棋无效', SIZE / 2, SIZE / 2 + 24, 14, 'rgba(232,238,249,0.6)', '500')
+        centerText(ctx, 'Click the board to play again · U (undo) disabled', SIZE / 2, SIZE / 2 + 24, 14, 'rgba(232,238,249,0.6)', '500')
       }
     }
 

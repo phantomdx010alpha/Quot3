@@ -25,7 +25,7 @@ const rotate = (m) => m[0].map((_, i) => m.map((row) => row[i]).reverse())
 
 export default {
   id: 'tetris',
-  name: '俄罗斯方块',
+  name: 'Tetris',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -186,11 +186,11 @@ export default {
       }
       // 右侧信息
       const sx = BX + COLS * CELL + 16
-      centerText(ctx, '分数', sx + 40, BY + 12, 12, 'rgba(232,238,249,0.5)', '500')
+      centerText(ctx, 'Score', sx + 40, BY + 12, 12, 'rgba(232,238,249,0.5)', '500')
       centerText(ctx, String(score), sx + 40, BY + 32, 18, '#FFFFFF')
-      centerText(ctx, `等级 ${level}`, sx + 40, BY + 58, 12, 'rgba(232,238,249,0.6)', '500')
-      centerText(ctx, `消行 ${lines}`, sx + 40, BY + 76, 12, 'rgba(232,238,249,0.6)', '500')
-      centerText(ctx, '下一个', sx + 40, BY + 104, 12, 'rgba(232,238,249,0.5)', '500')
+      centerText(ctx, `Level ${level}`, sx + 40, BY + 58, 12, 'rgba(232,238,249,0.6)', '500')
+      centerText(ctx, `Lines ${lines}`, sx + 40, BY + 76, 12, 'rgba(232,238,249,0.6)', '500')
+      centerText(ctx, 'Next', sx + 40, BY + 104, 12, 'rgba(232,238,249,0.5)', '500')
       const nt = PIECES[queue[0]]
       nt.m.forEach((row, r) => row.forEach((v, c) => {
         if (v) {
@@ -198,7 +198,7 @@ export default {
           ctx.fillStyle = nt.color; ctx.fill()
         }
       }))
-      centerText(ctx, '暂存 (C)', sx + 40, BY + 186, 12, 'rgba(232,238,249,0.5)', '500')
+      centerText(ctx, 'Hold (C)', sx + 40, BY + 186, 12, 'rgba(232,238,249,0.5)', '500')
       if (hold) {
         const ht = PIECES[hold]
         ht.m.forEach((row, r) => row.forEach((v, c) => {
@@ -213,10 +213,10 @@ export default {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, W, H, 16)
         ctx.fill()
-        centerText(ctx, '堆到顶了', W / 2, H / 2 - 16, 32, '#FFFFFF')
-        centerText(ctx, `本局 ${score} 分 · 消行 ${lines}`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 重开', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
+        centerText(ctx, 'Stacked to the top', W / 2, H / 2 - 16, 32, '#FFFFFF')
+        centerText(ctx, `Score: ${score} pts · lines ${lines}`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R to restart', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
     }
 
     const offKey = onKey((e) => {

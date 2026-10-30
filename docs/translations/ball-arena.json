@@ -1,0 +1,4345 @@
+{
+  "version": 1,
+  "game": "ball-arena",
+  "entries": [
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "星团大作战",
+      "en": "Star Cluster Arena"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1072,
+      "zh": "玩家状态",
+      "en": "Player status"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1076,
+      "zh": "质量",
+      "en": "Mass"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1080,
+      "zh": "排名",
+      "en": "Rank"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1084,
+      "zh": "分身",
+      "en": "Splits"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1088,
+      "zh": "淘汰",
+      "en": "Kills"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1094,
+      "zh": "排行榜",
+      "en": "Leaderboard"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1095,
+      "zh": "排行榜",
+      "en": "Leaderboard"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1099,
+      "zh": "状态",
+      "en": "Status"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1100,
+      "zh": "战况",
+      "en": "Battle"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1104,
+      "zh": "小地图",
+      "en": "Minimap"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1108,
+      "zh": "移动摇杆",
+      "en": "Move joystick"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1113,
+      "zh": "游戏控制",
+      "en": "Game controls"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1114,
+      "zh": "分裂 空格",
+      "en": "Split Space"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1114,
+      "zh": "分裂",
+      "en": "Split"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1114,
+      "zh": "分",
+      "en": "Split"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1115,
+      "zh": "按住吐球 W",
+      "en": "Hold to eject W"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1115,
+      "zh": "按住吐球",
+      "en": "Hold to eject"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1115,
+      "zh": "吐",
+      "en": "Spit"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1116,
+      "zh": "暂停或继续 P",
+      "en": "Pause or resume P"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1116,
+      "zh": "暂停或继续",
+      "en": "Pause or resume"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1116,
+      "zh": "停",
+      "en": "Stop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1117,
+      "zh": "BGM 开关",
+      "en": "BGM on/off"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1117,
+      "zh": "音",
+      "en": "Mute"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1118,
+      "zh": "返回主界面",
+      "en": "Back to main menu"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1118,
+      "zh": "厅",
+      "en": "Menu"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1119,
+      "zh": "重新开始 R",
+      "en": "Restart R"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1119,
+      "zh": "重新开始",
+      "en": "Restart"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1119,
+      "zh": "新",
+      "en": "New"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1125,
+      "zh": "本轮结束",
+      "en": "Round over"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1127,
+      "zh": "再来一局。",
+      "en": "Play again."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1129,
+      "zh": "大厅入口",
+      "en": "Lobby tabs"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1130,
+      "zh": "开始",
+      "en": "Play"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1131,
+      "zh": "外观",
+      "en": "Looks"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1132,
+      "zh": "商店",
+      "en": "Shop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1133,
+      "zh": "铁匠铺",
+      "en": "Forge"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1134,
+      "zh": "成长",
+      "en": "Growth"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1137,
+      "zh": "BGM 关",
+      "en": "BGM off"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1138,
+      "zh": "随机已拥有外观",
+      "en": "Random owned look"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "attr",
+      "line": 1141,
+      "zh": "选择模式",
+      "en": "Choose mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1143,
+      "zh": "自由模式",
+      "en": "Free Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1144,
+      "zh": "12 分钟限时，反复复活，按个人质量结算排名。",
+      "en": "Timed 12 minutes, respawn repeatedly, ranked by personal mass."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1147,
+      "zh": "团队战",
+      "en": "Team Battle"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1148,
+      "zh": "10 队 4 人，队友可接分身，按队伍总质量结算。",
+      "en": "10 teams of 4, teammates can catch splits, ranked by total team mass."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1151,
+      "zh": "生存模式",
+      "en": "Survival Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1152,
+      "zh": "64 人生命制，吞噬加命，生命耗尽出局。",
+      "en": "64 players with lives, eating adds a life, and you are out when lives run out."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1155,
+      "zh": "大逃杀",
+      "en": "Battle Royale"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1156,
+      "zh": "100 人开局，安全区收缩，圈外掉质量，活到最后。",
+      "en": "100 players start, the safe zone shrinks, mass drains outside it, last one standing wins."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1159,
+      "zh": "闪电乱斗",
+      "en": "Blitz Brawl"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1160,
+      "zh": "高密度食点和密集事件，节奏更快，3 分钟左右结算。",
+      "en": "Dense food and frequent events, a faster pace, results in about 3 minutes."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1163,
+      "zh": "孢子风暴",
+      "en": "Spore Storm"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1164,
+      "zh": "48 人孢子刺战场，所有刺都会炸出一圈可争夺孢子。",
+      "en": "48-player spore-spike arena; every spike bursts into a ring of contestable spores."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1167,
+      "zh": "霸屏模式",
+      "en": "Domination Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1168,
+      "zh": "22 人方形战场，A 快合、D 冲刺种刺，88% 区域占领获胜。",
+      "en": "22-player square arena: A merges fast, D dashes and plants spikes, 88% area control wins."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1171,
+      "zh": "据点战",
+      "en": "Outpost War"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1172,
+      "zh": "4 队 7 人争夺 3 个星核据点，先到目标分获胜。",
+      "en": "4 teams of 7 fight over 3 star-core outposts; first to the target score wins."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1175,
+      "zh": "巨行星霸屏",
+      "en": "Giant Planet Domination"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1176,
+      "zh": "36 人巨球开局，88% 固定区域占领并维持 6 秒决定胜负。",
+      "en": "36 players start as giant balls; hold 88% of a fixed area for 6 seconds to win."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1179,
+      "zh": "魔王模式",
+      "en": "Boss Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1180,
+      "zh": "勇者阵营围攻魔王和魔兵，限时吞掉魔王获胜。",
+      "en": "The Heroes besiege the Boss and its minions; devour the Boss within the time limit to win."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1187,
+      "zh": "球体皮肤",
+      "en": "Ball skin"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1191,
+      "zh": "孢子样式",
+      "en": "Spore style"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1195,
+      "zh": "球体光环",
+      "en": "Ball halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1199,
+      "zh": "移动拖尾",
+      "en": "Move trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "text",
+      "line": 1213,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1280,
+      "zh": "你",
+      "en": "You"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "青队",
+      "en": "Teal Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "红队",
+      "en": "Red Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "蓝队",
+      "en": "Blue Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "金队",
+      "en": "Gold Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "紫队",
+      "en": "Purple Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "橙队",
+      "en": "Orange Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "粉队",
+      "en": "Pink Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "绿队",
+      "en": "Green Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "白队",
+      "en": "White Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1283,
+      "zh": "灰队",
+      "en": "Gray Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "青柠",
+      "en": "Lime"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "星火",
+      "en": "Sparkle"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "乌龙",
+      "en": "Oolong"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "极光",
+      "en": "Aurora"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "米粒",
+      "en": "Rice"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "山竹",
+      "en": "Mangosteen"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "海盐",
+      "en": "Sea Salt"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "月影",
+      "en": "Moonshade"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "薄荷",
+      "en": "Mint"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "赤焰",
+      "en": "Blaze"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "云雀",
+      "en": "Lark"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "琥珀",
+      "en": "Amber"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "珊瑚",
+      "en": "Coral"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "北辰",
+      "en": "Polaris"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "白桃",
+      "en": "Peach"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "竹叶",
+      "en": "Bamboo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "蓝莓",
+      "en": "Blueberry"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "流星",
+      "en": "Meteor"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "夜航",
+      "en": "Nightflight"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "银杏",
+      "en": "Ginkgo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "松子",
+      "en": "Pine Nut"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "木星",
+      "en": "Jupiter"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1284,
+      "zh": "海雾",
+      "en": "Sea Mist"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1286,
+      "zh": "青荧",
+      "en": "Teal Glow"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1287,
+      "zh": "日冕",
+      "en": "Corona"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1288,
+      "zh": "绯星",
+      "en": "Crimson Star"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1289,
+      "zh": "紫晶",
+      "en": "Amethyst"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1290,
+      "zh": "霜蓝",
+      "en": "Frost Blue"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1291,
+      "zh": "熔火",
+      "en": "Molten"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1292,
+      "zh": "玉环",
+      "en": "Jade Ring"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1293,
+      "zh": "幽紫",
+      "en": "Dusk Violet"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1294,
+      "zh": "绯光",
+      "en": "Scarlet Light"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1295,
+      "zh": "彗星航线",
+      "en": "Comet Route"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1295,
+      "zh": "普通",
+      "en": "Common"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1296,
+      "zh": "机甲星环",
+      "en": "Mecha Ring"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1297,
+      "zh": "潮汐之心",
+      "en": "Tide Heart"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1297,
+      "zh": "稀有",
+      "en": "Rare"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1298,
+      "zh": "赤焰风暴",
+      "en": "Blaze Storm"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1298,
+      "zh": "史诗",
+      "en": "Epic"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1299,
+      "zh": "王冠星域",
+      "en": "Crown Field"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1300,
+      "zh": "像素矩阵",
+      "en": "Pixel Matrix"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1301,
+      "zh": "莲华星盘",
+      "en": "Lotus Disc"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1302,
+      "zh": "棱镜幻面",
+      "en": "Prism Facet"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1303,
+      "zh": "蜂巢矩阵",
+      "en": "Honeycomb Grid"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1304,
+      "zh": "雷霆球核",
+      "en": "Thunder Core"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1305,
+      "zh": "深海潮核",
+      "en": "Deep Tide Core"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1306,
+      "zh": "天穹星眼",
+      "en": "Sky Star Eye"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1306,
+      "zh": "传说",
+      "en": "Legendary"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1307,
+      "zh": "深渊脉冲",
+      "en": "Abyss Pulse"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1308,
+      "zh": "龙焰天幕",
+      "en": "Dragonflame Sky"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1311,
+      "zh": "薄荷孢子",
+      "en": "Mint Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1312,
+      "zh": "金糖孢子",
+      "en": "Gold Candy Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1313,
+      "zh": "桃雾孢子",
+      "en": "Peach Mist Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1314,
+      "zh": "青芽孢子",
+      "en": "Sprout Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1315,
+      "zh": "银尘孢子",
+      "en": "Silver Dust Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1316,
+      "zh": "焰点孢子",
+      "en": "Flame Dot Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1317,
+      "zh": "星砂孢子",
+      "en": "Star Sand Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1318,
+      "zh": "潮光孢子",
+      "en": "Tide Light Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1319,
+      "zh": "余烬孢子",
+      "en": "Ember Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1320,
+      "zh": "流星尾焰",
+      "en": "Meteor Tail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1321,
+      "zh": "水晶泡泡",
+      "en": "Crystal Bubble"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1322,
+      "zh": "电弧火花",
+      "en": "Arc Spark"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1323,
+      "zh": "藤蔓星种",
+      "en": "Vine Seed"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1324,
+      "zh": "极光羽片",
+      "en": "Aurora Feather"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1325,
+      "zh": "珍珠泡影",
+      "en": "Pearl Bubble"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1326,
+      "zh": "符文星屑",
+      "en": "Rune Stardust"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1327,
+      "zh": "糖星碎粒",
+      "en": "Candy Star Bits"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1328,
+      "zh": "雪晶孢子",
+      "en": "Snow Crystal Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1329,
+      "zh": "齿轮孢子",
+      "en": "Gear Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1330,
+      "zh": "龙烬孢子",
+      "en": "Dragon Ember Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1331,
+      "zh": "王冠碎金",
+      "en": "Crown Gold Flakes"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1332,
+      "zh": "虚空碎片",
+      "en": "Void Shards"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1335,
+      "zh": "无光环",
+      "en": "No halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1336,
+      "zh": "星轨光环",
+      "en": "Star Orbit Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1337,
+      "zh": "霜轮光环",
+      "en": "Frost Wheel Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1338,
+      "zh": "磁暴光环",
+      "en": "Magnetic Storm Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1339,
+      "zh": "日冕光环",
+      "en": "Corona Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1340,
+      "zh": "王冠光环",
+      "en": "Crown Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1341,
+      "zh": "星云光环",
+      "en": "Nebula Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1342,
+      "zh": "莲华光环",
+      "en": "Lotus Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1343,
+      "zh": "时轮光环",
+      "en": "Time Wheel Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1344,
+      "zh": "齿轮光环",
+      "en": "Gear Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1345,
+      "zh": "雷纹光环",
+      "en": "Thunder Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1346,
+      "zh": "引力黑环",
+      "en": "Gravity Ring"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1347,
+      "zh": "虚空门环",
+      "en": "Void Gate Ring"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1350,
+      "zh": "无拖尾",
+      "en": "No trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1351,
+      "zh": "星尘尾迹",
+      "en": "Stardust Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1352,
+      "zh": "樱粉尾迹",
+      "en": "Sakura Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1353,
+      "zh": "泡泡航迹",
+      "en": "Bubble Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1354,
+      "zh": "电弧残影",
+      "en": "Arc Afterimage"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1355,
+      "zh": "火焰航迹",
+      "en": "Flame Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1356,
+      "zh": "极光缎带",
+      "en": "Aurora Ribbon"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1357,
+      "zh": "数据残影",
+      "en": "Data Afterimage"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1358,
+      "zh": "水墨流痕",
+      "en": "Ink Flow"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1359,
+      "zh": "雪雾拖尾",
+      "en": "Snow Mist Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1360,
+      "zh": "碎金王迹",
+      "en": "Gold Royal Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1361,
+      "zh": "魔焰裂痕",
+      "en": "Demon Flame Rift"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1362,
+      "zh": "裂隙拖尾",
+      "en": "Rift Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1366,
+      "zh": "霓虹棋盘",
+      "en": "Neon Checker"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1367,
+      "zh": "凤焰星羽",
+      "en": "Phoenix Flame Feather"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1368,
+      "zh": "冰川晶冠",
+      "en": "Glacier Crown"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1369,
+      "zh": "樱月绮面",
+      "en": "Sakura Moon"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1370,
+      "zh": "星河锦鲤",
+      "en": "Galaxy Koi"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1371,
+      "zh": "风暴之眼",
+      "en": "Eye of the Storm"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1372,
+      "zh": "糖果爆弹",
+      "en": "Candy Bomb"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1373,
+      "zh": "青玉龙鳞",
+      "en": "Jade Dragon Scale"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1374,
+      "zh": "零号代码",
+      "en": "Code Zero"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1375,
+      "zh": "落霞星幕",
+      "en": "Sunset Veil"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1376,
+      "zh": "孢子星云",
+      "en": "Spore Nebula"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1377,
+      "zh": "闪电王冠",
+      "en": "Lightning Crown"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1381,
+      "zh": "烟火碎星",
+      "en": "Firework Stars"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1382,
+      "zh": "莲心星种",
+      "en": "Lotus Seed"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1383,
+      "zh": "石英泡影",
+      "en": "Quartz Bubble"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1384,
+      "zh": "凤焰灰烬",
+      "en": "Phoenix Ash"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1385,
+      "zh": "霓虹字节",
+      "en": "Neon Byte"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1386,
+      "zh": "风暴珍珠",
+      "en": "Storm Pearl"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1387,
+      "zh": "锦鲤鳞片",
+      "en": "Koi Scale"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1388,
+      "zh": "黑洞星砂",
+      "en": "Black Hole Sand"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1389,
+      "zh": "孢子爆花",
+      "en": "Spore Bloom"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1393,
+      "zh": "凤焰光环",
+      "en": "Phoenix Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1394,
+      "zh": "锦鲤游环",
+      "en": "Koi Ring"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1395,
+      "zh": "镜月光环",
+      "en": "Moon Mirror Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1396,
+      "zh": "霓虹电环",
+      "en": "Neon Arc Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1397,
+      "zh": "莲华冠环",
+      "en": "Lotus Crown Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1398,
+      "zh": "风眼光环",
+      "en": "Wind Eye Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1399,
+      "zh": "糖霜光环",
+      "en": "Frosting Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1400,
+      "zh": "青玉光环",
+      "en": "Jade Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1401,
+      "zh": "制霸电冕",
+      "en": "Domination Corona"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1405,
+      "zh": "凤焰长羽",
+      "en": "Phoenix Plume"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1406,
+      "zh": "锦鲤水痕",
+      "en": "Koi Ripple"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1407,
+      "zh": "镜月残光",
+      "en": "Moon Mirror Glow"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1408,
+      "zh": "霓虹脉线",
+      "en": "Neon Pulse Line"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1409,
+      "zh": "莲华花路",
+      "en": "Lotus Path"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1410,
+      "zh": "风暴电尾",
+      "en": "Storm Tail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1411,
+      "zh": "糖霜泡带",
+      "en": "Frosting Bubbles"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1412,
+      "zh": "黑洞拖影",
+      "en": "Black Hole Wake"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1413,
+      "zh": "孢子流萤",
+      "en": "Spore Fireflies"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1418,
+      "zh": "自由模式",
+      "en": "Free Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1419,
+      "zh": "自由",
+      "en": "Free"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1420,
+      "zh": "12 分钟限时，反复复活，按个人质量结算排名。",
+      "en": "Timed 12 minutes, respawn repeatedly, ranked by personal mass."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1433,
+      "zh": "团队战",
+      "en": "Team Battle"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1434,
+      "zh": "团队",
+      "en": "Team"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1435,
+      "zh": "10 队 4 人，队友可接分身，按队伍总质量结算。",
+      "en": "10 teams of 4, teammates can catch splits, ranked by total team mass."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1450,
+      "zh": "生存模式",
+      "en": "Survival Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1451,
+      "zh": "生存",
+      "en": "Survival"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1452,
+      "zh": "64 人生命制，吞噬加命，生命耗尽出局。",
+      "en": "64 players with lives, eating adds a life, and you are out when lives run out."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1468,
+      "zh": "大逃杀",
+      "en": "Battle Royale"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1469,
+      "zh": "逃杀",
+      "en": "Royale"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1470,
+      "zh": "100 人开局，安全区持续收缩，圈外掉质量，活到最后。",
+      "en": "100 players start, the safe zone keeps shrinking, mass drains outside it, last one standing wins."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1483,
+      "zh": "闪电乱斗",
+      "en": "Blitz Brawl"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1484,
+      "zh": "闪电",
+      "en": "Blitz"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1485,
+      "zh": "3 分钟高密度发育，随机事件密集触发，适合快速爽局。",
+      "en": "3 minutes of dense growth with frequent random events, great for quick rounds."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1513,
+      "zh": "孢子风暴",
+      "en": "Spore Storm"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1514,
+      "zh": "孢子",
+      "en": "Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1515,
+      "zh": "48 人孢子刺战场，所有刺都会炸出一圈可争夺孢子。",
+      "en": "48-player spore-spike arena; every spike bursts into a ring of contestable spores."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1545,
+      "zh": "霸屏模式",
+      "en": "Domination Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1546,
+      "zh": "霸屏",
+      "en": "Domination"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1547,
+      "zh": "22 人方形战场，64 分身上限，用 A 快合、D 冲刺种刺完成区域霸屏。",
+      "en": "22-player square arena, 64 split limit; use A to merge fast and D to dash and plant spikes to dominate the area."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1607,
+      "zh": "据点战",
+      "en": "Outpost War"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1608,
+      "zh": "据点",
+      "en": "Outpost"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1609,
+      "zh": "4 队 7 人争夺 3 个星核据点，站入据点压制进度，先到目标分获胜。",
+      "en": "4 teams of 7 fight over 3 star-core outposts; stand in one to push progress, first to the target score wins."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1625,
+      "zh": "巨行星霸屏",
+      "en": "Giant Planet Domination"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1626,
+      "zh": "巨行星",
+      "en": "Giant Planet"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1627,
+      "zh": "全员巨球开局，低密度固定圆形战场，连续保持霸屏进度即可获胜。",
+      "en": "Everyone starts as a giant ball in a low-density fixed round arena; keep your domination progress up to win."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1671,
+      "zh": "魔王模式",
+      "en": "Boss Mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1672,
+      "zh": "魔王",
+      "en": "Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1673,
+      "zh": "勇者阵营合作发育，击败超大魔王和魔兵，限时吞掉魔王获胜。",
+      "en": "The Heroes grow together, defeat the huge Boss and its minions, and win by devouring the Boss in time."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1694,
+      "zh": "孢子暴雨",
+      "en": "Spore Rain"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1694,
+      "zh": "食点刷新变快",
+      "en": "Food respawns faster"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1695,
+      "zh": "刺球如林",
+      "en": "Spike Forest"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1695,
+      "zh": "刺球临时增多",
+      "en": "More spikes for a while"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1696,
+      "zh": "极速合球",
+      "en": "Fast Merge"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1696,
+      "zh": "重组时间缩短",
+      "en": "Shorter regroup time"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1697,
+      "zh": "极速喷射",
+      "en": "Rapid Fire"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1697,
+      "zh": "吐球间隔缩短",
+      "en": "Shorter eject interval"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1698,
+      "zh": "巨星星屑",
+      "en": "Giant Stardust"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1698,
+      "zh": "高价值食点增加",
+      "en": "More high-value food"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1699,
+      "zh": "磁吸星尘",
+      "en": "Magnet Dust"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1699,
+      "zh": "吃点范围扩大",
+      "en": "Bigger pickup range"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1700,
+      "zh": "轻盈时间",
+      "en": "Light Time"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1700,
+      "zh": "全场移动加速",
+      "en": "Everyone moves faster"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1701,
+      "zh": "丰收潮汐",
+      "en": "Harvest Tide"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1701,
+      "zh": "食点密度大幅提高",
+      "en": "Food density greatly increased"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1702,
+      "zh": "引力乱流",
+      "en": "Gravity Turbulence"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1702,
+      "zh": "吃点范围暴涨但移速略降",
+      "en": "Pickup range soars but speed drops slightly"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1703,
+      "zh": "裂变窗口",
+      "en": "Fission Window"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1703,
+      "zh": "合体更快且移动微加速",
+      "en": "Faster merging and slightly faster movement"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1704,
+      "zh": "刺潮爆发",
+      "en": "Spike Surge"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1704,
+      "zh": "刺球增多且食点更肥",
+      "en": "More spikes and richer food"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1705,
+      "zh": "彗星坠落",
+      "en": "Comet Fall"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1705,
+      "zh": "高价值食点更常见",
+      "en": "High-value food is more common"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1708,
+      "zh": "王冠盛宴",
+      "en": "Crown Feast"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1708,
+      "zh": "吃点范围和高价值食点提升",
+      "en": "Bigger pickup range and more high-value food"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1709,
+      "zh": "霓虹疾走",
+      "en": "Neon Dash"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1709,
+      "zh": "移动与吐球节奏加快",
+      "en": "Faster movement and ejecting"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1710,
+      "zh": "黑洞边界",
+      "en": "Black Hole Edge"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1710,
+      "zh": "吃点范围暴涨但移动变沉",
+      "en": "Pickup range soars but movement gets heavy"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1711,
+      "zh": "刺潮风暴",
+      "en": "Spike Storm"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1711,
+      "zh": "刺球持续涌入，适合炸刺翻盘",
+      "en": "Spikes keep flooding in, good for a spike-pop comeback"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1712,
+      "zh": "星核潮汐",
+      "en": "Star Core Tide"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1712,
+      "zh": "高价值资源大量出现",
+      "en": "Lots of high-value resources appear"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1713,
+      "zh": "星核空投",
+      "en": "Star Core Drop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1713,
+      "zh": "中心区域落下大颗资源",
+      "en": "Big resources drop in the center"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1714,
+      "zh": "猎手号角",
+      "en": "Hunter's Horn"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1714,
+      "zh": "全场 AI 更敢追击和分身",
+      "en": "All AI chase and split more boldly"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1715,
+      "zh": "霸屏超频",
+      "en": "Domination Overclock"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1715,
+      "zh": "快合和冲刺冷却缩短",
+      "en": "Fast-merge and dash cooldowns shortened"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1716,
+      "zh": "金色矩阵",
+      "en": "Golden Matrix"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1716,
+      "zh": "战场资源更密更肥",
+      "en": "Denser, richer battlefield resources"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1717,
+      "zh": "孢子刺潮",
+      "en": "Spore Spike Tide"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1717,
+      "zh": "孢子刺球出现，碰到会喷出一部分质量",
+      "en": "Spore spikes appear; touching one sprays out some mass"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1718,
+      "zh": "刺球工坊",
+      "en": "Spike Workshop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1718,
+      "zh": "战术刺球更频繁，适合围追反打",
+      "en": "Tactical spikes appear more often, good for chasing and counters"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1727,
+      "zh": "深渊魔王",
+      "en": "Abyss Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1727,
+      "zh": "深渊召唤",
+      "en": "Abyss Summon"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1728,
+      "zh": "赤焰魔王",
+      "en": "Blaze Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1728,
+      "zh": "赤焰喷发",
+      "en": "Blaze Eruption"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1729,
+      "zh": "霜轮魔王",
+      "en": "Frost Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1729,
+      "zh": "霜轮压制",
+      "en": "Frost Suppression"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1730,
+      "zh": "引力魔王",
+      "en": "Gravity Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1730,
+      "zh": "引力牵引",
+      "en": "Gravity Pull"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1731,
+      "zh": "饕餮魔王",
+      "en": "Glutton Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1731,
+      "zh": "饕餮吞息",
+      "en": "Glutton Breath"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1732,
+      "zh": "巨神魔王",
+      "en": "Titan Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1732,
+      "zh": "巨神碾压",
+      "en": "Titan Crush"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1748,
+      "zh": "旧铁小炉",
+      "en": "Old Iron Stove"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1749,
+      "zh": "青铜火膛",
+      "en": "Bronze Firebox"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1750,
+      "zh": "银纹炉台",
+      "en": "Silver Hearth"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1751,
+      "zh": "星尘砧座",
+      "en": "Stardust Anvil"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1752,
+      "zh": "赤焰工坊",
+      "en": "Blaze Workshop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1753,
+      "zh": "霜轮锻炉",
+      "en": "Frost Forge"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1754,
+      "zh": "符文熔炉",
+      "en": "Rune Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1755,
+      "zh": "王冠炉心",
+      "en": "Crown Core"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1756,
+      "zh": "极光天炉",
+      "en": "Aurora Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1757,
+      "zh": "深渊黑炉",
+      "en": "Abyss Black Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1758,
+      "zh": "莲华炉庭",
+      "en": "Lotus Court"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1759,
+      "zh": "龙焰锻堂",
+      "en": "Dragonflame Hall"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1760,
+      "zh": "星轨圣炉",
+      "en": "Star Orbit Holy Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1761,
+      "zh": "虚空门炉",
+      "en": "Void Gate Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1762,
+      "zh": "彗星铸台",
+      "en": "Comet Casting Table"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1763,
+      "zh": "潮汐工坊",
+      "en": "Tide Workshop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1764,
+      "zh": "魔王熔炉",
+      "en": "Boss Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1765,
+      "zh": "星界工坊",
+      "en": "Astral Workshop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1766,
+      "zh": "创世火种",
+      "en": "Genesis Spark"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1767,
+      "zh": "无尽炉心",
+      "en": "Endless Core"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1770,
+      "zh": "十连星尘补给",
+      "en": "10-Pull Stardust Supply"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1771,
+      "zh": "铁匠铺十连包",
+      "en": "Forge 10-Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1772,
+      "zh": "爆发豪华包",
+      "en": "Burst Deluxe Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1773,
+      "zh": "光环补给",
+      "en": "Halo Supply"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1774,
+      "zh": "拖尾补给",
+      "en": "Trail Supply"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1775,
+      "zh": "星团大礼包",
+      "en": "Star Cluster Mega Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1776,
+      "zh": "BGM 庆典包",
+      "en": "BGM Celebration Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1777,
+      "zh": "生存猎手包",
+      "en": "Survival Hunter Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1778,
+      "zh": "巨星训练包",
+      "en": "Giant Star Training Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1779,
+      "zh": "霓虹外观包",
+      "en": "Neon Looks Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1780,
+      "zh": "锦鲤幸运包",
+      "en": "Koi Luck Pack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1783,
+      "zh": "普通光环",
+      "en": "Common Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1784,
+      "zh": "史诗拖尾",
+      "en": "Epic Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1785,
+      "zh": "史诗皮肤",
+      "en": "Epic Skin"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1786,
+      "zh": "传说光环",
+      "en": "Legendary Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1787,
+      "zh": "传说拖尾",
+      "en": "Legendary Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1789,
+      "zh": "传说孢子",
+      "en": "Legendary Spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1791,
+      "zh": "史诗光环",
+      "en": "Epic Halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1792,
+      "zh": "稀有拖尾",
+      "en": "Rare Trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1794,
+      "zh": "传说皮肤",
+      "en": "Legendary Skin"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1799,
+      "zh": "开局补给仓",
+      "en": "Starting Depot"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1799,
+      "zh": "每级开局质量 +40。",
+      "en": "+40 starting mass per level."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1800,
+      "zh": "星尘结算仪",
+      "en": "Stardust Settler"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1800,
+      "zh": "每级结算星尘 +8%。",
+      "en": "+8% match Stardust per level."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1801,
+      "zh": "锻造返利炉",
+      "en": "Forge Rebate Furnace"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1801,
+      "zh": "每级锻造消耗降低 3.5%。",
+      "en": "Forge cost -3.5% per level."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1802,
+      "zh": "每日补给扩容",
+      "en": "Daily Supply Expansion"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1802,
+      "zh": "每日补给随等级增加星尘、经验和券。",
+      "en": "Daily supply Stardust, XP and tickets grow with level."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1803,
+      "zh": "人品护符",
+      "en": "Luck Charm"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1803,
+      "zh": "每级提高人品积累速度。",
+      "en": "Raises luck gain speed per level."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1804,
+      "zh": "星图共鸣",
+      "en": "Star Chart Resonance"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 1804,
+      "zh": "每级同时提高开局质量、星尘结算和每日补给。",
+      "en": "Each level raises starting mass, Stardust payout and daily supply together."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2005,
+      "zh": "BGM 开",
+      "en": "BGM on"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2005,
+      "zh": "BGM 关",
+      "en": "BGM off"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2006,
+      "zh": "乐",
+      "en": "BGM"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2006,
+      "zh": "音",
+      "en": "Mute"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2244,
+      "zh": "基础",
+      "en": "Basic"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2317,
+      "zh": " 外观",
+      "en": " looks"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2321,
+      "zh": "</strong><span>收藏等级，外观和铁匠铺共同提升。</span></div>\n        <div class=\"progress-card\"><strong>",
+      "en": "</strong><span>Collection level, raised by looks and the Forge together.</span></div> <div class=\"progress-card\"><strong>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2322,
+      "zh": "</strong><span>特殊外观收藏进度。</span></div>\n        <div class=\"progress-card\"><strong>+",
+      "en": "</strong><span>Special look collection progress.</span></div> <div class=\"progress-card\"><strong>+"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2323,
+      "zh": "</strong><span>每局开局质量加成。</span></div>\n        <div class=\"progress-card\"><strong>+",
+      "en": "</strong><span>Starting mass bonus each match.</span></div> <div class=\"progress-card\"><strong>+"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2324,
+      "zh": "%</strong><span>结算星尘加成。</span></div>\n      </div>\n      <div class=\"progress-grid\">\n        <div class=\"progress-card\"><strong>",
+      "en": "%</strong><span>Match-end Stardust bonus.</span></div> </div> <div class=\"progress-grid\"> <div class=\"progress-card\"><strong>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2327,
+      "zh": "</strong><span>当前铁匠铺外观。</span></div>\n        <div class=\"progress-card\"><strong>",
+      "en": "</strong><span>Current Forge look.</span></div> <div class=\"progress-card\"><strong>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2328,
+      "zh": "</strong><span>累计锻造次数。</span></div>\n        <div class=\"progress-card\"><strong>",
+      "en": "</strong><span>Total forges.</span></div> <div class=\"progress-card\"><strong>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2329,
+      "zh": "</strong><span>累计获得星尘。</span></div>\n        <div class=\"progress-card\"><strong>",
+      "en": "</strong><span>Total Stardust earned.</span></div> <div class=\"progress-card\"><strong>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2330,
+      "zh": "</strong><span>可用锻造券。</span></div>\n      </div>\n      <div class=\"progress-grid\">\n        <div class=\"progress-card\"><strong>Lv.",
+      "en": "</strong><span>Forge Tickets available.</span></div> </div> <div class=\"progress-grid\"> <div class=\"progress-card\"><strong>Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2333,
+      "zh": "</strong><span>开局补给仓。</span></div>\n        <div class=\"progress-card\"><strong>Lv.",
+      "en": "</strong><span>Starting Depot.</span></div> <div class=\"progress-card\"><strong>Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2334,
+      "zh": "</strong><span>星尘结算仪。</span></div>\n        <div class=\"progress-card\"><strong>Lv.",
+      "en": "</strong><span>Stardust Settler.</span></div> <div class=\"progress-card\"><strong>Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2335,
+      "zh": "</strong><span>锻造返利炉。</span></div>\n        <div class=\"progress-card\"><strong>Lv.",
+      "en": "</strong><span>Forge Rebate Furnace.</span></div> <div class=\"progress-card\"><strong>Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2336,
+      "zh": "</strong><span>人品护符。</span></div>\n        <div class=\"progress-card\"><strong>Lv.",
+      "en": "</strong><span>Luck Charm.</span></div> <div class=\"progress-card\"><strong>Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2337,
+      "zh": "</strong><span>星图共鸣。</span></div>\n      </div>\n      <div class=\"progress-road\">\n        ",
+      "en": "</strong><span>Star Chart Resonance.</span></div> </div> <div class=\"progress-road\"> "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2340,
+      "zh": "已激活",
+      "en": "Active"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2340,
+      "zh": "还差 ",
+      "en": "Need "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2360,
+      "zh": "已随机切换一套已拥有外观",
+      "en": "Switched to a random owned look"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2374,
+      "zh": "\n      <div class=\"meta-pill\">星尘 ",
+      "en": " <div class=\"meta-pill\">Stardust "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2375,
+      "zh": "<span>对局与补给获得</span></div>\n      <div class=\"meta-pill\">锻造券 ",
+      "en": "<span>From matches and supplies</span></div> <div class=\"meta-pill\">Forge Tickets "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2376,
+      "zh": "<span>锻造优先消耗</span></div>\n      <div class=\"meta-pill\">铁匠铺 Lv.",
+      "en": "<span>Spent first when forging</span></div> <div class=\"meta-pill\">Forge Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2377,
+      "zh": "总经验 ",
+      "en": "Total XP "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2377,
+      "zh": "</span></div>\n      <div class=\"meta-pill\">收藏 Lv.",
+      "en": "</span></div> <div class=\"meta-pill\">Collection Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2378,
+      "zh": "<span>开局 +",
+      "en": "<span>Start +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2378,
+      "zh": " · 星尘 +",
+      "en": " · Stardust +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2433,
+      "zh": "券",
+      "en": "Ticket"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2517,
+      "zh": "星尘 +",
+      "en": "Stardust +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2539,
+      "zh": "无尽炉心 +",
+      "en": "Endless Core +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2579,
+      "zh": "暂无锻造记录",
+      "en": "No forge records yet"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2580,
+      "zh": "：",
+      "en": ": "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2581,
+      "zh": "重复转经验 +",
+      "en": "Duplicate to XP +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2582,
+      "zh": "获得经验 +",
+      "en": "XP gained +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2583,
+      "zh": "人品大爆发 x",
+      "en": "Luck burst x"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2584,
+      "zh": "，",
+      "en": ", "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2610,
+      "zh": "\n      <div class=\"forge-row\">\n        <strong>星尘 ",
+      "en": " <div class=\"forge-row\"> <strong>Stardust "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2612,
+      "zh": "</strong>\n        <span>锻造券 ",
+      "en": "</strong> <span>Forge Tickets "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2613,
+      "zh": " · 人品 ",
+      "en": " · Luck "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2613,
+      "zh": "/100</span>\n      </div>\n      <div class=\"forge-skin\">\n        <span>工坊皮肤</span>\n        <strong>",
+      "en": "/100</span> </div> <div class=\"forge-skin\"> <span>Workshop skin</span> <strong>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2620,
+      "zh": "满级经验继续累积",
+      "en": "Max level, XP keeps accumulating"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2620,
+      "zh": "铁匠铺等级",
+      "en": "Forge level"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2621,
+      "zh": "<span>累计经验</span></div>\n        <div class=\"forge-stat\">",
+      "en": "<span>Total XP</span></div> <div class=\"forge-stat\">"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2622,
+      "zh": "<span>史诗保底</span></div>\n        <div class=\"forge-stat\">",
+      "en": "<span>Epic pity</span></div> <div class=\"forge-stat\">"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2623,
+      "zh": "<span>传说保底</span></div>\n      </div>\n      <div class=\"forge-layout\">\n        <div class=\"forge-core\">\n          <div class=\"forge-slots\">\n            <span class=\"forge-slot\">普通 58%</span>\n            <span class=\"forge-slot\">稀有 28%</span>\n            <span class=\"forge-slot\">爆发 x2-x16</span>\n          </div>\n          <div class=\"forge-meter level\"><i style=\"width:",
+      "en": "<span>Legendary pity</span></div> </div> <div class=\"forge-layout\"> <div class=\"forge-core\"> <div class=\"forge-slots\"> <span class=\"forge-slot\">Common 58%</span> <span class=\"forge-slot\">Rare 28%</span> <span class=\"forge-slot\">Burst x2-x16</span> </div> <div class=\"forge-meter level\"><i style=\"width:"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2632,
+      "zh": "%\"></i></div>\n          <div class=\"pity-grid\">\n            <div class=\"pity-box\">史诗 11%<span>10 抽内保底</span></div>\n            <div class=\"pity-box\">传说 3%<span>40 抽内保底</span></div>\n          </div>\n          <div class=\"rarity-row\">\n            ",
+      "en": "%\"></i></div> <div class=\"pity-grid\"> <div class=\"pity-box\">Epic 11%<span>Pity within 10 pulls</span></div> <div class=\"pity-box\">Legendary 3%<span>Pity within 40 pulls</span></div> </div> <div class=\"rarity-row\"> "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2638,
+      "zh": "\n          </div>\n          <div class=\"forge-note\">重复外观会转为铁匠铺经验，升级自动发星尘和锻造券。</div>\n          <div class=\"forge-prize-title\" style=\"margin-top:10px\">后续等级奖励</div>\n          <div class=\"forge-prize-list compact\">\n            ",
+      "en": " </div> <div class=\"forge-note\">Duplicate looks turn into Forge XP; level-ups pay out Stardust and Forge Tickets automatically.</div> <div class=\"forge-prize-title\" style=\"margin-top:10px\">Upcoming level rewards</div> <div class=\"forge-prize-list compact\"> "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2643,
+      "zh": "券</span>",
+      "en": " Tickets</span>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2643,
+      "zh": "\n          </div>\n        </div>\n        <div class=\"forge-prizes\">\n          <div class=\"forge-prize-title\">皮肤 ",
+      "en": " </div> </div> <div class=\"forge-prizes\"> <div class=\"forge-prize-title\">Skins "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2647,
+      "zh": " · 孢子 ",
+      "en": " · Spores "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2647,
+      "zh": " · 光环 ",
+      "en": " · Halos "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2647,
+      "zh": " · 拖尾 ",
+      "en": " · Trails "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2654,
+      "zh": ">锻皮肤 ",
+      "en": ">Forge skin "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2655,
+      "zh": ">锻孢子 ",
+      "en": ">Forge spore "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2656,
+      "zh": ">锻光环 ",
+      "en": ">Forge halo "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2657,
+      "zh": ">锻拖尾 ",
+      "en": ">Forge trail "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2658,
+      "zh": ">混合一锤 ",
+      "en": ">Mixed strike "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2680,
+      "zh": "特殊拖尾",
+      "en": "Special trail"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2680,
+      "zh": "特殊光环",
+      "en": "Special halo"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2680,
+      "zh": "特殊孢子",
+      "en": "Special spore"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2680,
+      "zh": "特殊皮肤",
+      "en": "Special skin"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2689,
+      "zh": "！",
+      "en": "!"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2690,
+      "zh": "铁匠铺升至 Lv.",
+      "en": "Forge reached Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2713,
+      "zh": "</strong>\n          <span>直购",
+      "en": "</strong> <span>Buy"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2714,
+      "zh": "，消耗 ",
+      "en": ", costs "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2714,
+      "zh": " 星尘。</span>\n          <button type=\"button\" data-shop=\"",
+      "en": " Stardust.</span> <button type=\"button\" data-shop=\""
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2715,
+      "zh": "已拥有",
+      "en": "Owned"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2715,
+      "zh": "直购",
+      "en": "Buy"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2726,
+      "zh": " 已满级。",
+      "en": " Max level."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2726,
+      "zh": " 下级消耗 ",
+      "en": " Next level costs "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2726,
+      "zh": " 星尘。",
+      "en": " Stardust."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2727,
+      "zh": "已满级",
+      "en": "Max level"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2727,
+      "zh": "升级",
+      "en": "Upgrade"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2731,
+      "zh": "\n      <div class=\"shop-grid\">\n        <div class=\"shop-card\">\n          <strong>每日补给</strong>\n          <span>星尘 ",
+      "en": " <div class=\"shop-grid\"> <div class=\"shop-card\"> <strong>Daily supply</strong> <span>Stardust "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2735,
+      "zh": "，锻造券 ",
+      "en": ", Forge Tickets "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2735,
+      "zh": "，经验 ",
+      "en": ", XP "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2735,
+      "zh": "。</span>\n          <button type=\"button\" data-shop=\"daily\" ",
+      "en": ".</span> <button type=\"button\" data-shop=\"daily\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2736,
+      "zh": "已领取",
+      "en": "Claimed"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2736,
+      "zh": "领取",
+      "en": "Claim"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2736,
+      "zh": "</button>\n        </div>\n        <div class=\"shop-card\">\n          <strong>十连券包</strong>\n          <span>消耗 900 星尘，锻造券 +10。</span>\n          <button type=\"button\" data-shop=\"ticket10\" ",
+      "en": "</button> </div> <div class=\"shop-card\"> <strong>10-Ticket Pack</strong> <span>Costs 900 Stardust, Forge Tickets +10.</span> <button type=\"button\" data-shop=\"ticket10\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2741,
+      "zh": ">兑换</button>\n        </div>\n        <div class=\"shop-card\">\n          <strong>锻造券</strong>\n          <span>消耗 120 星尘，锻造券 +1。</span>\n          <button type=\"button\" data-shop=\"ticket\" ",
+      "en": ">Redeem</button> </div> <div class=\"shop-card\"> <strong>Forge Tickets</strong> <span>Costs 120 Stardust, Forge Tickets +1.</span> <button type=\"button\" data-shop=\"ticket\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2746,
+      "zh": ">兑换</button>\n        </div>\n        <div class=\"shop-card\">\n          <strong>匠心教材</strong>\n          <span>消耗 160 星尘，铁匠铺经验 +90。</span>\n          <button type=\"button\" data-shop=\"xp\" ",
+      "en": ">Redeem</button> </div> <div class=\"shop-card\"> <strong>Craft Manual</strong> <span>Costs 160 Stardust, Forge XP +90.</span> <button type=\"button\" data-shop=\"xp\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2751,
+      "zh": ">购买</button>\n        </div>\n        <div class=\"shop-card\">\n          <strong>工坊冲刺包</strong>\n          <span>消耗 520 星尘，经验 +360，锻造券 +2。</span>\n          <button type=\"button\" data-shop=\"forge-boost\" ",
+      "en": ">Buy</button> </div> <div class=\"shop-card\"> <strong>Workshop Rush Pack</strong> <span>Costs 520 Stardust, XP +360, Forge Tickets +2.</span> <button type=\"button\" data-shop=\"forge-boost\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2756,
+      "zh": ">购买</button>\n        </div>\n        <div class=\"shop-card\">\n          <strong>随机特殊外观</strong>\n          <span>消耗 1280 星尘，随机解锁一个未拥有特殊外观。</span>\n          <button type=\"button\" data-shop=\"random-special\" ",
+      "en": ">Buy</button> </div> <div class=\"shop-card\"> <strong>Random Special Look</strong> <span>Costs 1280 Stardust, unlocks one random special look you do not own.</span> <button type=\"button\" data-shop=\"random-special\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2761,
+      "zh": ">购买</button>\n        </div>\n        <div class=\"shop-card\">\n          <strong>传说火种</strong>\n          <span>消耗 760 星尘，传说保底进度 +10。</span>\n          <button type=\"button\" data-shop=\"legend-seed\" ",
+      "en": ">Buy</button> </div> <div class=\"shop-card\"> <strong>Legend Spark</strong> <span>Costs 760 Stardust, Legendary pity progress +10.</span> <button type=\"button\" data-shop=\"legend-seed\" "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2766,
+      "zh": ">购买</button>\n        </div>\n        ",
+      "en": ">Buy</button> </div> "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2769,
+      "zh": "\n      </div>\n      <div class=\"redeem-box\">\n        <div class=\"redeem-row\">\n          <input class=\"code-input\" id=\"redeemCodeInput\" maxlength=\"18\" autocomplete=\"off\" placeholder=\"兑换码\">\n          <button type=\"button\" data-shop=\"redeem\">兑换</button>\n        </div>\n        <div class=\"shop-message\">",
+      "en": " </div> <div class=\"redeem-box\"> <div class=\"redeem-row\"> <input class=\"code-input\" id=\"redeemCodeInput\" maxlength=\"18\" autocomplete=\"off\" placeholder=\"Redeem code\"> <button type=\"button\" data-shop=\"redeem\">Redeem</button> </div> <div class=\"shop-message\">"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2776,
+      "zh": "可用：STARS2026、FORGE777、BALL16X、HALO888、TRAIL999、ARENA2026、MUSIC2026、HUNTER888、GIANT999、NEON777、KOI2026",
+      "en": "Available: STARS2026, FORGE777, BALL16X, HALO888, TRAIL999, ARENA2026, MUSIC2026, HUNTER888, GIANT999, NEON777, KOI2026"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2776,
+      "zh": "</div>\n      </div>\n      <div class=\"redeem-box\">\n        <div class=\"redeem-row\">\n          <input class=\"code-input\" id=\"exportSaveInput\" readonly placeholder=\"点击导出生成存档码\">\n          <button type=\"button\" data-shop=\"export-save\">导出</button>\n        </div>\n        <div class=\"redeem-row\">\n          <input class=\"code-input\" id=\"importSaveInput\" autocomplete=\"off\" placeholder=\"粘贴存档码\">\n          <button type=\"button\" data-shop=\"import-save\">导入</button>\n        </div>\n      </div>\n    ",
+      "en": "</div> </div> <div class=\"redeem-box\"> <div class=\"redeem-row\"> <input class=\"code-input\" id=\"exportSaveInput\" readonly placeholder=\"Click Export to make a save code\"> <button type=\"button\" data-shop=\"export-save\">Export</button> </div> <div class=\"redeem-row\"> <input class=\"code-input\" id=\"importSaveInput\" autocomplete=\"off\" placeholder=\"Paste a save code\"> <button type=\"button\" data-shop=\"import-save\">Import</button> </div> </div> "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2806,
+      "zh": "锻造券 +",
+      "en": "Forge Tickets +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2810,
+      "zh": "经验 +",
+      "en": "XP +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2822,
+      "zh": "外观 ",
+      "en": "Looks "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2822,
+      "zh": "、",
+      "en": ", "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2823,
+      "zh": "全收集转经验 +",
+      "en": "Full collection to XP +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2865,
+      "zh": "存档码已生成，可复制到其他设备导入。",
+      "en": "Save code generated; copy it to another device to import."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2872,
+      "zh": "请先粘贴存档码。",
+      "en": "Paste a save code first."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2889,
+      "zh": "存档导入成功。",
+      "en": "Save imported."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2891,
+      "zh": "存档码无法识别。",
+      "en": "Save code not recognized."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2911,
+      "zh": "每日补给：",
+      "en": "Daily supply: "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2920,
+      "zh": "锻造券 +1",
+      "en": "Forge Tickets +1"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2925,
+      "zh": "十连券包：锻造券 +10",
+      "en": "10-Ticket Pack: Forge Tickets +10"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2930,
+      "zh": "铁匠铺经验 +",
+      "en": "Forge XP +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2936,
+      "zh": "工坊冲刺：锻造券 +2，经验 +",
+      "en": "Workshop rush: Forge Tickets +2, XP +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2941,
+      "zh": "随机外观：",
+      "en": "Random look: "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2941,
+      "zh": "特殊外观已全收集，转为经验 +120",
+      "en": "All special looks collected, converted to XP +120"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2947,
+      "zh": "传说火种：传说保底进度 ",
+      "en": "Legend Spark: Legendary pity progress "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2956,
+      "zh": " 升至 Lv.",
+      "en": " reached Lv."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2969,
+      "zh": "直购成功：",
+      "en": "Purchased: "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2977,
+      "zh": "请输入兑换码。",
+      "en": "Enter a redeem code."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2979,
+      "zh": "兑换码无效。",
+      "en": "Invalid redeem code."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 2981,
+      "zh": "这个兑换码已经领取过。",
+      "en": "This code has already been redeemed."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3113,
+      "zh": "魔王压迫",
+      "en": "Boss Pressure"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3131,
+      "zh": "魔兵",
+      "en": "Minion"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3140,
+      "zh": "勇者",
+      "en": "Hero"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3201,
+      "zh": "游走",
+      "en": "Wander"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3475,
+      "zh": "霸屏预热",
+      "en": "Domination warm-up"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3475,
+      "zh": "秒后开启胜利判定",
+      "en": "s until the win check opens"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3478,
+      "zh": "停",
+      "en": "Stop"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3870,
+      "zh": "魔王技能",
+      "en": "Boss Skill"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 3971,
+      "zh": "王令追击",
+      "en": "Royal Chase"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4030,
+      "zh": "吃点",
+      "en": "Forage",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4030,
+      "zh": "集结",
+      "en": "Rally",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4030,
+      "zh": "重组",
+      "en": "Regroup",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4030,
+      "zh": "进圈",
+      "en": "Enter Zone",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4110,
+      "zh": "炸刺反打",
+      "en": "Spike Counter"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4120,
+      "zh": "魔王回撤",
+      "en": "Boss Retreat"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4129,
+      "zh": "炸刺进攻",
+      "en": "Spike Attack"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4134,
+      "zh": "魔王追击",
+      "en": "Boss Chase"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4172,
+      "zh": "清魔兵",
+      "en": "Clear Minions"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4187,
+      "zh": "合力打王",
+      "en": "Gang Up on Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4201,
+      "zh": "魔兵追击",
+      "en": "Minion Chase"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4212,
+      "zh": "喂球",
+      "en": "Feed"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4222,
+      "zh": "护王游走",
+      "en": "Guard Boss"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4228,
+      "zh": "追击",
+      "en": "Chase",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4228,
+      "zh": "围猎",
+      "en": "Hunt",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4228,
+      "zh": "护航",
+      "en": "Escort",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4228,
+      "zh": "锁定勇者",
+      "en": "Lock Hero",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4232,
+      "zh": "支援",
+      "en": "Support",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4232,
+      "zh": "救援",
+      "en": "Rescue",
+      "risky": true,
+      "note": "auto: the string is compared"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4369,
+      "zh": "抱团避险",
+      "en": "Group Up"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4380,
+      "zh": "逃跑",
+      "en": "Flee"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4394,
+      "zh": "守点",
+      "en": "Hold Point"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4394,
+      "zh": "占点",
+      "en": "Take Point"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4404,
+      "zh": "接分身",
+      "en": "Catch Split"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 4462,
+      "zh": "炸刺",
+      "en": "Pop Spike"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5067,
+      "zh": "孢子刺球",
+      "en": "Spore Spike"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5067,
+      "zh": "命中分身损失 ",
+      "en": "Hit split loses "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5067,
+      "zh": "% 质量",
+      "en": "% mass"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5070,
+      "zh": "回收孢子",
+      "en": "Reclaim Spores"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5306,
+      "zh": "重生",
+      "en": "Respawn"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5313,
+      "zh": "翻盘补给",
+      "en": "Comeback Supply"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5313,
+      "zh": "复活质量 x",
+      "en": "Respawn mass x"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5341,
+      "zh": "魔王讨伐",
+      "en": "Boss Hunt"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5349,
+      "zh": "生命耗尽",
+      "en": "Out of lives"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5359,
+      "zh": "被淘汰",
+      "en": "Eliminated"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5555,
+      "zh": "霸屏压制",
+      "en": "Domination Pressure"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5555,
+      "zh": "霸屏警报",
+      "en": "Domination Alert"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5556,
+      "zh": " 已达标，维持 ",
+      "en": " reached the target, holding for "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5556,
+      "zh": " 秒",
+      "en": " s"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5570,
+      "zh": "霸屏胜利",
+      "en": "Domination Victory"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5570,
+      "zh": "被霸屏",
+      "en": "Dominated"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5609,
+      "zh": "闪电制霸",
+      "en": "Blitz Control"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5609,
+      "zh": "制霸警报",
+      "en": "Control Alert"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5610,
+      "zh": " 优势已不可逆，维持读秒提前结算",
+      "en": " has an unbeatable lead; the hold countdown ends the match early"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5618,
+      "zh": "被闪电制霸",
+      "en": "Blitz-controlled"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5633,
+      "zh": "讨伐失败",
+      "en": "Hunt failed"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5640,
+      "zh": "据点胜利",
+      "en": "Outpost Victory"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5640,
+      "zh": "据点结算",
+      "en": "Outpost Result"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5646,
+      "zh": "霸屏结算",
+      "en": "Domination Result"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5649,
+      "zh": "团队胜利",
+      "en": "Team Victory"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5649,
+      "zh": "团队结算",
+      "en": "Team Result"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5652,
+      "zh": "生存第一",
+      "en": "Survival Winner"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5652,
+      "zh": "生存结算",
+      "en": "Survival Result"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5655,
+      "zh": "自由第一",
+      "en": "Free Mode Winner"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5655,
+      "zh": "自由结算",
+      "en": "Free Mode Result"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5670,
+      "zh": "成功吃鸡",
+      "en": "Last one standing"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5791,
+      "zh": "快速合球",
+      "en": "Quick Merge"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5791,
+      "zh": "当前只有一个球",
+      "en": "You only have one ball"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5797,
+      "zh": "秒后可用",
+      "en": "s until ready"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5820,
+      "zh": "A 键回收完成",
+      "en": "A recall complete"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5831,
+      "zh": "破阵冲刺",
+      "en": "Breakthrough Dash"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5870,
+      "zh": "D 键冲刺并种刺",
+      "en": "D dash and plant spike"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5870,
+      "zh": "D 键爆发加速",
+      "en": "D burst speed"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5961,
+      "zh": "无人",
+      "en": "Nobody"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5962,
+      "zh": "区域占领",
+      "en": "Area control"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5962,
+      "zh": "霸屏进度",
+      "en": "Domination progress"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5964,
+      "zh": "你完成霸屏，",
+      "en": "You achieved domination, "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5964,
+      "zh": "%，最高质量 ",
+      "en": "%, peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5964,
+      "zh": "，星尘 +",
+      "en": ", Stardust +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5964,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5965,
+      "zh": "时间到，未形成霸屏。",
+      "en": "Time is up; no one achieved domination."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5965,
+      "zh": " 完成霸屏。",
+      "en": " achieved domination."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5965,
+      "zh": " 你的最高质量 ",
+      "en": " Your peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5965,
+      "zh": "，当前",
+      "en": ", current "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5965,
+      "zh": "%，星尘 +",
+      "en": "%, Stardust +"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5970,
+      "zh": "魔王剩余质量 ",
+      "en": "Boss mass left "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5970,
+      "zh": "，个人最高质量 ",
+      "en": ", your peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5970,
+      "zh": "，淘汰 ",
+      "en": ", kills "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5971,
+      "zh": "魔王已被吞噬，个人最高质量 ",
+      "en": "The Boss was devoured, your peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5975,
+      "zh": "队伍第 ",
+      "en": "Team rank "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5975,
+      "zh": " 名，据点分 ",
+      "en": ", outpost points "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5979,
+      "zh": "领跑者",
+      "en": "Leader"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5982,
+      "zh": "你已形成闪电制霸，质量占比 ",
+      "en": "You hold Blitz control, mass share "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5982,
+      "zh": "%，领先 ",
+      "en": "%, lead "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5982,
+      "zh": "x，最高质量 ",
+      "en": "x, peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5983,
+      "zh": " 已形成闪电制霸，质量占比 ",
+      "en": " holds Blitz control, mass share "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5983,
+      "zh": "x。你的最高质量 ",
+      "en": "x. Your peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5986,
+      "zh": " 名，个人最高质量 ",
+      "en": ", your peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5989,
+      "zh": "，剩余生命 ",
+      "en": ", lives left "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5990,
+      "zh": "第 ",
+      "en": " rank "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5990,
+      "zh": " 名",
+      "en": " overall"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5990,
+      "zh": "，最高质量 ",
+      "en": ", peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5993,
+      "zh": "个人第 ",
+      "en": "Your rank "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5993,
+      "zh": " 名，最高质量 ",
+      "en": ", peak mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5993,
+      "zh": "，吃点 ",
+      "en": ", pellets eaten "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 5997,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6005,
+      "zh": "续",
+      "en": "Go"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6041,
+      "zh": "星团大作战",
+      "en": "Star Cluster Arena"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6043,
+      "zh": " 随机事件会在开局十几秒后自动出现。",
+      "en": " Random events appear automatically a dozen seconds after the start."
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6047,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6268,
+      "zh": "争夺",
+      "en": "Contested"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6268,
+      "zh": "中立",
+      "en": "Neutral"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6268,
+      "zh": "队伍 ",
+      "en": "Team "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6957,
+      "zh": "格",
+      "en": " cells"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6972,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 6975,
+      "zh": "P 继续，R 重开",
+      "en": "P resume, R restart"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7101,
+      "zh": "人",
+      "en": " players"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7125,
+      "zh": "杀",
+      "en": " kills"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7149,
+      "zh": "方形霸屏区",
+      "en": "Square domination zone"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7149,
+      "zh": "矩形霸屏区",
+      "en": "Rectangular domination zone"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7151,
+      "zh": "模式",
+      "en": " mode"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7152,
+      "zh": "固定霸屏区",
+      "en": "Fixed domination zone"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7155,
+      "zh": "安全区收缩 ",
+      "en": "Safe zone shrinks "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7158,
+      "zh": "下次收缩 ",
+      "en": "Next shrink "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7198,
+      "zh": "预热 ",
+      "en": "Warm-up "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7200,
+      "zh": "维持 ",
+      "en": "Hold "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7201,
+      "zh": "差 ",
+      "en": "Short by "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7202,
+      "zh": "\n        <div class=\"domination-meter\">\n          <div class=\"meter-head\">\n            <span>霸屏 ",
+      "en": " <div class=\"domination-meter\"> <div class=\"meter-head\"> <span>Domination "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7211,
+      "zh": "<span class=\"tag\">领跑 ",
+      "en": "<span class=\"tag\">Leading "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7211,
+      "zh": " · 我的区域 ",
+      "en": " · My area "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7211,
+      "zh": "% · 质量 ",
+      "en": "% · Mass "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7215,
+      "zh": "<span class=\"tag\">A 快合 ",
+      "en": "<span class=\"tag\">A Merge "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7215,
+      "zh": "就绪",
+      "en": "Ready"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7220,
+      "zh": "\">D 冲刺 ",
+      "en": "\">D Dash "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7220,
+      "zh": "爆发",
+      "en": "Burst"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7226,
+      "zh": "<span class=\"tag danger\">闪电制霸 ",
+      "en": "<span class=\"tag danger\">Blitz control "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7231,
+      "zh": "<span class=\"tag\">事件 ",
+      "en": "<span class=\"tag\">Event "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7232,
+      "zh": "<span class=\"tag\">剩余 ",
+      "en": "<span class=\"tag\">Left "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7233,
+      "zh": "<span class=\"tag\">生命 ",
+      "en": "<span class=\"tag\">Lives "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7234,
+      "zh": "<span class=\"tag\">复活护盾 ",
+      "en": "<span class=\"tag\">Respawn shield "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7236,
+      "zh": "<span class=\"tag\">据点分 ",
+      "en": "<span class=\"tag\">Outpost pts "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7238,
+      "zh": "<span class=\"tag\">我方据点 ",
+      "en": "<span class=\"tag\">Our outposts "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7242,
+      "zh": "<span class=\"tag danger\">魔王 ",
+      "en": "<span class=\"tag danger\">Boss "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7245,
+      "zh": "<span class=\"tag\">重生 ",
+      "en": "<span class=\"tag\">Respawn "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7255,
+      "zh": "<span class=\"tag\">队伍 ",
+      "en": "<span class=\"tag\">Team "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7257,
+      "zh": "<span class=\"tag\">存活 ",
+      "en": "<span class=\"tag\">Alive "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7258,
+      "zh": "<span class=\"tag\">食点 ",
+      "en": "<span class=\"tag\">Food "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7259,
+      "zh": "<span class=\"tag\">刷新 ",
+      "en": "<span class=\"tag\">Refresh "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7260,
+      "zh": "<span class=\"tag\">时间 ",
+      "en": "<span class=\"tag\">Time "
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7261,
+      "zh": "<span class=\"tag\">连续吐球</span>",
+      "en": "<span class=\"tag\">Rapid eject</span>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7262,
+      "zh": "<span class=\"tag\">重组中</span>",
+      "en": "<span class=\"tag\">Regrouping</span>"
+    },
+    {
+      "file": "ball-arena.html",
+      "kind": "js",
+      "line": 7263,
+      "zh": "<span class=\"tag\">暂停</span>",
+      "en": "<span class=\"tag\">Paused</span>"
+    }
+  ]
+}

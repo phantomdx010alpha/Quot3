@@ -60,20 +60,20 @@
   const SCALE_PENTA = [0, 2, 4, 7, 9];               // 宫 商 角 徵 羽（五声正音）
 
   const KEYS = [
-    { id: 'C', name: 'C大调', root: 0, mode: 'maj' },
-    { id: 'G', name: 'G大调', root: 7, mode: 'maj' },
-    { id: 'F', name: 'F大调', root: 5, mode: 'maj' },
-    { id: 'a', name: 'a小调', root: 9, mode: 'min' },
-    { id: 'e', name: 'e小调', root: 4, mode: 'min' },
-    { id: 'd', name: 'd小调', root: 2, mode: 'min' }
+    { id: 'C', name: 'C major', root: 0, mode: 'maj' },
+    { id: 'G', name: 'G major', root: 7, mode: 'maj' },
+    { id: 'F', name: 'F major', root: 5, mode: 'maj' },
+    { id: 'a', name: 'A minor', root: 9, mode: 'min' },
+    { id: 'e', name: 'E minor', root: 4, mode: 'min' },
+    { id: 'd', name: 'D minor', root: 2, mode: 'min' }
   ];
 
   const STYLES = [
-    { id: 'light', name: '轻快' },
-    { id: 'mystery', name: '神秘' },
-    { id: 'jazz', name: '爵士摇摆' },
-    { id: 'electro', name: '电子' },
-    { id: 'penta', name: '中国五声' }
+    { id: 'light', name: 'Upbeat' },
+    { id: 'mystery', name: 'Mysterious' },
+    { id: 'jazz', name: 'Jazz Swing' },
+    { id: 'electro', name: 'Electronic' },
+    { id: 'penta', name: 'Chinese Pentatonic' }
   ];
 
   // 各风格的马尔可夫音程走向：以级进（±1、±2 度）为主，偶尔跳进
@@ -793,7 +793,7 @@
       seqEl.innerHTML = '';
       refs = { lamp: [], mel: [], bass: [], kick: [], hat: [], snare: [] };
 
-      addLabel('和弦');
+      addLabel('Chords');
       song.chords.forEach(function (ch) {
         let d = document.createElement('div');
         d.className = 'chord-label';
@@ -802,7 +802,7 @@
         seqEl.appendChild(d);
       });
 
-      addLabel('步进');
+      addLabel('Steps');
       for (let s0 = 0; s0 < N; s0++) {
         let lc = makeCell('lamp', s0);
         refs.lamp.push(lc);
@@ -810,8 +810,8 @@
       }
 
       let rows = [
-        ['mel', '旋律'], ['bass', '贝斯'],
-        ['kick', '底鼓'], ['hat', '踩镲'], ['snare', '军鼓']
+        ['mel', 'Melody'], ['bass', 'Bass'],
+        ['kick', 'Kick'], ['hat', 'Hi-hat'], ['snare', 'Snare']
       ];
       rows.forEach(function (r) {
         addLabel(r[1]);
@@ -1090,13 +1090,13 @@
       eng.playing = true;
       eng.nextTime = eng.ctx.currentTime + 0.08;
       scheduler.start();
-      playBtn.textContent = '暂停';
+      playBtn.textContent = 'Pause';
     }
     function pauseTransport() {
       if (!engine) return;
       engine.playing = false;
       scheduler.stop();
-      playBtn.textContent = '播放';
+      playBtn.textContent = 'Play';
     }
     playBtn.addEventListener('click', function () {
       if (!song) return;
@@ -1110,7 +1110,7 @@
       if (!song || exporting) return;
       exporting = true;
       exportBtn.disabled = true;
-      exportBtn.textContent = '导出中…';
+      exportBtn.textContent = 'Exporting…';
       let sr = 44100;
       let sps = 60 / cfg.bpm / 4;
       let total = song.steps * sps + 1.0;
@@ -1127,18 +1127,18 @@
         let url = URL.createObjectURL(blob);
         let a = document.createElement('a');
         a.href = url;
-        a.download = '星空作曲机_' + cfg.keyId + '_' + cfg.styleId + '_' + cfg.seed + '.wav';
+        a.download = 'starry-composer_' + cfg.keyId + '_' + cfg.styleId + '_' + cfg.seed + '.wav';
         document.body.appendChild(a);
         a.click();
         a.remove();
         setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
       })['catch'](function () {
-        exportBtn.textContent = '导出失败，请重试';
-        setTimeout(function () { exportBtn.textContent = '导出 WAV'; }, 1800);
+        exportBtn.textContent = 'Export failed, please retry';
+        setTimeout(function () { exportBtn.textContent = 'Export WAV'; }, 1800);
       })['finally'](function () {
         exporting = false;
         exportBtn.disabled = false;
-        if (exportBtn.textContent.indexOf('失败') < 0) exportBtn.textContent = '导出 WAV';
+        if (exportBtn.textContent.indexOf('Failed') < 0) exportBtn.textContent = 'Export WAV';
       });
     });
 
@@ -1372,7 +1372,7 @@
       } else {
         cx.fillStyle = 'rgba(154,163,199,0.35)';
         cx.font = '12px system-ui, sans-serif';
-        cx.fillText('点击“开始创作”后激活音频与频谱', 16, cssH - 24);
+        cx.fillText('Click “Start composing” to activate audio and the spectrum', 16, cssH - 24);
       }
     }
 

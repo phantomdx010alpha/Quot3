@@ -28,16 +28,16 @@ const STYLE = `
 
 export default {
   id: 'memory',
-  name: '记忆翻牌',
+  name: 'Memory Match',
   bestLower: true,
   options: [{
     key: 'size',
-    label: '规模',
+    label: 'Size',
     def: 'mid',
     values: [
-      { v: 'easy', t: '轻松 4×3' },
-      { v: 'mid', t: '标准 4×4' },
-      { v: 'hard', t: '困难 6×5' },
+      { v: 'easy', t: 'Easy 4×3' },
+      { v: 'mid', t: 'Standard 4×4' },
+      { v: 'hard', t: 'Hard 6×5' },
     ],
   }],
 
@@ -64,7 +64,7 @@ export default {
     const resetBtn = document.createElement('button')
     resetBtn.type = 'button'
     resetBtn.className = 'gmm-chip'
-    resetBtn.textContent = '🔄 重开'
+    resetBtn.textContent = '🔄 Restart'
     bar.append(chipMove, chipTime, chipPair, resetBtn)
     wrap.appendChild(bar)
 
@@ -82,9 +82,9 @@ export default {
 
     const fmt = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`
     const paint = () => {
-      chipMove.innerHTML = `翻牌 <b>${moves}</b>`
+      chipMove.innerHTML = `Flips <b>${moves}</b>`
       chipTime.innerHTML = `⏱ <b>${fmt(time)}</b>`
-      chipPair.innerHTML = `配对 <b>${matched.size}/${pairs}</b>`
+      chipPair.innerHTML = `Pairs <b>${matched.size}/${pairs}</b>`
     }
 
     function build() {
@@ -140,7 +140,7 @@ export default {
         openIds = []
         if (matched.size === pairs * 2) {
           clearInterval(timer)
-          status.textContent = `🎉 全部配对！用时 ${fmt(time)}，共翻 ${moves} 次`
+          status.textContent = `🎉 All pairs matched! Time ${fmt(time)}, total ${moves} flips`
           api.win(time)
         }
       } else {

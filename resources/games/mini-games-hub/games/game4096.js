@@ -45,21 +45,21 @@ export default {
   id: '4096',
   name: '4096',
   options: [
-    { key: 'size', label: '盘面', def: 4, values: [3, 4, 5, 6, 7].map((v) => ({ v, t: `${v}×${v}` })) },
-    { key: 'target', label: '目标', def: 4096, values: [512, 1024, 2048, 4096, 8192, 16384].map((v) => ({ v, t: String(v) })) },
+    { key: 'size', label: 'Board', def: 4, values: [3, 4, 5, 6, 7].map((v) => ({ v, t: `${v}×${v}` })) },
+    { key: 'target', label: 'Goal', def: 4096, values: [512, 1024, 2048, 4096, 8192, 16384].map((v) => ({ v, t: String(v) })) },
   ],
 
   /* 运行时控件（不触发重开）：自动托管 + 倍速。倍速最高 10× */
   runtime: [
     {
       key: 'auto',
-      label: '操作',
+      label: 'Control',
       def: 'off',
-      values: [{ v: 'off', t: '手动' }, { v: 'on', t: '自动托管' }],
+      values: [{ v: 'off', t: 'Manual' }, { v: 'on', t: 'Auto-play' }],
     },
     {
       key: 'speed',
-      label: '倍速',
+      label: 'Speed',
       def: 4,
       values: [1, 2, 4, 6, 8, 10].map((v) => ({ v, t: `${v}×` })),
     },
@@ -252,13 +252,13 @@ export default {
       aiDepth = r.depth
       if (!r.dir) {
         stopAuto()
-        api.status('AI 判断已无路可走')
+        api.status('AI sees no moves left')
         return
       }
       aiMoves++
       move(r.dir)
       if (over) return
-      api.status(`AI 第 ${aiMoves} 步 · 搜索深度 ${r.depth} 层 · ${r.ms.toFixed(0)}ms`)
+      api.status(`AI move ${aiMoves} · search depth ${r.depth} levels · ${r.ms.toFixed(0)}ms`)
       autoTimer = setTimeout(autoStep, Math.max(6, perMove - r.ms))
     }
 
@@ -266,7 +266,7 @@ export default {
       if (over) reset()
       auto = true
       aiMoves = 0
-      api.status('AI 接管中…')
+      api.status('AI in control…')
       if (autoTimer) clearTimeout(autoTimer)
       autoTimer = setTimeout(autoStep, 120)
     }
@@ -306,16 +306,16 @@ export default {
         ctx.fillStyle = 'rgba(124,108,232,0.92)'
         roundRect(ctx, 14, 14, 156, 28, 14)
         ctx.fill()
-        centerText(ctx, `AI 自动 ×${speed} · 深度 ${aiDepth || '-'}`, 92, 28, 13, '#FFFFFF', '600')
+        centerText(ctx, `AI auto ×${speed} · depth ${aiDepth || '-'}`, 92, 28, 13, '#FFFFFF', '600')
       }
 
       if (over || won) {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, SIZE, SIZE, 16)
         ctx.fill()
-        centerText(ctx, won ? `达成 ${target}！` : '无路可走', SIZE / 2, SIZE / 2 - 18, 34, '#FFFFFF')
-        centerText(ctx, won ? '继续合并刷更高分' : `本局 ${score} 分`, SIZE / 2, SIZE / 2 + 22, 18, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 重开', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+        centerText(ctx, won ? `Reached ${target}!` : 'No moves left', SIZE / 2, SIZE / 2 - 18, 34, '#FFFFFF')
+        centerText(ctx, won ? 'Keep merging for a higher score' : `Score: ${score} pts`, SIZE / 2, SIZE / 2 + 22, 18, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R to restart', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
       }
     }
 
@@ -335,7 +335,7 @@ export default {
         // 手动介入即接管：退出托管并走这一步
         if (auto) {
           stopAuto()
-          api.status('已交还手动操作')
+          api.status('Back to manual control')
         }
         move(dir)
         return

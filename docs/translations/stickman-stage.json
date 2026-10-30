@@ -1,0 +1,496 @@
+{
+  "version": 1,
+  "game": "stickman-stage",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 266,
+      "zh": "手部火焰",
+      "en": "Hand Flame"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 267,
+      "zh": "垃圾焚烧",
+      "en": "Trash Incineration"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 268,
+      "zh": "发光宝剑",
+      "en": "Glowing Sword"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 269,
+      "zh": "超级变身",
+      "en": "Super Transform"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 328,
+      "zh": "合拍 +6",
+      "en": "In sync +6"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 337,
+      "zh": "点燃成功！",
+      "en": "Ignited!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 337,
+      "zh": "焚烧发电启动",
+      "en": "Incineration power started"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 351,
+      "zh": "火焰燃起 +8",
+      "en": "Flame lit +8"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 358,
+      "zh": "宝剑出鞘 +8",
+      "en": "Sword drawn +8"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 362,
+      "zh": "超级变身 +15",
+      "en": "Super transform +15"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 421,
+      "zh": "合拍 +12",
+      "en": "In sync +12"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 431,
+      "zh": "差一点 +2",
+      "en": "Near miss +2"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1173,
+      "zh": "垃圾焚烧发电中",
+      "en": "Trash incineration generating power"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1201,
+      "zh": "全场欢呼！",
+      "en": "The whole crowd cheers!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1205,
+      "zh": "观众席彻底沸腾了",
+      "en": "The audience is going wild"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1306,
+      "zh": "安可！",
+      "en": "Encore!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1306,
+      "zh": "太棒了！",
+      "en": "Awesome!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1306,
+      "zh": "好！",
+      "en": "Nice!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1306,
+      "zh": "再来一个！",
+      "en": "One more!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1306,
+      "zh": "观众沸腾了！",
+      "en": "The crowd is on fire!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1358,
+      "zh": "持续 ",
+      "en": "Lasts "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1358,
+      "zh": " 秒",
+      "en": " s"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1359,
+      "zh": "冷却 ",
+      "en": "Cooldown "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1360,
+      "zh": "就绪",
+      "en": "Ready"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1366,
+      "zh": "点击启动鼓点",
+      "en": "Click to start the beat"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1369,
+      "zh": " BPM 已静音",
+      "en": " BPM muted"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1372,
+      "zh": " BPM 演奏中",
+      "en": " BPM playing"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1380,
+      "zh": "火柴人舞台-舞台截图.png",
+      "en": "stickman-stage-screenshot.png"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1385,
+      "zh": "已保存当前舞台画面",
+      "en": "Stage picture saved"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1387,
+      "zh": "截屏失败",
+      "en": "Screenshot failed"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1426,
+      "zh": "鼓点：关",
+      "en": "Beat: Off"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1426,
+      "zh": "鼓点：开",
+      "en": "Beat: On"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1431,
+      "zh": "自动导演：开",
+      "en": "Auto director: On"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1431,
+      "zh": "自动导演：关",
+      "en": "Auto director: Off"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "火柴人舞台",
+      "en": "Stickman Stage"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 24,
+      "zh": "火柴人表演舞台",
+      "en": "Stickman performance stage"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 29,
+      "zh": "点击启动鼓点",
+      "en": "Click to start the beat"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 35,
+      "zh": "观众兴奋度",
+      "en": "Crowd hype"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "峰值",
+      "en": "Peak"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "表演动作",
+      "en": "Moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 51,
+      "zh": "原地迪斯科",
+      "en": "Spot Disco"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 54,
+      "zh": "双臂挥舞",
+      "en": "Arm Waves"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 57,
+      "zh": "太空步滑行",
+      "en": "Moonwalk Glide"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 60,
+      "zh": "诡异跑",
+      "en": "Weird Run"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "更诡异跑",
+      "en": "Weirder Run"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "谢幕鞠躬",
+      "en": "Closing Bow"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 72,
+      "zh": "舞台特效",
+      "en": "Stage effects"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "手部火焰",
+      "en": "Hand Flame"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "就绪",
+      "en": "Ready"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "垃圾焚烧",
+      "en": "Trash Incineration"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "发光宝剑",
+      "en": "Glowing Sword"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 87,
+      "zh": "超级变身",
+      "en": "Super Transform"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "火焰开启后点击舞台可投掷火球点燃垃圾桶；宝剑开启后点击舞台挥砍。",
+      "en": "With flame on, click the stage to throw fireballs and light the trash can; with the sword on, click to slash."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 95,
+      "zh": "音乐与导演",
+      "en": "Music and director"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 97,
+      "zh": "节拍速度",
+      "en": "Beat tempo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 103,
+      "zh": "鼓点：开",
+      "en": "Beat: On"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 106,
+      "zh": "自动导演：关",
+      "en": "Auto director: Off"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 109,
+      "zh": "截屏留念",
+      "en": "Screenshot"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 112,
+      "zh": "空格",
+      "en": "Space"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 112,
+      "zh": "合拍特效",
+      "en": "In-sync effect"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 122,
+      "zh": "1-6 动作 · F 火焰 · B 垃圾焚烧 · S 宝剑 · T 变身 · 空格合拍特效",
+      "en": "1-6 moves · F flame · B incineration · S sword · T transform · Space in-sync effect"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 128,
+      "zh": "欢迎来到火柴人舞台",
+      "en": "Welcome to Stickman Stage"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 129,
+      "zh": "这里不是通关游戏，而是一座属于你的火柴人表演导演台。",
+      "en": "This is not a level-clearing game, but a stickman performance director's booth that belongs to you."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 131,
+      "zh": "数字键 1-6 切换六种节目：迪斯科、挥舞、太空步、诡异跑、翻跟头与谢幕鞠躬",
+      "en": "Number keys 1-6 switch six acts: disco, arm waves, moonwalk, weird run, flips and a closing bow"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 132,
+      "zh": "F 手部火焰可投掷火球，点燃舞台中央的垃圾桶进行垃圾焚烧发电",
+      "en": "F hand flame throws fireballs to ignite the trash can at center stage for waste-to-power incineration"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 133,
+      "zh": "S 召唤发光宝剑挥出剑光，T 进入金色超级变身，特效均可叠加",
+      "en": "S summons a glowing sword that slashes light; T enters the golden super transform; effects can stack"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 134,
+      "zh": "合成鼓点驱动全部动作，踩准节拍切换动作、按空格合拍可点燃观众兴奋度",
+      "en": "Synthesized beats drive every move; switch moves on the beat and press Space to sync, igniting crowd hype"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 135,
+      "zh": "开启自动导演，坐看一场随机演出；还能一键截屏保存霓虹舞台",
+      "en": "Turn on the auto director to sit back and watch a random show; one click also saves a neon stage screenshot"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 137,
+      "zh": "开始导演",
+      "en": "Start directing"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, ConfirmDialog } from '../ui'
 import { GamesCredits } from '../games/GamesCredits'
 import { useGamesStore } from '../../stores/gamesStore'
-import { clearGamesData, loadGames, loadGamesEnabled, setGamesEnabled } from '../../stores/gamesActions'
+import { clearGamesData, loadGames, loadGamesEnabled, setGamesEnabled, setShowChinese } from '../../stores/gamesActions'
 
 /**
  * Phase 202 - Settings > Games: on / off switch (`games.enabled`), how many games are installed (and how many catalogue entries were
@@ -10,6 +10,7 @@ import { clearGamesData, loadGames, loadGamesEnabled, setGamesEnabled } from '..
  */
 export function GamesSection(): React.JSX.Element {
   const enabled = useGamesStore((s) => s.enabled)
+  const showChinese = useGamesStore((s) => s.showChinese)
   const games = useGamesStore((s) => s.games)
   const skipped = useGamesStore((s) => s.skipped)
   const status = useGamesStore((s) => s.status)
@@ -19,6 +20,7 @@ export function GamesSection(): React.JSX.Element {
   const [confirm, setConfirm] = useState(false)
   const [note, setNote] = useState('')
   useEffect(() => { void loadGamesEnabled(); void loadGames() }, [])
+  const shownCount = showChinese ? games.length : games.filter((g) => g.lang === 'en').length
   const used = state.favourites.length + Object.keys(state.lastPlayed).length
   return (
     <form className="q3-set__form" aria-label="Games" onSubmit={(e) => e.preventDefault()}>
@@ -26,7 +28,12 @@ export function GamesSection(): React.JSX.Element {
         <input type="checkbox" checked={enabled} onChange={(e) => { setNote(''); void setGamesEnabled(e.target.checked) }} />
         <span>Show Games (side menu, Ctrl+6, command palette and the Dashboard tile)</span>
       </label>
+      <label className="q3-set__check">
+        <input type="checkbox" checked={showChinese} disabled={!enabled} onChange={(e) => { setNote(''); void setShowChinese(e.target.checked) }} />
+        <span>Show games with a Chinese interface</span>
+      </label>
       <p className="q3-set__muted">
+        {status === 'ready' ? `${shownCount} of ${games.length} games shown. ` : ''}
         {status === 'ready' ? `${games.length} ${games.length === 1 ? 'game is' : 'games are'} installed.` : status === 'loading' ? 'Counting games.' : 'The game list could not be read.'}
         {skipped > 0 ? ` ${skipped} catalogue ${skipped === 1 ? 'entry was' : 'entries were'} skipped because ${skipped === 1 ? 'it is' : 'they are'} not valid.` : ''}
       </p>

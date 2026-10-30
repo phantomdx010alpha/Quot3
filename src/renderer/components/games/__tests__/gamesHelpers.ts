@@ -3,7 +3,7 @@ import type { GameEntry } from '@shared/games/manifest'
 import { emptyGamesState, type GamesState } from '@shared/games/gamesState'
 
 export const game = (id: string, title: string, extra: Partial<GameEntry> = {}): GameEntry => ({
-  id, title, tags: ['puzzle'], description: `${title} synthetic`, source: 'https://example.invalid/repo', commit: 'abcdef1234567890', licence: 'MIT', author: 'Test Author',
+  id, title, tags: ['puzzle'], description: `${title} synthetic`, source: 'https://example.invalid/repo', commit: 'abcdef1234567890', licence: 'MIT', lang: 'en', author: 'Test Author',
   entry: 'index.html', players: 1, touch: false, added: '2026-10-29', ...extra
 })
 
@@ -14,14 +14,16 @@ export interface FakeApi {
   listeners: Record<string, (p: unknown) => void>
   state: GamesState
   enabled: boolean
+  showChinese: boolean
 }
 
 /** A fake `window.quot3` with the games + settings parts only. */
-export function installApi(games: GameEntry[], opts: { skipped?: number; enabled?: boolean; state?: GamesState } = {}): FakeApi {
+export function installApi(games: GameEntry[], opts: { skipped?: number; enabled?: boolean; showChinese?: boolean; state?: GamesState } = {}): FakeApi {
   const listeners: Record<string, (p: unknown) => void> = {}
   const api: FakeApi = {
     state: opts.state ?? emptyGamesState(),
     enabled: opts.enabled ?? true,
+    showChinese: opts.showChinese ?? false,
     listeners,
     games: {},
     settings: {},
@@ -36,8 +38,8 @@ export function installApi(games: GameEntry[], opts: { skipped?: number; enabled
     getLicense: vi.fn(async (id: string) => ({ ok: true, data: { text: `LICENSE TEXT for ${id}` } }))
   }
   api.settings = {
-    get: vi.fn(async () => ({ ok: true, data: { value: api.enabled } })),
-    set: vi.fn(async (_k: string, v: unknown) => { api.enabled = v as boolean; return { ok: true, data: {} } })
+    get: vi.fn(async (k: string) => ({ ok: true, data: { value: k === 'games.showChinese' ? api.showChinese : api.enabled } })),
+    set: vi.fn(async (k: string, v: unknown) => { if (k === 'games.showChinese') api.showChinese = v as boolean; else api.enabled = v as boolean; return { ok: true, data: {} } })
   }
   ;(window as unknown as { quot3: unknown }).quot3 = { games: api.games, settings: api.settings, on: api.on }
   return api

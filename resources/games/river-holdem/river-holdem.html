@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101719">
-  <title>河牌之夜：三席读牌赛</title>
+  <title>River Night: Three-Seat Reading Tournament</title>
   <style>
     * { box-sizing: border-box; }
     :root {
@@ -339,29 +339,29 @@
     <aside class="sidebar">
       <div class="brand">
         <small>River Reading Circuit</small>
-        <h1>河牌之夜<br>三席读牌赛</h1>
-        <p class="subtle">潮港、雾桥与天际三张牌桌，共用一条逐街淘汰赛生涯。</p>
+        <h1>River Night<br>Three-Seat Reading Tournament</h1>
+        <p class="subtle">Three tables, Harbour, Fog Bridge and Skyline, share one street-by-street knockout career.</p>
       </div>
       <div class="sidebar-grid">
         <section class="side-section">
-          <div class="side-title"><span>巡回牌桌</span><span id="starTotal">0 / 9 ★</span></div>
+          <div class="side-title"><span>Tour tables</span><span id="starTotal">0 / 9 ★</span></div>
           <div class="contract-list" id="contractList"></div>
         </section>
         <section class="side-section">
-          <div class="side-title"><span>对手档案</span><span>三种风格</span></div>
+          <div class="side-title"><span>Opponent files</span><span>Three styles</span></div>
           <div class="intel-list" id="intelList"></div>
         </section>
       </div>
       <section class="side-section">
-        <div class="side-title"><span>巡回记录</span><span id="medalText">0 / 6 勋章</span></div>
+        <div class="side-title"><span>Tour record</span><span id="medalText">0 / 6 medals</span></div>
         <div class="career">
-          <div><b id="clearText">0</b><small>冠军</small></div>
-          <div><b id="bestPotText">0</b><small>最大底池</small></div>
-          <div><b id="runText">0</b><small>参赛</small></div>
+          <div><b id="clearText">0</b><small>Titles</small></div>
+          <div><b id="bestPotText">0</b><small>Biggest pot</small></div>
+          <div><b id="runText">0</b><small>Entries</small></div>
         </div>
         <div class="side-actions">
-          <button id="archiveBtn">档案</button>
-          <button id="soundBtn" aria-pressed="true">音效 开</button>
+          <button id="archiveBtn">Records</button>
+          <button id="soundBtn" aria-pressed="true">Sound On</button>
         </div>
       </section>
     </aside>
@@ -370,46 +370,46 @@
       <header class="topbar">
         <div>
           <small class="eyebrow" id="venueText">TOURNAMENT LOBBY</small>
-          <h2 id="tableTitle">选择一张巡回牌桌</h2>
+          <h2 id="tableTitle">Choose a tour table</h2>
         </div>
         <div class="metrics">
-          <div class="metric"><b id="handText">--</b><small>手数</small></div>
-          <div class="metric"><b id="blindText">--</b><small>盲注</small></div>
-          <div class="metric"><b id="positionText">--</b><small>位置</small></div>
-          <div class="metric"><b id="chipText">--</b><small>你的筹码</small></div>
+          <div class="metric"><b id="handText">--</b><small>Hands</small></div>
+          <div class="metric"><b id="blindText">--</b><small>Blinds</small></div>
+          <div class="metric"><b id="positionText">--</b><small>Position</small></div>
+          <div class="metric"><b id="chipText">--</b><small>Your chips</small></div>
         </div>
       </header>
 
       <div class="table-wrap">
-        <section class="table" aria-label="德州扑克牌桌">
+        <section class="table" aria-label="Texas Hold'em table">
           <div class="opponents" id="opponents"></div>
-          <div class="pot-area"><b id="potText">0</b><div><span id="streetText">牌桌待命</span></div></div>
+          <div class="pot-area"><b id="potText">0</b><div><span id="streetText">Table on standby</span></div></div>
           <div class="cards board" id="board"></div>
           <div class="hero" id="heroSeat">
-            <div class="hero-meta"><b>你</b><small id="heroStatus">等待入席</small></div>
+            <div class="hero-meta"><b>You</b><small id="heroStatus">Waiting to sit</small></div>
             <div class="cards" id="hole"></div>
-            <div class="equity"><b id="equityText">--</b><small>随机范围估算</small></div>
+            <div class="equity"><b id="equityText">--</b><small>Random-range equity</small></div>
           </div>
         </section>
 
         <section class="action-panel" id="actionPanel">
           <div class="action-row">
-            <button class="danger" id="foldBtn">弃牌</button>
-            <button class="primary" id="callBtn">过牌</button>
+            <button class="danger" id="foldBtn">Fold</button>
+            <button class="primary" id="callBtn">Check</button>
             <div class="raise-control">
-              <span>加注到</span>
-              <input id="raiseRange" type="range" min="0" max="0" value="0" step="5" aria-label="加注总额">
+              <span>Raise to</span>
+              <input id="raiseRange" type="range" min="0" max="0" value="0" step="5" aria-label="Raise total">
               <b id="raiseValue">0</b>
             </div>
-            <button class="raise-button" id="raiseBtn">加注</button>
-            <button class="all-in" id="allInBtn">全押</button>
+            <button class="raise-button" id="raiseBtn">Raise</button>
+            <button class="all-in" id="allInBtn">All in</button>
           </div>
         </section>
 
         <div class="hand-log" id="handLog" aria-live="polite"></div>
         <div class="footer-row">
-          <button id="leaveBtn">返回赛历</button>
-          <button class="primary" id="nextHandBtn">下一手</button>
+          <button id="leaveBtn">Back to calendar</button>
+          <button class="primary" id="nextHandBtn">Next hand</button>
         </div>
 
         <div class="overlay" id="overlay">
@@ -422,13 +422,13 @@
   <div class="modal hidden" id="archiveModal" role="dialog" aria-modal="true" aria-labelledby="archiveTitle">
     <div class="modal-card">
       <small class="eyebrow">PORTABLE TOURNAMENT FILE</small>
-      <h2 id="archiveTitle">巡回档案</h2>
-      <textarea id="archiveText" spellcheck="false" aria-label="巡回档案码"></textarea>
+      <h2 id="archiveTitle">Tour Record</h2>
+      <textarea id="archiveText" spellcheck="false" aria-label="Tour record code"></textarea>
       <p id="archiveFeedback"></p>
       <div class="button-row">
-        <button class="primary" id="copyBtn">复制档案</button>
-        <button id="importBtn">导入档案</button>
-        <button id="closeArchiveBtn">关闭</button>
+        <button class="primary" id="copyBtn">Copy record</button>
+        <button id="importBtn">Import record</button>
+        <button id="closeArchiveBtn">Close</button>
       </div>
     </div>
   </div>
@@ -440,29 +440,29 @@
       const STORAGE = "river-holdem-v2";
       const SUITS = ["♠", "♥", "♦", "♣"];
       const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-      const HAND_NAMES = ["高牌", "一对", "两对", "三条", "顺子", "同花", "葫芦", "四条", "同花顺"];
-      const STREETS = ["翻牌前", "翻牌圈", "转牌圈", "河牌圈"];
+      const HAND_NAMES = ["High card", "Pair", "Two pair", "Three of a kind", "Straight", "Flush", "Full house", "Four of a kind", "Straight flush"];
+      const STREETS = ["Preflop", "Flop", "Turn", "River"];
       const $ = (id) => document.getElementById(id);
 
       const CONTRACTS = [
-        { id: "harbor", venue: "潮港席", name: "潮汐新秀桌", stack: 600, baseBlind: 10, riseEvery: 5, par: 18, aiBoost: -0.03, brief: "盲注舒缓，适合建立底池赔率与位置意识。" },
-        { id: "bridge", venue: "雾桥席", name: "雾桥深筹桌", stack: 550, baseBlind: 15, riseEvery: 4, par: 20, aiBoost: 0.02, brief: "盲注提速，对手会更频繁利用位置施压。" },
-        { id: "summit", venue: "天际席", name: "天际冠军桌", stack: 500, baseBlind: 20, riseEvery: 3, par: 22, aiBoost: 0.06, brief: "短筹码高压决赛，错误会被快速放大。" },
+        { id: "harbor", venue: "Harbour Seat", name: "Tidewater Rookie Table", stack: 600, baseBlind: 10, riseEvery: 5, par: 18, aiBoost: -0.03, brief: "Gentle blinds, good for learning pot odds and position." },
+        { id: "bridge", venue: "Fog Bridge Seat", name: "Fog Bridge Deep-Stack Table", stack: 550, baseBlind: 15, riseEvery: 4, par: 20, aiBoost: 0.02, brief: "Faster blinds; opponents lean on position more often." },
+        { id: "summit", venue: "Skyline Seat", name: "Skyline Champion Table", stack: 500, baseBlind: 20, riseEvery: 3, par: 22, aiBoost: 0.06, brief: "Short-stack high-pressure final; mistakes are punished fast." },
       ];
 
       const OPPONENTS = [
-        { id: "fox", name: "红狐", tag: "主动施压", text: "宽范围入池，敢于用小概率诈唬争夺主动权。", aggression: 0.82, tightness: 0.28, bluff: 0.16, color: "#d9665f" },
-        { id: "whale", name: "蓝鲸", tag: "紧手价值", text: "弃掉边缘牌，用强成牌和好听牌持续取值。", aggression: 0.38, tightness: 0.66, bluff: 0.03, color: "#68a8c7" },
-        { id: "owl", name: "夜枭", tag: "动态适应", text: "记录你的加注频率，在过松或过紧时调整反击。", aggression: 0.58, tightness: 0.48, bluff: 0.08, color: "#efc45c" },
+        { id: "fox", name: "Red Fox", tag: "Aggressive", text: "Enters pots wide and dares to bluff with low-odds hands to seize the initiative.", aggression: 0.82, tightness: 0.28, bluff: 0.16, color: "#d9665f" },
+        { id: "whale", name: "Blue Whale", tag: "Tight value", text: "Folds marginal hands and keeps taking value with strong made hands and good draws.", aggression: 0.38, tightness: 0.66, bluff: 0.03, color: "#68a8c7" },
+        { id: "owl", name: "Night Owl", tag: "Adaptive", text: "Tracks how often you raise and adjusts its counterplay when you are too loose or too tight.", aggression: 0.58, tightness: 0.48, bluff: 0.08, color: "#efc45c" },
       ];
 
       const MEDALS = [
-        { id: "first", name: "首冠", test: (r) => r.win },
-        { id: "hunter", name: "清桌者", test: (r) => r.eliminations >= 3 },
-        { id: "river", name: "河牌英雄", test: (r) => r.bestCategory >= 4 },
-        { id: "vault", name: "大底池", test: (r) => r.biggestPot >= 700 },
-        { id: "tempo", name: "节奏大师", test: (r) => r.win && r.hands <= r.par },
-        { id: "reader", name: "读牌者", test: (r) => r.showdownWins >= 3 },
+        { id: "first", name: "First Title", test: (r) => r.win },
+        { id: "hunter", name: "Table Clearer", test: (r) => r.eliminations >= 3 },
+        { id: "river", name: "River Hero", test: (r) => r.bestCategory >= 4 },
+        { id: "vault", name: "Big Pot", test: (r) => r.biggestPot >= 700 },
+        { id: "tempo", name: "Tempo Master", test: (r) => r.win && r.hands <= r.par },
+        { id: "reader", name: "Reader", test: (r) => r.showdownWins >= 3 },
       ];
 
       function blankProfile() {
@@ -508,9 +508,9 @@
 
       function decode(code) {
         const parts = String(code).trim().split(".");
-        if (parts.length !== 3 || parts[0] !== "RIVER2" || checksum(parts[1]) !== parts[2]) throw Error("巡回档案校验失败");
+        if (parts.length !== 3 || parts[0] !== "RIVER2" || checksum(parts[1]) !== parts[2]) throw Error("Tour record check failed");
         const data = JSON.parse(decodeURIComponent(escape(atob(parts[1]))));
-        if (data.v !== 2) throw Error("巡回档案版本不兼容");
+        if (data.v !== 2) throw Error("Tour record version is not compatible");
         return { profile: normalizeProfile(data.profile), run: normalizeRun(data.run) };
       }
 
@@ -701,7 +701,7 @@
 
       function makePlayers(stack) {
         return [
-          { id: "hero", name: "你", chips: stack, out: false, tell: "等待发牌" },
+          { id: "hero", name: "You", chips: stack, out: false, tell: "Waiting for cards" },
           ...OPPONENTS.map((opponent) => ({ ...opponent, chips: stack, out: false, tell: opponent.tag })),
         ];
       }
@@ -771,7 +771,7 @@
           player.allIn = false;
           player.streetBet = 0;
           player.committed = 0;
-          player.tell = player.out ? "已离席" : "观察牌面";
+          player.tell = player.out ? "Left the table" : "Reading the board";
         });
 
         const alive = q.players.map((player, index) => ({ player, index })).filter(({ player }) => player.chips > 0 && !player.out);
@@ -785,7 +785,7 @@
         q.minRaise = q.bigBlind;
         q.needs = q.players.map((player, index) => canAct(player) ? index : -1).filter((index) => index >= 0);
         q.turn = nextSeat(bigBlindSeat, (_, index) => q.needs.includes(index));
-        q.logs = [`第 ${q.hand} 手牌开始 · ${q.smallBlind}/${q.bigBlind} 盲注。`];
+        q.logs = [`Hand ${q.hand} starts · ${q.smallBlind}/${q.bigBlind} blinds.`];
         tone(420, 0.045);
         updateHeroEquity();
         runUntilHero();
@@ -794,10 +794,10 @@
       function removeNeed(index) { q.needs = q.needs.filter((seat) => seat !== index); }
 
       function actionLabel(type, paid, target) {
-        if (type === "fold") return "弃牌";
-        if (type === "allin") return `全押到 ${target}`;
-        if (type === "raise") return `加注到 ${target}`;
-        return paid ? `跟注 ${paid}` : "过牌";
+        if (type === "fold") return "Fold";
+        if (type === "allin") return `All-in to ${target}`;
+        if (type === "raise") return `Raise to ${target}`;
+        return paid ? `Call ${paid}` : "Check";
       }
 
       function applyAction(index, type, requestedTarget = 0) {
@@ -843,13 +843,13 @@
         }
 
         const labels = {
-          fold: "收起手牌",
-          call: paid ? "平静跟注" : "敲桌过牌",
-          raise: "推入一叠筹码",
-          allin: "将筹码推到线内",
+          fold: "Folds the hand",
+          call: paid ? "Calls calmly" : "Taps the table to check",
+          raise: "Pushes in a stack of chips",
+          allin: "Slides the chips over the line",
         };
         player.tell = labels[actualType];
-        q.logs.unshift(`${player.name}${actionLabel(actualType, paid, target)}。`);
+        q.logs.unshift(`${player.name}${actionLabel(actualType, paid, target)}.`);
         tone(actualType === "raise" || actualType === "allin" ? 520 : actualType === "fold" ? 260 : 360, 0.035, 0.018);
         settleAfterAction(index);
         return true;
@@ -912,7 +912,7 @@
         q.minRaise = q.bigBlind;
         q.players.forEach((player) => player.streetBet = 0);
         q.needs = q.players.map((player, index) => canAct(player) ? index : -1).filter((index) => index >= 0);
-        q.logs.unshift(`${STREETS[q.street]}：公共牌更新。`);
+        q.logs.unshift(`${STREETS[q.street]}: community cards updated.`);
         updateHeroEquity();
         if (q.needs.length <= 1) return advanceStreet();
         q.turn = nextSeat(q.dealer, (_, index) => q.needs.includes(index));
@@ -928,7 +928,7 @@
         const winners = awards.map((amount, index) => amount > 0 ? index : -1).filter((index) => index >= 0);
         winners.forEach((index) => {
           const rank = ranks.get(index);
-          q.logs.unshift(`${q.players[index].name}以${HAND_NAMES[rank.category]}赢得 ${awards[index]}。`);
+          q.logs.unshift(`${q.players[index].name} wins with ${HAND_NAMES[rank.category]}, taking ${awards[index]}.`);
         });
         if (awards[0] > 0) {
           q.stats.pots++;
@@ -942,7 +942,7 @@
         q.showdown = false;
         const amount = potTotal();
         q.players[winner].chips += amount;
-        q.logs.unshift(`${q.players[winner].name}赢得无人跟注的 ${amount} 筹码底池。`);
+        q.logs.unshift(`${q.players[winner].name} wins the uncalled ${amount} chip pot.`);
         if (winner === 0) q.stats.pots++;
         finishHand([winner]);
       }
@@ -954,9 +954,9 @@
         q.players.forEach((player, index) => {
           if (index > 0 && player.chips <= 0 && !player.out) {
             player.out = true;
-            player.tell = "筹码归零";
+            player.tell = "Out of chips";
             if (winners.includes(0)) q.stats.eliminations++;
-            q.logs.unshift(`${player.name}离开本桌。`);
+            q.logs.unshift(`${player.name} leaves the table.`);
           }
         });
         q.handEnded = true;
@@ -997,10 +997,10 @@
 
       function heroPosition() {
         if (!q) return "--";
-        if (q.dealer === 0) return "庄位";
-        if (q.smallBlindSeat === 0) return "小盲";
-        if (q.bigBlindSeat === 0) return "大盲";
-        return "枪口位";
+        if (q.dealer === 0) return "Dealer";
+        if (q.smallBlindSeat === 0) return "Small blind";
+        if (q.bigBlindSeat === 0) return "Big blind";
+        return "Under the gun";
       }
 
       function updateHeroEquity() {
@@ -1011,22 +1011,22 @@
 
       function cardHTML(card, hidden = false, small = false) {
         if (!card) return '<div class="card empty"></div>';
-        if (hidden) return '<div class="card back" aria-label="暗牌"></div>';
+        if (hidden) return '<div class="card back" aria-label="Hidden card"></div>';
         const red = card.s === 1 || card.s === 2;
         return `<div class="card ${red ? "red" : ""}" aria-label="${RANKS[card.r]}${SUITS[card.s]}">${RANKS[card.r]}${SUITS[card.s]}<br>${SUITS[card.s]}</div>`;
       }
 
       function renderSidebar() {
         $("starTotal").textContent = `${profile.stars.reduce((sum, value) => sum + value, 0)} / 9 ★`;
-        $("medalText").textContent = `${profile.medals.length} / 6 勋章`;
+        $("medalText").textContent = `${profile.medals.length} / 6 medals`;
         $("clearText").textContent = profile.clears;
         $("bestPotText").textContent = profile.biggestPot;
         $("runText").textContent = profile.runs;
-        $("soundBtn").textContent = `音效 ${profile.sound ? "开" : "关"}`;
+        $("soundBtn").textContent = `Sound ${profile.sound ? "On" : "Off"}`;
         $("soundBtn").setAttribute("aria-pressed", String(profile.sound));
         $("contractList").innerHTML = CONTRACTS.map((contract, index) => {
           const locked = index > profile.unlocked;
-          return `<button class="contract ${selected === index ? "active" : ""}" data-contract="${index}" ${locked || q?.mode === "playing" ? "disabled" : ""}><b>${index + 1}. ${contract.name}</b><span>${locked ? "锁定" : `${"★".repeat(profile.stars[index])}${"☆".repeat(3 - profile.stars[index])} · 最佳 ${profile.best[index] || "--"} 手`}</span></button>`;
+          return `<button class="contract ${selected === index ? "active" : ""}" data-contract="${index}" ${locked || q?.mode === "playing" ? "disabled" : ""}><b>${index + 1}. ${contract.name}</b><span>${locked ? "Locked" : `${"★".repeat(profile.stars[index])}${"☆".repeat(3 - profile.stars[index])} · Best ${profile.best[index] || "--"} hands`}</span></button>`;
         }).join("");
         $("contractList").querySelectorAll("[data-contract]").forEach((button) => button.onclick = () => {
           selected = +button.dataset.contract;
@@ -1037,26 +1037,26 @@
 
       function renderSeats() {
         if (!q) {
-          $("opponents").innerHTML = OPPONENTS.map((opponent) => `<div class="seat"><div class="seat-head"><b>${opponent.name}</b><span>${opponent.tag}</span></div><div class="cards">${cardHTML(null)}${cardHTML(null)}</div><div class="tell">等待入席</div></div>`).join("");
+          $("opponents").innerHTML = OPPONENTS.map((opponent) => `<div class="seat"><div class="seat-head"><b>${opponent.name}</b><span>${opponent.tag}</span></div><div class="cards">${cardHTML(null)}${cardHTML(null)}</div><div class="tell">Waiting to sit</div></div>`).join("");
           return;
         }
         $("opponents").innerHTML = q.players.slice(1).map((player, offset) => {
           const index = offset + 1;
           const reveal = q.showdown && !player.folded;
-          return `<div class="seat ${q.turn === index ? "turn" : ""} ${player.folded ? "folded" : ""} ${player.out ? "out" : ""}"><div class="seat-head"><b>${player.name}</b><span>${player.chips}</span></div><div class="cards">${cardHTML(player.hole?.[0], !reveal)}${cardHTML(player.hole?.[1], !reveal)}</div><div class="tell">${player.tell || "观察牌面"}</div></div>`;
+          return `<div class="seat ${q.turn === index ? "turn" : ""} ${player.folded ? "folded" : ""} ${player.out ? "out" : ""}"><div class="seat-head"><b>${player.name}</b><span>${player.chips}</span></div><div class="cards">${cardHTML(player.hole?.[0], !reveal)}${cardHTML(player.hole?.[1], !reveal)}</div><div class="tell">${player.tell || "Reading the board"}</div></div>`;
         }).join("");
       }
 
       function lobbyOverlay() {
         const contract = CONTRACTS[selected];
-        $("overlayCard").innerHTML = `<small class="eyebrow">${contract.venue}</small><h2>${contract.name}</h2><p class="subtle">${contract.brief}</p><div class="goals"><div class="goal"><span>夺得本桌冠军</span><b>★</b></div><div class="goal"><span>${contract.par} 手内夺冠</span><b>★</b></div><div class="goal"><span>亲手淘汰至少两席</span><b>★</b></div></div><p class="subtle">起始筹码 ${contract.stack} · 初始盲注 ${Math.max(5, contract.baseBlind / 2)}/${contract.baseBlind} · 每 ${contract.riseEvery} 手升级</p><div class="button-row"><button class="primary" id="startContractBtn">进入牌桌</button></div>`;
+        $("overlayCard").innerHTML = `<small class="eyebrow">${contract.venue}</small><h2>${contract.name}</h2><p class="subtle">${contract.brief}</p><div class="goals"><div class="goal"><span>Win this table</span><b>★</b></div><div class="goal"><span>${contract.par} hands to win</span><b>★</b></div><div class="goal"><span>Eliminate at least two seats yourself</span><b>★</b></div></div><p class="subtle">Starting chips ${contract.stack} · Starting blinds ${Math.max(5, contract.baseBlind / 2)}/${contract.baseBlind} · Every ${contract.riseEvery} hands the blinds rise</p><div class="button-row"><button class="primary" id="startContractBtn">Enter table</button></div>`;
         $("startContractBtn").onclick = () => startContract(selected);
       }
 
       function resultOverlay() {
         const result = q.result;
         const contract = CONTRACTS[q.contractIndex];
-        $("overlayCard").innerHTML = `<small class="eyebrow">${result.win ? "TABLE CLEARED" : "TOURNAMENT ENDED"}</small><h2>${result.win ? `${contract.name}冠军` : "筹码归零"}</h2><p>${result.win ? `${"★".repeat(result.stars)}${"☆".repeat(3 - result.stars)}` : "重新选择牌桌，调整入池与加注范围。"}</p><div class="goals"><div class="goal"><span>完赛手数</span><b>${result.hands}</b></div><div class="goal"><span>亲手淘汰</span><b>${result.eliminations}</b></div><div class="goal"><span>摊牌获胜</span><b>${result.showdownWins}</b></div><div class="goal"><span>最大底池</span><b>${result.biggestPot}</b></div></div><div class="button-row"><button class="primary" id="returnLobbyBtn">返回赛历</button><button id="retryContractBtn">重赛本桌</button></div>`;
+        $("overlayCard").innerHTML = `<small class="eyebrow">${result.win ? "TABLE CLEARED" : "TOURNAMENT ENDED"}</small><h2>${result.win ? `${contract.name} champion` : "Out of chips"}</h2><p>${result.win ? `${"★".repeat(result.stars)}${"☆".repeat(3 - result.stars)}` : "Pick a table again and adjust your entry and raise ranges."}</p><div class="goals"><div class="goal"><span>Hands played</span><b>${result.hands}</b></div><div class="goal"><span>Knockouts</span><b>${result.eliminations}</b></div><div class="goal"><span>Showdown wins</span><b>${result.showdownWins}</b></div><div class="goal"><span>Biggest pot</span><b>${result.biggestPot}</b></div></div><div class="button-row"><button class="primary" id="returnLobbyBtn">Back to calendar</button><button id="retryContractBtn">Replay this table</button></div>`;
         $("returnLobbyBtn").onclick = () => { q = null; selected = Math.min(profile.unlocked, selected + (result.win ? 1 : 0)); saveLocal(); draw(); };
         $("retryContractBtn").onclick = () => startContract(q.contractIndex);
       }
@@ -1072,20 +1072,20 @@
         $("positionText").textContent = q ? heroPosition() : "--";
         $("chipText").textContent = q ? q.players[0].chips : "--";
         $("potText").textContent = q ? potTotal() : 0;
-        $("streetText").textContent = q ? `${STREETS[Math.min(3, q.street)]} · 当前注额 ${q.currentBet}` : "牌桌待命";
+        $("streetText").textContent = q ? `${STREETS[Math.min(3, q.street)]} · Current bet ${q.currentBet}` : "Table on standby";
         $("board").innerHTML = Array.from({ length: 5 }, (_, index) => q ? cardHTML(q.board[index], index >= q.shown) : cardHTML(null)).join("");
         $("hole").innerHTML = q ? q.players[0].hole.map((card) => cardHTML(card)).join("") : `${cardHTML(null)}${cardHTML(null)}`;
         const hero = q?.players[0];
         const handRank = q && q.shown >= 3 ? best([...hero.hole, ...q.board.slice(0, q.shown)]) : null;
-        $("heroStatus").textContent = !q ? "等待入席" : hero.out ? "已淘汰" : `${hero.chips} 筹码 · ${handRank ? HAND_NAMES[handRank.category] : heroPosition()}`;
+        $("heroStatus").textContent = !q ? "Waiting to sit" : hero.out ? "Eliminated" : `${hero.chips} chips · ${handRank ? HAND_NAMES[handRank.category] : heroPosition()}`;
         $("equityText").textContent = q ? `${Math.round(q.heroEquity * 100)}%` : "--";
         $("heroSeat").classList.toggle("turn", q?.turn === 0 && !q.handEnded);
-        $("handLog").innerHTML = q ? q.logs.map((line) => `<div>• ${line}</div>`).join("") : "选择牌桌后开始巡回赛。";
+        $("handLog").innerHTML = q ? q.logs.map((line) => `<div>• ${line}</div>`).join("") : "Pick a table to start the tour.";
 
         const heroTurn = q?.mode === "playing" && !q.handEnded && q.turn === 0;
         $("actionPanel").style.visibility = heroTurn ? "visible" : "hidden";
         const cost = heroTurn ? callCost(0) : 0;
-        $("callBtn").textContent = cost ? `跟注 ${Math.min(cost, hero.chips)}` : "过牌";
+        $("callBtn").textContent = cost ? `Call ${Math.min(cost, hero.chips)}` : "Check";
         $("foldBtn").disabled = !heroTurn;
         $("callBtn").disabled = !heroTurn;
         $("allInBtn").disabled = !heroTurn || hero.chips <= 0;
@@ -1153,7 +1153,7 @@
       $("raiseRange").oninput = () => $("raiseValue").textContent = $("raiseRange").value;
       $("nextHandBtn").onclick = startHand;
       $("leaveBtn").onclick = () => {
-        if (q?.mode === "playing" && !confirm("结束当前锦标赛并返回赛历？")) return;
+        if (q?.mode === "playing" && !confirm("End the current tournament and return to the calendar?")) return;
         q = null;
         saveLocal();
         draw();
@@ -1169,10 +1169,10 @@
         $("archiveText").value = encode();
         try {
           await navigator.clipboard.writeText($("archiveText").value);
-          $("archiveFeedback").textContent = "档案已复制。";
+          $("archiveFeedback").textContent = "Record copied.";
         } catch {
           $("archiveText").select();
-          $("archiveFeedback").textContent = "档案已生成，请手动复制。";
+          $("archiveFeedback").textContent = "Record generated; please copy it by hand.";
         }
       };
       $("importBtn").onclick = () => {
@@ -1183,7 +1183,7 @@
           selected = q?.contractIndex ?? Math.min(profile.unlocked, 2);
           if (q) updateHeroEquity();
           saveLocal();
-          $("archiveFeedback").textContent = "档案已恢复。";
+          $("archiveFeedback").textContent = "Record restored.";
           draw();
         } catch (error) {
           $("archiveFeedback").textContent = error.message;

@@ -18,9 +18,9 @@
 
   // 三种作物：成本 / 生长周期（秒）/ 基准收购价
   const CROPS = {
-    wheat: { name: '小麦', cost: 6, time: 40, base: 12, dot: 'dot-wheat' },
-    corn: { name: '玉米', cost: 14, time: 75, base: 32, dot: 'dot-corn' },
-    strawberry: { name: '草莓', cost: 28, time: 120, base: 62, dot: 'dot-strawberry' }
+    wheat: { name: 'Wheat', cost: 6, time: 40, base: 12, dot: 'dot-wheat' },
+    corn: { name: 'Corn', cost: 14, time: 75, base: 32, dot: 'dot-corn' },
+    strawberry: { name: 'Strawberry', cost: 28, time: 120, base: 62, dot: 'dot-strawberry' }
   };
   const CROP_KEYS = ['wheat', 'corn', 'strawberry'];
 
@@ -249,8 +249,8 @@
     state.goalClaimed = false;
 
     if (active) {
-      if (state.weather === 'rain') toast('雨天降临，作物生长加速 50%', 'cyan');
-      if (state.harvestDay) toast('今日丰收日，收购价 x1.5', 'pink');
+      if (state.weather === 'rain') toast('Rain falls; crops grow 50% faster', 'cyan');
+      if (state.harvestDay) toast('Harvest day: sale prices x1.5', 'pink');
 
       // 每日虫害事件：稻草人显著降低概率
       const pestChance = state.scarecrow ? 0.1 : 0.34;
@@ -259,7 +259,7 @@
         const wave = 1 + Math.min(2, Math.floor((state.day - 1) / 3));
         infectPests(wave);
         const after = state.plots.filter(pl => pl.pest).length;
-        if (after > before) toast('虫害爆发，点击红色害虫除虫', 'pink');
+        if (after > before) toast('Pest outbreak! Click the red pests to clear them', 'pink');
       }
       refreshPanels();
     }
@@ -337,7 +337,7 @@
     const col = plotKey % MAX_COLS;
     const row = Math.floor(plotKey / MAX_COLS);
     const r = tileRect(col, row);
-    addFloater(r.x + r.t / 2, r.y + r.t - 8, '除虫完成', '#ff8fb0');
+    addFloater(r.x + r.t / 2, r.y + r.t - 8, 'Pests cleared', '#ff8fb0');
     sfx.plant();
     save();
   }
@@ -347,7 +347,7 @@
     if (!state.goalClaimed && state.dayEarned >= state.goal) {
       state.goalClaimed = true;
       state.gold += GOAL_REWARD;
-      toast('今日目标达成，奖励 +' + GOAL_REWARD + ' 金币', 'amber');
+      toast('Daily goal reached, reward +' + GOAL_REWARD + ' coins', 'amber');
       sfx.buy();
     }
   }
@@ -357,24 +357,24 @@
     if (kind === 'land') {
       const ex = nextExpansion();
       if (!ex) return;
-      if (state.gold < ex.cost) { sfx.error(); toast('金币不足，无法扩展耕地', 'pink'); return; }
+      if (state.gold < ex.cost) { sfx.error(); toast('Not enough coins to expand the fields', 'pink'); return; }
       state.gold -= ex.cost;
       state.cols = ex.nc;
       state.rows = ex.nr;
       computeGeo();
-      toast('新的耕地已开垦：' + ex.nc + ' x ' + ex.nr, 'cyan');
+      toast('New field cleared: ' + ex.nc + ' x ' + ex.nr, 'cyan');
     } else if (kind === 'sprinkler') {
       if (state.sprinkler) return;
-      if (state.gold < SPRINKLER_COST) { sfx.error(); toast('金币不足，无法购买洒水器', 'pink'); return; }
+      if (state.gold < SPRINKLER_COST) { sfx.error(); toast('Not enough coins to buy a sprinkler', 'pink'); return; }
       state.gold -= SPRINKLER_COST;
       state.sprinkler = true;
-      toast('洒水器开始运转，生长速度 +30%', 'cyan');
+      toast('Sprinkler is running, growth speed +30%', 'cyan');
     } else if (kind === 'scarecrow') {
       if (state.scarecrow) return;
-      if (state.gold < SCARECROW_COST) { sfx.error(); toast('金币不足，无法购买稻草人', 'pink'); return; }
+      if (state.gold < SCARECROW_COST) { sfx.error(); toast('Not enough coins to buy a scarecrow', 'pink'); return; }
       state.gold -= SCARECROW_COST;
       state.scarecrow = true;
-      toast('稻草人已就位，虫害大幅减少', 'cyan');
+      toast('Scarecrow in place; pests greatly reduced', 'cyan');
     }
     sfx.buy();
     refreshHUD();
@@ -385,7 +385,7 @@
 
   // 重新开始
   function restart() {
-    const ok = window.confirm('确定要清空当前存档，重新经营星空农场吗？');
+    const ok = window.confirm('Clear the current save and restart your Starry Farm?');
     if (!ok) return;
     try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* 忽略 */ }
     state = defaultState();
@@ -394,7 +394,7 @@
     computeGeo();
     refreshHUD();
     refreshPanels();
-    toast('新的农场已开启', 'cyan');
+    toast('A new farm has begun', 'cyan');
     save();
   }
 
@@ -441,11 +441,11 @@
     hudGold.textContent = String(state.gold);
     hudDay.textContent = String(state.day);
     if (state.weather === 'rain') {
-      hudWeather.textContent = '雨天';
+      hudWeather.textContent = 'Rainy';
       wIconSun.classList.add('hidden');
       wIconRain.classList.remove('hidden');
     } else {
-      hudWeather.textContent = '晴天';
+      hudWeather.textContent = 'Sunny';
       wIconSun.classList.remove('hidden');
       wIconRain.classList.add('hidden');
     }
@@ -461,24 +461,24 @@
       const price = Math.round(crop.base * f);
       const pct = Math.round((f - 1) * 100);
       let trendHtml;
-      if (pct >= 8) trendHtml = '<span class="goods-trend trend-up">涨 ' + pct + '%</span>';
-      else if (pct <= -8) trendHtml = '<span class="goods-trend trend-down">跌 ' + Math.abs(pct) + '%</span>';
-      else trendHtml = '<span class="goods-trend trend-flat">平稳 ' + (pct > 0 ? '+' : '') + pct + '%</span>';
+      if (pct >= 8) trendHtml = '<span class="goods-trend trend-up">Up ' + pct + '%</span>';
+      else if (pct <= -8) trendHtml = '<span class="goods-trend trend-down">Down ' + Math.abs(pct) + '%</span>';
+      else trendHtml = '<span class="goods-trend trend-flat">Steady ' + (pct > 0 ? '+' : '') + pct + '%</span>';
 
       const row = document.createElement('div');
       row.className = 'goods-row';
       row.innerHTML =
         '<div class="goods-info">' +
           '<div class="goods-name"><span class="dot ' + crop.dot + '"></span>' + crop.name + '</div>' +
-          '<div class="goods-sub">种子 ' + crop.cost + ' 金 · ' + crop.time + ' 秒成熟</div>' +
+          '<div class="goods-sub">Seed ' + crop.cost + ' gold · ' + crop.time + ' s to mature</div>' +
         '</div>' +
         '<span class="goods-price">' + price + '</span>' +
         trendHtml;
       marketList.appendChild(row);
     });
     const remain = Math.max(0, Math.ceil(DAY_LEN - state.dayElapsed));
-    marketFoot.textContent = '距第 ' + (state.day + 1) + ' 天还有 ' + remain + ' 秒 · 行情每日随机浮动 ±25%' +
-      (state.harvestDay ? ' · 今日售价额外 x1.5' : '');
+    marketFoot.textContent = 'Until day ' + (state.day + 1) + ' in ' + remain + ' s · Market prices fluctuate randomly ±25% each day' +
+      (state.harvestDay ? ' · Today\'s sale price an extra x1.5' : '');
   }
 
   function refreshShop() {
@@ -492,17 +492,17 @@
       const poor = state.gold < ex.cost;
       land.innerHTML =
         '<div class="shop-info">' +
-          '<div class="shop-name">扩展耕地</div>' +
-          '<div class="shop-desc">' + state.cols + ' x ' + state.rows + ' → ' + ex.nc + ' x ' + ex.nr + '，获得更多可种植格</div>' +
+          '<div class="shop-name">Expand Fields</div>' +
+          '<div class="shop-desc">' + state.cols + ' x ' + state.rows + ' → ' + ex.nc + ' x ' + ex.nr + ', unlock more plantable plots</div>' +
         '</div>' +
-        '<button class="btn-buy' + (poor ? ' is-poor' : '') + '" data-buy="land">' + ex.cost + ' 金</button>';
+        '<button class="btn-buy' + (poor ? ' is-poor' : '') + '" data-buy="land">' + ex.cost + ' gold</button>';
     } else {
       land.innerHTML =
         '<div class="shop-info">' +
-          '<div class="shop-name">扩展耕地</div>' +
-          '<div class="shop-desc">已扩展至上限 ' + MAX_COLS + ' x ' + MAX_ROWS + '</div>' +
+          '<div class="shop-name">Expand Fields</div>' +
+          '<div class="shop-desc">Expanded to the maximum ' + MAX_COLS + ' x ' + MAX_ROWS + '</div>' +
         '</div>' +
-        '<button class="btn-buy is-off" disabled>已满级</button>';
+        '<button class="btn-buy is-off" disabled>Maxed</button>';
     }
     shopList.appendChild(land);
 
@@ -511,15 +511,15 @@
     spr.className = 'shop-item';
     if (state.sprinkler) {
       spr.innerHTML =
-        '<div class="shop-info"><div class="shop-name">洒水器</div>' +
-        '<div class="shop-desc">所有作物生长速度 +30%</div></div>' +
-        '<button class="btn-buy is-off" disabled>已拥有</button>';
+        '<div class="shop-info"><div class="shop-name">Sprinkler</div>' +
+        '<div class="shop-desc">Growth speed +30% for all crops</div></div>' +
+        '<button class="btn-buy is-off" disabled>Owned</button>';
     } else {
       const poor = state.gold < SPRINKLER_COST;
       spr.innerHTML =
-        '<div class="shop-info"><div class="shop-name">洒水器</div>' +
-        '<div class="shop-desc">所有作物生长速度 +30%，日夜自动浇灌</div></div>' +
-        '<button class="btn-buy' + (poor ? ' is-poor' : '') + '" data-buy="sprinkler">' + SPRINKLER_COST + ' 金</button>';
+        '<div class="shop-info"><div class="shop-name">Sprinkler</div>' +
+        '<div class="shop-desc">Growth speed +30% for all crops, watering day and night</div></div>' +
+        '<button class="btn-buy' + (poor ? ' is-poor' : '') + '" data-buy="sprinkler">' + SPRINKLER_COST + ' gold</button>';
     }
     shopList.appendChild(spr);
 
@@ -528,15 +528,15 @@
     sc.className = 'shop-item';
     if (state.scarecrow) {
       sc.innerHTML =
-        '<div class="shop-info"><div class="shop-name">稻草人</div>' +
-        '<div class="shop-desc">大幅降低随机虫害发生概率</div></div>' +
-        '<button class="btn-buy is-off" disabled>已拥有</button>';
+        '<div class="shop-info"><div class="shop-name">Scarecrow</div>' +
+        '<div class="shop-desc">Greatly lowers the chance of random pest attacks</div></div>' +
+        '<button class="btn-buy is-off" disabled>Owned</button>';
     } else {
       const poor = state.gold < SCARECROW_COST;
       sc.innerHTML =
-        '<div class="shop-info"><div class="shop-name">稻草人</div>' +
-        '<div class="shop-desc">伫立田边，大幅降低虫害侵扰</div></div>' +
-        '<button class="btn-buy' + (poor ? ' is-poor' : '') + '" data-buy="scarecrow">' + SCARECROW_COST + ' 金</button>';
+        '<div class="shop-info"><div class="shop-name">Scarecrow</div>' +
+        'Stands by the field and greatly reduces pest trouble' +
+        '<button class="btn-buy' + (poor ? ' is-poor' : '') + '" data-buy="scarecrow">' + SCARECROW_COST + ' gold</button>';
     }
     shopList.appendChild(sc);
   }
@@ -547,10 +547,10 @@
     goalReward.textContent = String(GOAL_REWARD);
     goalFill.style.width = clamp(state.dayEarned / state.goal, 0, 1) * 100 + '%';
     if (state.goalClaimed) {
-      goalStatus.textContent = '已达成 · ' + GOAL_REWARD + ' 金币已发放';
+      goalStatus.textContent = 'Done · ' + GOAL_REWARD + ' coins paid out';
       goalStatus.classList.add('done');
     } else {
-      goalStatus.textContent = '目标进行中，继续收获吧';
+      goalStatus.textContent = 'Goal in progress; keep harvesting';
       goalStatus.classList.remove('done');
     }
   }
@@ -585,9 +585,9 @@
       btn.dataset.plant = key;
       btn.innerHTML =
         '<span class="cc-name"><span class="dot ' + crop.dot + '"></span>' + crop.name + '</span>' +
-        '<span class="cc-line">种子 <b>' + crop.cost + '</b> 金币</span>' +
-        '<span class="cc-line"><b>' + crop.time + '</b> 秒成熟</span>' +
-        '<span class="cc-line">今日约 <b>' + sellValue(key) + '</b> 金币</span>';
+        '<span class="cc-line">Seed <b>' + crop.cost + '</b> coins</span>' +
+        '<span class="cc-line"><b>' + crop.time + '</b> s to mature</span>' +
+        '<span class="cc-line">Today about <b>' + sellValue(key) + '</b> coins</span>';
       cropPop.appendChild(btn);
     });
     cropPop.classList.remove('hidden');
@@ -821,7 +821,7 @@
       ctx.fillStyle = 'rgba(255,255,255,0.4)';
       ctx.font = '11px system-ui, "Microsoft YaHei", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('开垦', er.x + er.t / 2, er.y + er.t * 0.86);
+      ctx.fillText('Cultivate', er.x + er.t / 2, er.y + er.t * 0.86);
       ctx.restore();
     }
   }
@@ -1358,7 +1358,7 @@
     // 点了扩展引导框 → 关闭弹层并提示去商店
     if (hitExpand(p.x, p.y)) {
       hidePopup();
-      toast('可在右侧商店开垦更多土地', 'cyan');
+      toast('Buy more land in the shop on the right', 'cyan');
       shopList.animate(
         [{ transform: 'scale(1)' }, { transform: 'scale(1.03)' }, { transform: 'scale(1)' }],
         { duration: 360 }
@@ -1385,7 +1385,7 @@
       const col = key % MAX_COLS;
       const row = Math.floor(key / MAX_COLS);
       const r = tileRect(col, row);
-      addFloater(r.x + r.t / 2, r.y + 8, '还剩 ' + left + ' 秒', '#9dffe6');
+      addFloater(r.x + r.t / 2, r.y + 8, 'Remaining ' + left + ' s', '#9dffe6');
       hidePopup();
       return;
     }
@@ -1424,7 +1424,7 @@
         infectPests(1);
         const after = state.plots.filter(pl => pl.pest).length;
         if (after > before) {
-          toast('一株作物遭虫了，快点击除虫', 'pink');
+          toast('A crop has pests! Click to clear them', 'pink');
           sfx.pest();
         }
       }
@@ -1517,7 +1517,7 @@
     if (!state.guideDone) guideOverlay.classList.remove('hidden');
 
     // 开局天气提示
-    if (state.weather === 'rain') window.setTimeout(() => toast('雨天，作物生长加速 50%', 'cyan'), 600);
+    if (state.weather === 'rain') window.setTimeout(() => toast('Rainy; crops grow 50% faster', 'cyan'), 600);
 
     save();
     requestAnimationFrame(frame);

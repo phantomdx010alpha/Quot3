@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "game": "merge-2048",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 438,
+      "zh": "达成 2048！",
+      "en": "You reached 2048!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 440,
+      "zh": "恭喜合成 2048！可以继续挑战，冲击 4096 甚至更高数字。",
+      "en": "Congratulations on merging 2048! Keep going and aim for 4096 or higher."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 442,
+      "zh": "新游戏",
+      "en": "New game"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 444,
+      "zh": "游戏结束",
+      "en": "Game over"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 446,
+      "zh": "棋盘已满且没有可合并的数字，最终得分 ",
+      "en": "The board is full and nothing can merge. Final score: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 446,
+      "zh": " 分。",
+      "en": "."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 448,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "合成数字 2048",
+      "en": "Merge Numbers 2048"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "当前分数",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "最高分",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "撤销",
+      "en": "Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 35,
+      "zh": "新游戏",
+      "en": "New game"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 41,
+      "zh": "2048 游戏棋盘",
+      "en": "2048 game board"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 52,
+      "zh": "继续挑战",
+      "en": "Keep going"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "方向键 / WASD / 触屏滑动移动方块 · 相同数字相撞合并翻倍 · 单次移动每个方块最多参与一次合并",
+      "en": "Arrow keys / WASD / swipe to move tiles · Equal numbers merge and double · Each tile can merge only once per move"
+    }
+  ]
+}

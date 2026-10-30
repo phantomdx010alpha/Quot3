@@ -1,0 +1,2143 @@
+{
+  "version": 1,
+  "game": "moba-frontier",
+  "entries": [
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 9,
+      "zh": "晶塔前线：群星赛季 V5",
+      "en": "Crystal Tower Frontline: Starry Season V5"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "attr",
+      "line": 675,
+      "zh": "晶塔前线游戏区",
+      "en": "Crystal Tower Frontline play area"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 678,
+      "zh": "晶塔前线",
+      "en": "Crystal Tower Frontline"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 678,
+      "zh": "群星赛季 V5",
+      "en": "Starry Season V5"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 680,
+      "zh": "待命",
+      "en": "Standby"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "attr",
+      "line": 688,
+      "zh": "音效开关",
+      "en": "Sound toggle"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 692,
+      "zh": "音",
+      "en": "On"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "attr",
+      "line": 697,
+      "zh": "暂停/继续",
+      "en": "Pause/Resume"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "attr",
+      "line": 705,
+      "zh": "重新开始",
+      "en": "Restart"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "attr",
+      "line": 714,
+      "zh": "晶塔前线战场画布",
+      "en": "Crystal Tower Frontline battlefield canvas"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 720,
+      "zh": "选择英雄与战场规则，三线带兵破塔；等级 2/4/6 选择星契，构筑本局战术，最终摧毁敌方晶核。",
+      "en": "Pick a hero and match rules, push three lanes with minions and break towers; choose Star Pacts at levels 2/4/6 to build your tactics and finally destroy the enemy crystal core."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 723,
+      "zh": "选择出战英雄",
+      "en": "Choose your hero"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 727,
+      "zh": "选择对局规则",
+      "en": "Choose match rules"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 731,
+      "zh": "赛季研究",
+      "en": "Season research"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 735,
+      "zh": "赛季勋章",
+      "en": "Season medals"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 739,
+      "zh": "晶屑 0 · 0 胜",
+      "en": "Shards 0 · 0 wins"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 740,
+      "zh": "导出存档码",
+      "en": "Export save code"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 741,
+      "zh": "导入存档码",
+      "en": "Import save code"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 744,
+      "zh": "开始对局",
+      "en": "Start match"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 750,
+      "zh": "胜利",
+      "en": "Victory"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 751,
+      "zh": "对局总结会显示在这里。",
+      "en": "The match summary will appear here."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 753,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 759,
+      "zh": "选择星契",
+      "en": "Choose a Star Pact"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 760,
+      "zh": "三选一强化只在本局生效。不同效果通过统一修饰器管线叠加。",
+      "en": "Pick one of three boosts that lasts this match only. Different effects stack through a unified modifier pipeline."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "attr",
+      "line": 767,
+      "zh": "晶塔前线状态栏",
+      "en": "Crystal Tower Frontline status bar"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 770,
+      "zh": "等级",
+      "en": "Level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 774,
+      "zh": "金币",
+      "en": "Gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 778,
+      "zh": "蓝晶核",
+      "en": "Blue core"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 782,
+      "zh": "赤晶核",
+      "en": "Red core"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 788,
+      "zh": "战术",
+      "en": "Tactics"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 792,
+      "zh": "远古晶兽",
+      "en": "Ancient Crystal Beast"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 793,
+      "zh": "可争夺",
+      "en": "Contestable"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 795,
+      "zh": "无增益",
+      "en": "No buff"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 802,
+      "zh": "技能",
+      "en": "Skills"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 807,
+      "zh": "星契构筑",
+      "en": "Star Pact build"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 812,
+      "zh": "补给",
+      "en": "Supplies"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 815,
+      "zh": "攻击校准",
+      "en": "Attack Calibration"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 815,
+      "zh": "90 金币",
+      "en": "90 gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 818,
+      "zh": "生命护符",
+      "en": "Life Charm"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 818,
+      "zh": "110 金币",
+      "en": "110 gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 821,
+      "zh": "冷却回路",
+      "en": "Cooldown Circuit"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 821,
+      "zh": "130 金币",
+      "en": "130 gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 824,
+      "zh": "汲取晶刃",
+      "en": "Siphon Crystal Blade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 824,
+      "zh": "150 金币",
+      "en": "150 gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 827,
+      "zh": "守望屏障",
+      "en": "Watchtower Barrier"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 827,
+      "zh": "160 金币",
+      "en": "160 gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 830,
+      "zh": "追风战靴",
+      "en": "Windrunner Boots"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 830,
+      "zh": "175 金币",
+      "en": "175 gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "text",
+      "line": 836,
+      "zh": "战况",
+      "en": "Battle log"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 895,
+      "zh": "蓝方",
+      "en": "Blue"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 895,
+      "zh": "赤方",
+      "en": "Red"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 895,
+      "zh": "中立",
+      "en": "Neutral"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 905,
+      "zh": "上路",
+      "en": "Top lane"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 916,
+      "zh": "中路",
+      "en": "Mid lane"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 927,
+      "zh": "下路",
+      "en": "Bot lane"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 940,
+      "zh": "河道锋芒",
+      "en": "River Edge"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 942,
+      "zh": "河道涌泉",
+      "en": "River Spring"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 948,
+      "zh": "蓝方秘印",
+      "en": "Blue Sigil"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 950,
+      "zh": "赤方秘印",
+      "en": "Red Sigil"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 960,
+      "zh": "苍蓝哨卫",
+      "en": "Azure Sentinel"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 973,
+      "zh": "余烬蛮兽",
+      "en": "Ember Brute"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 986,
+      "zh": "石甲守卫",
+      "en": "Stone Guard"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 999,
+      "zh": "赤纹魔像",
+      "en": "Red-Rune Golem"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1012,
+      "zh": "灵泉哨卫",
+      "en": "Spring Sentinel"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1025,
+      "zh": "古树灵",
+      "en": "Elder Treant"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1075,
+      "zh": "弧光刃",
+      "en": "Arc Blade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1076,
+      "zh": "相位步",
+      "en": "Phase Step"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1077,
+      "zh": "星沼",
+      "en": "Star Mire"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1078,
+      "zh": "晶陨",
+      "en": "Crystal Fall"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1082,
+      "zh": "星刃",
+      "en": "Star Blade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1085,
+      "zh": "均衡近战，技能命中稳定。",
+      "en": "Balanced melee; reliable skill hits."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1095,
+      "zh": "森弦",
+      "en": "Woodstring"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1098,
+      "zh": "远程游击，普攻汲取生命。",
+      "en": "Ranged skirmisher; basic attacks siphon life."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1099,
+      "zh": "穿林矢",
+      "en": "Woodpiercer"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1099,
+      "zh": "风行步",
+      "en": "Windrunner Step"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1099,
+      "zh": "荆棘域",
+      "en": "Thorn Domain"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1099,
+      "zh": "星雨",
+      "en": "Star Rain"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1109,
+      "zh": "曜盾",
+      "en": "Radiant Shield"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1112,
+      "zh": "重装前排，护盾和控制更强。",
+      "en": "Heavy front-liner with stronger shields and control."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1113,
+      "zh": "盾锋",
+      "en": "Shield Edge"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1113,
+      "zh": "壁垒跃迁",
+      "en": "Bulwark Leap"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1113,
+      "zh": "镇守领域",
+      "en": "Guardian Domain"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1113,
+      "zh": "天穹坠盾",
+      "en": "Skyfall Shield"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1124,
+      "zh": "霜术士",
+      "en": "Frost Mage"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1127,
+      "zh": "高能法师，范围技能显著强化。",
+      "en": "High-energy mage; area skills greatly strengthened."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1128,
+      "zh": "霜晶矛",
+      "en": "Frost Lance"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1128,
+      "zh": "冰镜步",
+      "en": "Ice Mirror Step"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1128,
+      "zh": "冻星沼",
+      "en": "Frozen Star Mire"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1128,
+      "zh": "极昼晶陨",
+      "en": "Midnight Sun Fall"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1138,
+      "zh": "隙影",
+      "en": "Rift Shade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1141,
+      "zh": "高机动刺客，暴击与追击能力突出。",
+      "en": "High-mobility assassin with standout crits and chasing."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1142,
+      "zh": "裂隙刃",
+      "en": "Rift Blade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1142,
+      "zh": "影跃",
+      "en": "Shadow Leap"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1142,
+      "zh": "蚀星域",
+      "en": "Eclipse Domain"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1142,
+      "zh": "终夜坠击",
+      "en": "Endnight Strike"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1153,
+      "zh": "曦织",
+      "en": "Dawnweaver"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1156,
+      "zh": "支援法师，持续恢复并强化范围护盾。",
+      "en": "Support mage; sustained healing and stronger area shields."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1157,
+      "zh": "晨辉矛",
+      "en": "Dawn Lance"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1157,
+      "zh": "光织步",
+      "en": "Light-Weave Step"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1157,
+      "zh": "复苏星域",
+      "en": "Revival Domain"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1157,
+      "zh": "黎明晶陨",
+      "en": "Daybreak Crystal Fall"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1171,
+      "zh": "标准征服",
+      "en": "Standard Conquest"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1173,
+      "zh": "完整三线、野区与晶兽节奏。",
+      "en": "Full three lanes, jungle and crystal beast tempo."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1181,
+      "zh": "闪击战",
+      "en": "Blitz"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1183,
+      "zh": "防御塔较脆，兵线刷新加快。",
+      "en": "Towers are fragile and minion waves spawn faster."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1192,
+      "zh": "铁壁排位",
+      "en": "Ironwall Ranked"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1194,
+      "zh": "敌方英雄强化，胜利晶屑更多。",
+      "en": "Enemy heroes are strengthened; wins give more shards."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1202,
+      "zh": "双兽裂谷",
+      "en": "Twin Beast Rift"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1204,
+      "zh": "两只远古晶兽同时争夺，战场更混乱。",
+      "en": "Two ancient crystal beasts contested at once for a more chaotic map."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1213,
+      "zh": "晶核闪袭",
+      "en": "Core Strike"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1215,
+      "zh": "塔防显著削弱、经济加速，十分钟内决胜。",
+      "en": "Towers greatly weakened and economy accelerated; decided within ten minutes."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1224,
+      "zh": "群星天梯",
+      "en": "Starry Ladder"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1226,
+      "zh": "敌军、塔与晶兽全面强化，最高赛季收益。",
+      "en": "Enemy units, towers and beasts are all strengthened; the highest season rewards."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1237,
+      "zh": "英雄校准",
+      "en": "Hero Calibration"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1238,
+      "zh": "每级攻击 +2%",
+      "en": "+2% attack per level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1243,
+      "zh": "晶甲共鸣",
+      "en": "Crystal Armor Resonance"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1244,
+      "zh": "每级生命 +2%",
+      "en": "+2% life per level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1249,
+      "zh": "赛季通行证",
+      "en": "Season Pass"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1250,
+      "zh": "每级晶屑 +8%",
+      "en": "+8% shards per level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1255,
+      "zh": "开局补给",
+      "en": "Opening Supplies"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1256,
+      "zh": "每级初始金币 +18",
+      "en": "+18 starting gold per level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1261,
+      "zh": "重构舱",
+      "en": "Rebuild Chamber"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1262,
+      "zh": "每级复活时间 -8%",
+      "en": "-8% respawn time per level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1267,
+      "zh": "晶兽共鸣",
+      "en": "Beast Resonance"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1268,
+      "zh": "每级团队晶潮 +6 秒",
+      "en": "+6 seconds of team crystal tide per level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1315,
+      "zh": "刃脉回路",
+      "en": "Blade Vein Circuit"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1317,
+      "zh": "锋锐",
+      "en": "Sharp"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1319,
+      "zh": "普攻伤害 +18%，暴击率 +8%。",
+      "en": "Basic attack damage +18%, crit chance +8%."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1323,
+      "zh": "虚空处决",
+      "en": "Void Execution"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1325,
+      "zh": "终结",
+      "en": "Finisher"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1327,
+      "zh": "目标低于 28% 生命时，伤害额外 +32%。",
+      "en": "Deals an extra +32% damage to targets below 28% life."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1331,
+      "zh": "彗星矩阵",
+      "en": "Comet Matrix"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1333,
+      "zh": "术式",
+      "en": "Spell"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1335,
+      "zh": "技能伤害 +20%，范围技能半径 +12%。",
+      "en": "Skill damage +20%, area skill radius +12%."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1339,
+      "zh": "以太循环",
+      "en": "Aether Loop"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1341,
+      "zh": "回路",
+      "en": "Circuit"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1343,
+      "zh": "冷却恢复 +18%，技能能量消耗 -18%。",
+      "en": "Cooldown recovery +18%, skill energy cost -18%."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1347,
+      "zh": "相位引擎",
+      "en": "Phase Engine"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1349,
+      "zh": "机动",
+      "en": "Mobility"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1351,
+      "zh": "移动速度 +14%；每次施法获得 42 点短暂护盾。",
+      "en": "Move speed +14%; each cast grants a brief 42-point shield."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1355,
+      "zh": "猩红晶核",
+      "en": "Crimson Core"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1357,
+      "zh": "续航",
+      "en": "Sustain"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1359,
+      "zh": "获得 7% 汲取；参与击败主要目标恢复 10% 生命。",
+      "en": "Gain 7% siphon; helping defeat a major objective restores 10% life."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1363,
+      "zh": "棱晶壁垒",
+      "en": "Prism Bulwark"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1365,
+      "zh": "守御",
+      "en": "Defense"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1367,
+      "zh": "承受伤害 -14%；每局可抵挡一次致命伤。",
+      "en": "Damage taken -14%; once per match, block a lethal hit."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1371,
+      "zh": "守望回响",
+      "en": "Watchtower Echo"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1375,
+      "zh": "每次施法获得 80 点护盾；符印效果 +20%。",
+      "en": "Each cast grants an 80-point shield; sigil effects +20%."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1379,
+      "zh": "破城协议",
+      "en": "Siege Protocol"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1381,
+      "zh": "攻城",
+      "en": "Siege"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1383,
+      "zh": "对防御塔与晶核伤害 +42%，蓝方兵线伤害 +18%。",
+      "en": "Damage to towers and cores +42%, blue minion damage +18%."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1387,
+      "zh": "晶兽盟约",
+      "en": "Beast Pact"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1389,
+      "zh": "目标",
+      "en": "Objective"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1391,
+      "zh": "对远古晶兽伤害 +50%，晶潮推进延长 12 秒。",
+      "en": "Damage to ancient crystal beasts +50%; crystal tide push lasts 12 seconds longer."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1395,
+      "zh": "兵线网络",
+      "en": "Lane Network"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1397,
+      "zh": "指挥",
+      "en": "Command"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1399,
+      "zh": "蓝方兵线伤害 +24%、移动速度 +15%。",
+      "en": "Blue minion damage +24%, move speed +15%."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1403,
+      "zh": "赏金透镜",
+      "en": "Bounty Lens"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1405,
+      "zh": "经济",
+      "en": "Economy"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1407,
+      "zh": "获得金币 +24%；击败主要目标返还技能冷却 2 秒。",
+      "en": "Gold gained +24%; defeating a major objective refunds 2 seconds of skill cooldown."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1412,
+      "zh": "前线初捷",
+      "en": "First Blood on the Front"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1412,
+      "zh": "赢得任意一局",
+      "en": "Win any match"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1413,
+      "zh": "无暇晶甲",
+      "en": "Flawless Crystal Armor"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1413,
+      "zh": "零阵亡获胜",
+      "en": "Win with zero deaths"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1414,
+      "zh": "双兽猎手",
+      "en": "Twin Beast Hunter"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1414,
+      "zh": "单局击败 2 只晶兽",
+      "en": "Defeat 2 crystal beasts in one match"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1415,
+      "zh": "三线破城",
+      "en": "Three-Lane Siege"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1415,
+      "zh": "单局摧毁 3 座敌塔",
+      "en": "Destroy 3 enemy towers in one match"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1416,
+      "zh": "星契成型",
+      "en": "Pact Formed"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1416,
+      "zh": "携带 3 项星契获胜",
+      "en": "Win carrying 3 Star Pacts"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1417,
+      "zh": "百战档案",
+      "en": "Hundred-Battle Record"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1417,
+      "zh": "累计完成 10 场",
+      "en": "Complete 10 matches in total"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1584,
+      "zh": "存档码校验失败",
+      "en": "Save code verification failed"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1592,
+      "zh": "不是晶塔前线存档",
+      "en": "Not a Crystal Tower Frontline save"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1606,
+      "zh": "群星王者",
+      "en": "Starry King"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1607,
+      "zh": "曜晶大师",
+      "en": "Radiant Master"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1608,
+      "zh": "星辉钻石",
+      "en": "Starlight Diamond"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1609,
+      "zh": "苍蓝黄金",
+      "en": "Azure Gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1610,
+      "zh": "白银先锋",
+      "en": "Silver Vanguard"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1611,
+      "zh": "青铜新星",
+      "en": "Bronze Rookie"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1618,
+      "zh": "<br>熟练 ",
+      "en": "<br>Mastery "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1618,
+      "zh": " 场</span></button>",
+      "en": " matches</span></button>"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1624,
+      "zh": "<br>胜场 ",
+      "en": "<br>Wins "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1632,
+      "zh": "已满级",
+      "en": "Max level"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1632,
+      "zh": "晶屑 ",
+      "en": "Shards "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1638,
+      "zh": " · 已获得",
+      "en": " · Earned"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1638,
+      "zh": " · 奖励 ",
+      "en": " · Reward "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1638,
+      "zh": " 晶屑",
+      "en": " shards"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1644,
+      "zh": "分 · 晶屑 ",
+      "en": " pts · Shards "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1644,
+      "zh": "胜/",
+      "en": " W/"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1644,
+      "zh": "场 · 勋章 ",
+      "en": " games · Medals "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1644,
+      "zh": " · 最高评价 ",
+      "en": " · Best grade "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1745,
+      "zh": "待命",
+      "en": "Standby"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1749,
+      "zh": "晶潮推进",
+      "en": "Crystal Tide Push"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1867,
+      "zh": "音",
+      "en": "On"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1867,
+      "zh": "静",
+      "en": "Off"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1908,
+      "zh": "等级 ",
+      "en": "Level "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1908,
+      "zh": " · 选择第 ",
+      "en": " · Pick Star Pact "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1908,
+      "zh": " 项星契",
+      "en": " of 3"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1909,
+      "zh": "三选一强化只在本局生效；乘法、加法与触发效果由统一修饰器管线结算。",
+      "en": "Pick one of three boosts that lasts this match only; multiplicative, additive and triggered effects are resolved by a unified modifier pipeline."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1913,
+      "zh": "星契 · 点击装配</em></button>",
+      "en": " Star Pact · click to equip</em></button>"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1949,
+      "zh": "装配星契 · ",
+      "en": "Equipped Star Pact · "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 1985,
+      "zh": "兵线集结",
+      "en": "Minion wave assembling"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2014,
+      "zh": "蓝方晶塔上线",
+      "en": "Blue crystal tower online"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2015,
+      "zh": "赤方守军出动",
+      "en": "Red defenders dispatched"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2016,
+      "zh": "对局开始",
+      "en": "Match start"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2029,
+      "zh": "巡林者",
+      "en": "Ranger"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2039,
+      "zh": "赤锋",
+      "en": "Redblade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2047,
+      "zh": "铁哨",
+      "en": "Iron Sentry"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2180,
+      "zh": "远古晶兽",
+      "en": "Ancient Crystal Beast"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2207,
+      "zh": "裂界晶兽",
+      "en": "Rift Crystal Beast"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2219,
+      "zh": "上路外塔",
+      "en": "Top outer tower"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2220,
+      "zh": "中路外塔",
+      "en": "Mid outer tower"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2221,
+      "zh": "下路外塔",
+      "en": "Bot outer tower"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2250,
+      "zh": "蓝晶核",
+      "en": "Blue core"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2268,
+      "zh": "赤晶核",
+      "en": "Red core"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2319,
+      "zh": "第 ",
+      "en": "Wave "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2321,
+      "zh": " 波兵线抵达",
+      "en": " minions arrived"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2322,
+      "zh": " · 精英兵出动",
+      "en": " · Elite minions dispatched"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2324,
+      "zh": "精英兵线刷新",
+      "en": "Elite minion wave spawned"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2324,
+      "zh": "兵线刷新",
+      "en": "Minion wave spawned"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2734,
+      "zh": " 重新出现",
+      "en": " respawned"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2856,
+      "zh": "锁定 ",
+      "en": "Locked "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2859,
+      "zh": "基地告急 · 下一波 ",
+      "en": "Base in danger · Next wave "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2862,
+      "zh": "压制赤方 · 下一波 ",
+      "en": "Pressuring Red · Next wave "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 2867,
+      "zh": " 波 · 下一波 ",
+      "en": " · Next wave "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3013,
+      "zh": "普攻",
+      "en": "Attack",
+      "risky": true,
+      "note": "compared in code (name !== plain-attack label at the damage function); every occurrence of this literal is replaced together"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3062,
+      "zh": "暴击",
+      "en": "Crit"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3107,
+      "zh": "棱晶不屈",
+      "en": "Prism Resolve"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3108,
+      "zh": "棱晶壁垒抵挡致命伤",
+      "en": "Prism Bulwark blocked a lethal hit"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3151,
+      "zh": " 被摧毁",
+      "en": " destroyed"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3185,
+      "zh": "兵线",
+      "en": "Minions"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3185,
+      "zh": " 击败 ",
+      "en": " defeated "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3200,
+      "zh": "余烬",
+      "en": "Ember"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3201,
+      "zh": "获得余烬增伤",
+      "en": "Gained Ember damage boost"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3207,
+      "zh": "苍蓝",
+      "en": "Azure"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3208,
+      "zh": "获得苍蓝回能",
+      "en": "Gained Azure energy recovery"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3214,
+      "zh": "石甲",
+      "en": "Stone"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3215,
+      "zh": "获得石甲护盾",
+      "en": "Gained Stone shield"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3222,
+      "zh": " 被击败",
+      "en": " defeated"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3237,
+      "zh": "晶潮",
+      "en": "Crystal Tide"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3241,
+      "zh": "，获得晶潮推进",
+      "en": ", gaining Crystal Tide push"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3243,
+      "zh": "晶潮推进已激活",
+      "en": "Crystal Tide push activated"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3304,
+      "zh": "等级提升 ",
+      "en": "Level up "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3329,
+      "zh": " 回到战场",
+      "en": " returned to the battlefield"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3354,
+      "zh": "R 技能需要 3 级",
+      "en": "R skill requires level 3"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3358,
+      "zh": " 冷却中",
+      "en": " on cooldown"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3362,
+      "zh": "能量不足",
+      "en": "Not enough energy"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3367,
+      "zh": "选择 ",
+      "en": "Select "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3367,
+      "zh": " 落点",
+      "en": " target spot"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3367,
+      "zh": "取消技能",
+      "en": "Cancel skill"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3532,
+      "zh": "金币不足",
+      "en": "Not enough gold"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3538,
+      "zh": "攻击提升",
+      "en": "Attack up"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3542,
+      "zh": "生命提升",
+      "en": "Life up"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3545,
+      "zh": "冷却加速",
+      "en": "Cooldown faster"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3548,
+      "zh": "汲取效果提升",
+      "en": "Siphon effect up"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3554,
+      "zh": "守望屏障展开",
+      "en": "Watchtower barrier deployed"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3557,
+      "zh": "移动速度提升",
+      "en": "Move speed up"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3672,
+      "zh": "胜利",
+      "en": "Victory"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3672,
+      "zh": "失败",
+      "en": "Defeat"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3672,
+      "zh": " 评价",
+      "en": " grade"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3674,
+      "zh": " · 新勋章 ",
+      "en": " · New medals "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3674,
+      "zh": "、",
+      "en": ", "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " · 用时 ",
+      "en": " · Time "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " · 击败 ",
+      "en": " · Kills "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " / 阵亡 ",
+      "en": " / Deaths "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " · 破塔 ",
+      "en": " · Towers "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " / 晶兽 ",
+      "en": " / Beasts "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " · 星契 ",
+      "en": " · Pacts "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " · 获得 ",
+      "en": " · Earned "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3676,
+      "zh": " 晶屑 · 天梯 ",
+      "en": " shards · Ladder "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3678,
+      "zh": "赤晶核被摧毁",
+      "en": "Red core destroyed"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3678,
+      "zh": "蓝晶核被摧毁",
+      "en": "Blue core destroyed"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3768,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3802,
+      "zh": "<div class=\"augment-chip\">等级 ",
+      "en": "<div class=\"augment-chip\">Level "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3804,
+      "zh": " · 不屈 ",
+      "en": " · Resolve "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3819,
+      "zh": "余烬 ",
+      "en": "Ember "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3821,
+      "zh": "苍蓝 ",
+      "en": "Azure "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3823,
+      "zh": "石甲 ",
+      "en": "Stone "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3827,
+      "zh": "无增益",
+      "en": "No buff"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3830,
+      "zh": "未出现",
+      "en": "Not spawned"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3837,
+      "zh": "可争夺 · 击败强化兵线",
+      "en": "Contestable · defeat the empowered minions"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3838,
+      "zh": "刷新 ",
+      "en": "Respawns "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3847,
+      "zh": "蓝方推进",
+      "en": "Blue pushing"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3849,
+      "zh": "赤方推进",
+      "en": "Red pushing"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3850,
+      "zh": "均势",
+      "en": "Even"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3950,
+      "zh": "3 级解锁",
+      "en": "Unlocks at level 3"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 3950,
+      "zh": " 能量",
+      "en": " energy"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4670,
+      "zh": "复活 ",
+      "en": "Respawn "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4888,
+      "zh": "生命",
+      "en": "Life"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4897,
+      "zh": "能量",
+      "en": "Energy"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4906,
+      "zh": "经验",
+      "en": "XP"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4943,
+      "zh": "晶兽 ",
+      "en": "Beast "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4944,
+      "zh": "晶兽刷新 ",
+      "en": "Beast respawn "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4945,
+      "zh": "晶兽未出现",
+      "en": "Beast not spawned"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4950,
+      "zh": "晶潮 ",
+      "en": "Crystal Tide "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 4994,
+      "zh": " 波",
+      "en": " underway"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5001,
+      "zh": " · 下一波 ",
+      "en": " · Next wave "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5050,
+      "zh": "锁定",
+      "en": "Locked"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5226,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5292,
+      "zh": "晶塔前线存档码（已尝试复制，可在其他设备导入）",
+      "en": "Crystal Tower Frontline save code (copy attempted; import on another device)"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5295,
+      "zh": "粘贴晶塔前线存档码：",
+      "en": "Paste Crystal Tower Frontline save code:"
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5299,
+      "zh": "存档导入成功，赛季成长与纪录已恢复。",
+      "en": "Import successful; season progress and records restored."
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5301,
+      "zh": "导入失败：",
+      "en": "Import failed: "
+    },
+    {
+      "file": "moba-frontier.html",
+      "kind": "js",
+      "line": 5403,
+      "zh": "调试重击",
+      "en": "Debug heavy strike"
+    }
+  ]
+}

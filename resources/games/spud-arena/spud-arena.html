@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -7,7 +7,7 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <meta name="theme-color" content="#111a16" />
-    <title>薯仔突围：丰收行动</title>
+    <title>Spud Breakout: Harvest Operation</title>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23111915'/%3E%3Cellipse cx='32' cy='34' rx='21' ry='24' fill='%23d7aa5d'/%3E%3Ccircle cx='25' cy='29' r='3'/%3E%3Ccircle cx='40' cy='29' r='3'/%3E%3Cpath d='M23 43c6 5 13 5 19 0' stroke='%23111915' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"
@@ -837,44 +837,44 @@
     <main class="app">
       <header class="topbar">
         <div class="brand">
-          <div class="logo">薯</div>
+          <div class="logo">S</div>
           <div>
-            <h1>薯仔突围 <b>丰收季 V3</b></h1>
-            <p>六战薯 · 六行动区 · 十二武器 · 营地任务</p>
+            <h1>Spud Breakout <b>Harvest Season V3</b></h1>
+            <p>Six fighter spuds · six operation zones · twelve weapons · camp missions</p>
           </div>
         </div>
         <div class="actions">
-          <button class="icon-btn" id="speedBtn" title="倍速">1×</button
-          ><button class="icon-btn" id="pauseBtn" title="暂停">Ⅱ</button
-          ><button class="btn" id="homeBtn">行动营地</button
-          ><button class="icon-btn" id="restartBtn" title="重开">↻</button>
+          <button class="icon-btn" id="speedBtn" title="Speed">1×</button
+          ><button class="icon-btn" id="pauseBtn" title="Pause">Ⅱ</button
+          ><button class="btn" id="homeBtn">Operation camp</button
+          ><button class="icon-btn" id="restartBtn" title="Restart">↻</button>
         </div>
       </header>
       <div class="layout">
         <section class="arena">
           <div class="hud">
             <div class="timer">
-              <span>行动时间</span><strong id="timeStat">00:00</strong>
+              <span>Operation time</span><strong id="timeStat">00:00</strong>
             </div>
             <div class="hp">
-              <span>气血 / 护盾</span><strong id="hpStat">60/60</strong>
+              <span>HP / Shield</span><strong id="hpStat">60/60</strong>
             </div>
-            <div><span>等级</span><strong id="levelStat">1</strong></div>
-            <div><span>击倒</span><strong id="killStat">0</strong></div>
-            <div><span>晶薯</span><strong id="crystalStat">0</strong></div>
-            <div><span>阶段</span><strong id="stageStat">1</strong></div>
+            <div><span>Level</span><strong id="levelStat">1</strong></div>
+            <div><span>Kills</span><strong id="killStat">0</strong></div>
+            <div><span>Gems</span><strong id="crystalStat">0</strong></div>
+            <div><span>Stage</span><strong id="stageStat">1</strong></div>
           </div>
           <div class="canvas-wrap">
-            <canvas id="gameCanvas" aria-label="薯仔突围战场"></canvas>
-            <div class="banner" id="banner">阶段开始</div>
+            <canvas id="gameCanvas" aria-label="Spud Breakout battlefield"></canvas>
+            <div class="banner" id="banner">Stage start</div>
             <div class="progress">
               <div><i id="runBar"></i></div>
-              <span id="runText">选择行动</span>
+              <span id="runText">Choose operation</span>
             </div>
             <button class="dash-btn" id="dashBtn">
-              冲刺<small>Shift</small></button
+              Dash<small>Shift</small></button
             ><button class="skill-btn" id="skillBtn" disabled>
-              战技<small id="skillText">0%</small>
+              Skill<small id="skillText">0%</small>
             </button>
             <div class="joystick" id="joystick"><i id="joystickThumb"></i></div>
             <div class="overlay" id="homeOverlay">
@@ -882,54 +882,54 @@
                 <div id="setupView">
                   <div class="overlay-title">
                     <div>
-                      <h2>丰收行动：<b>整装出发</b></h2>
+                      <h2>Harvest operation:<b>Gear up</b></h2>
                       <p>
-                        选择战薯与行动区域；击败敌人，把晶薯带回营地强化下一轮。
+                        Pick a fighter spud and an operation zone; defeat enemies and bring gems back to camp to power up the next run.
                       </p>
                     </div>
-                    <div class="save-pill" id="savePill">营地晶薯 0</div>
+                    <div class="save-pill" id="savePill">Camp gems 0</div>
                   </div>
                   <div class="setup-grid">
                     <section class="setup-section">
-                      <h3>选择战薯</h3>
+                      <h3>Choose fighter</h3>
                       <div class="hero-grid" id="heroGrid"></div>
                     </section>
                     <section class="setup-section">
-                      <h3>选择行动</h3>
+                      <h3>Choose operation</h3>
                       <div class="op-grid" id="opGrid"></div>
                     </section>
                     <section class="setup-section">
-                      <h3>危险度</h3>
+                      <h3>Danger</h3>
                       <div class="danger-row" id="dangerGrid"></div>
                     </section>
                     <section class="setup-section">
-                      <h3>营地永久强化</h3>
+                      <h3>Permanent camp upgrades</h3>
                       <div class="camp" id="campGrid"></div>
                     </section>
                     <section class="setup-section" style="grid-column: 1 / -1">
-                      <h3>丰收档案</h3>
+                      <h3>Harvest log</h3>
                       <div class="danger-row" id="archiveGrid"></div>
                     </section>
                   </div>
                   <div class="start-row">
-                    <button class="btn" id="exportSaveBtn">导出存档码</button>
-                    <button class="btn" id="importSaveBtn">导入存档码</button>
-                    <button class="btn primary" id="startBtn">开始突围</button>
+                    <button class="btn" id="exportSaveBtn">Export save code</button>
+                    <button class="btn" id="importSaveBtn">Import save code</button>
+                    <button class="btn primary" id="startBtn">Start breakout</button>
                   </div>
                 </div>
                 <div class="result" id="resultView">
-                  <h2 id="resultTitle">行动结束</h2>
+                  <h2 id="resultTitle">Operation over</h2>
                   <p id="resultText"></p>
                   <div class="result-grid">
-                    <div><b id="resultTime">00:00</b><span>存活</span></div>
-                    <div><b id="resultKills">0</b><span>击倒</span></div>
-                    <div><b id="resultCores">0</b><span>带回晶薯</span></div>
-                    <div><b id="resultBoss">0</b><span>首领</span></div>
+                    <div><b id="resultTime">00:00</b><span>Survived</span></div>
+                    <div><b id="resultKills">0</b><span>Kills</span></div>
+                    <div><b id="resultCores">0</b><span>Gems brought back</span></div>
+                    <div><b id="resultBoss">0</b><span>Boss</span></div>
                   </div>
                   <div class="start-row" style="justify-content: center">
-                    <button class="btn" id="againBtn">同配置再战</button
+                    <button class="btn" id="againBtn">Replay same setup</button
                     ><button class="btn primary" id="resultHomeBtn">
-                      返回营地
+                      Back to camp
                     </button>
                   </div>
                 </div>
@@ -942,29 +942,29 @@
             <div class="objective">
               <div class="objective-icon" id="opIcon">🌱</div>
               <div>
-                <b id="opTitle">行动待命</b
-                ><small id="opText">在营地选择一次行动</small>
+                <b id="opTitle">Operation standby</b
+                ><small id="opText">Pick an operation at camp</small>
               </div>
             </div>
             <div class="bar"><i id="skillBar"></i></div>
           </section>
           <section class="card">
             <div class="card-head">
-              <strong>武器构筑</strong
+              <strong>Weapon build</strong
               ><span class="eyebrow" id="weaponSlots">0/6</span>
             </div>
             <div class="chips" id="weaponList"></div>
           </section>
           <section class="card">
             <div class="card-head">
-              <strong>战斗属性</strong
-              ><span class="eyebrow" id="relicCount">0 遗物</span>
+              <strong>Combat stats</strong
+              ><span class="eyebrow" id="relicCount">0 relics</span>
             </div>
             <div class="stats" id="statList"></div>
           </section>
           <section class="card log-card">
             <div class="card-head">
-              <strong>战况记录</strong><span class="eyebrow">LIVE</span>
+              <strong>Battle log</strong><span class="eyebrow">LIVE</span>
             </div>
             <ol class="log" id="logList"></ol>
           </section>
@@ -973,12 +973,12 @@
     </main>
     <div class="modal hidden" id="upgradeModal">
       <div class="modal-card">
-        <span class="eyebrow" id="modalKicker">等级提升</span>
-        <h2 id="modalTitle">选择一项强化</h2>
+        <span class="eyebrow" id="modalKicker">Level up</span>
+        <h2 id="modalTitle">Choose a boost</h2>
         <div class="upgrade-grid" id="upgradeChoices"></div>
         <div class="modal-actions">
-          <button class="btn" id="rerollBtn">重抽（3）</button
-          ><button class="btn" id="healSkipBtn">转化为 15% 治疗</button>
+          <button class="btn" id="rerollBtn">Reroll (3)</button
+          ><button class="btn" id="healSkipBtn">Convert to 15% heal</button>
         </div>
       </div>
     </div>
@@ -1016,114 +1016,114 @@
         MAX_WEAPONS = 6;
       const HEROES = {
         captain: {
-          name: "原皮队长",
+          name: "Plain-Skin Captain",
           icon: "🥔",
-          desc: "均衡可靠 · 战技震荡全场",
+          desc: "Balanced and reliable · Skill shocks the whole field",
           hp: 68,
           speed: 250,
           weapons: ["twig", "pan"],
-          skill: "薯能震荡",
+          skill: "Spud Surge",
         },
         scout: {
-          name: "脆皮斥候",
+          name: "Thin-Skin Scout",
           icon: "⚡",
-          desc: "移速与暴击更高 · 战技极速穿行",
+          desc: "Higher speed and crit · Skill: lightning dash",
           hp: 48,
           speed: 285,
           weapons: ["seed", "boomer"],
           crit: 0.1,
-          skill: "金皮疾走",
+          skill: "Gold-Skin Dash",
         },
         warden: {
-          name: "铁皮卫士",
+          name: "Iron-Skin Guard",
           icon: "🛡",
-          desc: "高气血护甲 · 战技展开锅盖壁垒",
+          desc: "High HP and armor · Skill unfolds a pot-lid bulwark",
           hp: 88,
           speed: 225,
           weapons: ["pan", "orbit"],
           armor: 3,
-          skill: "锅盖壁垒",
+          skill: "Pot-Lid Bulwark",
         },
         sage: {
-          name: "芽眼园丁",
+          name: "Sprout Gardener",
           icon: "🌱",
-          desc: "自愈与拾取增强 · 战技回春聚宝",
+          desc: "Self-heal and pickup boosts · Skill: regrowth and treasure draw",
           hp: 58,
           speed: 245,
           weapons: ["spark", "spore"],
           regen: 0.25,
           pickup: 1.35,
-          skill: "萌芽回春",
+          skill: "Sprout Revival",
         },
         bomber: {
-          name: "火花爆破手",
+          name: "Spark Blaster",
           icon: "💥",
-          desc: "范围与爆炸强化 · 战技投放连锁薯雷",
+          desc: "Area and explosion boosts · Skill drops chain spud mines",
           hp: 55,
           speed: 240,
           weapons: ["rocket", "mine"],
           area: 1.18,
-          skill: "连锁薯雷",
+          skill: "Chain Spud Mines",
         },
         monk: {
-          name: "紫心武僧",
+          name: "Purple Heart Monk",
           icon: "☯",
-          desc: "近战吸血与闪避 · 战技进入金刚连击",
+          desc: "Melee lifesteal and dodge · Skill enters a diamond combo",
           hp: 74,
           speed: 255,
           weapons: ["pan", "saw"],
           leech: 0.04,
           dodge: 0.08,
-          skill: "金刚薯身",
+          skill: "Diamond Spud Body",
         },
       };
       const OPERATIONS = {
         meadow: {
-          name: "青苗防线",
+          name: "Green Sprout Line",
           icon: "🌱",
           duration: 240,
           diff: 0.86,
-          desc: "四分钟标准行动，资源充足。",
+          desc: "Standard four-minute run with plentiful resources.",
           ground: "#294934",
           accent: "#6ebd6d",
           pool: ["grunt", "runner", "brute", "spitter"],
         },
         night: {
-          name: "菌雾夜袭",
+          name: "Fungal Fog Raid",
           icon: "🌙",
           duration: 300,
           diff: 1.02,
-          desc: "浓雾压缩视野，远程敌人增多。",
+          desc: "Thick fog shrinks vision and ranged enemies increase.",
           ground: "#222f3b",
           accent: "#8172ba",
           pool: ["grunt", "runner", "spitter", "burrow", "healer"],
         },
         foundry: {
-          name: "铁锅工坊",
+          name: "Iron Pot Workshop",
           icon: "🔥",
           duration: 360,
           diff: 1.16,
-          desc: "灼热区域周期出现，重装敌群压境。",
+          desc: "Scorching zones appear periodically and heavy enemy packs close in.",
           ground: "#44352d",
           accent: "#c66f4d",
           pool: ["grunt", "brute", "spitter", "charger", "healer", "splitter"],
         },
         glacier: {
-          name: "霜糖高原",
+          name: "Frostsugar Plateau",
           icon: "❄",
           duration: 330,
           diff: 1.12,
-          desc: "寒潮周期减速，冰甲敌人与狙击手出没。",
+          desc: "Cold waves periodically slow you; ice-armored enemies and snipers lurk.",
           ground: "#263f4d",
           accent: "#8bd8eb",
           pool: ["grunt", "runner", "frostling", "sniper", "brute", "healer"],
         },
         ruins: {
-          name: "遗迹深田",
+          name: "Ruins Deep Field",
           icon: "🏛",
           duration: 390,
           diff: 1.24,
-          desc: "古代装置唤醒护盾军团与重型首领。",
+          desc: "Ancient devices awaken a shield legion and a heavy boss.",
           ground: "#3a3b35",
           accent: "#d6ad62",
           pool: [
@@ -1136,11 +1136,11 @@
           ],
         },
         endless: {
-          name: "无尽丰收",
+          name: "Endless Harvest",
           icon: "∞",
           duration: 99999,
           diff: 1.08,
-          desc: "每五分钟出现首领，强度持续增长。",
+          desc: "A boss appears every five minutes and difficulty keeps rising.",
           ground: "#343345",
           accent: "#b28bd8",
           pool: [
@@ -1156,15 +1156,15 @@
         },
       };
       const DANGERS = [
-        { name: "训练", mult: 0.78, reward: 0.7 },
-        { name: "普通", mult: 1, reward: 1 },
-        { name: "硬核", mult: 1.25, reward: 1.45 },
-        { name: "噩梦", mult: 1.55, reward: 2 },
+        { name: "Training", mult: 0.78, reward: 0.7 },
+        { name: "Normal", mult: 1, reward: 1 },
+        { name: "Hardcore", mult: 1.25, reward: 1.45 },
+        { name: "Nightmare", mult: 1.55, reward: 2 },
       ];
       const WEAPONS = {
         twig: {
-          name: "树枝枪",
-          icon: "枝",
+          name: "Twig Gun",
+          icon: "TWG",
           type: "bullet",
           cooldown: 0.48,
           damage: 9,
@@ -1174,33 +1174,33 @@
           spread: 0.1,
           pierce: 0,
           color: "#e2b65b",
-          evo: "千枝齐发",
+          evo: "Thousand Twigs",
         },
         pan: {
-          name: "平底锅",
-          icon: "锅",
+          name: "Frying Pan",
+          icon: "PAN",
           type: "melee",
           cooldown: 1.05,
           damage: 19,
           range: 78,
           count: 1,
           color: "#ad8245",
-          evo: "回旋铁宴",
+          evo: "Boomerang Feast",
         },
         spark: {
-          name: "电芽",
-          icon: "电",
+          name: "Spark Sprout",
+          icon: "ZAP",
           type: "chain",
           cooldown: 1.6,
           damage: 13,
           range: 290,
           count: 3,
           color: "#59c9ea",
-          evo: "雷根网络",
+          evo: "Thunder Root Network",
         },
         seed: {
-          name: "豆籽铳",
-          icon: "籽",
+          name: "Pea Blaster",
+          icon: "PEA",
           type: "bullet",
           cooldown: 0.92,
           damage: 8,
@@ -1210,11 +1210,11 @@
           spread: 0.17,
           pierce: 0,
           color: "#78cd70",
-          evo: "丰收风暴",
+          evo: "Harvest Storm",
         },
         boomer: {
-          name: "回旋薯片",
-          icon: "旋",
+          name: "Boomerang Chip",
+          icon: "SPN",
           type: "boomer",
           cooldown: 1.25,
           damage: 16,
@@ -1224,33 +1224,33 @@
           spread: 0.25,
           pierce: 5,
           color: "#f0c879",
-          evo: "黄金涡轮",
+          evo: "Golden Turbine",
         },
         orbit: {
-          name: "锅盖卫星",
-          icon: "环",
+          name: "Pot-Lid Satellite",
+          icon: "ORB",
           type: "orbit",
           cooldown: 1.28,
           damage: 17,
           range: 105,
           count: 3,
           color: "#94a4a4",
-          evo: "六锅星阵",
+          evo: "Six-Pot Star Array",
         },
         spore: {
-          name: "孢泥罐",
-          icon: "菌",
+          name: "Spore Mud Jar",
+          icon: "FNG",
           type: "field",
           cooldown: 2.4,
           damage: 8,
           range: 350,
           count: 1,
           color: "#ad83dc",
-          evo: "万菌温床",
+          evo: "Fungal Hotbed",
         },
         rocket: {
-          name: "芽尖火箭",
-          icon: "箭",
+          name: "Sprout-Tip Rocket",
+          icon: "RKT",
           type: "rocket",
           cooldown: 1.9,
           damage: 35,
@@ -1259,56 +1259,56 @@
           count: 1,
           pierce: 0,
           color: "#ee795c",
-          evo: "薯星坠落",
+          evo: "Falling Spud Star",
         },
         mine: {
-          name: "连锁薯雷",
-          icon: "雷",
+          name: "Chain Spud Mines",
+          icon: "MIN",
           type: "field",
           cooldown: 2.15,
           damage: 15,
           range: 300,
           count: 1,
           color: "#e28d55",
-          evo: "丰收雷区",
+          evo: "Harvest Minefield",
         },
         saw: {
-          name: "齿轮薯片",
-          icon: "锯",
+          name: "Gear Chip",
+          icon: "SAW",
           type: "orbit",
           cooldown: 1.05,
           damage: 21,
           range: 128,
           count: 4,
           color: "#d6d2b2",
-          evo: "日轮切割阵",
+          evo: "Sunwheel Cutter Array",
         },
         frost: {
-          name: "霜糖喷壶",
-          icon: "霜",
+          name: "Frostsugar Sprayer",
+          icon: "ICE",
           type: "field",
           cooldown: 2.05,
           damage: 10,
           range: 380,
           count: 1,
           color: "#86d9ef",
-          evo: "极寒甜点",
+          evo: "Arctic Dessert",
         },
         prism: {
-          name: "棱芽射线",
-          icon: "光",
+          name: "Prism Sprout Beam",
+          icon: "RAY",
           type: "chain",
           cooldown: 1.42,
           damage: 16,
           range: 340,
           count: 4,
           color: "#f2a9df",
-          evo: "万色折光",
+          evo: "Rainbow Refraction",
         },
       };
       const ENEMIES = {
         grunt: {
-          name: "田鼠芽",
+          name: "Vole Sprout",
           r: 18,
           hp: 27,
           speed: 88,
@@ -1317,7 +1317,7 @@
           color: "#89b96d",
         },
         runner: {
-          name: "快苗",
+          name: "Swift Seedling",
           r: 14,
           hp: 17,
           speed: 142,
@@ -1326,7 +1326,7 @@
           color: "#76d274",
         },
         brute: {
-          name: "厚皮萝卜",
+          name: "Thick-Skin Radish",
           r: 27,
           hp: 68,
           speed: 61,
@@ -1335,7 +1335,7 @@
           color: "#b77a4f",
         },
         spitter: {
-          name: "孢子射手",
+          name: "Spore Shooter",
           r: 17,
           hp: 28,
           speed: 70,
@@ -1345,7 +1345,7 @@
           ranged: true,
         },
         charger: {
-          name: "角盔冲锋手",
+          name: "Horned Charger",
           r: 22,
           hp: 55,
           speed: 75,
@@ -1355,7 +1355,7 @@
           charger: true,
         },
         burrow: {
-          name: "地钻虫",
+          name: "Burrow Worm",
           r: 16,
           hp: 35,
           speed: 102,
@@ -1365,7 +1365,7 @@
           burrow: true,
         },
         healer: {
-          name: "蜜露医师",
+          name: "Honeydew Medic",
           r: 19,
           hp: 44,
           speed: 66,
@@ -1375,7 +1375,7 @@
           healer: true,
         },
         splitter: {
-          name: "团团菇",
+          name: "Round Mushroom",
           r: 24,
           hp: 54,
           speed: 74,
@@ -1385,7 +1385,7 @@
           splitter: true,
         },
         frostling: {
-          name: "霜壳糖虫",
+          name: "Frostshell Candy Bug",
           r: 20,
           hp: 52,
           speed: 76,
@@ -1395,7 +1395,7 @@
           armor: 45,
         },
         sniper: {
-          name: "茎叶狙击手",
+          name: "Stalk Sniper",
           r: 16,
           hp: 34,
           speed: 62,
@@ -1407,7 +1407,7 @@
           range: 620,
         },
         shieldling: {
-          name: "遗迹盾芽",
+          name: "Ruins Shield Sprout",
           r: 25,
           hp: 82,
           speed: 56,
@@ -1417,7 +1417,7 @@
           shield: 70,
         },
         mimic: {
-          name: "宝箱拟态薯",
+          name: "Chest Mimic Spud",
           r: 23,
           hp: 66,
           speed: 95,
@@ -1427,7 +1427,7 @@
           charger: true,
         },
         elite: {
-          name: "锅盖甲虫",
+          name: "Pot-Lid Beetle",
           r: 35,
           hp: 260,
           speed: 74,
@@ -1437,7 +1437,7 @@
           elite: true,
         },
         boss: {
-          name: "铁锅王",
+          name: "Iron Pot King",
           r: 58,
           hp: 1900,
           speed: 57,
@@ -1448,7 +1448,7 @@
           ranged: true,
         },
         frostBoss: {
-          name: "冰糖巨像",
+          name: "Rock Candy Colossus",
           r: 62,
           hp: 2250,
           speed: 49,
@@ -1459,7 +1459,7 @@
           ranged: true,
         },
         ruinBoss: {
-          name: "丰收机神",
+          name: "Harvest Machina",
           r: 66,
           hp: 2700,
           speed: 52,
@@ -1474,9 +1474,9 @@
       const RELICS = [
         {
           id: "garlic",
-          icon: "蒜",
-          title: "蒜香护符",
-          desc: "获得 25 护盾，每阶段再补充 8。",
+          icon: "GAR",
+          title: "Garlic Charm",
+          desc: "Gain 25 shield, refilled by 8 each stage.",
           apply: (p) => {
             p.shield += 25;
             p.maxShield += 25;
@@ -1484,37 +1484,37 @@
         },
         {
           id: "thorn",
-          icon: "刺",
-          title: "反口薯皮",
-          desc: "受到接触伤害时反弹 45% 伤害。",
+          icon: "THN",
+          title: "Thorn Skin",
+          desc: "Reflect 45% of contact damage taken.",
           apply: (p) => (p.thorns += 0.45),
         },
         {
           id: "leech",
-          icon: "饮",
-          title: "红汁吸管",
-          desc: "击倒敌人有 8% 概率回复 2 气血。",
+          icon: "SIP",
+          title: "Red Juice Straw",
+          desc: "Defeating an enemy has an 8% chance to restore 2 HP.",
           apply: (p) => (p.leech += 0.08),
         },
         {
           id: "clock",
-          icon: "钟",
-          title: "急收怀表",
-          desc: "所有武器冷却额外缩短 14%。",
+          icon: "CLK",
+          title: "Quick Harvest Pocket Watch",
+          desc: "All weapon cooldowns shortened by an extra 14%.",
           apply: (p) => (p.cooldownMult *= 0.86),
         },
         {
           id: "crown",
-          icon: "冠",
-          title: "丰收王冠",
-          desc: "精英与首领受到伤害 +25%。",
+          icon: "CRN",
+          title: "Harvest Crown",
+          desc: "+25% damage to elites and bosses.",
           apply: (p) => (p.eliteDamage += 0.25),
         },
         {
           id: "boots",
-          icon: "跃",
-          title: "弹簧芽靴",
-          desc: "冲刺冷却 -35%，冲刺留下伤害轨迹。",
+          icon: "HOP",
+          title: "Spring Sprout Boots",
+          desc: "Dash cooldown -35%; dash leaves a damaging trail.",
           apply: (p) => {
             p.dashMult *= 0.65;
             p.dashTrail = true;
@@ -1522,9 +1522,9 @@
         },
         {
           id: "lens",
-          icon: "镜",
-          title: "芽眼镜片",
-          desc: "暴击率 +12%，暴击伤害 +35%。",
+          icon: "LNS",
+          title: "Sprout-Eye Lens",
+          desc: "Crit chance +12%, crit damage +35%.",
           apply: (p) => {
             p.crit += 0.12;
             p.critDamage += 0.35;
@@ -1532,16 +1532,16 @@
         },
         {
           id: "second",
-          icon: "复",
-          title: "备用芽眼",
-          desc: "本局倒下时复活一次并回复 50%。",
+          icon: "REV",
+          title: "Spare Sprout Eye",
+          desc: "Revive once when downed this run, restoring 50%.",
           apply: (p) => p.revives++,
         },
         {
           id: "frostCore",
-          icon: "霜",
-          title: "霜糖核心",
-          desc: "范围伤害 +20%，所有领域持续时间提高。",
+          icon: "ICE",
+          title: "Frostsugar Core",
+          desc: "Area damage +20%; all zone durations increased.",
           apply: (p) => {
             p.areaMult += 0.2;
             p.fieldDuration = (p.fieldDuration || 1) * 1.3;
@@ -1549,53 +1549,53 @@
         },
         {
           id: "warBanner",
-          icon: "旗",
-          title: "丰收战旗",
-          desc: "每个阶段永久获得 4% 伤害。",
+          icon: "FLG",
+          title: "Harvest Banner",
+          desc: "Permanently gain 4% damage each stage.",
           apply: (p) => (p.stagePower = (p.stagePower || 0) + 0.04),
         },
         {
           id: "coinEngine",
-          icon: "核",
-          title: "遗迹硬币引擎",
-          desc: "拾取晶薯时有 20% 概率额外获得 1 枚。",
+          icon: "COR",
+          title: "Ruins Coin Engine",
+          desc: "20% chance to gain 1 extra gem when picking one up.",
           apply: (p) => (p.bonusCrystal = 0.2),
         },
         {
           id: "stormJar",
-          icon: "云",
-          title: "装瓶雷云",
-          desc: "战技释放后引发三次全屏雷击。",
+          icon: "CLD",
+          title: "Bottled Thundercloud",
+          desc: "After the skill, trigger three screen-wide lightning strikes.",
           apply: (p) => (p.skillStorm = true),
         },
       ];
       const PASSIVES = [
         {
           id: "damage",
-          icon: "伤",
-          title: "尖刺芽",
-          desc: "所有武器伤害 +16%。",
+          icon: "DMG",
+          title: "Spiked Sprout",
+          desc: "All weapon damage +16%.",
           apply: (p) => (p.damageMult += 0.16),
         },
         {
           id: "speed",
-          icon: "速",
-          title: "滑皮靴",
-          desc: "移动速度 +11%。",
+          icon: "SPD",
+          title: "Slick-Skin Boots",
+          desc: "Move speed +11%.",
           apply: (p) => (p.speedMult += 0.11),
         },
         {
           id: "rate",
-          icon: "频",
-          title: "急性子",
-          desc: "攻击冷却 -10%。",
+          icon: "RTE",
+          title: "Impatient",
+          desc: "Attack cooldown -10%.",
           apply: (p) => (p.cooldownMult *= 0.9),
         },
         {
           id: "hp",
-          icon: "血",
-          title: "厚薯皮",
-          desc: "最大气血 +12 并回复 12。",
+          icon: "HP",
+          title: "Thick Spud Skin",
+          desc: "Max HP +12 and heal 12.",
           apply: (p) => {
             p.maxHp += 12;
             p.hp = Math.min(p.maxHp, p.hp + 12);
@@ -1603,72 +1603,72 @@
         },
         {
           id: "regen",
-          icon: "愈",
-          title: "发芽自愈",
-          desc: "每秒回复 +0.3。",
+          icon: "RGN",
+          title: "Sprouting Regen",
+          desc: "Regen +0.3 per second.",
           apply: (p) => (p.regen += 0.3),
         },
         {
           id: "magnet",
-          icon: "吸",
-          title: "磁铁根须",
-          desc: "拾取范围 +35%。",
+          icon: "MAG",
+          title: "Magnet Roots",
+          desc: "Pickup range +35%.",
           apply: (p) => (p.pickupMult += 0.35),
         },
         {
           id: "armor",
-          icon: "甲",
-          title: "锅盖甲",
-          desc: "护甲 +2。",
+          icon: "ARM",
+          title: "Pot-Lid Armor",
+          desc: "Armor +2.",
           apply: (p) => (p.armor += 2),
         },
         {
           id: "area",
-          icon: "域",
-          title: "膨大薯块",
-          desc: "范围效果尺寸 +15%。",
+          icon: "AOE",
+          title: "Swollen Tuber",
+          desc: "Area effect size +15%.",
           apply: (p) => (p.areaMult += 0.15),
         },
         {
           id: "crit",
-          icon: "暴",
-          title: "芽眼瞄具",
-          desc: "暴击率 +8%。",
+          icon: "CRT",
+          title: "Sprout-Eye Sight",
+          desc: "Crit chance +8%.",
           apply: (p) => (p.crit += 0.08),
         },
         {
           id: "skill",
-          icon: "技",
-          title: "丰收电池",
-          desc: "战技能量获取 +25%。",
+          icon: "SKL",
+          title: "Harvest Battery",
+          desc: "Skill energy gain +25%.",
           apply: (p) => (p.skillGain += 0.25),
         },
         {
           id: "dodge",
-          icon: "闪",
-          title: "滑溜薯皮",
-          desc: "闪避率 +6%。",
+          icon: "DGE",
+          title: "Slippery Spud Skin",
+          desc: "Dodge chance +6%.",
           apply: (p) => (p.dodge = (p.dodge || 0) + 0.06),
         },
         {
           id: "crystal",
-          icon: "晶",
-          title: "晶薯嗅觉",
-          desc: "结算晶薯额外 +10%。",
+          icon: "GEM",
+          title: "Gem Nose",
+          desc: "Settled gems +10% extra.",
           apply: (p) => (p.crystalMult = (p.crystalMult || 1) + 0.1),
         },
         {
           id: "boss",
-          icon: "王",
-          title: "首领猎手",
-          desc: "对精英与首领伤害 +12%。",
+          icon: "BOS",
+          title: "Boss Hunter",
+          desc: "+12% damage to elites and bosses.",
           apply: (p) => (p.eliteDamage += 0.12),
         },
         {
           id: "shield",
-          icon: "盾",
-          title: "阶段护盾",
-          desc: "每次进入新阶段获得 14 护盾。",
+          icon: "SHD",
+          title: "Stage Shield",
+          desc: "Gain 14 shield on entering each new stage.",
           apply: (p) => {
             p.maxShield += 14;
             p.shield += 14;
@@ -1677,20 +1677,20 @@
       ];
       const CAMP = {
         power: {
-          name: "磨尖树枝",
-          desc: "每级伤害 +4%",
+          name: "Sharpened Twigs",
+          desc: "Damage +4% per level",
           max: 8,
           cost: (n) => 12 + n * 11,
         },
         vitality: {
-          name: "加厚薯皮",
-          desc: "每级气血 +3",
+          name: "Thicker Skin",
+          desc: "HP +3 per level",
           max: 8,
           cost: (n) => 10 + n * 10,
         },
         fortune: {
-          name: "丰收背包",
-          desc: "每级结算晶薯 +5%",
+          name: "Harvest Backpack",
+          desc: "Settled gems +5% per level",
           max: 8,
           cost: (n) => 15 + n * 13,
         },
@@ -1766,14 +1766,14 @@
           .trim()
           .split(".");
         if (prefix !== "SPU3" || !payload || saveHash(payload) !== checksum)
-          throw new Error("存档码校验失败");
+          throw new Error("Save code verification failed");
         const parsed = JSON.parse(
           new TextDecoder().decode(
             Uint8Array.from(atob(payload), (char) => char.charCodeAt(0)),
           ),
         );
         if (parsed.game !== "spud-arena" || !parsed.data)
-          throw new Error("不是薯仔突围存档");
+          throw new Error("Not a Spud Breakout save");
         localStorage.setItem(SAVE_KEY, JSON.stringify(parsed.data));
         save = loadSave();
         resetRun();
@@ -1875,17 +1875,17 @@
         ui.setup.style.display = "block";
         ui.result.classList.remove("show");
         $("#savePill").textContent =
-          `营地晶薯 ${save.cores} · 总击倒 ${save.totalKills || 0}`;
+          `Camp gems ${save.cores} · Total kills ${save.totalKills || 0}`;
         $("#heroGrid").innerHTML = Object.entries(HEROES)
           .map(
             ([k, h]) =>
-              `<button class="choice ${selectedHero === k ? "selected" : ""}" data-hero="${k}"><b>${h.icon} ${h.name}</b><small>${h.desc}<br>初始：${h.weapons.map((w) => WEAPONS[w].name).join(" + ")}</small></button>`,
+              `<button class="choice ${selectedHero === k ? "selected" : ""}" data-hero="${k}"><b>${h.icon} ${h.name}</b><small>${h.desc}<br>Starts with: ${h.weapons.map((w) => WEAPONS[w].name).join(" + ")}</small></button>`,
           )
           .join("");
         $("#opGrid").innerHTML = Object.entries(OPERATIONS)
           .map(
             ([k, o]) =>
-              `<button class="choice ${selectedOp === k ? "selected" : ""}" data-op="${k}"><b>${o.icon} ${o.name}</b><small>${o.desc}<br>${k === "endless" ? `纪录 ${format(save.best[k] || 0)}` : format(o.duration)}</small></button>`,
+              `<button class="choice ${selectedOp === k ? "selected" : ""}" data-op="${k}"><b>${o.icon} ${o.name}</b><small>${o.desc}<br>${k === "endless" ? `Record ${format(save.best[k] || 0)}` : format(o.duration)}</small></button>`,
           )
           .join("");
         $("#dangerGrid").innerHTML = DANGERS.map(
@@ -1897,15 +1897,15 @@
             const lv = save.camp[k] || 0,
               cost = c.cost(lv),
               max = lv >= c.max;
-            return `<button class="camp-btn" data-camp="${k}" ${max || save.cores < cost ? "disabled" : ""}><b>${c.name} Lv.${lv}</b><span>${c.desc}</span><em>${max ? "已满级" : `晶薯 ${cost}`}</em></button>`;
+            return `<button class="camp-btn" data-camp="${k}" ${max || save.cores < cost ? "disabled" : ""}><b>${c.name} Lv.${lv}</b><span>${c.desc}</span><em>${max ? "Max level" : `Gems ${cost}`}</em></button>`;
           })
           .join("");
         $("#archiveGrid").innerHTML = [
-          `🏆 胜利 ${save.wins || 0}`,
-          `☠ 首领 ${save.bosses || 0}`,
-          `⚔ 总击倒 ${save.totalKills || 0}`,
-          `📜 任务 ${Object.values(save.missions || {}).reduce((a, b) => a + b, 0)}`,
-          `🧭 发现 ${Object.keys(save.discoveries || {}).length}/${Object.keys(HEROES).length + Object.keys(OPERATIONS).length}`,
+          `🏆 Wins ${save.wins || 0}`,
+          `☠ Bosses ${save.bosses || 0}`,
+          `⚔ Total kills ${save.totalKills || 0}`,
+          `📜 Missions ${Object.values(save.missions || {}).reduce((a, b) => a + b, 0)}`,
+          `🧭 Discoveries ${Object.keys(save.discoveries || {}).length}/${Object.keys(HEROES).length + Object.keys(OPERATIONS).length}`,
         ]
           .map((text) => `<span class="save-pill">${text}</span>`)
           .join("");
@@ -1960,28 +1960,28 @@
         ui.overlay.classList.add("hidden");
         last = performance.now();
         addLog(
-          `${HEROES[state.hero].name}进入${OPERATIONS[state.op].name}。`,
+          `${HEROES[state.hero].name} enters ${OPERATIONS[state.op].name}.`,
           "good",
         );
         const missionPool = [
           {
             id: "kills",
-            text: "击倒 180 名敌人",
+            text: "Defeat 180 enemies",
             done: () => state.killCount >= 180,
           },
           {
             id: "level",
-            text: "达到 12 级",
+            text: "Reach level 12",
             done: () => state.player.level >= 12,
           },
           {
             id: "relic",
-            text: "获得 2 件遗物",
+            text: "Obtain 2 relics",
             done: () => state.player.relics.length >= 2,
           },
           {
             id: "boss",
-            text: "击败行动首领",
+            text: "Defeat the operation boss",
             done: () => state.bossKills >= 1,
           },
         ];
@@ -1991,7 +1991,7 @@
               Object.keys(OPERATIONS).indexOf(state.op)) %
               missionPool.length
           ];
-        addLog(`营地任务：${state.mission.text}。`, "gold");
+        addLog(`Camp mission: ${state.mission.text}.`, "gold");
         showBanner(`${OPERATIONS[state.op].icon} ${OPERATIONS[state.op].name}`);
         if (!raf) raf = requestAnimationFrame(loop);
       }
@@ -2025,7 +2025,7 @@
             state.player.maxShield,
             state.player.shield + 8,
           );
-          showBanner(`阶段 ${state.stage} · 敌群强化`);
+          showBanner(`Stage ${state.stage} · Enemy swarm empowered`);
         }
         if (state.elapsed >= state.nextBossAt && !state.bossSpawned)
           spawnBoss();
@@ -2199,7 +2199,7 @@
                 state.enemies.forEach((e) => deal(e, scaled(24)));
             }, delay),
           );
-        showBanner(`${HEROES[state.hero].skill}！`);
+        showBanner(`${HEROES[state.hero].skill}!`);
         sync();
       }
       function updateWeapons(dt) {
@@ -2569,7 +2569,7 @@
             p.revives--;
             p.hp = p.maxHp * 0.5;
             p.invuln = 2;
-            showBanner("备用芽眼让你重新站起！");
+            showBanner("Spare Sprout Eye gets you back on your feet!");
           } else endRun(false);
         }
       }
@@ -2620,7 +2620,7 @@
             r: 13,
             color: "#b58be5",
           });
-          addLog("精英倒下，遗物箱落地。", "gold");
+          addLog("The elite falls and a relic chest drops.", "gold");
         }
         if (e.boss) {
           state.bossKills++;
@@ -2636,7 +2636,7 @@
               r: 14,
               color: "#f2c65e",
             });
-            showBanner("首领击倒，无尽行动继续");
+            showBanner("Boss down; the endless run continues");
           } else endRun(true);
         }
         if (state.player.leech && Math.random() < state.player.leech)
@@ -2685,7 +2685,7 @@
             38,
             68 - state.danger * 7 - state.stage * 3,
           );
-          addLog("精英锅盖甲虫闯入战场。", "warn");
+          addLog("An elite Pot-Lid Beetle storms the field.", "warn");
         }
         if (state.elapsed >= state.eventAt && !state.bossSpawned) {
           triggerEvent();
@@ -2720,10 +2720,10 @@
       function triggerEvent() {
         const roll = rint(0, 5);
         if (roll === 0) {
-          showBanner("⚠ 快苗迁徙");
+          showBanner("⚠ Swift Seedling migration");
           for (let i = 0; i < 12 + state.stage; i++) spawnEnemy("runner");
         } else if (roll === 1) {
-          showBanner("✦ 丰收磁暴");
+          showBanner("✦ Harvest magnetic storm");
           for (let i = 0; i < 10; i++)
             state.drops.push({
               type: "xp",
@@ -2734,17 +2734,17 @@
               color: "#78df8a",
             });
         } else if (roll === 2) {
-          showBanner("⚠ 灼热孢坑");
+          showBanner("⚠ Scorching spore pit");
           for (let i = 0; i < 5; i++) addHazard();
         } else if (roll === 3) {
-          showBanner("⚠ 重装小队");
+          showBanner("⚠ Heavy squad");
           for (let i = 0; i < 4 + state.stage / 2; i++) spawnEnemy("brute");
         } else if (roll === 4) {
-          showBanner("❄ 霜糖寒潮");
+          showBanner("❄ Frostsugar cold wave");
           state.player.chilled = 5;
           for (let i = 0; i < 6; i++) spawnEnemy("frostling");
         } else {
-          showBanner("✦ 遗迹宝箱苏醒");
+          showBanner("✦ Ruins chest awakens");
           for (let i = 0; i < 3 + Math.floor(state.stage / 2); i++)
             spawnEnemy("mimic");
         }
@@ -2807,8 +2807,8 @@
               ? "ruinBoss"
               : "boss";
         spawnEnemy(key);
-        showBanner(`☠ ${ENEMIES[key].name}进入战场`);
-        addLog(`最终首领${ENEMIES[key].name}压入行动区域。`, "warn");
+        showBanner(`☠ ${ENEMIES[key].name} enters the battlefield`);
+        addLog(`Final boss ${ENEMIES[key].name} pushes into the operation zone.`, "warn");
       }
       function addHazard() {
         state.hazards.push({
@@ -2844,13 +2844,13 @@
         state.paused = true;
         state.upgradeType = type;
         $("#modalKicker").textContent =
-          type === "relic" ? "精英遗物" : "等级提升";
+          type === "relic" ? "Elite relic" : "Level up";
         $("#modalTitle").textContent =
-          type === "relic" ? "选择一件遗物" : "选择一项强化";
+          type === "relic" ? "Choose a relic" : "Choose a boost";
         $("#rerollBtn").style.visibility =
           type === "level" ? "visible" : "hidden";
         $("#healSkipBtn").textContent =
-          type === "relic" ? "拆解为 12 晶薯" : "转化为 15% 治疗";
+          type === "relic" ? "Dismantle for 12 gems" : "Convert to 15% heal";
         rollOptions();
         ui.upgrade.classList.remove("hidden");
       }
@@ -2863,7 +2863,7 @@
           upgradeOptions = sample(
             RELICS.filter((r) => !state.player.relics.includes(r.id)),
             3,
-          ).map((x) => ({ ...x, rarity: "遗物", cls: "legend", times: 1 }));
+          ).map((x) => ({ ...x, rarity: "Relic", cls: "legend", times: 1 }));
         } else {
           let pool = [
             ...PASSIVES,
@@ -2879,15 +2879,15 @@
           upgradeOptions = sample(pool, 3).map((x) => {
             const roll = Math.random() + state.player.crit * 0.35;
             let times = 1,
-              rarity = "普通",
+              rarity = "Normal",
               cls = "";
             if (roll > 0.94) {
               times = 3;
-              rarity = "史诗";
+              rarity = "Epic";
               cls = "epic";
             } else if (roll > 0.72) {
               times = 2;
-              rarity = "精良";
+              rarity = "Fine";
               cls = "rare";
             }
             return { ...x, times, rarity, cls };
@@ -2911,8 +2911,8 @@
       function weaponUpgradeDesc(k) {
         const w = state.player.weapons.find((x) => x.key === k);
         return w
-          ? `提升至 Lv.${Math.min(6, w.level + 1)}；六级进化为「${WEAPONS[k].evo}」。`
-          : `获得新武器；六级可进化为「${WEAPONS[k].evo}」。`;
+          ? `Raised to Lv.${Math.min(6, w.level + 1)}; evolves at level 6 into “${WEAPONS[k].evo}”.`
+          : `New weapon; evolves at level 6 into “${WEAPONS[k].evo}”.`;
       }
       function chooseUpgrade(i) {
         const u = upgradeOptions[i];
@@ -2920,7 +2920,7 @@
         if (state.upgradeType === "relic") {
           u.apply(state.player);
           state.player.relics.push(u.id);
-          addLog(`获得遗物：${u.title}。`, "gold");
+          addLog(`Relic gained: ${u.title}.`, "gold");
         } else for (let n = 0; n < u.times; n++) u.apply(state.player);
         finishUpgrade();
       }
@@ -2942,7 +2942,7 @@
           if (w.level < 6) w.level++;
           if (w.level === 6 && !w.evolved) {
             w.evolved = true;
-            showBanner(`${WEAPONS[k].evo} · 武器进化！`);
+            showBanner(`${WEAPONS[k].evo} · Weapon evolution!`);
           }
         } else if (state.player.weapons.length < MAX_WEAPONS)
           state.player.weapons.push({
@@ -2998,7 +2998,7 @@
           reward += 12;
           save.missions[state.mission.id] =
             (save.missions[state.mission.id] || 0) + 1;
-          addLog(`营地任务完成，额外带回 12 晶薯。`, "gold");
+          addLog(`Camp mission complete; 12 extra gems brought back.`, "gold");
         }
         save.cores += reward;
         save.totalKills = (save.totalKills || 0) + state.killCount;
@@ -3014,11 +3014,11 @@
         ui.setup.style.display = "none";
         ui.result.classList.add("show");
         $("#resultTitle").textContent = win
-          ? `${state.op === "glacier" ? "冰糖巨像" : state.op === "ruins" ? "丰收机神" : "铁锅王"}被击倒了`
-          : "薯仔暂时倒下";
+          ? `${state.op === "glacier" ? "Rock Candy Colossus" : state.op === "ruins" ? "Harvest Machina" : "Iron Pot King"}Knocked out`
+          : "Spud is down for now";
         $("#resultText").textContent = win
-          ? "行动完成，所有收获已运回营地。"
-          : "这次构筑已经结算，强化营地后再来一轮。";
+          ? "Operation complete; all gains shipped back to camp."
+          : "This build has been settled; upgrade the camp and go again.";
         $("#resultTime").textContent = format(state.elapsed);
         $("#resultKills").textContent = state.killCount;
         $("#resultCores").textContent = reward;
@@ -3111,8 +3111,8 @@
         ui.runBar.style.width = `${clamp(progress, 0, 100)}%`;
         ui.runText.textContent =
           state.op === "endless"
-            ? `距下个首领 ${format(Math.max(0, state.nextBossAt - state.elapsed))}`
-            : `距首领 ${format(Math.max(0, state.duration - state.elapsed))}`;
+            ? `Next boss in ${format(Math.max(0, state.nextBossAt - state.elapsed))}`
+            : `Boss in ${format(Math.max(0, state.duration - state.elapsed))}`;
         $("#opIcon").textContent = op.icon;
         $("#opTitle").textContent =
           `${op.name} · ${DANGERS[state.danger].name}`;
@@ -3124,14 +3124,14 @@
               `<span class="chip ${w.evolved ? "evolved" : ""}">${WEAPONS[w.key].icon} ${w.evolved ? WEAPONS[w.key].evo : WEAPONS[w.key].name} Lv.${w.level}</span>`,
           )
           .join("");
-        ui.relicCount.textContent = `${p.relics.length} 遗物`;
+        ui.relicCount.textContent = `${p.relics.length} relics`;
         ui.stats.innerHTML = [
-          ["伤害", `${Math.round(p.damageMult * 100)}%`],
-          ["攻速", `${Math.round(100 / p.cooldownMult)}%`],
-          ["移速", `${Math.round(p.speedMult * 100)}%`],
-          ["护甲", p.armor],
-          ["暴击", `${Math.round(p.crit * 100)}%`],
-          ["拾取", `${Math.round(p.pickupMult * 100)}%`],
+          ["Damage", `${Math.round(p.damageMult * 100)}%`],
+          ["Atk speed", `${Math.round(100 / p.cooldownMult)}%`],
+          ["Move speed", `${Math.round(p.speedMult * 100)}%`],
+          ["Armor", p.armor],
+          ["Crit", `${Math.round(p.crit * 100)}%`],
+          ["Pickup", `${Math.round(p.pickupMult * 100)}%`],
         ]
           .map((x) => `<div><span>${x[0]}</span><b>${x[1]}</b></div>`)
           .join("");
@@ -3139,7 +3139,7 @@
           .map((x) => `<li class="${x.type}">${x.text}</li>`)
           .join("");
         $("#pauseBtn").textContent = state.paused ? "▶" : "Ⅱ";
-        $("#rerollBtn").textContent = `重抽（${state.rerolls}）`;
+        $("#rerollBtn").textContent = `Reroll (${state.rerolls})`;
         $("#rerollBtn").disabled = state.rerolls <= 0;
       }
       function draw() {
@@ -3520,16 +3520,16 @@
         try {
           await navigator.clipboard.writeText(code);
         } catch (error) {}
-        prompt("薯仔突围存档码（已尝试复制，可在其他设备导入）", code);
+        prompt("Spud Breakout save code (copy attempted; import on another device)", code);
       };
       $("#importSaveBtn").onclick = () => {
-        const code = prompt("粘贴薯仔突围存档码：");
+        const code = prompt("Paste Spud Breakout save code:");
         if (!code) return;
         try {
           importSave(code);
-          alert("存档导入成功，营地成长与丰收档案已恢复。");
+          alert("Import successful; camp growth and harvest log restored.");
         } catch (error) {
-          alert(`导入失败：${error.message}`);
+          alert(`Import failed: ${error.message}`);
         }
       };
       $("#resultHomeBtn").onclick = () => {
@@ -3539,7 +3539,7 @@
       $("#homeBtn").onclick = () => {
         if (
           state.mode === "running" &&
-          !confirm("当前行动尚未结算，返回营地将放弃本局收获。")
+          !confirm("The current operation is not settled; returning to camp forfeits this run's gains.")
         )
           return;
         state.mode = "ready";
@@ -3547,7 +3547,7 @@
         renderHome();
       };
       $("#restartBtn").onclick = () => {
-        if (state.mode === "running" && confirm("重新开始当前行动？"))
+        if (state.mode === "running" && confirm("Restart the current operation?"))
           startRun();
       };
       $("#pauseBtn").onclick = () => {

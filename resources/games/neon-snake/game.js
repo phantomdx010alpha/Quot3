@@ -278,7 +278,7 @@
       eatPulse = 1;
       boostLeft = BOOST_DURATION;
       burst(gold.x, gold.y, ['#ffb347', '#ffe29a', '#22d3ee', '#ffffff'], 28);
-      addFloat(gold.x, gold.y, '+3 加速', '#ffd47a');
+      addFloat(gold.x, gold.y, '+3 Boost', '#ffd47a');
       gold = null;
     } else {
       snake.pop();
@@ -618,7 +618,7 @@
     ctx.fillStyle = '#9ff3ff';
     ctx.shadowColor = '#22d3ee';
     ctx.shadowBlur = 10;
-    ctx.fillText('加速中', fieldSize / 2, cell * 1.25);
+    ctx.fillText('Boosting', fieldSize / 2, cell * 1.25);
 
     ctx.shadowBlur = 0;
     ctx.fillStyle = 'rgba(255, 255, 255, 0.10)';
@@ -691,7 +691,7 @@
     resetGame();
     state = 'playing';
     hideOverlays();
-    pauseBtn.textContent = '暂停';
+    pauseBtn.textContent = 'Pause';
     pauseBtn.classList.remove('hidden');
     lastTime = 0;
   }
@@ -700,14 +700,14 @@
     if (state !== 'playing') return;
     state = 'paused';
     pauseOverlay.classList.remove('hidden');
-    pauseBtn.textContent = '继续';
+    pauseBtn.textContent = 'Resume';
   }
 
   function resumeGame() {
     if (state !== 'paused') return;
     state = 'playing';
     pauseOverlay.classList.add('hidden');
-    pauseBtn.textContent = '暂停';
+    pauseBtn.textContent = 'Pause';
     lastTime = 0;
   }
 

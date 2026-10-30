@@ -1,0 +1,249 @@
+--- a/resources/games/hydrogen-atom/game.js
++++ b/resources/games/hydrogen-atom/game.js
+@@ -33,7 +33,7 @@
+   { kind: 'px',  label: 'px',  color: '#ff5ca8' },
+   { kind: 'py',  label: 'py',  color: '#22d3ee' },
+   { kind: 'pz',  label: 'pz',  color: '#ffb347' },
+-  { kind: 'pal', label: '三色叠加', color: '#7c5cff' }
++  { kind: 'pal', label: 'All three combined', color: '#7c5cff' }
+ ];
+ 
+ // d 态空间取向（实轨道）
+@@ -53,12 +53,12 @@
+ 
+ // 轨道通俗解释（教学信息卡用）
+ const DESC = {
+-  '1s': '电子像一团紧贴原子核的球形雾，在距核约 1 个玻尔半径处出现概率最大，没有任何择优方向。',
++  '1s': 'The electron is a spherical haze hugging the nucleus, most likely found about 1 Bohr radius from it, with no preferred direction.',
+-  '2s': '比 1s 更大的球形雾，内部包着一层“空心”球壳（径向节面）；电子既可能出现在离核很近处，也可能出现在远处。',
++  '2s': 'A larger spherical haze than 1s, with a hollow shell (a radial node) inside; the electron may be very near the nucleus or far away.',
+-  '2p': '哑铃形的两叶概率云，两叶之间穿过原子核的平面是角向节面，电子只出现在节面两侧的两叶中。',
++  '2p': 'A dumbbell-shaped cloud of two lobes. The plane through the nucleus between the lobes is the angular node; the electron appears only in the two lobes on either side of it.',
+-  '3s': '更加弥散的球形云，含有两个同心的“空心”球壳（两个径向节面），一共三层球壳结构。',
++  '3s': 'An even more diffuse spherical cloud with two concentric hollow shells (two radial nodes), three layers in all.',
+-  '3p': '哑铃形两叶云内部又多出一个径向节面，整体比 2p 更舒展，电子可以离核更远。',
++  '3p': 'A two-lobed dumbbell cloud with an extra radial node inside; more spread out than 2p, so the electron can be farther from the nucleus.',
+-  '3d': '形状复杂的多叶概率云（dxy 等为四叶花瓣形，dz² 为双叶加赤道环），空间方向性最强。'
++  '3d': 'Complex multi-lobed clouds (dxy and similar are four-petal shapes, dz² is two lobes plus an equatorial ring) with the strongest directionality.'
+ };
+ 
+ /* ====================== 数学：阶乘 / 关联拉盖尔 ====================== */
+@@ -855,13 +855,13 @@
+     switch (kind) {
+       case 'pz': return 'm = 0';
+       case 'px':
+-      case 'py': return 'm = +1 与 −1 的实轨道组合';
++      case 'py': return 'm = +1 and −1 real orbitals combined';
+-      case 'pal': return 'm = −1、0、+1（三个等价取向）';
++      case 'pal': return 'm = −1, 0, +1 (three equivalent orientations)';
+       case 'dz2': return 'm = 0';
+       case 'dxz':
+-      case 'dyz': return 'm = +1 与 −1 的实轨道组合';
++      case 'dyz': return 'm = +1 and −1 real orbitals combined';
+       case 'dxy':
+-      case 'dx2y2': return 'm = +2 与 −2 的实轨道组合';
++      case 'dx2y2': return 'm = +2 and −2 real orbitals combined';
+       default: return 'm = 0';
+     }
+   }
+@@ -870,12 +870,12 @@
+     const n = electron.n;
+     const rA0 = n * n;
+     return '<div class="info-block">' +
+-      '<div class="info-head"><b>玻尔模型</b><span>第 ' + n + ' 能级（定态）</span></div>' +
++      '<div class="info-head"><b>Bohr model</b><span>Level ' + n + ' (stationary state)</span></div>' +
+-      '<div class="info-row"><span>能量 Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
++      '<div class="info-row"><span>Energy Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
+-      '<div class="info-row"><span>轨道半径</span><b>' + rA0 + ' a₀ ≈ ' + (rA0 * A0_ANGSTROM).toFixed(2) + ' 埃</b></div>' +
++      '<div class="info-row"><span>Orbit radius</span><b>' + rA0 + ' a₀ ≈ ' + (rA0 * A0_ANGSTROM).toFixed(2) + ' Å</b></div>' +
+-      '<div class="info-row"><span>轨道角动量</span><b>L = nℏ = ' + n + 'ℏ</b></div>' +
++      '<div class="info-row"><span>Orbital angular momentum</span><b>L = nℏ = ' + n + 'ℏ</b></div>' +
+-      '<div class="info-row"><span>轨道速度节奏</span><b>约为基态的 ' + (1 / Math.pow(n, 2.4)).toFixed(3) + ' 倍</b></div>' +
++      '<div class="info-row"><span>Orbital speed rate</span><b>About ' + (1 / Math.pow(n, 2.4)).toFixed(3) + ' times the ground state</b></div>' +
+-      '<div class="info-desc">电子沿半径为 n²a₀ 的确定圆轨道运动；降低能级时螺旋落向内层并放出一个能量确定的光子（叮咚声为示意）。</div>' +
++      '<div class="info-desc">The electron moves on a fixed circular orbit of radius n²a₀. Dropping to a lower level, it spirals inward and releases one photon of fixed energy (the chime is only illustrative).</div>' +
+     '</div>';
+   }
+ 
+@@ -894,13 +894,13 @@
+     const lName = ['s', 'p', 'd'][l];
+     const L = l === 0 ? '0' : '√' + (l * (l + 1)) + ' ℏ';
+     return '<div class="info-block">' +
+-      '<div class="info-head"><b>' + key + (oriLabel && oriLabel.length <= 3 ? '（' + oriLabel + '）' : '') + '</b>' +
++      '<div class="info-head"><b>' + key + (oriLabel && oriLabel.length <= 3 ? ' (' + oriLabel + ')' : '') + '</b>' +
+-      '<span>n=' + n + '，l=' + l + '（' + lName + ' 亚层）</span></div>' +
++      '<span>n=' + n + ', l=' + l + ' (' + lName + ' subshell)</span></div>' +
+-      '<div class="info-row"><span>能量 Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
++      '<div class="info-row"><span>Energy Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
+-      '<div class="info-row"><span>角动量大小</span><b>√l(l+1)ℏ = ' + L + '</b></div>' +
++      '<div class="info-row"><span>Angular momentum magnitude</span><b>√l(l+1)ℏ = ' + L + '</b></div>' +
+-      '<div class="info-row"><span>角动量投影</span><b>' + (kind === 's' ? 'm = 0' : mText(kind)) + '</b></div>' +
++      '<div class="info-row"><span>Angular momentum projection</span><b>' + (kind === 's' ? 'm = 0' : mText(kind)) + '</b></div>' +
+-      '<div class="info-row"><span>亚层简并度</span><b>2l+1 = ' + (2 * l + 1) + '</b></div>' +
++      '<div class="info-row"><span>Subshell degeneracy</span><b>2l+1 = ' + (2 * l + 1) + '</b></div>' +
+-      '<div class="info-row"><span>主能级简并度</span><b>n² = ' + (n * n) + '（不计自旋）</b></div>' +
++      '<div class="info-row"><span>Level degeneracy</span><b>n² = ' + (n * n) + ' (spin not counted)</b></div>' +
+       '<div class="info-desc">' + DESC[key] + '</div>' +
+     '</div>';
+   }
+@@ -938,9 +938,9 @@
+   }
+ 
+   const CAPTIONS = {
+-    bohr: '玻尔模型：电子在确定的圆形轨道上绕核运动，跃迁时吸收或发射能量确定的光子。',
++    bohr: 'Bohr model: the electron circles the nucleus on a fixed orbit and absorbs or emits photons of fixed energy when it jumps.',
+-    cloud: '电子云模型：波函数只给出电子在各处出现的概率，点越密概率越大，不存在确定轨道。',
++    cloud: 'Electron cloud model: the wave function only gives the probability of finding the electron; the denser the dots, the higher the probability. There are no fixed orbits.',
+-    compare: '玻尔模型中电子沿确定的轨道运动；量子力学中不存在轨道，只有概率分布（电子云）。'
++    compare: 'In the Bohr model the electron follows a fixed orbit; in quantum mechanics there are no orbits, only a probability distribution (the electron cloud).'
+   };
+ 
+   function applyMode() {
+@@ -1117,7 +1117,7 @@
+   const panelToggle = document.getElementById('panelToggle');
+   panelToggle.addEventListener('click', () => {
+     const open = panel.classList.toggle('open');
+-    panelToggle.textContent = open ? '收起面板 ▼' : '控制面板 ▲';
++    panelToggle.textContent = open ? 'Hide panel ▼' : 'Controls ▲';
+   });
+ 
+   window.addEventListener('resize', resize);
+--- a/resources/games/hydrogen-atom/index.html
++++ b/resources/games/hydrogen-atom/index.html
+@@ -1,9 +1,9 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+-<title>氢原子探秘</title>
++<title>Hydrogen Atom Explorer</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+@@ -12,10 +12,10 @@
+ <header class="topbar">
+   <div class="brand">
+     <span class="brand-dot"></span>
+-    <span>氢原子探秘</span>
++    <span>Hydrogen Atom Explorer</span>
+-    <span class="brand-sub">玻尔模型 × 量子电子云</span>
++    <span class="brand-sub">Bohr Model × Quantum Electron Cloud</span>
+   </div>
+-  <a class="back-link" href="../../index.html">← 返回门户</a>
++  <a class="back-link" href="../../index.html">← Back to portal</a>
+ </header>
+ 
+ <!-- 主体：左画布 + 右控制面板 -->
+@@ -25,25 +25,25 @@
+     <canvas id="view"></canvas>
+ 
+     <!-- 对照模式下的两个视图标签 -->
+-    <div class="view-label" id="labelL">玻尔轨道模型</div>
++    <div class="view-label" id="labelL">Bohr orbit model</div>
+-    <div class="view-label" id="labelR">电子云（量子模型）</div>
++    <div class="view-label" id="labelR">Electron cloud (quantum model)</div>
+ 
+     <!-- 底部说明文字 -->
+     <div class="caption" id="caption"></div>
+ 
+     <!-- 移动端展开面板按钮 -->
+-    <button class="panel-toggle" id="panelToggle" type="button">控制面板 ▲</button>
++    <button class="panel-toggle" id="panelToggle" type="button">Controls ▲</button>
+   </section>
+ 
+   <aside class="panel" id="panel">
+ 
+     <!-- 模式切换 -->
+     <div class="group">
+-      <div class="group-title">显示模式</div>
++      <div class="group-title">Display mode</div>
+       <div class="seg" id="modeTabs">
+-        <button type="button" data-mode="bohr" class="active">玻尔轨道</button>
++        <button type="button" data-mode="bohr" class="active">Bohr orbit</button>
+-        <button type="button" data-mode="cloud">电子云</button>
++        <button type="button" data-mode="cloud">Electron cloud</button>
+-        <button type="button" data-mode="compare">模型对照</button>
++        <button type="button" data-mode="compare">Compare models</button>
+       </div>
+     </div>
+ 
+@@ -52,18 +52,18 @@
+       <div class="switch-row">
+         <label class="switch">
+           <input type="checkbox" id="autoRotate" checked>
+-          <span>自动慢转</span>
++          <span>Auto-rotate slowly</span>
+         </label>
+         <label class="switch">
+           <input type="checkbox" id="soundOn" checked>
+-          <span>跃迁音效</span>
++          <span>Jump sound</span>
+         </label>
+       </div>
+     </div>
+ 
+     <!-- 玻尔模型控制 -->
+     <div class="group" id="bohrGroup">
+-      <div class="group-title">玻尔模型 · 能级 n</div>
++      <div class="group-title">Bohr model · level n</div>
+       <div class="seg seg-six" id="nTabs">
+         <button type="button" data-n="1" class="active">n=1</button>
+         <button type="button" data-n="2">n=2</button>
+@@ -74,14 +74,14 @@
+       </div>
+       <label class="check-line">
+         <input type="checkbox" id="allOrbits">
+-        <span>同时叠加显示全部允许轨道（n=1…6）</span>
++        <span>Show all allowed orbits at once (n=1…6)</span>
+       </label>
+-      <div class="hint">向更低能级切换时，电子将螺旋跃迁并发出一个光子。</div>
++      <div class="hint">Switching to a lower level makes the electron spiral down and emit a photon.</div>
+     </div>
+ 
+     <!-- 电子云控制 -->
+     <div class="group" id="cloudGroup">
+-      <div class="group-title">量子模型 · 轨道状态</div>
++      <div class="group-title">Quantum model · orbital state</div>
+       <div class="seg" id="stateTabs">
+         <button type="button" data-state="1s" class="active">1s</button>
+         <button type="button" data-state="2s">2s</button>
+@@ -92,31 +92,31 @@
+       </div>
+ 
+       <div class="orient-wrap" id="orientWrap">
+-        <div class="group-title small">空间取向</div>
++        <div class="group-title small">Orientation</div>
+         <div class="seg seg-wrap" id="orientTabs"></div>
+       </div>
+ 
+       <div class="slider-line">
+-        <span>云点数量</span>
++        <span>Cloud points</span>
+         <input type="range" id="pointCount" min="2000" max="6000" step="500" value="4000">
+         <b id="pointCountVal">4000</b>
+       </div>
+-      <div class="hint">按真实波函数 |ψ|² = |R<sub>nl</sub>(r)|²·|Y<sub>lm</sub>(θ,φ)|² 采样，分批生成。</div>
++      <div class="hint">Sampled from the real wave function |ψ|² = |R<sub>nl</sub>(r)|²·|Y<sub>lm</sub>(θ,φ)|², generated in batches.</div>
+     </div>
+ 
+     <!-- 教学信息卡 -->
+     <div class="group">
+-      <div class="group-title">教学信息卡</div>
++      <div class="group-title">Teaching info card</div>
+       <div class="info-card" id="infoCard"></div>
+     </div>
+ 
+     <!-- 径向概率密度小图 -->
+     <div class="group" id="radialGroup">
+-      <div class="group-title">径向概率密度 P(r) = r²|R(r)|²</div>
++      <div class="group-title">Radial probability density P(r) = r²|R(r)|²</div>
+       <div class="radial-wrap">
+         <canvas id="radialCanvas"></canvas>
+       </div>
+-      <div class="hint">虚线标出概率峰对应的最概然半径（以玻尔半径 a₀ 为单位）。</div>
++      <div class="hint">The dashed line marks the most probable radius at the probability peak (in Bohr radii a₀).</div>
+     </div>
+ 
+   </aside>

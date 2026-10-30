@@ -10,6 +10,11 @@ export interface GameFilters {
   onlyRecent?: boolean
 }
 
+/** Phase 205 (M20): keeps English games only, unless `showChinese` is true. Does not change the input. Search, sort, random pick and the tile all start from this list, so a hidden game can never be opened. */
+export function filterByLanguage(list: readonly GameEntry[], showChinese: boolean): GameEntry[] {
+  return showChinese ? [...list] : list.filter((g) => g.lang === 'en')
+}
+
 const byTitle = (a: GameEntry, b: GameEntry): number => a.title.localeCompare(b.title, 'en', { sensitivity: 'base' }) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
 
 /** Favourites first, then most recently played, then A-Z by title. Does not change the input. */

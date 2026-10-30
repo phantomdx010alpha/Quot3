@@ -1,0 +1,349 @@
+{
+  "version": 1,
+  "game": "cat-seesaw",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "轻",
+      "en": "Light"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "中",
+      "en": "Medium"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "重",
+      "en": "Heavy"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 256,
+      "zh": "稳住，别动太快！",
+      "en": "Steady, don't move too fast!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 295,
+      "zh": "你被翘飞啦",
+      "en": "You got launched!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 296,
+      "zh": "跷跷板倾斜太久，你从高的一端摔了下去。",
+      "en": "The seesaw tilted too long and you fell off the high end."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 298,
+      "zh": "小猫摔下去了",
+      "en": "The kitten fell off"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 299,
+      "zh": "橘猫被翘到了半空，生气地跑掉了。",
+      "en": "The orange cat was flung into the air and ran off angrily."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 301,
+      "zh": "平衡告破",
+      "en": "Balance broken"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 302,
+      "zh": "跷跷板翻过了临界角度。",
+      "en": "The seesaw tipped past the critical angle."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 309,
+      "zh": "秒",
+      "en": "s"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 422,
+      "zh": "有东西掉到板上了，点它！",
+      "en": "Something dropped on the board, click it!"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 459,
+      "zh": "+30 小猫开心",
+      "en": "+30 Kitten happy"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 480,
+      "zh": "重量：",
+      "en": "Weight: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 519,
+      "zh": "第 ",
+      "en": "Level "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 519,
+      "zh": " 关 · 橘猫更活跃了",
+      "en": " · The orange cat is more active"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 534,
+      "zh": "+50 完美平衡",
+      "en": "+50 Perfect balance"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1358,
+      "zh": "倾斜 ",
+      "en": "Tilt "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1401,
+      "zh": "危险！快平衡！",
+      "en": "Danger! Balance now!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "和小猫玩跷跷板",
+      "en": "Seesaw with the Kitten"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "坚持",
+      "en": "Survived"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "0.0秒",
+      "en": "0.0s"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "最高",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "关卡",
+      "en": "Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 38,
+      "zh": "向左移动",
+      "en": "Move left"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 42,
+      "zh": "中",
+      "en": "Medium"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 43,
+      "zh": "重量",
+      "en": "Weight"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 45,
+      "zh": "向右移动",
+      "en": "Move right"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "夜晚的霓虹公园，你和一只橘猫站上跷跷板，角度超过 22° 持续过久就会有人摔下去",
+      "en": "In a neon park at night, you and an orange cat stand on a seesaw; if the angle stays above 22° too long, someone falls off"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "A / D 或 ← / → 沿木板移动；W 增重、S 减重，共三档，越重体型越大",
+      "en": "A / D or ← / → to move along the plank; W adds weight, S reduces it, three levels, heavier means bigger"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 57,
+      "zh": "板身倾斜时你会自己往下滑，必须主动走位抵消；橘猫会随机散步、坐下打盹增重",
+      "en": "When the board tilts you slide downhill and must move to counter it; the orange cat wanders randomly and sits down for naps, gaining weight"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "点击掉落的鱼和毛线球捡起给猫，它会开心地跑向中心；保持近水平可获得完美平衡奖分",
+      "en": "Click fish and yarn balls that drop to pick them up for the cat, who happily runs to the center; stay near level for perfect-balance bonus points"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 60,
+      "zh": "开始平衡",
+      "en": "Start balancing"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 67,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "按 Esc 键或点击下方按钮继续游戏",
+      "en": "Press Esc or click the button below to continue"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "继续游戏",
+      "en": "Resume game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "平衡告破",
+      "en": "Balance broken"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 77,
+      "zh": "跷跷板翻了过去。",
+      "en": "The seesaw flipped over."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "坚持时间",
+      "en": "Time survived"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "0秒",
+      "en": "0s"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 80,
+      "zh": "到达关卡",
+      "en": "Level reached"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 81,
+      "zh": "本次得分",
+      "en": "Score this run"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 82,
+      "zh": "历史最高",
+      "en": "All-time best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 84,
+      "zh": "恭喜刷新最高纪录！",
+      "en": "New high score, congratulations!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 85,
+      "zh": "再玩一次",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 92,
+      "zh": "A / D 或 ← / → 移动 · W / S 切换重量档位 · 点击鱼或毛线球喂猫 · Esc 暂停 · 触屏使用下方按钮",
+      "en": "A / D or ← / → move · W / S change weight · Click fish or yarn balls to feed the cat · Esc to pause · On touch screens use the buttons below"
+    }
+  ]
+}

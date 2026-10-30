@@ -1,0 +1,293 @@
+--- a/resources/games/em-lab/game.js
++++ b/resources/games/em-lab/game.js
+@@ -977,58 +977,58 @@
+   var txt = '';
+   if (S.tab === 'charge') {
+     var t = S.charge;
+-    txt += '<span class="rd-title">点电荷电场</span>';
++    txt += '<span class="rd-title">Point-Charge Field</span>';
+-    txt += '电荷数：' + t.items.length + ' / 8\n';
++    txt += 'Charges: ' + t.items.length + ' / 8\n';
+     if (S.pointer.inside) {
+       var E = electricFieldAt(S.pointer.x, S.pointer.y, t.items, 90);
+       var ph = potentialAt(S.pointer.x, S.pointer.y, t.items, 144);
+-      txt += '指针处：Ex=' + fmt(E.x, 4) + '，Ey=' + fmt(E.y, 4) +
++      txt += 'At pointer: Ex=' + fmt(E.x, 4) + ', Ey=' + fmt(E.y, 4) +
+-             '，|E|=' + fmt(Math.hypot(E.x, E.y), 4) + '，φ=' + fmt(ph, 3) + '\n';
++             ', |E|=' + fmt(Math.hypot(E.x, E.y), 4) + ', φ=' + fmt(ph, 3) + '\n';
+     }
+-    if (t.sel >= 0) txt += '选中：q = ' + (t.items[t.sel].q > 0 ? '+1' : '−1') + '\n';
++    if (t.sel >= 0) txt += 'Selected: q = ' + (t.items[t.sel].q > 0 ? '+1' : '−1') + '\n';
+     if (t.probe) {
+-      txt += '试探电荷 q=' + (t.probeSign > 0 ? '+1' : t.probeSign < 0 ? '−1' : '0（中性，不受力）') +
++      txt += 'Test charge q=' + (t.probeSign > 0 ? '+1' : t.probeSign < 0 ? '−1' : '0 (neutral, no force)') +
+-             '，|v|=' + fmt(Math.hypot(t.probe.vx, t.probe.vy), 2);
++             ', |v|=' + fmt(Math.hypot(t.probe.vx, t.probe.vy), 2);
+     }
+   } else if (S.tab === 'current') {
+     var c = S.current;
+-    txt += '<span class="rd-title">电流与磁场</span>';
++    txt += '<span class="rd-title">Current and Magnetic Field</span>';
+-    txt += '导线数：' + c.wires.length + ' / 8，磁针数：' + c.needles.length + '\n';
++    txt += 'Wires: ' + c.wires.length + ' / 8, compasses: ' + c.needles.length + '\n';
+     if (S.pointer.inside) {
+       var B = magneticFieldAt(S.pointer.x, S.pointer.y, c.wires, 64);
+-      txt += '指针处：Bx=' + fmt(B.x, 4) + '，By=' + fmt(B.y, 4) +
++      txt += 'At pointer: Bx=' + fmt(B.x, 4) + ', By=' + fmt(B.y, 4) +
+-             '，|B|=' + fmt(Math.hypot(B.x, B.y), 4) + '\n';
++             ', |B|=' + fmt(Math.hypot(B.x, B.y), 4) + '\n';
+     }
+     if (c.sel) {
+       txt += c.sel.t === 'w'
+-        ? '选中：导线，I=' + fmt(c.wires[c.sel.i].I, 0) + '（点按可换向）'
++        ? 'Selected: wire, I=' + fmt(c.wires[c.sel.i].I, 0) + ' (click to flip direction)'
+-        : '选中：小磁针';
++        : 'Selected: compass needle';
+     }
+   } else if (S.tab === 'magnet') {
+     var mg = S.magnet;
+-    txt += '<span class="rd-title">磁铁相互作用</span>';
++    txt += '<span class="rd-title">Magnet Interaction</span>';
+     for (var i = 0; i < mg.items.length; i++) {
+       var deg = (mg.items[i].ang * 180 / Math.PI) % 360;
+       if (deg < 0) deg += 360;
+-      txt += '磁铁' + (i + 1) + ' 朝向：' + deg.toFixed(0) + '°\n';
++      txt += 'Magnet' + (i + 1) + ' heading: ' + deg.toFixed(0) + '°\n';
+     }
+     if (mg.items.length === 2) txt += facingDescription(mg.items);
+   } else {
+     var a = S.amp, r = a.result;
+-    txt += '<span class="rd-title">安培环路定理验证</span>';
++    txt += '<span class="rd-title">Ampère\'s Circuital Law Check</span>';
+     if (r) {
+       var denom = Math.abs(r.mu0I) > 1e-6 ? Math.abs(r.mu0I) : 1;
+       var err = Math.abs(r.integral - r.mu0I) / denom * 100;
+       var list = a.wires.filter(function (w) { return pointInLoop(w.x, w.y, a.loop); })
+-        .map(function (w) { return fmt(w.I, 1); }).join('，');
++        .map(function (w) { return fmt(w.I, 1); }).join(', ');
+       txt += '∮ B·dl = ' + fmt(r.integral, 3) + '\n';
+       txt += '<span class="rd-eq">μ₀ I_encl = 2π × (' +
+              (list || '0') + ') = ' + fmt(r.mu0I, 3) + '</span>\n';
+-      txt += 'I_encl = ' + fmt(r.iEncl, 2) + '（环路包围 ' +
++      txt += 'I_encl = ' + fmt(r.iEncl, 2) + ' (loop encloses ' +
+-             a.wires.filter(function (w) { return pointInLoop(w.x, w.y, a.loop); }).length + ' 根导线）\n';
++             a.wires.filter(function (w) { return pointInLoop(w.x, w.y, a.loop); }).length + ' wires)\\n';
+-      txt += '相对误差：' + err.toFixed(2) + ' %\n';
++      txt += 'Relative error: ' + err.toFixed(2) + ' %\n';
+-      txt += err < 5 ? '<span class="rd-ok">结论：两边数值一致，符合安培环路定理</span>'
++      txt += err < 5 ? '<span class="rd-ok">Result: both sides agree, consistent with Ampère\'s law</span>'
+-                     : '<span class="rd-bad">结论：偏差较大（导线可能与环路相交）</span>';
++                     : '<span class="rd-bad">Result: large deviation (a wire may cross the loop)</span>';
+     }
+   }
+   readoutEl.innerHTML = txt;
+@@ -1039,8 +1039,8 @@
+   var base = Math.atan2(m2.cy - m1.cy, m2.cx - m1.cx);
+   var n1 = Math.cos(m1.ang - base) > 0 ? 'N' : 'S';      // m1 朝向对方的极
+   var n2 = Math.cos(m2.ang - (base + Math.PI)) > 0 ? 'N' : 'S'; // m2 朝向对方的极
+-  if (n1 === n2) return '当前：同极相对（' + n1 + '–' + n2 + '）——磁感线应相互排斥、不跨接';
++  if (n1 === n2) return 'Current: like poles facing (' + n1 + '–' + n2 + ') - field lines should repel and not bridge';
+-  return '当前：异极相对（' + n1 + '–' + n2 + '）——磁感线应从 N 极跨接到 S 极';
++  return 'Current: opposite poles facing (' + n1 + '–' + n2 + ') - field lines should bridge from N pole to S pole';
+ }
+ 
+ /* ---------- 交互 ---------- */
+@@ -1374,7 +1374,7 @@
+ var chPotBtn = document.getElementById('chPotBtn');
+ chPotBtn.addEventListener('click', function () {
+   S.charge.showPot = !S.charge.showPot;
+-  chPotBtn.textContent = '等势线：' + (S.charge.showPot ? '开' : '关');
++  chPotBtn.textContent = 'Equipotentials: ' + (S.charge.showPot ? 'On' : 'Off');
+   chPotBtn.classList.toggle('toggle-on', S.charge.showPot);
+   chPotBtn.classList.toggle('toggle-off', !S.charge.showPot);
+ });
+@@ -1435,7 +1435,7 @@
+ 
+ function togglePause() {
+   S.paused = !S.paused;
+-  pauseBtn.textContent = S.paused ? '继续' : '暂停';
++  pauseBtn.textContent = S.paused ? 'Resume' : 'Pause';
+   pauseBtn.classList.toggle('is-paused', S.paused);
+ }
+ pauseBtn.addEventListener('click', togglePause);
+@@ -1444,20 +1444,20 @@
+ /* ---------- 标签切换 ---------- */
+ var TAB_INFO = {
+   charge: {
+-    formula: 'E = k Σ qᵢ r̂ / r² ，　φ = Σ qᵢ / r　（k = 1，相对单位）',
++    formula: 'E = k Σ qᵢ r̂ / r² ,  φ = Σ qᵢ / r  (k = 1, relative units)',
+-    hint: '双击空白处添加电荷（或选“添加”工具后点按画布），拖动移动，右键或选中后按 Delete 删除（最多 8 个）；试探电荷满足 F = qE，带阻尼与边界反弹。'
++    hint: 'Double-click empty space to add a charge (or pick the Add tool and click the canvas); drag to move, right-click or press Delete on a selection to remove (max 8); the test charge obeys F = qE, with damping and boundary bounce.'
+   },
+   current: {
+-    formula: 'B = μ₀ I / (2π r)，方向沿圆周切向（右手螺旋定则）　（相对单位 μ₀ = 2π）',
++    formula: 'B = μ₀ I / (2π r), tangent to the circle (right-hand rule)  (relative units μ₀ = 2π)',
+-    hint: '用工具在空白处点按添加导线；点按已有导线在 ⊙ 向外（红）与 ⊗ 向里（蓝）间切换；可拖动，右键删除；小磁针沿 B 方向实时偏转。'
++    hint: 'Use the tool to click empty space to add a wire; click an existing wire to toggle between ⊙ out of the page (red) and ⊗ into the page (blue); drag to move, right-click to delete; compass needles turn live along B.'
+   },
+   magnet: {
+-    formula: '磁偶极子（磁极对）近似：B 由 N、S 两极的 1/r² 场叠加，磁感线自 N 极出发回到 S 极',
++    formula: 'Magnetic dipole (pole pair) approximation: B is the 1/r² fields of the N and S poles superposed; field lines leave the N pole and return to the S pole',
+-    hint: '拖动磁铁移动；选中后拖动 N 极端的青色圆点旋转（也可用上方按钮）；异极相对时场线跨接，同极相对时场线相斥；铁屑沿 B 方向排列。'
++    hint: 'Drag a magnet to move it; after selecting, drag the cyan dot at the N-pole end to rotate (or use the buttons above); opposite poles facing bridge the field lines, like poles repel them; iron filings align along B.'
+   },
+   ampere: {
+-    formula: '∮ B·dl = μ₀ I_encl ，　B = μ₀ I / (2π r)',
++    formula: '∮ B·dl = μ₀ I_encl ,  B = μ₀ I / (2π r)',
+-    hint: '拖动环路边缘移动整个环路，拖橙色圆点改变尺寸；点按导线切换电流方向，滑块调节 |I|；环路不包围导线时积分应接近 0。'
++    hint: 'Drag the loop edge to move the whole loop and drag the orange dot to resize; click a wire to flip its current and use the slider for |I|; with no wire enclosed the integral should be near 0.'
+   }
+ };
+ document.querySelectorAll('.tab-btn').forEach(function (btn) {
+--- a/resources/games/em-lab/index.html
++++ b/resources/games/em-lab/index.html
+@@ -1,26 +1,26 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+ <meta name="theme-color" content="#0b0e20">
+-<title>电磁场实验室</title>
++<title>EM Field Lab</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+ 
+   <!-- ============ 顶部栏 ============ -->
+   <header class="topbar">
+-    <h1 class="logo">电磁场实验室</h1>
++    <h1 class="logo">EM Field Lab</h1>
+-    <a class="btn-back" href="../../index.html">← 返回门户</a>
++    <a class="btn-back" href="../../index.html">← Back to portal</a>
+   </header>
+ 
+   <!-- ============ 实验标签栏 ============ -->
+   <nav class="tabbar">
+-    <button class="tab-btn active" type="button" data-tab="charge">① 点电荷电场</button>
++    <button class="tab-btn active" type="button" data-tab="charge">① Point-Charge Field</button>
+-    <button class="tab-btn" type="button" data-tab="current">② 电流与磁场</button>
++    <button class="tab-btn" type="button" data-tab="current">② Current and Magnetic Field</button>
+-    <button class="tab-btn" type="button" data-tab="magnet">③ 磁铁相互作用</button>
++    <button class="tab-btn" type="button" data-tab="magnet">③ Magnet Interaction</button>
+-    <button class="tab-btn" type="button" data-tab="ampere">④ 安培环路定理</button>
++    <button class="tab-btn" type="button" data-tab="ampere">④ Ampère's Law</button>
+   </nav>
+ 
+   <main class="stage">
+@@ -36,76 +36,76 @@
+ 
+       <!-- 标签一：点电荷电场 -->
+       <div class="tool-page active" data-page="charge">
+-        <span class="tool-label">工具</span>
++        <span class="tool-label">Tools</span>
+         <div class="seg">
+-          <button class="seg-btn active" type="button" data-group="chTool" data-value="select">选择 / 拖动</button>
++          <button class="seg-btn active" type="button" data-group="chTool" data-value="select">Select / Drag</button>
+-          <button class="seg-btn" type="button" data-group="chTool" data-value="addp">添加 ＋ 正电荷</button>
++          <button class="seg-btn" type="button" data-group="chTool" data-value="addp">Add + Positive charge</button>
+-          <button class="seg-btn" type="button" data-group="chTool" data-value="addn">添加 － 负电荷</button>
++          <button class="seg-btn" type="button" data-group="chTool" data-value="addn">Add - Negative charge</button>
+         </div>
+-        <span class="tool-label">试探电荷</span>
++        <span class="tool-label">Test charge</span>
+         <div class="seg">
+-          <button class="seg-btn active" type="button" data-group="chProbe" data-value="1">＋ 正</button>
++          <button class="seg-btn active" type="button" data-group="chProbe" data-value="1">+ Positive</button>
+-          <button class="seg-btn" type="button" data-group="chProbe" data-value="-1">－ 负</button>
++          <button class="seg-btn" type="button" data-group="chProbe" data-value="-1">- Negative</button>
+-          <button class="seg-btn" type="button" data-group="chProbe" data-value="0">中性</button>
++          <button class="seg-btn" type="button" data-group="chProbe" data-value="0">Neutral</button>
+         </div>
+-        <button class="btn" id="chProbeBtn" type="button">放置 / 复位试探电荷</button>
++        <button class="btn" id="chProbeBtn" type="button">Place / reset test charge</button>
+-        <button class="btn toggle-on" id="chPotBtn" type="button">等势线：开</button>
++        <button class="btn toggle-on" id="chPotBtn" type="button">Equipotentials: On</button>
+-        <button class="btn btn-warn" id="chDelBtn" type="button">删除选中</button>
++        <button class="btn btn-warn" id="chDelBtn" type="button">Delete selected</button>
+       </div>
+ 
+       <!-- 标签二：电流与磁场 -->
+       <div class="tool-page" data-page="current">
+-        <span class="tool-label">导线工具</span>
++        <span class="tool-label">Wire tools</span>
+         <div class="seg">
+-          <button class="seg-btn active" type="button" data-group="cuTool" data-value="select">选择 / 拖动</button>
++          <button class="seg-btn active" type="button" data-group="cuTool" data-value="select">Select / Drag</button>
+-          <button class="seg-btn" type="button" data-group="cuTool" data-value="addOut">添加 ⊙ 向外（红）</button>
++          <button class="seg-btn" type="button" data-group="cuTool" data-value="addOut">Add ⊙ out of page (red)</button>
+-          <button class="seg-btn" type="button" data-group="cuTool" data-value="addIn">添加 ⊗ 向里（蓝）</button>
++          <button class="seg-btn" type="button" data-group="cuTool" data-value="addIn">Add ⊗ into page (blue)</button>
+         </div>
+-        <button class="btn" id="cuNeedleBtn" type="button">添加小磁针</button>
++        <button class="btn" id="cuNeedleBtn" type="button">Add compass needle</button>
+-        <button class="btn btn-warn" id="cuDelBtn" type="button">删除选中</button>
++        <button class="btn btn-warn" id="cuDelBtn" type="button">Delete selected</button>
+       </div>
+ 
+       <!-- 标签三：磁铁相互作用 -->
+       <div class="tool-page" data-page="magnet">
+-        <span class="tool-label">选中磁铁</span>
++        <span class="tool-label">Selected magnet</span>
+-        <button class="btn" id="mgRotLBtn" type="button">逆时针转 15°</button>
++        <button class="btn" id="mgRotLBtn" type="button">Rotate 15° counterclockwise</button>
+-        <button class="btn" id="mgRotRBtn" type="button">顺时针转 15°</button>
++        <button class="btn" id="mgRotRBtn" type="button">Rotate 15° clockwise</button>
+-        <button class="btn" id="mgFlipBtn" type="button">翻转 180°</button>
++        <button class="btn" id="mgFlipBtn" type="button">Flip 180°</button>
+-        <button class="btn" id="mgReseedBtn" type="button">重新撒铁屑</button>
++        <button class="btn" id="mgReseedBtn" type="button">Re-scatter filings</button>
+       </div>
+ 
+       <!-- 标签四：安培环路定理 -->
+       <div class="tool-page" data-page="ampere">
+-        <span class="tool-label">导线工具</span>
++        <span class="tool-label">Wire tools</span>
+         <div class="seg">
+-          <button class="seg-btn active" type="button" data-group="amTool" data-value="select">选择 / 拖动</button>
++          <button class="seg-btn active" type="button" data-group="amTool" data-value="select">Select / Drag</button>
+-          <button class="seg-btn" type="button" data-group="amTool" data-value="addOut">添加 ⊙ 向外</button>
++          <button class="seg-btn" type="button" data-group="amTool" data-value="addOut">Add ⊙ out of page</button>
+-          <button class="seg-btn" type="button" data-group="amTool" data-value="addIn">添加 ⊗ 向里</button>
++          <button class="seg-btn" type="button" data-group="amTool" data-value="addIn">Add ⊗ into page</button>
+         </div>
+-        <label class="slider-label">电流大小 |I|＝<b id="amMagVal">1.0</b>
++        <label class="slider-label">Current |I| = <b id="amMagVal">1.0</b>
+           <input class="slider" id="amMag" type="range" min="0.2" max="3" step="0.1" value="1">
+         </label>
+-        <span class="tool-label">闭合环路</span>
++        <span class="tool-label">Closed loop</span>
+         <div class="seg">
+-          <button class="seg-btn active" type="button" data-group="amShape" data-value="circle">圆形</button>
++          <button class="seg-btn active" type="button" data-group="amShape" data-value="circle">Circle</button>
+-          <button class="seg-btn" type="button" data-group="amShape" data-value="rect">矩形</button>
++          <button class="seg-btn" type="button" data-group="amShape" data-value="rect">Rectangle</button>
+         </div>
+-        <label class="slider-label">环路尺寸＝<b id="amSizeVal">110</b> px
++        <label class="slider-label">Loop size = <b id="amSizeVal">110</b> px
+           <input class="slider" id="amSize" type="range" min="50" max="200" step="2" value="110">
+         </label>
+-        <button class="btn btn-warn" id="amDelBtn" type="button">删除选中导线</button>
++        <button class="btn btn-warn" id="amDelBtn" type="button">Delete selected wire</button>
+       </div>
+ 
+       <!-- 通用控制 -->
+       <div class="common-ctl">
+-        <span class="tool-label">网格密度</span>
++        <span class="tool-label">Grid density</span>
+         <div class="seg seg-small">
+-          <button class="seg-btn" type="button" data-group="density" data-value="0">疏</button>
++          <button class="seg-btn" type="button" data-group="density" data-value="0">Sparse</button>
+-          <button class="seg-btn active" type="button" data-group="density" data-value="1">中</button>
++          <button class="seg-btn active" type="button" data-group="density" data-value="1">Medium</button>
+-          <button class="seg-btn" type="button" data-group="density" data-value="2">密</button>
++          <button class="seg-btn" type="button" data-group="density" data-value="2">Dense</button>
+         </div>
+-        <button class="btn" id="pauseBtn" type="button">暂停</button>
++        <button class="btn" id="pauseBtn" type="button">Pause</button>
+-        <button class="btn" id="resetBtn" type="button">重置本实验</button>
++        <button class="btn" id="resetBtn" type="button">Reset experiment</button>
+       </div>
+     </section>
+ 

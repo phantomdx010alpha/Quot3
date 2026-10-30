@@ -1,0 +1,1267 @@
+{
+  "version": 1,
+  "game": "drift-racer",
+  "entries": [
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "巅峰漂移巡回赛",
+      "en": "Summit Drift Tour"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 680,
+      "zh": "漂移赛道游戏区",
+      "en": "Drift track play area"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 681,
+      "zh": "漂移赛车画布",
+      "en": "Drift racing canvas"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 684,
+      "zh": "巅峰漂移",
+      "en": "Summit Drift"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 685,
+      "zh": "海港排位",
+      "en": "Harbor Qualifier"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 685,
+      "zh": "待命",
+      "en": "Ready"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 685,
+      "zh": "第 1/2 圈",
+      "en": "Lap 1/2"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 687,
+      "zh": "比赛状态",
+      "en": "Race status"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 688,
+      "zh": "速度",
+      "en": "Speed"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 689,
+      "zh": "名次",
+      "en": "Place"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 690,
+      "zh": "圈速",
+      "en": "Lap time"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 693,
+      "zh": "切换音效",
+      "en": "Toggle sound"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 694,
+      "zh": "返回巡回赛",
+      "en": "Back to tour"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 695,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 696,
+      "zh": "重新开始",
+      "en": "Restart"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 700,
+      "zh": "触屏控制",
+      "en": "Touch controls"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 702,
+      "zh": "加速",
+      "en": "Gas"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 703,
+      "zh": "左转",
+      "en": "Left"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 704,
+      "zh": "制动",
+      "en": "Brake"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 705,
+      "zh": "右转",
+      "en": "Right"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 708,
+      "zh": "氮气",
+      "en": "Nitro"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 716,
+      "zh": "赢取赛事星章，解锁赛车与调校模块。",
+      "en": "Win event badges to unlock cars and tuning modules."
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 718,
+      "zh": "生涯进度",
+      "en": "Career progress"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 719,
+      "zh": "星章",
+      "en": "Badges"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 720,
+      "zh": "车币",
+      "en": "Coins"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 721,
+      "zh": "冠军",
+      "en": "Wins"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 724,
+      "zh": "巡回赛页面",
+      "en": "Tour page"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 725,
+      "zh": "巡回赛",
+      "en": "Tour"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 726,
+      "zh": "车库",
+      "en": "Garage"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 727,
+      "zh": "档案",
+      "en": "Profile"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 730,
+      "zh": "九站赛历",
+      "en": "Nine-stop calendar"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 730,
+      "zh": "完成目标可获得三星",
+      "en": "Complete goals to earn three stars"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 734,
+      "zh": "赛车",
+      "en": "Cars"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 734,
+      "zh": "不同车辆会改变速度、抓地与热管理",
+      "en": "Different cars change speed, grip and heat"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 736,
+      "zh": "调校模块",
+      "en": "Tuning modules"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 736,
+      "zh": "最多安装 2 件",
+      "en": "Max 2 installed"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 740,
+      "zh": "生涯档案",
+      "en": "Career profile"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 740,
+      "zh": "跨设备码不包含本机幽灵轨迹",
+      "en": "The cross-device code does not include local ghosts"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 743,
+      "zh": "跨设备存档码",
+      "en": "Cross-device save code"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 743,
+      "zh": "导出后在这里获得存档码，或粘贴另一台设备的 DRIFT2 存档码",
+      "en": "Export to get a save code here, or paste a DRIFT2 code from another device"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 745,
+      "zh": "导出档案",
+      "en": "Export profile"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 746,
+      "zh": "导入档案",
+      "en": "Import profile"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 747,
+      "zh": "音效：开",
+      "en": "Sound: On"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 752,
+      "zh": "出赛",
+      "en": "Race"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 758,
+      "zh": "完赛",
+      "en": "Finished"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 759,
+      "zh": "总用时 00:00.00",
+      "en": "Total time 00:00.00"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 763,
+      "zh": "返回赛历",
+      "en": "Back to calendar"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 764,
+      "zh": "再跑一场",
+      "en": "Race again"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "attr",
+      "line": 769,
+      "zh": "漂移赛道状态栏",
+      "en": "Drift track status bar"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 772,
+      "zh": "氮气",
+      "en": "Nitro"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 777,
+      "zh": "漂移",
+      "en": "Drift"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 782,
+      "zh": "倍率",
+      "en": "Multiplier"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 787,
+      "zh": "胎温",
+      "en": "Tires"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 788,
+      "zh": "冷",
+      "en": "Cold"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 793,
+      "zh": "排名",
+      "en": "Rank"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 797,
+      "zh": "计时",
+      "en": "Timer"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 798,
+      "zh": "当前",
+      "en": "Current"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 799,
+      "zh": "最佳",
+      "en": "Best"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 800,
+      "zh": "总计",
+      "en": "Total"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 803,
+      "zh": "晴天 · 2 圈",
+      "en": "Sunny · 2 laps"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 805,
+      "zh": "最佳幽灵",
+      "en": "Best ghost"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "text",
+      "line": 805,
+      "zh": "暂无",
+      "en": "None"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 871,
+      "zh": "潮汐港环",
+      "en": "Tidal Harbor Loop"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 883,
+      "zh": "云岭折线",
+      "en": "Cloudridge Zigzag"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 895,
+      "zh": "熔炉工业环",
+      "en": "Foundry Industrial Loop"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 908,
+      "zh": "海港排位",
+      "en": "Harbor Qualifier"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 909,
+      "zh": "云岭雨线",
+      "en": "Cloudridge Rain Line"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 910,
+      "zh": "熔炉热圈",
+      "en": "Foundry Hot Lap"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 911,
+      "zh": "港湾夜战",
+      "en": "Harbor Night Battle"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 912,
+      "zh": "云岭纯走",
+      "en": "Cloudridge Pure Run"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 913,
+      "zh": "熔炉骤雨",
+      "en": "Foundry Downpour"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 914,
+      "zh": "红线海港",
+      "en": "Redline Harbor"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 915,
+      "zh": "午夜云岭",
+      "en": "Midnight Cloudridge"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 916,
+      "zh": "巅峰风暴",
+      "en": "Summit Storm"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 919,
+      "zh": "脉冲 S1",
+      "en": "Pulse S1"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 919,
+      "zh": "均衡底盘，易于连续漂移",
+      "en": "Balanced chassis, easy chain drifts"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 920,
+      "zh": "彗星 R",
+      "en": "Comet R"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 920,
+      "zh": "极速与氮气更强，弯中更活跃",
+      "en": "Higher top speed and nitro, lively mid-corner"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 921,
+      "zh": "赤炉 GT",
+      "en": "Redfurnace GT"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 921,
+      "zh": "出弯加速凶猛，需要管理胎温",
+      "en": "Fierce corner exit, manage tire heat"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 922,
+      "zh": "天穹 X",
+      "en": "Skydome X"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 922,
+      "zh": "终局全能赛车，雨夜稳定",
+      "en": "Ultimate all-rounder, stable on rainy nights"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 925,
+      "zh": "高转涡轮",
+      "en": "High-Boost Turbo"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 925,
+      "zh": "极速 +7%，抓地 -4%",
+      "en": "Top speed +7%, grip -4%"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 926,
+      "zh": "街道胎",
+      "en": "Street Tires"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 926,
+      "zh": "抓地 +10%",
+      "en": "Grip +10%"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 927,
+      "zh": "冷却风道",
+      "en": "Cooling Duct"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 927,
+      "zh": "散热 +22%",
+      "en": "Cooling +22%"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 928,
+      "zh": "增压储罐",
+      "en": "Boost Tank"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 928,
+      "zh": "氮气效率 +18%",
+      "en": "Nitro efficiency +18%"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 929,
+      "zh": "漂移舵角",
+      "en": "Drift Angle Kit"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 929,
+      "zh": "漂移得分 +22%",
+      "en": "Drift score +22%"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 930,
+      "zh": "轻量车架",
+      "en": "Light Frame"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 930,
+      "zh": "加速 +9%，碰撞更敏感",
+      "en": "Acceleration +9%, more crash-prone"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 931,
+      "zh": "雨战配方",
+      "en": "Rain Compound"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 931,
+      "zh": "削弱雨地抓地损失",
+      "en": "Reduces grip loss on wet roads"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 932,
+      "zh": "弯心雷达",
+      "en": "Apex Radar"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 932,
+      "zh": "弯心奖励 +30%",
+      "en": "Apex bonus +30%"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 935,
+      "zh": "岚",
+      "en": "Ran"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 936,
+      "zh": "焰",
+      "en": "Yan"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 937,
+      "zh": "律",
+      "en": "Lu"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 940,
+      "zh": "晴天",
+      "en": "Sunny"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 941,
+      "zh": "雨战",
+      "en": "Rain"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 942,
+      "zh": "热浪",
+      "en": "Heat wave"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 943,
+      "zh": "夜赛",
+      "en": "Night race"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 944,
+      "zh": "风暴夜",
+      "en": "Storm night"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1122,
+      "zh": "档案空间不足，幽灵未保存",
+      "en": "Not enough profile space, ghost not saved"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1141,
+      "zh": "存档码前缀不正确",
+      "en": "Save code prefix is incorrect"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1145,
+      "zh": "存档版本不兼容",
+      "en": "Save version is incompatible"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1165,
+      "zh": " 圈",
+      "en": " laps"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1167,
+      "zh": "暂无",
+      "en": "None"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1183,
+      "zh": "以第 ",
+      "en": "Finish in place "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1183,
+      "zh": " 名或更高完赛",
+      "en": " or higher"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1184,
+      "zh": "漂移得分达到 ",
+      "en": "Reach a drift score of "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1185,
+      "zh": "总用时不超过 ",
+      "en": "Total time under "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1186,
+      "zh": "命中 ",
+      "en": "Hit "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1186,
+      "zh": " 个弯心",
+      "en": " apexes"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1187,
+      "zh": "草地时间不超过 ",
+      "en": "Grass time under "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1187,
+      "zh": " 秒",
+      "en": " s"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1224,
+      "zh": "赛事目标结算",
+      "en": "Event goals results"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1231,
+      "zh": "初次完赛",
+      "en": "First Finish"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1232,
+      "zh": "六星车手",
+      "en": "Six-Star Driver"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1233,
+      "zh": "调校专家",
+      "en": "Tuning Expert"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1234,
+      "zh": "三环巡礼",
+      "en": "Triple Loop Tour"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1235,
+      "zh": "黄金车手",
+      "en": "Gold Driver"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1236,
+      "zh": "巅峰冠军",
+      "en": "Summit Champion"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1245,
+      "zh": "音效：",
+      "en": "Sound: "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1245,
+      "zh": "开",
+      "en": "On"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1245,
+      "zh": "关",
+      "en": "Off"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1254,
+      "zh": " 圈</span><span>",
+      "en": " laps</span><span>"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1254,
+      "zh": " 星解锁",
+      "en": " stars to unlock"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1254,
+      "zh": " 车币",
+      "en": " coins"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1261,
+      "zh": "当前赛车",
+      "en": "Selected"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1261,
+      "zh": "已拥有",
+      "en": "Owned"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1261,
+      "zh": " 车币购置",
+      "en": " coins to buy"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1261,
+      "zh": "</span>\n        <div class=\"stat-dots\"><span>速 ",
+      "en": "</span>\\n        <div class=\"stat-dots\"><span>Spd "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1262,
+      "zh": "</span><span>控 ",
+      "en": "</span><span>Ctl "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1262,
+      "zh": "</span><span>冷 ",
+      "en": "</span><span>Cool "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1262,
+      "zh": "</span><span>氮 ",
+      "en": "</span><span>Nit "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1262,
+      "zh": " 车币</span>",
+      "en": " coins</span>"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1270,
+      "zh": "已安装",
+      "en": "Installed"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1270,
+      "zh": "可安装",
+      "en": "Can install"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1273,
+      "zh": "已安装 ",
+      "en": "Installed "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1344,
+      "zh": "需要 ",
+      "en": "Needs "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1344,
+      "zh": " 枚星章",
+      "en": " badges"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1396,
+      "zh": " · 发车",
+      "en": " · Start"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1439,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1439,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1573,
+      "zh": "加速带",
+      "en": "Boost pad"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1643,
+      "zh": "弯心 +",
+      "en": "Apex +"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1664,
+      "zh": "第 ",
+      "en": "Lap "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1739,
+      "zh": " · 冠军",
+      "en": " · Champion"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1739,
+      "zh": " · 第 ",
+      "en": " · Place "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1739,
+      "zh": " 名",
+      "en": "."
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1740,
+      "zh": "总用时 ",
+      "en": "Total time "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1740,
+      "zh": " · 最佳圈 ",
+      "en": " · Best lap "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1740,
+      "zh": " · 漂移 ",
+      "en": " · Drift "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1740,
+      "zh": " · 新幽灵",
+      "en": " · New ghost"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1745,
+      "zh": "解锁 ",
+      "en": "Unlocked "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1745,
+      "zh": "、",
+      "en": ", "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1746,
+      "zh": "三星达成",
+      "en": "Three stars earned"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1746,
+      "zh": "赛事结算",
+      "en": "Event results"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1881,
+      "zh": "完赛",
+      "en": "Finished"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1881,
+      "zh": "胎热",
+      "en": "Hot tires"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1881,
+      "zh": "草地",
+      "en": "Grass"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1881,
+      "zh": "漂移",
+      "en": "Drift"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1892,
+      "zh": "热",
+      "en": "Hot"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1892,
+      "zh": "温",
+      "en": "Warm"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1892,
+      "zh": "冷",
+      "en": "Cold"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2402,
+      "zh": "还需要 ",
+      "en": "Still need "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2407,
+      "zh": "已购置 ",
+      "en": "Purchased "
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2434,
+      "zh": "已购置，请先拆下一件模块",
+      "en": "Purchased, remove a module first"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2434,
+      "zh": "最多安装 2 件模块",
+      "en": "Up to 2 modules can be installed"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2448,
+      "zh": "音效已开启",
+      "en": "Sound on"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2448,
+      "zh": "音效已关闭",
+      "en": "Sound off"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2456,
+      "zh": "档案码已复制",
+      "en": "Profile code copied"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2458,
+      "zh": "档案码已生成",
+      "en": "Profile code generated"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2464,
+      "zh": "档案导入成功",
+      "en": "Profile imported"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 2466,
+      "zh": "档案码无效",
+      "en": "Invalid profile code"
+    },
+    {
+      "file": "drift-racer.html",
+      "kind": "js",
+      "line": 1664,
+      "zh": " 圈",
+      "en": "!",
+      "onlyLine": true
+    }
+  ]
+}

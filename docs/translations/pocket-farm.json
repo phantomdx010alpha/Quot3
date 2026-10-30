@@ -1,0 +1,1329 @@
+{
+  "version": 1,
+  "game": "pocket-farm",
+  "entries": [
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 1,
+      "zh": "四季小农场：溪谷年鉴",
+      "en": "Four Seasons Little Farm: Valley Almanac"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "四季轮作、村民羁绊、节庆订单与农场建设；用一整年把荒地变成溪谷名庄。",
+      "en": "Four-season crop rotation, villager bonds, festival orders and farm building; turn barren land into a famous valley estate over one full year."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "日期",
+      "en": "Date"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "春 1 · 第1年",
+      "en": "Spring 1 · (Year 1)"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "体力",
+      "en": "Energy"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "金币",
+      "en": "Coins"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "农场等级",
+      "en": "Farm level"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "声望",
+      "en": "Renown"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "农田",
+      "en": "Fields"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "溪谷镇",
+      "en": "Valley Town"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "农场建设",
+      "en": "Farm buildings"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "年鉴",
+      "en": "Almanac"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "存档码",
+      "en": "Save code"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 3,
+      "zh": "新农场",
+      "en": "New farm"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "春日播种季",
+      "en": "Spring Planting Season"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "晴朗",
+      "en": "Sunny"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "💧 浇水",
+      "en": "💧 Water"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "🧺 收获",
+      "en": "🧺 Harvest"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "✨ 堆肥 3金",
+      "en": "✨ Compost 3 gold"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "结束一天",
+      "en": "End day"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "集市出售",
+      "en": "Sell at market"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "水井灌溉",
+      "en": "Well irrigation"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "选择当季种子，点击土地开始耕作。",
+      "en": "Pick a seed for the season, then click a plot to start farming."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "今日委托",
+      "en": "Daily orders"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "仓库",
+      "en": "Storage"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "年度进度",
+      "en": "Year progress"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 5,
+      "zh": "溪谷镇居民",
+      "en": "Valley Town residents"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 5,
+      "zh": "每天可赠送一次仓库中价值最低的作物。达到 3/6/9 心会解锁农场增益。",
+      "en": "Once a day you can give the lowest-value crop in storage. Reaching 3/6/9 hearts unlocks farm perks."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "建筑不是单纯数值升级：它们会解锁自动化、动物产物、加工溢价或跨季种植。",
+      "en": "Buildings are more than stat upgrades: they unlock automation, animal products, processing premiums or off-season planting."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "四季作物年鉴",
+      "en": "Four-Season Crop Almanac"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 8,
+      "zh": "选择农场出身",
+      "en": "Choose your farm background"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 8,
+      "zh": "三种出身改变开局资源和长期方向，但都能体验完整年度内容。",
+      "en": "Each of the three backgrounds changes your starting resources and long-term direction, but all can enjoy the full year of content."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 8,
+      "zh": "溪谷节庆",
+      "en": "Valley Festival"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 8,
+      "zh": "农场档案",
+      "en": "Farm Log"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "text",
+      "line": 8,
+      "zh": "返回农场",
+      "en": "Back to farm"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "春",
+      "en": "Spring"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "春日播种季",
+      "en": "Spring Planting Season"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "培育新芽，首个节庆在第 7 天举行。",
+      "en": "Grow new sprouts; the first festival is on day 7."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "夏",
+      "en": "Summer"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "盛夏丰收季",
+      "en": "Midsummer Harvest"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "高价值作物需要更多浇水与体力规划。",
+      "en": "High-value crops need more watering and energy planning."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "秋",
+      "en": "Autumn"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "金秋加工季",
+      "en": "Golden Autumn Processing"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "利用厨房和粮仓把收获转成更高利润。",
+      "en": "Use the kitchen and granary to turn harvests into higher profit."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "冬",
+      "en": "Winter"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "冬藏温室季",
+      "en": "Winter Greenhouse Season"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 10,
+      "zh": "耐寒作物与温室是冬季经营核心。",
+      "en": "Hardy crops and the greenhouse are the heart of winter management."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "萝卜",
+      "en": "Radish"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "豌豆",
+      "en": "Pea"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "草莓",
+      "en": "Strawberry"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "郁金香",
+      "en": "Tulip"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "番茄",
+      "en": "Tomato"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "蓝莓",
+      "en": "Blueberry"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "玉米",
+      "en": "Corn"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "西瓜",
+      "en": "Watermelon"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "南瓜",
+      "en": "Pumpkin"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "葡萄",
+      "en": "Grape"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "茄子",
+      "en": "Eggplant"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "向日葵",
+      "en": "Sunflower"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "冬萝卜",
+      "en": "Winter Radish"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "雪豆",
+      "en": "Snow Pea"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "水晶果",
+      "en": "Crystal Fruit"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 11,
+      "zh": "冬玫瑰",
+      "en": "Winter Rose"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "晴朗",
+      "en": "Sunny"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "正常生长，浇水后次日 +1 生长",
+      "en": "Grows normally; +1 growth the day after watering"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "细雨",
+      "en": "Drizzle"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "土地自动浇水，作物额外 +1 生长",
+      "en": "Plots water themselves; crops gain an extra +1 growth"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "微风",
+      "en": "Breeze"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "花卉售价提高 25%",
+      "en": "Flower sale prices +25%"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "丰收雾",
+      "en": "Harvest Fog"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "成熟作物有概率产出双份",
+      "en": "Ripe crops may yield double"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "热浪",
+      "en": "Heatwave"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 12,
+      "zh": "浇水消耗增加，但夏季作物额外生长",
+      "en": "Watering costs more, but summer crops gain extra growth"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "田园学徒",
+      "en": "Garden Apprentice"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "体力 +2，浇水消耗降低，适合稳定轮作。",
+      "en": "Energy +2, cheaper watering; good for steady crop rotation."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "集市行商",
+      "en": "Market Peddler"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "开局金币更多，所有出售价格 +12%。",
+      "en": "More starting coins and all sale prices +12%."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "溪谷自然家",
+      "en": "Valley Naturalist"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 13,
+      "zh": "初始声望更高，发现新品种与送礼获得额外关系。",
+      "en": "Higher starting renown; discovering new varieties and gifting give extra friendship."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "林芽",
+      "en": "Fern"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "种子商，喜欢春季作物。",
+      "en": "Seed merchant who loves spring crops."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "种子价格 -12%",
+      "en": "Seed prices -12%"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "墨叔",
+      "en": "Uncle Mo"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "集市老板，喜欢高价值收获。",
+      "en": "Market owner who loves high-value harvests."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "出售价格 +12%",
+      "en": "Sale prices +12%"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "澄澄",
+      "en": "Cheng"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "餐馆主厨，喜欢夏季作物。",
+      "en": "Restaurant chef who loves summer crops."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "订单奖励 +20%",
+      "en": "Order rewards +20%"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "阿岳",
+      "en": "Yue"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "木匠，喜欢冬季作物。",
+      "en": "Carpenter who loves winter crops."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "建筑价格 -10%",
+      "en": "Building prices -10%"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "小禾",
+      "en": "Hazel"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "博物馆志愿者，喜欢新品种。",
+      "en": "Museum volunteer who loves new varieties."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "首次发现声望 +2",
+      "en": "First discovery renown +2"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "牧遥",
+      "en": "Willow"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "花艺师，偏爱花卉。",
+      "en": "Florist who prefers flowers."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 14,
+      "zh": "花卉售价 +25%",
+      "en": "Flower sale prices +25%"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "深水井",
+      "en": "Deep Well"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "每天可一键灌溉更多土地。",
+      "en": "Irrigate more plots with one click each day."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "粮仓",
+      "en": "Granary"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "出售时每级增加 5% 仓储溢价。",
+      "en": "Each level adds a 5% storage premium when selling."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "鸡舍",
+      "en": "Chicken Coop"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "每天产出鸡蛋，可直接出售。",
+      "en": "Produces eggs every day that can be sold directly."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "畜棚",
+      "en": "Barn"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "每天产出牛奶，提高稳定收入。",
+      "en": "Produces milk every day for steadier income."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "乡野厨房",
+      "en": "Country Kitchen"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "订单奖励每级提高 10%。",
+      "en": "Each level raises order rewards by 10%."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "玻璃温室",
+      "en": "Glass Greenhouse"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 15,
+      "zh": "等级范围内的土地允许跨季种植。",
+      "en": "Plots within the level's range allow off-season planting."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 17,
+      "zh": "新农场的第一缕晨光落在土地上。",
+      "en": "The first morning light of the new farm falls on the soil."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 20,
+      "zh": "存档码校验失败",
+      "en": "Save code verification failed"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 20,
+      "zh": "版本不兼容",
+      "en": "Version incompatible"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 23,
+      "zh": "体力不足，结束一天或提升水井与关系增益。",
+      "en": "Not enough energy; end the day or improve your well and friendships."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "这不是当季作物，只有温室土地可以跨季种植。",
+      "en": "This is not an in-season crop; only greenhouse plots can grow off-season."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "这块土地已经种有作物。",
+      "en": "This plot already has a crop."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "金币不足，先出售收获或完成委托。",
+      "en": "Not enough coins; sell your harvest or finish an order first."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "种下 ",
+      "en": "Planted "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "，需要 ",
+      "en": ", needs "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": " 生长点。",
+      "en": " growth points."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "土地已经湿润。",
+      "en": "The soil is already moist."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "空地无需浇水。",
+      "en": "An empty plot needs no water."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "土地已浇透。",
+      "en": "The plot is thoroughly watered."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "这株作物已经施肥。",
+      "en": "This crop is already fertilized."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "先播种再施肥。",
+      "en": "Plant first, then fertilize."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "堆肥需要 3 金币。",
+      "en": "Compost costs 3 coins."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "堆肥会让作物每天额外获得生长点。",
+      "en": "Compost gives the crop extra growth points every day."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "这里没有可收获的作物。",
+      "en": "There is no crop to harvest here."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "还需 ",
+      "en": "Still needs "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "年鉴新增：",
+      "en": "Almanac updated: "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "收获 ",
+      "en": "Harvested "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": " 份",
+      "en": " × "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "，首次发现已登记",
+      "en": ", first discovery logged"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "农场升至 Lv.",
+      "en": "Farm reached Lv."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "集市结算 ",
+      "en": "Market sale: "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 26,
+      "zh": " 金币，仓储和关系增益已计入。",
+      "en": " coins, with storage and friendship perks included."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "仓库里没有可出售的货物。",
+      "en": "Storage has nothing to sell."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "季第 ",
+      "en": " · Day "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 27,
+      "zh": " 天，",
+      "en": ", "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 28,
+      "zh": "仓库数量不足",
+      "en": "Not enough in storage"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 28,
+      "zh": "委托完成，获得 ",
+      "en": "Order complete! You earned "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 28,
+      "zh": " 金币与 2 声望。",
+      "en": " coins and 2 renown."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "丰收展台",
+      "en": "Harvest Stand"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "按已发现 ",
+      "en": "Based on "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": " 种作物获得金币与声望。",
+      "en": " discovered crops, earn coins and renown."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "溪谷休假",
+      "en": "Valley Holiday"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "永久体力 +1，并恢复今日全部体力。",
+      "en": "Permanent energy +1 and restore all of today's energy."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "邻里宴席",
+      "en": "Neighbors' Feast"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "所有居民关系 +1，订单立即刷新。",
+      "en": "All resident friendships +1 and orders refresh immediately."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "季节庆",
+      "en": "Seasonal Festival"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "每七天一次的节庆会改变农场长期成长。",
+      "en": "A festival every seven days changes your farm's long-term growth."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 29,
+      "zh": "参加节庆：",
+      "en": "Joined the festival: "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 30,
+      "zh": "今天已经赠送过礼物",
+      "en": "You have already given a gift today"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 30,
+      "zh": "仓库没有可赠送的作物",
+      "en": "Storage has no crop to give"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 30,
+      "zh": "收到",
+      "en": " received "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 30,
+      "zh": "，关系提升 ",
+      "en": ", friendship +"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "金币不足",
+      "en": "Not enough coins"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "升级到 Lv.",
+      "en": " upgraded to Lv."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "没有需要灌溉的作物。",
+      "en": "No crops need watering."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "水井灌溉 ",
+      "en": "Well watered "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 32,
+      "zh": " 块土地。",
+      "en": " plots."
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "跨设备农场档案",
+      "en": "Cross-device farm log"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "<p>年度、农田、仓库、居民关系、建筑和年鉴都会导出，并带完整性校验。</p><textarea class=\"savebox\" id=\"saveCode\">",
+      "en": "<p>The year, fields, storage, resident friendships, buildings and almanac are all exported, with an integrity check.</p><textarea class=\"savebox\" id=\"saveCode\">"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyCode\">复制导出</button><button class=\"btn\" id=\"importCodeBtn\">导入上方存档</button></div>",
+      "en": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyCode\">Copy export</button><button class=\"btn\" id=\"importCodeBtn\">Import code above</button></div>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "农场档案导入成功",
+      "en": "Farm log imported"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 34,
+      "zh": " · 第",
+      "en": " · (Year "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "年",
+      "en": ")"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "金 · ",
+      "en": " gold · "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 35,
+      "zh": "天",
+      "en": " days"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 35,
+      "zh": " · 再生",
+      "en": " · regrows"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "金</span></header><p>期限第 ",
+      "en": " gold</span></header><p>Due day "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": " 天 · 当前 ",
+      "en": " · Have "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": ">交付</button></div>",
+      "en": ">Deliver</button></div>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "🥚鸡蛋 × ",
+      "en": "🥚Eggs × "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "🥛牛奶 × ",
+      "en": "🥛Milk × "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "<div class=\"sub\">仓库还是空的。</div>",
+      "en": "<div class=\"sub\">Storage is still empty.</div>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "<div class=\"order\">发现 <b>",
+      "en": "<div class=\"order\">Discovered <b>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "/16</b> 种作物</div><div class=\"order\">收获 <b>",
+      "en": "/16</b> crops</div><div class=\"order\">Harvested <b>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "</b> · 委托 <b>",
+      "en": "</b> · Orders <b>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "</b></div><div class=\"order\">节庆 <b>",
+      "en": "</b></div><div class=\"order\">Festivals <b>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "</b> · 建筑等级 <b>",
+      "en": "</b> · Building levels <b>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 37,
+      "zh": " · 已生效",
+      "en": " · Active"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 37,
+      "zh": ">赠送作物</button></article>",
+      "en": ">Give crop</button></article>"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "已满级",
+      "en": "Max level"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "升级 ",
+      "en": "Upgrade "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "未发现",
+      "en": "Undiscovered"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "天 · ",
+      "en": " days · "
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "金",
+      "en": " gold"
+    },
+    {
+      "file": "pocket-farm.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "清空当前农场档案？",
+      "en": "Clear the current farm file?"
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "game": "dodge-blocks",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 214,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 227,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "霓虹躲避",
+      "en": "Neon Dodge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "存活",
+      "en": "Survived"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "秒",
+      "en": "sec"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 33,
+      "zh": "最高",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "难度",
+      "en": "Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "驾驶发光飞船在封闭场地中自由穿梭，",
+      "en": "Pilot a glowing ship freely around the enclosed arena, "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "躲避从四面八方涌入的霓虹方块。",
+      "en": "dodging neon blocks pouring in from every side. "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "吃到青色能量球可获得 2 秒无敌。",
+      "en": "Collect a cyan energy orb for 2 seconds of invincibility. "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "坚持得越久，方块越快、越密、越小。",
+      "en": "The longer you last, the faster, denser and smaller the blocks get."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "当前已存活",
+      "en": "Survived so far"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "继续游戏",
+      "en": "Resume game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 59,
+      "zh": "重新开始",
+      "en": "Restart"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 67,
+      "zh": "飞船坠毁",
+      "en": "Ship crashed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "新纪录！",
+      "en": "New record!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "本次存活",
+      "en": "Time survived"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "历史最高",
+      "en": "All-time best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 81,
+      "zh": "再玩一次",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 87,
+      "zh": "WASD / 方向键移动 · 吃青色球短暂无敌 · Esc 暂停 · 触屏可拖动移动",
+      "en": "WASD / Arrow keys to move · cyan orb gives brief invincibility · Esc to pause · drag to move on touch"
+    }
+  ]
+}

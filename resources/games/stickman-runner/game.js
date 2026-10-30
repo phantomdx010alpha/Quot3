@@ -438,7 +438,7 @@
       level = newLevel;
       speed = Math.min(BASE_SPEED + (level - 1) * SPEED_STEP, MAX_SPEED);
       floats.push({
-        text: '速度提升 Lv.' + level,
+        text: 'Speed up Lv.' + level,
         x: W / 2, y: H * 0.34,
         life: 1.6, maxLife: 1.6,
         color: '#ffb347'

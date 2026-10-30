@@ -1,0 +1,195 @@
+{
+  "version": 1,
+  "game": "sky-shooter",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 454,
+      "zh": "双发弹药",
+      "en": "Double Shot"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 457,
+      "zh": "能量护盾",
+      "en": "Energy Shield"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 477,
+      "zh": "护盾抵挡",
+      "en": "Shield Block"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1062,
+      "zh": "连击 x",
+      "en": "Combo x"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1062,
+      "zh": " 倍",
+      "en": " multiplier"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "星际射击",
+      "en": "Star Shooter"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "最高",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 33,
+      "zh": "双发",
+      "en": "Double"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "护盾",
+      "en": "Shield"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 35,
+      "zh": "剩余生命",
+      "en": "Lives left"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "驾驶战机迎击敌机编队，3 条生命挑战最高分",
+      "en": "Pilot your fighter against enemy formations; 3 lives to chase the high score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 46,
+      "zh": "敌机三种：直线俯冲机、左右蛇形机、重装大型机",
+      "en": "Three enemy types: straight divers, side-to-side snakes, heavy large planes"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 47,
+      "zh": "击毁大型机有几率掉落双发弹药与能量护盾",
+      "en": "Large planes may drop Double Shot ammo and Energy Shields when destroyed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "连续击毁提升连击倍率，被击中则连击清零",
+      "en": "Chain kills to raise the combo multiplier; getting hit resets the combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 50,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 57,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "按 Esc 键或点击下方按钮继续战斗",
+      "en": "Press Esc or click the button below to resume battle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 59,
+      "zh": "继续游戏",
+      "en": "Resume game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "游戏结束",
+      "en": "Game over"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "本次得分",
+      "en": "Your score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "历史最高",
+      "en": "All-time best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "恭喜突破最高纪录！",
+      "en": "You broke the record!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 72,
+      "zh": "再玩一次",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "方向键 / WASD 移动 · 空格射击（按住连发） · Esc 暂停 · 道具：双发 / 护盾 · 移动端触屏拖动战机自动开火",
+      "en": "Arrow keys / WASD move · Space to shoot (hold for auto-fire) · Esc pause · Power-ups: double / shield · On touch screens drag the fighter and it fires automatically"
+    }
+  ]
+}

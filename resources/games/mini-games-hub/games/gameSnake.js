@@ -9,7 +9,7 @@ const CELL = SIZE / N
 
 export default {
   id: 'snake',
-  name: '贪吃蛇',
+  name: 'Snake',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -100,11 +100,11 @@ export default {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, SIZE, SIZE, 16)
         ctx.fill()
-        centerText(ctx, '撞到了！', SIZE / 2, SIZE / 2 - 16, 34, '#FFFFFF')
-        centerText(ctx, `本局 ${score} 分`, SIZE / 2, SIZE / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 重开', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+        centerText(ctx, 'Crashed!', SIZE / 2, SIZE / 2 - 16, 34, '#FFFFFF')
+        centerText(ctx, `Score: ${score} pts`, SIZE / 2, SIZE / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R to restart', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
       }
-      if (paused && !over) centerText(ctx, '已暂停', SIZE / 2, SIZE / 2, 26, '#FFFFFF')
+      if (paused && !over) centerText(ctx, 'Paused', SIZE / 2, SIZE / 2, 26, '#FFFFFF')
     }
 
     const DIRS = {

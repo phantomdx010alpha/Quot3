@@ -19,16 +19,16 @@
 
   // 十个等级：中文名 + 毛色 / 暗部 / 耳朵 / 眼睛 / 胡须等配色
   var CAT_DEFS = [
-    { name: '奶猫', fur: '#f7e0c4', dark: '#dabf95', ear: '#eccfa6', eye: '#6b4f35', whisker: 'rgba(150,120,90,.45)', tint: '#93a8dd' },
-    { name: '狸花', fur: '#c7a37e', dark: '#8d6d4c', ear: '#a87f5b', eye: '#4a3826', whisker: 'rgba(255,255,255,.55)', tint: '#b08d66', stripe: '#74563a' },
-    { name: '橘猫', fur: '#f3a648', dark: '#d9822b', ear: '#e08f33', eye: '#4a3826', whisker: 'rgba(255,255,255,.6)', tint: '#f0a14e', stripe: '#c0691c' },
-    { name: '奶牛', fur: '#f5f1ea', dark: '#d8d0c2', ear: '#e7e0d5', eye: '#3a332e', whisker: 'rgba(120,100,85,.4)', tint: '#c9c2b6' },
-    { name: '三花', fur: '#f7efe4', dark: '#ddcfba', ear: '#ecdcc4', eye: '#3a332e', whisker: 'rgba(120,100,85,.4)', tint: '#e88fa8' },
-    { name: '蓝猫', fur: '#94a8c7', dark: '#6e84a6', ear: '#8094b6', eye: '#d98a3d', whisker: 'rgba(255,255,255,.55)', tint: '#7d97c9' },
-    { name: '暹罗', fur: '#ecd8bb', dark: '#caa87d', ear: '#5b4636', eye: '#46b8ff', whisker: 'rgba(120,95,70,.4)', tint: '#a88768', mask: '#5b4636' },
-    { name: '布偶', fur: '#f4e8d9', dark: '#d5bfa8', ear: '#b79a82', eye: '#4f9fff', whisker: 'rgba(120,95,70,.4)', tint: '#9db8e8', fluff: true },
-    { name: '缅因', fur: '#ab7d52', dark: '#75502d', ear: '#8a5f39', eye: '#7fb069', whisker: 'rgba(255,255,255,.55)', tint: '#b07d4e', stripe: '#604022', mane: true },
-    { name: '猫王', fur: '#ffe6a3', dark: '#e5b13c', ear: '#f2c64e', eye: '#7a4a16', whisker: 'rgba(255,255,255,.7)', tint: '#ffd24a', crown: true }
+    { name: 'Kitten', fur: '#f7e0c4', dark: '#dabf95', ear: '#eccfa6', eye: '#6b4f35', whisker: 'rgba(150,120,90,.45)', tint: '#93a8dd' },
+    { name: 'Tabby', fur: '#c7a37e', dark: '#8d6d4c', ear: '#a87f5b', eye: '#4a3826', whisker: 'rgba(255,255,255,.55)', tint: '#b08d66', stripe: '#74563a' },
+    { name: 'Ginger', fur: '#f3a648', dark: '#d9822b', ear: '#e08f33', eye: '#4a3826', whisker: 'rgba(255,255,255,.6)', tint: '#f0a14e', stripe: '#c0691c' },
+    { name: 'Tuxedo', fur: '#f5f1ea', dark: '#d8d0c2', ear: '#e7e0d5', eye: '#3a332e', whisker: 'rgba(120,100,85,.4)', tint: '#c9c2b6' },
+    { name: 'Calico', fur: '#f7efe4', dark: '#ddcfba', ear: '#ecdcc4', eye: '#3a332e', whisker: 'rgba(120,100,85,.4)', tint: '#e88fa8' },
+    { name: 'Blue Cat', fur: '#94a8c7', dark: '#6e84a6', ear: '#8094b6', eye: '#d98a3d', whisker: 'rgba(255,255,255,.55)', tint: '#7d97c9' },
+    { name: 'Siamese', fur: '#ecd8bb', dark: '#caa87d', ear: '#5b4636', eye: '#46b8ff', whisker: 'rgba(120,95,70,.4)', tint: '#a88768', mask: '#5b4636' },
+    { name: 'Ragdoll', fur: '#f4e8d9', dark: '#d5bfa8', ear: '#b79a82', eye: '#4f9fff', whisker: 'rgba(120,95,70,.4)', tint: '#9db8e8', fluff: true },
+    { name: 'Maine', fur: '#ab7d52', dark: '#75502d', ear: '#8a5f39', eye: '#7fb069', whisker: 'rgba(255,255,255,.55)', tint: '#b07d4e', stripe: '#604022', mane: true },
+    { name: 'Cat King', fur: '#ffe6a3', dark: '#e5b13c', ear: '#f2c64e', eye: '#7a4a16', whisker: 'rgba(255,255,255,.7)', tint: '#ffd24a', crown: true }
   ];
 
   // 粒子配色
@@ -455,7 +455,7 @@
     } else {
       item.classList.add('locked');
       item.classList.remove('unlocked');
-      nameEl.textContent = '？？？';
+      nameEl.textContent = '???';
       drawSilhouette(c, 32, 32, 21);
     }
   }
@@ -463,7 +463,7 @@
   function refreshCodex() {
     var count = 0;
     for (var i = 1; i <= CAT_DEFS.length; i++) if (unlocked[i]) count++;
-    codexSub.textContent = '已解锁 ' + count + ' / ' + CAT_DEFS.length;
+    codexSub.textContent = 'Unlocked ' + count + ' / ' + CAT_DEFS.length;
     var items = codexGrid.children;
     for (var k = 0; k < items.length; k++) {
       var cv = items[k].querySelector('canvas');

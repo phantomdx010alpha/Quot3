@@ -13,7 +13,7 @@ const COLORS = ['#FF5C8A', '#F0A24F', '#F0D878', '#6FD3A5', '#22D3EE', '#3F7FBF'
 
 export default {
   id: 'breakout',
-  name: '打砖块',
+  name: 'Breakout',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -105,7 +105,7 @@ export default {
         level++
         buildBricks()
         resetBall()
-        api.status(`第 ${level} 关，球速提升`)
+        api.status(`Level ${level}, ball speeds up`)
       }
       if (ball.y > H + 20) {
         lives--
@@ -114,7 +114,7 @@ export default {
           api.over(score)
         } else {
           resetBall()
-          api.status(`剩 ${lives} 条命`)
+          api.status(`Left: ${lives} lives`)
         }
       }
     }
@@ -125,9 +125,9 @@ export default {
       ctx.fillStyle = boardBg
       ctx.fill()
       // 顶部信息
-      centerText(ctx, `分数 ${score}`, W / 2 - 90, 30, 15, '#FFFFFF', '600')
-      centerText(ctx, `命 ${'●'.repeat(Math.max(lives, 0))}`, W / 2 + 10, 30, 15, '#F070B0', '600')
-      centerText(ctx, `第 ${level} 关`, W - 60, 30, 13, 'rgba(232,238,249,0.6)', '500')
+      centerText(ctx, `Score ${score}`, W / 2 - 90, 30, 15, '#FFFFFF', '600')
+      centerText(ctx, `Lives ${'●'.repeat(Math.max(lives, 0))}`, W / 2 + 10, 30, 15, '#F070B0', '600')
+      centerText(ctx, `Level ${level}.`, W - 60, 30, 13, 'rgba(232,238,249,0.6)', '500')
       // 砖
       for (const b of bricks) {
         if (b.hp <= 0) continue
@@ -147,16 +147,16 @@ export default {
       ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2)
       ctx.fill()
       // 未发射提示
-      if (!launched && !over) centerText(ctx, '点击 / 空格 发球', W / 2, H - 80, 14, 'rgba(232,238,249,0.6)', '500')
+      if (!launched && !over) centerText(ctx, 'Click / Space to serve', W / 2, H - 80, 14, 'rgba(232,238,249,0.6)', '500')
 
       if (over) {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, W, H, 16)
         ctx.fill()
         centerText(ctx, 'Game Over', W / 2, H / 2 - 16, 34, '#FFFFFF')
-        centerText(ctx, `本局 ${score} 分 · 第 ${level} 关`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 重开', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
+        centerText(ctx, `Score: ${score} pts · Level ${level}.`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R to restart', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
     }
 
     const movePaddle = (clientXRatio) => {

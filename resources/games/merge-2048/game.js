@@ -435,17 +435,17 @@
 
   function showOverlay(kind) {
     if (kind === 'win') {
-      overlayTitle.textContent = '达成 2048！';
+      overlayTitle.textContent = 'You reached 2048!';
       overlayTitle.className = 'overlay-title win';
-      overlayText.textContent = '恭喜合成 2048！可以继续挑战，冲击 4096 甚至更高数字。';
+      overlayText.textContent = 'Congratulations on merging 2048! Keep going and aim for 4096 or higher.';
       continueBtn.classList.remove('hidden');
-      overlayNewBtn.textContent = '新游戏';
+      overlayNewBtn.textContent = 'New game';
     } else {
-      overlayTitle.textContent = '游戏结束';
+      overlayTitle.textContent = 'Game over';
       overlayTitle.className = 'overlay-title lose';
-      overlayText.textContent = '棋盘已满且没有可合并的数字，最终得分 ' + state.score + ' 分。';
+      overlayText.textContent = 'The board is full and nothing can merge. Final score: ' + state.score + '.';
       continueBtn.classList.add('hidden');
-      overlayNewBtn.textContent = '再来一局';
+      overlayNewBtn.textContent = 'Play again';
     }
     overlay.classList.remove('hidden');
   }

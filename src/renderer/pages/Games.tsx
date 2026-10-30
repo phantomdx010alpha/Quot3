@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { GameController, Shuffle, Star, Clock } from '@phosphor-icons/react'
 import { GAME_TAGS, type GameEntry, type GameTag } from '@shared/games/manifest'
-import { searchGames } from '@shared/games/search'
+import { filterByLanguage, searchGames } from '@shared/games/search'
 import { Button, EmptyState } from '../components/ui'
 import { GamesSearch } from '../components/games/GamesSearch'
 import { GamesGrid } from '../components/games/GamesGrid'
@@ -9,7 +9,7 @@ import { GamePlayer } from '../components/games/GamePlayer'
 import { GamesCredits } from '../components/games/GamesCredits'
 import { TAG_LABELS } from '../components/games/GameCard'
 import { useGamesStore } from '../stores/gamesStore'
-import { closeGame, loadGames, loadGamesEnabled, openGame, openRandomGame, restartGame, toggleFavourite } from '../stores/gamesActions'
+import { closeGame, loadGames, loadGamesEnabled, openGame, openRandomGame, restartGame, setShowChinese, toggleFavourite } from '../stores/gamesActions'
 import { useRouter } from '../router/routerStore'
 import { ROUTES } from '@shared/routes'
 
@@ -22,6 +22,7 @@ export default function Games(): React.JSX.Element {
   const status = useGamesStore((s) => s.status)
   const error = useGamesStore((s) => s.error)
   const games = useGamesStore((s) => s.games)
+  const showChinese = useGamesStore((s) => s.showChinese)
   const skipped = useGamesStore((s) => s.skipped)
   const state = useGamesStore((s) => s.state)
   const playing = useGamesStore((s) => s.playing)
@@ -48,9 +49,12 @@ export default function Games(): React.JSX.Element {
   }, [])
   useEffect(() => { if (!playing) searchRef.current?.focus() }, [playing, status])
 
+  // Phase 205: everything below (search, filters, random, counts) works on the visible list only.
+  const visible = useMemo(() => filterByLanguage(games, showChinese), [games, showChinese])
+  const hidden = games.length - visible.length
   const shown = useMemo(
-    () => searchGames(games, query, { ...(tags.length > 0 ? { tags } : {}), ...(onlyFav ? { onlyFavourites: true } : {}), ...(onlyRecent ? { onlyRecent: true } : {}) }, state),
-    [games, query, tags, onlyFav, onlyRecent, state]
+    () => searchGames(visible, query, { ...(tags.length > 0 ? { tags } : {}), ...(onlyFav ? { onlyFavourites: true } : {}), ...(onlyRecent ? { onlyRecent: true } : {}) }, state),
+    [visible, query, tags, onlyFav, onlyRecent, state]
   )
   const toggleTag = (t: GameTag): void => setTags((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]))
   const focusGrid = (): void => { gridWrap.current?.querySelector<HTMLElement>('[data-game-open]')?.focus() }
@@ -77,7 +81,7 @@ export default function Games(): React.JSX.Element {
       <h1 className="q3-page__title">Games</h1>
       <div className="q3-games__head">
         <GamesSearch ref={searchRef} value={query} onChange={setQuery} onEnterGrid={focusGrid} />
-        <Button icon={Shuffle} onClick={() => { void openRandomGame() }} disabled={games.length === 0}>Random game</Button>
+        <Button icon={Shuffle} onClick={() => { void openRandomGame() }} disabled={visible.length === 0}>Random game</Button>
       </div>
       <div className="q3-games__chips" role="group" aria-label="Filter games">
         <button type="button" className="q3-games__chip" aria-pressed={onlyFav} onClick={() => setOnlyFav((v) => !v)}><Star size={14} weight="bold" /> Favourites</button>
@@ -86,6 +90,12 @@ export default function Games(): React.JSX.Element {
           <button key={t} type="button" className="q3-games__chip" aria-pressed={tags.includes(t)} onClick={() => toggleTag(t)}>{TAG_LABELS[t] ?? t}</button>
         ))}
       </div>
+      {hidden > 0 && (
+        <p className="q3-games__note" role="status">
+          {hidden} {hidden === 1 ? 'game with a Chinese interface is' : 'games with a Chinese interface are'} hidden.{' '}
+          <button type="button" className="q3-games__link" onClick={() => { void setShowChinese(true) }}>Show them</button>
+        </p>
+      )}
       {error !== '' && <p role="alert" className="q3-games__err">{error}</p>}
       <div ref={gridWrap} className="q3-games__body">
         {status === 'loading' && games.length === 0 ? (
@@ -102,7 +112,7 @@ export default function Games(): React.JSX.Element {
         )}
       </div>
       <div className="q3-games__foot">
-        <span>{shown.length} of {games.length} games{skipped > 0 ? ` (${skipped} skipped: see Settings)` : ''}</span>
+        <span>{shown.length} of {visible.length} games{skipped > 0 ? ` (${skipped} skipped: see Settings)` : ''}</span>
         <button type="button" className="q3-games__link" onClick={() => setCredits(true)}>Credits and licences</button>
       </div>
       <GamesCredits open={credits} onClose={() => setCredits(false)} />

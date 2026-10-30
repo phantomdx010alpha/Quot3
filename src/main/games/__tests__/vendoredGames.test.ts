@@ -59,3 +59,15 @@ describe('vendored games (real resources/games folder)', () => {
     for (const g of parsed.games) expect(txt).toContain('`' + g.id + '`')
   })
 })
+
+describe('vendored games language (Phase 205, M20)', () => {
+  it('every manifest game has lang en or zh equal to the tool answer; the English ones are the seven original games plus the translated ones', async () => {
+    const lang = await import('../../../../tools/games-lang.mjs')
+    const found = lang.classifyGamesRoot(ROOT)
+    expect(parsed.games.every((g) => g.lang === 'en' || g.lang === 'zh')).toBe(true)
+    for (const g of parsed.games) expect({ id: g.id, lang: g.lang }).toEqual({ id: g.id, lang: found[g.id]!.lang })
+    // the seven games that were English upstream, plus every game translated since Phase 206 (each has a worksheet in docs/translations)
+    const translated = readdirSync(resolve(ROOT, '../../docs/translations')).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5))
+    expect(parsed.games.filter((g) => g.lang === 'en').map((g) => g.id).sort()).toEqual(['2048', 'blocks', 'bounce-ball', 'chess', 'snake', 'spider-solitaire', 'tower-defence', ...translated].sort())
+  })
+})

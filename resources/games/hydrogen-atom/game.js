@@ -33,7 +33,7 @@ const P_ORIENTS = [
   { kind: 'px',  label: 'px',  color: '#ff5ca8' },
   { kind: 'py',  label: 'py',  color: '#22d3ee' },
   { kind: 'pz',  label: 'pz',  color: '#ffb347' },
-  { kind: 'pal', label: '三色叠加', color: '#7c5cff' }
+  { kind: 'pal', label: 'All three combined', color: '#7c5cff' }
 ];
 
 // d 态空间取向（实轨道）
@@ -53,12 +53,12 @@ const STATE_COLORS = {
 
 // 轨道通俗解释（教学信息卡用）
 const DESC = {
-  '1s': '电子像一团紧贴原子核的球形雾，在距核约 1 个玻尔半径处出现概率最大，没有任何择优方向。',
-  '2s': '比 1s 更大的球形雾，内部包着一层“空心”球壳（径向节面）；电子既可能出现在离核很近处，也可能出现在远处。',
-  '2p': '哑铃形的两叶概率云，两叶之间穿过原子核的平面是角向节面，电子只出现在节面两侧的两叶中。',
-  '3s': '更加弥散的球形云，含有两个同心的“空心”球壳（两个径向节面），一共三层球壳结构。',
-  '3p': '哑铃形两叶云内部又多出一个径向节面，整体比 2p 更舒展，电子可以离核更远。',
-  '3d': '形状复杂的多叶概率云（dxy 等为四叶花瓣形，dz² 为双叶加赤道环），空间方向性最强。'
+  '1s': 'The electron is a spherical haze hugging the nucleus, most likely found about 1 Bohr radius from it, with no preferred direction.',
+  '2s': 'A larger spherical haze than 1s, with a hollow shell (a radial node) inside; the electron may be very near the nucleus or far away.',
+  '2p': 'A dumbbell-shaped cloud of two lobes. The plane through the nucleus between the lobes is the angular node; the electron appears only in the two lobes on either side of it.',
+  '3s': 'An even more diffuse spherical cloud with two concentric hollow shells (two radial nodes), three layers in all.',
+  '3p': 'A two-lobed dumbbell cloud with an extra radial node inside; more spread out than 2p, so the electron can be farther from the nucleus.',
+  '3d': 'Complex multi-lobed clouds (dxy and similar are four-petal shapes, dz² is two lobes plus an equatorial ring) with the strongest directionality.'
 };
 
 /* ====================== 数学：阶乘 / 关联拉盖尔 ====================== */
@@ -855,13 +855,13 @@ function boot() {
     switch (kind) {
       case 'pz': return 'm = 0';
       case 'px':
-      case 'py': return 'm = +1 与 −1 的实轨道组合';
-      case 'pal': return 'm = −1、0、+1（三个等价取向）';
+      case 'py': return 'm = +1 and −1 real orbitals combined';
+      case 'pal': return 'm = −1, 0, +1 (three equivalent orientations)';
       case 'dz2': return 'm = 0';
       case 'dxz':
-      case 'dyz': return 'm = +1 与 −1 的实轨道组合';
+      case 'dyz': return 'm = +1 and −1 real orbitals combined';
       case 'dxy':
-      case 'dx2y2': return 'm = +2 与 −2 的实轨道组合';
+      case 'dx2y2': return 'm = +2 and −2 real orbitals combined';
       default: return 'm = 0';
     }
   }
@@ -870,12 +870,12 @@ function boot() {
     const n = electron.n;
     const rA0 = n * n;
     return '<div class="info-block">' +
-      '<div class="info-head"><b>玻尔模型</b><span>第 ' + n + ' 能级（定态）</span></div>' +
-      '<div class="info-row"><span>能量 Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
-      '<div class="info-row"><span>轨道半径</span><b>' + rA0 + ' a₀ ≈ ' + (rA0 * A0_ANGSTROM).toFixed(2) + ' 埃</b></div>' +
-      '<div class="info-row"><span>轨道角动量</span><b>L = nℏ = ' + n + 'ℏ</b></div>' +
-      '<div class="info-row"><span>轨道速度节奏</span><b>约为基态的 ' + (1 / Math.pow(n, 2.4)).toFixed(3) + ' 倍</b></div>' +
-      '<div class="info-desc">电子沿半径为 n²a₀ 的确定圆轨道运动；降低能级时螺旋落向内层并放出一个能量确定的光子（叮咚声为示意）。</div>' +
+      '<div class="info-head"><b>Bohr model</b><span>Level ' + n + ' (stationary state)</span></div>' +
+      '<div class="info-row"><span>Energy Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
+      '<div class="info-row"><span>Orbit radius</span><b>' + rA0 + ' a₀ ≈ ' + (rA0 * A0_ANGSTROM).toFixed(2) + ' Å</b></div>' +
+      '<div class="info-row"><span>Orbital angular momentum</span><b>L = nℏ = ' + n + 'ℏ</b></div>' +
+      '<div class="info-row"><span>Orbital speed rate</span><b>About ' + (1 / Math.pow(n, 2.4)).toFixed(3) + ' times the ground state</b></div>' +
+      '<div class="info-desc">The electron moves on a fixed circular orbit of radius n²a₀. Dropping to a lower level, it spirals inward and releases one photon of fixed energy (the chime is only illustrative).</div>' +
     '</div>';
   }
 
@@ -894,13 +894,13 @@ function boot() {
     const lName = ['s', 'p', 'd'][l];
     const L = l === 0 ? '0' : '√' + (l * (l + 1)) + ' ℏ';
     return '<div class="info-block">' +
-      '<div class="info-head"><b>' + key + (oriLabel && oriLabel.length <= 3 ? '（' + oriLabel + '）' : '') + '</b>' +
-      '<span>n=' + n + '，l=' + l + '（' + lName + ' 亚层）</span></div>' +
-      '<div class="info-row"><span>能量 Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
-      '<div class="info-row"><span>角动量大小</span><b>√l(l+1)ℏ = ' + L + '</b></div>' +
-      '<div class="info-row"><span>角动量投影</span><b>' + (kind === 's' ? 'm = 0' : mText(kind)) + '</b></div>' +
-      '<div class="info-row"><span>亚层简并度</span><b>2l+1 = ' + (2 * l + 1) + '</b></div>' +
-      '<div class="info-row"><span>主能级简并度</span><b>n² = ' + (n * n) + '（不计自旋）</b></div>' +
+      '<div class="info-head"><b>' + key + (oriLabel && oriLabel.length <= 3 ? ' (' + oriLabel + ')' : '') + '</b>' +
+      '<span>n=' + n + ', l=' + l + ' (' + lName + ' subshell)</span></div>' +
+      '<div class="info-row"><span>Energy Eₙ</span><b>' + (-RYDBERG_EV / (n * n)).toFixed(2) + ' eV</b></div>' +
+      '<div class="info-row"><span>Angular momentum magnitude</span><b>√l(l+1)ℏ = ' + L + '</b></div>' +
+      '<div class="info-row"><span>Angular momentum projection</span><b>' + (kind === 's' ? 'm = 0' : mText(kind)) + '</b></div>' +
+      '<div class="info-row"><span>Subshell degeneracy</span><b>2l+1 = ' + (2 * l + 1) + '</b></div>' +
+      '<div class="info-row"><span>Level degeneracy</span><b>n² = ' + (n * n) + ' (spin not counted)</b></div>' +
       '<div class="info-desc">' + DESC[key] + '</div>' +
     '</div>';
   }
@@ -938,9 +938,9 @@ function boot() {
   }
 
   const CAPTIONS = {
-    bohr: '玻尔模型：电子在确定的圆形轨道上绕核运动，跃迁时吸收或发射能量确定的光子。',
-    cloud: '电子云模型：波函数只给出电子在各处出现的概率，点越密概率越大，不存在确定轨道。',
-    compare: '玻尔模型中电子沿确定的轨道运动；量子力学中不存在轨道，只有概率分布（电子云）。'
+    bohr: 'Bohr model: the electron circles the nucleus on a fixed orbit and absorbs or emits photons of fixed energy when it jumps.',
+    cloud: 'Electron cloud model: the wave function only gives the probability of finding the electron; the denser the dots, the higher the probability. There are no fixed orbits.',
+    compare: 'In the Bohr model the electron follows a fixed orbit; in quantum mechanics there are no orbits, only a probability distribution (the electron cloud).'
   };
 
   function applyMode() {
@@ -1117,7 +1117,7 @@ function boot() {
   const panelToggle = document.getElementById('panelToggle');
   panelToggle.addEventListener('click', () => {
     const open = panel.classList.toggle('open');
-    panelToggle.textContent = open ? '收起面板 ▼' : '控制面板 ▲';
+    panelToggle.textContent = open ? 'Hide panel ▼' : 'Controls ▲';
   });
 
   window.addEventListener('resize', resize);

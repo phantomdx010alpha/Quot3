@@ -13,7 +13,7 @@ const GY = 252 // 地面基线
 
 export default {
   id: 'dino',
-  name: '跑酷小恐龙',
+  name: 'Dino Run',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -66,7 +66,7 @@ export default {
       legPhase = 0
       initScenery()
       api.score(0)
-      api.status('空格 / 点击起跑，↓ 下蹲')
+      api.status('Space / click to start, ↓ to duck')
     }
 
     function jump() {
@@ -268,14 +268,14 @@ export default {
         centerText(ctx, `${score}!`, W / 2, 60, 26, '#7EE2B8')
         ctx.globalAlpha = 1
       }
-      if (paused && !over) centerText(ctx, '已暂停 · P 继续', W / 2, H / 2, 24, '#FFFFFF')
+      if (paused && !over) centerText(ctx, 'Paused · P to resume', W / 2, H / 2, 24, '#FFFFFF')
       if (over) {
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, W, H, 16)
         ctx.fill()
-        centerText(ctx, '撞上了！', W / 2, H / 2 - 24, 32, '#E05B5B')
-        centerText(ctx, `本局 ${score} 分`, W / 2, H / 2 + 16, 18, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 或点击重跑', W / 2, H / 2 + 50, 15, 'rgba(232,238,249,0.55)', '500')
+        centerText(ctx, 'Crashed!', W / 2, H / 2 - 24, 32, '#E05B5B')
+        centerText(ctx, `Score: ${score} pts`, W / 2, H / 2 + 16, 18, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R or click to run again', W / 2, H / 2 + 50, 15, 'rgba(232,238,249,0.55)', '500')
       }
     }
 

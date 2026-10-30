@@ -1,0 +1,1256 @@
+--- a/resources/games/tank-arena/tank-arena.html
++++ b/resources/games/tank-arena/tank-arena.html
+@@ -1,12 +1,12 @@
+ <!doctype html>
+-<html lang="zh-CN">
++<html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+     <meta
+       name="viewport"
+       content="width=device-width, initial-scale=1.0, user-scalable=no"
+     />
+-    <title>霓虹装甲：钢铁纪元</title>
++    <title>Neon Armor: Age of Steel</title>
+     <style>
+       :root {
+         color-scheme: dark;
+@@ -590,35 +590,35 @@
+     </style>
+   </head>
+   <body>
+-    <canvas id="gameCanvas" aria-label="霓虹装甲战场"></canvas>
++    <canvas id="gameCanvas" aria-label="Neon Armor battlefield"></canvas>
+ 
+-    <div class="move-joystick" id="moveJoystick" aria-label="移动摇杆">
++    <div class="move-joystick" id="moveJoystick" aria-label="Move joystick">
+       <div class="move-joystick-base"></div>
+       <div class="move-joystick-thumb" id="moveJoystickThumb"></div>
+     </div>
+ 
+     <div class="hud">
+       <section class="brand panel">
+-        <h1>霓虹装甲 <b>钢铁纪元 V3</b></h1>
++        <h1>Neon Armor <b>Age of Steel V3</b></h1>
+         <div class="stats">
+           <div class="stat">
+-            <div class="label">战况</div>
++            <div class="label">Status</div>
+             <div class="value" id="waveValue">1</div>
+           </div>
+           <div class="stat">
+-            <div class="label">得分</div>
++            <div class="label">Score</div>
+             <div class="value" id="scoreValue">0</div>
+           </div>
+           <div class="stat">
+-            <div class="label">最高</div>
++            <div class="label">Best</div>
+             <div class="value" id="bestValue">0</div>
+           </div>
+           <div class="stat">
+-            <div class="label">敌军</div>
++            <div class="label">Enemies</div>
+             <div class="value" id="enemyValue">0</div>
+           </div>
+           <div class="stat">
+-            <div class="label">装甲</div>
++            <div class="label">Armor</div>
+             <div class="value" id="armorValue">100</div>
+           </div>
+         </div>
+@@ -633,110 +633,110 @@
+       </section>
+ 
+       <section class="side panel">
+-        <h2>战术状态</h2>
++        <h2>Tactical Status</h2>
+         <div class="status-list">
+           <div class="status-row">
+-            <span>炮弹</span><strong id="shellValue">标准弹</strong>
++            <span>Shell</span><strong id="shellValue">Standard shell</strong>
+           </div>
+           <div class="status-row">
+-            <span>反弹</span><strong id="bounceValue">1</strong>
++            <span>Bounces</span><strong id="bounceValue">1</strong>
+           </div>
+           <div class="status-row">
+-            <span>模块</span><strong id="partValue">0</strong>
++            <span>Modules</span><strong id="partValue">0</strong>
+           </div>
+           <div class="status-row">
+-            <span>技能</span><strong id="skillValue">电磁脉冲</strong>
++            <span>Skill</span><strong id="skillValue">EMP</strong>
+           </div>
+           <div class="status-row">
+-            <span>目标</span><strong id="objectiveValue">清空敌军</strong>
++            <span>Objective</span><strong id="objectiveValue">Clear all enemies</strong>
+           </div>
+           <div class="status-row">
+-            <span>操作</span><strong>WASD / 鼠标</strong>
++            <span>Controls</span><strong>WASD / Mouse</strong>
+           </div>
+         </div>
+       </section>
+ 
+       <div class="controls">
+-        <button class="icon-btn" id="pauseBtn" title="暂停">Ⅱ</button>
++        <button class="icon-btn" id="pauseBtn" title="Pause">Ⅱ</button>
+-        <button class="icon-btn" id="restartBtn" title="重新开始">↻</button>
++        <button class="icon-btn" id="restartBtn" title="Restart">↻</button>
+       </div>
+ 
+-      <button class="skill-btn" id="skillBtn" title="技能">✦</button>
++      <button class="skill-btn" id="skillBtn" title="Skill">✦</button>
+-      <button class="fire-btn" id="fireBtn" title="开火">●</button>
++      <button class="fire-btn" id="fireBtn" title="Fire">●</button>
+     </div>
+ 
+-    <div class="toast panel" id="toast">第 1 波</div>
++    <div class="toast panel" id="toast">Wave 1</div>
+ 
+     <div class="overlay" id="overlay">
+       <section class="start-card panel">
+-        <h2 id="overlayTitle">霓虹装甲：钢铁纪元 V3</h2>
++        <h2 id="overlayTitle">Neon Armor: Age of Steel V3</h2>
+         <p id="overlayText">
+-          驾驶一辆炮塔独立转向的主战坦克，穿过可破坏街区，利用反弹炮弹、侧后方弱点、波次升级或零件构筑击穿敌军。
++          Drive a main battle tank with an independently steering turret through destructible city blocks, and break the enemy with bouncing shells, rear and flank weak points, wave upgrades or part builds.
+         </p>
+         <div class="mode-grid" id="modeGrid">
+           <button class="mode-card active" data-mode="campaign">
+-            <strong>装甲突围</strong>
++            <strong>Armored Breakout</strong>
+-            <span>8 波战斗，节奏均衡，最后迎战移动堡垒。</span>
++            <span>8 balanced waves, ending against a mobile fortress.</span>
+           </button>
+           <button class="mode-card" data-mode="siege">
+-            <strong>守点压制</strong>
++            <strong>Hold &amp; Suppress</strong>
+-            <span>敌军更多，油桶和掩体更密，适合喜欢爆炸的人。</span>
++            <span>More enemies and denser barrels and cover; made for people who love explosions.</span>
+           </button>
+           <button class="mode-card" data-mode="duel">
+-            <strong>精英猎杀</strong>
++            <strong>Elite Hunt</strong>
+-            <span>敌人更少但更强，弱点命中和走位更重要。</span>
++            <span>Fewer but stronger enemies; weak-point hits and positioning matter more.</span>
+           </button>
+           <button class="mode-card" data-mode="arena">
+-            <strong>计时死斗</strong>
++            <strong>Timed Deathmatch</strong>
+-            <span>16 辆坦克持续复活，拾取模块自动装配，限时抢分。</span>
++            <span>16 tanks respawn continuously, picked-up modules fit automatically, score against the clock.</span>
+           </button>
+           <button class="mode-card" data-mode="elimination">
+-            <strong>终局竞技</strong>
++            <strong>Final Arena</strong>
+-            <span>16 辆坦克一命决斗，拾取模块变强，最后存活者第一。</span>
++            <span>16 tanks, one life each; picked-up modules make you stronger; last survivor wins.</span>
+           </button>
+           <button class="mode-card" data-mode="storm">
+-            <strong>风暴战线</strong>
++            <strong>Storm Front</strong>
+-            <span>10 波高压行动，空袭与补给事件更加频繁，首领进入二阶段。</span>
++            <span>10 high-pressure waves with frequent airstrikes and supply events; the boss gets a second phase.</span>
+           </button>
+           <button class="mode-card" data-mode="bossRush">
+-            <strong>堡垒连战</strong>
++            <strong>Fortress Gauntlet</strong>
+-            <span>5 场首领连续压境，每场都会换装护卫并强化阶段机制。</span>
++            <span>5 bosses in a row; each fight swaps the escorts and strengthens the phase mechanics.</span>
+           </button>
+           <button class="mode-card" data-mode="endless">
+-            <strong>无尽战区</strong>
++            <strong>Endless Zone</strong>
+-            <span>波次持续升级，每 8 波出现移动堡垒，检验极限构筑。</span>
++            <span>Waves keep escalating, a mobile fortress appears every 8 waves; the ultimate build test.</span>
+           </button>
+         </div>
+         <div class="garage-wrap">
+           <section class="garage-block">
+-            <h3>底盘选择</h3>
++            <h3>Choose chassis</h3>
+             <div class="garage-grid" id="chassisGrid"></div>
+           </section>
+           <section class="garage-block">
+-            <h3>主炮选择</h3>
++            <h3>Choose cannon</h3>
+             <div class="garage-grid" id="cannonGrid"></div>
+           </section>
+           <section class="garage-block" style="grid-column: 1/-1">
+-            <h3>永久军械库</h3>
++            <h3>Permanent Armory</h3>
+             <div class="armory-grid" id="armoryGrid"></div>
+-            <div class="garage-meta" id="garageMeta">军功 0</div>
++            <div class="garage-meta" id="garageMeta">Merit 0</div>
+           </section>
+           <section class="garage-block" style="grid-column: 1/-1">
+-            <h3>战役档案与里程碑</h3>
++            <h3>Campaign record and milestones</h3>
+             <div class="career-grid" id="careerGrid"></div>
+             <div class="save-tools">
+-              <button id="exportSaveBtn" type="button">导出存档码</button>
++              <button id="exportSaveBtn" type="button">Export save code</button>
+-              <button id="importSaveBtn" type="button">导入存档码</button>
++              <button id="importSaveBtn" type="button">Import save code</button>
+             </div>
+           </section>
+         </div>
+-        <button class="primary" id="startBtn">启动战车</button>
++        <button class="primary" id="startBtn">Launch tank</button>
+       </section>
+     </div>
+ 
+     <div class="overlay hidden" id="upgradeOverlay">
+       <section class="upgrade-panel panel">
+-        <h2 id="upgradeTitle">选择升级</h2>
++        <h2 id="upgradeTitle">Choose an upgrade</h2>
+         <div class="upgrade-grid" id="upgradeGrid"></div>
+       </section>
+     </div>
+@@ -788,28 +788,28 @@
+         const PLAYER_SIZE = 42;
+         const MODES = {
+           campaign: {
+-            name: "装甲突围",
++            name: "Armored Breakout",
+             waves: 8,
+             enemyScale: 1,
+             barrelScale: 1,
+             eliteScale: 1,
+           },
+           siege: {
+-            name: "守点压制",
++            name: "Hold & Suppress",
+             waves: 9,
+             enemyScale: 1.24,
+             barrelScale: 1.55,
+             eliteScale: 1,
+           },
+           duel: {
+-            name: "精英猎杀",
++            name: "Elite Hunt",
+             waves: 7,
+             enemyScale: 0.72,
+             barrelScale: 0.82,
+             eliteScale: 1.28,
+           },
+           arena: {
+-            name: "计时死斗",
++            name: "Timed Deathmatch",
+             waves: 1,
+             enemyScale: 1,
+             barrelScale: 1.18,
+@@ -820,7 +820,7 @@
+             time: 210,
+           },
+           elimination: {
+-            name: "终局竞技",
++            name: "Final Arena",
+             waves: 1,
+             enemyScale: 1,
+             barrelScale: 1.08,
+@@ -831,7 +831,7 @@
+             time: 0,
+           },
+           storm: {
+-            name: "风暴战线",
++            name: "Storm Front",
+             waves: 10,
+             enemyScale: 1.34,
+             barrelScale: 1.25,
+@@ -839,7 +839,7 @@
+             storm: true,
+           },
+           bossRush: {
+-            name: "堡垒连战",
++            name: "Fortress Gauntlet",
+             waves: 5,
+             enemyScale: 0.8,
+             barrelScale: 0.82,
+@@ -847,7 +847,7 @@
+             bossRush: true,
+           },
+           endless: {
+-            name: "无尽战区",
++            name: "Endless Zone",
+             waves: 99,
+             enemyScale: 1.08,
+             barrelScale: 1.12,
+@@ -858,30 +858,30 @@
+         };
+         const CHASSIS = {
+           vanguard: {
+-            name: "先锋底盘",
++            name: "Vanguard Chassis",
+-            text: "属性均衡，适合所有武器。",
++            text: "Balanced stats, suits every weapon.",
+             hp: 1,
+             speed: 1,
+             reload: 1,
+           },
+           interceptor: {
+-            name: "截击底盘",
++            name: "Interceptor Chassis",
+-            text: "速度 +22%，装甲 -20%，装填更快。",
++            text: "Speed +22%, armor -20%, faster reload.",
+             hp: 0.8,
+             speed: 1.22,
+             reload: 0.9,
+           },
+           bastion: {
+-            name: "堡垒底盘",
++            name: "Fortress Chassis",
+-            text: "装甲 +42%，正面减伤，移动较慢。",
++            text: "Armor +42%, frontal damage reduction, slower movement.",
+             hp: 1.42,
+             speed: 0.82,
+             reload: 1.08,
+             front: 0.18,
+           },
+           engineer: {
+-            name: "工程底盘",
++            name: "Engineer Chassis",
+-            text: "自带无人机与磁雷架，拾取范围更大。",
++            text: "Comes with a drone and a magnetic mine rack; larger pickup range.",
+             hp: 1.02,
+             speed: 0.96,
+             reload: 1,
+@@ -890,8 +890,8 @@
+             magnet: 1.45,
+           },
+           specter: {
+-            name: "幻影底盘",
++            name: "Phantom Chassis",
+-            text: "装甲 -24%，高速装填；技能进入短暂相位并留下诱饵雷。",
++            text: "Armor -24%, fast reload; skill phases out briefly and leaves a decoy mine.",
+             hp: 0.76,
+             speed: 1.18,
+             reload: 0.84,
+@@ -899,8 +899,8 @@
+             mines: 2,
+           },
+           juggernaut: {
+-            name: "破城底盘",
++            name: "Siege Chassis",
+-            text: "装甲 +28%，爆炸范围增强，技能释放冲击波。",
++            text: "Armor +28%, larger blast radius; skill releases a shockwave.",
+             hp: 1.28,
+             speed: 0.88,
+             reload: 1.06,
+@@ -910,100 +910,100 @@
+         };
+         const CANNONS = {
+           cannon: {
+-            name: "制式加农炮",
++            name: "Standard Cannon",
+-            text: "可靠的伤害、反弹和射速。",
++            text: "Reliable damage, bounce and fire rate.",
+             damage: 1,
+             reload: 1,
+             speed: 1,
+             bounce: 1,
+           },
+           rail: {
+-            name: "磁轨长炮",
++            name: "Railgun Long Cannon",
+-            text: "高伤高速穿透，装填较慢。",
++            text: "High damage, fast piercing shots; slow reload.",
+             damage: 1.62,
+             reload: 1.48,
+             speed: 1.48,
+             bounce: 0,
+             pierce: 2,
+-            shell: "磁轨炮",
++            shell: "Rail slug",
+           },
+           scatter: {
+-            name: "霰裂短炮",
++            name: "Scattershot Short Cannon",
+-            text: "近距离五弹齐射，压制掩体后目标。",
++            text: "Five-shell volley at close range; suppresses targets behind cover.",
+             damage: 0.62,
+             reload: 0.76,
+             speed: 0.9,
+             bounce: 0,
+             scatter: 2,
+-            shell: "霰裂炮",
++            shell: "Scatter shell",
+           },
+           rocket: {
+-            name: "爆燃火箭炮",
++            name: "Blast Rocket Launcher",
+-            text: "爆炸范围大，弹速与装填较慢。",
++            text: "Large blast radius; slower shell speed and reload.",
+             damage: 1.2,
+             reload: 1.42,
+             speed: 0.74,
+             bounce: 0,
+             blast: 112,
+-            shell: "爆燃火箭",
++            shell: "Blast rocket",
+           },
+           arc: {
+-            name: "折跃电弧炮",
++            name: "Warp Arc Cannon",
+-            text: "双发弹链兼具穿透与反弹，适合复杂掩体战。",
++            text: "Twin-shell chain with both pierce and bounce; great for cluttered cover fights.",
+             damage: 0.78,
+             reload: 0.88,
+             speed: 1.16,
+             bounce: 2,
+             pierce: 1,
+             scatter: 1,
+-            shell: "电弧弹链",
++            shell: "Arc chain",
+           },
+           plasma: {
+-            name: "等离子攻城炮",
++            name: "Plasma Siege Cannon",
+-            text: "命中产生中型爆破，对重装与首领输出稳定。",
++            text: "Hits cause medium blasts; steady damage against heavy armor and bosses.",
+             damage: 1.34,
+             reload: 1.22,
+             speed: 0.92,
+             bounce: 0,
+             pierce: 1,
+             blast: 72,
+-            shell: "等离子弹",
++            shell: "Plasma shell",
+           },
+         };
+         const ARMORY = {
+           power: {
+-            name: "炮膛校准",
++            name: "Bore Calibration",
+-            text: "每级伤害 +4%",
++            text: "+4% damage per level",
+             max: 8,
+             cost: (level) => 12 + level * 11,
+           },
+           armor: {
+-            name: "复合车体",
++            name: "Composite Hull",
+-            text: "每级装甲 +4",
++            text: "+4 armor per level",
+             max: 8,
+             cost: (level) => 10 + level * 10,
+           },
+           salvage: {
+-            name: "战场回收",
++            name: "Battlefield Salvage",
+-            text: "每级军功 +6%",
++            text: "+6% merit per level",
+             max: 8,
+             cost: (level) => 14 + level * 12,
+           },
+           cooling: {
+-            name: "液冷总成",
++            name: "Liquid-Cooled Assembly",
+-            text: "每级装填与技能冷却 -2%",
++            text: "-2% reload and skill cooldown per level",
+             max: 8,
+             cost: (level) => 15 + level * 13,
+           },
+           mobility: {
+-            name: "履带调谐",
++            name: "Track Tuning",
+-            text: "每级移动速度 +2%",
++            text: "+2% move speed per level",
+             max: 8,
+             cost: (level) => 12 + level * 11,
+           },
+           recovery: {
+-            name: "战地修复",
++            name: "Field Repair",
+-            text: "每级过关回复 2% 最大装甲",
++            text: "Restore 2% max armor per level cleared",
+             max: 8,
+             cost: (level) => 16 + level * 12,
+           },
+@@ -1012,29 +1012,29 @@
+         const CAREER_MILESTONES = [
+           {
+             id: "kills100",
+-            name: "初入钢潮",
++            name: "First Steel Tide",
+-            text: "累计击毁 100",
++            text: "Total kills 100",
+             reward: 24,
+             done: (s) => s.totalKills >= 100,
+           },
+           {
+             id: "boss5",
+-            name: "堡垒克星",
++            name: "Fortress Breaker",
+-            text: "击毁 5 位首领",
++            text: "Destroy 5 bosses",
+             reward: 38,
+             done: (s) => s.bosses >= 5,
+           },
+           {
+             id: "wins6",
+-            name: "常胜车长",
++            name: "Veteran Commander",
+-            text: "赢得 6 场战斗",
++            text: "Win 6 battles",
+             reward: 48,
+             done: (s) => s.wins >= 6,
+           },
+           {
+             id: "modes6",
+-            name: "全域部署",
++            name: "Everywhere Deployed",
+-            text: "完成 6 种模式",
++            text: "Complete 6 modes",
+             reward: 60,
+             done: (s) =>
+               Object.values(s.records || {}).filter((r) => r.wins > 0).length >=
+@@ -1043,7 +1043,7 @@
+         ];
+         const ENEMY_TYPES = {
+           scout: {
+-            name: "轻坦",
++            name: "Light Tank",
+             hp: 42,
+             speed: 150,
+             reload: 1.15,
+@@ -1053,7 +1053,7 @@
+             size: 34,
+           },
+           heavy: {
+-            name: "重坦",
++            name: "Heavy Tank",
+             hp: 92,
+             speed: 82,
+             reload: 1.8,
+@@ -1063,7 +1063,7 @@
+             size: 46,
+           },
+           rocket: {
+-            name: "火箭车",
++            name: "Rocket Truck",
+             hp: 58,
+             speed: 104,
+             reload: 2.2,
+@@ -1073,7 +1073,7 @@
+             size: 40,
+           },
+           miner: {
+-            name: "布雷车",
++            name: "Mine Layer",
+             hp: 54,
+             speed: 118,
+             reload: 1.55,
+@@ -1083,7 +1083,7 @@
+             size: 36,
+           },
+           shield: {
+-            name: "盾卫坦克",
++            name: "Shield Tank",
+             hp: 118,
+             speed: 74,
+             reload: 1.65,
+@@ -1094,7 +1094,7 @@
+             frontArmor: 0.34,
+           },
+           artillery: {
+-            name: "远程炮车",
++            name: "Artillery Truck",
+             hp: 48,
+             speed: 70,
+             reload: 2.45,
+@@ -1105,7 +1105,7 @@
+             artillery: true,
+           },
+           repair: {
+-            name: "维修车",
++            name: "Repair Truck",
+             hp: 68,
+             speed: 86,
+             reload: 2.1,
+@@ -1116,7 +1116,7 @@
+             repair: true,
+           },
+           boss: {
+-            name: "移动堡垒",
++            name: "Mobile Fortress",
+             hp: 520,
+             speed: 58,
+             reload: 0.92,
+@@ -1129,35 +1129,35 @@
+         const UPGRADES = [
+           {
+             id: "pierce",
+-            title: "钨芯穿甲弹",
++            title: "Tungsten AP Rounds",
+-            text: "炮弹伤害 +22%，命中敌人后继续穿透 1 次。",
++            text: "Shell damage +22%, then pierces 1 more time after hitting an enemy.",
+             apply() {
+               player.damage *= 1.22;
+               player.pierce += 1;
+-              player.shellName = "穿甲弹";
++              player.shellName = "AP shell";
+             },
+           },
+           {
+             id: "scatter",
+-            title: "霰裂炮口",
++            title: "Scatter Muzzle",
+-            text: "每次开火额外发射两枚低伤害侧弹。",
++            text: "Fires two extra low-damage side shells with every shot.",
+             apply() {
+               player.scatter += 1;
+-              player.shellName = "霰裂弹";
++              player.shellName = "Scatter pellets";
+             },
+           },
+           {
+             id: "bounce",
+-            title: "棱镜弹头",
++            title: "Prism Warhead",
+-            text: "炮弹反弹次数 +1，墙角战术更凶。",
++            text: "Shell bounces +1; corner tactics get fiercer.",
+             apply() {
+               player.bounces += 1;
+             },
+           },
+           {
+             id: "engine",
+-            title: "超导履带",
++            title: "Superconducting Treads",
+-            text: "移动速度 +14%，炮塔转向更快。",
++            text: "Move speed +14%, faster turret turning.",
+             apply() {
+               player.speed *= 1.14;
+               player.turretTurn *= 1.18;
+@@ -1165,8 +1165,8 @@
+           },
+           {
+             id: "armor",
+-            title: "复合装甲",
++            title: "Composite Armor",
+-            text: "最大装甲 +24，并立即修复 36 装甲。",
++            text: "Max armor +24 and instantly repairs 36 armor.",
+             apply() {
+               player.maxHp += 24;
+               healPlayer(36);
+@@ -1174,8 +1174,8 @@
+           },
+           {
+             id: "reload",
+-            title: "自动装填机",
++            title: "Auto-Loader",
+-            text: "开火冷却 -16%，炮弹速度 +8%。",
++            text: "Fire cooldown -16%, shell speed +8%.",
+             apply() {
+               player.reload *= 0.84;
+               player.bulletSpeed *= 1.08;
+@@ -1183,8 +1183,8 @@
+           },
+           {
+             id: "shield",
+-            title: "脉冲护盾",
++            title: "Pulse Shield",
+-            text: "技能冷却 -20%，释放时额外获得短暂无敌。",
++            text: "Skill cooldown -20%, plus brief invulnerability on use.",
+             apply() {
+               player.skillCooldown *= 0.8;
+               player.shieldBonus += 1.2;
+@@ -1192,16 +1192,16 @@
+           },
+           {
+             id: "drone",
+-            title: "伴飞无人机",
++            title: "Escort Drone",
+-            text: "获得一架自动射击无人机，优先攻击残血目标。",
++            text: "Gain an auto-firing drone that targets low-health enemies first.",
+             apply() {
+               player.drones = Math.min(3, player.drones + 1);
+             },
+           },
+           {
+             id: "mine",
+-            title: "磁暴地雷",
++            title: "Magnetic Storm Mines",
+-            text: "技能会在周围额外布置 4 枚延时地雷。",
++            text: "Skill lays 4 extra delayed mines around you.",
+             apply() {
+               player.skillMines += 4;
+             },
+@@ -1210,19 +1210,19 @@
+         const PARTS = [
+           {
+             id: "twin",
+-            title: "双联炮塔",
++            title: "Twin Turret",
+-            text: "主炮两连发，单发伤害略低，压制力明显提升。",
++            text: "Main cannon fires twice; slightly less damage per shot, much stronger suppression.",
+             cost: 4,
+             apply(target) {
+               target.scatter += 1;
+               target.damage *= 0.92;
+-              target.shellName = "双联弹";
++              target.shellName = "Twin shell";
+             },
+           },
+           {
+             id: "reactive",
+-            title: "反应装甲",
++            title: "Reactive Armor",
+-            text: "最大装甲 +34，受到爆炸和正面命中时更耐打。",
++            text: "Max armor +34; tougher against explosions and frontal hits.",
+             cost: 3,
+             apply(target) {
+               target.maxHp += 34;
+@@ -1232,20 +1232,20 @@
+           },
+           {
+             id: "rail",
+-            title: "磁轨炮膛",
++            title: "Railgun Chamber",
+-            text: "炮弹速度 +18%，伤害 +12%，冷却稍微变慢。",
++            text: "Shell speed +18%, damage +12%, cooldown slightly slower.",
+             cost: 4,
+             apply(target) {
+               target.bulletSpeed *= 1.18;
+               target.damage *= 1.12;
+               target.reload *= 1.06;
+-              target.shellName = "磁轨弹";
++              target.shellName = "Rail bolt";
+             },
+           },
+           {
+             id: "servo",
+-            title: "伺服履带",
++            title: "Servo Treads",
+-            text: "移动速度 +13%，炮塔转向 +20%，更容易绕后。",
++            text: "Move speed +13%, turret turning +20%, easier to flank.",
+             cost: 3,
+             apply(target) {
+               target.speed *= 1.13;
+@@ -1254,8 +1254,8 @@
+           },
+           {
+             id: "drone-part",
+-            title: "蜂群挂架",
++            title: "Swarm Pylon",
+-            text: "增加一架伴飞无人机，自动补刀残血目标。",
++            text: "Adds an escort drone that finishes off low-health targets.",
+             cost: 5,
+             apply(target) {
+               target.drones = Math.min(3, target.drones + 1);
+@@ -1263,8 +1263,8 @@
+           },
+           {
+             id: "ricochet",
+-            title: "折射弹芯",
++            title: "Refraction Core",
+-            text: "反弹次数 +1，狭窄街区变成你的弹道棋盘。",
++            text: "Bounces +1; narrow streets become your ballistic chessboard.",
+             cost: 3,
+             apply(target) {
+               target.bounces += 1;
+@@ -1272,8 +1272,8 @@
+           },
+           {
+             id: "cooler",
+-            title: "液冷装填机",
++            title: "Liquid-Cooled Loader",
+-            text: "开火冷却 -14%，技能冷却 -10%。",
++            text: "Fire cooldown -14%, skill cooldown -10%.",
+             cost: 4,
+             apply(target) {
+               target.reload *= 0.86;
+@@ -1282,8 +1282,8 @@
+           },
+           {
+             id: "mine-rack",
+-            title: "磁暴雷架",
++            title: "Magnetic Storm Mine Rack",
+-            text: "释放技能时额外布置 4 枚地雷。",
++            text: "Lays 4 extra mines when the skill is used.",
+             cost: 3,
+             apply(target) {
+               target.skillMines += 4;
+@@ -1291,8 +1291,8 @@
+           },
+           {
+             id: "siege-core",
+-            title: "攻城核心",
++            title: "Siege Core",
+-            text: "伤害 +16%，爆炸半径提升，适合首领连战。",
++            text: "Damage +16%, larger blast radius; great for boss rushes.",
+             cost: 5,
+             apply(target) {
+               target.damage *= 1.16;
+@@ -1301,8 +1301,8 @@
+           },
+           {
+             id: "nanite",
+-            title: "纳米修复群",
++            title: "Nano Repair Swarm",
+-            text: "最大装甲 +26，并立即回复 35 点装甲。",
++            text: "Max armor +26 and instantly restores 35 armor.",
+             cost: 4,
+             apply(target) {
+               target.maxHp += 26;
+@@ -1311,8 +1311,8 @@
+           },
+           {
+             id: "phase-loader",
+-            title: "相位装填器",
++            title: "Phase Loader",
+-            text: "装填 -10%，炮弹穿透 +1，技能冷却 -12%。",
++            text: "Reload -10%, shell pierce +1, skill cooldown -12%.",
+             cost: 5,
+             apply(target) {
+               target.reload *= 0.9;
+@@ -1322,8 +1322,8 @@
+           },
+           {
+             id: "command-link",
+-            title: "指挥链路",
++            title: "Command Link",
+-            text: "增加一架无人机、拾取范围与炮塔转向速度。",
++            text: "Adds a drone, plus pickup range and turret turn speed.",
+             cost: 4,
+             apply(target) {
+               target.drones = Math.min(4, target.drones + 1);
+@@ -1333,21 +1333,21 @@
+           },
+         ];
+         const BOT_NAMES = [
+-          "青柠",
++          "Lime",
+-          "赤焰",
++          "Crimson",
+-          "夜航",
++          "Night Flight",
+-          "海盐",
++          "Sea Salt",
+-          "竹叶",
++          "Bamboo",
+-          "北辰",
++          "Polaris",
+-          "琥珀",
++          "Amber",
+-          "流星",
++          "Meteor",
+-          "薄荷",
++          "Mint",
+-          "白桃",
++          "White Peach",
+-          "银杏",
++          "Ginkgo",
+-          "云雀",
++          "Lark",
+-          "山竹",
++          "Mangosteen",
+-          "极光",
++          "Aurora",
+-          "乌龙",
++          "Oolong",
+         ];
+ 
+         let dpr = 1;
+@@ -1480,12 +1480,12 @@
+             .trim()
+             .split(".");
+           if (prefix !== "NTA3" || !payload || saveHash(payload) !== checksum)
+-            throw new Error("存档码校验失败");
++            throw new Error("Save code check failed");
+           const binary = atob(payload);
+           const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+           const parsed = JSON.parse(new TextDecoder().decode(bytes));
+           if (parsed.game !== "neon-tank" || !parsed.data)
+-            throw new Error("不是霓虹装甲存档");
++            throw new Error("Not a Neon Armor save");
+           localStorage.setItem(TANK_SAVE_KEY, JSON.stringify(parsed.data));
+           garageSave = loadGarage();
+           selectedMode = MODES[garageSave.loadout.mode]
+@@ -1537,19 +1537,19 @@
+               const level = garageSave.tech[key] || 0;
+               const cost = item.cost(level);
+               const maxed = level >= item.max;
+-              return `<button class="garage-card armory-card" data-armory="${key}" ${maxed || garageSave.credits < cost ? "disabled" : ""}><strong>${item.name} Lv.${level}</strong><span>${item.text}</span><em>${maxed ? "已满级" : `军功 ${cost}`}</em></button>`;
++              return `<button class="garage-card armory-card" data-armory="${key}" ${maxed || garageSave.credits < cost ? "disabled" : ""}><strong>${item.name} Lv.${level}</strong><span>${item.text}</span><em>${maxed ? "Max level" : `Merit ${cost}`}</em></button>`;
+             })
+             .join("");
+-          garageMeta.textContent = `军功 ${garageSave.credits} · 总击毁 ${garageSave.totalKills || 0} · 首领 ${garageSave.bosses || 0}`;
++          garageMeta.textContent = `Merit ${garageSave.credits} · Total kills ${garageSave.totalKills || 0} · Bosses ${garageSave.bosses || 0}`;
+           careerGrid.innerHTML = [
+             ...CAREER_MILESTONES.map((item) => {
+               const done = !!garageSave.milestones[item.id];
+-              return `<div class="career-chip ${done ? "done" : ""}"><b>${done ? "✓ " : ""}${item.name}</b>${item.text} · ${done ? "已领取" : `军功 ${item.reward}`}</div>`;
++              return `<div class="career-chip ${done ? "done" : ""}"><b>${done ? "✓ " : ""}${item.name}</b>${item.text} · ${done ? "Claimed" : `Merit ${item.reward}`}</div>`;
+             }),
+-            `<div class="career-chip"><b>战役胜场</b>${garageSave.wins || 0} 胜</div>`,
++            `<div class="career-chip"><b>Campaign wins</b>${garageSave.wins || 0} wins</div>`,
+-            `<div class="career-chip"><b>模式完成</b>${Object.values(garageSave.records || {}).filter((r) => r.wins > 0).length}/${Object.keys(MODES).length}</div>`,
++            `<div class="career-chip"><b>Modes cleared</b>${Object.values(garageSave.records || {}).filter((r) => r.wins > 0).length}/${Object.keys(MODES).length}</div>`,
+-            `<div class="career-chip"><b>底盘熟练</b>${garageSave.mastery?.chassis?.[selectedChassis] || 0} 次部署</div>`,
++            `<div class="career-chip"><b>Chassis mastery</b>${garageSave.mastery?.chassis?.[selectedChassis] || 0} deployments</div>`,
+-            `<div class="career-chip"><b>主炮熟练</b>${garageSave.mastery?.cannon?.[selectedCannon] || 0} 次部署</div>`,
++            `<div class="career-chip"><b>Cannon mastery</b>${garageSave.mastery?.cannon?.[selectedCannon] || 0} deployments</div>`,
+           ].join("");
+         }
+ 
+@@ -1674,7 +1674,7 @@
+             shieldUntil: 0,
+             shieldBonus: 0,
+             turretTurn: 9,
+-            shellName: "标准弹",
++            shellName: "Standard shell",
+             pickupMagnet: 190,
+             scrap: 0,
+             kills: 0,
+@@ -1704,7 +1704,7 @@
+           tank.pierce += cannon.pierce || 0;
+           tank.scatter += cannon.scatter || 0;
+           tank.blast = (cannon.blast || 0) * (chassis.blast || 1);
+-          tank.shellName = cannon.shell || "标准弹";
++          tank.shellName = cannon.shell || "Standard shell";
+           tank.frontArmor = chassis.front || 0;
+           tank.drones = chassis.drone || 0;
+           tank.skillMines = chassis.mines || 0;
+@@ -1745,8 +1745,8 @@
+           upgradeOverlay.classList.add("hidden");
+           showToast(
+             config.competitive
+-              ? `${config.name}开始`
++              ? `${config.name} starts`
+-              : `${MODES[selectedMode].name} - 第 1 波`,
++              : `${MODES[selectedMode].name} - Wave 1`,
+           );
+           updateHud(true);
+         }
+@@ -1897,7 +1897,7 @@
+             game.wave === game.maxWave;
+           if (bossWave) {
+             const boss = spawnEnemy("boss", WORLD / 2, 280, game.wave);
+-            if (config.bossRush) boss.name = `移动堡垒 MK-${game.wave}`;
++            if (config.bossRush) boss.name = `Mobile Fortress MK-${game.wave}`;
+             for (let i = 0; i < (config.bossRush ? 3 + game.wave : 5); i++)
+               spawnEnemy(i % 2 ? "heavy" : "rocket", 0, 0, game.wave);
+           } else {
+@@ -1915,7 +1915,7 @@
+               spawnEnemy(type, 0, 0, game.wave);
+             }
+           }
+-          objectiveValue.textContent = bossWave ? "击毁堡垒" : "清空敌军";
++          objectiveValue.textContent = bossWave ? "Destroy the fortress" : "Clear all enemies";
+         }
+ 
+         function startCompetitiveMatch() {
+@@ -1952,8 +1952,8 @@
+           }
+           spawnInitialPickups(config.elimination ? 18 : 22);
+           objectiveValue.textContent = config.elimination
+-            ? "最后存活者第一"
++            ? "Last survivor wins"
+-            : "限时击毁抢分";
++            : "Score kills before time runs out";
+         }
+ 
+         function spawnEnemy(type, x, y, wave) {
+@@ -1967,7 +1967,7 @@
+           const enemy = {
+             id: Math.random(),
+             type,
+-            name: elite ? `精英${spec.name}` : spec.name,
++            name: elite ? `Elite ${spec.name}` : spec.name,
+             x: point.x,
+             y: point.y,
+             vx: 0,
+@@ -2142,22 +2142,22 @@
+           if (player.chassis === "interceptor") {
+             player.overdriveUntil = performance.now() / 1000 + 4.5;
+             player.reloadLeft = 0;
+-            showToast("截击超频启动");
++            showToast("Interceptor overdrive engaged");
+           } else if (player.chassis === "bastion") {
+             player.shieldUntil += 2.4;
+             healPlayer(18);
+-            showToast("堡垒壁垒展开");
++            showToast("Fortress bulwark deployed");
+           } else if (player.chassis === "engineer") {
+             healPlayer(24);
+             player.skillMines = Math.max(6, player.skillMines);
+-            showToast("工程支援释放");
++            showToast("Engineering support released");
+           } else if (player.chassis === "specter") {
+             player.shieldUntil += 1.8;
+             const dx = Math.cos(player.bodyAngle) * 150;
+             const dy = Math.sin(player.bodyAngle) * 150;
+             moveCircle(player, dx, dy, player.size * 0.45);
+             player.reloadLeft = 0;
+-            showToast("幻影相位突进");
++            showToast("Phantom phase dash");
+           } else if (player.chassis === "juggernaut") {
+             player.shieldUntil += 1.1;
+             healPlayer(12);
+@@ -2172,7 +2172,7 @@
+               color: "#ffd166",
+               ownerTank: player,
+             });
+-            showToast("破城震荡释放");
++            showToast("Siege shockwave released");
+           }
+           explosions.push({
+             x: player.x,
+@@ -2206,7 +2206,7 @@
+             });
+           }
+           burst(player.x, player.y, "#38d9ff", 34);
+-          if (player.chassis === "vanguard") showToast("电磁脉冲已释放");
++          if (player.chassis === "vanguard") showToast("EMP released");
+         }
+ 
+         function update(dt, now) {
+@@ -2394,7 +2394,7 @@
+                     exploded: false,
+                   });
+                 }
+-                showToast("空袭坐标已标记");
++                showToast("Airstrike coordinates marked");
+               } else {
+                 for (let i = 0; i < 4; i++)
+                   parts.push(
+@@ -2404,7 +2404,7 @@
+                       i === 0 ? "module" : null,
+                     ),
+                   );
+-                showToast("战术补给已投放");
++                showToast("Tactical supply dropped");
+               }
+               game.eventTimer = modeConfig().storm
+                 ? rand(15, 21)
+@@ -2502,14 +2502,14 @@
+         function collectPickup(target, pickup) {
+           if (pickup.kind === "repair") {
+             target.hp = Math.min(target.maxHp, target.hp + 28);
+-            addFloater("修复 +28", target.x, target.y - 36, "#4ade80");
++            addFloater("Repair +28", target.x, target.y - 36, "#4ade80");
+-            if (target === player) showToast("装甲修复");
++            if (target === player) showToast("Armor repaired");
+             return;
+           }
+           if (pickup.kind === "shield") {
+             target.shieldUntil = performance.now() / 1000 + 2.4;
+-            addFloater("护盾", target.x, target.y - 36, "#38d9ff");
++            addFloater("Shield", target.x, target.y - 36, "#38d9ff");
+-            if (target === player) showToast("临时护盾启动");
++            if (target === player) showToast("Temporary shield active");
+             return;
+           }
+           const module =
+@@ -2528,7 +2528,7 @@
+             target.y - 40,
+             target === player ? "#ffd166" : "#a78bfa",
+           );
+-          if (target === player) showToast(`自动装配：${module.title}`);
++          if (target === player) showToast(`Auto-fitted: ${module.title}`);
+         }
+ 
+         function updateEnemies(dt) {
+@@ -2568,7 +2568,7 @@
+               enemy.speed *= 1.18;
+               spawnEnemy("shield", 0, 0, game.wave);
+               spawnEnemy("artillery", 0, 0, game.wave);
+-              showToast("移动堡垒进入二阶段");
++              showToast("Mobile Fortress enters phase 2");
+             }
+             const target = chooseEnemyTarget(enemy);
+             const desiredPart = isCompetitiveMode() ? nearestPart(enemy) : null;
+@@ -2985,19 +2985,19 @@
+           const incoming = Math.atan2(bullet.vy, bullet.vx);
+           const rear = Math.cos(incoming - enemy.bodyAngle);
+           const flank = Math.abs(Math.sin(incoming - enemy.bodyAngle));
+-          if (rear > 0.48) return { name: "后甲", mult: 1.55 };
++          if (rear > 0.48) return { name: "Rear armor", mult: 1.55 };
+-          if (flank > 0.72) return { name: "侧甲", mult: 1.25 };
++          if (flank > 0.72) return { name: "Side armor", mult: 1.25 };
+-          return { name: "正甲", mult: 0.82 };
++          return { name: "Front armor", mult: 0.82 };
+         }
+ 
+         function damageEnemy(enemy, amount, side, killer) {
+-          const armorFactor = side === "正甲" ? 1 - (enemy.frontArmor || 0) : 1;
++          const armorFactor = side === "Front armor" ? 1 - (enemy.frontArmor || 0) : 1;
+           enemy.hp -= Math.max(1, amount * armorFactor);
+           addFloater(
+-            side === "front" ? "-伤害" : side,
++            side === "front" ? "-Damage" : side,
+             enemy.x,
+             enemy.y - enemy.size * 0.6,
+-            side === "正甲" ? "#9fb0c8" : "#ffd166",
++            side === "Front armor" ? "#9fb0c8" : "#ffd166",
+           );
+           if (enemy.hp <= 0) {
+             const index = enemies.indexOf(enemy);
+@@ -3122,7 +3122,7 @@
+                     damageEnemy(
+                       enemy,
+                       boom.damage * (1 - d / boom.max),
+-                      "爆破",
++                      "Blast",
+                       boom.ownerTank ||
+                         (boom.owner === "player" ? player : null),
+                     );
+@@ -3198,7 +3198,7 @@
+           if (enemies.length > 0) return;
+           if (game.waveClearTimer <= 0) {
+             game.waveClearTimer = 1.25;
+-            showToast(`第 ${game.wave} 波清空`);
++            showToast(`Wave ${game.wave} cleared`);
+           }
+           game.waveClearTimer -= dt;
+           if (game.waveClearTimer > 0) return;
+@@ -3233,7 +3233,7 @@
+         function arenaStandings() {
+           const rows = [
+             {
+-              name: "你",
++              name: "You",
+               score: game.score,
+               kills: player.kills,
+               player: true,
+@@ -3266,7 +3266,7 @@
+           player.vy = 0;
+           player.hp = Math.max(54, player.maxHp * 0.72);
+           player.shieldUntil = performance.now() / 1000 + 1.4;
+-          showToast("战车重部署");
++          showToast("Tank redeployed");
+         }
+ 
+         function respawnArenaBot(oldBot) {
+@@ -3302,13 +3302,13 @@
+ 
+         function openPartShop() {
+           if (!isCompetitiveMode() || game.state !== "playing") return;
+-          showToast("竞技模块会在拾取后自动装配");
++          showToast("Arena modules fit automatically when picked up");
+         }
+ 
+         function openUpgrade() {
+           upgradeGrid.innerHTML = "";
+           const choices = pickUpgrades();
+-          upgradeTitle.textContent = `第 ${game.wave} 波完成，选择升级`;
++          upgradeTitle.textContent = `Wave ${game.wave} complete, choose an upgrade`;
+           for (const upgrade of choices) {
+             const button = document.createElement("button");
+             button.className = "upgrade-card";
+@@ -3321,7 +3321,7 @@
+               spawnWave();
+               game.state = "playing";
+               upgradeOverlay.classList.add("hidden");
+-              showToast(`第 ${game.wave} 波开始`);
++              showToast(`Wave ${game.wave} begins`);
+               updateHud(true);
+             });
+             upgradeGrid.appendChild(button);
+@@ -3375,10 +3375,10 @@
+           saveGarage();
+           if (isEliminationMode()) {
+             const rank = won ? 1 : eliminationRank();
+-            overlayTitle.textContent = won ? "最后生还" : `淘汰排名第 ${rank}`;
++            overlayTitle.textContent = won ? "Last one standing" : `Eliminated: rank ${rank}`;
+             overlayText.textContent = won
+-              ? `你成为最后一辆还能开火的坦克，击毁 ${player.kills}，自动装配 ${player.parts.length} 个模块。`
++              ? `You were the last tank still able to fire. Kills ${player.kills}, auto-fitted ${player.parts.length} modules.`
+-              : `你的战车被淘汰，最终排名第 ${rank}，击毁 ${player.kills}，自动装配 ${player.parts.length} 个模块。`;
++              : `Your tank was eliminated. Final rank ${rank}, kills ${player.kills}, auto-fitted ${player.parts.length} modules.`;
+           } else if (isCompetitiveMode()) {
+             const rank = playerRank();
+             const top = arenaStandings()
+@@ -3389,18 +3389,18 @@
+               )
+               .join(" / ");
+             overlayTitle.textContent =
+-              rank === 1 ? "竞技冠军" : `排名第 ${rank}`;
++              rank === 1 ? "Arena Champion" : `Rank #${rank}`;
+-            overlayText.textContent = `计时死斗结束，得分 ${Math.round(game.score)}，击毁 ${player.kills}，阵亡 ${player.deaths}，自动装配 ${player.parts.length} 个模块。前三名：${top}。`;
++            overlayText.textContent = `Timed deathmatch over. Score ${Math.round(game.score)}, kills ${player.kills}, deaths ${player.deaths}, auto-fitted ${player.parts.length} modules. Top three: ${top}.`;
+           } else {
+-            overlayTitle.textContent = won ? "战场肃清" : "装甲失效";
++            overlayTitle.textContent = won ? "Battlefield cleared" : "Armor failure";
+             overlayText.textContent = won
+-              ? `你击穿了最终堡垒，得分 ${Math.round(game.score)}。最高纪录 ${Math.round(game.best)}。`
++              ? `You broke through the final fortress. Score ${Math.round(game.score)}. Best ${Math.round(game.best)}.`
+-              : `你的战车停在第 ${game.wave} 波，得分 ${Math.round(game.score)}。最高纪录 ${Math.round(game.best)}。`;
++              : `Your tank stopped at wave ${game.wave}, score ${Math.round(game.score)}. Best ${Math.round(game.best)}.`;
+           }
+-          overlayText.textContent += ` 本次获得军功 ${credits}。`;
++          overlayText.textContent += ` Merit earned this run: ${credits}.`;
+           if (milestoneBonus)
+-            overlayText.textContent += ` 里程碑额外奖励 ${milestoneBonus} 军功。`;
++            overlayText.textContent += ` Milestone bonus: ${milestoneBonus} merit.`;
+-          startBtn.textContent = "重新部署";
++          startBtn.textContent = "Redeploy";
+           overlay.classList.remove("hidden");
+           renderGarage();
+           updateHud(true);
+@@ -3417,10 +3417,10 @@
+           if (!player || (!force && game.state === "upgrade")) return;
+           if (isEliminationMode()) {
+             waveValue.textContent = `${enemies.length + (player.hp > 0 ? 1 : 0)}/16`;
+-            objectiveValue.textContent = "最后存活者第一";
++            objectiveValue.textContent = "Last survivor wins";
+           } else if (isCompetitiveMode()) {
+             waveValue.textContent = formatTime(game.arenaTime);
+-            objectiveValue.textContent = `第 ${playerRank()} 名 / 自动装配`;
++            objectiveValue.textContent = `Rank ${playerRank()} / auto-fit`;
+           } else {
+             waveValue.textContent = `${game.wave}/${game.maxWave}`;
+           }
+@@ -3438,12 +3438,12 @@
+             ? String(player.parts.length)
+             : String(player.scrap || 0);
+           const skillNames = {
+-            vanguard: "电磁脉冲",
++            vanguard: "EMP",
+-            interceptor: "截击超频",
++            interceptor: "Interceptor Overdrive",
+-            bastion: "堡垒壁垒",
++            bastion: "Fortress Bulwark",
+-            engineer: "工程支援",
++            engineer: "Engineering Support",
+-            specter: "幻影相位",
++            specter: "Phantom Phase",
+-            juggernaut: "破城震荡",
++            juggernaut: "Siege Shockwave",
+           };
+           skillValue.textContent =
+             player.skillLeft <= 0
+@@ -4079,16 +4079,16 @@
+           try {
+             await navigator.clipboard.writeText(code);
+           } catch (error) {}
+-          prompt("霓虹装甲存档码（已尝试复制，可在其他设备导入）", code);
++          prompt("Neon Armor save code (copy attempted; you can import it on another device)", code);
+         });
+         importSaveBtn.addEventListener("click", () => {
+-          const code = prompt("粘贴霓虹装甲存档码：");
++          const code = prompt("Paste Neon Armor save code:");
+           if (!code) return;
+           try {
+             decodeGarageSave(code);
+-            alert("存档导入成功，车库与纪录已恢复。");
++            alert("Save imported; garage and records restored.");
+           } catch (error) {
+-            alert(`导入失败：${error.message}`);
++            alert(`Import failed: ${error.message}`);
+           }
+         });
+ 
+@@ -4097,7 +4097,7 @@
+             return;
+           game.state = game.state === "paused" ? "playing" : "paused";
+           pauseBtn.textContent = game.state === "paused" ? "▶" : "Ⅱ";
+-          showToast(game.state === "paused" ? "已暂停" : "继续战斗");
++          showToast(game.state === "paused" ? "Paused" : "Resume battle");
+         }
+ 
+         resize();

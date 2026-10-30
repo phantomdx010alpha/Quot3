@@ -3,7 +3,7 @@ import { ALLOWED_LICENCES, gameUrl, isSafeGamePath, isValidGameId, validateGameE
 
 const good = (over: Record<string, unknown> = {}): Record<string, unknown> => ({
   id: 'snake-demo', title: 'Snake Demo', tags: ['arcade', 'retro'], description: 'A tiny invented test game.',
-  source: 'https://github.com/example/games', commit: 'abcdef1234567', licence: 'MIT', author: 'Example Author',
+  source: 'https://github.com/example/games', commit: 'abcdef1234567', licence: 'MIT', lang: 'en', author: 'Example Author',
   entry: 'index.html', players: 1, touch: true, added: '2026-10-29', ...over
 })
 
@@ -12,7 +12,7 @@ describe('validateGameEntry', () => {
     const r = validateGameEntry(good())
     expect(r.ok).toBe(true)
   })
-  it.each(['id', 'title', 'tags', 'description', 'source', 'commit', 'licence', 'author', 'entry', 'players', 'touch', 'added'])('rejects a missing %s', (k) => {
+  it.each(['id', 'title', 'tags', 'description', 'source', 'commit', 'licence', 'lang', 'author', 'entry', 'players', 'touch', 'added'])('rejects a missing %s', (k) => {
     const g = good(); delete g[k]
     expect(validateGameEntry(g).ok).toBe(false)
   })
@@ -67,5 +67,20 @@ describe('paths and urls', () => {
     expect(gameUrl('snake-demo', 'play/index.html')).toBe('q3game://snake-demo/play/index.html')
     expect(() => gameUrl('Bad Id', 'index.html')).toThrow()
     expect(() => gameUrl('ok-id', '../x.html')).toThrow()
+  })
+})
+
+describe('lang (Phase 205, M20)', () => {
+  it('accepts en and zh and nothing else', () => {
+    expect(validateGameEntry(good({ lang: 'en' })).ok).toBe(true)
+    const z = validateGameEntry(good({ lang: 'zh' }))
+    expect(z.ok && z.entry.lang).toBe('zh')
+    for (const l of ['EN', 'fr', '', null, 1, undefined]) expect(validateGameEntry(good({ lang: l })).ok).toBe(false)
+  })
+  it('a manifest entry without lang is skipped and counted', () => {
+    const noLang = good({ id: 'no-lang' }); delete noLang.lang
+    const r = validateManifest({ version: 1, games: [good(), noLang] })
+    expect(r.games.map((g) => g.id)).toEqual(['snake-demo'])
+    expect(r.skipped).toBe(1)
   })
 })

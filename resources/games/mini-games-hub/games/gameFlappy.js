@@ -9,7 +9,7 @@ const GROUND = H - 56
 
 export default {
   id: 'flappy',
-  name: '小鸟飞行',
+  name: 'Bird Flight',
 
   mount(container, api) {
     const boardBg = cssVar('--surface2', '#0F1730')
@@ -125,18 +125,18 @@ export default {
       ctx.restore()
 
       if (!started && !over) {
-        centerText(ctx, '点击 / 空格 起飞', W / 2, H / 2 - 60, 18, '#FFFFFF')
-        centerText(ctx, '穿过管道缝隙得分', W / 2, H / 2 - 34, 13, 'rgba(232,238,249,0.6)', '500')
+        centerText(ctx, 'Click / Space to flap', W / 2, H / 2 - 60, 18, '#FFFFFF')
+        centerText(ctx, 'Pass through the pipe gaps to score', W / 2, H / 2 - 34, 13, 'rgba(232,238,249,0.6)', '500')
       }
       if (over) {
         const medal = score >= 30 ? '🥇' : score >= 20 ? '🥈' : score >= 10 ? '🥉' : ''
         ctx.fillStyle = 'rgba(6,10,24,0.72)'
         roundRect(ctx, 0, 0, W, H, 16)
         ctx.fill()
-        centerText(ctx, `${medal} 坠落了`, W / 2, H / 2 - 16, 32, '#FFFFFF')
-        centerText(ctx, `本局 ${score} 分`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
-        centerText(ctx, '按 R 或点击重开', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
+        centerText(ctx, `${medal} fell`, W / 2, H / 2 - 16, 32, '#FFFFFF')
+        centerText(ctx, `Score: ${score} pts`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
+        centerText(ctx, 'Press R or click to restart', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
     }
 
     const offPointer = onPointer(canvas, (_x, _y, e) => {

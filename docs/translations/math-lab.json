@@ -1,0 +1,699 @@
+{
+  "version": 1,
+  "game": "math-lab",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 126,
+      "zh": "e^(−x²) 没有初等原函数，但全空间积分恰好等于 √π；把一维高斯视为二维旋转对称分布即可推出。有限区间的精确值借助误差函数 erf 给出。",
+      "en": "e^(−x²) has no elementary antiderivative, but its integral over the whole line is exactly √π; treat the 1-D Gaussian as a 2-D rotationally symmetric distribution to derive it. Exact values on finite intervals are given with the error function erf."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 136,
+      "zh": "e^(−x) 在正半轴上的反常积分收敛于 1，这正是指数分布归一化常数的来源。",
+      "en": "The improper integral of e^(−x) over the positive half-line converges to 1, which is where the normalisation constant of the exponential distribution comes from."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 146,
+      "zh": "sin(x)/x 在 x=0 处取极限值 1，它的全空间积分是著名的 Dirichlet 积分，答案恰好为 π。",
+      "en": "sin(x)/x has limit 1 at x=0, and its integral over the whole line is the famous Dirichlet integral, exactly π."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 238,
+      "zh": "FFT 点数必须为 2 的幂",
+      "en": "FFT size must be a power of 2"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 676,
+      "zh": "无穷区间极限模式：积分趋于 ",
+      "en": "Infinite-interval limit mode: the integral tends to "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 677,
+      "zh": "矩形数 n = ",
+      "en": "Rectangles n = "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 677,
+      "zh": "　·　提示：也可直接拖动图中 a、b 手柄",
+      "en": "  ·  Tip: you can also drag the a and b handles in the chart"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 692,
+      "zh": "播放黎曼和收敛",
+      "en": "Play Riemann sum convergence"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 699,
+      "zh": "停止动画",
+      "en": "Stop animation"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 753,
+      "zh": "无穷区间极限",
+      "en": "Infinite-interval limit"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 783,
+      "zh": "返回有限区间",
+      "en": "Back to finite interval"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 809,
+      "zh": "拉马努金部分和",
+      "en": "Ramanujan partial sum"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 811,
+      "zh": "莱布尼茨部分和",
+      "en": "Leibniz partial sum"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 812,
+      "zh": "前 ",
+      "en": "First "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 812,
+      "zh": " 项（π/4 = 1 − 1/3 + 1/5 − …）",
+      "en": " terms (π/4 = 1 − 1/3 + 1/5 − …)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 813,
+      "zh": "割圆术近似",
+      "en": "Archimedes polygon approximation"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": "正 ",
+      "en": "Regular "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": " 边形（从正六边形倍增 ",
+      "en": "-gon (doubled from a hexagon "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": " 次）",
+      "en": " times)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 911,
+      "zh": " 位",
+      "en": " digits"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 914,
+      "zh": "倍增 ",
+      "en": "Doubled "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 914,
+      "zh": " 次（",
+      "en": " times ("
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 914,
+      "zh": " 边形）",
+      "en": "-gon)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 915,
+      "zh": " 项",
+      "en": " terms"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 962,
+      "zh": "计算量：累加项数 / 正多边形边数（对数轴）",
+      "en": "Work: number of terms summed / polygon sides (log axis)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 967,
+      "zh": "|π̂ − π| 绝对误差（对数轴）",
+      "en": "|π̂ − π| absolute error (log axis)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1033,
+      "zh": "正",
+      "en": "Regular "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1033,
+      "zh": " 边形：误差 ",
+      "en": "-gon: error "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1034,
+      "zh": "第 ",
+      "en": "Term "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1034,
+      "zh": " 项：误差 ",
+      "en": ": error "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1060,
+      "zh": "播放收敛",
+      "en": "Play convergence"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1067,
+      "zh": "停止",
+      "en": "Stop"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1112,
+      "zh": "累加项数（每多 1 项约多 8 位正确数字）",
+      "en": "Terms summed (each extra term adds about 8 correct digits)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1114,
+      "zh": "莱布尼茨累加项数（误差约正比于 1/n，收敛很慢）",
+      "en": "Leibniz terms summed (error roughly proportional to 1/n, very slow convergence)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1115,
+      "zh": "倍增次数（正 6 边形起，边数逐次翻倍，误差约正比于 1/n²）",
+      "en": "Doublings (starting from a hexagon, sides double each time, error roughly proportional to 1/n²)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1120,
+      "zh": "拉马努金公式每多算一项，正确位数约增加 8 位：仅 2 项（k = 0、1）就给出约 15 位正确数字，这种超指数收敛来自分母中 396 的 4k 次方。",
+      "en": "Each extra Ramanujan term adds about 8 correct digits: just 2 terms (k = 0, 1) give about 15 correct digits. This super-exponential convergence comes from the 4k-th power of 396 in the denominator."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1122,
+      "zh": "莱布尼茨级数要到第 500 项才勉强获得 3 位小数——在双对数图上它只是一条缓缓下行的直线，与几乎垂直坠落的拉马努金曲线对照，便知拉马努金的伟大。",
+      "en": "The Leibniz series needs 500 terms to barely reach 3 decimals; on a log-log chart it is just a slowly sloping line, and next to the almost vertical Ramanujan curve you can see how remarkable Ramanujan's series is."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1123,
+      "zh": "割圆术用内接正多边形周长逼近圆周长，边数翻倍一次误差约减为四分之一；刘徽当年算到正 3072 边形得到 π ≈ 3.1416，已是公元三世纪的奇迹。",
+      "en": "The polygon method approximates the circle's circumference by the perimeter of an inscribed regular polygon; each doubling of the sides cuts the error to about a quarter. Liu Hui went up to a 3072-gon and got π ≈ 3.1416, a marvel of the 3rd century."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1181,
+      "zh": "<div class=\"comp-cell\"><label>启用 <input type=\"checkbox\" ",
+      "en": "<div class=\"comp-cell\"><label>On <input type=\"checkbox\" "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1182,
+      "zh": "<div class=\"comp-cell\"><label>频率 Hz <span class=\"cv\" data-v=\"f\">",
+      "en": "<div class=\"comp-cell\"><label>Frequency Hz <span class=\"cv\" data-v=\"f\">"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1184,
+      "zh": "<div class=\"comp-cell\"><label>振幅 / 相位° <span class=\"cv\"><span data-v=\"A\">",
+      "en": "<div class=\"comp-cell\"><label>Amplitude / phase° <span class=\"cv\"><span data-v=\"A\">"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1254,
+      "zh": "时间 t（秒）",
+      "en": "Time t (seconds)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1319,
+      "zh": "频率（Hz，奈奎斯特频率 256 Hz）",
+      "en": "Frequency (Hz, Nyquist frequency 256 Hz)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1319,
+      "zh": "幅度",
+      "en": "Amplitude"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1375,
+      "zh": "幅度 ",
+      "en": "Amplitude "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1395,
+      "zh": "频率 <b>",
+      "en": "Frequency <b>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1395,
+      "zh": " Hz</b><br>幅度 <b>",
+      "en": " Hz</b><br>Amplitude <b>"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1436,
+      "zh": "、",
+      "en": ", "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1438,
+      "zh": "当前谱峰约在 ",
+      "en": "The current spectral peak is near "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1438,
+      "zh": " Hz；",
+      "en": " Hz; "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1440,
+      "zh": "Hann 窗把能量在频域展宽，却显著压低非整周期频率的泄漏旁瓣，代价是主瓣变宽、频率分辨率下降。",
+      "en": "The Hann window spreads energy across frequencies but strongly suppresses leakage sidelobes for non-integer-period frequencies, at the cost of a wider main lobe and lower frequency resolution."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1441,
+      "zh": "矩形窗主瓣最窄、频率分辨率最高，但分量频率不落在 bin 上时旁瓣泄漏明显，可切换 Hann 窗对比。",
+      "en": "The rectangular window has the narrowest main lobe and the best frequency resolution, but sidelobe leakage is clear when a component does not fall on a bin; switch to the Hann window to compare."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1442,
+      "zh": " 补零到 ",
+      "en": " Zero-padding to "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 1442,
+      "zh": " 点只让谱线看起来更平滑（频域插值），并不增加真实分辨率。",
+      "en": " points only makes the spectrum look smoother (frequency-domain interpolation) and does not add real resolution."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "数学实验室",
+      "en": "Math Lab"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "① 高斯积分器",
+      "en": "① Gaussian Integrator"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "② 圆周率工坊",
+      "en": "② Pi Workshop"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "③ 傅里叶变换台",
+      "en": "③ Fourier Transform Bench"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "被积函数",
+      "en": "Integrand"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 40,
+      "zh": "（正半轴）",
+      "en": "(positive half-line)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 46,
+      "zh": "积分下限 a",
+      "en": "Lower limit a"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 54,
+      "zh": "积分上限 b（始终保持 a &lt; b）",
+      "en": "Upper limit b (always keep a &lt; b)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "区间与演示",
+      "en": "Interval and demo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "无穷区间极限",
+      "en": "Infinite-interval limit"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "播放黎曼和收敛",
+      "en": "Play Riemann sum convergence"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "矩形数 n = 4　·　提示：也可直接拖动图中 a、b 手柄",
+      "en": "Rectangles n = 4  ·  Tip: you can also drag the a and b handles in the chart"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 78,
+      "zh": "Simpson 数值积分（n = 1000）",
+      "en": "Simpson numerical integral (n = 1000)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 82,
+      "zh": "解析 / 级数精确值",
+      "en": "Analytic / series exact value"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 86,
+      "zh": "两者差异",
+      "en": "Difference between the two"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 90,
+      "zh": "黎曼和（矩形中点法）",
+      "en": "Riemann sum (rectangle midpoint rule)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 115,
+      "zh": "算法",
+      "en": "Algorithm"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 117,
+      "zh": "拉马努金级数",
+      "en": "Ramanujan series"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 118,
+      "zh": "莱布尼茨级数（对比）",
+      "en": "Leibniz series (comparison)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 119,
+      "zh": "割圆术（对比）",
+      "en": "Archimedes polygon (comparison)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 124,
+      "zh": "累加项数（每多 1 项约多 8 位正确数字）",
+      "en": "Terms summed (each extra term adds about 8 correct digits)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 125,
+      "zh": "3 项",
+      "en": "3 terms"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 129,
+      "zh": "播放收敛",
+      "en": "Play convergence"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 137,
+      "zh": "拉马努金部分和",
+      "en": "Ramanujan partial sum"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 144,
+      "zh": "真　值",
+      "en": "True value"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 149,
+      "zh": "正确位数",
+      "en": "Correct digits"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 158,
+      "zh": "π 部分和",
+      "en": "π partial sum"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 158,
+      "zh": "误差（科学计数）",
+      "en": "Error (scientific)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 164,
+      "zh": "误差收敛对比（双对数：横轴计算量，纵轴 |π̂ − π|；点从右向左坠落）",
+      "en": "Error convergence comparison (log-log: x = work, y = |π̂ − π|; points fall from right to left)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 167,
+      "zh": "拉马努金",
+      "en": "Ramanujan"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 168,
+      "zh": "莱布尼茨",
+      "en": "Leibniz"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 169,
+      "zh": "割圆术",
+      "en": "Archimedes"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 184,
+      "zh": "合成信号：三个正弦分量（实时叠加）",
+      "en": "Synthesised signal: three sine components (live sum)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 188,
+      "zh": "噪声 / 采样 / 窗函数",
+      "en": "Noise / sampling / window"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 191,
+      "zh": "叠加高斯白噪声",
+      "en": "Add Gaussian white noise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 194,
+      "zh": "噪声强度 σ",
+      "en": "Noise level σ"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 199,
+      "zh": "FFT 点数",
+      "en": "FFT size"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 207,
+      "zh": "窗函数",
+      "en": "Window"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 209,
+      "zh": "矩形窗",
+      "en": "Rectangular window"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 210,
+      "zh": "Hann 窗",
+      "en": "Hann window"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 213,
+      "zh": "重新生成噪声",
+      "en": "Regenerate noise"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 218,
+      "zh": "时域波形（采样率 512 Hz，256 个采样点 = 0.5 秒）",
+      "en": "Time-domain waveform (sample rate 512 Hz, 256 samples = 0.5 s)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 223,
+      "zh": "幅度谱（自研基 -2 迭代 FFT，补零到所选点数，显示至奈奎斯特频率 256 Hz；鼠标悬停查看读数）",
+      "en": "Amplitude spectrum (custom radix-2 iterative FFT, zero-padded to the chosen size, shown up to the Nyquist frequency 256 Hz; hover for readings)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 233,
+      "zh": "高斯页可拖动手柄改变区间并播放黎曼和动画　·　圆周率页切换三种算法感受收敛速度差异　·　傅里叶页悬停谱线读取频率与幅度，切换 Hann 窗观察频谱泄漏变化",
+      "en": "On the Gaussian page, drag the handles to change the interval and play the Riemann-sum animation  ·  On the Pi page, switch between three algorithms to feel how fast each converges  ·  On the Fourier page, hover over a spectral line to read frequency and amplitude, and switch to the Hann window to see how leakage changes"
+    }
+  ]
+}

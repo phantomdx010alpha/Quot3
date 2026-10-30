@@ -17,7 +17,7 @@
   var BEST_KEY = "best_merge-town";
 
   // 六个等级的中文名
-  var LEVEL_NAMES = ["草丛", "灌木", "大树", "小屋", "城堡", "城镇"];
+  var LEVEL_NAMES = ["Grass", "Bush", "Tree", "Hut", "Castle", "Town"];
   // 各等级主题色（自然色系点缀，整体保持深色霓虹风）
   var LEVEL_COLORS = ["#4ade80", "#22c55e", "#16a34a", "#ffb347", "#7c5cff", "#ffd166"];
   // 合成结果为该等级时的基础得分
@@ -924,7 +924,7 @@
         addFloat(pc.x, pc.y - pitch * .12, "+" + st.gain,
           LEVEL_COLORS[st.result], st.result >= 4 ? 22 : 18, st.result >= 3);
         if (i === fx.steps.length - 1 && fx.steps.length >= 2) {
-          addFloat(pc.x, pc.y - pitch * .42, fx.steps.length + " 连锁！", "#ff5ca8", 20, true);
+          addFloat(pc.x, pc.y - pitch * .42, fx.steps.length + " Chain!", "#ff5ca8", 20, true);
         }
       }
     }

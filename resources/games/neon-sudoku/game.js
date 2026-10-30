@@ -20,9 +20,9 @@
 
   // 各难度保留的已知格数量区间
   var DIFFICULTIES = {
-    easy: { name: '简单', storageKey: 'best_sudoku_easy', minClues: 38, maxClues: 42 },
-    normal: { name: '普通', storageKey: 'best_sudoku_normal', minClues: 30, maxClues: 34 },
-    hard: { name: '困难', storageKey: 'best_sudoku_hard', minClues: 24, maxClues: 28 }
+    easy: { name: 'Easy', storageKey: 'best_sudoku_easy', minClues: 38, maxClues: 42 },
+    normal: { name: 'Normal', storageKey: 'best_sudoku_normal', minClues: 30, maxClues: 34 },
+    hard: { name: 'Hard', storageKey: 'best_sudoku_hard', minClues: 24, maxClues: 28 }
   };
 
   // 预计算 0~511 每个值二进制中 1 的数量（候选数个数）
@@ -544,7 +544,7 @@
     hintBtn.disabled = state.hintsLeft <= 0 || inputLocked();
     undoBtn.disabled = state.history.length === 0 || inputLocked();
     noteBtn.classList.toggle('active', state.noteMode);
-    pauseBtn.textContent = state.paused ? '继续' : '暂停';
+    pauseBtn.textContent = state.paused ? 'Resume' : 'Pause';
   }
 
   /* ---------- 计时器 ---------- */
@@ -753,7 +753,7 @@
     if (isRecord) setBestSeconds(conf.storageKey, state.seconds);
 
     winTime.textContent = formatTime(state.seconds);
-    winRecord.textContent = isRecord ? '刷新最佳纪录，太强了！' : '全部填写正确，继续挑战更快速度吧';
+    winRecord.textContent = isRecord ? 'New best time, awesome!' : 'All filled correctly; try for a faster time';
     winOverlay.classList.remove('hidden');
   }
 

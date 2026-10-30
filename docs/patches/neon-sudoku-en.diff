@@ -1,0 +1,224 @@
+--- a/resources/games/neon-sudoku/game.js
++++ b/resources/games/neon-sudoku/game.js
+@@ -20,9 +20,9 @@
+ 
+   // 各难度保留的已知格数量区间
+   var DIFFICULTIES = {
+-    easy: { name: '简单', storageKey: 'best_sudoku_easy', minClues: 38, maxClues: 42 },
++    easy: { name: 'Easy', storageKey: 'best_sudoku_easy', minClues: 38, maxClues: 42 },
+-    normal: { name: '普通', storageKey: 'best_sudoku_normal', minClues: 30, maxClues: 34 },
++    normal: { name: 'Normal', storageKey: 'best_sudoku_normal', minClues: 30, maxClues: 34 },
+-    hard: { name: '困难', storageKey: 'best_sudoku_hard', minClues: 24, maxClues: 28 }
++    hard: { name: 'Hard', storageKey: 'best_sudoku_hard', minClues: 24, maxClues: 28 }
+   };
+ 
+   // 预计算 0~511 每个值二进制中 1 的数量（候选数个数）
+@@ -544,7 +544,7 @@
+     hintBtn.disabled = state.hintsLeft <= 0 || inputLocked();
+     undoBtn.disabled = state.history.length === 0 || inputLocked();
+     noteBtn.classList.toggle('active', state.noteMode);
+-    pauseBtn.textContent = state.paused ? '继续' : '暂停';
++    pauseBtn.textContent = state.paused ? 'Resume' : 'Pause';
+   }
+ 
+   /* ---------- 计时器 ---------- */
+@@ -753,7 +753,7 @@
+     if (isRecord) setBestSeconds(conf.storageKey, state.seconds);
+ 
+     winTime.textContent = formatTime(state.seconds);
+-    winRecord.textContent = isRecord ? '刷新最佳纪录，太强了！' : '全部填写正确，继续挑战更快速度吧';
++    winRecord.textContent = isRecord ? 'New best time, awesome!' : 'All filled correctly; try for a faster time';
+     winOverlay.classList.remove('hidden');
+   }
+ 
+--- a/resources/games/neon-sudoku/index.html
++++ b/resources/games/neon-sudoku/index.html
+@@ -1,9 +1,9 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+-<title>霓虹数独</title>
++<title>Neon Sudoku</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+@@ -12,10 +12,10 @@
+   <!-- 顶部栏：左标题，右返回门户 -->
+   <header class="topbar">
+     <div class="brand">
+-      <span class="brand-mark" aria-hidden="true">独</span>
++      <span class="brand-mark" aria-hidden="true">S</span>
+-      <h1 class="brand-title">霓虹数独</h1>
++      <h1 class="brand-title">Neon Sudoku</h1>
+     </div>
+-    <a class="back-link" href="../../index.html">← 返回门户</a>
++    <a class="back-link" href="../../index.html">← Back to portal</a>
+   </header>
+ 
+   <main class="stage">
+@@ -23,35 +23,35 @@
+     <!-- 计时 / 难度 / 错误数 -->
+     <section class="hud panel">
+       <div class="stat stat-time">
+-        <span class="stat-label">计时</span>
++        <span class="stat-label">Time</span>
+         <span class="stat-value" id="timeText">00:00</span>
+       </div>
+       <div class="stat">
+-        <span class="stat-label">难度</span>
++        <span class="stat-label">Difficulty</span>
+         <span class="stat-value" id="diffText">--</span>
+       </div>
+       <div class="stat stat-errors">
+-        <span class="stat-label">错误</span>
++        <span class="stat-label">Mistakes</span>
+         <span class="stat-value" id="errorText">0/3</span>
+       </div>
+     </section>
+ 
+     <!-- 9x9 棋盘（含暂停 / 生成中遮挡层） -->
+     <section class="board-wrap">
+-      <div class="board" id="board" aria-label="数独棋盘"></div>
++      <div class="board" id="board" aria-label="Sudoku board"></div>
+ 
+       <div class="cover hidden" id="loadingCover">
+         <div class="cover-inner">
+-          <div class="cover-title">正在生成数独题目</div>
++          <div class="cover-title">Generating puzzle</div>
+-          <div class="cover-sub">校验唯一解，请稍候…</div>
++          <div class="cover-sub">Verifying unique solution, please wait…</div>
+         </div>
+       </div>
+ 
+       <div class="cover hidden" id="pauseCover">
+         <div class="cover-inner">
+-          <div class="cover-title">已暂停</div>
++          <div class="cover-title">Paused</div>
+-          <div class="cover-sub">棋盘已遮挡，休息一下</div>
++          <div class="cover-sub">Board hidden; take a break</div>
+-          <button class="btn btn-primary cover-btn" id="pauseResumeBtn" type="button">继续游戏</button>
++          <button class="btn btn-primary cover-btn" id="pauseResumeBtn" type="button">Resume game</button>
+         </div>
+       </div>
+     </section>
+@@ -68,21 +68,21 @@
+         <button class="num-btn" type="button" data-num="7">7</button>
+         <button class="num-btn" type="button" data-num="8">8</button>
+         <button class="num-btn" type="button" data-num="9">9</button>
+-        <button class="num-btn num-erase" id="eraseBtn" type="button">擦除</button>
++        <button class="num-btn num-erase" id="eraseBtn" type="button">Erase</button>
+       </div>
+       <div class="tools">
+-        <button class="tool" id="hintBtn" type="button">提示<span class="tool-badge" id="hintBadge">3</span></button>
++        <button class="tool" id="hintBtn" type="button">Hint<span class="tool-badge" id="hintBadge">3</span></button>
+-        <button class="tool" id="noteBtn" type="button">笔记<span class="tool-badge">N</span></button>
++        <button class="tool" id="noteBtn" type="button">Notes<span class="tool-badge">N</span></button>
+-        <button class="tool" id="undoBtn" type="button">撤销</button>
++        <button class="tool" id="undoBtn" type="button">Undo</button>
+-        <button class="tool" id="pauseBtn" type="button">暂停</button>
++        <button class="tool" id="pauseBtn" type="button">Pause</button>
+-        <button class="tool tool-new" id="newBtn" type="button">新游戏</button>
++        <button class="tool tool-new" id="newBtn" type="button">New game</button>
+       </div>
+     </section>
+ 
+     <!-- 底部说明 -->
+     <footer class="tips">
+-      数字键 1-9 填写，Backspace 擦除，方向键移动，N 切换笔记模式<br>
++      Number keys 1-9 to fill, Backspace to erase, arrow keys to move, N toggles notes mode<br>
+-      笔记模式下再次点击数字可取消候选；填错 3 次挑战失败
++      In notes mode, tap a number again to remove a candidate; 3 wrong entries fails the challenge
+     </footer>
+   </main>
+ </div>
+@@ -90,36 +90,36 @@
+ <!-- 难度选择遮罩 -->
+ <div class="overlay" id="startOverlay">
+   <div class="dialog panel">
+-    <h2 class="dialog-title">霓虹数独</h2>
++    <h2 class="dialog-title">Neon Sudoku</h2>
+-    <p class="dialog-sub">回溯算法实时生成，每题均保证唯一解</p>
++    <p class="dialog-sub">Generated live by backtracking; every puzzle has a unique solution</p>
+ 
+     <div class="diff-list">
+       <button class="diff-card" type="button" data-diff="easy">
+         <span class="diff-info">
+-          <span class="diff-name">简单</span>
++          <span class="diff-name">Easy</span>
+-          <span class="diff-meta">已知 38-42 格 · 轻松入门</span>
++          <span class="diff-meta">38-42 givens · Easy start</span>
+         </span>
+-        <span class="diff-best">最佳 <b id="best-easy">--:--</b></span>
++        <span class="diff-best">Best <b id="best-easy">--:--</b></span>
+       </button>
+       <button class="diff-card" type="button" data-diff="normal">
+         <span class="diff-info">
+-          <span class="diff-name">普通</span>
++          <span class="diff-name">Normal</span>
+-          <span class="diff-meta">已知 30-34 格 · 小有挑战</span>
++          <span class="diff-meta">30-34 givens · A fair challenge</span>
+         </span>
+-        <span class="diff-best">最佳 <b id="best-normal">--:--</b></span>
++        <span class="diff-best">Best <b id="best-normal">--:--</b></span>
+       </button>
+       <button class="diff-card" type="button" data-diff="hard">
+         <span class="diff-info">
+-          <span class="diff-name">困难</span>
++          <span class="diff-name">Hard</span>
+-          <span class="diff-meta">已知 24-28 格 · 高手专属</span>
++          <span class="diff-meta">24-28 givens · For experts</span>
+         </span>
+-        <span class="diff-best">最佳 <b id="best-hard">--:--</b></span>
++        <span class="diff-best">Best <b id="best-hard">--:--</b></span>
+       </button>
+     </div>
+ 
+     <label class="option-line">
+       <input type="checkbox" id="continueChk">
+-      <span>错误达到 3 次后允许继续游戏（不弹出失败遮罩）</span>
++      <span>After 3 mistakes you may keep playing (no failure overlay)</span>
+     </label>
+   </div>
+ </div>
+@@ -127,15 +127,15 @@
+ <!-- 完成庆祝遮罩 -->
+ <div class="overlay hidden" id="winOverlay">
+   <div class="dialog panel">
+-    <h2 class="dialog-title win-title">挑战成功</h2>
++    <h2 class="dialog-title win-title">Challenge complete</h2>
+-    <p class="dialog-sub" id="winRecord">太棒了，全部填写正确！</p>
++    <p class="dialog-sub" id="winRecord">Great job, everything is correct!</p>
+     <div class="result-time">
+-      <span class="result-label">本局用时</span>
++      <span class="result-label">Time this game</span>
+       <span class="result-value" id="winTime">00:00</span>
+     </div>
+     <div class="dialog-actions">
+-      <button class="btn btn-primary" id="winAgainBtn" type="button">再来一局</button>
++      <button class="btn btn-primary" id="winAgainBtn" type="button">Play again</button>
+-      <button class="btn btn-ghost" id="winChooseBtn" type="button">选择难度</button>
++      <button class="btn btn-ghost" id="winChooseBtn" type="button">Choose difficulty</button>
+     </div>
+   </div>
+ </div>
+@@ -143,12 +143,12 @@
+ <!-- 挑战失败遮罩 -->
+ <div class="overlay hidden" id="failOverlay">
+   <div class="dialog panel">
+-    <h2 class="dialog-title fail-title">挑战失败</h2>
++    <h2 class="dialog-title fail-title">Challenge failed</h2>
+-    <p class="dialog-sub">错误次数已达到 3 次上限</p>
++    <p class="dialog-sub">Mistake limit of 3 reached</p>
+     <div class="dialog-actions">
+-      <button class="btn btn-primary" id="failRetryBtn" type="button">重新开始</button>
++      <button class="btn btn-primary" id="failRetryBtn" type="button">Restart</button>
+-      <button class="btn btn-ghost" id="failChooseBtn" type="button">选择难度</button>
++      <button class="btn btn-ghost" id="failChooseBtn" type="button">Choose difficulty</button>
+-      <button class="btn btn-ghost hidden" id="failContinueBtn" type="button">继续游戏</button>
++      <button class="btn btn-ghost hidden" id="failContinueBtn" type="button">Resume game</button>
+     </div>
+   </div>
+ </div>

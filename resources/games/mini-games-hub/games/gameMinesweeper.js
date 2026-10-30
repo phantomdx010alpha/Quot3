@@ -30,16 +30,16 @@ const STYLE = `
 
 export default {
   id: 'minesweeper',
-  name: '扫雷',
+  name: 'Minesweeper',
   bestLower: true,
   options: [{
     key: 'level',
-    label: '难度',
+    label: 'Difficulty',
     def: 'mid',
     values: [
-      { v: 'easy', t: '简单 9×9' },
-      { v: 'mid', t: '标准 16×16' },
-      { v: 'hard', t: '困难 16×30' },
+      { v: 'easy', t: 'Easy 9×9' },
+      { v: 'mid', t: 'Standard 16×16' },
+      { v: 'hard', t: 'Hard 16×30' },
     ],
   }],
 
@@ -67,11 +67,11 @@ export default {
     const flagBtn = document.createElement('button')
     flagBtn.type = 'button'
     flagBtn.className = 'gms-chip gms-flag-btn'
-    flagBtn.textContent = '🚩 插旗模式'
+    flagBtn.textContent = '🚩 Flag mode'
     const resetBtn = document.createElement('button')
     resetBtn.type = 'button'
     resetBtn.className = 'gms-chip'
-    resetBtn.textContent = '🙂 重开'
+    resetBtn.textContent = '🙂 Restart'
     bar.append(chipMine, chipTime, flagBtn, resetBtn)
     wrap.appendChild(bar)
 
@@ -113,7 +113,7 @@ export default {
 
     const fmt = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`
     const paintBar = () => {
-      chipMine.innerHTML = `💣 剩余 <b>${Math.max(M - flagged.size, 0)}</b>`
+      chipMine.innerHTML = `💣 Left <b>${Math.max(M - flagged.size, 0)}</b>`
       chipTime.innerHTML = `⏱ <b>${fmt(time)}</b>`
     }
 
@@ -190,7 +190,7 @@ export default {
         revealed.add(i)
         mines.forEach((j) => revealed.add(j))
         cellEls.forEach((_, j) => paintCell(j))
-        status.textContent = '💥 踩雷了，按重开再来'
+        status.textContent = '💥 Boom! Press restart to try again'
         api.over(time)
         clearInterval(timer)
         return
@@ -209,7 +209,7 @@ export default {
       if (openedCount === total - mines.size) {
         ended = true
         clearInterval(timer)
-        status.textContent = `🎉 排雷成功！用时 ${fmt(time)}`
+        status.textContent = `🎉 Mines cleared! Time ${fmt(time)}`
         api.win(time)
       }
     }

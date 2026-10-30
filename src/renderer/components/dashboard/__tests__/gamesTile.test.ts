@@ -91,3 +91,14 @@ describe('"(?)" Dashboard tile (Phase 203)', () => {
     expect(DASH_TILE_KEYS.filter((k) => k !== 'games').map((k) => n[k])).toEqual([true, false, true, true, true, false])
   })
 })
+
+describe('"(?)" tile and the language rule (Phase 205, M20)', () => {
+  it('is hidden when every game has a Chinese interface and the switch is off, and shown when it is on or an English game exists', async () => {
+    useGamesStore.setState({ showChinese: false })
+    await mount([game('cat-seesaw', 'Cat Seesaw', { lang: 'zh' })])
+    expect(tile()).toBeNull()
+    await act(async () => { root.unmount() }); root = createRoot(host)
+    await mount([game('cat-seesaw', 'Cat Seesaw', { lang: 'zh' }), game('chess', 'Chess')])
+    expect(tile()!.textContent).toBe('(?)')
+  })
+})

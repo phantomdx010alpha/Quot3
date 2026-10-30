@@ -9,6 +9,8 @@ import type { GameEntry } from '@shared/games/manifest'
  */
 export interface GamesStoreState {
   enabled: boolean
+  /** Mirrors the setting `games.showChinese` (Phase 205, default OFF): games with a Chinese interface stay hidden. */
+  showChinese: boolean
   status: 'idle' | 'loading' | 'ready' | 'error'
   error: string
   games: GameEntry[]
@@ -21,6 +23,7 @@ export interface GamesStoreState {
 
 export const useGamesStore = create<GamesStoreState>(() => ({
   enabled: true,
+  showChinese: false,
   status: 'idle',
   error: '',
   games: [],

@@ -1,0 +1,2645 @@
+{
+  "version": 1,
+  "game": "pulse-studio",
+  "entries": [
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "脉冲音乐室：自由编曲",
+      "en": "Pulse Studio: Free Composer"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 18,
+      "zh": "音乐室模式",
+      "en": "Studio modes"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "自由编曲",
+      "en": "Free Composer"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "巡演练习 · 旧档保留",
+      "en": "Tour Practice · old saves kept"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "返回游戏合集",
+      "en": "Back to game collection"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "把一个动机，写成一首曲子。",
+      "en": "Turn one motif into a whole song."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "四个乐段 · 六轨十六步 · 自己写旋律和段落，没有标准答案。",
+      "en": "Four sections · six tracks · sixteen steps. Write your own melody and arrangement; there is no right answer."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "▶ 试听乐段",
+      "en": "▶ Play section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "▶ 试听整曲",
+      "en": "▶ Play song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "■ 停止",
+      "en": "■ Stop"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "从 A 段开始。点格子改变力度，选中旋律格后可修改音高。",
+      "en": "Start with section A. Click cells to change strength; select a melody cell to change its pitch."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 25,
+      "zh": "乐段编辑器",
+      "en": "Section editor"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "当前乐段名称",
+      "en": "Current section name"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 27,
+      "zh": "当前乐段名称",
+      "en": "Current section name"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "↶ 撤销",
+      "en": "↶ Undo"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "↷ 重做",
+      "en": "↷ Redo"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "速度 BPM",
+      "en": "Tempo BPM"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "合成音色",
+      "en": "Synth sound"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "霓虹脉冲",
+      "en": "Neon Pulse"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "模拟暖流",
+      "en": "Analog Warm"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "街机晶片",
+      "en": "Arcade Chip"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "极光空间",
+      "en": "Aurora Space"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "调性",
+      "en": "Key"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "音阶",
+      "en": "Scale"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "自然小调",
+      "en": "Natural minor"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "大调",
+      "en": "Major"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 29,
+      "zh": "六轨音序器，可左右滚动",
+      "en": "Six-track sequencer, scrolls sideways"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "空 → 轻 → 正 → 重，点按循环。左右滑动看完整 16 格；M 静音、S 独奏。选中音符后用下方控制精确编辑。",
+      "en": "Empty → Light → Normal → Heavy, click to cycle. Swipe sideways to see all 16 steps; M mutes, S solos. After selecting a note, fine-tune it with the controls below."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "底鼓 · 第 1 格",
+      "en": "Kick · step 1"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "力度",
+      "en": "Strength"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "空拍",
+      "en": "Rest"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "轻拍",
+      "en": "Light"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "正拍",
+      "en": "Normal"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "重音",
+      "en": "Accent"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "音高",
+      "en": "Pitch"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "清除此格",
+      "en": "Clear this step"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "← 移一格",
+      "en": "← Shift 1"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "移一格 →",
+      "en": "Shift 1 →"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "变奏种子",
+      "en": "Variation seed"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "做一次变奏",
+      "en": "Make a variation"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 32,
+      "zh": "复制到乐段",
+      "en": "Copy to section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "复制到 B",
+      "en": "Copy to B"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "复制到 C",
+      "en": "Copy to C"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "复制到 D",
+      "en": "Copy to D"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "复制到 A",
+      "en": "Copy to A"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "复制乐段",
+      "en": "Copy section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "清空当前段",
+      "en": "Clear current section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "歌曲编排",
+      "en": "Song arrangement"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "＋ 加入当前乐段",
+      "en": "+ Add current section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "引用同一乐段会同步更新；想做新变化，先复制到另一段。每张卡可选段落、重复次数和顺序。",
+      "en": "Using the same section twice keeps both in sync; to make a new variation, copy it to another section first. Each card sets the section, repeats and order."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "循环试听（导出只渲染编排一遍）",
+      "en": "Loop playback (export renders the arrangement once)"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "我的作品",
+      "en": "My song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "作品名称",
+      "en": "Song name"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 36,
+      "zh": "未命名作品",
+      "en": "Untitled song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "自动保存到当前浏览器",
+      "en": "Autosaved in this browser"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 36,
+      "zh": "当前乐段强度分布",
+      "en": "Strength of the current section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "试听 / 导出总音量",
+      "en": "Playback / export volume"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "从较低系统音量开始。百分比不是实际声压或听力安全保证。",
+      "en": "Start with a low system volume. The percentage is not an actual sound level or a hearing-safety guarantee."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "保存与分享",
+      "en": "Save and share"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 37,
+      "zh": "本地作品架",
+      "en": "Local song shelf"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "作品架 1",
+      "en": "Shelf 1"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "作品架 2",
+      "en": "Shelf 2"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "作品架 3",
+      "en": "Shelf 3"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "保存",
+      "en": "Save"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "载入",
+      "en": "Load"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "工程码 / 导入",
+      "en": "Project code / import"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "导出整曲 WAV",
+      "en": "Export song WAV"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "读取巡演作品槽",
+      "en": "Load Tour save slots"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "新建空白作品",
+      "en": "New blank song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "工程码完整保存可编辑内容；WAV 是可播放音频。仅在本地处理，不上传作品或请求麦克风。",
+      "en": "The project code keeps everything editable; the WAV is playable audio. Everything is processed locally: nothing is uploaded and the microphone is never requested."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "第一次怎么创作？",
+      "en": "How do I start?"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "① 在 A 段改出喜欢的鼓点；点低音、和弦或主奏，再选音高。",
+      "en": "1. In section A, edit a drum pattern you like; click bass, chords or lead, then pick a pitch."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "② 复制 A 到 B，尝试移位或变奏；都能撤销。",
+      "en": "2. Copy A to B and try shifting or varying it; everything can be undone."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "③ 把 A、B 排成段落，选择重复次数，试听整曲后导出。",
+      "en": "3. Arrange A and B into sections, set the repeats, play the whole song, then export."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "四种音色自由开放。想练基础拍型，可切到原巡演；两个模式与存档互不覆盖。",
+      "en": "All four sounds are open. To practise basic rhythms, switch to the original Tour; the two modes and their saves never overwrite each other."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "空格试听/停止当前段；Esc 停止或关弹窗；格子内方向键移动，Enter/空格改力度。编辑或转入后台会停止试听，再播放时使用最新快照。",
+      "en": "Space plays/stops the current section; Esc stops or closes a dialog; arrow keys move inside the grid, Enter/Space changes strength. Editing or going to the background stops playback, and the next play uses the latest snapshot."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "可继续编辑的工程",
+      "en": "Editable project"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "复制 PULSESONG1 工程码给朋友，或下载工程文件。支持导入旧 PULSE2 的三个网格（旧档未存速度，按 112 BPM 恢复）。先完整验证再替换，失败保留原作品。",
+      "en": "Copy the PULSESONG1 project code to a friend, or download the project file. The three grids of an old PULSE2 save can be imported (old saves have no tempo, so 112 BPM is used). Everything is checked before replacing; if it fails, your song is kept."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "attr",
+      "line": 41,
+      "zh": "工程码",
+      "en": "Project code"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "从工程文件读取",
+      "en": "Read from project file"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "复制",
+      "en": "Copy"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "下载工程",
+      "en": "Download project"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "验证并导入",
+      "en": "Check and import"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "作品数据无效：",
+      "en": "Invalid song data: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "字符编码",
+      "en": "character encoding"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "未命名作品",
+      "en": "Untitled song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 79,
+      "zh": "项目",
+      "en": "Project"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 80,
+      "zh": "版本",
+      "en": "Version"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 81,
+      "zh": "名称",
+      "en": "Name"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 82,
+      "zh": "摇摆",
+      "en": "Swing"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "音色",
+      "en": "Sound"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "总音量",
+      "en": "Master volume"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "调性",
+      "en": "Key"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 85,
+      "zh": "音阶",
+      "en": "Scale"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 86,
+      "zh": "片段",
+      "en": "Pattern"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "片段名",
+      "en": "Pattern name"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "力度",
+      "en": "Strength"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "音级",
+      "en": "Scale degree"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 92,
+      "zh": "编排长度",
+      "en": "Arrangement length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 94,
+      "zh": "编排",
+      "en": "Arrangement"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "片段序号",
+      "en": "Pattern number"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "重复次数",
+      "en": "Repeats"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 98,
+      "zh": "歌曲时长",
+      "en": "Song length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "轨道",
+      "en": "Track"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 102,
+      "zh": "静音/独奏",
+      "en": "Mute/solo"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 103,
+      "zh": "轨道音量",
+      "en": "Track volume"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "第一束脉冲",
+      "en": "First Pulse"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "播放选项",
+      "en": "Playback options"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "试听片段",
+      "en": "Play pattern"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "变化类型",
+      "en": "Variation type"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "编码",
+      "en": "Code"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 194,
+      "zh": "档案大小",
+      "en": "File size"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 196,
+      "zh": "档案校验",
+      "en": "File checksum"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 197,
+      "zh": "档案内容",
+      "en": "File contents"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 205,
+      "zh": "旧版档案",
+      "en": "Old save"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 206,
+      "zh": "旧版版本",
+      "en": "Old save version"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 208,
+      "zh": "巡演旧作品",
+      "en": "Old Tour song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 211,
+      "zh": "旧作品槽",
+      "en": "Old song slot"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 212,
+      "zh": "旧槽位 ",
+      "en": "Old slot "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 218,
+      "zh": "采样率",
+      "en": "Sample rate"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 219,
+      "zh": "PCM声道",
+      "en": "PCM channel"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 221,
+      "zh": "PCM长度",
+      "en": "PCM length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 224,
+      "zh": "PCM声道长度",
+      "en": "PCM channel length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 227,
+      "zh": "PCM样本",
+      "en": "PCM samples"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 258,
+      "zh": " 超出范围",
+      "en": " is out of range"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 263,
+      "zh": " 必须为整数",
+      "en": " must be a whole number"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 266,
+      "zh": "音量",
+      "en": "Volume"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 268,
+      "zh": "无效音符",
+      "en": "Invalid note"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 270,
+      "zh": "音轨",
+      "en": "Track"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 273,
+      "zh": "音高",
+      "en": "Pitch"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 275,
+      "zh": "音轨增益",
+      "en": "Track gain"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 276,
+      "zh": "音符时值",
+      "en": "Note length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 281,
+      "zh": "无效乐曲",
+      "en": "Invalid song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 282,
+      "zh": "乐曲时长",
+      "en": "Song length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 283,
+      "zh": "小节时长",
+      "en": "Bar length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 286,
+      "zh": "无效节拍",
+      "en": "Invalid beat"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 287,
+      "zh": "节拍时间",
+      "en": "Beat time"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 288,
+      "zh": "节拍时值",
+      "en": "Beat length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 289,
+      "zh": "节拍顺序或结束时间无效",
+      "en": "Beat order or end time is invalid"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 291,
+      "zh": "步序号",
+      "en": "Step number"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 291,
+      "zh": "小节序号",
+      "en": "Bar number"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 294,
+      "zh": "乐曲必须完整覆盖零到结束时间",
+      "en": "The song must cover zero to the end time completely"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 310,
+      "zh": "缺少音频上下文",
+      "en": "Audio context is missing"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 317,
+      "zh": "音源已关闭",
+      "en": "Audio source is closed"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 318,
+      "zh": "发声时间",
+      "en": "Start time"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 389,
+      "zh": "停止时间",
+      "en": "Stop time"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 450,
+      "zh": "音频设备暂停，请重新播放",
+      "en": "Audio device paused, please play again"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 456,
+      "zh": "播放调度中断，已停止以避免音符堆叠；请重新播放",
+      "en": "Playback scheduling was interrupted and stopped to avoid stacked notes; please play again"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 463,
+      "zh": "音符密度过高，已停止播放",
+      "en": "Too many notes at once, playback stopped"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 478,
+      "zh": "此浏览器不支持 Web Audio",
+      "en": "This browser does not support Web Audio"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 483,
+      "zh": "音频未获准启动，请点击播放重试",
+      "en": "Audio was not allowed to start, click play to retry"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 512,
+      "zh": "导出采样率仅支持 22050 或 44100 Hz",
+      "en": "Export sample rate must be 22050 or 44100 Hz"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 513,
+      "zh": "尾音时长",
+      "en": "Tail length"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 515,
+      "zh": "此浏览器不支持离线音频导出",
+      "en": "This browser does not support offline audio export"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 529,
+      "zh": "脉冲音乐室",
+      "en": "Pulse Studio"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 529,
+      "zh": "六轨强弱拍音序器与十二场巡演委托。点按格子循环切换空拍、轻拍、正拍和重音。",
+      "en": "A six-track beat sequencer and twelve tour gigs. Click a cell to cycle rest, light, normal and accent."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 529,
+      "zh": "▶ 播放",
+      "en": "▶ Play"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 529,
+      "zh": "提交现场",
+      "en": "Submit gig"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 529,
+      "zh": "巡演档案",
+      "en": "Tour file"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 533,
+      "zh": "每 4 格为一拍组，格子亮框表示当前播放位置",
+      "en": "Every 4 steps is one beat group; the lit cell border shows the current playing position"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 535,
+      "zh": "清空",
+      "en": "Clear"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 535,
+      "zh": "风格灵感",
+      "en": "Style ideas"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 535,
+      "zh": "撤销",
+      "en": "Undo"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 536,
+      "zh": "音色",
+      "en": "Sound"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 537,
+      "zh": "作品槽",
+      "en": "Song slot"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 537,
+      "zh": "槽位 1",
+      "en": "Slot 1"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 537,
+      "zh": "槽位 2",
+      "en": "Slot 2"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 537,
+      "zh": "槽位 3",
+      "en": "Slot 3"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 541,
+      "zh": "地下排练厅",
+      "en": "Underground Rehearsal Hall"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 541,
+      "zh": "编辑次数",
+      "en": "Edits"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 541,
+      "zh": "参与轨道",
+      "en": "Tracks used"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 541,
+      "zh": "当前评价",
+      "en": "Current rating"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 542,
+      "zh": "巡演生涯",
+      "en": "Tour career"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 542,
+      "zh": "听众",
+      "en": "Fans"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 542,
+      "zh": "星章",
+      "en": "Stars"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 542,
+      "zh": "演出",
+      "en": "Shows"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 542,
+      "zh": "完成三项必要条件获得一星；附加目标和精简编辑可继续提升评价。",
+      "en": "Pass the three required goals for one star; bonus goals and fewer edits raise the rating further."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 543,
+      "zh": "音色收藏",
+      "en": "Sound collection"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 544,
+      "zh": "十二场巡演",
+      "en": "Twelve-gig tour"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 548,
+      "zh": "跨设备巡演档案",
+      "en": "Cross-device tour file"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 548,
+      "zh": "包含场次星级、听众、音色选择与三个作品槽。首次播放仍需点击授权声音。",
+      "en": "Holds gig stars, fans, sound choice and the three song slots. The first play still needs a click to allow sound."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 548,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "text",
+      "line": 548,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 553,
+      "zh": "底鼓",
+      "en": "Kick"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 553,
+      "zh": "军鼓",
+      "en": "Snare"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 553,
+      "zh": "踩镲",
+      "en": "Hi-hat"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 554,
+      "zh": "低音",
+      "en": "Bass"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 554,
+      "zh": "和弦",
+      "en": "Chords"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 554,
+      "zh": "主奏",
+      "en": "Lead"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 556,
+      "zh": "霓虹脉冲",
+      "en": "Neon Pulse"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 556,
+      "zh": "模拟暖流",
+      "en": "Analog Warm"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 556,
+      "zh": "街机晶片",
+      "en": "Arcade Chip"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 556,
+      "zh": "极光空间",
+      "en": "Aurora Space"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 558,
+      "zh": "地下排练厅",
+      "en": "Underground Rehearsal Hall"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 558,
+      "zh": "用稳定四拍和军鼓反拍建立最基础的舞池骨架。",
+      "en": "Build the most basic dance-floor skeleton with a steady four-on-the-floor kick and a snare backbeat."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 559,
+      "zh": "开镲练习",
+      "en": "Open Hat Practice"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 559,
+      "zh": "让踩镲填入弱拍，同时保持至少三条轨道参与。",
+      "en": "Put the hi-hat on the weak beats while keeping at least three tracks playing."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 560,
+      "zh": "低音咬合",
+      "en": "Bass Lock"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 560,
+      "zh": "让低音与底鼓在关键位置咬合，但不要把每一格塞满。",
+      "en": "Lock the bass with the kick at key points, but do not fill every step."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 561,
+      "zh": "屋顶电台",
+      "en": "Rooftop Radio"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 561,
+      "zh": "两拍留白",
+      "en": "Two Beats of Space"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 561,
+      "zh": "主动留出连续空拍，并用重音把听众带回节奏。",
+      "en": "Leave a run of empty steps on purpose, then use accents to bring the audience back to the rhythm."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 562,
+      "zh": "问答旋律",
+      "en": "Call and Response"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 562,
+      "zh": "前半段用和弦提问，后半段让主奏作答。",
+      "en": "Ask with chords in the first half, answer with the lead in the second half."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 563,
+      "zh": "错位霓虹",
+      "en": "Off-Kilter Neon"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 563,
+      "zh": "把足够多的音符放在奇数格，制造向前倾斜的切分感。",
+      "en": "Place enough notes on odd steps to create a forward-leaning syncopation."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 564,
+      "zh": "旧城俱乐部",
+      "en": "Old Town Club"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 564,
+      "zh": "极简宣言",
+      "en": "Minimal Manifesto"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 564,
+      "zh": "限制音符总量，让四条以上轨道各自承担清晰职责。",
+      "en": "Limit the total notes so that four or more tracks each have a clear role."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 565,
+      "zh": "能量上坡",
+      "en": "Energy Climb"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 565,
+      "zh": "后八格的总强度必须明显高于前八格，形成一次渐强。",
+      "en": "The last eight steps must be clearly stronger than the first eight, making one crescendo."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 566,
+      "zh": "交错机器",
+      "en": "Interlocking Machine"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 566,
+      "zh": "让低音避开部分底鼓，结合踩镲弱拍形成机械交错。",
+      "en": "Keep the bass off some kick hits and combine it with weak-beat hi-hats for a mechanical interlock."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 567,
+      "zh": "极光主舞台",
+      "en": "Aurora Main Stage"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 567,
+      "zh": "满场声压",
+      "en": "Wall of Sound"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 567,
+      "zh": "六轨全部加入，四拍底鼓与军鼓反拍仍必须清晰。",
+      "en": "Add all six tracks; the four-on-the-floor kick and snare backbeat must still stay clear."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 568,
+      "zh": "精密切片",
+      "en": "Precision Slicing"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 568,
+      "zh": "复杂并不等于拥挤：制造强变化，同时限制同格叠层。",
+      "en": "Complex does not mean crowded: create strong changes while limiting layers on a single step."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 569,
+      "zh": "终场协议",
+      "en": "Finale Protocol"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 569,
+      "zh": "整合巡演中学到的稳定、切分、留白、重音与六轨编排。",
+      "en": "Combine everything the tour taught: steadiness, syncopation, space, accents and six-track arrangement."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "四拍底鼓",
+      "en": "Four-on-the-floor kick"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "军鼓反拍",
+      "en": "Snare backbeat"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "音符下限",
+      "en": "Minimum notes"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "音符上限",
+      "en": "Maximum notes"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "音符区间",
+      "en": "Note range"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "弱拍踩镲",
+      "en": "Weak-beat hi-hat"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "参与轨道",
+      "en": "Tracks used"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "重音数量",
+      "en": "Accent count"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "连续留白",
+      "en": "Empty run"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "低鼓咬合",
+      "en": "Bass-kick lock"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "前后变化",
+      "en": "Before/after change"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "单格叠层",
+      "en": "Layers per step"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "前段和弦",
+      "en": "Early chords"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "后段主奏",
+      "en": "Late lead"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "奇数格音符",
+      "en": "Odd-step notes"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "后段增幅",
+      "en": "Late build-up"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "后段重音",
+      "en": "Late accents"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 571,
+      "zh": "错位低音",
+      "en": "Off-beat bass"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 578,
+      "zh": "巡演档案无法保存，请用档案码备份；本局仍可继续。",
+      "en": "The tour file could not be saved; back it up with the file code. This round can continue."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 582,
+      "zh": " 以下",
+      "en": " or fewer"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 586,
+      "zh": "\" title=\"静音\">",
+      "en": "\" title=\"Mute\">"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 586,
+      "zh": " 第",
+      "en": " step "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 586,
+      "zh": "格 强度",
+      "en": " strength "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 587,
+      "zh": "附加：",
+      "en": "Bonus: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 588,
+      "zh": "已解锁",
+      "en": "Unlocked"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 588,
+      "zh": " 星解锁",
+      "en": " stars to unlock"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 588,
+      "zh": "（",
+      "en": " ("
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 588,
+      "zh": "星）",
+      "en": " stars)"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 589,
+      "zh": "切换练习会清空当前网格。先保存作品槽可以保留，是否继续？",
+      "en": "Switching practice will clear the current grid. Saving to a song slot first keeps it. Continue?"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 590,
+      "zh": "现场通过：",
+      "en": "Gig passed: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 590,
+      "zh": "，",
+      "en": ", "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 590,
+      "zh": "下一场已解锁",
+      "en": "next gig unlocked"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 590,
+      "zh": "霓虹巡演全部完成",
+      "en": "Neon Tour complete"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 590,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 594,
+      "zh": "▶ 播放",
+      "en": "▶ Play"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 594,
+      "zh": "试听已停止：",
+      "en": "Playback stopped: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 594,
+      "zh": "■ 停止",
+      "en": "■ Stop"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 594,
+      "zh": "无法播放：",
+      "en": "Cannot play: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 595,
+      "zh": "速度已修改，重新播放后生效。",
+      "en": "Tempo changed; it takes effect on the next play."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 598,
+      "zh": "巡演档案过大或无效",
+      "en": "Tour file is too large or invalid"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 598,
+      "zh": "巡演档案校验失败",
+      "en": "Tour file checksum failed"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 598,
+      "zh": "档案版本不兼容",
+      "en": "Tour file version is not compatible"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 599,
+      "zh": "作品已保存到槽位 ",
+      "en": "Song saved to slot "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 599,
+      "zh": "这个槽位还没有作品。",
+      "en": "This slot has no song yet."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 599,
+      "zh": "作品已载入。",
+      "en": "Song loaded."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 600,
+      "zh": "巡演档案已复制。",
+      "en": "Tour file copied."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 600,
+      "zh": "档案已生成，请手动复制。",
+      "en": "File generated, please copy it manually."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 600,
+      "zh": "导入成功。",
+      "en": "Import succeeded."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 625,
+      "zh": "无法读取草稿，已打开起始乐段。原损坏草稿未被覆盖；请先导出作品备份。",
+      "en": "The draft could not be read; the starter section was opened. The damaged draft was not overwritten; please export your song as a backup first."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 636,
+      "zh": "浏览器无法保存，请导出工程码备份；本局仍可继续。",
+      "en": "The browser cannot save; export the project code as a backup. This round can continue."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 637,
+      "zh": "草稿已自动保存 · 仅当前浏览器",
+      "en": "Draft autosaved · this browser only"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 668,
+      "zh": "■ 停止乐段",
+      "en": "■ Stop section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 668,
+      "zh": "▶ 试听乐段",
+      "en": "▶ Play section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 669,
+      "zh": "■ 停止整曲",
+      "en": "■ Stop song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 669,
+      "zh": "▶ 试听整曲",
+      "en": "▶ Play song"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 678,
+      "zh": "已修改。",
+      "en": "Changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 678,
+      "zh": " 编辑后已停止试听，再播放会使用最新作品。",
+      "en": " Playback stopped after editing; the next play uses the latest song."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 689,
+      "zh": "已撤销，包括音高、编排和配置。",
+      "en": "Undone, including pitch, arrangement and settings."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 689,
+      "zh": "已重做。",
+      "en": "Redone."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 706,
+      "zh": "音量已修改。",
+      "en": "Volume changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 707,
+      "zh": "静音",
+      "en": "Mute"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 708,
+      "zh": "取消静音。",
+      "en": "Unmuted."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 708,
+      "zh": "已静音。",
+      "en": "Muted."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 709,
+      "zh": "独奏",
+      "en": "Solo"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 710,
+      "zh": "取消独奏。",
+      "en": "Solo off."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 710,
+      "zh": "已独奏。",
+      "en": "Soloed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 715,
+      "zh": "已修改",
+      "en": "Changed "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 715,
+      "zh": "第",
+      "en": " step "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 715,
+      "zh": "格。",
+      "en": "."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 728,
+      "zh": " · 第 ",
+      "en": " · Step "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 728,
+      "zh": " 格",
+      "en": " of 16"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 729,
+      "zh": "级 · ",
+      "en": ": "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 735,
+      "zh": "段落 ",
+      "en": "Entry "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 736,
+      "zh": "段落",
+      "en": "Entry "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 736,
+      "zh": "乐段",
+      "en": " section"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 738,
+      "zh": "已修改段落引用。",
+      "en": "Section reference changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 740,
+      "zh": "重复 ",
+      "en": "Repeat "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 740,
+      "zh": " 小节",
+      "en": " bars"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 741,
+      "zh": "已修改段落长度。",
+      "en": "Section length changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 743,
+      "zh": "前移",
+      "en": "Move up"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 743,
+      "zh": "后移",
+      "en": "Move down"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 743,
+      "zh": "删除",
+      "en": "Delete"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 746,
+      "zh": "歌曲编排已修改。",
+      "en": "Song arrangement changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 761,
+      "zh": " 个音符",
+      "en": " notes"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 762,
+      "zh": "正在编辑 ",
+      "en": "Editing section "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 762,
+      "zh": " 段。切换已停止试听；修改会同步到所有引用。",
+      "en": ". Switching stopped playback; changes sync to every reference."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 767,
+      "zh": "轻",
+      "en": "Light"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 767,
+      "zh": "正",
+      "en": "Normal"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 767,
+      "zh": "重",
+      "en": "Heavy"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 767,
+      "zh": "格 力度",
+      "en": " strength "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 767,
+      "zh": " 音高",
+      "en": " pitch "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 770,
+      "zh": " 小节 · ",
+      "en": " bars · "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 770,
+      "zh": " 秒 · 最多 32 小节 / 180 秒",
+      "en": " s · up to 32 bars / 180 s"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 772,
+      "zh": " 个有音符的乐段 · ",
+      "en": " sections with notes · "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 772,
+      "zh": " 个编排条目。",
+      "en": " arrangement entries."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 772,
+      "zh": "当前有独奏轨道，其余轨道不发声。",
+      "en": "A track is soloed; the other tracks are silent."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 772,
+      "zh": "音符数不代表作品质量，听见你的取舍才是重点。",
+      "en": "The number of notes does not measure quality; what matters is hearing your choices."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 775,
+      "zh": "作品架 ",
+      "en": "Shelf "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 775,
+      "zh": " · 空",
+      "en": " · empty"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 779,
+      "zh": "已停止试听。",
+      "en": "Playback stopped."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 784,
+      "zh": "正在试听当前乐段。编辑会停止试听。",
+      "en": "Playing the current section. Editing stops playback."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 784,
+      "zh": "正在试听整曲编排。白框跟随音频时钟，切到后台会停止。",
+      "en": "Playing the whole arrangement. The white frame follows the audio clock; going to the background stops playback."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 792,
+      "zh": "正在本地渲染 ",
+      "en": "Rendering locally "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 792,
+      "zh": " 秒作品；导出使用此刻快照。",
+      "en": " s of song; the export uses a snapshot from this moment."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 798,
+      "zh": "WAV 已导出 · 单声道 44.1kHz / PCM16 · ",
+      "en": "WAV exported · mono 44.1kHz / PCM16 · "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 798,
+      "zh": " 秒",
+      "en": " s"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 798,
+      "zh": " · 已整体衰减防削波。",
+      "en": " · whole mix lowered to prevent clipping."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 798,
+      "zh": " · 当前作品为静音。",
+      "en": " · the current song is silent."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 799,
+      "zh": "导出失败，工程保持不变：",
+      "en": "Export failed, project unchanged: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 799,
+      "zh": "。可先下载工程码备份。",
+      "en": ". You can download the project code as a backup first."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 802,
+      "zh": "工程只在本地生成；工程码不是加密数据。",
+      "en": "The project is generated locally only; the project code is not encrypted."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 809,
+      "zh": "作品已改名。",
+      "en": "Song renamed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 809,
+      "zh": "乐段已改名。",
+      "en": "Section renamed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 810,
+      "zh": "设置已更新。",
+      "en": "Settings updated."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 811,
+      "zh": "Swing 已修改，成对细分总时长不变。",
+      "en": "Swing changed; the total length of paired subdivisions is unchanged."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 812,
+      "zh": "音阶已修改。",
+      "en": "Scale changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 812,
+      "zh": "总音量已修改。",
+      "en": "Master volume changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 813,
+      "zh": "音符力度已修改。",
+      "en": "Note strength changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 814,
+      "zh": "旋律音级已修改。",
+      "en": "Melody degree changed."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 815,
+      "zh": "已清除此格。",
+      "en": "This step was cleared."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 816,
+      "zh": "当前乐段循环左移一格。",
+      "en": "Current section looped one step left."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 816,
+      "zh": "当前乐段循环右移一格。",
+      "en": "Current section looped one step right."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 817,
+      "zh": "变奏种子需要 0–4294967295 的整数。",
+      "en": "The variation seed must be a whole number from 0 to 4294967295."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 817,
+      "zh": "已做种子 ",
+      "en": "Made a variation with seed "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 817,
+      "zh": " 的变奏；只影响当前段，可撤销。",
+      "en": "; it only affects the current section and can be undone."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 818,
+      "zh": "请选择另一个目标乐段。",
+      "en": "Please choose a different target section."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 818,
+      "zh": "覆盖 ",
+      "en": "Overwrite the existing notes in section "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 818,
+      "zh": " 段现有音符？之后可以撤销。",
+      "en": "? You can undo this afterwards."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 818,
+      "zh": "已深拷贝到 ",
+      "en": "Deep-copied to section "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 818,
+      "zh": " 段，后续可分别编辑。",
+      "en": "; they can be edited separately from now on."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 819,
+      "zh": "清空当前乐段？可以撤销，其他乐段不变。",
+      "en": "Clear the current section? You can undo this; other sections stay unchanged."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 819,
+      "zh": "当前乐段已清空。",
+      "en": "The current section was cleared."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 820,
+      "zh": "已将当前段加入歌曲末尾。",
+      "en": "Added the current section to the end of the song."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 820,
+      "zh": "循环选项已修改，重新播放后生效。",
+      "en": "Loop option changed; it takes effect on the next play."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 821,
+      "zh": "覆盖作品架 ",
+      "en": "Overwrite shelf "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 821,
+      "zh": " 的“",
+      "en": ": “"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 821,
+      "zh": "”？",
+      "en": "”?"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 821,
+      "zh": "完整工程已保存到作品架 ",
+      "en": "The full project was saved to shelf "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 821,
+      "zh": "作品架写入失败；当前草稿未改变，请导出工程码。",
+      "en": "Writing to the shelf failed; the current draft is unchanged, please export the project code."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 822,
+      "zh": "这个作品架为空。",
+      "en": "This shelf is empty."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 822,
+      "zh": "完整工程已载入；可以撤销恢复之前作品。",
+      "en": "The full project was loaded; you can undo to restore the previous song."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 823,
+      "zh": "新建空白作品？当前工程可撤销恢复，也建议先下载备份。",
+      "en": "Start a new blank song? The current project can be restored with undo, but downloading a backup first is wise."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 823,
+      "zh": "已新建空白作品。",
+      "en": "New blank song created."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 825,
+      "zh": "已复制当前文本。",
+      "en": "Current text copied."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 825,
+      "zh": "剪贴板不可用，请手动复制选中的工程码。",
+      "en": "Clipboard unavailable, please copy the selected project code manually."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 827,
+      "zh": "工程文件过大",
+      "en": "Project file is too large"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 827,
+      "zh": "旧作品槽已迁移到 A–C，旧档未记录速度，按 112 BPM 恢复。",
+      "en": "Old song slots were moved to A–C; old saves record no tempo, so 112 BPM is used."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 827,
+      "zh": "工程验证成功，完整设置已恢复；可以撤销。",
+      "en": "Project verified and all settings restored; you can undo."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 827,
+      "zh": "导入被拒绝，原工程未改变：",
+      "en": "Import rejected, original project unchanged: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 828,
+      "zh": "工程文件超过 100KB",
+      "en": "Project file is over 100KB"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 828,
+      "zh": "文件已读取，点击“验证并导入”才会替换。",
+      "en": "File read; click “Check and import” to replace."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 829,
+      "zh": "已读取巡演三个作品槽至 A–C；原巡演不变，BPM 采用 112。",
+      "en": "The three Tour song slots were read into A–C; the original Tour is unchanged and BPM is set to 112."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 829,
+      "zh": "旧作品无法迁移：",
+      "en": "The old song cannot be migrated: "
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 831,
+      "zh": "页面转入后台，试听已停止，草稿保持不变。",
+      "en": "The page went to the background, playback stopped, and the draft is unchanged."
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 843,
+      "zh": "草稿未覆盖 · 请先备份",
+      "en": "Draft not overwritten · back up first"
+    },
+    {
+      "file": "pulse-studio.html",
+      "kind": "js",
+      "line": 843,
+      "zh": "自动保存到当前浏览器 · 编辑后保存",
+      "en": "Autosaves in this browser · save after editing"
+    }
+  ]
+}

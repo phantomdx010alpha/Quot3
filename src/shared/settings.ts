@@ -61,6 +61,8 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   /** Phase 198 (M19 Games): switch for the Games page, its nav item, shortcut, palette entry and Dashboard tile; and the per-PC favourites / history (see shared/games/gamesState.ts). */
   'games.enabled': true,
   'games.state': { favourites: [], lastPlayed: {}, plays: {} },
+  /** Phase 205 (M20): show the games whose interface is Chinese (hidden by default); the "(?)" tile and random pick never use them while it is off. */
+  'games.showChinese': false,
   'ui.rowHeight': null,
   'ui.gridFontSize': null,
   /** Phase 160: legacy watch (folder path, on / off, rescan seconds). All OFF by default; see shared/legacyWatch/watchConfig.ts. */

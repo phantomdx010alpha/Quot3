@@ -1,0 +1,1070 @@
+{
+  "version": 1,
+  "game": "dice-delver",
+  "entries": [
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "骰域远征：命运岔路",
+      "en": "Dice Expedition: Fateful Forks"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "骰域远征",
+      "en": "Dice Expedition"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "三地区十八节点、三名旅者与十二件规则遗物。锁骰、选路，再决定把哪种组合做成流派。",
+      "en": "Three regions, eighteen nodes, three travelers and twelve rule relics. Lock dice, pick a path, then decide which combo to build into a style."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "掷骰",
+      "en": "Roll"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "旅者能力",
+      "en": "Hero skill"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "放弃组合",
+      "en": "Skip combo"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "远征档案",
+      "en": "Expedition log"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "剩余重掷",
+      "en": "Rerolls left"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "护盾",
+      "en": "Shield"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "金币",
+      "en": "Gold"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "第一域",
+      "en": "Region 1"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 29,
+      "zh": "旅者",
+      "en": "Traveler"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "远征生涯",
+      "en": "Expedition career"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "地区星章",
+      "en": "Region stars"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "通关",
+      "en": "Clears"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "遗物图鉴",
+      "en": "Relic codex"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "本次遗物",
+      "en": "Relics this run"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "组合说明",
+      "en": "Combo guide"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "每回合最多掷三次，点击骰子锁定。使用一个有效组合后敌人按预告行动；没有可用组合时可以放弃并承受行动。英雄能力每场战斗一次。",
+      "en": "Roll up to three times per turn; click a die to lock it. After you use a valid combo the enemy acts as announced; with no usable combo you can skip and take the action. Each hero skill works once per battle."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "继续",
+      "en": "Continue"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "跨设备远征档案",
+      "en": "Cross-device expedition log"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "档案包含地区星级、遗物图鉴、英雄通关和当前远征断点。",
+      "en": "The log holds region stars, the relic codex, hero clears and the current expedition checkpoint."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "text",
+      "line": 37,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "旅法师",
+      "en": "Mage"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "每回合首次组合额外 +4 伤害",
+      "en": "First combo each turn deals +4 damage"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "赌刃客",
+      "en": "Gambler"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "对子、两对、三条伤害 +30%",
+      "en": "Pair, two pair and triple deal +30% damage"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "星算师",
+      "en": "Stargazer"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "顺子伤害 +30%，能力翻转一枚骰子",
+      "en": "Straights deal +30% damage; skill flips one die"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "一对",
+      "en": "Pair"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "两对",
+      "en": "Two Pair"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "三条",
+      "en": "Triple"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "小顺子",
+      "en": "Small Straight"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "葫芦",
+      "en": "Full House"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "四条",
+      "en": "Four of a Kind"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "大顺子",
+      "en": "Large Straight"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "五骰同点",
+      "en": "Five of a Kind"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "双生回声",
+      "en": "Twin Echo"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "对子类组合命中后恢复 3 生命",
+      "en": "Pair-type combos restore 3 HP"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "顺星罗盘",
+      "en": "Star Compass"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "顺子伤害 +8",
+      "en": "Straights deal +8 damage"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "满月杯",
+      "en": "Full Moon Chalice"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "葫芦获得 10 护盾",
+      "en": "Full House grants 10 shield"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "奇数刃",
+      "en": "Odd Blade"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "三个以上奇数时伤害 +7",
+      "en": "+7 damage with three or more odd dice"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "偶数甲",
+      "en": "Even Armor"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "三个以上偶数时获得 6 护盾",
+      "en": "Gain 6 shield with three or more even dice"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "六面王冠",
+      "en": "Six-Face Crown"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "每个六点额外 +3 伤害",
+      "en": "Each six deals +3 extra damage"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "重掷沙漏",
+      "en": "Reroll Hourglass"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "每场战斗重掷次数 +1",
+      "en": "+1 reroll each battle"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "余烬骰",
+      "en": "Ember Die"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "击败敌人恢复 5 生命",
+      "en": "Defeating an enemy restores 5 HP"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "金库钥匙",
+      "en": "Vault Key"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "战斗金币奖励 +40%",
+      "en": "Battle gold rewards +40%"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "镜面骰",
+      "en": "Mirror Die"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "英雄能力每场可使用两次",
+      "en": "Hero skill can be used twice per battle"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "铁锚印",
+      "en": "Anchor Seal"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "地区首领伤害 -3",
+      "en": "Region boss damage -3"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "百变星",
+      "en": "Wild Star"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 59,
+      "zh": "五骰同点与大顺子伤害 +12",
+      "en": "Five of a Kind and Large Straight deal +12 damage"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "灰烬回廊",
+      "en": "Ash Corridor"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "熔面王",
+      "en": "Molten Mask King"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "月蚀赌城",
+      "en": "Eclipse Casino"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "无面荷官",
+      "en": "Faceless Dealer"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 64,
+      "zh": "天穹骰塔",
+      "en": "Sky Dice Tower"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 64,
+      "zh": "命运织主",
+      "en": "Fate Weaver"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "⚔️ 普通战",
+      "en": "⚔️ Normal battle"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "稳定金币与少量治疗",
+      "en": "Steady gold and a little healing"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "💀 精英战",
+      "en": "💀 Elite battle"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "更危险，胜利后获得遗物",
+      "en": "More dangerous; win to gain a relic"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "❓ 命运事件",
+      "en": "❓ Fate event"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "在代价与收益之间选择",
+      "en": "Choose between cost and reward"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "🛒 骰域商店",
+      "en": "🛒 Dice shop"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "花金币购买遗物",
+      "en": "Spend gold to buy relics"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "🔥 营火",
+      "en": "🔥 Campfire"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "恢复生命并强化最大生命",
+      "en": "Restore HP and raise max HP"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "👑 地区首领",
+      "en": "👑 Region boss"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "击败后结算地区星级",
+      "en": "Defeat to settle region stars"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 76,
+      "zh": "命运岔路展开，选择第一处节点。",
+      "en": "The fateful forks unfold; choose your first node."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "精英·",
+      "en": "Elite · "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "巡游者·",
+      "en": "Wanderer · "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 84,
+      "zh": "营火扩充最大生命并恢复状态。",
+      "en": "The campfire raises max HP and restores your state."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 85,
+      "zh": "挡住去路。",
+      "en": " blocks the way."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "旅法师免费重塑未锁定骰子。",
+      "en": "Mage freely rerolls unlocked dice."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "赌刃客复制一枚锁定点数。",
+      "en": "Gambler copies one locked value."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "星算师将一枚骰子翻转到对面。",
+      "en": "Stargazer flips one die to its opposite face."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "造成 ",
+      "en": " deals "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "（护甲吸收 ",
+      "en": " (armor absorbed "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "）",
+      "en": ")"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "伤害。",
+      "en": " damage."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "架起 ",
+      "en": " raises "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 90,
+      "zh": " 护甲。",
+      "en": " armor."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "扰乱骰面，下回合少一次重掷。",
+      "en": " disrupts the dice; one fewer reroll next turn."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "攻击 ",
+      "en": " attacks "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "（护盾抵挡 ",
+      "en": " (shield blocked "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "。",
+      "en": "."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 92,
+      "zh": "没有形成组合，敌人取得行动。",
+      "en": "No combo formed; the enemy takes its action."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "战斗胜利，获得 ",
+      "en": "Battle won! You gain "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 93,
+      "zh": " 金币。",
+      "en": " gold."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 94,
+      "zh": "遗物已经集齐，奖励转化为 30 金币。",
+      "en": "All relics collected; the reward becomes 30 gold."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 94,
+      "zh": "首领遗物",
+      "en": "Boss relic"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 94,
+      "zh": "精英遗物",
+      "en": "Elite relic"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 94,
+      "zh": "选择一件会改变组合规则的遗物。",
+      "en": "Choose a relic that changes combo rules."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 96,
+      "zh": "获得遗物：",
+      "en": "Relic gained: "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 97,
+      "zh": "命运事件",
+      "en": "Fate event"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 97,
+      "zh": "岔路尽头出现一座会回应骰点的祭坛。",
+      "en": "At the end of the fork stands an altar that answers to dice."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 97,
+      "zh": "<button class=\"reward\" data-event=\"heal\"><b>献上 8 金币</b><small>恢复 28 生命</small></button><button class=\"reward\" data-event=\"risk\"><b>掷命运骰</b><small>失去 10 生命，获得 20 金币</small></button><button class=\"reward\" data-event=\"max\"><b>刻下旅者名</b><small>最大生命 +8，当前生命 +8</small></button>",
+      "en": "<button class=\"reward\" data-event=\"heal\"><b>Offer 8 gold</b><small>Restore 28 HP</small></button><button class=\"reward\" data-event=\"risk\"><b>Roll the fate die</b><small>Lose 10 HP, gain 20 gold</small></button><button class=\"reward\" data-event=\"max\"><b>Carve your name</b><small>Max HP +8, current HP +8</small></button>"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 98,
+      "zh": "骰域商店",
+      "en": "Dice shop"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 98,
+      "zh": "当前 ",
+      "en": "You have "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 98,
+      "zh": " 金币。购买一件遗物或直接离开。",
+      "en": " gold. Buy a relic or just leave."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 98,
+      "zh": " · 25金</b><small>",
+      "en": " · 25 gold</b><small>"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 98,
+      "zh": "不购买，继续",
+      "en": "Skip and continue"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "首领倒下，本地区获得 ",
+      "en": "Boss defeated! This region earns "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 99,
+      "zh": " 星。",
+      "en": " stars."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "命运岔路贯通",
+      "en": "Fateful Forks Cleared"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "三地区十八节点全部完成，旅者的构筑已写入远征档案。",
+      "en": "All three regions and eighteen nodes are complete; this build has been written to the expedition log."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "查看结算",
+      "en": "View results"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "远征中断",
+      "en": "Expedition interrupted"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "抵达第 ",
+      "en": "Reached node "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": " 节点，收集 ",
+      "en": ", collected "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": " 件遗物。地区星级和图鉴已经保留。",
+      "en": " relics. Region stars and the codex are kept."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "重新出发",
+      "en": "Set out again"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": " · 护盾 ",
+      "en": " · Shield "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "本次远征已结束",
+      "en": "This expedition has ended"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "等待选择路线",
+      "en": "Waiting for route choice"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": " · 攻 ",
+      "en": " · ATK "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": " · 护甲 ",
+      "en": " · Armor "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "非战斗状态",
+      "en": "Not in battle"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "下一行动：攻击",
+      "en": "Next action: Attack"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "下一行动：架盾",
+      "en": "Next action: Raise shield"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "下一行动：扰乱重掷",
+      "en": "Next action: Disrupt rerolls"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": "查看下方节点选项",
+      "en": "See node options below"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 104,
+      "zh": " 伤害</small></button>",
+      "en": " damage</small></button>"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "远征完成",
+      "en": "Expedition complete"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "第 ",
+      "en": "Region "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": " 域 · ",
+      "en": " · "
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "选择命运岔路",
+      "en": "Choose a fateful fork"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "组合战斗",
+      "en": "Combo Battle"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "远征结算",
+      "en": "Expedition results"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "远征状态",
+      "en": "Expedition status"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "每个节点只能选择一条路线；精英和首领提供遗物，营火与事件负责维持状态。",
+      "en": "Each node allows only one route; elites and bosses give relics, while campfires and events keep you going."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "观察敌人下一行动，再决定继续重掷还是提前使用组合。",
+      "en": "Watch the next enemy action, then decide whether to keep rerolling or use a combo early."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "地区星级与遗物图鉴会永久保留。",
+      "en": "Region stars and the relic codex are kept permanently."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "<div class=\"empty\">本次尚无遗物</div>",
+      "en": "<div class=\"empty\">No relics this run</div>"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 109,
+      "zh": "远征档案校验失败",
+      "en": "Expedition log verification failed"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 109,
+      "zh": "档案版本不兼容",
+      "en": "Log version incompatible"
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 110,
+      "zh": "远征档案已复制。",
+      "en": "Expedition log copied."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 110,
+      "zh": "档案已生成，请手动复制。",
+      "en": "Log generated; please copy it manually."
+    },
+    {
+      "file": "dice-delver.html",
+      "kind": "js",
+      "line": 110,
+      "zh": "导入成功。",
+      "en": "Import successful."
+    }
+  ]
+}

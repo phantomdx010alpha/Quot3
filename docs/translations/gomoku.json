@@ -1,0 +1,1805 @@
+{
+  "version": 1,
+  "game": "gomoku",
+  "entries": [
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "中文",
+      "en": "Chinese"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "日本語",
+      "en": "Japanese"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "한국어",
+      "en": "Korean"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 27,
+      "zh": "切换语言",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "言語を切り替え",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "언어 변경",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "返回游戏库",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "ゲーム一覧へ戻る",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 162,
+      "zh": "게임 목록으로",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 33,
+      "zh": "切换到白天",
+      "en": "Switch to day"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 34,
+      "zh": "切换到夜间",
+      "en": "Switch to night"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "上",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "위",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "下",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "아래",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "左",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "왼쪽",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "右",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "오른쪽",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "一時停止",
+      "en": "Pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "일시정지",
+      "en": "Pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "声音",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "サウンド",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "소리",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "主题",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "テーマ",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "테마",
+      "en": "Theme"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 6,
+      "zh": "五子棋网页版：15×15 标准棋盘，三档电脑 AI、双人对弈，可选连珠禁手（三三、四四、长连），支持悔棋、提示、显示手数，连成五子发光庆祝，打开即玩。",
+      "en": "Gomoku online: standard 15x15 board, three AI levels, two-player mode, optional Renju forbidden moves (double-three, double-four, overline), undo, hints, move numbers and a glowing five-in-a-row celebration. Play instantly."
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 9,
+      "zh": "五子棋 · 黑白对弈",
+      "en": "Gomoku · Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 10,
+      "zh": "三档 AI、双人对弈、连珠禁手、悔棋与提示的网页五子棋。",
+      "en": "Web Gomoku with three AI levels, two players, Renju forbidden moves, undo and hints."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 21,
+      "zh": "五子棋 · 黑白对弈",
+      "en": "Gomoku · Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 22,
+      "zh": "三档 AI、双人对弈、连珠禁手、悔棋与提示的网页五子棋。",
+      "en": "Web Gomoku with three AI levels, two players, Renju forbidden moves, undo and hints."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 24,
+      "zh": "棋类",
+      "en": "Board"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 33,
+      "zh": "五子棋 · 黑白对弈",
+      "en": "Gomoku · Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "五子棋",
+      "en": "GOMOKU"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "黑白对弈",
+      "en": "Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 46,
+      "zh": "横、竖、斜任意方向连成五子即获胜。挑战三档电脑，或和朋友同屏对弈。",
+      "en": "Get five in a row — horizontally, vertically or diagonally. Challenge three AI levels or play a friend."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "🤖 人机对战",
+      "en": "🤖 vs Computer"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "👥 双人对弈",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "⚫ 执黑先手",
+      "en": "⚫ Black (first)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "⚪ 执白后手",
+      "en": "⚪ White"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "🌱 入门",
+      "en": "🌱 Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "⚔️ 进阶",
+      "en": "⚔️ Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "🔥 大师",
+      "en": "🔥 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "规则",
+      "en": "RULES"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "自由五子",
+      "en": "Freestyle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "🚫 连珠禁手",
+      "en": "🚫 Renju"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 70,
+      "zh": "▶ 开始对局",
+      "en": "▶ Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 80,
+      "zh": "🔄 再来一局",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 81,
+      "zh": "👀 看棋盘",
+      "en": "👀 View Board"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 81,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 88,
+      "zh": "↶ 悔棋",
+      "en": "↶ Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 89,
+      "zh": "💡 提示",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 90,
+      "zh": "🔢 手数",
+      "en": "🔢 Numbers"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "🏳️ 认输",
+      "en": "🏳️ Resign"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 99,
+      "zh": "点击棋盘交叉点落子，鼠标悬停会显示落点预览",
+      "en": "Click an intersection to place a stone; hovering shows a preview"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 100,
+      "zh": "悔棋 U / Ctrl+Z · 提示 H · 显示手数 N",
+      "en": "Undo U / Ctrl+Z · Hint H · Move numbers N"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 101,
+      "zh": "💡 提示会用绿色光圈标出推荐落点",
+      "en": "💡 Hints mark the suggested point with a green ring"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 102,
+      "zh": "静音",
+      "en": "mute"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 102,
+      "zh": "红点标记最后一手",
+      "en": "The red dot marks the last move"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 104,
+      "zh": "📖 棋形图鉴",
+      "en": "📖 Shapes"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 106,
+      "zh": "连五：同色五子连成一线，立即获胜",
+      "en": "Five: five in a line — instant win"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "活四：两端都空的四子，对方再也堵不住",
+      "en": "Open four: four with both ends open — unstoppable"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 108,
+      "zh": "冲四：只差一子成五，对方必须马上堵",
+      "en": "Four: one move from five — must be blocked now"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 109,
+      "zh": "活三：两端开放的三子，下一步可成活四",
+      "en": "Open three: three with open ends, becomes an open four next move"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 110,
+      "zh": "禁手（仅黑方）：三三、四四、长连（六子以上）都算犯规",
+      "en": "Forbidden (Black only): double-three, double-four and overlines (6+)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 113,
+      "zh": "🧠 对弈秘诀",
+      "en": "🧠 Strategy Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 114,
+      "zh": "黑棋先手有优势，所以连珠规则给黑方加了禁手。进攻时制造“四三”——一步同时形成冲四和活三，对方只能堵一个。防守时先堵对方的活三，再看冲四。开局别离天元太远，棋子越集中，连线机会越多。",
+      "en": "Black moves first and has the edge, which is why Renju gives Black forbidden moves. Attack with a \"four-three\": one move making a four and an open three at once — your opponent can only block one. On defense, stop open threes before they grow. Stay near the center early: the closer your stones, the more lines you threaten."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 118,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 118,
+      "zh": "五子棋网页版使用 15×15 标准棋盘，黑先白后，横、竖、斜任一方向先连成五子者获胜。人机模式提供入门、进阶、大师三档 AI，采用五元组评估与 Alpha-Beta 迭代加深搜索，会进攻也会防守；双人模式可以和朋友同屏对弈。可选连珠禁手规则（黑方三三、四四、长连判负手），界面会标出禁手点。支持执黑或执白、悔棋、落点提示、显示手数、落子动画和五连发光庆祝，完全免费。",
+      "en": "Gomoku online on a standard 15×15 board: Black moves first, and the first to get five in a row horizontally, vertically or diagonally wins. Play the computer at Beginner, Advanced or Master — the AI uses five-tuple evaluation with iterative-deepening alpha-beta search and both attacks and defends — or play a friend on the same screen. Optional Renju rules forbid Black's double-threes, double-fours and overlines, with forbidden points marked on the board. Play Black or White, undo, ask for hints, show move numbers, and enjoy stone-drop animations and a glowing five-in-a-row celebration."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 119,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 人机 / 双人",
+      "en": "🕹️ Play instantly · Free · vs AI / 2P"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": "五子棋 · 黑白对弈",
+      "en": "Gomoku · Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": "五子棋",
+      "en": "GOMOKU"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": "黑白对弈",
+      "en": "Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": "横、竖、斜任意方向连成五子即获胜。挑战三档电脑，或和朋友同屏对弈。",
+      "en": "Get five in a row — horizontally, vertically or diagonally. Challenge three AI levels or play a friend."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "🤖 人机对战",
+      "en": "🤖 vs Computer"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "👥 双人对弈",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "⚫ 执黑先手",
+      "en": "⚫ Black (first)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "⚪ 执白后手",
+      "en": "⚪ White"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "🌱 入门",
+      "en": "🌱 Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "⚔️ 进阶",
+      "en": "⚔️ Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "🔥 大师",
+      "en": "🔥 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "入门",
+      "en": "Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "进阶",
+      "en": "Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "大师",
+      "en": "Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "规则",
+      "en": "RULES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "自由五子",
+      "en": "Freestyle"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "🚫 连珠禁手",
+      "en": "🚫 Renju"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "▶ 开始对局",
+      "en": "▶ Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "🔄 再来一局",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "👀 看棋盘",
+      "en": "👀 View Board"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "↶ 悔棋",
+      "en": "↶ Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "💡 提示",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "🔢 手数",
+      "en": "🔢 Numbers"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "🏳️ 认输",
+      "en": "🏳️ Resign"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "静音",
+      "en": "mute"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "点击棋盘交叉点落子，鼠标悬停会显示落点预览",
+      "en": "Click an intersection to place a stone; hovering shows a preview"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "悔棋 U / Ctrl+Z · 提示 H · 显示手数 N",
+      "en": "Undo U / Ctrl+Z · Hint H · Move numbers N"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "💡 提示会用绿色光圈标出推荐落点",
+      "en": "💡 Hints mark the suggested point with a green ring"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "红点标记最后一手",
+      "en": "The red dot marks the last move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "📖 棋形图鉴",
+      "en": "📖 Shapes"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "连五：同色五子连成一线，立即获胜",
+      "en": "Five: five in a line — instant win"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "活四：两端都空的四子，对方再也堵不住",
+      "en": "Open four: four with both ends open — unstoppable"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "冲四：只差一子成五，对方必须马上堵",
+      "en": "Four: one move from five — must be blocked now"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "活三：两端开放的三子，下一步可成活四",
+      "en": "Open three: three with open ends, becomes an open four next move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "禁手（仅黑方）：三三、四四、长连（六子以上）都算犯规",
+      "en": "Forbidden (Black only): double-three, double-four and overlines (6+)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "🧠 对弈秘诀",
+      "en": "🧠 Strategy Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "黑棋先手有优势，所以连珠规则给黑方加了禁手。进攻时制造“四三”——一步同时形成冲四和活三，对方只能堵一个。防守时先堵对方的活三，再看冲四。开局别离天元太远，棋子越集中，连线机会越多。",
+      "en": "Black moves first and has the edge, which is why Renju gives Black forbidden moves. Attack with a \"four-three\": one move making a four and an open three at once — your opponent can only block one. On defense, stop open threes before they grow. Stay near the center early: the closer your stones, the more lines you threaten."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 131,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "五子棋网页版使用 15×15 标准棋盘，黑先白后，横、竖、斜任一方向先连成五子者获胜。人机模式提供入门、进阶、大师三档 AI，采用五元组评估与 Alpha-Beta 迭代加深搜索，会进攻也会防守；双人模式可以和朋友同屏对弈。可选连珠禁手规则（黑方三三、四四、长连判负手），界面会标出禁手点。支持执黑或执白、悔棋、落点提示、显示手数、落子动画和五连发光庆祝，完全免费。",
+      "en": "Gomoku online on a standard 15×15 board: Black moves first, and the first to get five in a row horizontally, vertically or diagonally wins. Play the computer at Beginner, Advanced or Master — the AI uses five-tuple evaluation with iterative-deepening alpha-beta search and both attacks and defends — or play a friend on the same screen. Optional Renju rules forbid Black's double-threes, double-fours and overlines, with forbidden points marked on the board. Play Black or White, undo, ask for hints, show move numbers, and enjoy stone-drop animations and a glowing five-in-a-row celebration."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 人机 / 双人",
+      "en": "🕹️ Play instantly · Free · vs AI / 2P"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "声音开 / 关 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "选择模式开始对局",
+      "en": "Pick a mode to start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "黑方落子",
+      "en": "Black to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "白方落子",
+      "en": "White to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "轮到你了",
+      "en": "your turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 134,
+      "zh": "电脑思考中",
+      "en": "Computer is thinking"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "你赢了！",
+      "en": "You win!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "电脑获胜",
+      "en": "Computer wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "黑方胜",
+      "en": "Black wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "白方胜",
+      "en": "White wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 135,
+      "zh": "和棋",
+      "en": "Draw"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "五子连珠！",
+      "en": "Five in a row!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "一方认输",
+      "en": "Resignation"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "棋盘已满",
+      "en": "The board is full"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 136,
+      "zh": "🚫 这是禁手点（三三 / 四四 / 长连）",
+      "en": "🚫 Forbidden point (double-three / double-four / overline)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "总手数",
+      "en": "Moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "用时",
+      "en": "Time"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "战绩（胜 / 负）",
+      "en": " record (W / L)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "🏆 累计胜局 ",
+      "en": "🏆 Total wins "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "确定认输吗？",
+      "en": "Resign this game?"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "五目並べ · 連珠",
+      "en": "Gomoku · Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "五目並べ",
+      "en": "GOMOKU"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "連珠",
+      "en": "Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "縦・横・斜めのどれかで5つ並べたら勝ち。3段階のAIに挑むか、友達と同じ画面で対局。",
+      "en": "Get five in a row — horizontally, vertically or diagonally. Challenge three AI levels or play a friend."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "🤖 AI対戦",
+      "en": "🤖 vs Computer"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "👥 2人対局",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "⚫ 黒（先手）",
+      "en": "⚫ Black (first)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "⚪ 白（後手）",
+      "en": "⚪ White"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "🌱 入門",
+      "en": "🌱 Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "⚔️ 中級",
+      "en": "⚔️ Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "🔥 名人",
+      "en": "🔥 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "入門",
+      "en": "Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "中級",
+      "en": "Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "名人",
+      "en": "Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "ルール",
+      "en": "RULES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "自由ルール",
+      "en": "Freestyle"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "🚫 連珠（禁手あり）",
+      "en": "🚫 Renju"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "▶ 対局開始",
+      "en": "▶ Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "🔄 もう一局",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "👀 盤面を見る",
+      "en": "👀 View Board"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "メニュー",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "↶ 待った",
+      "en": "↶ Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "💡 ヒント",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "🏳️ 投了",
+      "en": "🏳️ Resign"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "ミュート",
+      "en": "mute"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 158,
+      "zh": "交点をクリックして石を置く。マウスを乗せるとプレビュー表示",
+      "en": "Click an intersection to place a stone; hovering shows a preview"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 158,
+      "zh": "待った U / Ctrl+Z · ヒント H · 手数表示 N",
+      "en": "Undo U / Ctrl+Z · Hint H · Move numbers N"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 158,
+      "zh": "💡 ヒントは緑の輪でおすすめの点を表示",
+      "en": "💡 Hints mark the suggested point with a green ring"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 158,
+      "zh": "赤い点は最後の一手",
+      "en": "The red dot marks the last move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "📖 形の図鑑",
+      "en": "📖 Shapes"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "五連：同じ色が5つ並べば即勝利",
+      "en": "Five: five in a line — instant win"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "四（活四）：両端が空いた四。もう止められない",
+      "en": "Open four: four with both ends open — unstoppable"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "四（止め四）：あと1手で五。すぐ止める必要あり",
+      "en": "Four: one move from five — must be blocked now"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "三（活三）：両端が開いた三。次に活四になる",
+      "en": "Open three: three with open ends, becomes an open four next move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "禁手（黒のみ）：三三・四四・長連（6つ以上）は反則",
+      "en": "Forbidden (Black only): double-three, double-four and overlines (6+)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "🧠 必勝のコツ",
+      "en": "🧠 Strategy Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "先手の黒が有利なので、連珠ルールでは黒に禁手がある。攻めは「四三」——一手で四と活三を同時に作れば相手は片方しか止められない。守りは相手の活三を先に止めよう。序盤は天元の近くで。石が集まるほどラインのチャンスが増える。",
+      "en": "Black moves first and has the edge, which is why Renju gives Black forbidden moves. Attack with a \"four-three\": one move making a four and an open three at once — your opponent can only block one. On defense, stop open threes before they grow. Stay near the center early: the closer your stones, the more lines you threaten."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "📖 このゲームについて",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "五目並べのブラウザ版。15×15の標準盤で黒が先手、縦・横・斜めのいずれかに先に5つ並べた方が勝ち。AI対戦は入門・中級・名人の3段階で、五連タプル評価と反復深化アルファベータ探索により攻守ともにこなす。2人対局で友達と同じ画面でも遊べる。連珠ルール（黒の三三・四四・長連を禁手）を選べ、禁手点は盤上に表示。黒・白の選択、待った、ヒント、手数表示、石を置くアニメーションと五連の光る演出つき。完全無料。",
+      "en": "Gomoku online on a standard 15×15 board: Black moves first, and the first to get five in a row horizontally, vertically or diagonally wins. Play the computer at Beginner, Advanced or Master — the AI uses five-tuple evaluation with iterative-deepening alpha-beta search and both attacks and defends — or play a friend on the same screen. Optional Renju rules forbid Black's double-threes, double-fours and overlines, with forbidden points marked on the board. Play Black or White, undo, ask for hints, show move numbers, and enjoy stone-drop animations and a glowing five-in-a-row celebration."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "🕹️ すぐ遊べる · 完全無料 · AI / 2人",
+      "en": "🕹️ Play instantly · Free · vs AI / 2P"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "サウンド ON/OFF (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "モードを選んで開始",
+      "en": "Pick a mode to start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "黒の手番",
+      "en": "Black to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "白の手番",
+      "en": "White to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "あなたの番",
+      "en": "your turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "AI思考中",
+      "en": "Computer is thinking"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "あなたの勝ち！",
+      "en": "You win!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "AIの勝ち",
+      "en": "Computer wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "黒の勝ち",
+      "en": "Black wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "白の勝ち",
+      "en": "White wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "引き分け",
+      "en": "Draw"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "五連完成！",
+      "en": "Five in a row!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "投了",
+      "en": "Resignation"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "盤が埋まった",
+      "en": "The board is full"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "🚫 禁手点です（三三 / 四四 / 長連）",
+      "en": "🚫 Forbidden point (double-three / double-four / overline)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "総手数",
+      "en": "Moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "時間",
+      "en": "Time"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": " 戦績（勝 / 負）",
+      "en": " record (W / L)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "🏆 通算勝利 ",
+      "en": "🏆 Total wins "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "投了しますか？",
+      "en": "Resign this game?"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "오목 · 흑백 대국",
+      "en": "Gomoku · Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "오목",
+      "en": "GOMOKU"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "흑백 대국",
+      "en": "Five in a Row"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 170,
+      "zh": "가로, 세로, 대각선 어느 방향이든 다섯 개를 먼저 이으면 승리. 3단계 AI에 도전하거나 친구와 한 화면에서 대국하세요.",
+      "en": "Get five in a row — horizontally, vertically or diagonally. Challenge three AI levels or play a friend."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "🤖 AI 대전",
+      "en": "🤖 vs Computer"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "👥 2인 대국",
+      "en": "👥 2 Players"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "⚫ 흑(선수)",
+      "en": "⚫ Black (first)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "⚪ 백(후수)",
+      "en": "⚪ White"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "🌱 입문",
+      "en": "🌱 Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "⚔️ 중급",
+      "en": "⚔️ Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "🔥 고수",
+      "en": "🔥 Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "입문",
+      "en": "Beginner"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "중급",
+      "en": "Advanced"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "고수",
+      "en": "Master"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "규칙",
+      "en": "RULES"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "자유 오목",
+      "en": "Freestyle"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "🚫 렌주(금수)",
+      "en": "🚫 Renju"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "▶ 대국 시작",
+      "en": "▶ Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "🔄 한 판 더",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "👀 판 보기",
+      "en": "👀 View Board"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "메뉴",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "↶ 무르기",
+      "en": "↶ Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "💡 힌트",
+      "en": "💡 Hint"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "🔢 수순",
+      "en": "🔢 Numbers"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "🏳️ 기권",
+      "en": "🏳️ Resign"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "음소거",
+      "en": "mute"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "🎮 조작",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "교차점을 눌러 돌을 놓고, 마우스를 올리면 미리보기가 보입니다",
+      "en": "Click an intersection to place a stone; hovering shows a preview"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "무르기 U / Ctrl+Z · 힌트 H · 수순 표시 N",
+      "en": "Undo U / Ctrl+Z · Hint H · Move numbers N"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "💡 힌트는 초록 고리로 추천 자리를 표시",
+      "en": "💡 Hints mark the suggested point with a green ring"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "빨간 점은 마지막 수",
+      "en": "The red dot marks the last move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "📖 모양 도감",
+      "en": "📖 Shapes"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "오목: 같은 색 다섯 개가 한 줄이면 즉시 승리",
+      "en": "Five: five in a line — instant win"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "열린 4: 양끝이 빈 넷, 더는 막을 수 없음",
+      "en": "Open four: four with both ends open — unstoppable"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "닫힌 4: 한 수면 다섯, 바로 막아야 함",
+      "en": "Four: one move from five — must be blocked now"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "열린 3: 양끝이 열린 셋, 다음 수에 열린 4가 됨",
+      "en": "Open three: three with open ends, becomes an open four next move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "금수(흑만): 삼삼, 사사, 장목(여섯 이상)은 반칙",
+      "en": "Forbidden (Black only): double-three, double-four and overlines (6+)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "🧠 대국 팁",
+      "en": "🧠 Strategy Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "흑이 선수라 유리해서 렌주 규칙은 흑에게 금수를 둡니다. 공격은 \"사삼\"——한 수로 4와 열린 3을 동시에 만들면 상대는 하나만 막을 수 있어요. 수비는 상대의 열린 3부터 막으세요. 초반엔 천원 근처에 두세요. 돌이 모일수록 줄을 만들 기회가 늘어납니다.",
+      "en": "Black moves first and has the edge, which is why Renju gives Black forbidden moves. Attack with a \"four-three\": one move making a four and an open three at once — your opponent can only block one. On defense, stop open threes before they grow. Stay near the center early: the closer your stones, the more lines you threaten."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 176,
+      "zh": "📖 게임 소개",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "오목 브라우저판. 15×15 표준 판에서 흑이 먼저 두고, 가로·세로·대각선 중 먼저 다섯 개를 이은 쪽이 이깁니다. AI 대전은 입문·중급·고수 3단계로, 오목 5칸 평가와 반복 심화 알파베타 탐색으로 공격과 수비를 모두 합니다. 2인 대국으로 친구와 한 화면에서도 즐길 수 있습니다. 렌주 규칙(흑의 삼삼·사사·장목 금수)을 선택할 수 있고 금수 자리는 판에 표시됩니다. 흑/백 선택, 무르기, 힌트, 수순 표시, 착수 애니메이션과 오목 완성 빛 연출. 완전 무료.",
+      "en": "Gomoku online on a standard 15×15 board: Black moves first, and the first to get five in a row horizontally, vertically or diagonally wins. Play the computer at Beginner, Advanced or Master — the AI uses five-tuple evaluation with iterative-deepening alpha-beta search and both attacks and defends — or play a friend on the same screen. Optional Renju rules forbid Black's double-threes, double-fours and overlines, with forbidden points marked on the board. Play Black or White, undo, ask for hints, show move numbers, and enjoy stone-drop animations and a glowing five-in-a-row celebration."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "🕹️ 바로 플레이 · 완전 무료 · AI / 2인",
+      "en": "🕹️ Play instantly · Free · vs AI / 2P"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "사운드 켜기/끄기 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "모드를 골라 시작하세요",
+      "en": "Pick a mode to start"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "흑 차례",
+      "en": "Black to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "백 차례",
+      "en": "White to move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "당신 차례",
+      "en": "your turn"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "AI 생각 중",
+      "en": "Computer is thinking"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "승리!",
+      "en": "You win!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "AI 승리",
+      "en": "Computer wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "흑 승리",
+      "en": "Black wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "백 승리",
+      "en": "White wins"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "무승부",
+      "en": "Draw"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "오목 완성!",
+      "en": "Five in a row!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "기권",
+      "en": "Resignation"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "판이 가득 찼습니다",
+      "en": "The board is full"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "🚫 금수 자리입니다 (삼삼 / 사사 / 장목)",
+      "en": "🚫 Forbidden point (double-three / double-four / overline)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "총 수",
+      "en": "Moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "시간",
+      "en": "Time"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": " 전적 (승 / 패)",
+      "en": " record (W / L)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "🏆 누적 승리 ",
+      "en": "🏆 Total wins "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "기권하시겠습니까?",
+      "en": "Resign this game?"
+    }
+  ]
+}

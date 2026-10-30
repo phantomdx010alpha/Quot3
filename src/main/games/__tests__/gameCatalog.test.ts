@@ -7,7 +7,7 @@ import { createGameCatalog } from '../gameCatalog'
 
 const entry = (id: string, over: Record<string, unknown> = {}): Record<string, unknown> => ({
   id, title: `Game ${id}`, tags: ['arcade'], description: 'An invented test game.', source: 'https://github.com/example/games', commit: 'abcdef1234567',
-  licence: 'MIT', author: 'Example', entry: 'index.html', players: 1, touch: false, added: '2026-10-29', ...over
+  licence: 'MIT', lang: 'en', author: 'Example', entry: 'index.html', players: 1, touch: false, added: '2026-10-29', ...over
 })
 let root: string
 const game = (id: string, withLicense = true, withEntry = true): void => {

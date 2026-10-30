@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>影邮潜行：十二夜</title>
+    <title>Shadow Post: Twelve Nights</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23131c22'/%3E%3Cpath d='M15 18h34v28H15z' fill='%23f3d36b'/%3E%3Cpath d='m15 18 17 15 17-15' fill='none' stroke='%23131c22' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M23 49c2-10 8-16 18-19 5 8 3 17-4 22-6 4-11 3-14-3Z' fill='%232a685c'/%3E%3C/svg%3E">
     <style>
       :root {
@@ -459,68 +459,68 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">TURN STEALTH</p>
-          <h1>影邮潜行：十二夜</h1>
+          <h1>Shadow Post: Twelve Nights</h1>
         </div>
         <div class="actions">
-          <button class="btn" id="startBtn">任务簿</button>
-          <button class="btn secondary" id="undoBtn">撤回</button>
-          <button class="btn secondary" id="resetBtn">重开</button>
+          <button class="btn" id="startBtn">Mission Book</button>
+          <button class="btn secondary" id="undoBtn">Undo</button>
+          <button class="btn secondary" id="resetBtn">Restart</button>
         </div>
       </header>
 
       <section class="layout">
         <div class="stage">
-          <canvas id="gameCanvas" aria-label="影邮潜行棋盘"></canvas>
+          <canvas id="gameCanvas" aria-label="Shadow Post board"></canvas>
           <div class="overlay" id="overlay">
             <div class="modal">
               <div id="campaignView">
                 <div class="campaign-head">
-                  <div><h2>十二夜任务簿</h2><p>看清守卫规则，送完所有密信，再从出口撤离。</p></div>
+                  <div><h2>Twelve Nights Mission Book</h2><p>Learn the guard rules, deliver every letter, then escape through the exit.</p></div>
                   <div class="campaign-stats">
-                    <div class="campaign-stat"><small>星章</small><strong id="campaignStars">0/36</strong></div>
-                    <div class="campaign-stat"><small>完成</small><strong id="campaignClears">0/12</strong></div>
-                    <div class="campaign-stat"><small>勋章</small><strong id="campaignMedals">0/6</strong></div>
+                    <div class="campaign-stat"><small>Stars</small><strong id="campaignStars">0/36</strong></div>
+                    <div class="campaign-stat"><small>Cleared</small><strong id="campaignClears">0/12</strong></div>
+                    <div class="campaign-stat"><small>Medals</small><strong id="campaignMedals">0/6</strong></div>
                   </div>
                 </div>
                 <div class="mission-grid" id="missionGrid"></div>
                 <div class="archive-row">
-                  <input id="archiveCode" aria-label="影邮存档码" placeholder="SHADOW2 跨设备存档码">
-                  <div class="archive-actions"><button class="btn secondary" id="exportBtn">导出</button><button class="btn secondary" id="importBtn">导入</button><button class="btn secondary" id="soundBtn">音效：开</button></div>
+                  <input id="archiveCode" aria-label="Shadow Post save code" placeholder="SHADOW2 cross-device save code">
+                  <div class="archive-actions"><button class="btn secondary" id="exportBtn">Export</button><button class="btn secondary" id="importBtn">Import</button><button class="btn secondary" id="soundBtn">Sound: On</button></div>
                 </div>
-                <button class="btn" id="campaignStartBtn" style="width:100%;margin-top:12px">开始任务</button>
+                <button class="btn" id="campaignStartBtn" style="width:100%;margin-top:12px">Start mission</button>
               </div>
               <div id="messageView" class="hidden">
-                <h2 id="overlayTitle">夜班派送</h2>
-                <p id="overlayText">规划路线，把信送进所有邮箱，再从出口离开。</p>
+                <h2 id="overlayTitle">Night Shift Delivery</h2>
+                <p id="overlayText">Plan your route, drop the letters in every mailbox, then leave by the exit.</p>
                 <div class="goal-box" id="resultGoals"></div>
-                <div class="archive-actions"><button class="btn secondary" id="campaignBtn">返回任务簿</button><button class="btn" id="overlayBtn">重试本关</button></div>
+                <div class="archive-actions"><button class="btn secondary" id="campaignBtn">Back to missions</button><button class="btn" id="overlayBtn">Retry level</button></div>
               </div>
             </div>
           </div>
         </div>
         <aside class="side">
           <div class="stat-grid">
-            <div class="stat"><b id="levelText">1</b><small>关卡</small></div>
-            <div class="stat"><b id="stepsText">0</b><small>步数</small></div>
-            <div class="stat"><b id="mailText">0/0</b><small>邮件</small></div>
-            <div class="stat"><b id="bestText">--</b><small>最佳</small></div>
+            <div class="stat"><b id="levelText">1</b><small>Level</small></div>
+            <div class="stat"><b id="stepsText">0</b><small>Steps</small></div>
+            <div class="stat"><b id="mailText">0/0</b><small>Mail</small></div>
+            <div class="stat"><b id="bestText">--</b><small>Best</small></div>
           </div>
-          <p class="brief" id="briefText">避开灯锥，踩阴影，必要时用一枚烟雾弹穿过视线。</p>
+          <p class="brief" id="briefText">Avoid the light cones, stay in shadow, and use a smoke bomb to slip through a line of sight if you must.</p>
           <div class="tools">
             <div class="tool">
-              <span><b>烟雾弹</b><br><small>本回合无视灯光</small></span>
-              <button class="btn secondary" id="smokeBtn">使用</button>
+              <span><b>Smoke bomb</b><br><small>Ignore lights this turn</small></span>
+              <button class="btn secondary" id="smokeBtn">Use</button>
             </div>
             <div class="tool">
-              <span><b>等一拍</b><br><small>不移动，让巡逻换位</small></span>
-              <button class="btn secondary" id="waitBtn">等待</button>
+              <span><b>Wait a beat</b><br><small>Stand still and let patrols move</small></span>
+              <button class="btn secondary" id="waitBtn">Wait</button>
             </div>
             <div class="tool">
-              <span><b>假信号</b><br><small>守卫转身并推进一回合</small></span>
-              <button class="btn secondary" id="decoyBtn">使用</button>
+              <span><b>Decoy signal</b><br><small>Guards turn and advance one turn</small></span>
+              <button class="btn secondary" id="decoyBtn">Use</button>
             </div>
           </div>
-          <div class="goal-box"><strong id="missionName">后巷第一封</strong><div id="goalList"></div></div>
+          <div class="goal-box"><strong id="missionName">First Letter in the Alley</strong><div id="goalList"></div></div>
           <div class="pad">
             <button class="blank" aria-hidden="true"></button>
             <button data-dir="up">↑</button>
@@ -573,7 +573,7 @@
 
         const levels = [
           {
-            name: "后巷第一封",
+            name: "First Letter in the Alley",
             map: [
               "#########",
               "#S..M..E#",
@@ -588,7 +588,7 @@
             par: 12
           },
           {
-            name: "灯下小巷",
+            name: "Lamplit Lane",
             map: [
               "#########",
               "#S..#..E#",
@@ -603,7 +603,7 @@
             par: 18
           },
           {
-            name: "双巡夜",
+            name: "Double Patrol",
             map: [
               "##########",
               "#S...#..E#",
@@ -621,7 +621,7 @@
             par: 24
           },
           {
-            name: "邮局天井",
+            name: "Post Office Courtyard",
             map: [
               "###########",
               "#S..#....E#",
@@ -640,7 +640,7 @@
             par: 32
           },
           {
-            name: "钟楼逆光",
+            name: "Clock Tower Backlight",
             map: [
               "###########",
               "#S...#...E#",
@@ -659,7 +659,7 @@
             par: 27
           },
           {
-            name: "雨幕长廊",
+            name: "Rainy Corridor",
             map: [
               "#############",
               "#S....#....E#",
@@ -678,7 +678,7 @@
             par: 31
           },
           {
-            name: "六层瞭望",
+            name: "Six-Floor Lookout",
             map: [
               "############",
               "#S...#.....#",
@@ -697,7 +697,7 @@
             par: 34
           },
           {
-            name: "中城封锁",
+            name: "Midtown Lockdown",
             map: [
               "##############",
               "#S....#.....E#",
@@ -718,7 +718,7 @@
             par: 39
           },
           {
-            name: "月桥双哨",
+            name: "Moon Bridge Twin Posts",
             map: [
               "#############",
               "#S..........#",
@@ -737,7 +737,7 @@
             par: 35
           },
           {
-            name: "档案迷廊",
+            name: "Archive Maze",
             map: [
               "#############",
               "#S..#.......#",
@@ -758,7 +758,7 @@
             par: 44
           },
           {
-            name: "无灯站台",
+            name: "Unlit Platform",
             map: [
               "###############",
               "#S.....#.....E#",
@@ -779,7 +779,7 @@
             par: 46
           },
           {
-            name: "总局零时",
+            name: "Headquarters Midnight",
             map: [
               "##############",
               "#S....#......#",
@@ -803,7 +803,7 @@
         ];
 
         const unlocks = [0, 1, 2, 4, 7, 10, 13, 16, 19, 22, 25, 28];
-        const chapterNames = ["后巷篇", "钟楼篇", "总局篇"];
+        const chapterNames = ["Alley Part", "Tower Part", "HQ Part"];
         levels.forEach((level, index) => {
           level.id = `night-${index + 1}`;
           level.unlock = unlocks[index];
@@ -879,10 +879,10 @@
 
         function importCareer(code) {
           const text = String(code || "").trim();
-          if (!text.startsWith(SAVE_PREFIX)) throw new Error("存档码前缀不正确");
+          if (!text.startsWith(SAVE_PREFIX)) throw new Error("Save code prefix is incorrect");
           const binary = atob(text.slice(SAVE_PREFIX.length));
           const value = JSON.parse(new TextDecoder().decode(Uint8Array.from(binary, (char) => char.charCodeAt(0))));
-          if (value.version !== 2) throw new Error("存档版本不兼容");
+          if (value.version !== 2) throw new Error("Save version is not compatible");
           career = sanitizeCareer(value);
           saveCareer();
           renderCampaign();
@@ -986,12 +986,12 @@
         function medalState() {
           const stars = totalStars();
           return [
-            ["第一封信", Object.keys(career.stageStars).length > 0],
-            ["后巷全星", stars >= 9],
-            ["钟楼潜影", stars >= 18],
-            ["无道具派送", Object.values(career.stageStars).some((value) => value >= 3)],
-            ["二十八星", stars >= 28],
-            ["十二夜终局", Boolean(career.stageStars["night-12"])]
+            ["First letter", Object.keys(career.stageStars).length > 0],
+            ["Alley full stars", stars >= 9],
+            ["Tower shadow", stars >= 18],
+            ["No-item delivery", Object.values(career.stageStars).some((value) => value >= 3)],
+            ["Twenty-eight stars", stars >= 28],
+            ["Twelve Nights finale", Boolean(career.stageStars["night-12"])]
           ];
         }
 
@@ -1002,9 +1002,9 @@
         function goalRows(stats = missionStats(false)) {
           const level = levels[state.levelIndex];
           const goals = [
-            [stats.completed, "完成全部投递并撤离", stats.completed ? "完成" : "进行中"],
-            [stats.completed && stats.steps <= level.par, `不超过 ${level.par} 步`, `${stats.steps}/${level.par}`],
-            [stats.completed && stats.toolsUsed === 0, "不使用烟雾与假信号", `${stats.toolsUsed} 次`]
+            [stats.completed, "Deliver everything and escape", stats.completed ? "Done" : "In progress"],
+            [stats.completed && stats.steps <= level.par, `Within ${level.par} steps`, `${stats.steps}/${level.par}`],
+            [stats.completed && stats.toolsUsed === 0, "No smoke or decoy", `${stats.toolsUsed} times`]
           ];
           return goals.map(([done, label, progress]) => `<div class="goal-row ${done ? "done" : ""}"><span>${done ? "●" : "○"}</span><span>${label}</span><strong>${progress}</strong></div>`).join("");
         }
@@ -1014,12 +1014,12 @@
           campaignStars.textContent = `${stars}/36`;
           campaignClears.textContent = `${Object.keys(career.stageStars).length}/12`;
           campaignMedals.textContent = `${medalState().filter(([, done]) => done).length}/6`;
-          soundBtn.textContent = `音效：${career.sound ? "开" : "关"}`;
+          soundBtn.textContent = `Sound: ${career.sound ? "On" : "Off"}`;
           missionGrid.innerHTML = levels.map((level, index) => {
             const locked = level.unlock > stars;
             const earned = career.stageStars[level.id] || 0;
-            const guardRules = [...new Set(level.guards.map((guard) => guard.type))].map((type) => ({ turn: "轮转", patrol: "巡逻", reverse: "逆转", sentry: "长哨" }[type])).join("+");
-            return `<button class="mission-card ${career.selectedLevel === level.id ? "selected" : ""}" data-level="${level.id}" ${locked ? "disabled" : ""}><small>${String(index + 1).padStart(2, "0")} · ${level.chapter}</small><strong>${level.name}</strong><div class="stars">${"★".repeat(earned)}${"☆".repeat(3 - earned)}</div><div class="mission-meta"><span>${guardRules}</span><span>${level.par} 步</span><span>${locked ? `${level.unlock} 星解锁` : `${level.smoke} 烟 / ${level.decoys} 饵`}</span></div></button>`;
+            const guardRules = [...new Set(level.guards.map((guard) => guard.type))].map((type) => ({ turn: "Rotate", patrol: "Patrol", reverse: "Reverse", sentry: "Sentry" }[type])).join("+");
+            return `<button class="mission-card ${career.selectedLevel === level.id ? "selected" : ""}" data-level="${level.id}" ${locked ? "disabled" : ""}><small>${String(index + 1).padStart(2, "0")} · ${level.chapter}</small><strong>${level.name}</strong><div class="stars">${"★".repeat(earned)}${"☆".repeat(3 - earned)}</div><div class="mission-meta"><span>${guardRules}</span><span>${level.par} steps${locked ? `${level.unlock} stars to unlock` : `${level.smoke} smoke / ${level.decoys} decoys`}</span></div></button>`;
           }).join("");
         }
 
@@ -1182,7 +1182,7 @@
           if (inDanger() && !protectedBySmoke) {
             state.caught = true;
             state.mode = "caught";
-            setOverlay("被照到了", "守卫发现了脚步声。撤回一步或重新规划路线。", "重试本关");
+            setOverlay("Spotted!", "A guard heard your footsteps. Undo a step or plan a new route.", "Retry level");
             tone(150, 0.18, 0.05);
           } else if (state.player.x === state.exit.x && state.player.y === state.exit.y && allMailDone()) {
             state.won = true;
@@ -1198,10 +1198,10 @@
             const next = state.levelIndex + 1;
             if (next >= levels.length) {
               state.mode = "done";
-              setOverlay(`十二夜完成 · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}`, `最后一关 ${state.steps} 步，最佳 ${best} 步。`, "重试终局");
+              setOverlay(`Twelve Nights complete · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}`, `Last level: ${state.steps} steps, best ${best} steps.`, "Retry finale");
             } else {
               state.mode = "won";
-              setOverlay(`投递成功 · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}`, `本关 ${state.steps} 步，目标 ${level.par} 步，使用道具 ${state.toolsUsed} 次。`, "下一关");
+              setOverlay(`Delivered · ${"★".repeat(stars)}${"☆".repeat(3 - stars)}`, `This level: ${state.steps} steps, target ${level.par} steps, items used ${state.toolsUsed} times.`, "Next level");
             }
             resultGoals.innerHTML = goalRows(stats);
             tone(760, 0.12, 0.045);
@@ -1285,7 +1285,7 @@
           ctx.font = `900 ${Math.max(15, size * 0.32)}px system-ui`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillText("出", ex + size / 2, ey + size / 2);
+          ctx.fillText("E", ex + size / 2, ey + size / 2);
 
           for (const mail of state.mail) {
             const mx = ox + mail.x * size;
@@ -1324,7 +1324,7 @@
           ctx.font = `900 ${Math.max(16, size * 0.34)}px system-ui`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-            ctx.fillText("邮", px, py + 1);
+            ctx.fillText("M", px, py + 1);
 
           ctx.fillStyle = "#122127";
           ctx.font = "900 20px system-ui";
@@ -1365,15 +1365,15 @@
           stepsText.textContent = state.steps.toString();
           mailText.textContent = `${done}/${state.mail.length}`;
           bestText.textContent = best ? best.toString() : "--";
-          smokeBtn.textContent = state.smokeArmed ? "已就绪" : `${state.smoke} 枚`;
+          smokeBtn.textContent = state.smokeArmed ? "Ready" : `${state.smoke} left`;
           smokeBtn.disabled = state.smoke <= 0 || state.smokeArmed || state.mode !== "playing";
-          decoyBtn.textContent = `${state.decoys} 枚`;
+          decoyBtn.textContent = `${state.decoys} left`;
           decoyBtn.disabled = state.decoys <= 0 || state.mode !== "playing";
           missionName.textContent = `${level.chapter} · ${level.name}`;
           goalList.innerHTML = goalRows();
           briefText.textContent = state.smokeArmed
-            ? "烟雾弹已经就绪，下一步就算穿过灯光也不会被抓。"
-            : `目标 ${level.par} 步；轮转守卫顺时针，逆转守卫逆时针，紫色长哨拥有六格直线视野。`;
+            ? "Smoke bomb is ready: the next step will not get you caught even in the light."
+            : `Target ${level.par} steps; Rotate guards turn clockwise, Reverse guards counter-clockwise, and the purple Sentry sees six tiles in a straight line.`;
         }
 
         function pointerToCell(event) {
@@ -1411,7 +1411,7 @@
         });
         importBtn.addEventListener("click", () => {
           try { importCareer(archiveCode.value); }
-          catch (error) { archiveCode.value = error.message || "存档码无效"; }
+          catch (error) { archiveCode.value = error.message || "Invalid save code"; }
         });
         soundBtn.addEventListener("click", () => {
           career.sound = !career.sound;

@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "game": "merge-cats",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 22,
+      "zh": "奶猫",
+      "en": "Kitten"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 23,
+      "zh": "狸花",
+      "en": "Tabby"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 24,
+      "zh": "橘猫",
+      "en": "Ginger"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "奶牛",
+      "en": "Tuxedo"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 26,
+      "zh": "三花",
+      "en": "Calico"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 27,
+      "zh": "蓝猫",
+      "en": "Blue Cat"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "暹罗",
+      "en": "Siamese"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 29,
+      "zh": "布偶",
+      "en": "Ragdoll"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 30,
+      "zh": "缅因",
+      "en": "Maine"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 31,
+      "zh": "猫王",
+      "en": "Cat King"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 458,
+      "zh": "？？？",
+      "en": "???"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 466,
+      "zh": "已解锁 ",
+      "en": "Unlocked "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "合成猫咪",
+      "en": "Merge Cats"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "猫",
+      "en": "Cat"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "当前分数",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "最高分",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "图鉴",
+      "en": "Codex"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 35,
+      "zh": "撤销",
+      "en": "Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "新游戏",
+      "en": "New game"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 42,
+      "zh": "合成猫咪游戏棋盘",
+      "en": "Merge Cats game board"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 50,
+      "zh": "滑动棋盘，让两只相同的猫咪相撞合成更高一级。",
+      "en": "Slide the board so two identical cats collide and merge into the next level."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 50,
+      "zh": "从奶猫开始，一路养成传说中的猫王！",
+      "en": "Start with a kitten and raise your way up to the legendary Cat King!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 52,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 53,
+      "zh": "猫咪图鉴",
+      "en": "Cat Codex"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "恭喜通关",
+      "en": "You Win!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 62,
+      "zh": "你合成了传说中的猫王！",
+      "en": "You merged the legendary Cat King!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 62,
+      "zh": "还可以继续挑战更高分数。",
+      "en": "You can keep going for a higher score."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "继续撸猫",
+      "en": "Keep playing"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 73,
+      "zh": "棋盘满啦",
+      "en": "Board full!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "本局得分：",
+      "en": "Score this game: "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "最高合成猫咪：",
+      "en": "Highest cat merged: "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "奶猫",
+      "en": "Kitten"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "再玩一次",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 80,
+      "zh": "撤销一步",
+      "en": "Undo one move"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 88,
+      "zh": "方向键 / WASD / 触屏滑动移动猫咪 · 同级猫咪相撞合成 · 单次移动每只猫咪最多合并一次 · 可撤销最近 5 步",
+      "en": "Arrow keys / WASD / swipe to move cats · Equal cats merge on collision · Each cat can merge only once per move · Undo the last 5 moves"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 95,
+      "zh": "猫咪图鉴",
+      "en": "Cat Codex"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 99,
+      "zh": "已解锁 1 / 10",
+      "en": "Unlocked 1 / 10"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 101,
+      "zh": "关闭",
+      "en": "Close"
+    }
+  ]
+}

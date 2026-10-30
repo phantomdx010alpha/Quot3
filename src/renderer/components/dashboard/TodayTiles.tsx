@@ -172,7 +172,8 @@ export function TodayTiles(): React.JSX.Element | null {
   }, [])
   // Phase 203: the "(?)" tile also needs Games switched on and at least one game; otherwise it is hidden and the others re-flow.
   const gamesOn = useGamesStore((s) => s.enabled)
-  const gameCount = useGamesStore((s) => s.games.length)
+  // Phase 205: only games that are shown count (English ones unless `games.showChinese` is on); a number, so no fresh array from the selector.
+  const gameCount = useGamesStore((s) => (s.showChinese ? s.games.length : s.games.filter((g) => g.lang === 'en').length))
   useEffect(() => { void loadGamesEnabled(); void loadGames() }, [])
   const keys = useMemo(() => (flags ? enabledTiles(flags).filter((k) => k !== 'games' || (gamesOn && gameCount > 0)) : []), [flags, gamesOn, gameCount])
   const spans = tileSpans(keys.length, width)

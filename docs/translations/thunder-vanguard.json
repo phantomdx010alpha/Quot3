@@ -1,0 +1,923 @@
+{
+  "version": 1,
+  "game": "thunder-vanguard",
+  "entries": [
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "雷霆先锋：裂空战役",
+      "en": "Thunder Vanguard: Rift Campaign"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "档案",
+      "en": "Profile"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "attr",
+      "line": 21,
+      "zh": "雷霆先锋空战画面",
+      "en": "Thunder Vanguard air combat view"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "待命",
+      "en": "Standby"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "机体",
+      "en": "Hull"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "协议",
+      "en": "Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "连击 0",
+      "en": "Combo 0"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "首领",
+      "en": "Boss"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "雷暴",
+      "en": "Storm"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "未充能",
+      "en": "Uncharged"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "九站战役",
+      "en": "Nine-stage campaign"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "0 / 27 星",
+      "en": "0 / 27 stars"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "战机框架",
+      "en": "Fighter frame"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 38,
+      "zh": "全部可用",
+      "en": "All available"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 43,
+      "zh": "双槽模块",
+      "en": "Two module slots"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "完成架次",
+      "en": "Sorties done"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "战术勋章",
+      "en": "Tactical medals"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "当前纪录",
+      "en": "Current record"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 50,
+      "zh": "出击",
+      "en": "Sortie"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 50,
+      "zh": "参考战术",
+      "en": "Reference tactic"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 51,
+      "zh": "WASD / 方向键移动，按住或拖动战机也可操控。战机自动射击；雷暴充满后按空格或点击按钮，可清除敌弹并重创编队。",
+      "en": "Move with WASD / arrow keys, or hold and drag the fighter. The fighter fires automatically; once Storm is full, press Space or tap the button to clear enemy bullets and badly damage the formation."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "先锋档案",
+      "en": "Vanguard Profile"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "复制档案码可在另一台设备恢复战役星级、纪录、战机和模块配置。",
+      "en": "Copy the profile code to restore campaign stars, records, fighters and module setup on another device."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "attr",
+      "line": 56,
+      "zh": "先锋档案码",
+      "en": "Vanguard profile code"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "text",
+      "line": 56,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "矢量蜂",
+      "en": "Vector Wasp"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "高速闪避",
+      "en": "Fast evasion"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "重铠鲸",
+      "en": "Armored Whale"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "耐久火力",
+      "en": "Endurance firepower"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "聚束隼",
+      "en": "Focus Falcon"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "双轨压制",
+      "en": "Twin-rail suppression"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "磁轨透镜",
+      "en": "Rail Lens"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "伤害 +22%",
+      "en": "Damage +22%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "复合装甲",
+      "en": "Composite Armor"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "耐久 +24",
+      "en": "Durability +24"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "超导装填",
+      "en": "Superconducting Loader"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "射速 +16%",
+      "en": "Fire rate +16%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "矢量喷口",
+      "en": "Vector Nozzles"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "速度 +17%",
+      "en": "Speed +17%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "风暴电容",
+      "en": "Storm Capacitor"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "雷暴获取 +30%",
+      "en": "Storm gain +30%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "维修蜂群",
+      "en": "Repair Swarm"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 62,
+      "zh": "击破首领前回复 18",
+      "en": "Restore 18 before the boss falls"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "聚焦协议",
+      "en": "Focus Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "主炮伤害 +25%",
+      "en": "Main cannon damage +25%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "翼展协议",
+      "en": "Wingspan Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "增加一条弹道",
+      "en": "Adds one shot line"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "超频协议",
+      "en": "Overclock Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "射击间隔 -18%",
+      "en": "Fire interval -18%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "壁垒协议",
+      "en": "Bulwark Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "耐久上限 +25 并修复",
+      "en": "Max durability +25 and repairs"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "回收协议",
+      "en": "Recovery Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "雷暴获取 +35%",
+      "en": "Storm gain +35%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "穿云协议",
+      "en": "Cloudpiercer Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "炮弹可贯穿一个目标",
+      "en": "Shells pierce one target"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "雷神协议",
+      "en": "Thunder God Protocol"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 63,
+      "zh": "雷暴伤害 +45%",
+      "en": "Storm damage +45%"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 66,
+      "zh": "晨线点火",
+      "en": "Dawn Line Ignition"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 66,
+      "zh": "曙光层",
+      "en": "Dawn Layer"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 66,
+      "zh": "穿过侦察机防线，校准第一座裂空信标。",
+      "en": "Break through the scout defense line and calibrate the first rift beacon."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 66,
+      "zh": "灰鹭母舰",
+      "en": "Gray Heron Mothership"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "侧风回廊",
+      "en": "Crosswind Corridor"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "高速截断两翼突击队，不让编队占据航道。",
+      "en": "Cut off the two wing assault teams at high speed and keep the formation from taking the lane."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "螳刃截击者",
+      "en": "Mantis Blade Interceptor"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "沉没信号",
+      "en": "Sunken Signal"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "深入低云电离区，摧毁持续放出重甲机的中继舰。",
+      "en": "Go deep into the low-cloud ionized zone and destroy the relay ship that keeps releasing armored fighters."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 68,
+      "zh": "玄武中继舰",
+      "en": "Basalt Relay Ship"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 69,
+      "zh": "琉璃风暴",
+      "en": "Glass Storm"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 69,
+      "zh": "雷暴层",
+      "en": "Storm Layer"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 69,
+      "zh": "弹幕折射异常，保持移动并保存雷暴用于密集波次。",
+      "en": "Barrage refraction is abnormal; keep moving and save Storm for dense waves."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 69,
+      "zh": "镜刃双生机",
+      "en": "Mirror Blade Twins"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 70,
+      "zh": "铁雨航路",
+      "en": "Iron Rain Route"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 70,
+      "zh": "重甲机封锁补给线，需要在首领入场前建立火力协议。",
+      "en": "Armored fighters block the supply line; build a firepower protocol before the boss enters."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 70,
+      "zh": "铸雨母舰",
+      "en": "Foundry Rain Mothership"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "寂静之眼",
+      "en": "Eye of Silence"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "攻击风眼核心，识别突击机与堡垒编队的交替节奏。",
+      "en": "Attack the eye core and read the alternating rhythm of assault and fortress formations."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "寂静观测站",
+      "en": "Silent Observatory"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "赤色地平线",
+      "en": "Red Horizon"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "裂空层",
+      "en": "Rift Layer"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "三支王牌队轮番突入，连击与清弹时机同样重要。",
+      "en": "Three ace squads take turns charging in; combo and bullet-clearing timing matter equally."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "赤霄猎手",
+      "en": "Crimson Skyhunter"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "雷门强袭",
+      "en": "Thunder Gate Assault"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "突破两列空中堡垒，阻止母舰开启永久风暴门。",
+      "en": "Break through two rows of aerial fortresses and stop the mothership from opening the permanent storm gate."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "雷门旗舰",
+      "en": "Thunder Gate Flagship"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "裂空终局",
+      "en": "Rift Finale"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "所有敌型投入最后防线，击坠核心城塞并封闭裂隙。",
+      "en": "All enemy types join the final defense line; shoot down the core citadel and seal the rift."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "裂空核心城塞",
+      "en": "Rift Core Citadel"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "无痕返航",
+      "en": "Untouched Return"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "雷暴终结",
+      "en": "Storm Finisher"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "八连追猎",
+      "en": "Eight-Chain Hunt"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "曙光全星",
+      "en": "Dawn Full Stars"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "十八星老兵",
+      "en": "Eighteen-Star Veteran"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 77,
+      "zh": "裂空传奇",
+      "en": "Rift Legend"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 88,
+      "zh": "进入战区",
+      "en": "Enter combat zone"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "/2</p><h2>选择战斗协议</h2><p>本次出击固定提供这组三选一；重复挑战可以规划相同构筑。</p><div class=\"protocol-grid\">",
+      "en": "/2</p><h2>Choose a combat protocol</h2><p>This sortie always offers the same choice of three; replays can plan the same build.</p><div class=\"protocol-grid\">"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "机体 -",
+      "en": "Hull -"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 101,
+      "zh": "裂空雷暴",
+      "en": "Rift Storm"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "航道已夺回",
+      "en": "Lane recaptured"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "战机失去响应",
+      "en": "Fighter unresponsive"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "</b><small>战果分</small></div><div><b>",
+      "en": "</b><small>Score</small></div><div><b>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "%</b><small>返航耐久</small></div><div><b>",
+      "en": "%</b><small>Hull on return</small></div><div><b>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "</b><small>最高连击</small></div></div><p>",
+      "en": "</b><small>Best combo</small></div></div><p>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "三星战术已经成立。",
+      "en": "Three-star tactics secured."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "下一星目标：耐久 ",
+      "en": "Next star goal: durability "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "% / 战果 ",
+      "en": "% / score "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "更换战机或模块后可立即重试。",
+      "en": "Swap fighter or modules to retry right away."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "<p>已获勋章：",
+      "en": "<p>Medals earned: "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 105,
+      "zh": "<div class=\"button-row\"><button class=\"btn primary\" id=\"retryBtn\">再次出击</button><button class=\"btn\" id=\"returnBtn\">返回机库</button></div>",
+      "en": "<div class=\"button-row\"><button class=\"btn primary\" id=\"retryBtn\">Sortie again</button><button class=\"btn\" id=\"returnBtn\">Back to hangar</button></div>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 109,
+      "zh": "</p><p>已获 ",
+      "en": "</p><p>Earned "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 109,
+      "zh": " 星 · 最佳战果 ",
+      "en": " stars · Best score "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 109,
+      "zh": "</p><div class=\"button-row\"><button class=\"btn primary\" id=\"overlayLaunch\">启动拦截</button><button class=\"btn\" id=\"overlayReference\">查看参考结果</button></div>",
+      "en": "</p><div class=\"button-row\"><button class=\"btn primary\" id=\"overlayLaunch\">Launch intercept</button><button class=\"btn\" id=\"overlayReference\">View reference result</button></div>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 110,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 110,
+      "zh": "<p class=\"eyebrow\">PAUSED</p><h2>战术暂停</h2><p>空域状态已经冻结。</p><button class=\"btn primary\" id=\"resumeBtn\">继续作战</button>",
+      "en": "<p class=\"eyebrow\">PAUSED</p><h2>Tactical Pause</h2><p>Airspace state is frozen.</p><button class=\"btn primary\" id=\"resumeBtn\">Resume battle</button>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "机库待命",
+      "en": "Hangar standby"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "连击 ",
+      "en": "Combo "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "雷暴<br><small>",
+      "en": "Storm<br><small>"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 113,
+      "zh": "可释放",
+      "en": "Ready"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "锁定",
+      "en": "Locked"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 114,
+      "zh": " / 27 星",
+      "en": " / 27 stars"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "<div class=\"goal\"><span>击坠首领</span><i>★</i></div><div class=\"goal\"><span>返航耐久 ≥ ",
+      "en": "<div class=\"goal\"><span>Shoot down the boss</span><i>★</i></div><div class=\"goal\"><span>Hull on return ≥ "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "%</span><i>★</i></div><div class=\"goal\"><span>战果分 ≥ ",
+      "en": "%</span><i>★</i></div><div class=\"goal\"><span>Score ≥ "
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 114,
+      "zh": " 星解锁",
+      "en": " stars to unlock"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 121,
+      "zh": "先锋档案校验失败",
+      "en": "Vanguard profile check failed"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 121,
+      "zh": "先锋档案版本不兼容",
+      "en": "Vanguard profile version incompatible"
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "档案已复制。",
+      "en": "Profile copied."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "档案已生成，请手动复制。",
+      "en": "Profile generated; copy it manually."
+    },
+    {
+      "file": "thunder-vanguard.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "导入成功。",
+      "en": "Import successful."
+    }
+  ]
+}

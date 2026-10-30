@@ -1,0 +1,839 @@
+{
+  "version": 1,
+  "game": "gem-garden",
+  "entries": [
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "晶糖花园：四季委托",
+      "en": "Gem Garden: Four-Season Commissions"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "提示",
+      "en": "Hint"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "档案",
+      "en": "Profile"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "attr",
+      "line": 21,
+      "zh": "晶糖花园消除棋盘",
+      "en": "Gem Garden match board"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "花圃待命",
+      "en": "Garden ready"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "步数",
+      "en": "Moves"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "· 连锁",
+      "en": "· Chain"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 22,
+      "zh": "订单进度",
+      "en": "Order progress"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "小锤 0",
+      "en": "Hammer 0"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "洗牌 0",
+      "en": "Shuffle 0"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "四季十二圃",
+      "en": "Twelve seasonal plots"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "0 / 36 星",
+      "en": "0 / 36 stars"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "完成",
+      "en": "Cleared"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "徽章",
+      "en": "Badges"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "纪录",
+      "en": "Record"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "工具",
+      "en": "Tools"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "园艺师",
+      "en": "Gardener"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "全部可用",
+      "en": "All available"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "双槽园艺符",
+      "en": "Two garden charms"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "开始委托",
+      "en": "Start commission"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "参考栽培",
+      "en": "Reference planting"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 35,
+      "zh": "点击两颗相邻晶糖交换，也可按住拖向相邻格。三连收获；四连留下横/竖爆，五连留下星爆。晶糖在花床上消除时会翻松一层土。",
+      "en": "Tap two adjacent gems to swap them, or press and drag toward a neighboring cell. Match three to harvest; four leaves a row/column burst, five leaves a star burst. Clearing gems on a bed loosens one layer of soil."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "四季园圃档案",
+      "en": "Four-Season Garden Profile"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "档案码保存星级、最佳得分、园艺师、园艺符和徽章，可跨设备恢复。",
+      "en": "The profile code saves stars, best scores, gardeners, charms and badges, and can be restored across devices."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "attr",
+      "line": 39,
+      "zh": "四季园圃档案码",
+      "en": "Four-season garden profile code"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "生成并复制",
+      "en": "Generate and copy"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "关闭",
+      "en": "Close"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "莓红",
+      "en": "Berry Red"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "蜜金",
+      "en": "Honey Gold"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "薄荷",
+      "en": "Mint"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "雨蓝",
+      "en": "Rain Blue"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "暮紫",
+      "en": "Dusk Purple"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "橘光",
+      "en": "Tangerine"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "露芽",
+      "en": "Dewbud"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "额外 2 步",
+      "en": "Extra 2 moves"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "枝剪",
+      "en": "Pruner"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "额外小锤",
+      "en": "Extra hammer"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "星穗",
+      "en": "Starspike"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "得分 +12%",
+      "en": "Score +12%"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "春雨符",
+      "en": "Spring Rain Charm"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "初始步数 +1",
+      "en": "Starting moves +1"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "厚土手套",
+      "en": "Thick Soil Gloves"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "小锤次数 +1",
+      "en": "Hammer uses +1"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "双层花篮",
+      "en": "Double Flower Basket"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "订单收获 +1",
+      "en": "Order harvest +1"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "银叶花铲",
+      "en": "Silverleaf Trowel"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "翻土强度 +1",
+      "en": "Tilling strength +1"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "丰收铃",
+      "en": "Harvest Bell"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "得分 +18%",
+      "en": "Score +18%"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "棱光种",
+      "en": "Prism Seed"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "四连生成星爆",
+      "en": "Four-match makes a star burst"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "初芽订单",
+      "en": "First Sprout Order"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "春庭",
+      "en": "Spring Court"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "翻松中央苗床，收齐第一篮莓红与薄荷晶糖。",
+      "en": "Till the central seedbed and gather the first basket of Berry Red and Mint gems."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "雨阶花圃",
+      "en": "Rain-Step Beds"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 48,
+      "zh": "沿两道雨阶整理蜜金晶糖，让花床均匀吸水。",
+      "en": "Arrange Honey Gold gems along the two rain steps so the beds soak up water evenly."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "四角开花",
+      "en": "Four-Corner Bloom"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 49,
+      "zh": "照看四角苗床，同时完成薄荷与暮紫的配色订单。",
+      "en": "Tend the four corner beds and finish the Mint and Dusk Purple color orders."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "日轮十字",
+      "en": "Sun-Wheel Cross"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "夏圃",
+      "en": "Summer Plot"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 50,
+      "zh": "高温让中央花床干结，优先在十字区域完成消除。",
+      "en": "Heat has dried out the central bed; clear gems in the cross area first."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "薄荷双径",
+      "en": "Mint Twin Paths"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 51,
+      "zh": "清理四段并行花径，为雨蓝与薄荷腾出种植位。",
+      "en": "Clear four parallel garden paths to make planting room for Rain Blue and Mint."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "琥珀花冠",
+      "en": "Amber Crown"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 52,
+      "zh": "在菱形花冠中制造连锁，完成蜜金与橘光订单。",
+      "en": "Build chains inside the diamond crown and finish the Honey Gold and Tangerine orders."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "丰收环圃",
+      "en": "Harvest Ring Plot"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "秋苑",
+      "en": "Autumn Orchard"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 53,
+      "zh": "环形苗床成熟，收获莓红、蜜金与暮紫三色晶糖。",
+      "en": "The ring-shaped bed is ripe; harvest three colors of gems: Berry Red, Honey Gold and Dusk Purple."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "风纹棋圃",
+      "en": "Windgrain Checker Plot"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 54,
+      "zh": "秋风把土层吹成交错纹路，按棋格逐片整理。",
+      "en": "Autumn wind blows the soil into a crisscross pattern; tidy it piece by piece, cell by cell."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "暮紫礼冠",
+      "en": "Dusk Purple Crown"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 55,
+      "zh": "为晚宴准备环圃礼冠，集中收获暮紫与橘光。",
+      "en": "Prepare a ring-plot crown for the banquet, focusing on Dusk Purple and Tangerine."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "霜下新芽",
+      "en": "Sprout Under Frost"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "冬园",
+      "en": "Winter Garden"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "双层冻土覆盖中央苗床，每次有效消除只翻开一层。",
+      "en": "Two layers of frozen soil cover the central bed; each valid clear opens only one layer."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "冰晶花冠",
+      "en": "Ice-Crystal Crown"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 57,
+      "zh": "深入双层菱形冻土，利用特殊晶糖扩大翻土范围。",
+      "en": "Go deep into the two-layer diamond of frozen soil and use special gems to widen the tilling."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "四季终圃",
+      "en": "Four-Season Finale"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 58,
+      "zh": "最后一份全色委托，完成交错冻土并封存四季种谱。",
+      "en": "The last all-color commission: clear the crisscross frozen soil and seal the four-season seed record."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "第一束花",
+      "en": "First Bouquet"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "徒手园艺",
+      "en": "Bare-Hand Gardening"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "四重花瀑",
+      "en": "Fourfold Flower Cascade"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "春庭全星",
+      "en": "Spring Court Full Stars"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "二十四星园丁",
+      "en": "Twenty-Four-Star Gardener"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 60,
+      "zh": "四季大师",
+      "en": "Four-Season Master"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 81,
+      "zh": "敲",
+      "en": "Hit"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "没有形成三连",
+      "en": "No match formed"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 89,
+      "zh": "已标出可行交换",
+      "en": "Possible swap highlighted"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "花圃已洗牌",
+      "en": "Garden shuffled"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "花圃按时交付",
+      "en": "Garden delivered on time"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "步数已经用尽",
+      "en": "Out of moves"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "</b><small>收获分</small></div><div><b>",
+      "en": "</b><small>Harvest score</small></div><div><b>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "</b><small>剩余步数</small></div><div><b>",
+      "en": "</b><small>Moves left</small></div><div><b>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "</b><small>最高连锁</small></div></div><p>",
+      "en": "</b><small>Best chain</small></div></div><p>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "三星栽培已经成立。",
+      "en": "Three-star planting is secured."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "下一星目标：剩余 ",
+      "en": "Next star goal: moves left "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": " 步 / 得分 ",
+      "en": " moves / score "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "调整园艺师或园艺符后再试。",
+      "en": "Adjust your gardener or charms and try again."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "</p><div class=\"button-row\"><button class=\"btn\" id=\"retryBtn\">再次栽培</button><button class=\"btn ghost\" id=\"returnBtn\">返回委托簿</button></div>",
+      "en": "</p><div class=\"button-row\"><button class=\"btn\" id=\"retryBtn\">Plant again</button><button class=\"btn ghost\" id=\"returnBtn\">Back to commissions</button></div>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "</p><p>已获 ",
+      "en": "</p><p>Earned "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 95,
+      "zh": " 星 · 最佳收获 ",
+      "en": " stars · Best harvest "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 95,
+      "zh": "</p><div class=\"button-row\"><button class=\"btn\" id=\"overlayStart\">开始栽培</button><button class=\"btn secondary\" id=\"overlayReference\">查看参考结果</button></div>",
+      "en": "</p><div class=\"button-row\"><button class=\"btn\" id=\"overlayStart\">Start planting</button><button class=\"btn secondary\" id=\"overlayReference\">View reference result</button></div>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "锁定",
+      "en": "Locked"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": " / 36 星",
+      "en": " / 36 stars"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "订单</span><b>",
+      "en": " order</span><b>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": "<div class=\"goal-row\"><span>翻松花床</span><b>",
+      "en": "<div class=\"goal-row\"><span>Tilled beds</span><b>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": " 层</b></div><div class=\"goal-row\"><span>三星</span><b>余 ",
+      "en": "  layers</b></div><div class=\"goal-row\"><span>3 stars</span><b>Left "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": " 步 / ",
+      "en": " moves / "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": " 分</b></div>",
+      "en": "  pts</b></div>"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 99,
+      "zh": " 星解锁",
+      "en": " stars to unlock"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "花圃待命",
+      "en": "Garden ready"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "小锤 ",
+      "en": "Hammer "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 100,
+      "zh": "洗牌 ",
+      "en": "Shuffle "
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 106,
+      "zh": "园圃档案校验失败",
+      "en": "Garden profile check failed"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 106,
+      "zh": "园圃档案版本不兼容",
+      "en": "Garden profile version incompatible"
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "档案已复制。",
+      "en": "Profile copied."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "档案已生成，请手动复制。",
+      "en": "Profile generated; copy it manually."
+    },
+    {
+      "file": "gem-garden.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "导入成功。",
+      "en": "Import successful."
+    }
+  ]
+}

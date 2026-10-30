@@ -1,0 +1,517 @@
+{
+  "version": 1,
+  "game": "newton-lab",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 240,
+      "zh": "力几乎相同（",
+      "en": "Nearly the same force ("
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 240,
+      "zh": " N），质量约加倍：a 由 ",
+      "en": " N), about double the mass: a falls from "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 241,
+      "zh": " 减为 ",
+      "en": " down to "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 241,
+      "zh": " m/s²，约为原来的一半。",
+      "en": " m/s², about half as before."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 243,
+      "zh": " N），质量约减半：a 由 ",
+      "en": " N), about half the mass: a rises from "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 244,
+      "zh": " 增至 ",
+      "en": " up to "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 244,
+      "zh": " m/s²，约为原来的两倍。",
+      "en": " m/s², about twice as before."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 246,
+      "zh": "质量不变而作用力约加倍，a 也成比例加倍：",
+      "en": "Same mass but about double the force, so a also doubles in proportion: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 247,
+      "zh": " m/s²。",
+      "en": " m/s²."
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 249,
+      "zh": "质量不变而作用力约减半，a 也随之减半：",
+      "en": "Same mass but about half the force, so a halves too: "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 254,
+      "zh": "本次施力 F = ",
+      "en": "This push: F = "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 254,
+      "zh": " N，质量 m = ",
+      "en": " N, mass m = "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 255,
+      "zh": " kg，由 F = m·a 得 a = ",
+      "en": " kg; from F = m·a, a = "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 441,
+      "zh": "展开",
+      "en": "Expand"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 441,
+      "zh": "收起",
+      "en": "Collapse"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 454,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 454,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 595,
+      "zh": "支持力 N（地面法线）",
+      "en": "Normal force N (ground normal)"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 715,
+      "zh": "F合=",
+      "en": "F_net="
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 775,
+      "zh": "蓄力 ",
+      "en": "Charge "
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 775,
+      "zh": " N · 松开发射",
+      "en": " N · release to launch"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 812,
+      "zh": "G 重力",
+      "en": "G Gravity"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 813,
+      "zh": "v 速度",
+      "en": "v Velocity"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": "F合 合力",
+      "en": "F_net Net force"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 814,
+      "zh": "F 施加力",
+      "en": "F Applied force"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 885,
+      "zh": "发射小球后开始记录速度",
+      "en": "Launch the ball to start recording speed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "牛顿第二定律实验室",
+      "en": "Newton's Second Law Lab"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "实验参数",
+      "en": "Parameters"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 28,
+      "zh": "折叠参数面板",
+      "en": "Collapse parameter panel"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 28,
+      "zh": "收起",
+      "en": "Collapse"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 36,
+      "zh": "质量 m",
+      "en": "Mass m"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 40,
+      "zh": "半径随质量增大",
+      "en": "Radius grows with mass"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 43,
+      "zh": "重力加速度 g",
+      "en": "Gravity g"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 48,
+      "zh": "地球 9.8",
+      "en": "Earth 9.8"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 49,
+      "zh": "月球 1.62",
+      "en": "Moon 1.62"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 50,
+      "zh": "火星 3.71",
+      "en": "Mars 3.71"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 51,
+      "zh": "失重 0",
+      "en": "Zero-G 0"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "弹性系数（恢复系数）",
+      "en": "Elasticity (restitution)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "空气阻力（与速度平方成正比）",
+      "en": "Air drag (proportional to speed squared)"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "轨迹残影",
+      "en": "Trail ghosting"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 75,
+      "zh": "速度曲线 v-t",
+      "en": "Velocity graph v-t"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "重置小球",
+      "en": "Reset ball"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 84,
+      "zh": "清空数据",
+      "en": "Clear data"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 90,
+      "zh": "实时读数",
+      "en": "Live readings"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "水平位置 x",
+      "en": "Horizontal position x"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 92,
+      "zh": "离地高度 h",
+      "en": "Height above ground h"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 93,
+      "zh": "速度大小 |v|",
+      "en": "Speed |v|"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 94,
+      "zh": "加速度大小 |a|",
+      "en": "Acceleration |a|"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 95,
+      "zh": "动能 ½mv²",
+      "en": "Kinetic energy ½mv²"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "重力势能 mgh",
+      "en": "Gravitational PE mgh"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 97,
+      "zh": "机械能 E",
+      "en": "Mechanical energy E"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "重力 G = mg",
+      "en": "Weight G = mg"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 104,
+      "zh": "速度-时间曲线",
+      "en": "Velocity-time graph"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 105,
+      "zh": "清空曲线",
+      "en": "Clear graph"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 110,
+      "zh": "纵轴：速度 m/s · 横轴：最近 20 秒",
+      "en": "Y axis: speed m/s · X axis: last 20 seconds"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 135,
+      "zh": "实验已暂停",
+      "en": "Experiment paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 136,
+      "zh": "计时与物理模拟都已停止",
+      "en": "Timing and physics simulation are both stopped"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 137,
+      "zh": "继续实验",
+      "en": "Resume experiment"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 144,
+      "zh": "动手感受",
+      "en": "Hands-on"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 146,
+      "zh": "在场地中",
+      "en": "In the arena, "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 146,
+      "zh": "按住鼠标拖拽",
+      "en": "hold and drag the mouse"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 146,
+      "zh": "（或触屏拖动），松开发射小球",
+      "en": " (or drag on touch), then release to launch the ball"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 147,
+      "zh": "按住",
+      "en": "Hold "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 147,
+      "zh": "空格",
+      "en": "Space"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 147,
+      "zh": "蓄力，左右方向键可瞄准，松开发射",
+      "en": " to charge; left/right arrow keys aim; release to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 148,
+      "zh": "运动中按",
+      "en": "While moving, press "
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 148,
+      "zh": "可持续施加小力",
+      "en": " to keep applying a small force"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 149,
+      "zh": "调整质量、重力、弹性，观察三个矢量与能量读数",
+      "en": "Adjust mass, gravity and elasticity, and watch the three vectors and energy readouts"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 150,
+      "zh": "换不同质量重复发射，验证：力相同时，加速度与质量成反比",
+      "en": "Launch again with different masses to verify: with equal force, acceleration is inversely proportional to mass"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 152,
+      "zh": "开始实验",
+      "en": "Start experiment"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 159,
+      "zh": "拖拽蓄力发射 · 空格蓄力（方向键瞄准/施力） · 滑块调整物理参数",
+      "en": "Drag to charge and launch · Space to charge (arrows aim / apply force) · Sliders adjust physics parameters"
+    }
+  ]
+}

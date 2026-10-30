@@ -1,0 +1,811 @@
+{
+  "version": 1,
+  "game": "air-hockey",
+  "entries": [
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "极光冰球：十二席杯赛",
+      "en": "Aurora Air Hockey: Twelve-Seat Cup"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "读懂对手站位、桌面机关与反弹角度，用战术脉冲打穿十二席擂台。",
+      "en": "Read opponent positioning, table mechanisms and bounce angles, and use tactical pulses to break through the twelve-seat arena."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "杯赛星章",
+      "en": "Cup badges"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "已胜对手",
+      "en": "Opponents beaten"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "零封场次",
+      "en": "Shutouts"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "attr",
+      "line": 18,
+      "zh": "杯赛赛程",
+      "en": "Cup schedule"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "挑战者",
+      "en": "Challenger"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "对手",
+      "en": "Opponent"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "准备开球",
+      "en": "Get ready to serve"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 20,
+      "zh": "进入球桌",
+      "en": "Enter table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "胜利分数",
+      "en": "Winning score"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "连续回击",
+      "en": "Rally streak"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 23,
+      "zh": "比赛用时",
+      "en": "Match time"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "选择球拍",
+      "en": "Choose paddle"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "强袭",
+      "en": "Striker"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "快移 / 窄面",
+      "en": "Fast / narrow"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "壁垒",
+      "en": "Bulwark"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "宽面 / 稳速",
+      "en": "Wide / steady"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "折线",
+      "en": "Vector"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 24,
+      "zh": "控角 / 充能",
+      "en": "Angle / charge"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "开始本场",
+      "en": "Start match"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "脉冲 Space",
+      "en": "Pulse Space"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 25,
+      "zh": "重开",
+      "en": "Restart"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "杯赛档案",
+      "en": "Cup profile"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "导出",
+      "en": "Export"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "导入",
+      "en": "Import"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "强袭",
+      "en": "Striker"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "壁垒",
+      "en": "Bulwark"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "折线",
+      "en": "Vector"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "港湾热身",
+      "en": "Harbor Warm-Up"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "巡岸员",
+      "en": "Shore Patrol"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "标准球桌。先学会在球拍偏侧触球，主动制造斜线。",
+      "en": "Standard table. First learn to hit with the side of the paddle to make angled shots."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 36,
+      "zh": "标准桌",
+      "en": "Standard table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "左舷追风",
+      "en": "Port-Side Tailwind"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "斜帆",
+      "en": "Slant Sail"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "单枚偏置挡柱会改写线路，借一次折射绕过守门。",
+      "en": "A single offset bumper rewrites the line; use one deflection to get past the keeper."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "偏置挡柱",
+      "en": "Offset bumper"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "双塔门廊",
+      "en": "Twin Tower Gate"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "门卫",
+      "en": "Gatekeeper"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "中央双柱压缩直线空间，底线救球后从外侧反攻。",
+      "en": "Two center pillars squeeze the straight lanes; save the ball at the baseline, then counterattack from the outside."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 38,
+      "zh": "双柱桌",
+      "en": "Twin-pillar table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "窄门试炼",
+      "en": "Narrow Gate Trial"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "针眼",
+      "en": "Needle Eye"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "球门缩窄。耐心做两次横向调度，再寻找空角。",
+      "en": "The goal is narrower. Be patient, shift sideways twice, then find the open angle."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 39,
+      "zh": "窄球门",
+      "en": "Narrow goal"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "三角潮汐",
+      "en": "Triangle Tide"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "潮标",
+      "en": "Tide Marker"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "三点挡柱制造连续折射，避免把球拍停在中线。",
+      "en": "Three bumpers create continuous deflections; avoid parking the paddle on the center line."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 40,
+      "zh": "三角柱",
+      "en": "Triangle bumpers"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "加速航道",
+      "en": "Boost Lane"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "流光",
+      "en": "Streamlight"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "两侧航道会给冰球加速，提前回撤而非追着球跑。",
+      "en": "Lanes on both sides speed up the puck; fall back early instead of chasing the ball."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 41,
+      "zh": "加速带",
+      "en": "Boost strips"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "环礁封锁",
+      "en": "Atoll Blockade"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "礁影",
+      "en": "Reef Shadow"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "四柱围出中央环礁，外圈反弹比正面硬撞更可靠。",
+      "en": "Four pillars ring a central atoll; bounces off the outer ring are more reliable than head-on smashes."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "四柱桌",
+      "en": "Four-pillar table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "脉冲镜面",
+      "en": "Pulse Mirror"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "回声",
+      "en": "Echo"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "充能效率提高，贴近冰球释放脉冲可改变攻防节奏。",
+      "en": "Charging is more efficient; releasing a pulse close to the puck can change the rhythm of attack and defense."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "高能桌",
+      "en": "High-energy table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "冰峡穿针",
+      "en": "Icy Gorge Needle"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "峡客",
+      "en": "Gorge Guest"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "窄门与双柱叠加，先拉开守门员再走另一侧。",
+      "en": "A narrow gate plus twin pillars: draw the keeper out first, then go around the other side."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "冰峡桌",
+      "en": "Icy gorge table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "逆流回廊",
+      "en": "Counterflow Corridor"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "逆潮",
+      "en": "Countertide"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "侧道加速且中央受阻，接球位置比追求最大力量更重要。",
+      "en": "Side lanes speed things up and the center is blocked; where you receive the ball matters more than maximum power."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "逆流桌",
+      "en": "Counterflow table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "极昼四门",
+      "en": "Midnight-Sun Four Gates"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "白昼",
+      "en": "Daylight"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "四枚挡柱与窄门要求连续判断；保留脉冲处理失位。",
+      "en": "Four bumpers and a narrow gate demand constant judgment; save your pulse to fix a bad position."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "极昼阵",
+      "en": "Polar-day formation"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "极光王席",
+      "en": "Aurora Throne"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "冠冕",
+      "en": "Crown"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "所有桌面机制同时登场。把球速、角度和脉冲留给真正的空档。",
+      "en": "Every table mechanic appears at once. Save ball speed, angle and pulse for the real openings."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "王席桌",
+      "en": "Throne table"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 56,
+      "zh": "杯赛档案校验失败",
+      "en": "Cup profile check failed"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "杯赛场次数量错误",
+      "en": "Wrong number of cup matches"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "第 ",
+      "en": "Match "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 72,
+      "zh": " 场配置错误",
+      "en": " config error"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 72,
+      "zh": " 场自动球员未能获胜",
+      "en": " auto player failed to win"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "准备开球",
+      "en": "Get ready to serve"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "。率先得到 ",
+      "en": ". First to "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 73,
+      "zh": " 分获胜。",
+      "en": " points wins."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "开始",
+      "en": "Start"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 73,
+      "zh": "比赛开始。拖动球拍守住下方球门，击球偏侧可以改变反射角。",
+      "en": "Match started. Drag the paddle to guard the lower goal; hitting with the side of the paddle changes the bounce angle."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "本席胜出",
+      "en": "Seat won"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "，用时 ",
+      "en": ", time "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "。",
+      "en": ". "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "下一席已解锁。",
+      "en": "Next seat unlocked."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "十二席杯赛完成。",
+      "en": "Twelve-seat cup complete."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "挑战下一席",
+      "en": "Challenge next seat"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "再战王席",
+      "en": "Rematch the throne"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "本席失守",
+      "en": "Seat lost"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "。观察对手回撤路线，下一次把球送往另一侧空角。",
+      "en": ". Watch the opponent retreat route and send the ball to the open corner on the other side next time."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 74,
+      "zh": "重新挑战",
+      "en": "Try again"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 80,
+      "zh": "对手：",
+      "en": "Opponent: "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 80,
+      "zh": "｜",
+      "en": " | "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 81,
+      "zh": "继续",
+      "en": "Resume"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 81,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "战术脉冲已释放：近距离冰球被强制推向对方半场。",
+      "en": "Tactical pulse released: the nearby puck is forced into the opponent half."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 90,
+      "zh": "球拍已装配。",
+      "en": "Paddle equipped."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 91,
+      "zh": "比赛暂停。",
+      "en": "Match paused."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 91,
+      "zh": "比赛继续。",
+      "en": "Match resumed."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 91,
+      "zh": "HOCKEY2 档案已复制到剪贴板。",
+      "en": "HOCKEY2 profile copied to clipboard."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 91,
+      "zh": "复制杯赛档案",
+      "en": "Copy cup profile"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 91,
+      "zh": "粘贴 HOCKEY2 杯赛档案",
+      "en": "Paste HOCKEY2 cup profile"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 91,
+      "zh": "杯赛档案导入成功。",
+      "en": "Cup profile imported successfully."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "选择球拍后开始第一席。球拍只能在下半场移动，空格键或按钮释放满能量脉冲。",
+      "en": "Choose a paddle, then start the first seat. The paddle only moves in the lower half; press Space or the button to release a full-energy pulse."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "十二席杯赛",
+      "en": "Twelve-Seat Cup"
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "首战对手：",
+      "en": "First opponent: "
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "。三种球拍均可随时更换，杯赛会自动保存。",
+      "en": ". All three paddles can be swapped at any time; the cup saves automatically."
+    },
+    {
+      "file": "air-hockey.html",
+      "kind": "js",
+      "line": 93,
+      "zh": "进入首战",
+      "en": "Enter first match"
+    }
+  ]
+}

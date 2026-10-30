@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>合成猫咪</title>
+<title>Merge Cats</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,10 +12,10 @@
   <!-- 顶部栏：左标题，右返回门户 -->
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">猫</span>
-      <h1 class="brand-title">合成猫咪</h1>
+      <span class="brand-mark" aria-hidden="true">Cat</span>
+      <h1 class="brand-title">Merge Cats</h1>
     </div>
-    <a class="back-link" href="../../index.html">← 返回门户</a>
+    <a class="back-link" href="../../index.html">← Back to portal</a>
   </header>
 
   <main class="stage">
@@ -23,34 +23,34 @@
     <!-- 计分与操作区 -->
     <section class="hud panel">
       <div class="score-box" id="scoreBox">
-        <span class="score-label">当前分数</span>
+        <span class="score-label">Score</span>
         <span class="score-value" id="scoreValue">0</span>
       </div>
       <div class="score-box">
-        <span class="score-label">最高分</span>
+        <span class="score-label">Best</span>
         <span class="score-value" id="bestValue">0</span>
       </div>
       <div class="hud-actions">
-        <button class="btn btn-mini" id="codexBtn" type="button">图鉴</button>
-        <button class="btn btn-mini" id="undoBtn" type="button">撤销</button>
-        <button class="btn btn-mini btn-primary" id="newBtn" type="button">新游戏</button>
+        <button class="btn btn-mini" id="codexBtn" type="button">Codex</button>
+        <button class="btn btn-mini" id="undoBtn" type="button">Undo</button>
+        <button class="btn btn-mini btn-primary" id="newBtn" type="button">New game</button>
       </div>
     </section>
 
     <!-- 棋盘 -->
     <section class="board-wrap">
-      <div class="board panel" id="board" aria-label="合成猫咪游戏棋盘">
+      <div class="board panel" id="board" aria-label="Merge Cats game board">
         <canvas id="gameCanvas" class="game-canvas"></canvas>
 
         <!-- 开始遮罩 -->
         <div class="overlay" id="startOverlay">
           <div class="overlay-card">
             <canvas id="logoCanvas" class="logo-canvas" width="104" height="104" aria-hidden="true"></canvas>
-            <h2 class="overlay-title">合成猫咪</h2>
-            <p class="overlay-text">滑动棋盘，让两只相同的猫咪相撞合成更高一级。<br>从奶猫开始，一路养成传说中的猫王！</p>
+            <h2 class="overlay-title">Merge Cats</h2>
+            <p class="overlay-text">Slide the board so two identical cats collide and merge into the next level.<br>Start with a kitten and raise your way up to the legendary Cat King!</p>
             <div class="overlay-actions">
-              <button class="btn btn-primary" id="startBtn" type="button">开始游戏</button>
-              <button class="btn" id="startCodexBtn" type="button">猫咪图鉴</button>
+              <button class="btn btn-primary" id="startBtn" type="button">Start game</button>
+              <button class="btn" id="startCodexBtn" type="button">Cat Codex</button>
             </div>
           </div>
         </div>
@@ -58,11 +58,11 @@
         <!-- 通关遮罩 -->
         <div class="overlay hidden" id="winOverlay">
           <div class="overlay-card">
-            <h2 class="overlay-title win">恭喜通关</h2>
-            <p class="overlay-text">你合成了传说中的猫王！<br>还可以继续挑战更高分数。</p>
+            <h2 class="overlay-title win">You Win!</h2>
+            <p class="overlay-text">You merged the legendary Cat King!<br>You can keep going for a higher score.</p>
             <div class="overlay-actions">
-              <button class="btn btn-primary" id="continueBtn" type="button">继续撸猫</button>
-              <button class="btn" id="winNewBtn" type="button">再来一局</button>
+              <button class="btn btn-primary" id="continueBtn" type="button">Keep playing</button>
+              <button class="btn" id="winNewBtn" type="button">Play again</button>
             </div>
           </div>
         </div>
@@ -70,14 +70,14 @@
         <!-- 结束遮罩 -->
         <div class="overlay hidden" id="overOverlay">
           <div class="overlay-card">
-            <h2 class="overlay-title lose">棋盘满啦</h2>
+            <h2 class="overlay-title lose">Board full!</h2>
             <p class="overlay-text">
-              本局得分：<span id="finalScore">0</span><br>
-              最高合成猫咪：<span id="finalCat">奶猫</span>
+              Score this game: <span id="finalScore">0</span><br>
+              Highest cat merged: <span id="finalCat">Kitten</span>
             </p>
             <div class="overlay-actions">
-              <button class="btn btn-primary" id="retryBtn" type="button">再玩一次</button>
-              <button class="btn" id="overUndoBtn" type="button">撤销一步</button>
+              <button class="btn btn-primary" id="retryBtn" type="button">Play again</button>
+              <button class="btn" id="overUndoBtn" type="button">Undo one move</button>
             </div>
           </div>
         </div>
@@ -85,20 +85,20 @@
     </section>
 
     <!-- 底部操作说明 -->
-    <footer class="tips">方向键 / WASD / 触屏滑动移动猫咪 · 同级猫咪相撞合成 · 单次移动每只猫咪最多合并一次 · 可撤销最近 5 步</footer>
+    <footer class="tips">Arrow keys / WASD / swipe to move cats · Equal cats merge on collision · Each cat can merge only once per move · Undo the last 5 moves</footer>
   </main>
 
 </div>
 
 <!-- 猫咪图鉴面板 -->
 <div class="codex-mask hidden" id="codexMask">
-  <div class="codex panel" role="dialog" aria-label="猫咪图鉴">
+  <div class="codex panel" role="dialog" aria-label="Cat Codex">
     <div class="codex-head">
       <div>
-        <h3 class="codex-title">猫咪图鉴</h3>
-        <p class="codex-sub" id="codexSub">已解锁 1 / 10</p>
+        <h3 class="codex-title">Cat Codex</h3>
+        <p class="codex-sub" id="codexSub">Unlocked 1 / 10</p>
       </div>
-      <button class="btn btn-mini" id="codexClose" type="button">关闭</button>
+      <button class="btn btn-mini" id="codexClose" type="button">Close</button>
     </div>
     <div class="codex-grid" id="codexGrid"></div>
   </div>

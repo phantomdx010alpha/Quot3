@@ -263,10 +263,10 @@
 
   /* ---------------- 特效与表演状态 ---------------- */
   const FX_CONF = {
-    fire: { dur: 6, cd: 8, name: '手部火焰' },
-    burn: { dur: 8, cd: 6, name: '垃圾焚烧' },
-    sword: { dur: 9, cd: 10, name: '发光宝剑' },
-    trans: { dur: 8, cd: 16, name: '超级变身' }
+    fire: { dur: 6, cd: 8, name: 'Hand Flame' },
+    burn: { dur: 8, cd: 6, name: 'Trash Incineration' },
+    sword: { dur: 9, cd: 10, name: 'Glowing Sword' },
+    trans: { dur: 8, cd: 16, name: 'Super Transform' }
   };
   const fx = {};
   Object.keys(FX_CONF).forEach(function (k) {
@@ -325,7 +325,7 @@
     if (!fromAuto) {
       const on = beatOffset() < 0.14;
       addExcite(on ? 6 : 2);
-      spawnText(actor.head.x, actor.head.y - 42, on ? '合拍 +6' : '+2', on ? '#22d3ee' : '#9aa0c8', on ? 20 : 14);
+      spawnText(actor.head.x, actor.head.y - 42, on ? 'In sync +6' : '+2', on ? '#22d3ee' : '#9aa0c8', on ? 20 : 14);
     }
   }
 
@@ -334,7 +334,7 @@
     fx.burn.t = FX_CONF.burn.dur;
     fx.burn.cdt = FX_CONF.burn.cd;
     addExcite(points);
-    spawnText(view.binX, view.floorY - 92, points >= 10 ? '点燃成功！' : '焚烧发电启动', '#ffb347', points >= 10 ? 20 : 17);
+    spawnText(view.binX, view.floorY - 92, points >= 10 ? 'Ignited!' : 'Incineration power started', '#ffb347', points >= 10 ? 20 : 17);
     spawnRing(view.binX, view.floorY - 30, '255,150,60', 260, 0.5);
   }
 
@@ -348,18 +348,18 @@
     f.cdt = conf.cd;
     if (name === 'fire') {
       addExcite(8);
-      spawnText(actor.head.x, actor.head.y - 42, '火焰燃起 +8', '#ff7a3c', 19);
+      spawnText(actor.head.x, actor.head.y - 42, 'Flame lit +8', '#ff7a3c', 19);
       burstFire(actor.handL, 14);
       burstFire(actor.handR, 14);
     } else if (name === 'burn') {
       igniteBin(6);
     } else if (name === 'sword') {
       addExcite(8);
-      spawnText(actor.head.x, actor.head.y - 42, '宝剑出鞘 +8', '#22d3ee', 19);
+      spawnText(actor.head.x, actor.head.y - 42, 'Sword drawn +8', '#22d3ee', 19);
       doSwing();
     } else if (name === 'trans') {
       addExcite(15);
-      spawnText(actor.head.x, actor.head.y - 56, '超级变身 +15', '#ffd34d', 24);
+      spawnText(actor.head.x, actor.head.y - 56, 'Super transform +15', '#ffd34d', 24);
       spawnRing(actor.head.x, actor.head.y, '255,211,77', 460, 0.8);
       for (let i = 0; i < 36; i++) {
         spawnParticle('spark', actor.head.x, actor.head.y + 20, {
@@ -418,7 +418,7 @@
     if (on) {
       addExcite(12);
       beat.pulse = 1;
-      spawnText(actor.head.x, actor.head.y - 58, '合拍 +12', '#22d3ee', 23);
+      spawnText(actor.head.x, actor.head.y - 58, 'In sync +12', '#22d3ee', 23);
       for (let i = 0; i < 16; i++) {
         const a = rand(0, TAU);
         spawnParticle('spark', actor.head.x, actor.head.y + 10, {
@@ -428,7 +428,7 @@
       }
     } else {
       addExcite(2);
-      spawnText(actor.head.x, actor.head.y - 50, '差一点 +2', '#9aa0c8', 14);
+      spawnText(actor.head.x, actor.head.y - 50, 'Near miss +2', '#9aa0c8', 14);
     }
   }
 
@@ -1170,7 +1170,7 @@
       ctx.fillStyle = '#ffd98a';
       ctx.shadowColor = '#ff8a3c';
       ctx.shadowBlur = 12;
-      ctx.fillText('垃圾焚烧发电中', labelX, y);
+      ctx.fillText('Trash incineration generating power', labelX, y);
       // 小闪电图标
       const s = small ? 0.75 : 1;
       ctx.beginPath();
@@ -1198,11 +1198,11 @@
       ctx.shadowColor = '#ffd34d';
       ctx.shadowBlur = 26;
       ctx.fillStyle = '#ffe9a0';
-      ctx.fillText('全场欢呼！', 0, 0);
+      ctx.fillText('The whole crowd cheers!', 0, 0);
       ctx.font = 'bold 18px system-ui, "Microsoft YaHei", sans-serif';
       ctx.shadowColor = '#ff5ca8';
       ctx.fillStyle = '#ff9ecb';
-      ctx.fillText('观众席彻底沸腾了', 0, 32);
+      ctx.fillText('The audience is going wild', 0, 32);
       ctx.restore();
       ctx.globalAlpha = 1;
       ctx.shadowBlur = 0;
@@ -1303,7 +1303,7 @@
       state.cheerWordT -= dt;
       if (state.cheerWordT <= 0) {
         state.cheerWordT = 0.45;
-        const words = ['安可！', '太棒了！', '好！', '再来一个！', '观众沸腾了！'];
+        const words = ['Encore!', 'Awesome!', 'Nice!', 'One more!', 'The crowd is on fire!'];
         spawnText(rand(view.w * 0.2, view.w * 0.8), rand(view.h * 0.4, view.h * 0.66),
           pick(words), pick(['#ffd34d', '#22d3ee', '#ff5ca8']), rand(16, 22), 1.3);
       }
@@ -1355,21 +1355,21 @@
       const f = fx[k], btn = fxBtns[k], lab = fxStates[k], conf = FX_CONF[k];
       btn.classList.toggle('on', f.active);
       btn.classList.toggle('cooling', !f.active && f.cdt > 0);
-      if (f.active) lab.textContent = '持续 ' + f.t.toFixed(1) + ' 秒';
-      else if (f.cdt > 0) lab.textContent = '冷却 ' + f.cdt.toFixed(1) + ' 秒';
-      else lab.textContent = '就绪';
+      if (f.active) lab.textContent = 'Lasts ' + f.t.toFixed(1) + ' s';
+      else if (f.cdt > 0) lab.textContent = 'Cooldown ' + f.cdt.toFixed(1) + ' s';
+      else lab.textContent = 'Ready';
     });
     exciteFill.style.width = state.excite.toFixed(1) + '%';
     // 音乐角标
     if (!audio.started) {
       musicChip.className = 'music-chip';
-      musicText.textContent = '点击启动鼓点';
+      musicText.textContent = 'Click to start the beat';
     } else if (audio.muted) {
       musicChip.className = 'music-chip muted';
-      musicText.textContent = beat.bpm + ' BPM 已静音';
+      musicText.textContent = beat.bpm + ' BPM muted';
     } else {
       musicChip.className = 'music-chip playing';
-      musicText.textContent = beat.bpm + ' BPM 演奏中';
+      musicText.textContent = beat.bpm + ' BPM playing';
     }
   }
 
@@ -1377,14 +1377,14 @@
   function screenshot() {
     try {
       const a = document.createElement('a');
-      a.download = '火柴人舞台-舞台截图.png';
+      a.download = 'stickman-stage-screenshot.png';
       a.href = canvas.toDataURL('image/png');
       document.body.appendChild(a);
       a.click();
       a.remove();
-      spawnText(view.w / 2, view.h * 0.32, '已保存当前舞台画面', '#22d3ee', 18, 1.2);
+      spawnText(view.w / 2, view.h * 0.32, 'Stage picture saved', '#22d3ee', 18, 1.2);
     } catch (e) {
-      spawnText(view.w / 2, view.h * 0.32, '截屏失败', '#ff5ca8', 16, 1.2);
+      spawnText(view.w / 2, view.h * 0.32, 'Screenshot failed', '#ff5ca8', 16, 1.2);
     }
   }
 
@@ -1423,12 +1423,12 @@
 
     muteBtn.addEventListener('click', function () {
       audio.setMuted(!audio.muted);
-      muteBtn.querySelector('.label').textContent = audio.muted ? '鼓点：关' : '鼓点：开';
+      muteBtn.querySelector('.label').textContent = audio.muted ? 'Beat: Off' : 'Beat: On';
     });
     autoBtn.addEventListener('click', function () {
       state.auto = !state.auto;
       autoBtn.classList.toggle('on', state.auto);
-      autoBtn.querySelector('.label').textContent = state.auto ? '自动导演：开' : '自动导演：关';
+      autoBtn.querySelector('.label').textContent = state.auto ? 'Auto director: On' : 'Auto director: Off';
       if (state.auto) state.dirTimer = 0;
     });
     shotBtn.addEventListener('click', screenshot);

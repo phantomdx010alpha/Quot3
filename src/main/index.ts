@@ -563,7 +563,7 @@ if (!app.requestSingleInstanceLock()) {
       log,
       themes: themeServiceRef,
       themeShare: themeShareRef,
-      games: { catalog: gameCatalog, readState: () => settings.get('games.state'), writeState: (json) => { settings.set('games.state', JSON.parse(json)) } },
+      games: { catalog: gameCatalog, readState: () => settings.get('games.state'), writeState: (json) => { settings.set('games.state', JSON.parse(json)) }, readShowChinese: () => settings.get('games.showChinese') },
       settings: settingsForIpc,
       appSettings,
       backup,

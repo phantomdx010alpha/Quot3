@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "game": "stickman-runner",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 441,
+      "zh": "速度提升 Lv.",
+      "en": "Speed up Lv."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 7,
+      "zh": "火柴人烈焰跑酷",
+      "en": "Stickman Flame Runner"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 16,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "距离",
+      "en": "Distance"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 27,
+      "zh": "最高",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "金币",
+      "en": "Coins"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 31,
+      "zh": "速度",
+      "en": "Speed"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "暂停",
+      "en": "Pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 41,
+      "zh": "拖拽烈焰的火柴人穿越昼夜变幻的城市，跑得越远分数越高",
+      "en": "Run the flaming stickman through a city that shifts from day to night; the farther you run, the higher your score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 42,
+      "zh": "空格 / ↑ / 点击屏幕跳跃，空中可再跳一次；按住 ↓ 滑铲",
+      "en": "Space / ↑ / tap the screen to jump, with one extra jump in the air; hold ↓ to slide"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 43,
+      "zh": "矮砖块跳过、高架障碍滑铲穿过、火坑需提前跃过",
+      "en": "Jump over low bricks, slide under high obstacles, and leap fire pits early"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "收集悬浮金币可轻微磁吸，每 50 枚速度提升一档",
+      "en": "Floating coins have a slight magnet pull; every 50 coins raises your speed one tier"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 46,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 53,
+      "zh": "已暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 54,
+      "zh": "按 Esc 键或点击下方按钮继续奔跑",
+      "en": "Press Esc or click the button below to keep running"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 55,
+      "zh": "继续游戏",
+      "en": "Resume game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 62,
+      "zh": "烈焰熄灭",
+      "en": "Flame out"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "本次距离",
+      "en": "Distance this run"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "收集金币",
+      "en": "Coins collected"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "历史最远",
+      "en": "Farthest ever"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 68,
+      "zh": "恭喜刷新最远纪录！",
+      "en": "New distance record, congratulations!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "再玩一次",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 76,
+      "zh": "空格 / ↑ 跳跃（可二段跳） · ↓ 滑铲 · 收集金币提速 · Esc 暂停 · 移动端点击跳跃、下滑滑铲",
+      "en": "Space / ↑ to jump (double jump allowed) · ↓ to slide · Coins speed you up · Esc to pause · On mobile tap to jump, swipe down to slide"
+    }
+  ]
+}

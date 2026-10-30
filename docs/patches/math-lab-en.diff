@@ -1,0 +1,521 @@
+--- a/resources/games/math-lab/game.js
++++ b/resources/games/math-lab/game.js
+@@ -123,7 +123,7 @@
+     exact: function (a, b) { return Math.sqrt(Math.PI) / 2 * (erf(b) - erf(a)); },
+     limitValue: Math.sqrt(Math.PI),
+     limitText: '∫₋∞⁺∞ e^(−x²) dx = √π ≈ 1.7724538509',
+-    insight: 'e^(−x²) 没有初等原函数，但全空间积分恰好等于 √π；把一维高斯视为二维旋转对称分布即可推出。有限区间的精确值借助误差函数 erf 给出。'
++    insight: 'e^(−x²) has no elementary antiderivative, but its integral over the whole line is exactly √π; treat the 1-D Gaussian as a 2-D rotationally symmetric distribution to derive it. Exact values on finite intervals are given with the error function erf.'
+   },
+   exp: {
+     name: 'f(x) = e^(−x)',
+@@ -133,7 +133,7 @@
+     exact: function (a, b) { return Math.exp(-a) - Math.exp(-b); },
+     limitValue: 1,
+     limitText: '∫₀⁺∞ e^(−x) dx = 1',
+-    insight: 'e^(−x) 在正半轴上的反常积分收敛于 1，这正是指数分布归一化常数的来源。'
++    insight: 'The improper integral of e^(−x) over the positive half-line converges to 1, which is where the normalisation constant of the exponential distribution comes from.'
+   },
+   sinc: {
+     name: 'f(x) = sin(x)/x',
+@@ -143,7 +143,7 @@
+     exact: function (a, b) { return si(b) - si(a); },
+     limitValue: Math.PI,
+     limitText: '∫₋∞⁺∞ sin(x)/x dx = π ≈ 3.1415926536',
+-    insight: 'sin(x)/x 在 x=0 处取极限值 1，它的全空间积分是著名的 Dirichlet 积分，答案恰好为 π。'
++    insight: 'sin(x)/x has limit 1 at x=0, and its integral over the whole line is the famous Dirichlet integral, exactly π.'
+   }
+ };
+ 
+@@ -235,7 +235,7 @@
+ /* ---------- 基-2 迭代 Cooley–Tukey FFT（原地，输入长度须为 2 的幂） ---------- */
+ function fftRadix2(re, im) {
+   const n = re.length;
+-  if (n === 0 || (n & (n - 1)) !== 0) throw new Error('FFT 点数必须为 2 的幂');
++  if (n === 0 || (n & (n - 1)) !== 0) throw new Error('FFT size must be a power of 2');
+ 
+   // 位逆序置换
+   for (let i = 1, j = 0; i < n; i++) {
+@@ -673,8 +673,8 @@
+       : riemannSum(def.fn, st.a, st.b, st.riem.n);
+     $('gRiemVal').textContent = rv === null ? '—' : rv.toFixed(8);
+     $('gRiemState').textContent = st.limit
+-      ? '无穷区间极限模式：积分趋于 ' + def.limitValue.toFixed(10)
++      ? 'Infinite-interval limit mode: the integral tends to ' + def.limitValue.toFixed(10)
+-      : '矩形数 n = ' + st.riem.n + '　·　提示：也可直接拖动图中 a、b 手柄';
++      : 'Rectangles n = ' + st.riem.n + '  ·  Tip: you can also drag the a and b handles in the chart';
+     $('gInsight').textContent = def.insight;
+   }
+ 
+@@ -689,14 +689,14 @@
+   function stopRiem() {
+     st.riem.playing = false;
+     if (st.riem.raf) cancelAnimationFrame(st.riem.raf);
+-    $('gRiemBtn').textContent = '播放黎曼和收敛';
++    $('gRiemBtn').textContent = 'Play Riemann sum convergence';
+   }
+   function playRiem() {
+     st.limit = false;
+     st.riem.playing = true;
+     st.riem.n = 4;
+     st.riem.lastStep = performance.now();
+-    $('gRiemBtn').textContent = '停止动画';
++    $('gRiemBtn').textContent = 'Stop animation';
+     const tick = function (now) {
+       if (!st.riem.playing) return;
+       if (now - st.riem.lastStep > 45) {
+@@ -750,7 +750,7 @@
+       stopRiem();
+       st.riem.n = 0; // 切函数后先不显示矩形
+       st.limit = false;
+-      $('gLimitBtn').textContent = '无穷区间极限';
++      $('gLimitBtn').textContent = 'Infinite-interval limit';
+       const dom = current().domain;
+       if (st.fnKey === 'exp') { st.a = 0.2; st.b = 2; }
+       else { st.a = Math.max(dom[0], Math.min(dom[1], -1.5)); st.b = 1.5; }
+@@ -762,14 +762,14 @@
+     const slide = $(slideId), input = $(inputId);
+     slide.addEventListener('input', function () {
+       st[key] = parseFloat(slide.value);
+-      st.limit = false; $('gLimitBtn').textContent = '无穷区间极限';
++      st.limit = false; $('gLimitBtn').textContent = 'Infinite-interval limit';
+       refresh();
+     });
+     input.addEventListener('change', function () {
+       const v = parseFloat(input.value);
+       if (isNaN(v)) { syncControls(); return; } // 拒绝 NaN
+       st[key] = v;
+-      st.limit = false; $('gLimitBtn').textContent = '无穷区间极限';
++      st.limit = false; $('gLimitBtn').textContent = 'Infinite-interval limit';
+       refresh();
+     });
+   }
+@@ -780,7 +780,7 @@
+     stopRiem();
+     st.riem.n = 0;
+     st.limit = !st.limit;
+-    $('gLimitBtn').textContent = st.limit ? '返回有限区间' : '无穷区间极限';
++    $('gLimitBtn').textContent = st.limit ? 'Back to finite interval' : 'Infinite-interval limit';
+     refresh();
+   });
+   $('gRiemBtn').addEventListener('click', function () {
+@@ -806,12 +806,12 @@
+     poly: polygonPartials(19)
+   };
+   const MODE_CFG = {
+-    ram: { min: 1, max: 8, def: 3, color: COLORS.cyan, name: '拉马努金部分和',
++    ram: { min: 1, max: 8, def: 3, color: COLORS.cyan, name: 'Ramanujan partial sum',
+       detail: function (n) { return 'k = 0 … ' + (n - 1); } },
+-    lei: { min: 1, max: 500, def: 100, color: COLORS.pink, name: '莱布尼茨部分和',
++    lei: { min: 1, max: 500, def: 100, color: COLORS.pink, name: 'Leibniz partial sum',
+-      detail: function (n) { return '前 ' + n + ' 项（π/4 = 1 − 1/3 + 1/5 − …）'; } },
++      detail: function (n) { return 'First ' + n + ' terms (π/4 = 1 − 1/3 + 1/5 − …)'; } },
+-    poly: { min: 1, max: 19, def: 10, color: COLORS.amber, name: '割圆术近似',
++    poly: { min: 1, max: 19, def: 10, color: COLORS.amber, name: 'Archimedes polygon approximation',
+-      detail: function (n) { return '正 ' + (6 * Math.pow(2, n - 1)) + ' 边形（从正六边形倍增 ' + (n - 1) + ' 次）'; } }
++      detail: function (n) { return 'Regular ' + (6 * Math.pow(2, n - 1)) + '-gon (doubled from a hexagon ' + (n - 1) + ' times)'; } }
+   };
+ 
+   const st = { mode: 'ram', N: 3, animStart: 0, playing: false, timer: 0, raf: 0, rollToken: 0 };
+@@ -908,11 +908,11 @@
+     $('piAlgName').textContent = cfg.name;
+     $('piAlgDetail').textContent = cfg.detail(st.N);
+     renderDigits(d.pi.toFixed(15), animate);
+-    $('piCorrect').textContent = leadingDigits(d.pi.toFixed(15), PI_STR) + ' 位';
++    $('piCorrect').textContent = leadingDigits(d.pi.toFixed(15), PI_STR) + ' digits';
+     $('piErr').textContent = sci(d.err);
+     $('piNVal').textContent = st.mode === 'poly'
+-      ? '倍增 ' + st.N + ' 次（' + (6 * Math.pow(2, st.N - 1)) + ' 边形）'
++      ? 'Doubled ' + st.N + ' times (' + (6 * Math.pow(2, st.N - 1)) + '-gon)'
+-      : st.N + ' 项';
++      : st.N + ' terms';
+     renderSteps();
+   }
+ 
+@@ -959,12 +959,12 @@
+     ctx.strokeRect(p.x, p.y, p.w, p.h);
+     ctx.fillStyle = COLORS.text;
+     ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+-    ctx.fillText('计算量：累加项数 / 正多边形边数（对数轴）', p.x + p.w, p.y + p.h + 32);
++    ctx.fillText('Work: number of terms summed / polygon sides (log axis)', p.x + p.w, p.y + p.h + 32);
+     ctx.save();
+     ctx.translate(16, p.y + p.h / 2);
+     ctx.rotate(-Math.PI / 2);
+     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+-    ctx.fillText('|π̂ − π| 绝对误差（对数轴）', 0, 0);
++    ctx.fillText('|π̂ − π| absolute error (log axis)', 0, 0);
+     ctx.restore();
+ 
+     // 参考与当前序列
+@@ -1030,8 +1030,8 @@
+       ctx.font = '600 12.5px system-ui,"Microsoft YaHei",sans-serif';
+       ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+       const label = st.mode === 'poly'
+-        ? '正' + d.x + ' 边形：误差 ' + sci(d.err)
++        ? 'Regular ' + d.x + '-gon: error ' + sci(d.err)
+-        : '第 ' + d.x + ' 项：误差 ' + sci(d.err);
++        : 'Term ' + d.x + ': error ' + sci(d.err);
+       let lx = last.tx + 10;
+       if (lx > p.x + p.w - 200) lx = last.tx - 10 - ctx.measureText(label).width;
+       ctx.fillText(label, lx, Math.max(p.y + 14, last.ty - 10));
+@@ -1057,14 +1057,14 @@
+     st.playing = false;
+     if (st.timer) { clearInterval(st.timer); st.timer = 0; }
+     if (st.rafStep) { cancelAnimationFrame(st.rafStep); st.rafStep = 0; }
+-    $('piPlayBtn').textContent = '播放收敛';
++    $('piPlayBtn').textContent = 'Play convergence';
+   }
+ 
+   /* 播放：逐项/逐倍增加，拉马努金慢速滚动数字，对比算法快速扫过 */
+   function play() {
+     stopPlay();
+     st.playing = true;
+-    $('piPlayBtn').textContent = '停止';
++    $('piPlayBtn').textContent = 'Stop';
+     st.N = MODE_CFG[st.mode].min;
+     refreshPanel(st.mode === 'ram' || st.mode === 'poly');
+     redrawChart();
+@@ -1109,18 +1109,18 @@
+     slider.step = 1;
+     slider.value = st.N;
+     $('piSlideLabel').textContent = mode === 'ram'
+-      ? '累加项数（每多 1 项约多 8 位正确数字）'
++      ? 'Terms summed (each extra term adds about 8 correct digits)'
+       : mode === 'lei'
+-        ? '莱布尼茨累加项数（误差约正比于 1/n，收敛很慢）'
++        ? 'Leibniz terms summed (error roughly proportional to 1/n, very slow convergence)'
+-        : '倍增次数（正 6 边形起，边数逐次翻倍，误差约正比于 1/n²）';
++        : 'Doublings (starting from a hexagon, sides double each time, error roughly proportional to 1/n²)';
+     document.querySelectorAll('#piModeSeg .seg-btn').forEach(function (b) {
+       b.classList.toggle('active', b.dataset.mode === mode);
+     });
+     $('piInsight').textContent = mode === 'ram'
+-      ? '拉马努金公式每多算一项，正确位数约增加 8 位：仅 2 项（k = 0、1）就给出约 15 位正确数字，这种超指数收敛来自分母中 396 的 4k 次方。'
++      ? 'Each extra Ramanujan term adds about 8 correct digits: just 2 terms (k = 0, 1) give about 15 correct digits. This super-exponential convergence comes from the 4k-th power of 396 in the denominator.'
+       : mode === 'lei'
+-        ? '莱布尼茨级数要到第 500 项才勉强获得 3 位小数——在双对数图上它只是一条缓缓下行的直线，与几乎垂直坠落的拉马努金曲线对照，便知拉马努金的伟大。'
++        ? 'The Leibniz series needs 500 terms to barely reach 3 decimals; on a log-log chart it is just a slowly sloping line, and next to the almost vertical Ramanujan curve you can see how remarkable Ramanujan\'s series is.'
+-        : '割圆术用内接正多边形周长逼近圆周长，边数翻倍一次误差约减为四分之一；刘徽当年算到正 3072 边形得到 π ≈ 3.1416，已是公元三世纪的奇迹。';
++        : 'The polygon method approximates the circle\'s circumference by the perimeter of an inscribed regular polygon; each doubling of the sides cuts the error to about a quarter. Liu Hui went up to a 3072-gon and got π ≈ 3.1416, a marvel of the 3rd century.';
+     refreshPanel(true);
+     redrawChart();
+   }
+@@ -1178,10 +1178,10 @@
+     row.className = 'comp-row' + (comp.on ? '' : ' off');
+     row.innerHTML =
+       '<span class="comp-tag" style="background:' + COMP_COLORS[idx] + '">' + (idx + 1) + '</span>' +
+-      '<div class="comp-cell"><label>启用 <input type="checkbox" ' + (comp.on ? 'checked' : '') + ' data-k="on"></label></div>' +
++      '<div class="comp-cell"><label>On <input type="checkbox" ' + (comp.on ? 'checked' : '') + ' data-k="on"></label></div>' +
+-      '<div class="comp-cell"><label>频率 Hz <span class="cv" data-v="f">' + comp.f + '</span></label>' +
++      '<div class="comp-cell"><label>Frequency Hz <span class="cv" data-v="f">' + comp.f + '</span></label>' +
+         '<input class="slider" type="range" min="1" max="200" step="1" value="' + comp.f + '" data-k="f"></div>' +
+-      '<div class="comp-cell"><label>振幅 / 相位° <span class="cv"><span data-v="A">' + comp.A.toFixed(2) + '</span> · <span data-v="phi">' + comp.phiDeg + '°</span></span></label>' +
++      '<div class="comp-cell"><label>Amplitude / phase° <span class="cv"><span data-v="A">' + comp.A.toFixed(2) + '</span> · <span data-v="phi">' + comp.phiDeg + '°</span></span></label>' +
+         '<div style="display:flex;gap:8px"><input class="slider" type="range" min="0" max="1" step="0.01" value="' + comp.A + '" data-k="A">' +
+         '<input class="slider" type="range" min="0" max="360" step="5" value="' + comp.phiDeg + '" data-k="phi"></div></div>';
+     rowsEl.appendChild(row);
+@@ -1251,7 +1251,7 @@
+     ymax *= 1.15;
+     const yr = [-ymax, ymax];
+     const mp = drawLinearAxes(ctx, p, xr, yr, {
+-      xTitle: '时间 t（秒）', yCount: 4,
++      xTitle: 'Time t (seconds)', yCount: 4,
+       xFmt: function (v) { return v.toFixed(2); },
+       yFmt: function (v) { return v.toFixed(1); }
+     });
+@@ -1316,7 +1316,7 @@
+     ymax *= 1.14;
+     const yr = [0, ymax];
+     const mp = drawLinearAxes(ctx, p, xr, yr, {
+-      xTitle: '频率（Hz，奈奎斯特频率 256 Hz）', yTitle: '幅度',
++      xTitle: 'Frequency (Hz, Nyquist frequency 256 Hz)', yTitle: 'Amplitude',
+       xCount: 9, yCount: 5,
+       xFmt: function (v) { return String(v); },
+       yFmt: function (v) { return v.toFixed(2); }
+@@ -1372,7 +1372,7 @@
+       ctx.fillText(label, lx, y - 8);
+       ctx.fillStyle = 'rgba(233,236,255,.85)';
+       ctx.font = '11px system-ui,"Microsoft YaHei",sans-serif';
+-      ctx.fillText('幅度 ' + pk.amp.toFixed(2), lx, y - 23);
++      ctx.fillText('Amplitude ' + pk.amp.toFixed(2), lx, y - 23);
+       ctx.font = FONT;
+     });
+ 
+@@ -1392,7 +1392,7 @@
+       const rect = cvF.getBoundingClientRect();
+       const cardRect = cvF.closest('.canvas-card').getBoundingClientRect();
+       tip.hidden = false;
+-      tip.innerHTML = '频率 <b>' + f.toFixed(1) + ' Hz</b><br>幅度 <b>' + a.toFixed(4) + '</b>' +
++      tip.innerHTML = 'Frequency <b>' + f.toFixed(1) + ' Hz</b><br>Amplitude <b>' + a.toFixed(4) + '</b>' +
+         '<br>bin #' + st.hoverBin + ' / ' + half;
+       tip.style.left = (rect.left - cardRect.left + x) + 'px';
+       tip.style.top = (rect.top - cardRect.top + y) + 'px';
+@@ -1433,13 +1433,13 @@
+     const peaks = findPeaks(mag, 4);
+     const fTxt = peaks.map(function (pk) {
+       return (pk.bin * FS / st.nfft).toFixed(1);
+-    }).join('、');
++    }).join(', ');
+     $('fInsight').textContent =
+-      '当前谱峰约在 ' + (fTxt || '—') + ' Hz；' +
++      'The current spectral peak is near ' + (fTxt || '—') + ' Hz; ' +
+       (st.win === 'hann'
+-        ? 'Hann 窗把能量在频域展宽，却显著压低非整周期频率的泄漏旁瓣，代价是主瓣变宽、频率分辨率下降。'
++        ? 'The Hann window spreads energy across frequencies but strongly suppresses leakage sidelobes for non-integer-period frequencies, at the cost of a wider main lobe and lower frequency resolution.'
+-        : '矩形窗主瓣最窄、频率分辨率最高，但分量频率不落在 bin 上时旁瓣泄漏明显，可切换 Hann 窗对比。') +
++        : 'The rectangular window has the narrowest main lobe and the best frequency resolution, but sidelobe leakage is clear when a component does not fall on a bin; switch to the Hann window to compare.') +
+-      ' 补零到 ' + st.nfft + ' 点只让谱线看起来更平滑（频域插值），并不增加真实分辨率。';
++      ' Zero-padding to ' + st.nfft + ' points only makes the spectrum look smoother (frequency-domain interpolation) and does not add real resolution.';
+   }
+ 
+   refresh();
+--- a/resources/games/math-lab/index.html
++++ b/resources/games/math-lab/index.html
+@@ -1,10 +1,10 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="theme-color" content="#0b0e20">
+-<title>数学实验室</title>
++<title>Math Lab</title>
+ <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+@@ -13,16 +13,16 @@
+   <header class="topbar">
+     <div class="brand">
+       <span class="brand-mark">∑</span>
+-      <h1 class="logo">数学实验室</h1>
++      <h1 class="logo">Math Lab</h1>
+     </div>
+-    <a class="btn-ghost" href="../../index.html">← 返回门户</a>
++    <a class="btn-ghost" href="../../index.html">← Back to portal</a>
+   </header>
+ 
+   <!-- ============ 工具标签 ============ -->
+   <nav class="tabs" role="tablist">
+-    <button class="tab-btn active" type="button" data-tab="gauss" role="tab">① 高斯积分器</button>
++    <button class="tab-btn active" type="button" data-tab="gauss" role="tab">① Gaussian Integrator</button>
+-    <button class="tab-btn" type="button" data-tab="pi" role="tab">② 圆周率工坊</button>
++    <button class="tab-btn" type="button" data-tab="pi" role="tab">② Pi Workshop</button>
+-    <button class="tab-btn" type="button" data-tab="fourier" role="tab">③ 傅里叶变换台</button>
++    <button class="tab-btn" type="button" data-tab="fourier" role="tab">③ Fourier Transform Bench</button>
+   </nav>
+ 
+   <main class="app">
+@@ -34,16 +34,16 @@
+ 
+       <div class="panel glass ctl-bar">
+         <div class="ctl-block grow">
+-          <span class="ctl-title">被积函数</span>
++          <span class="ctl-title">Integrand</span>
+           <div class="seg" id="gFuncSeg">
+             <button class="seg-btn active" type="button" data-fn="gauss">f(x) = e<sup>−x²</sup></button>
+-            <button class="seg-btn" type="button" data-fn="exp">f(x) = e<sup>−x</sup>（正半轴）</button>
++            <button class="seg-btn" type="button" data-fn="exp">f(x) = e<sup>−x</sup>(positive half-line)</button>
+             <button class="seg-btn" type="button" data-fn="sinc">f(x) = sin(x)/x</button>
+           </div>
+         </div>
+         <div class="ctl-block grow">
+           <div class="ctl-row-line">
+-            <span class="ctl-title">积分下限 a</span>
++            <span class="ctl-title">Lower limit a</span>
+             <span class="slider-val" id="gAVal">−1.50</span>
+           </div>
+           <div class="num-line">
+@@ -51,7 +51,7 @@
+             <input id="gAInput" class="num-input" type="number" min="-5" max="5" step="0.1" value="-1.5">
+           </div>
+           <div class="ctl-row-line">
+-            <span class="ctl-title">积分上限 b（始终保持 a &lt; b）</span>
++            <span class="ctl-title">Upper limit b (always keep a &lt; b)</span>
+             <span class="slider-val" id="gBVal">1.50</span>
+           </div>
+           <div class="num-line">
+@@ -60,12 +60,12 @@
+           </div>
+         </div>
+         <div class="ctl-block">
+-          <span class="ctl-title">区间与演示</span>
++          <span class="ctl-title">Interval and demo</span>
+           <div class="chip-row">
+-            <button class="chip-btn primary" type="button" id="gLimitBtn">无穷区间极限</button>
++            <button class="chip-btn primary" type="button" id="gLimitBtn">Infinite-interval limit</button>
+-            <button class="chip-btn" type="button" id="gRiemBtn">播放黎曼和收敛</button>
++            <button class="chip-btn" type="button" id="gRiemBtn">Play Riemann sum convergence</button>
+           </div>
+-          <div class="riem-state" id="gRiemState">矩形数 n = 4　·　提示：也可直接拖动图中 a、b 手柄</div>
++          <div class="riem-state" id="gRiemState">Rectangles n = 4  ·  Tip: you can also drag the a and b handles in the chart</div>
+         </div>
+       </div>
+ 
+@@ -75,19 +75,19 @@
+ 
+       <div class="read-grid four">
+         <div class="read-cell">
+-          <span class="rd-k">Simpson 数值积分（n = 1000）</span>
++          <span class="rd-k">Simpson numerical integral (n = 1000)</span>
+           <span class="rd-v cyan" id="gSimp">—</span>
+         </div>
+         <div class="read-cell">
+-          <span class="rd-k">解析 / 级数精确值</span>
++          <span class="rd-k">Analytic / series exact value</span>
+           <span class="rd-v" id="gExact">—</span>
+         </div>
+         <div class="read-cell">
+-          <span class="rd-k">两者差异</span>
++          <span class="rd-k">Difference between the two</span>
+           <span class="rd-v pink" id="gDiff">—</span>
+         </div>
+         <div class="read-cell">
+-          <span class="rd-k">黎曼和（矩形中点法）</span>
++          <span class="rd-k">Riemann sum (rectangle midpoint rule)</span>
+           <span class="rd-v amber" id="gRiemVal">—</span>
+         </div>
+       </div>
+@@ -112,21 +112,21 @@
+           </span>
+         </div>
+         <div class="ctl-block grow">
+-          <span class="ctl-title">算法</span>
++          <span class="ctl-title">Algorithm</span>
+           <div class="seg" id="piModeSeg">
+-            <button class="seg-btn active" type="button" data-mode="ram">拉马努金级数</button>
++            <button class="seg-btn active" type="button" data-mode="ram">Ramanujan series</button>
+-            <button class="seg-btn" type="button" data-mode="lei">莱布尼茨级数（对比）</button>
++            <button class="seg-btn" type="button" data-mode="lei">Leibniz series (comparison)</button>
+-            <button class="seg-btn" type="button" data-mode="poly">割圆术（对比）</button>
++            <button class="seg-btn" type="button" data-mode="poly">Archimedes polygon (comparison)</button>
+           </div>
+         </div>
+         <div class="ctl-block grow">
+           <div class="ctl-row-line">
+-            <span class="ctl-title" id="piSlideLabel">累加项数（每多 1 项约多 8 位正确数字）</span>
++            <span class="ctl-title" id="piSlideLabel">Terms summed (each extra term adds about 8 correct digits)</span>
+-            <span class="slider-val" id="piNVal">3 项</span>
++            <span class="slider-val" id="piNVal">3 terms</span>
+           </div>
+           <div class="num-line">
+             <input id="piSlider" class="slider" type="range" min="1" max="8" step="1" value="3">
+-            <button class="chip-btn primary" type="button" id="piPlayBtn">播放收敛</button>
++            <button class="chip-btn primary" type="button" id="piPlayBtn">Play convergence</button>
+           </div>
+         </div>
+       </div>
+@@ -134,19 +134,19 @@
+       <div class="pi-grid">
+         <div class="panel glass digit-panel">
+           <div class="digit-head">
+-            <span class="digit-tag" id="piAlgName">拉马努金部分和</span>
++            <span class="digit-tag" id="piAlgName">Ramanujan partial sum</span>
+             <span class="digit-sub" id="piAlgDetail">k = 0 … 2</span>
+           </div>
+           <div class="digit-line">
+             <span class="digits" id="piDigits"></span>
+           </div>
+           <div class="digit-line">
+-            <span class="digit-tag dim">真　值</span>
++            <span class="digit-tag dim">True value</span>
+             <span class="digits true-digits" id="piTrueDigits"></span>
+           </div>
+           <div class="pi-stats">
+             <div class="read-cell">
+-              <span class="rd-k">正确位数</span>
++              <span class="rd-k">Correct digits</span>
+               <span class="rd-v cyan" id="piCorrect">—</span>
+             </div>
+             <div class="read-cell">
+@@ -155,18 +155,18 @@
+             </div>
+           </div>
+           <div class="step-box">
+-            <div class="step-head"><span>k</span><span>π 部分和</span><span>误差（科学计数）</span></div>
++            <div class="step-head"><span>k</span><span>π partial sum</span><span>Error (scientific)</span></div>
+             <ol class="step-list" id="piStepList"></ol>
+           </div>
+         </div>
+ 
+         <div class="canvas-card glass pi-chart-card">
+-          <div class="card-cap">误差收敛对比（双对数：横轴计算量，纵轴 |π̂ − π|；点从右向左坠落）</div>
++          <div class="card-cap">Error convergence comparison (log-log: x = work, y = |π̂ − π|; points fall from right to left)</div>
+           <canvas id="cvPiErr"></canvas>
+           <div class="chart-legend">
+-            <span class="lg-dot ram"></span>拉马努金
++            <span class="lg-dot ram"></span>Ramanujan
+-            <span class="lg-dot lei"></span>莱布尼茨
++            <span class="lg-dot lei"></span>Leibniz
+-            <span class="lg-dot poly"></span>割圆术
++            <span class="lg-dot poly"></span>Archimedes
+           </div>
+         </div>
+       </div>
+@@ -181,22 +181,22 @@
+ 
+       <div class="panel glass ctl-bar wrap">
+         <div class="ctl-block comps-block grow">
+-          <span class="ctl-title">合成信号：三个正弦分量（实时叠加）</span>
++          <span class="ctl-title">Synthesised signal: three sine components (live sum)</span>
+           <div class="comp-rows" id="fCompRows"></div>
+         </div>
+         <div class="ctl-block">
+-          <span class="ctl-title">噪声 / 采样 / 窗函数</span>
++          <span class="ctl-title">Noise / sampling / window</span>
+           <label class="check-line">
+             <input type="checkbox" id="fNoiseOn">
+-            <span>叠加高斯白噪声</span>
++            <span>Add Gaussian white noise</span>
+           </label>
+           <div class="slider-mini">
+-            <label for="fNoiseAmp">噪声强度 σ</label>
++            <label for="fNoiseAmp">Noise level σ</label>
+             <input id="fNoiseAmp" class="slider" type="range" min="0" max="0.6" step="0.01" value="0.12" disabled>
+             <span class="slider-val" id="fNoiseAmpVal">0.12</span>
+           </div>
+           <div class="seg-mini">
+-            <span class="seg-title">FFT 点数</span>
++            <span class="seg-title">FFT size</span>
+             <div class="seg" id="fNSeg">
+               <button class="seg-btn" type="button" data-n="256">256</button>
+               <button class="seg-btn active" type="button" data-n="512">512</button>
+@@ -204,23 +204,23 @@
+             </div>
+           </div>
+           <div class="seg-mini">
+-            <span class="seg-title">窗函数</span>
++            <span class="seg-title">Window</span>
+             <div class="seg" id="fWinSeg">
+-              <button class="seg-btn active" type="button" data-win="rect">矩形窗</button>
++              <button class="seg-btn active" type="button" data-win="rect">Rectangular window</button>
+-              <button class="seg-btn" type="button" data-win="hann">Hann 窗</button>
++              <button class="seg-btn" type="button" data-win="hann">Hann window</button>
+             </div>
+           </div>
+-          <button class="chip-btn" type="button" id="fReseedBtn">重新生成噪声</button>
++          <button class="chip-btn" type="button" id="fReseedBtn">Regenerate noise</button>
+         </div>
+       </div>
+ 
+       <div class="canvas-card glass">
+-        <div class="card-cap">时域波形（采样率 512 Hz，256 个采样点 = 0.5 秒）</div>
++        <div class="card-cap">Time-domain waveform (sample rate 512 Hz, 256 samples = 0.5 s)</div>
+         <canvas id="cvTime"></canvas>
+       </div>
+ 
+       <div class="canvas-card glass spec-card">
+-        <div class="card-cap">幅度谱（自研基 -2 迭代 FFT，补零到所选点数，显示至奈奎斯特频率 256 Hz；鼠标悬停查看读数）</div>
++        <div class="card-cap">Amplitude spectrum (custom radix-2 iterative FFT, zero-padded to the chosen size, shown up to the Nyquist frequency 256 Hz; hover for readings)</div>
+         <canvas id="cvFreq"></canvas>
+         <div class="spec-tip" id="fSpecTip" hidden></div>
+       </div>
+@@ -230,7 +230,7 @@
+ 
+   </main>
+ 
+-  <footer class="tips">高斯页可拖动手柄改变区间并播放黎曼和动画　·　圆周率页切换三种算法感受收敛速度差异　·　傅里叶页悬停谱线读取频率与幅度，切换 Hann 窗观察频谱泄漏变化</footer>
++  <footer class="tips">On the Gaussian page, drag the handles to change the interval and play the Riemann-sum animation  ·  On the Pi page, switch between three algorithms to feel how fast each converges  ·  On the Fourier page, hover over a spectral line to read frequency and amplitude, and switch to the Hann window to see how leakage changes</footer>
+ 
+ <script src="game.js"></script>
+ </body>

@@ -1,0 +1,272 @@
+{
+  "version": 1,
+  "game": "merge-town",
+  "entries": [
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 20,
+      "zh": "草丛",
+      "en": "Grass"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 20,
+      "zh": "灌木",
+      "en": "Bush"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 20,
+      "zh": "大树",
+      "en": "Tree"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 20,
+      "zh": "小屋",
+      "en": "Hut"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 20,
+      "zh": "城堡",
+      "en": "Castle"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 20,
+      "zh": "城镇",
+      "en": "Town"
+    },
+    {
+      "file": "game.js",
+      "kind": "js",
+      "line": 927,
+      "zh": " 连锁！",
+      "en": " Chain!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "合成小镇",
+      "en": "Merge Town"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "镇",
+      "en": "Town"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "← 返回门户",
+      "en": "← Back to portal"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 26,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 30,
+      "zh": "最高分",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 34,
+      "zh": "剩余格数",
+      "en": "Tiles left"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 39,
+      "zh": "撤销",
+      "en": "Undo"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 42,
+      "zh": "刷新",
+      "en": "Shuffle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "新游戏",
+      "en": "New game"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 50,
+      "zh": "合成小镇游戏棋盘",
+      "en": "Merge Town game board"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "在 6×6 的小镇用地上点击空格放置地块，与",
+      "en": "Tap an empty tile on the 6×6 town grid to place a plot; it merges and upgrades automatically with"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "相邻同类",
+      "en": "adjacent matching"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 58,
+      "zh": "建筑会自动合成升级，\n              合成后的新建筑若再次挨着同类，还会触发",
+      "en": "buildings. If the new building again touches a matching one, it triggers a"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 59,
+      "zh": "连锁合成",
+      "en": "chain merge"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 59,
+      "zh": "，连锁越长倍率越高！",
+      "en": ", and longer chains give higher multipliers!"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 61,
+      "zh": "合成等级链",
+      "en": "Merge chain levels"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 62,
+      "zh": "草丛",
+      "en": "Grass"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "灌木",
+      "en": "Bush"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "大树",
+      "en": "Tree"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 65,
+      "zh": "小屋",
+      "en": "Hut"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 66,
+      "zh": "城堡",
+      "en": "Castle"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 67,
+      "zh": "城镇",
+      "en": "Town"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 69,
+      "zh": "每次放置 +1 分；连锁倍率 ×1.5、×2、×2.5 依次递增。每局可使用 3 次撤销与 3 次刷新。",
+      "en": "Each placement gives +1 point; chain multipliers rise ×1.5, ×2, ×2.5. Each game allows 3 undos and 3 refreshes."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "开始游戏",
+      "en": "Start game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "小镇用地已满",
+      "en": "The town is full"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 81,
+      "zh": "本局得分",
+      "en": "Score this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 82,
+      "zh": "历史最高",
+      "en": "All-time best"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 83,
+      "zh": "最高合成等级",
+      "en": "Highest merge level"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 86,
+      "zh": "再来一局",
+      "en": "Play again"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "下一个将放置的地块",
+      "en": "Next plot to place"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 115,
+      "zh": "点击或触摸空格放置地块 · 与相邻同类自动合成并连锁升级 · 连锁倍率 ×1.5 起逐级递增 · 棋盘无空格时游戏结束",
+      "en": "Tap or touch an empty tile to place a plot · Matching neighbors merge and chain-upgrade · Chain multiplier starts at ×1.5 and keeps rising · The game ends when the board has no empty tile"
+    }
+  ]
+}

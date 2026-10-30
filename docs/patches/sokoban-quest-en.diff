@@ -1,0 +1,320 @@
+--- a/resources/games/sokoban-quest/sokoban-quest.html
++++ b/resources/games/sokoban-quest/sokoban-quest.html
+@@ -1,10 +1,10 @@
+ <!doctype html>
+-<html lang="zh-CN">
++<html lang="en">
+   <head>
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+     <meta name="theme-color" content="#16343b" />
+-    <title>仓库推箱：十二班调度</title>
++    <title>Warehouse Sokoban: Twelve Shifts</title>
+     <style>
+       :root {
+         color-scheme: light;
+@@ -117,81 +117,81 @@
+   <body>
+     <main class="app">
+       <header class="topbar">
+-        <div class="brand"><h1>仓库推箱：十二班调度</h1><p>固定仓库 · 可解释提示 · SOKO2 调度档案</p></div>
++        <div class="brand"><h1>Warehouse Sokoban: Twelve Shifts</h1><p>Fixed warehouses · Explainable hints · SOKO2 dispatch log</p></div>
+         <div class="top-actions">
+-          <button id="levelButton" type="button" title="选择仓库" aria-label="选择仓库">▦</button>
++          <button id="levelButton" type="button" title="Choose warehouse" aria-label="Choose warehouse">▦</button>
+-          <button id="archiveButton" type="button" title="调度档案" aria-label="调度档案">⇄</button>
++          <button id="archiveButton" type="button" title="Dispatch log" aria-label="Dispatch log">⇄</button>
+-          <button id="muteButton" type="button" title="声音" aria-label="切换声音">♪</button>
++          <button id="muteButton" type="button" title="Sound" aria-label="Toggle sound">♪</button>
+         </div>
+       </header>
+       <div class="workspace">
+-        <section class="stage" aria-label="仓库棋盘">
++        <section class="stage" aria-label="Warehouse board">
+           <div class="stage-head">
+-            <div><p class="kicker" id="chapterText">第一章 · 入库训练</p><h2 id="levelName">01 直线入库</h2></div>
++            <div><p class="kicker" id="chapterText">Chapter 1 · Storage Training</p><h2 id="levelName">01 Straight Shot</h2></div>
+-            <div class="stars" id="savedStars" aria-label="当前最佳星级">☆☆☆</div>
++            <div class="stars" id="savedStars" aria-label="Best stars">☆☆☆</div>
+           </div>
+           <div class="canvas-wrap" id="canvasWrap">
+-            <canvas id="gameCanvas" width="800" height="700" aria-label="推箱仓库"></canvas>
++            <canvas id="gameCanvas" width="800" height="700" aria-label="Sokoban warehouse"></canvas>
+             <div class="toast" id="toast" role="status"></div>
+           </div>
+         </section>
+ 
+         <aside class="side">
+           <section class="section">
+-            <h3>本班调度</h3>
++            <h3>This shift</h3>
+             <div class="metrics">
+-              <div class="metric"><b id="moveText">0</b><span>移动</span></div>
++              <div class="metric"><b id="moveText">0</b><span>Moves</span></div>
+-              <div class="metric"><b id="pushText">0</b><span>推动</span></div>
++              <div class="metric"><b id="pushText">0</b><span>Pushes</span></div>
+-              <div class="metric"><b id="crateText">0/0</b><span>入库</span></div>
++              <div class="metric"><b id="crateText">0/0</b><span>Stored</span></div>
+             </div>
+             <p class="brief" id="briefText"></p>
+-            <div class="status-line"><span id="bestText">最佳 --</span><span id="totalText">总星 0/36</span></div>
++            <div class="status-line"><span id="bestText">Best --</span><span id="totalText">Stars 0/36</span></div>
+           </section>
+ 
+           <section class="section">
+-            <h3>三星验收</h3>
++            <h3>Three-star targets</h3>
+             <div class="goals" id="goals"></div>
+           </section>
+ 
+           <section class="section">
+-            <h3>调度台</h3>
++            <h3>Control</h3>
+             <div class="controls">
+-              <button id="undoButton" type="button" title="撤回一步">↶ 撤回</button>
++              <button id="undoButton" type="button" title="Undo one move">↶ Undo</button>
+-              <button id="resetButton" class="warn" type="button" title="重开本关">↻ 重开</button>
++              <button id="resetButton" class="warn" type="button" title="Restart level">↻ Restart</button>
+-              <button id="hintButton" class="primary" type="button" title="求解下一步">提示</button>
++              <button id="hintButton" class="primary" type="button" title="Solve next move">Hint</button>
+             </div>
+-            <div class="pad" aria-label="移动方向键">
++            <div class="pad" aria-label="Move direction keys">
+-              <button data-dir="U" type="button" aria-label="向上">↑</button>
++              <button data-dir="U" type="button" aria-label="Up">↑</button>
+-              <button data-dir="L" type="button" aria-label="向左">←</button>
++              <button data-dir="L" type="button" aria-label="Left">←</button>
+-              <button data-dir="D" type="button" aria-label="向下">↓</button>
++              <button data-dir="D" type="button" aria-label="Down">↓</button>
+-              <button data-dir="R" type="button" aria-label="向右">→</button>
++              <button data-dir="R" type="button" aria-label="Right">→</button>
+             </div>
+-            <div class="hint-line" id="hintLine">方向键 / WASD 移动，Z 撤回，H 提示</div>
++            <div class="hint-line" id="hintLine">Arrow keys / WASD move, Z undo, H hint</div>
+           </section>
+         </aside>
+       </div>
+     </main>
+ 
+     <dialog id="levelDialog">
+-      <div class="dialog-head"><h2>十二班固定仓库</h2><button class="icon-close" data-close="levelDialog" aria-label="关闭">×</button></div>
++      <div class="dialog-head"><h2>Twelve fixed warehouses</h2><button class="icon-close" data-close="levelDialog" aria-label="Close">×</button></div>
+       <div class="dialog-body" id="levelGrid"></div>
+     </dialog>
+     <dialog id="archiveDialog">
+-      <div class="dialog-head"><h2>SOKO2 调度档案</h2><button class="icon-close" data-close="archiveDialog" aria-label="关闭">×</button></div>
++      <div class="dialog-head"><h2>SOKO2 dispatch log</h2><button class="icon-close" data-close="archiveDialog" aria-label="Close">×</button></div>
+       <div class="dialog-body">
+-        <p class="archive-note" id="archiveMessage">档案包含十二班星级与最佳纪录，可跨设备导入；校验失败的内容会被拒绝。</p>
++        <p class="archive-note" id="archiveMessage">The log holds the stars and best records for all twelve shifts and can be imported on another device; content that fails verification is rejected.</p>
+-        <textarea class="archive-box" id="archiveText" aria-label="SOKO2 档案码"></textarea>
++        <textarea class="archive-box" id="archiveText" aria-label="SOKO2 log code"></textarea>
+-        <div class="dialog-actions"><button id="copyArchive">复制</button><button id="importArchive">导入并校验</button><button class="primary" data-close="archiveDialog">返回仓库</button></div>
++        <div class="dialog-actions"><button id="copyArchive">Copy</button><button id="importArchive">Import and verify</button><button class="primary" data-close="archiveDialog">Back to warehouses</button></div>
+       </div>
+     </dialog>
+     <dialog id="resultDialog">
+-      <div class="dialog-head"><h2>本班验收</h2><button class="icon-close" data-close="resultDialog" aria-label="关闭">×</button></div>
++      <div class="dialog-head"><h2>Shift review</h2><button class="icon-close" data-close="resultDialog" aria-label="Close">×</button></div>
+       <div class="dialog-body result">
+-        <p class="kicker" id="resultKicker">调度完成</p>
++        <p class="kicker" id="resultKicker">Shift complete</p>
+         <h3 id="resultTitle"></h3>
+         <div class="result-stars" id="resultStars">★★★</div>
+         <p id="resultSummary"></p>
+-        <div class="dialog-actions"><button id="retryResult">再调度一次</button><button id="nextResult" class="primary">下一班</button></div>
++        <div class="dialog-actions"><button id="retryResult">Play again</button><button id="nextResult" class="primary">Next shift</button></div>
+       </div>
+     </dialog>
+ 
+@@ -199,20 +199,20 @@
+       (() => {
+         "use strict";
+         const DIRS = { U:[0,-1], D:[0,1], L:[-1,0], R:[1,0] };
+-        const DIR_LABEL = { U:"向上", D:"向下", L:"向左", R:"向右" };
++        const DIR_LABEL = { U:"Up", D:"Down", L:"Left", R:"Right" };
+         const levels = [
+-          { id:"line", chapter:"第一章 · 入库训练", name:"直线入库", brief:"先确认箱体与库位的相对方向，一次推动完成入库。", map:["#######","#     #","# @$. #","#     #","#######"] },
++          { id:"line", chapter:"Chapter 1 · Storage Training", name:"Straight Shot", brief:"Check the box's direction relative to its goal, then store it with a single push.", map:["#######","#     #","# @$. #","#     #","#######"] },
+-          { id:"turn", chapter:"第一章 · 入库训练", name:"转角换位", brief:"不能拉动货箱；先绕到货箱下方，再沿竖线推进。", map:["#######","#  .  #","#     #","# $@  #","#     #","#######"] },
++          { id:"turn", chapter:"Chapter 1 · Storage Training", name:"Corner Swap", brief:"Boxes cannot be pulled; walk around below the box first, then push it up the vertical line.", map:["#######","#  .  #","#     #","# $@  #","#     #","#######"] },
+-          { id:"twins", chapter:"第一章 · 入库训练", name:"双货分流", brief:"两只货箱共享作业区，错误的先后顺序会封住横向通道。", map:["########","# .  . #","#      #","# $$@  #","#      #","########"] },
++          { id:"twins", chapter:"Chapter 1 · Storage Training", name:"Two-Box Split", brief:"Two boxes share the work area; the wrong order will block the horizontal aisle.", map:["########","# .  . #","#      #","# $$@  #","#      #","########"] },
+-          { id:"pillar", chapter:"第二章 · 柱网货场", name:"中柱绕行", brief:"承重柱切断直线路径，规划工人的绕行空间后再推箱。", map:["########","# .  . #","#   #  #","# $  $ #","#   @  #","#      #","########"] },
++          { id:"pillar", chapter:"Chapter 2 · Pillar Yard", name:"Around the Pillar", brief:"A load-bearing pillar blocks the straight path; plan the worker's way around it before pushing.", map:["########","# .  . #","#   #  #","# $  $ #","#   @  #","#      #","########"] },
+-          { id:"split", chapter:"第二章 · 柱网货场", name:"双区接驳", brief:"隔墙把上层分成两个库区，底部通廊是唯一换边路线。", map:["#########","# .   . #","#   #   #","# $ # $ #","#   @   #","#       #","#########"] },
++          { id:"split", chapter:"Chapter 2 · Pillar Yard", name:"Twin Zones", brief:"A divider splits the upper level into two storage zones; the bottom corridor is the only way across.", map:["#########","# .   . #","#   #   #","# $ # $ #","#   @   #","#       #","#########"] },
+-          { id:"three", chapter:"第二章 · 柱网货场", name:"三列并仓", brief:"三只货箱必须重新排队，先释放左侧站位才能横向调度。", map:["#########","# . . . #","#       #","# $$$   #","#    @  #","#       #","#########"] },
++          { id:"three", chapter:"Chapter 2 · Pillar Yard", name:"Three Columns", brief:"Three boxes must be re-queued; free the left-hand spot first to move sideways.", map:["#########","# . . . #","#       #","# $$$   #","#    @  #","#       #","#########"] },
+-          { id:"alcove", chapter:"第三章 · 狭道夜班", name:"侧仓回转", brief:"凹槽边缘没有多余站位，把最深处库位留到最后处理。", map:["#########","# .#  . #","#  #    #","# $  $  #","#   # @ #","#       #","#########"] },
++          { id:"alcove", chapter:"Chapter 3 · Narrow Night Shift", name:"Side Bay Turn", brief:"The alcove edge has no spare standing room; leave the deepest goal for last.", map:["#########","# .#  . #","#  #    #","# $  $  #","#   # @ #","#       #","#########"] },
+-          { id:"cross", chapter:"第三章 · 狭道夜班", name:"十字换轨", brief:"中央横道同时承担通行和换向，货箱进入前要留出回身空间。", map:["#########","# .   . #","#   #   #","# $   $ #","###   ###","#   @   #","#       #","#########"] },
++          { id:"cross", chapter:"Chapter 3 · Narrow Night Shift", name:"Cross Switch", brief:"The central cross aisle serves for both passing and turning; leave turning room before a box enters.", map:["#########","# .   . #","#   #   #","# $   $ #","###   ###","#   @   #","#       #","#########"] },
+-          { id:"lock", chapter:"第三章 · 狭道夜班", name:"顺序锁仓", brief:"三座库位排列紧密，从外向内推进会锁死入口。", map:["##########","# ...    #","#        #","# $$$ #  #","#     #@ #","#        #","##########"] },
++          { id:"lock", chapter:"Chapter 3 · Narrow Night Shift", name:"Ordered Lock", brief:"Three goals sit close together; pushing from the outside in will lock the entrance.", map:["##########","# ...    #","#        #","# $$$ #  #","#     #@ #","#        #","##########"] },
+-          { id:"bridge", chapter:"第四章 · 总库会战", name:"窄桥调头", brief:"单格桥口不允许并排会车，先在宽区完成货箱排序。", map:["##########","# . #  . #","#   #    #","# $   $  #","#   #    #","# @ #    #","#        #","##########"] },
++          { id:"bridge", chapter:"Chapter 4 · Grand Depot", name:"Narrow Bridge Turn", brief:"A one-tile bridge mouth allows no passing side by side; sort the boxes in the wide area first.", map:["##########","# . #  . #","#   #    #","# $   $  #","#   #    #","# @ #    #","#        #","##########"] },
+-          { id:"four", chapter:"第四章 · 总库会战", name:"三库联调", brief:"三只货箱争用中央场地，边线库位与内线库位需要交替处理。", map:["##########","# .  . . #","#        #","# $ $ $  #","#   #    #","#    @   #","#        #","##########"] },
++          { id:"four", chapter:"Chapter 4 · Grand Depot", name:"Three-Depot Mix", brief:"Three boxes compete for the central floor; side goals and inner goals must be handled in turn.", map:["##########","# .  . . #","#        #","# $ $ $  #","#   #    #","#    @   #","#        #","##########"] },
+-          { id:"final", chapter:"第四章 · 总库会战", name:"零点总调", brief:"承重墙、狭道与四只货箱叠加；每次推动都应保留下一次站位。", map:["###########","# .  #  . #","#    #    #","# $     $ #","#   ###   #","# $  @  $ #","# .     . #","#         #","###########"] },
++          { id:"final", chapter:"Chapter 4 · Grand Depot", name:"Zero Hour", brief:"Load-bearing walls, narrow lanes and four boxes combined; each push should keep a spot free for the next.", map:["###########","# .  #  . #","#    #    #","# $     $ #","#   ###   #","# $  @  $ #","# .     . #","#         #","###########"] },
+         ];
+         const ui = Object.fromEntries([...document.querySelectorAll("[id]")].map((node) => [node.id,node]));
+         const archivePrefix = "SOKO2";
+@@ -256,12 +256,12 @@
+         }
+         function decodeArchive(code) {
+           const [prefix,payload,signature,...extra] = String(code).trim().split(".");
+-          if (prefix !== archivePrefix || !payload || !signature || extra.length || checksum(payload)!==signature) throw new Error("档案校验失败");
++          if (prefix !== archivePrefix || !payload || !signature || extra.length || checksum(payload)!==signature) throw new Error("Log verification failed");
+           try {
+             const padded = payload.replaceAll("-","+").replaceAll("_","/") + "=".repeat((4-payload.length%4)%4);
+             const bytes = Uint8Array.from(atob(padded),(char)=>char.charCodeAt(0));
+             return normalizeProfile(JSON.parse(new TextDecoder().decode(bytes)));
+-          } catch { throw new Error("档案内容无效"); }
++          } catch { throw new Error("Log content invalid"); }
+         }
+         function parseLevel(level) {
+           const height = level.map.length;
+@@ -349,7 +349,7 @@
+           if (!cache.has(index)) {
+             const board = initialState(index);
+             const solution = solveState(board,board.player,board.boxes,400000);
+-            if (!solution) throw new Error(`${levels[index].name} 没有参考解`);
++            if (!solution) throw new Error(`${levels[index].name} has no reference solution`);
+             cache.set(index,{ ...solution,parMoves:Math.ceil(solution.moves*1.2)+1,parPushes:solution.pushes+1 });
+           }
+           return cache.get(index);
+@@ -365,12 +365,12 @@
+         function perform(dir,options={}) {
+           if (!game || game.complete || !DIRS[dir]) return false;
+           const next = transition(game,game,dir);
+-          if (!next) { if (!game.testing && !options.silent) { tone(125,.06,"square",.025); showToast("这一步没有可用空间"); } return false; }
++          if (!next) { if (!game.testing && !options.silent) { tone(125,.06,"square",.025); showToast("No room for this move"); } return false; }
+           game.history.push({ player:game.player,boxes:new Set(game.boxes),moves:game.moves,pushes:game.pushes,lastDir:game.lastDir });
+           game.player = next.player; game.boxes = next.boxes; game.moves += 1; game.pushes += Number(next.pushed); game.lastDir = dir; game.pulse = { key:next.player,time:performance.now() };
+           if (!game.testing) tone(next.pushed ? 240 : 360,next.pushed ? .09 : .035,next.pushed ? "triangle" : "sine",next.pushed ? .04 : .018);
+           if (isSolved(game,game.boxes)) completeLevel();
+-          else if (!game.testing && next.pushed && dynamicDeadlock(game,game.boxes)) showToast("检测到货箱死锁，可撤回这一步");
++          else if (!game.testing && next.pushed && dynamicDeadlock(game,game.boxes)) showToast("Box deadlock detected; you can undo this move");
+           if (!game.testing) { updateUi(); draw(); }
+           return true;
+         }
+@@ -392,13 +392,13 @@
+             updateUi(); draw();
+             ui.resultTitle.textContent = `${String(index+1).padStart(2,"0")} ${levels[index].name}`;
+             ui.resultStars.textContent = "★".repeat(stars)+"☆".repeat(3-stars);
+-            ui.resultSummary.textContent = `${game.moves} 次移动 · ${game.pushes} 次推动 · ${game.hints ? `使用 ${game.hints} 次提示` : "独立完成"}`;
++            ui.resultSummary.textContent = `${game.moves} moves · ${game.pushes} pushes · ${game.hints ? `Used ${game.hints} hints` : "No hints"}`;
+-            ui.nextResult.textContent = index===levels.length-1 ? "查看仓库" : "下一班";
++            ui.nextResult.textContent = index===levels.length-1 ? "View warehouses" : "Next shift";
+             setTimeout(()=>ui.resultDialog.showModal(),180);
+           }
+         }
+         function undo() {
+-          if (!game || !game.history.length) { showToast("当前没有可撤回的步骤"); return; }
++          if (!game || !game.history.length) { showToast("Nothing to undo"); return; }
+           const previous = game.history.pop();
+           Object.assign(game,previous,{ complete:false,pulse:null });
+           ui.resultDialog.close(); tone(210,.06,"sine",.025); updateUi(); draw();
+@@ -406,20 +406,20 @@
+         function requestHint() {
+           if (game.complete) return;
+           ui.hintButton.disabled = true;
+-          ui.hintLine.textContent = "正在检查可行路线…";
++          ui.hintLine.textContent = "Checking for a route…";
+           requestAnimationFrame(()=>requestAnimationFrame(()=>{
+             const solution = solveState(game,game.player,game.boxes,260000);
+             ui.hintButton.disabled = false;
+-            if (!solution) { ui.hintLine.textContent = "当前局面无法完成，请撤回或重开"; showToast("求解器确认当前局面已死锁"); return; }
++            if (!solution) { ui.hintLine.textContent = "This position cannot be finished; undo or restart"; showToast("Solver confirms this position is deadlocked"); return; }
+             if (!solution.route) return;
+             game.hints += 1;
+             const dir = solution.route[0];
+             game.hintDir = dir;
+-            ui.hintLine.textContent = `建议${DIR_LABEL[dir]} · 尚有约 ${solution.moves} 步`;
++            ui.hintLine.textContent = `Try ${DIR_LABEL[dir]} · about ${solution.moves} moves`;
+-            showToast(`路线提示：下一步${DIR_LABEL[dir]}`); updateUi(); draw();
++            showToast(`Route hint: next move ${DIR_LABEL[dir]}`); updateUi(); draw();
+           }));
+         }
+-        function reset() { begin(profile.level); showToast("本班已重新调度"); }
++        function reset() { begin(profile.level); showToast("Shift reset"); }
+         function totalStars() { return profile.stars.reduce((sum,value)=>sum+value,0); }
+         function updateUi() {
+           if (!game) return;
+@@ -431,12 +431,12 @@
+           ui.moveText.textContent = game.moves; ui.pushText.textContent = game.pushes; ui.crateText.textContent = `${placed}/${game.boxes.size}`;
+           ui.briefText.textContent = level.brief;
+           const bestMove = profile.bestMoves[profile.level], bestPush = profile.bestPushes[profile.level];
+-          ui.bestText.textContent = bestMove ? `最佳 ${bestMove} 步 / ${bestPush} 推` : "最佳 --";
++          ui.bestText.textContent = bestMove ? `Best ${bestMove} moves / ${bestPush} pushes` : "Best --";
+-          ui.totalText.textContent = `总星 ${totalStars()}/36`;
++          ui.totalText.textContent = `Stars ${totalStars()}/36`;
+           const goals = [
+-            { icon:"✓",label:"全部货箱入库",value:`${placed}/${game.boxes.size}`,done:placed===game.boxes.size },
++            { icon:"✓",label:"All boxes stored",value:`${placed}/${game.boxes.size}`,done:placed===game.boxes.size },
+-            { icon:"箱",label:`推动不超过 ${ref.parPushes} 次`,value:String(game.pushes),done:game.complete&&game.pushes<=ref.parPushes },
++            { icon:"Box",label:`At most ${ref.parPushes} pushes`,value:String(game.pushes),done:game.complete&&game.pushes<=ref.parPushes },
+-            { icon:"步",label:`无提示且 ${ref.parMoves} 步内`,value:game.hints ? `${game.hints} 次提示` : `${game.moves} 步`,done:game.complete&&game.hints===0&&game.moves<=ref.parMoves },
++            { icon:"Move",label:`No hints, within ${ref.parMoves} moves`,value:game.hints ? `${game.hints} hints` : `${game.moves} moves`,done:game.complete&&game.hints===0&&game.moves<=ref.parMoves },
+           ];
+           ui.goals.innerHTML = goals.map((goal)=>`<div class="goal ${goal.done?"done":""}"><strong>${goal.icon}</strong><strong>${goal.label}</strong><span class="value">${goal.value}</span></div>`).join("");
+           ui.undoButton.disabled = !game.history.length;
+@@ -446,12 +446,12 @@
+           const chapters = [...new Set(levels.map((level)=>level.chapter))];
+           ui.levelGrid.innerHTML = chapters.map((chapter)=>`<h3 class="chapter-title">${chapter}</h3><div class="level-grid">${levels.map((level,index)=>({level,index})).filter((entry)=>entry.level.chapter===chapter).map(({level,index})=>{
+             const open = unlocked(index), stars=profile.stars[index]||0;
+-            return `<button class="level-card ${profile.level===index?"active":""}" data-level="${index}" ${open?"":"disabled"}><strong>${String(index+1).padStart(2,"0")} ${level.name}</strong><span>${open?level.brief:"完成上一班后解锁"}</span><span class="card-stars">${open?"★".repeat(stars)+"☆".repeat(3-stars):"锁定"}</span></button>`;
++            return `<button class="level-card ${profile.level===index?"active":""}" data-level="${index}" ${open?"":"disabled"}><strong>${String(index+1).padStart(2,"0")} ${level.name}</strong><span>${open?level.brief:"Finish the previous shift to unlock"}</span><span class="card-stars">${open?"★".repeat(stars)+"☆".repeat(3-stars):"Locked"}</span></button>`;
+           }).join("")}</div>`).join("");
+           ui.levelGrid.querySelectorAll("[data-level]").forEach((button)=>button.addEventListener("click",()=>{ ui.levelDialog.close(); begin(Number(button.dataset.level)); }));
+         }
+         function showArchive(message="") {
+-          ui.archiveMessage.textContent = message || "档案包含十二班星级与最佳纪录，可跨设备导入；校验失败的内容会被拒绝。";
++          ui.archiveMessage.textContent = message || "The log holds the stars and best records for all twelve shifts and can be imported on another device; content that fails verification is rejected.";
+           ui.archiveText.value = encodeArchive();
+           ui.archiveDialog.showModal();
+         }
+@@ -513,7 +513,7 @@
+             ctx.strokeStyle="#9a6615"; ctx.lineWidth=Math.max(1,size*.025); ctx.beginPath(); ctx.moveTo(x+size*.34,y+size*.5); ctx.lineTo(x+size*.66,y+size*.5); ctx.moveTo(x+size*.5,y+size*.34); ctx.lineTo(x+size*.5,y+size*.66); ctx.stroke();
+           } else if (game.dead.has(key)) {
+             ctx.fillStyle="rgba(183,88,67,.11)"; ctx.fillRect(x+2,y+2,size-4,size-4);
+-            ctx.fillStyle="rgba(137,70,55,.55)"; ctx.font=`700 ${Math.max(8,size*.14)}px system-ui`; ctx.textAlign="center"; ctx.fillText("死角",x+size/2,y+size*.57);
++            ctx.fillStyle="rgba(137,70,55,.55)"; ctx.font=`700 ${Math.max(8,size*.14)}px system-ui`; ctx.textAlign="center"; ctx.fillText("Dead",x+size/2,y+size*.57);
+           }
+         }
+         function drawWall(ctx,x,y,size,gx,gy) {
+@@ -541,10 +541,10 @@
+ 
+         function validateContent() {
+           const ids=new Set(levels.map((level)=>level.id));
+-          if (levels.length!==12 || ids.size!==12) throw new Error("必须配置 12 个唯一仓库");
++          if (levels.length!==12 || ids.size!==12) throw new Error("Exactly 12 unique warehouses required");
+           const results=levels.map((_,index)=>{
+             const board=initialState(index), reference=referenceFor(index);
+-            if (board.boxes.size!==board.goals.size || !board.player) throw new Error(`${levels[index].name} 箱体与库位配置不匹配`);
++            if (board.boxes.size!==board.goals.size || !board.player) throw new Error(`${levels[index].name} box and goal layout mismatch`);
+             return { id:levels[index].id,boxes:board.boxes.size,moves:reference.moves,pushes:reference.pushes,nodes:reference.nodes,dead:board.dead.size };
+           });
+           return { levels:levels.length,chapters:new Set(levels.map((level)=>level.chapter)).size,boxes:results.reduce((sum,item)=>sum+item.boxes,0),uniqueIds:ids.size,results };
+@@ -553,7 +553,7 @@
+           const previousProfile=profile, previousGame=game;
+           profile=freshProfile(); profile.level=index; begin(index,{testing:true});
+           const solution=referenceFor(index);
+-          for (const dir of solution.route) { if (!perform(dir,{silent:true})) throw new Error(`参考路线在 ${levels[index].name} 中断`); }
++          for (const dir of solution.route) { if (!perform(dir,{silent:true})) throw new Error(`Reference route stopped in ${levels[index].name}.`); }
+           const result={ id:levels[index].id,won:game.complete,stars:starCount(game),moves:game.moves,pushes:game.pushes,route:solution.route,nodes:solution.nodes };
+           profile=previousProfile; game=previousGame; return result;
+         }
+@@ -571,8 +571,8 @@
+         ui.undoButton.addEventListener("click",undo); ui.resetButton.addEventListener("click",reset); ui.hintButton.addEventListener("click",requestHint);
+         ui.levelButton.addEventListener("click",()=>{ renderLevelGrid(); ui.levelDialog.showModal(); });
+         ui.archiveButton.addEventListener("click",()=>showArchive());
+-        ui.copyArchive.addEventListener("click",async()=>{ ui.archiveText.select(); try { await navigator.clipboard.writeText(ui.archiveText.value); showArchive("档案已复制"); } catch { document.execCommand("copy"); showArchive("档案已复制"); } });
++        ui.copyArchive.addEventListener("click",async()=>{ ui.archiveText.select(); try { await navigator.clipboard.writeText(ui.archiveText.value); showArchive("Log copied"); } catch { document.execCommand("copy"); showArchive("Log copied"); } });
+-        ui.importArchive.addEventListener("click",()=>{ try { profile=decodeArchive(ui.archiveText.value); saveProfile(); begin(profile.level); showArchive("档案已导入并通过校验"); } catch (error) { showArchive(error.message||"档案无效"); } });
++        ui.importArchive.addEventListener("click",()=>{ try { profile=decodeArchive(ui.archiveText.value); saveProfile(); begin(profile.level); showArchive("Log imported and verified"); } catch (error) { showArchive(error.message||"Log invalid"); } });
+         ui.retryResult.addEventListener("click",()=>{ ui.resultDialog.close(); reset(); });
+         ui.nextResult.addEventListener("click",()=>{ ui.resultDialog.close(); if (profile.level<levels.length-1) begin(profile.level+1); else { renderLevelGrid(); ui.levelDialog.showModal(); } });
+         ui.muteButton.addEventListener("click",()=>{ muted=!muted; ui.muteButton.textContent=muted?"×":"♪"; if (!muted) tone(440,.06,"sine",.03); });

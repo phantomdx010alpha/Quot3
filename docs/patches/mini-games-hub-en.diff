@@ -1,0 +1,963 @@
+--- a/resources/games/mini-games-hub/games/game4096.js
++++ b/resources/games/mini-games-hub/games/game4096.js
+@@ -45,21 +45,21 @@
+   id: '4096',
+   name: '4096',
+   options: [
+-    { key: 'size', label: '盘面', def: 4, values: [3, 4, 5, 6, 7].map((v) => ({ v, t: `${v}×${v}` })) },
++    { key: 'size', label: 'Board', def: 4, values: [3, 4, 5, 6, 7].map((v) => ({ v, t: `${v}×${v}` })) },
+-    { key: 'target', label: '目标', def: 4096, values: [512, 1024, 2048, 4096, 8192, 16384].map((v) => ({ v, t: String(v) })) },
++    { key: 'target', label: 'Goal', def: 4096, values: [512, 1024, 2048, 4096, 8192, 16384].map((v) => ({ v, t: String(v) })) },
+   ],
+ 
+   /* 运行时控件（不触发重开）：自动托管 + 倍速。倍速最高 10× */
+   runtime: [
+     {
+       key: 'auto',
+-      label: '操作',
++      label: 'Control',
+       def: 'off',
+-      values: [{ v: 'off', t: '手动' }, { v: 'on', t: '自动托管' }],
++      values: [{ v: 'off', t: 'Manual' }, { v: 'on', t: 'Auto-play' }],
+     },
+     {
+       key: 'speed',
+-      label: '倍速',
++      label: 'Speed',
+       def: 4,
+       values: [1, 2, 4, 6, 8, 10].map((v) => ({ v, t: `${v}×` })),
+     },
+@@ -252,13 +252,13 @@
+       aiDepth = r.depth
+       if (!r.dir) {
+         stopAuto()
+-        api.status('AI 判断已无路可走')
++        api.status('AI sees no moves left')
+         return
+       }
+       aiMoves++
+       move(r.dir)
+       if (over) return
+-      api.status(`AI 第 ${aiMoves} 步 · 搜索深度 ${r.depth} 层 · ${r.ms.toFixed(0)}ms`)
++      api.status(`AI move ${aiMoves} · search depth ${r.depth} levels · ${r.ms.toFixed(0)}ms`)
+       autoTimer = setTimeout(autoStep, Math.max(6, perMove - r.ms))
+     }
+ 
+@@ -266,7 +266,7 @@
+       if (over) reset()
+       auto = true
+       aiMoves = 0
+-      api.status('AI 接管中…')
++      api.status('AI in control…')
+       if (autoTimer) clearTimeout(autoTimer)
+       autoTimer = setTimeout(autoStep, 120)
+     }
+@@ -306,16 +306,16 @@
+         ctx.fillStyle = 'rgba(124,108,232,0.92)'
+         roundRect(ctx, 14, 14, 156, 28, 14)
+         ctx.fill()
+-        centerText(ctx, `AI 自动 ×${speed} · 深度 ${aiDepth || '-'}`, 92, 28, 13, '#FFFFFF', '600')
++        centerText(ctx, `AI auto ×${speed} · depth ${aiDepth || '-'}`, 92, 28, 13, '#FFFFFF', '600')
+       }
+ 
+       if (over || won) {
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, SIZE, SIZE, 16)
+         ctx.fill()
+-        centerText(ctx, won ? `达成 ${target}！` : '无路可走', SIZE / 2, SIZE / 2 - 18, 34, '#FFFFFF')
++        centerText(ctx, won ? `Reached ${target}!` : 'No moves left', SIZE / 2, SIZE / 2 - 18, 34, '#FFFFFF')
+-        centerText(ctx, won ? '继续合并刷更高分' : `本局 ${score} 分`, SIZE / 2, SIZE / 2 + 22, 18, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, won ? 'Keep merging for a higher score' : `Score: ${score} pts`, SIZE / 2, SIZE / 2 + 22, 18, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 重开', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to restart', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+       }
+     }
+ 
+@@ -335,7 +335,7 @@
+         // 手动介入即接管：退出托管并走这一步
+         if (auto) {
+           stopAuto()
+-          api.status('已交还手动操作')
++          api.status('Back to manual control')
+         }
+         move(dir)
+         return
+--- a/resources/games/mini-games-hub/games/gameBreakout.js
++++ b/resources/games/mini-games-hub/games/gameBreakout.js
+@@ -13,7 +13,7 @@
+ 
+ export default {
+   id: 'breakout',
+-  name: '打砖块',
++  name: 'Breakout',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -105,7 +105,7 @@
+         level++
+         buildBricks()
+         resetBall()
+-        api.status(`第 ${level} 关，球速提升`)
++        api.status(`Level ${level}, ball speeds up`)
+       }
+       if (ball.y > H + 20) {
+         lives--
+@@ -114,7 +114,7 @@
+           api.over(score)
+         } else {
+           resetBall()
+-          api.status(`剩 ${lives} 条命`)
++          api.status(`Left: ${lives} lives`)
+         }
+       }
+     }
+@@ -125,9 +125,9 @@
+       ctx.fillStyle = boardBg
+       ctx.fill()
+       // 顶部信息
+-      centerText(ctx, `分数 ${score}`, W / 2 - 90, 30, 15, '#FFFFFF', '600')
++      centerText(ctx, `Score ${score}`, W / 2 - 90, 30, 15, '#FFFFFF', '600')
+-      centerText(ctx, `命 ${'●'.repeat(Math.max(lives, 0))}`, W / 2 + 10, 30, 15, '#F070B0', '600')
++      centerText(ctx, `Lives ${'●'.repeat(Math.max(lives, 0))}`, W / 2 + 10, 30, 15, '#F070B0', '600')
+-      centerText(ctx, `第 ${level} 关`, W - 60, 30, 13, 'rgba(232,238,249,0.6)', '500')
++      centerText(ctx, `Level ${level}.`, W - 60, 30, 13, 'rgba(232,238,249,0.6)', '500')
+       // 砖
+       for (const b of bricks) {
+         if (b.hp <= 0) continue
+@@ -147,16 +147,16 @@
+       ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2)
+       ctx.fill()
+       // 未发射提示
+-      if (!launched && !over) centerText(ctx, '点击 / 空格 发球', W / 2, H - 80, 14, 'rgba(232,238,249,0.6)', '500')
++      if (!launched && !over) centerText(ctx, 'Click / Space to serve', W / 2, H - 80, 14, 'rgba(232,238,249,0.6)', '500')
+ 
+       if (over) {
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, W, H, 16)
+         ctx.fill()
+         centerText(ctx, 'Game Over', W / 2, H / 2 - 16, 34, '#FFFFFF')
+-        centerText(ctx, `本局 ${score} 分 · 第 ${level} 关`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts · Level ${level}.`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 重开', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to restart', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
++      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
+     }
+ 
+     const movePaddle = (clientXRatio) => {
+--- a/resources/games/mini-games-hub/games/gameDino.js
++++ b/resources/games/mini-games-hub/games/gameDino.js
+@@ -13,7 +13,7 @@
+ 
+ export default {
+   id: 'dino',
+-  name: '跑酷小恐龙',
++  name: 'Dino Run',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -66,7 +66,7 @@
+       legPhase = 0
+       initScenery()
+       api.score(0)
+-      api.status('空格 / 点击起跑，↓ 下蹲')
++      api.status('Space / click to start, ↓ to duck')
+     }
+ 
+     function jump() {
+@@ -268,14 +268,14 @@
+         centerText(ctx, `${score}!`, W / 2, 60, 26, '#7EE2B8')
+         ctx.globalAlpha = 1
+       }
+-      if (paused && !over) centerText(ctx, '已暂停 · P 继续', W / 2, H / 2, 24, '#FFFFFF')
++      if (paused && !over) centerText(ctx, 'Paused · P to resume', W / 2, H / 2, 24, '#FFFFFF')
+       if (over) {
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, W, H, 16)
+         ctx.fill()
+-        centerText(ctx, '撞上了！', W / 2, H / 2 - 24, 32, '#E05B5B')
++        centerText(ctx, 'Crashed!', W / 2, H / 2 - 24, 32, '#E05B5B')
+-        centerText(ctx, `本局 ${score} 分`, W / 2, H / 2 + 16, 18, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts`, W / 2, H / 2 + 16, 18, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 或点击重跑', W / 2, H / 2 + 50, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R or click to run again', W / 2, H / 2 + 50, 15, 'rgba(232,238,249,0.55)', '500')
+       }
+     }
+ 
+--- a/resources/games/mini-games-hub/games/gameFlappy.js
++++ b/resources/games/mini-games-hub/games/gameFlappy.js
+@@ -9,7 +9,7 @@
+ 
+ export default {
+   id: 'flappy',
+-  name: '小鸟飞行',
++  name: 'Bird Flight',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -125,18 +125,18 @@
+       ctx.restore()
+ 
+       if (!started && !over) {
+-        centerText(ctx, '点击 / 空格 起飞', W / 2, H / 2 - 60, 18, '#FFFFFF')
++        centerText(ctx, 'Click / Space to flap', W / 2, H / 2 - 60, 18, '#FFFFFF')
+-        centerText(ctx, '穿过管道缝隙得分', W / 2, H / 2 - 34, 13, 'rgba(232,238,249,0.6)', '500')
++        centerText(ctx, 'Pass through the pipe gaps to score', W / 2, H / 2 - 34, 13, 'rgba(232,238,249,0.6)', '500')
+       }
+       if (over) {
+         const medal = score >= 30 ? '🥇' : score >= 20 ? '🥈' : score >= 10 ? '🥉' : ''
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, W, H, 16)
+         ctx.fill()
+-        centerText(ctx, `${medal} 坠落了`, W / 2, H / 2 - 16, 32, '#FFFFFF')
++        centerText(ctx, `${medal} fell`, W / 2, H / 2 - 16, 32, '#FFFFFF')
+-        centerText(ctx, `本局 ${score} 分`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 或点击重开', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R or click to restart', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
++      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
+     }
+ 
+     const offPointer = onPointer(canvas, (_x, _y, e) => {
+--- a/resources/games/mini-games-hub/games/gameGomoku.js
++++ b/resources/games/mini-games-hub/games/gameGomoku.js
+@@ -29,15 +29,15 @@
+ 
+ export default {
+   id: 'gomoku',
+-  name: '五子棋',
++  name: 'Gomoku',
+   runtime: [{
+     key: 'ai',
+-    label: 'AI 棋力',
++    label: 'AI level',
+     def: 'normal',
+     values: [
+-      { v: 'easy', t: '随缘' },
++      { v: 'easy', t: 'Casual' },
+-      { v: 'normal', t: '认真' },
++      { v: 'normal', t: 'Serious' },
+-      { v: 'hard', t: '大师' },
++      { v: 'hard', t: 'Master' },
+     ],
+   }],
+ 
+@@ -197,17 +197,17 @@
+           streak++
+           api.score(streak)
+           api.win(streak)
+-          api.status(`🏆 你赢了！连胜 ${streak} 场，点击棋盘再战`)
++          api.status(`🏆 You win! Streak of ${streak}, click the board to play again`)
+         } else {
+           api.over(streak)
+           streak = 0
+-          api.status('AI 获胜，连胜清零。点击棋盘再战')
++          api.status('AI wins, streak reset. Click the board to play again')
+         }
+         return true
+       }
+       if (moves >= N * N) {
+         ended = 'draw'
+-        api.status('棋盘下满，平局。点击棋盘再战')
++        api.status('Board full, it\'s a draw. Click the board to play again')
+         return true
+       }
+       return false
+@@ -219,14 +219,14 @@
+       if (!m) return
+       if (place(m.r, m.c, AI)) return
+       turn = HUMAN
+-      api.status(`你执蓝先行 · 已下 ${moves} 手 · 连胜 ${streak}`)
++      api.status(`You are blue and move first · Moves ${moves} · Streak ${streak}`)
+     }
+ 
+     function humanPlay(r, c) {
+       if (ended || turn !== HUMAN || board[idx(r, c)] !== EMPTY) return
+       if (place(r, c, HUMAN)) return
+       turn = AI
+-      api.status('AI 思考中…')
++      api.status('AI is thinking…')
+       thinkTimer = setTimeout(() => {
+         thinkTimer = 0
+         aiMove()
+@@ -244,7 +244,7 @@
+       moves = history.length
+       last = history[history.length - 1] || null
+       turn = HUMAN
+-      api.status(`已悔 ${n} 手 · 轮到你落子`)
++      api.status(`Undid ${n} move(s) · your turn`)
+     }
+ 
+     function reset() {
+@@ -258,7 +258,7 @@
+       moves = 0
+       history = []
+       hover = null
+-      api.status('你执蓝先行 · 点击棋盘交叉点落子（U 悔棋）')
++      api.status('You are blue and move first · click an intersection to play (U to undo)')
+     }
+ 
+     /* ---------- 绘制 ---------- */
+@@ -303,7 +303,7 @@
+       // 顶部阵营图例
+       ctx.fillStyle = '#2563EB'
+       ctx.beginPath(); ctx.arc(CELL * 1.2, CELL * 0.42, 6, 0, Math.PI * 2); ctx.fill()
+-      centerText(ctx, '你', CELL * 1.2 + 14, CELL * 0.42, 12, 'rgba(232,238,249,0.75)', '600')
++      centerText(ctx, 'You', CELL * 1.2 + 14, CELL * 0.42, 12, 'rgba(232,238,249,0.75)', '600')
+       ctx.fillStyle = '#7C3AED'
+       ctx.beginPath(); ctx.arc(SIZE - CELL * 1.2 - 30, CELL * 0.42, 6, 0, Math.PI * 2); ctx.fill()
+       centerText(ctx, 'AI', SIZE - CELL * 1.2 - 16, CELL * 0.42, 12, 'rgba(232,238,249,0.75)', '600')
+@@ -340,10 +340,10 @@
+         ctx.fillStyle = 'rgba(6,10,24,0.6)'
+         roundRect(ctx, 0, SIZE / 2 - 52, SIZE, 104, 14)
+         ctx.fill()
+-        const msg = ended === 'win' ? '🏆 你赢了！' : ended === 'lose' ? 'AI 获胜' : '平局'
++        const msg = ended === 'win' ? '🏆 You win!' : ended === 'lose' ? 'AI wins' : 'Draw'
+         const color = ended === 'win' ? '#7EE2B8' : ended === 'lose' ? '#E05B5B' : '#E8EEF9'
+         centerText(ctx, msg, SIZE / 2, SIZE / 2 - 12, 28, color)
+-        centerText(ctx, '点击棋盘再战 · U 悔棋无效', SIZE / 2, SIZE / 2 + 24, 14, 'rgba(232,238,249,0.6)', '500')
++        centerText(ctx, 'Click the board to play again · U (undo) disabled', SIZE / 2, SIZE / 2 + 24, 14, 'rgba(232,238,249,0.6)', '500')
+       }
+     }
+ 
+--- a/resources/games/mini-games-hub/games/gameMemory.js
++++ b/resources/games/mini-games-hub/games/gameMemory.js
+@@ -28,16 +28,16 @@
+ 
+ export default {
+   id: 'memory',
+-  name: '记忆翻牌',
++  name: 'Memory Match',
+   bestLower: true,
+   options: [{
+     key: 'size',
+-    label: '规模',
++    label: 'Size',
+     def: 'mid',
+     values: [
+-      { v: 'easy', t: '轻松 4×3' },
++      { v: 'easy', t: 'Easy 4×3' },
+-      { v: 'mid', t: '标准 4×4' },
++      { v: 'mid', t: 'Standard 4×4' },
+-      { v: 'hard', t: '困难 6×5' },
++      { v: 'hard', t: 'Hard 6×5' },
+     ],
+   }],
+ 
+@@ -64,7 +64,7 @@
+     const resetBtn = document.createElement('button')
+     resetBtn.type = 'button'
+     resetBtn.className = 'gmm-chip'
+-    resetBtn.textContent = '🔄 重开'
++    resetBtn.textContent = '🔄 Restart'
+     bar.append(chipMove, chipTime, chipPair, resetBtn)
+     wrap.appendChild(bar)
+ 
+@@ -82,9 +82,9 @@
+ 
+     const fmt = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`
+     const paint = () => {
+-      chipMove.innerHTML = `翻牌 <b>${moves}</b>`
++      chipMove.innerHTML = `Flips <b>${moves}</b>`
+       chipTime.innerHTML = `⏱ <b>${fmt(time)}</b>`
+-      chipPair.innerHTML = `配对 <b>${matched.size}/${pairs}</b>`
++      chipPair.innerHTML = `Pairs <b>${matched.size}/${pairs}</b>`
+     }
+ 
+     function build() {
+@@ -140,7 +140,7 @@
+         openIds = []
+         if (matched.size === pairs * 2) {
+           clearInterval(timer)
+-          status.textContent = `🎉 全部配对！用时 ${fmt(time)}，共翻 ${moves} 次`
++          status.textContent = `🎉 All pairs matched! Time ${fmt(time)}, total ${moves} flips`
+           api.win(time)
+         }
+       } else {
+--- a/resources/games/mini-games-hub/games/gameMinesweeper.js
++++ b/resources/games/mini-games-hub/games/gameMinesweeper.js
+@@ -30,16 +30,16 @@
+ 
+ export default {
+   id: 'minesweeper',
+-  name: '扫雷',
++  name: 'Minesweeper',
+   bestLower: true,
+   options: [{
+     key: 'level',
+-    label: '难度',
++    label: 'Difficulty',
+     def: 'mid',
+     values: [
+-      { v: 'easy', t: '简单 9×9' },
++      { v: 'easy', t: 'Easy 9×9' },
+-      { v: 'mid', t: '标准 16×16' },
++      { v: 'mid', t: 'Standard 16×16' },
+-      { v: 'hard', t: '困难 16×30' },
++      { v: 'hard', t: 'Hard 16×30' },
+     ],
+   }],
+ 
+@@ -67,11 +67,11 @@
+     const flagBtn = document.createElement('button')
+     flagBtn.type = 'button'
+     flagBtn.className = 'gms-chip gms-flag-btn'
+-    flagBtn.textContent = '🚩 插旗模式'
++    flagBtn.textContent = '🚩 Flag mode'
+     const resetBtn = document.createElement('button')
+     resetBtn.type = 'button'
+     resetBtn.className = 'gms-chip'
+-    resetBtn.textContent = '🙂 重开'
++    resetBtn.textContent = '🙂 Restart'
+     bar.append(chipMine, chipTime, flagBtn, resetBtn)
+     wrap.appendChild(bar)
+ 
+@@ -113,7 +113,7 @@
+ 
+     const fmt = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`
+     const paintBar = () => {
+-      chipMine.innerHTML = `💣 剩余 <b>${Math.max(M - flagged.size, 0)}</b>`
++      chipMine.innerHTML = `💣 Left <b>${Math.max(M - flagged.size, 0)}</b>`
+       chipTime.innerHTML = `⏱ <b>${fmt(time)}</b>`
+     }
+ 
+@@ -190,7 +190,7 @@
+         revealed.add(i)
+         mines.forEach((j) => revealed.add(j))
+         cellEls.forEach((_, j) => paintCell(j))
+-        status.textContent = '💥 踩雷了，按重开再来'
++        status.textContent = '💥 Boom! Press restart to try again'
+         api.over(time)
+         clearInterval(timer)
+         return
+@@ -209,7 +209,7 @@
+       if (openedCount === total - mines.size) {
+         ended = true
+         clearInterval(timer)
+-        status.textContent = `🎉 排雷成功！用时 ${fmt(time)}`
++        status.textContent = `🎉 Mines cleared! Time ${fmt(time)}`
+         api.win(time)
+       }
+     }
+--- a/resources/games/mini-games-hub/games/gameShooter.js
++++ b/resources/games/mini-games-hub/games/gameShooter.js
+@@ -16,7 +16,7 @@
+ 
+ export default {
+   id: 'shooter',
+-  name: '星空战机',
++  name: 'Star Fighter',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -53,7 +53,7 @@
+       baseY = EY0 + Math.min(wave - 1, 4) * 12
+       fireTimer = rand(0.8, 1.4)
+       banner = { text: `WAVE ${wave}`, t: 1.4 }
+-      api.status(`第 ${wave} 波 · 剩余 ${enemies.length} 架敌机`)
++      api.status(`Wave ${wave} · ${enemies.length} enemy ships left`)
+     }
+ 
+     function reset() {
+@@ -200,7 +200,7 @@
+       if (!aliveCount()) {
+         score += 100 + wave * 25
+         api.score(score)
+-        api.status(`第 ${wave} 波清空！奖励 +${100 + wave * 25}`)
++        api.status(`Wave ${wave} cleared! Bonus +${100 + wave * 25}`)
+         wave++
+         spawnWave()
+       }
+@@ -301,14 +301,14 @@
+         ctx.globalAlpha = 1
+       }
+ 
+-      if (paused && !over) centerText(ctx, '已暂停 · P 继续', W / 2, H / 2, 24, '#FFFFFF')
++      if (paused && !over) centerText(ctx, 'Paused · P to resume', W / 2, H / 2, 24, '#FFFFFF')
+       if (over) {
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, W, H, 16)
+         ctx.fill()
+-        centerText(ctx, '战机坠毁', W / 2, H / 2 - 30, 34, '#E05B5B')
++        centerText(ctx, 'Fighter destroyed', W / 2, H / 2 - 30, 34, '#E05B5B')
+-        centerText(ctx, `本局 ${score} 分 · 抵达第 ${wave} 波`, W / 2, H / 2 + 12, 18, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts · reached wave ${wave}.`, W / 2, H / 2 + 12, 18, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 重开', W / 2, H / 2 + 48, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to restart', W / 2, H / 2 + 48, 15, 'rgba(232,238,249,0.55)', '500')
+       }
+     }
+ 
+--- a/resources/games/mini-games-hub/games/gameSlide.js
++++ b/resources/games/mini-games-hub/games/gameSlide.js
+@@ -10,11 +10,11 @@
+ 
+ export default {
+   id: 'slide',
+-  name: '数字华容道',
++  name: 'Number Slide Puzzle',
+   bestLower: true,
+   options: [{
+     key: 'size',
+-    label: '盘面',
++    label: 'Board',
+     def: 4,
+     values: [
+       { v: 3, t: '3×3' },
+@@ -114,12 +114,12 @@
+       if (won) return
+       moves++
+       if (!startAt) startAt = performance.now()
+-      api.status(`已走 ${moves} 步 · 用时 ${elapsed.toFixed(0)}s`)
++      api.status(`Moves ${moves} · Time ${elapsed.toFixed(0)}s`)
+       if (isSolved()) {
+         won = true
+         api.score(elapsed)
+         api.win(Math.round(elapsed * 10) / 10)
+-        api.status(`完成！${moves} 步 · ${Math.round(elapsed * 10) / 10}s`)
++        api.status(`Done! ${moves} moves · ${Math.round(elapsed * 10) / 10}s`)
+       }
+     }
+ 
+@@ -131,7 +131,7 @@
+       shuffle()
+       anims = [] // 打乱过程产生的移动记录不需要动画
+       api.score(0)
+-      api.status('点击方块或用方向键开始，计时从第一步起')
++      api.status('Click a tile or use the arrow keys to start; the timer starts on the first move')
+     }
+ 
+     // 品牌蓝→紫的色相插值
+@@ -179,9 +179,9 @@
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, SIZE, SIZE, 16)
+         ctx.fill()
+-        centerText(ctx, '🧩 复原成功！', SIZE / 2, SIZE / 2 - 26, 32, '#7EE2B8')
++        centerText(ctx, '🧩 Solved!', SIZE / 2, SIZE / 2 - 26, 32, '#7EE2B8')
+-        centerText(ctx, `${moves} 步 · ${Math.round(elapsed * 10) / 10} 秒`, SIZE / 2, SIZE / 2 + 18, 20, '#E8EEF9', '500')
++        centerText(ctx, `${moves} moves · ${Math.round(elapsed * 10) / 10} sec`, SIZE / 2, SIZE / 2 + 18, 20, '#E8EEF9', '500')
+-        centerText(ctx, '按 R 重开', SIZE / 2, SIZE / 2 + 54, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to restart', SIZE / 2, SIZE / 2 + 54, 15, 'rgba(232,238,249,0.55)', '500')
+       }
+     }
+ 
+@@ -230,7 +230,7 @@
+         if (sec !== shownSec) {
+           shownSec = sec
+           api.score(sec)
+-          if (moves) api.status(`已走 ${moves} 步 · 用时 ${sec}s`)
++          if (moves) api.status(`Moves ${moves} · Time ${sec}s`)
+         }
+       }
+       draw()
+--- a/resources/games/mini-games-hub/games/gameSnake.js
++++ b/resources/games/mini-games-hub/games/gameSnake.js
+@@ -9,7 +9,7 @@
+ 
+ export default {
+   id: 'snake',
+-  name: '贪吃蛇',
++  name: 'Snake',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -100,11 +100,11 @@
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, SIZE, SIZE, 16)
+         ctx.fill()
+-        centerText(ctx, '撞到了！', SIZE / 2, SIZE / 2 - 16, 34, '#FFFFFF')
++        centerText(ctx, 'Crashed!', SIZE / 2, SIZE / 2 - 16, 34, '#FFFFFF')
+-        centerText(ctx, `本局 ${score} 分`, SIZE / 2, SIZE / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts`, SIZE / 2, SIZE / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 重开', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to restart', SIZE / 2, SIZE / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+       }
+-      if (paused && !over) centerText(ctx, '已暂停', SIZE / 2, SIZE / 2, 26, '#FFFFFF')
++      if (paused && !over) centerText(ctx, 'Paused', SIZE / 2, SIZE / 2, 26, '#FFFFFF')
+     }
+ 
+     const DIRS = {
+--- a/resources/games/mini-games-hub/games/gameTetris.js
++++ b/resources/games/mini-games-hub/games/gameTetris.js
+@@ -25,7 +25,7 @@
+ 
+ export default {
+   id: 'tetris',
+-  name: '俄罗斯方块',
++  name: 'Tetris',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -186,11 +186,11 @@
+       }
+       // 右侧信息
+       const sx = BX + COLS * CELL + 16
+-      centerText(ctx, '分数', sx + 40, BY + 12, 12, 'rgba(232,238,249,0.5)', '500')
++      centerText(ctx, 'Score', sx + 40, BY + 12, 12, 'rgba(232,238,249,0.5)', '500')
+       centerText(ctx, String(score), sx + 40, BY + 32, 18, '#FFFFFF')
+-      centerText(ctx, `等级 ${level}`, sx + 40, BY + 58, 12, 'rgba(232,238,249,0.6)', '500')
++      centerText(ctx, `Level ${level}`, sx + 40, BY + 58, 12, 'rgba(232,238,249,0.6)', '500')
+-      centerText(ctx, `消行 ${lines}`, sx + 40, BY + 76, 12, 'rgba(232,238,249,0.6)', '500')
++      centerText(ctx, `Lines ${lines}`, sx + 40, BY + 76, 12, 'rgba(232,238,249,0.6)', '500')
+-      centerText(ctx, '下一个', sx + 40, BY + 104, 12, 'rgba(232,238,249,0.5)', '500')
++      centerText(ctx, 'Next', sx + 40, BY + 104, 12, 'rgba(232,238,249,0.5)', '500')
+       const nt = PIECES[queue[0]]
+       nt.m.forEach((row, r) => row.forEach((v, c) => {
+         if (v) {
+@@ -198,7 +198,7 @@
+           ctx.fillStyle = nt.color; ctx.fill()
+         }
+       }))
+-      centerText(ctx, '暂存 (C)', sx + 40, BY + 186, 12, 'rgba(232,238,249,0.5)', '500')
++      centerText(ctx, 'Hold (C)', sx + 40, BY + 186, 12, 'rgba(232,238,249,0.5)', '500')
+       if (hold) {
+         const ht = PIECES[hold]
+         ht.m.forEach((row, r) => row.forEach((v, c) => {
+@@ -213,10 +213,10 @@
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, W, H, 16)
+         ctx.fill()
+-        centerText(ctx, '堆到顶了', W / 2, H / 2 - 16, 32, '#FFFFFF')
++        centerText(ctx, 'Stacked to the top', W / 2, H / 2 - 16, 32, '#FFFFFF')
+-        centerText(ctx, `本局 ${score} 分 · 消行 ${lines}`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts · lines ${lines}`, W / 2, H / 2 + 24, 17, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 重开', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to restart', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
++      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
+     }
+ 
+     const offKey = onKey((e) => {
+--- a/resources/games/mini-games-hub/games/gameWhack.js
++++ b/resources/games/mini-games-hub/games/gameWhack.js
+@@ -11,7 +11,7 @@
+ 
+ export default {
+   id: 'whack',
+-  name: '打地鼠',
++  name: 'Whack-a-Mole',
+ 
+   mount(container, api) {
+     const boardBg = cssVar('--surface2', '#0F1730')
+@@ -62,7 +62,7 @@
+         if (best.kind === 'bomb') {
+           score = Math.max(0, score - 3)
+           combo = 1
+-          api.status('💥 炸弹！连击清零')
++          api.status('💥 Bomb! Combo reset')
+         } else {
+           const base = best.kind === 'gold' ? 5 : 1
+           score += base * combo
+@@ -137,8 +137,8 @@
+       ctx.fill()
+       // 顶栏
+       centerText(ctx, `⏱ ${left.toFixed(1)}s`, W / 2 - 110, 52, 20, left < 6 ? '#FF5C8A' : '#FFFFFF', '700')
+-      centerText(ctx, `连击 x${combo}`, W / 2, 52, 18, '#22D3EE', '700')
++      centerText(ctx, `Combo x${combo}`, W / 2, 52, 18, '#22D3EE', '700')
+-      centerText(ctx, `${score} 分`, W / 2 + 110, 52, 20, '#F0D878', '700')
++      centerText(ctx, `${score} pts`, W / 2 + 110, 52, 20, '#F0D878', '700')
+ 
+       // 洞
+       HOLES.forEach((h) => {
+@@ -163,10 +163,10 @@
+         ctx.fillStyle = 'rgba(6,10,24,0.72)'
+         roundRect(ctx, 0, 0, W, H, 16)
+         ctx.fill()
+-        centerText(ctx, '时间到！', W / 2, H / 2 - 16, 34, '#FFFFFF')
++        centerText(ctx, 'Time\'s up!', W / 2, H / 2 - 16, 34, '#FFFFFF')
+-        centerText(ctx, `本局 ${score} 分`, W / 2, H / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
++        centerText(ctx, `Score: ${score} pts`, W / 2, H / 2 + 24, 18, 'rgba(232,238,249,0.75)', '500')
+-        centerText(ctx, '按 R 再来一局', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
++        centerText(ctx, 'Press R to play again', W / 2, H / 2 + 58, 15, 'rgba(232,238,249,0.55)', '500')
+-      } else if (paused) centerText(ctx, '已暂停', W / 2, H / 2, 26, '#FFFFFF')
++      } else if (paused) centerText(ctx, 'Paused', W / 2, H / 2, 26, '#FFFFFF')
+     }
+ 
+     // 画布内相对坐标 → 逻辑坐标（onPointer 给的是 0~1 比例）
+--- a/resources/games/mini-games-hub/games/registry.js
++++ b/resources/games/mini-games-hub/games/registry.js
+@@ -12,123 +12,123 @@
+     name: '4096',
+     icon: '🔢',
+     hue: 268,
+-    tagline: '合并同数冲到 4096，可 AI 自动托管',
++    tagline: 'Merge equal tiles up to 4096, with optional AI auto-play',
+-    controls: '方向键 / WASD 移动，手机可滑动；空格切换 AI 自动托管（1~10× 倍速），Backspace 撤销一步',
++    controls: 'Arrow keys / WASD to move, swipe on phones; Space toggles AI auto-play (1-10× speed), Backspace undoes a move',
+     load: () => import('./game4096.js'),
+   },
+   {
+     id: 'snake',
+-    name: '贪吃蛇',
++    name: 'Snake',
+     icon: '🐍',
+     hue: 200,
+-    tagline: '吃食物变长加速，撞墙即终',
++    tagline: 'Eat food to grow and speed up; hit a wall and it\'s over',
+-    controls: '方向键 / WASD 转向，空格暂停，R 重开',
++    controls: 'Arrow keys / WASD to turn, Space to pause, R to restart',
+     load: () => import('./gameSnake.js'),
+   },
+   {
+     id: 'tetris',
+-    name: '俄罗斯方块',
++    name: 'Tetris',
+     icon: '🧱',
+     hue: 280,
+-    tagline: '7-bag 随机、暂存、硬降、幽灵落点',
++    tagline: '7-bag randomizer, hold, hard drop, ghost piece',
+-    controls: '←→ 移动 · ↑ 旋转 · ↓ 软降 · 空格硬降 · C 暂存',
++    controls: '←→ move · ↑ rotate · ↓ soft drop · Space hard drop · C hold',
+     load: () => import('./gameTetris.js'),
+   },
+   {
+     id: 'minesweeper',
+-    name: '扫雷',
++    name: 'Minesweeper',
+     icon: '💣',
+     hue: 0,
+-    tagline: '首点必安全，排雷计时赛',
++    tagline: 'First click is always safe; timed mine clearing',
+-    controls: '点击翻开，右键 / 插旗模式标旗',
++    controls: 'Click to reveal, right-click / flag mode to flag',
+     bestLower: true,
+     load: () => import('./gameMinesweeper.js'),
+   },
+   {
+     id: 'breakout',
+-    name: '打砖块',
++    name: 'Breakout',
+     icon: '🎯',
+     hue: 210,
+-    tagline: '击球角度随命中位置变化',
++    tagline: 'Ball angle changes with where it hits the paddle',
+-    controls: '鼠标 / 触摸移动挡板，空格发球，P 暂停',
++    controls: 'Mouse / touch moves the paddle, Space to serve, P to pause',
+     load: () => import('./gameBreakout.js'),
+   },
+   {
+     id: 'flappy',
+-    name: '小鸟飞行',
++    name: 'Bird Flight',
+     icon: '🐦',
+     hue: 45,
+-    tagline: '穿管得分，10/20/30 解锁奖牌',
++    tagline: 'Pass through pipes to score; medals unlock at 10/20/30',
+-    controls: '点击 / 空格扑翅，R 重开',
++    controls: 'Click / Space to flap, R to restart',
+     load: () => import('./gameFlappy.js'),
+   },
+   {
+     id: 'memory',
+-    name: '记忆翻牌',
++    name: 'Memory Match',
+     icon: '🃏',
+     hue: 320,
+-    tagline: '配对消除，用时越短越强',
++    tagline: 'Match pairs; the faster the better',
+-    controls: '点击翻牌，两两配对',
++    controls: 'Click to flip cards and match pairs',
+     bestLower: true,
+     load: () => import('./gameMemory.js'),
+   },
+   {
+     id: 'whack',
+-    name: '打地鼠',
++    name: 'Whack-a-Mole',
+     icon: '🔨',
+     hue: 30,
+-    tagline: '30 秒连击挑战，小心炸弹',
++    tagline: '30-second combo challenge, watch out for bombs',
+-    controls: '点击冒头的地鼠，金鼠 +5，炸弹 -3',
++    controls: 'Click moles as they pop up; golden mole +5, bomb -3',
+     load: () => import('./gameWhack.js'),
+   },
+   {
+     id: 'slide',
+-    name: '数字华容道',
++    name: 'Number Slide Puzzle',
+     icon: '🧩',
+     hue: 190,
+-    tagline: '滑动复原，计时越短越强',
++    tagline: 'Slide to solve; the faster the better',
+-    controls: '点击方块或方向键滑动，R 重开',
++    controls: 'Click a tile or use the arrow keys to slide, R to restart',
+     bestLower: true,
+     fresh: true,
+     load: () => import('./gameSlide.js'),
+   },
+   {
+     id: 'shooter',
+-    name: '星空战机',
++    name: 'Star Fighter',
+     icon: '🚀',
+     hue: 250,
+-    tagline: '蜂群编队压境，逐波升级',
++    tagline: 'Swarm formations close in, with tougher waves each time',
+-    controls: '←→ / AD 移动，空格射击，P 暂停；手机按住拖动自动开火',
++    controls: '←→ / AD to move, Space to shoot, P to pause; on phones hold and drag to auto-fire',
+     fresh: true,
+     load: () => import('./gameShooter.js'),
+   },
+   {
+     id: 'dino',
+-    name: '跑酷小恐龙',
++    name: 'Dino Run',
+     icon: '🦖',
+     hue: 100,
+-    tagline: '无尽奔跑，昼夜交替提速',
++    tagline: 'Endless running; day and night alternate and speed picks up',
+-    controls: '空格 / 点击跳跃（长按跳更高），↓ 下蹲加速落，R 重开',
++    controls: 'Space / click to jump (hold to jump higher), ↓ to duck and fall faster, R to restart',
+     fresh: true,
+     load: () => import('./gameDino.js'),
+   },
+   {
+     id: 'gomoku',
+-    name: '五子棋',
++    name: 'Gomoku',
+     icon: '⚫',
+     hue: 225,
+-    tagline: '人机对弈，三档棋力可切换',
++    tagline: 'Play against the AI, three strength levels',
+-    controls: '点击交叉点落子，U 悔棋，R 重开；AI 棋力随时可换',
++    controls: 'Click an intersection to place a stone, U to undo, R to restart; change AI level any time',
+     fresh: true,
+     load: () => import('./gameGomoku.js'),
+   },
+   {
+     // href 型条目：不内嵌进游戏厅，点卡片跳独立页面（RoguelikeView 的 iframe 托管）
+     id: 'roguelike',
+-    name: '风之剑修',
++    name: 'Wind Swordsman',
+     icon: '⚔️',
+     hue: 150,
+-    tagline: '水墨仙侠生存肉鸽，可 3 人联机',
++    tagline: 'Ink-wash xianxia survival roguelike, up to 3 players online',
+     href: '/tools/roguelike',
+   },
+ ]
+--- a/resources/games/mini-games-hub/index.html
++++ b/resources/games/mini-games-hub/index.html
+@@ -1,12 +1,12 @@
+ <!DOCTYPE html>
+-<html lang="zh-CN">
++<html lang="en">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+-<title>小游戏厅 · 12 款开源小游戏（浏览器直接玩，不用装）</title>
++<title>Mini Games Hall · 12 open-source mini games (play in the browser, no install)</title>
+-<meta name="description" content="12 款浏览器小游戏合集：4096、贪吃蛇、俄罗斯方块、扫雷、打砖块、2048、恐龙跳、Bird flight、五子棋、记忆翻牌、太空射击、数字华容道、打地鼠。纯本地运行，最高分存本机。" />
++<meta name="description" content="A collection of 12 browser mini games: 4096, Snake, Tetris, Minesweeper, Breakout, 2048, Dino Run, Bird Flight, Gomoku, Memory Match, Space Shooter, Number Slide Puzzle, Whack-a-Mole. Runs fully locally; high scores are kept on this device." />
+-<meta property="og:title" content="小游戏厅 · 13 款小游戏" />
++<meta property="og:title" content="Mini Games Hall · 13 mini games" />
+-<meta property="og:description" content="12 款浏览器小游戏，纯本地运行，最高分存本机。" />
++<meta property="og:description" content="12 browser mini games, fully local, high scores kept on this device." />
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='11' rx='4'/%3E%3Cpath d='M7 12h3M8.5 10.5v3M15.5 12h.01M18 12h.01'/%3E%3C/svg%3E" />
+ <style>
+ [hidden] { display: none !important; }
+@@ -122,19 +122,19 @@
+ 
+   <section id="hall">
+     <div class="hall-head">
+-      <h1>小游戏厅</h1>
++      <h1>Mini Games Hall</h1>
+-      <p><b>12 款小游戏</b>，全部在浏览器里跑，不用安装、不用登录；最高分只存在你自己的浏览器里。</p>
++      <p><b>12 mini games</b>, all running in the browser, no install, no login; high scores are stored only in your own browser.</p>
+     </div>
+     <div class="grid" id="grid"></div>
+   </section>
+ 
+   <section id="play" hidden>
+     <div class="play-head">
+-      <button class="back" id="backBtn">← 返回大厅</button>
++      <button class="back" id="backBtn">← Back to hall</button>
+       <h2 id="gname">—</h2>
+       <div class="chips">
+-        <span class="chip">得分 <b id="score">0</b></span>
++        <span class="chip">Score <b id="score">0</b></span>
+-        <span class="chip accent" id="bestChip">🏆 最高 <b id="best">—</b></span>
++        <span class="chip accent" id="bestChip">🏆 Best <b id="best">—</b></span>
+       </div>
+     </div>
+ 
+@@ -142,15 +142,15 @@
+       <div class="stage-box"><div id="stage"></div></div>
+       <aside class="side">
+         <div class="pane">
+-          <div class="lbl">状态</div>
++          <div class="lbl">Status</div>
+           <div class="status" id="status">—</div>
+         </div>
+         <div class="pane" id="optPane" hidden>
+-          <div class="lbl">选项</div>
++          <div class="lbl">Options</div>
+           <div id="opts"></div>
+         </div>
+         <div class="pane">
+-          <div class="lbl">操作</div>
++          <div class="lbl">Controls</div>
+           <div class="controls" id="controls">—</div>
+         </div>
+       </aside>
+@@ -158,7 +158,7 @@
+   </section>
+ 
+   <footer class="foot">
+-    <span>纯前端 · 无后端 · 最高分存本机</span>
++    <span>Front-end only · no backend · high scores stored locally</span>
+     <span>
+       <a href="https://github.com/bushimashen/games" target="_blank" rel="noopener">GitHub</a>
+       · <a href="https://gitee.com/codegoder/games" target="_blank" rel="noopener">Gitee</a>
+@@ -212,7 +212,7 @@
+       <div class="ico">${g.icon}</div>
+       <h3>${esc(g.name)}</h3>
+       <p class="tag">${esc(g.tagline || '')}</p>
+-      ${best ? `<span class="best">${g.bestLower ? '⚡ 最快' : '🏆 最高'} ${best}</span>` : ''}
++      ${best ? `<span class="best">${g.bestLower ? '⚡ Fastest' : '🏆 Best'} ${best}</span>` : ''}
+     `
+     b.addEventListener('click', () => openGame(g.id))
+     grid.appendChild(b)
+@@ -238,12 +238,12 @@
+   },
+   over(v) {
+     if (current && !current.bestLower) { saveBest(current.id, v, false); syncBest() }
+-    $('status').textContent = '本局结束'
++    $('status').textContent = 'Game over'
+   },
+   win(v) {
+     saveBest(current.id, v, !!current.bestLower)
+     syncBest()
+-    $('status').textContent = current.bestLower ? '新纪录！' : '达成目标，可继续挑战更高分'
++    $('status').textContent = current.bestLower ? 'New record!' : 'Goal reached, keep going for a higher score'
+   },
+   status(v) { $('status').textContent = v },
+   get options() { return options },
+@@ -256,7 +256,7 @@
+ function syncBest() {
+   const v = bestOf(current.id)
+   $('best').textContent = v || '—'
+-  $('bestChip').firstChild.textContent = current.bestLower ? '⚡ 最快 ' : '🏆 最高 '
++  $('bestChip').firstChild.textContent = current.bestLower ? '⚡ Fastest ' : '🏆 Best '
+ }
+ 
+ function syncRuntimeSelects() {
+@@ -311,7 +311,7 @@
+   $('score').textContent = '0'
+   $('gname').textContent = g.name
+   $('controls').textContent = g.controls || '—'
+-  $('status').textContent = '准备开始'
++  $('status').textContent = 'Ready to start'
+   $('hall').hidden = true
+   $('play').hidden = false
+   syncBest()
+@@ -328,7 +328,7 @@
+     renderOptions(current)
+     mount(current)
+   } catch (e) {
+-    $('status').textContent = '加载失败：' + (e.message || e)
++    $('status').textContent = 'Load failed: ' + (e.message || e)
+   }
+ }
+ 

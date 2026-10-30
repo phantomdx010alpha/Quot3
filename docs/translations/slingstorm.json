@@ -1,0 +1,1161 @@
+{
+  "version": 1,
+  "game": "slingstorm",
+  "entries": [
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 6,
+      "zh": "弹弓风暴",
+      "en": "Slingstorm"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 640,
+      "zh": "弹弓风暴游戏区",
+      "en": "Slingstorm play area"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 643,
+      "zh": "风眼 V4",
+      "en": "Eye of the Storm V4"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 644,
+      "zh": "风口试射",
+      "en": "Wind Gap Test Shot"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 644,
+      "zh": "准备",
+      "en": "Ready"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 647,
+      "zh": "返回远征站",
+      "en": "Back to expedition base"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 647,
+      "zh": "远征站",
+      "en": "Base"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 648,
+      "zh": "音效开关",
+      "en": "Sound toggle"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 649,
+      "zh": "暂停/继续",
+      "en": "Pause/Resume"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 650,
+      "zh": "重新开始",
+      "en": "Restart"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 655,
+      "zh": "弹弓物理谜题画布",
+      "en": "Slingshot physics puzzle canvas"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 661,
+      "zh": "风眼远征",
+      "en": "Storm Eye Expedition"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 662,
+      "zh": "穿越三片风暴带，用弹丸技能、风向与结构连锁完成 18 份物理契约。",
+      "en": "Cross three storm belts and complete 18 physics contracts using projectile skills, wind direction and structural chain reactions."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 664,
+      "zh": "★ 0/54 · 光核 0",
+      "en": "★ 0/54 · Cores 0"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 669,
+      "zh": "风暴工坊",
+      "en": "Storm Workshop"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 672,
+      "zh": "导出存档",
+      "en": "Export save"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 673,
+      "zh": "导入存档",
+      "en": "Import save"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 676,
+      "zh": "进入风场",
+      "en": "Enter the wind field"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 682,
+      "zh": "关卡完成",
+      "en": "Level complete"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 683,
+      "zh": "星级与分数会显示在这里。",
+      "en": "Stars and score will appear here."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 685,
+      "zh": "下一关",
+      "en": "Next level"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 686,
+      "zh": "再来一次",
+      "en": "Try again"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 693,
+      "zh": "弹弓风暴状态栏",
+      "en": "Slingstorm status bar"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 696,
+      "zh": "分数",
+      "en": "Score"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 700,
+      "zh": "晶核",
+      "en": "Crystals"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 704,
+      "zh": "风场",
+      "en": "Wind"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 708,
+      "zh": "星级",
+      "en": "Stars"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 715,
+      "zh": "节点挑战",
+      "en": "Node challenge"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 716,
+      "zh": "完成关卡 · 标准弹数 · 独立挑战",
+      "en": "Clear level · Standard shots · Solo challenge"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 721,
+      "zh": "弹丸序列",
+      "en": "Projectile queue"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 726,
+      "zh": "主动装置",
+      "en": "Active device"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 728,
+      "zh": "触发当前弹丸技能",
+      "en": "Trigger current projectile skill"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 728,
+      "zh": "技能",
+      "en": "Skill"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "attr",
+      "line": 729,
+      "zh": "切换风向",
+      "en": "Switch wind direction"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 729,
+      "zh": "换风",
+      "en": "Wind shift"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "text",
+      "line": 734,
+      "zh": "关卡",
+      "en": "Levels"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 785,
+      "zh": "物理引擎未加载",
+      "en": "Physics engine not loaded"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 814,
+      "zh": "岚口边境",
+      "en": "Gale Pass Frontier"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 817,
+      "zh": "掌握风向、材料弱点与四类弹丸的基础连锁。",
+      "en": "Master wind direction, material weak points and the basic chains of the four projectile types."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 820,
+      "zh": "雷幕旧城",
+      "en": "Thunder Curtain Old Town"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 823,
+      "zh": "脉动横风、轻重力与装甲晶核开始组合。",
+      "en": "Pulsing crosswinds, light gravity and armored crystals begin to combine."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 826,
+      "zh": "风暴王冠",
+      "en": "Storm Crown"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 829,
+      "zh": "高密度塔群、爆桶链和多层风眼组成最终远征。",
+      "en": "Dense tower clusters, barrel chains and multi-layer storm eyes make up the final expedition."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 835,
+      "zh": "星索张力",
+      "en": "Star Cable Tension"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 836,
+      "zh": "每级发射速度 +2%",
+      "en": "Launch speed +2% per level"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 841,
+      "zh": "轨迹测绘",
+      "en": "Trajectory Mapping"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 842,
+      "zh": "每级增加 4 个预测点",
+      "en": "+4 prediction points per level"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 847,
+      "zh": "风舵储能",
+      "en": "Wind Rudder Storage"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 848,
+      "zh": "每 2 级额外换风 1 次",
+      "en": "1 extra wind shift every 2 levels"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 853,
+      "zh": "弹丸共鸣",
+      "en": "Projectile Resonance"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 854,
+      "zh": "每级技能范围与伤害 +5%",
+      "en": "Skill range and damage +5% per level"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 859,
+      "zh": "残骸回收",
+      "en": "Wreck Recycling"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 860,
+      "zh": "每级结算光核 +8%",
+      "en": "Result cores +8% per level"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 868,
+      "zh": "木",
+      "en": "Wood"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 878,
+      "zh": "璃",
+      "en": "Glass"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 888,
+      "zh": "石",
+      "en": "Stone"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 898,
+      "zh": "爆",
+      "en": "Explosive"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 908,
+      "zh": "钢",
+      "en": "Steel"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 921,
+      "zh": "冲击星",
+      "en": "Impact Star"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 922,
+      "zh": "震波",
+      "en": "Shock"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 930,
+      "zh": "裂光星",
+      "en": "Splitlight Star"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 931,
+      "zh": "三裂",
+      "en": "Split"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 939,
+      "zh": "磁涡星",
+      "en": "Magnet Star"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 940,
+      "zh": "牵引",
+      "en": "Pull"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 948,
+      "zh": "爆燃星",
+      "en": "Blast Star"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 949,
+      "zh": "爆破",
+      "en": "Blast"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 960,
+      "zh": "风口试射",
+      "en": "Wind Gap Test Shot"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 960,
+      "zh": "顺风托起第一发弹丸，击穿玻璃横梁完成校准。",
+      "en": "Let the tailwind lift your first shot and break the glass beam to calibrate."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 961,
+      "zh": "不换风完成",
+      "en": "Finish without shifting wind"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 966,
+      "zh": "斜塔回声",
+      "en": "Leaning Tower Echo"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 966,
+      "zh": "逆风与倾斜支柱会改变倒塌方向，寻找一次连锁两枚晶核的角度。",
+      "en": "Headwind and tilted pillars change the collapse direction; find an angle that chains two crystals."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 967,
+      "zh": "单发击破 2 核",
+      "en": "Break 2 crystals in one shot"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 972,
+      "zh": "爆桶栈桥",
+      "en": "Barrel Trestle"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 972,
+      "zh": "引爆红色风桶，把局部冲击扩散成整座栈桥的连锁。",
+      "en": "Detonate the red wind barrels to spread a local impact into a chain across the whole trestle."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 973,
+      "zh": "引爆 2 个风桶",
+      "en": "Detonate 2 wind barrels"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 978,
+      "zh": "磁涡双门",
+      "en": "Magnet Double Gate"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 978,
+      "zh": "钢门不可摧毁，磁涡星可以把两侧结构拉进门内相撞。",
+      "en": "Steel gates cannot be destroyed; Magnet Stars can pull structures from both sides into the gate to collide."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 979,
+      "zh": "技能不超过 2 次",
+      "en": "Use skills at most 2 times"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 984,
+      "zh": "三塔压轴",
+      "en": "Three-Tower Finale"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 984,
+      "zh": "三座不同材料的塔群要求连续切换弹丸思路。",
+      "en": "Three towers of different materials demand constantly switching projectile ideas."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 985,
+      "zh": "节点得分 9200",
+      "en": "Node score 9200"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 990,
+      "zh": "岚眼守门",
+      "en": "Gale Eye Guardian"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 990,
+      "zh": "第一枚多层风眼藏在双塔中心，击穿护塔后持续破坏核心。",
+      "en": "The first multi-layer storm eye hides in the middle of twin towers; break the tower guard, then keep damaging the core."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 991,
+      "zh": "不换风击破风眼",
+      "en": "Break the storm eye without shifting wind"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 996,
+      "zh": "玻璃合唱",
+      "en": "Glass Chorus"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 996,
+      "zh": "脆弱玻璃构成高塔，裂光星能从多个角度同时敲响结构。",
+      "en": "Fragile glass forms tall towers; Splitlight Stars can strike the structure from many angles at once."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 997,
+      "zh": "击碎 5 块玻璃",
+      "en": "Shatter 5 glass blocks"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1002,
+      "zh": "脉风棋盘",
+      "en": "Pulse Wind Chessboard"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1002,
+      "zh": "风场周期性增强与减弱，观察风线后再决定释放时机。",
+      "en": "The wind field strengthens and weakens periodically; watch the wind lines before choosing when to fire."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1003,
+      "zh": "至少换风 1 次",
+      "en": "Shift wind at least once"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1008,
+      "zh": "浮城断桥",
+      "en": "Floating City Broken Bridge"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1008,
+      "zh": "低重力延长飞行时间，适合在高点释放分裂与磁涡。",
+      "en": "Low gravity extends flight time, ideal for releasing splits and magnets from high points."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1009,
+      "zh": "单发击破 3 核",
+      "en": "Break 3 crystals in one shot"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1014,
+      "zh": "重雨钟楼",
+      "en": "Heavy Rain Bell Tower"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1014,
+      "zh": "强重力压低抛物线，爆燃星需要更直接地命中承重点。",
+      "en": "Strong gravity flattens the arc; Blast Stars need to hit load-bearing points more directly."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1015,
+      "zh": "技能不超过 1 次",
+      "en": "Use skills at most 1 time"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1020,
+      "zh": "装甲回廊",
+      "en": "Armored Corridor"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1020,
+      "zh": "蓝色装甲晶核更耐冲击，利用结构重量而非只靠直接命中。",
+      "en": "Blue armored crystals resist impact better; use structural weight, not just direct hits."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1021,
+      "zh": "节点得分 10800",
+      "en": "Node score 10800"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1026,
+      "zh": "雷幕双眼",
+      "en": "Thunder Curtain Twin Eyes"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1026,
+      "zh": "两枚风眼在脉动风场中共振，先拆分防线再同时压垮核心。",
+      "en": "Two storm eyes resonate in the pulsing wind field; split the defense first, then crush the cores together."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1032,
+      "zh": "逆岚镜塔",
+      "en": "Counterstorm Mirror Towers"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1032,
+      "zh": "镜像塔群在反向强风中互相支撑，破坏一侧会改变另一侧落点。",
+      "en": "Mirrored tower clusters support each other in reverse strong wind; breaking one side changes where the other falls."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1038,
+      "zh": "雷桶星座",
+      "en": "Thunder Barrel Constellation"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1038,
+      "zh": "分散爆桶组成星座，正确的第一颗会点亮整条爆破路径。",
+      "en": "Scattered blast barrels form a constellation; the right first one lights the whole blast path."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1039,
+      "zh": "引爆 4 个风桶",
+      "en": "Detonate 4 wind barrels"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1044,
+      "zh": "失重祭坛",
+      "en": "Zero-G Altar"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1044,
+      "zh": "极低重力让残骸长时间漂浮，磁涡可把它们重新聚成撞击群。",
+      "en": "Extremely low gravity lets wreckage float for a long time; magnets can regroup it into an impact swarm."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1050,
+      "zh": "钢脊裂谷",
+      "en": "Steel Ridge Rift"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1050,
+      "zh": "不可摧毁的钢脊把战场切成三段，只能让冲击穿过狭窄窗口。",
+      "en": "Indestructible steel ridges cut the battlefield into three parts; impact can only pass through narrow windows."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1056,
+      "zh": "风暴坩埚",
+      "en": "Storm Crucible"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1056,
+      "zh": "脉动风、重力变化和混合材料在同一座坩埚中叠加。",
+      "en": "Pulsing wind, gravity changes and mixed materials stack in a single crucible."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1057,
+      "zh": "节点得分 13600",
+      "en": "Node score 13600"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1062,
+      "zh": "终局风眼拥有厚重核心与三枚护卫，必须调度全部弹丸完成最终连锁。",
+      "en": "The final storm eye has a thick core and three guards; use every projectile to finish the last chain."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1063,
+      "zh": "单发击破 4 核",
+      "en": "Break 4 crystals in one shot"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1214,
+      "zh": "存档码校验失败",
+      "en": "Save code verification failed"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1216,
+      "zh": "不是弹弓风暴 V4 存档",
+      "en": "Not a Slingstorm V4 save"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1246,
+      "zh": "/54 · 光核 ",
+      "en": "/54 · Cores "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1246,
+      "zh": " · 解锁 ",
+      "en": " · Unlocked "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1260,
+      "zh": "\">第 ",
+      "en": "\">Node "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1260,
+      "zh": " 节点 · ",
+      "en": " · "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1260,
+      "zh": "\">★ 完成节点</span><span class=\"challenge-chip ",
+      "en": "\">★ Clear node</span><span class=\"challenge-chip "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1260,
+      "zh": " 发内完成</span><span class=\"challenge-chip ",
+      "en": " shots or fewer</span><span class=\"challenge-chip "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1265,
+      "zh": "已满级",
+      "en": "Max level"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1265,
+      "zh": "光核 ",
+      "en": "Cores "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1267,
+      "zh": "进入第 ",
+      "en": "Enter node "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1267,
+      "zh": " 节点",
+      "en": "."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1644,
+      "zh": "风眼核心崩解",
+      "en": "Storm eye core collapses"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1644,
+      "zh": "晶核碎裂 +",
+      "en": "Crystal shattered +"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1653,
+      "zh": "爆桶连锁",
+      "en": "Barrel chain"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1702,
+      "zh": "冲击星释放震波",
+      "en": "Impact Star shockwave"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1705,
+      "zh": "裂光星三裂",
+      "en": "Splitlight Star splits in three"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1719,
+      "zh": "磁涡展开",
+      "en": "Magnet vortex opens"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1723,
+      "zh": "爆燃星引爆",
+      "en": "Blast Star detonates"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1758,
+      "zh": "风向切换",
+      "en": "Wind shifted"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1879,
+      "zh": "关卡完成",
+      "en": "Level complete"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1880,
+      "zh": " 分 · 光核 +",
+      "en": " pts · Cores +"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1880,
+      "zh": " · 里程碑 +",
+      "en": " · Milestone +"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1881,
+      "zh": "返回远征站",
+      "en": "Back to base"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1881,
+      "zh": "下一节点",
+      "en": "Next node"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1883,
+      "zh": "完成 ",
+      "en": "Cleared "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1887,
+      "zh": "挑战失败",
+      "en": "Challenge failed"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1888,
+      "zh": "晶核还没有全部碎裂，换个角度再试。",
+      "en": "Not every crystal has shattered; try another angle."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1889,
+      "zh": "重新挑战",
+      "en": "Retry"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 1891,
+      "zh": "还差一点",
+      "en": "Almost there"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2031,
+      "zh": "准备",
+      "en": "Ready"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2032,
+      "zh": "蓄力",
+      "en": "Charging"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2033,
+      "zh": "飞行中",
+      "en": "In flight"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2034,
+      "zh": "结算",
+      "en": "Settling"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2035,
+      "zh": "弹丸用尽",
+      "en": "Out of shots"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2036,
+      "zh": "完成",
+      "en": "Complete"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2037,
+      "zh": "失败",
+      "en": "Failed"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2042,
+      "zh": "风眼 ",
+      "en": "Eye "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2045,
+      "zh": " · 第 ",
+      "en": " · Node "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2046,
+      "zh": "完成 · ",
+      "en": "Goal: "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2046,
+      "zh": " 发内 · ",
+      "en": " shots or fewer · "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2049,
+      "zh": "换风 ",
+      "en": "Wind shift "
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2096,
+      "zh": "静",
+      "en": "Calm"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2486,
+      "zh": "暂停",
+      "en": "Paused"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2486,
+      "zh": "继续",
+      "en": "Resumed"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2491,
+      "zh": "当前弹丸进度不会保留，返回远征站？",
+      "en": "Progress on the current shot will not be kept. Return to base?"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2551,
+      "zh": "弹弓风暴 V4 存档码（已尝试复制）",
+      "en": "Slingstorm V4 save code (copy attempted)"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2554,
+      "zh": "粘贴弹弓风暴 V4 存档码：",
+      "en": "Paste Slingstorm V4 save code:"
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2558,
+      "zh": "存档导入成功，远征与工坊数据已恢复。",
+      "en": "Save imported; expedition and workshop data restored."
+    },
+    {
+      "file": "slingstorm.html",
+      "kind": "js",
+      "line": 2560,
+      "zh": "导入失败：",
+      "en": "Import failed: "
+    }
+  ]
+}

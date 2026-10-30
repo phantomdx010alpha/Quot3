@@ -1,0 +1,1798 @@
+{
+  "version": 1,
+  "game": "breakout",
+  "entries": [
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "中文",
+      "en": "ZH"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "日本語",
+      "en": "JA"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 25,
+      "zh": "한국어",
+      "en": "KO"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 27,
+      "zh": "切换语言",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "言語を切り替え",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 28,
+      "zh": "언어 변경",
+      "en": "Switch language"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "返回游戏库",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 161,
+      "zh": "ゲーム一覧へ戻る",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/i18n.js",
+      "kind": "js",
+      "line": 162,
+      "zh": "게임 목록으로",
+      "en": "Back to game library"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 33,
+      "zh": "切换到白天",
+      "en": "Switch to light"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 34,
+      "zh": "切换到夜间",
+      "en": "Switch to dark"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "上",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 65,
+      "zh": "위",
+      "en": "Up"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "下",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 66,
+      "zh": "아래",
+      "en": "Down"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "左",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 67,
+      "zh": "왼쪽",
+      "en": "Left"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "右",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 68,
+      "zh": "오른쪽",
+      "en": "Right"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "暂停",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "一時停止",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 69,
+      "zh": "일시정지",
+      "en": "pause"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "声音",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "サウンド",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 70,
+      "zh": "소리",
+      "en": "Sound"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "主题",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "テーマ",
+      "en": "Theme"
+    },
+    {
+      "file": "assets/theme.js",
+      "kind": "js",
+      "line": 72,
+      "zh": "테마",
+      "en": "Theme"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 6,
+      "zh": "打砖块网页版：10 个精心设计的关卡，硬砖、钢砖、爆炸砖，加长、多球、激光、火球、磁吸等 8 种道具，连击加分，鼠标、键盘、触屏都能玩。",
+      "en": "Breakout for the web: 10 carefully designed levels, hard, steel and explosive bricks, 8 power-ups (expand, multi-ball, laser, fireball, catch and more), combo scoring; play with mouse, keyboard or touch."
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 9,
+      "zh": "打砖块 · 弹射街机",
+      "en": "Breakout · Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "attr",
+      "line": 10,
+      "zh": "打砖块网页版：10 个关卡，硬砖、钢砖、爆炸砖，8 种道具，连击加分。",
+      "en": "Breakout for the web: 10 levels, hard, steel and explosive bricks, 8 power-ups, combo scoring."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 21,
+      "zh": "打砖块 · 弹射街机",
+      "en": "Breakout · Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 22,
+      "zh": "打砖块网页版：10 个关卡，硬砖、钢砖、爆炸砖，8 种道具，连击加分。",
+      "en": "Breakout for the web: 10 levels, hard, steel and explosive bricks, 8 power-ups, combo scoring."
+    },
+    {
+      "file": "index.html",
+      "kind": "json",
+      "line": 24,
+      "zh": "街机",
+      "en": "Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 32,
+      "zh": "打砖块 · 弹射街机",
+      "en": "Breakout · Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "打砖块",
+      "en": "Breakout"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 44,
+      "zh": "弹射街机",
+      "en": "Arcade Bounce"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 45,
+      "zh": "接住小球，把砖墙一块块敲碎！",
+      "en": "Keep the ball alive and smash the wall brick by brick!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 61,
+      "zh": "选择关卡",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 63,
+      "zh": "🚀 开始游戏",
+      "en": "🚀 Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "移动",
+      "en": "move"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "发球 / 射击",
+      "en": "launch / fire"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 64,
+      "zh": "暂停",
+      "en": "pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 70,
+      "zh": "⏸ 暂停中",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "▶ 继续",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 71,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 79,
+      "zh": "新纪录！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 87,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 88,
+      "zh": "🖱️ 鼠标左右移动球拍，点击发球",
+      "en": "🖱️ Move the mouse to steer, click to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 89,
+      "zh": "👆 触屏：手指在画面上左右拖动，轻点发球",
+      "en": "👆 Touch: drag left/right, tap to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 91,
+      "zh": "🎯 打在球拍边缘角度更斜，中间更直",
+      "en": "🎯 Edge hits bounce wide, center hits go straight"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 93,
+      "zh": "🎁 道具图鉴",
+      "en": "🎁 Power-ups"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 95,
+      "zh": "加长",
+      "en": "Expand"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 95,
+      "zh": "球拍变宽 ·",
+      "en": "wider paddle ·"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 95,
+      "zh": "⚪ 多球",
+      "en": "⚪ Multi"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 95,
+      "zh": "一变三",
+      "en": "one ball becomes three"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "激光",
+      "en": "Laser"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "点击发射子弹 ·",
+      "en": "click to shoot ·"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "🔥 火球",
+      "en": "🔥 Fireball"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 96,
+      "zh": "穿透砖块",
+      "en": "pierces bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 97,
+      "zh": "磁吸",
+      "en": "Catch"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 97,
+      "zh": "接住球再瞄准 ·",
+      "en": "hold the ball and aim ·"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 97,
+      "zh": "🐢 慢速",
+      "en": "🐢 Slow"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 97,
+      "zh": "球变慢",
+      "en": "calmer ball"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "加命",
+      "en": "Life"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "多一条命 ·",
+      "en": "+1 life ·"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "💀 缩短",
+      "en": "💀 Shrink"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 98,
+      "zh": "小心别接！",
+      "en": "avoid this one!"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 101,
+      "zh": "🧠 闯关秘诀",
+      "en": "🧠 Pro Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 102,
+      "zh": "想办法把球送进砖墙上方的空隙，它会在顶上来回弹，一口气清掉一大片！灰色钢砖打不碎，红色爆炸砖能炸开周围一圈，连续击砖不碰球拍会叠加连击倍率。",
+      "en": "Sneak the ball above the wall and it will rattle around the top clearing tons of bricks! Grey steel bricks are unbreakable, red TNT bricks blast their neighbors, and chaining hits without touching the paddle stacks a combo multiplier."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 106,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 106,
+      "zh": "打砖块（Breakout / Arkanoid）网页版：移动球拍把小球弹回去，敲碎所有砖块即可过关。共 10 个关卡，包含普通砖、硬砖、钢砖、爆炸砖和问号砖，掉落加长、多球、激光、火球、磁吸、慢速、加命、缩短 8 种道具，连续击砖还有连击倍率。支持鼠标、键盘和触屏，完全免费。",
+      "en": "Breakout / Arkanoid in your browser: bounce the ball with your paddle and break every brick to clear the level. 10 handcrafted levels with normal, hard, steel, TNT and mystery bricks, plus 8 power-ups — expand, multi-ball, laser, fireball, catch, slow, extra life and shrink — and a combo multiplier. Mouse, keyboard and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "text",
+      "line": 107,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 支持鼠标、键盘和触屏",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "打砖块 · 弹射街机",
+      "en": "Breakout · Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "打砖块",
+      "en": "Breakout"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "弹射街机",
+      "en": "Arcade Bounce"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 114,
+      "zh": "接住小球，把砖墙一块块敲碎！",
+      "en": "Keep the ball alive and smash the wall brick by brick!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "选择关卡",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "🚀 开始游戏",
+      "en": "🚀 Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "移动",
+      "en": "move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "发球 / 射击",
+      "en": "launch / fire"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 115,
+      "zh": "暂停",
+      "en": "pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "⏸ 暂停中",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "▶ 继续",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "菜单",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 116,
+      "zh": "新纪录！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 117,
+      "zh": "🎮 操作",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 117,
+      "zh": "🖱️ 鼠标左右移动球拍，点击发球",
+      "en": "🖱️ Move the mouse to steer, click to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 117,
+      "zh": "👆 触屏：手指在画面上左右拖动，轻点发球",
+      "en": "👆 Touch: drag left/right, tap to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 117,
+      "zh": "🎯 打在球拍边缘角度更斜，中间更直",
+      "en": "🎯 Edge hits bounce wide, center hits go straight"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 118,
+      "zh": "🎁 道具图鉴",
+      "en": "🎁 Power-ups"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 118,
+      "zh": "加长：球拍变宽 · 多球：一变三",
+      "en": "Expand: wider paddle · Multi: one ball becomes three"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 118,
+      "zh": "激光：点击发射子弹 · 火球：穿透砖块",
+      "en": "Laser: click to shoot · Fireball: pierces bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 118,
+      "zh": "磁吸：接住球再瞄准 · 慢速：球变慢",
+      "en": "Catch: hold the ball and aim · Slow: calmer ball"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 118,
+      "zh": "加命：多一条命 · 缩短：小心别接！",
+      "en": "Life: +1 life · Shrink: avoid this one!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 119,
+      "zh": "🧠 闯关秘诀",
+      "en": "🧠 Pro Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 119,
+      "zh": "想办法把球送进砖墙上方的空隙，它会在顶上来回弹，一口气清掉一大片！灰色钢砖打不碎，红色爆炸砖能炸开周围一圈，连续击砖不碰球拍会叠加连击倍率。",
+      "en": "Sneak the ball above the wall and it will rattle around the top clearing tons of bricks! Grey steel bricks are unbreakable, red TNT bricks blast their neighbors, and chaining hits without touching the paddle stacks a combo multiplier."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 120,
+      "zh": "📖 关于这款游戏",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 121,
+      "zh": "打砖块（Breakout / Arkanoid）网页版：移动球拍把小球弹回去，敲碎所有砖块即可过关。共 10 个关卡，包含普通砖、硬砖、钢砖、爆炸砖和问号砖，掉落加长、多球、激光、火球、磁吸、慢速、加命、缩短 8 种道具，连续击砖还有连击倍率。支持鼠标、键盘和触屏，完全免费。",
+      "en": "Breakout / Arkanoid in your browser: bounce the ball with your paddle and break every brick to clear the level. 10 handcrafted levels with normal, hard, steel, TNT and mystery bricks, plus 8 power-ups — expand, multi-ball, laser, fireball, catch, slow, extra life and shrink — and a combo multiplier. Mouse, keyboard and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 122,
+      "zh": "🕹️ 打开即玩 · 完全免费 · 支持鼠标、键盘和触屏",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 122,
+      "zh": "声音开 / 关 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 123,
+      "zh": "第 ",
+      "en": "Level "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 123,
+      "zh": " 关",
+      "en": "​"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 123,
+      "zh": "🏆 最高分：",
+      "en": "🏆 Best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 124,
+      "zh": "分数",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 124,
+      "zh": "关卡",
+      "en": "LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 124,
+      "zh": "点击 / 空格 发球",
+      "en": "Click / Space to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": "球拍失守",
+      "en": "Game Over"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": "全部通关！",
+      "en": "All Levels Cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 125,
+      "zh": " 关完成！",
+      "en": " cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "🔄 再来一次",
+      "en": "🔄 Try Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "▶ 下一关",
+      "en": "▶ Next Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 126,
+      "zh": "🔄 从头再来",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "击碎砖块",
+      "en": "Bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "最高连击",
+      "en": "Best combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 127,
+      "zh": "最高分",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 128,
+      "zh": "连击 ×",
+      "en": "COMBO ×"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "加长！",
+      "en": "Expand!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "多球！",
+      "en": "Multi-ball!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "激光！",
+      "en": "Laser!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "火球！",
+      "en": "Fireball!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "磁吸！",
+      "en": "Catch!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "慢速",
+      "en": "Slow"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "+1 命",
+      "en": "+1 Life"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 129,
+      "zh": "缩短…",
+      "en": "Shrink…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "热身",
+      "en": "Warm-up"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "金字塔",
+      "en": "Pyramid"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "棋盘",
+      "en": "Checker"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "堡垒",
+      "en": "Fortress"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "爱心",
+      "en": "Heart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "条纹",
+      "en": "Stripes"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "入侵者",
+      "en": "Invader"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "迷宫",
+      "en": "Maze"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "钻石",
+      "en": "Diamond"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 130,
+      "zh": "终极",
+      "en": "Finale"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 152,
+      "zh": "ブロック崩し · アーケード",
+      "en": "Breakout · Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 152,
+      "zh": "ブロック崩し",
+      "en": "Breakout"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 152,
+      "zh": "アーケード",
+      "en": "Arcade Bounce"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 152,
+      "zh": "ボールを打ち返して、ブロックを全部壊そう！",
+      "en": "Keep the ball alive and smash the wall brick by brick!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 153,
+      "zh": "ステージ選択",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 153,
+      "zh": "🚀 ゲームスタート",
+      "en": "🚀 Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 153,
+      "zh": "移動",
+      "en": "move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 153,
+      "zh": "発射 / ショット",
+      "en": "launch / fire"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 153,
+      "zh": "一時停止",
+      "en": "pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 154,
+      "zh": "⏸ 一時停止中",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 154,
+      "zh": "▶ 再開",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 154,
+      "zh": "メニュー",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 154,
+      "zh": "新記録！",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "🖱️ マウスでパドル移動、クリックで発射",
+      "en": "🖱️ Move the mouse to steer, click to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "👆 タッチ：左右にドラッグ、タップで発射",
+      "en": "👆 Touch: drag left/right, tap to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 155,
+      "zh": "🎯 端で打つと斜めに、中央だとまっすぐ飛ぶ",
+      "en": "🎯 Edge hits bounce wide, center hits go straight"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "🎁 アイテム図鑑",
+      "en": "🎁 Power-ups"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "ロング：パドル拡大 · マルチ：ボールが3つに",
+      "en": "Expand: wider paddle · Multi: one ball becomes three"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "レーザー：クリックで発射 · ファイア：ブロック貫通",
+      "en": "Laser: click to shoot · Fireball: pierces bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "キャッチ：ボールを止めて狙う · スロー：ボール減速",
+      "en": "Catch: hold the ball and aim · Slow: calmer ball"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 156,
+      "zh": "ライフ：残機+1 · ショート：取らないで！",
+      "en": "Life: +1 life · Shrink: avoid this one!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "🧠 攻略のコツ",
+      "en": "🧠 Pro Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 157,
+      "zh": "ボールを壁の上の隙間に送り込めば、上で跳ね回って一気に壊せる！灰色の鋼鉄ブロックは壊れず、赤いTNTは周りごと爆破。パドルに触れず連続ヒットするとコンボ倍率アップ。",
+      "en": "Sneak the ball above the wall and it will rattle around the top clearing tons of bricks! Grey steel bricks are unbreakable, red TNT bricks blast their neighbors, and chaining hits without touching the paddle stacks a combo multiplier."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 158,
+      "zh": "📖 このゲームについて",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 159,
+      "zh": "ブラウザで遊べるブロック崩し：パドルでボールを打ち返し、全ブロックを壊せばクリア。10ステージ、通常・硬い・鋼鉄・TNT・？ブロック、ロング・マルチ・レーザー・ファイア・キャッチ・スロー・ライフ・ショートの8種アイテム、コンボ倍率。マウス・キーボード・タッチ対応、完全無料。",
+      "en": "Breakout / Arkanoid in your browser: bounce the ball with your paddle and break every brick to clear the level. 10 handcrafted levels with normal, hard, steel, TNT and mystery bricks, plus 8 power-ups — expand, multi-ball, laser, fireball, catch, slow, extra life and shrink — and a combo multiplier. Mouse, keyboard and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "🕹️ すぐ遊べる · 完全無料 · マウス・キーボード・タッチ対応",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 160,
+      "zh": "サウンド ON/OFF (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "ステージ ",
+      "en": "Level "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 161,
+      "zh": "🏆 ハイスコア：",
+      "en": "🏆 Best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "スコア",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "ステージ",
+      "en": "LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 162,
+      "zh": "クリック / スペースで発射",
+      "en": "Click / Space to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "ゲームオーバー",
+      "en": "Game Over"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": "全ステージクリア！",
+      "en": "All Levels Cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 163,
+      "zh": " クリア！",
+      "en": " cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "🔄 もう一回",
+      "en": "🔄 Try Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "▶ 次のステージ",
+      "en": "▶ Next Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 164,
+      "zh": "🔄 最初から",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "破壊数",
+      "en": "Bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "最大コンボ",
+      "en": "Best combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 165,
+      "zh": "ハイスコア",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 166,
+      "zh": "コンボ ×",
+      "en": "COMBO ×"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "ロング！",
+      "en": "Expand!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "マルチ！",
+      "en": "Multi-ball!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "レーザー！",
+      "en": "Laser!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "ファイア！",
+      "en": "Fireball!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "キャッチ！",
+      "en": "Catch!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "スロー",
+      "en": "Slow"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "残機+1",
+      "en": "+1 Life"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 167,
+      "zh": "ショート…",
+      "en": "Shrink…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "ウォームアップ",
+      "en": "Warm-up"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "ピラミッド",
+      "en": "Pyramid"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "チェッカー",
+      "en": "Checker"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "要塞",
+      "en": "Fortress"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "ハート",
+      "en": "Heart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "ストライプ",
+      "en": "Stripes"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "インベーダー",
+      "en": "Invader"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "迷路",
+      "en": "Maze"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "ダイヤ",
+      "en": "Diamond"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 168,
+      "zh": "フィナーレ",
+      "en": "Finale"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "벽돌깨기 · 아케이드",
+      "en": "Breakout · Arcade"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "벽돌깨기",
+      "en": "Breakout"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "아케이드",
+      "en": "Arcade Bounce"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 171,
+      "zh": "공을 받아쳐서 벽돌을 하나씩 깨부수세요!",
+      "en": "Keep the ball alive and smash the wall brick by brick!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "스테이지 선택",
+      "en": "SELECT LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "🚀 게임 시작",
+      "en": "🚀 Start Game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "이동",
+      "en": "move"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "발사 / 사격",
+      "en": "launch / fire"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 172,
+      "zh": "일시정지",
+      "en": "pause"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "⏸ 일시정지",
+      "en": "⏸ Paused"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "▶ 계속",
+      "en": "▶ Resume"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "메뉴",
+      "en": "Menu"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 173,
+      "zh": "신기록!",
+      "en": "NEW RECORD!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "🎮 조작",
+      "en": "🎮 Controls"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "🖱️ 마우스로 패들 이동, 클릭해서 발사",
+      "en": "🖱️ Move the mouse to steer, click to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "👆 터치: 좌우로 드래그, 탭해서 발사",
+      "en": "👆 Touch: drag left/right, tap to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 174,
+      "zh": "🎯 가장자리에 맞으면 비스듬히, 가운데면 곧게",
+      "en": "🎯 Edge hits bounce wide, center hits go straight"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "🎁 아이템 도감",
+      "en": "🎁 Power-ups"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "확장: 패들이 넓어짐 · 멀티: 공이 셋으로",
+      "en": "Expand: wider paddle · Multi: one ball becomes three"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "레이저: 클릭으로 발사 · 파이어: 벽돌 관통",
+      "en": "Laser: click to shoot · Fireball: pierces bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "캐치: 공을 잡고 조준 · 슬로: 공 감속",
+      "en": "Catch: hold the ball and aim · Slow: calmer ball"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 175,
+      "zh": "라이프: 목숨 +1 · 축소: 피하세요!",
+      "en": "Life: +1 life · Shrink: avoid this one!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 176,
+      "zh": "🧠 공략 비결",
+      "en": "🧠 Pro Tips"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 176,
+      "zh": "공을 벽 위 빈틈으로 보내면 위에서 튕기며 한꺼번에 많이 깹니다! 회색 강철 벽돌은 깨지지 않고, 빨간 TNT는 주변까지 폭파. 패들에 닿지 않고 연속으로 맞히면 콤보 배율이 올라가요.",
+      "en": "Sneak the ball above the wall and it will rattle around the top clearing tons of bricks! Grey steel bricks are unbreakable, red TNT bricks blast their neighbors, and chaining hits without touching the paddle stacks a combo multiplier."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 177,
+      "zh": "📖 게임 소개",
+      "en": "📖 About this game"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 178,
+      "zh": "브라우저에서 즐기는 벽돌깨기: 패들로 공을 받아쳐 모든 벽돌을 깨면 클리어. 10개 스테이지, 일반·단단한·강철·TNT·물음표 벽돌, 확장·멀티·레이저·파이어·캐치·슬로·라이프·축소 8가지 아이템과 콤보 배율. 마우스·키보드·터치 지원, 완전 무료.",
+      "en": "Breakout / Arkanoid in your browser: bounce the ball with your paddle and break every brick to clear the level. 10 handcrafted levels with normal, hard, steel, TNT and mystery bricks, plus 8 power-ups — expand, multi-ball, laser, fireball, catch, slow, extra life and shrink — and a combo multiplier. Mouse, keyboard and touch, completely free."
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "🕹️ 바로 플레이 · 완전 무료 · 마우스·키보드·터치 지원",
+      "en": "🕹️ Play instantly · Free · Mouse, keyboard & touch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 179,
+      "zh": "사운드 켜기/끄기 (M)",
+      "en": "Sound on/off (M)"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "스테이지 ",
+      "en": "Level "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 180,
+      "zh": "🏆 최고 점수: ",
+      "en": "🏆 Best: "
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "점수",
+      "en": "SCORE"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "스테이지",
+      "en": "LEVEL"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 181,
+      "zh": "클릭 / 스페이스로 발사",
+      "en": "Click / Space to launch"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "게임 오버",
+      "en": "Game Over"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": "전 스테이지 클리어!",
+      "en": "All Levels Cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 182,
+      "zh": " 클리어!",
+      "en": " cleared!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "🔄 다시 하기",
+      "en": "🔄 Try Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "▶ 다음 스테이지",
+      "en": "▶ Next Level"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 183,
+      "zh": "🔄 처음부터",
+      "en": "🔄 Play Again"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "깬 벽돌",
+      "en": "Bricks"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "최고 콤보",
+      "en": "Best combo"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 184,
+      "zh": "최고 점수",
+      "en": "Best"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 185,
+      "zh": "콤보 ×",
+      "en": "COMBO ×"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "확장!",
+      "en": "Expand!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "멀티볼!",
+      "en": "Multi-ball!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "레이저!",
+      "en": "Laser!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "파이어볼!",
+      "en": "Fireball!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "캐치!",
+      "en": "Catch!"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "슬로",
+      "en": "Slow"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "목숨 +1",
+      "en": "+1 Life"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 186,
+      "zh": "축소…",
+      "en": "Shrink…"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "워밍업",
+      "en": "Warm-up"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "피라미드",
+      "en": "Pyramid"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "체커",
+      "en": "Checker"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "요새",
+      "en": "Fortress"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "하트",
+      "en": "Heart"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "줄무늬",
+      "en": "Stripes"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "인베이더",
+      "en": "Invader"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "미로",
+      "en": "Maze"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "다이아",
+      "en": "Diamond"
+    },
+    {
+      "file": "index.html",
+      "kind": "js",
+      "line": 187,
+      "zh": "피날레",
+      "en": "Finale"
+    }
+  ]
+}

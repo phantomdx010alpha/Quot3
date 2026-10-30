@@ -812,21 +812,21 @@
     reset();
     hideOverlays();
     state = 'playing';
-    btnPause.textContent = '暂停';
+    btnPause.textContent = 'Pause';
   }
 
   function pauseGame() {
     if (state !== 'playing') return;
     state = 'paused';
     pauseOverlay.classList.add('show');
-    btnPause.textContent = '继续';
+    btnPause.textContent = 'Resume';
   }
 
   function resumeGame() {
     if (state !== 'paused') return;
     pauseOverlay.classList.remove('show');
     state = 'playing';
-    btnPause.textContent = '暂停';
+    btnPause.textContent = 'Pause';
   }
 
   function togglePause() {
@@ -923,7 +923,7 @@
       ctx.shadowColor = 'rgba(34,211,238,.9)';
       ctx.shadowBlur = 18;
       ctx.fillStyle = 'rgba(238,240,255,.95)';
-      ctx.fillText('按 方向键 / WASD 开始移动（Q/E 旋转视角）', W / 2, H * 0.14);
+      ctx.fillText('Press arrow keys / WASD to start moving (Q/E rotate the view)', W / 2, H * 0.14);
       ctx.restore();
     }
   }

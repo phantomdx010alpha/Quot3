@@ -12,7 +12,9 @@ export async function loadGamesEnabled(): Promise<boolean> {
   try {
     const r = await bridge()?.settings?.get('games.enabled')
     const on = r?.ok ? r.data.value !== false : true
-    useGamesStore.setState({ enabled: on })
+    // Phase 205: the language switch is read together with the on / off switch (anything but `true` = hidden).
+    const c = await bridge()?.settings?.get('games.showChinese')
+    useGamesStore.setState({ enabled: on, showChinese: c?.ok ? c.data.value === true : false })
     return on
   } catch { return useGamesStore.getState().enabled }
 }
@@ -70,6 +72,16 @@ export async function openRandomGame(): Promise<boolean> {
 
 export async function clearGamesData(): Promise<void> {
   await saveState(emptyGamesState())
+}
+
+/** Phase 205: turns the games with a Chinese interface on or off in the lists (`games.showChinese`). */
+export async function setShowChinese(on: boolean): Promise<boolean> {
+  try {
+    const r = await bridge()?.settings?.set('games.showChinese', on)
+    if (r?.ok) { useGamesStore.setState({ showChinese: on }); return true }
+    if (r) useGamesStore.setState({ error: r.error.message })
+  } catch (e) { useGamesStore.setState({ error: msg(e) }) }
+  return false
 }
 
 export async function setGamesEnabled(on: boolean): Promise<boolean> {

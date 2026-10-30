@@ -1,0 +1,1447 @@
+{
+  "version": 1,
+  "game": "auto-chess-forge",
+  "entries": [
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 4,
+      "zh": "符文自走棋：群星赛季",
+      "en": "Rune Auto Chess: Starry Season"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 12,
+      "zh": "经营利息，侦察对手，组合双系羁绊与装备。攻速改变出手频率，不增加单次伤害；最高3倍。",
+      "en": "Manage interest, scout opponents, and combine two-trait bonds with gear. Attack speed changes how often units attack, not damage per hit; capped at 3x."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 12,
+      "zh": "生命",
+      "en": "Life"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 12,
+      "zh": "金币",
+      "en": "Gold"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 12,
+      "zh": "等级 / 经验",
+      "en": "Level / XP"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 12,
+      "zh": "回合",
+      "en": "Round"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 12,
+      "zh": "连胜",
+      "en": "Streak"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 13,
+      "zh": "备战阶段 ·",
+      "en": "Prep phase ·"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 13,
+      "zh": "部署 2 名英雄",
+      "en": "Deploy 2 heroes"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 13,
+      "zh": "基础收入 5 · 利息 0",
+      "en": "Base income 5 · Interest 0"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 14,
+      "zh": "下一位对手",
+      "en": "Next opponent"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 14,
+      "zh": "阵容羁绊",
+      "en": "Team bonds"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 14,
+      "zh": "装备库 · 先选英雄再装备",
+      "en": "Gear · pick a hero, then equip"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "备战席",
+      "en": "Bench"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "点击英雄后再点棋盘部署；三枚同名同星自动合成",
+      "en": "Click a hero, then click the board to deploy; three of the same name and star merge automatically"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "刷新 2",
+      "en": "Refresh 2"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "锁定商店",
+      "en": "Lock shop"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "研习经验 4",
+      "en": "Study XP 4"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "出售选中",
+      "en": "Sell selected"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "开始战斗",
+      "en": "Start battle"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "存档码",
+      "en": "Save code"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "新赛季",
+      "en": "New season"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 15,
+      "zh": "选择一位星灵指挥官开始赛季。",
+      "en": "Choose a Star Spirit commander to begin the season."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "选择星灵指挥官",
+      "en": "Choose a Star Spirit commander"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 17,
+      "zh": "指挥官会改变经济或阵容规则。每四回合还能获得一次赛季强化。",
+      "en": "Commanders change the economy or lineup rules. Every four rounds you also gain a season boost."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "赛季强化",
+      "en": "Season boost"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 18,
+      "zh": "选择一项永久强化。",
+      "en": "Pick one permanent boost."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "赛季档案",
+      "en": "Season log"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "text",
+      "line": 19,
+      "zh": "返回棋盘",
+      "en": "Back to board"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "铁壁",
+      "en": "Ironwall"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "守卫",
+      "en": "Guard"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "机械",
+      "en": "Mech"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "技能：获得护盾",
+      "en": "Skill: gain a shield"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "刃舞",
+      "en": "Bladedancer"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "决斗",
+      "en": "Duelist"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "星裔",
+      "en": "Starborn"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "技能：本场提高攻速，最高为基础的3倍",
+      "en": "Skill: raises attack speed this battle, up to 3x base"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "风弦",
+      "en": "Windstring"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "游侠",
+      "en": "Ranger"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "荒野",
+      "en": "Wild"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "技能：狙击低生命敌人",
+      "en": "Skill: snipe low-HP enemies"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "芽医",
+      "en": "Sprout Medic"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "秘术",
+      "en": "Arcane"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 24,
+      "zh": "技能：治疗最弱友军",
+      "en": "Skill: heal the weakest ally"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "熔拳",
+      "en": "Magma Fist"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "炎铸",
+      "en": "Flame"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "技能：火焰溅射",
+      "en": "Skill: fire splash"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "潮卫",
+      "en": "Tide Guard"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "潮汐",
+      "en": "Tide"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "技能：群体减伤",
+      "en": "Skill: group damage reduction"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "霜语",
+      "en": "Frostwhisper"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "法师",
+      "en": "Mage"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "技能：冻结目标",
+      "en": "Skill: freeze target"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "齿轮鸦",
+      "en": "Gear Crow"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 25,
+      "zh": "技能：连续射击",
+      "en": "Skill: rapid fire"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "狼骑",
+      "en": "Wolf Rider"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "技能：扑向后排",
+      "en": "Skill: pounce on the back row"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "星术师",
+      "en": "Astromancer"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "技能：星爆群伤",
+      "en": "Skill: starburst area damage"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "锻炉王",
+      "en": "Forge King"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "技能：锻造护盾",
+      "en": "Skill: forge a shield"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "雾歌",
+      "en": "Mist Song"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 26,
+      "zh": "技能：潮歌群疗",
+      "en": "Skill: tide song group heal"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "雷君",
+      "en": "Thunder Lord"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "技能：连锁闪电",
+      "en": "Skill: chain lightning"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "焰翼",
+      "en": "Flamewing"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "技能：龙焰扫射",
+      "en": "Skill: dragonfire sweep"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "月裁",
+      "en": "Moon Reaper"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "技能：处决残血",
+      "en": "Skill: execute low-HP enemies"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "森之心",
+      "en": "Heart of the Forest"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 27,
+      "zh": "技能：森林复苏",
+      "en": "Skill: forest revival"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 28,
+      "zh": "天穹鲸",
+      "en": "Sky Whale"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 28,
+      "zh": "技能：坠星海啸",
+      "en": "Skill: falling-star tsunami"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 28,
+      "zh": "终焉机神",
+      "en": "Doom Machina"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 28,
+      "zh": "技能：终焉炮击",
+      "en": "Skill: doom cannon barrage"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "守卫",
+      "en": "Guard",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "决斗",
+      "en": "Duelist",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "游侠",
+      "en": "Ranger",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "法师",
+      "en": "Mage",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "秘术",
+      "en": "Arcane",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "机械",
+      "en": "Mech",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "荒野",
+      "en": "Wild",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "炎铸",
+      "en": "Flame",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "潮汐",
+      "en": "Tide",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "other",
+      "line": 30,
+      "zh": "星裔",
+      "en": "Starborn",
+      "risky": true,
+      "note": "auto: Chinese in code outside a string (identifier, label or regex): do not change code; decide by reading"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "风暴刃",
+      "en": "Storm Blade"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "攻击 +7",
+      "en": "ATK +7"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "星铠",
+      "en": "Star Armor"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "生命 +35",
+      "en": "HP +35"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "法力核",
+      "en": "Mana Core"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "初始法力 +25",
+      "en": "Starting mana +25"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "疾风弓",
+      "en": "Gale Bow"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "攻速 +25%",
+      "en": "Attack speed +25%"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "王冠",
+      "en": "Crown"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "全属性强化",
+      "en": "All stats up"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "电容器",
+      "en": "Capacitor"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 31,
+      "zh": "技能伤害 +35%",
+      "en": "Skill damage +35%"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "星港商人",
+      "en": "Starport Merchant"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "每回合利息上限提高到 7；起始金币 +4。",
+      "en": "Per-round interest cap raised to 7; starting gold +4."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "先锋统领",
+      "en": "Vanguard Marshal"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "前两排英雄获得 12% 减伤；起始拥有铁壁。",
+      "en": "Front two rows take 12% less damage; starts with Ironwall."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "万象先知",
+      "en": "Omni Seer"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 32,
+      "zh": "商店每次刷新首格必定至少为 2 费；首次强化提前到第 3 回合。",
+      "en": "The first shop slot after every refresh is always at least cost 2; first boost comes at round 3."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "高利贷",
+      "en": "Loan Shark"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "立即获得 18 金币，但失去 8 生命。",
+      "en": "Gain 18 gold now, but lose 8 life."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "便携锻炉",
+      "en": "Portable Forge"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "立即获得两件随机装备。",
+      "en": "Gain two random pieces of gear now."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "扩编令",
+      "en": "Expansion Order"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "人口上限永久 +1。",
+      "en": "Max deployment +1 permanently."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "复苏之风",
+      "en": "Winds of Revival"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "每次胜利恢复 3 生命。",
+      "en": "Restore 3 life after each win."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "战斗节拍",
+      "en": "Battle Tempo"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "全队攻击速度 +15%。",
+      "en": "Team attack speed +15%."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "符文涌流",
+      "en": "Rune Surge"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "全队技能伤害 +25%。",
+      "en": "Team skill damage +25%."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "精密侦察",
+      "en": "Precise Scouting"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "对手预览更完整，胜利额外 +1 金币。",
+      "en": "Fuller opponent preview; wins give +1 extra gold."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "黄金门票",
+      "en": "Golden Ticket"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "每回合第一次刷新免费。",
+      "en": "The first refresh each round is free."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "背水阵",
+      "en": "Last Stand"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 33,
+      "zh": "生命低于 45 时全队攻击 +20%。",
+      "en": "Team attack +20% when life is below 45."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "雾港猫",
+      "en": "Fog Harbor Cat"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "赤曜骑士",
+      "en": "Crimson Knight"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "月桂学者",
+      "en": "Laurel Scholar"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "齿轮公爵",
+      "en": "Gear Duke"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "潮声女王",
+      "en": "Tide Queen"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "荒原猎手",
+      "en": "Wasteland Hunter"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 34,
+      "zh": "星环冠军",
+      "en": "Star Ring Champion"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "继续战斗",
+      "en": "Continue battle"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 37,
+      "zh": "开始战斗",
+      "en": "Start battle"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "档案资料无效",
+      "en": "Log data invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 42,
+      "zh": "档案统计无效",
+      "en": "Log stats invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 43,
+      "zh": "赛季档案无效",
+      "en": "Season log invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 44,
+      "zh": "赛季数值无效",
+      "en": "Season values invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 45,
+      "zh": "赛季进度无效",
+      "en": "Season progress invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 46,
+      "zh": "英雄资料无效",
+      "en": "Hero data invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 47,
+      "zh": "免费刷新资料无效",
+      "en": "Free refresh data invalid"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "战斗中不能替换赛季",
+      "en": "Cannot replace the season during battle"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "存档码校验失败",
+      "en": "Save code verification failed"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 61,
+      "zh": "存档版本不兼容",
+      "en": "Save version incompatible"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 66,
+      "zh": "金币不足，无法刷新商店",
+      "en": "Not enough gold to refresh the shop"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "金币不足",
+      "en": "Not enough gold"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 67,
+      "zh": "备战席已满",
+      "en": "Bench is full"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 68,
+      "zh": " 合成为 ",
+      "en": " merged into "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 68,
+      "zh": " 星",
+      "en": " star"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 69,
+      "zh": "当前最多部署 ",
+      "en": "Max deployable now: "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 69,
+      "zh": " 名英雄",
+      "en": " heroes"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "先选择一名英雄",
+      "en": "Select a hero first"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 71,
+      "zh": "出售 ",
+      "en": "Sold "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "先选择要装备的英雄",
+      "en": "Select a hero to equip first"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 72,
+      "zh": "每名英雄最多装备三件",
+      "en": "Each hero can carry at most three items"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 72,
+      "zh": " 装备 ",
+      "en": " equipped "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 78,
+      "zh": "生命不足，不能用高利贷结束自己的赛季",
+      "en": "Not enough life to end your season with the loan shark"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 83,
+      "zh": "获得强化：",
+      "en": "Boost gained: "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 85,
+      "zh": "存档已复制",
+      "en": "Save copied"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 85,
+      "zh": "自动复制不可用，存档已选中；请按 Ctrl+C 或长按复制",
+      "en": "Auto-copy unavailable; save selected. Press Ctrl+C or long-press to copy"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "至少部署一名英雄",
+      "en": "Deploy at least one hero"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 87,
+      "zh": "战斗阶段 · <span>接敌 / 射程 / 技能</span>",
+      "en": "Battle phase · <span>Engage / Range / Skill</span>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 88,
+      "zh": "战斗已暂停 · 点击继续战斗",
+      "en": "Battle paused · click to resume"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 120,
+      "zh": "+护盾",
+      "en": "+Shield"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 121,
+      "zh": "守护",
+      "en": "Warded"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 123,
+      "zh": "治疗",
+      "en": "Heal"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "战斗胜利，额外获得 ",
+      "en": "Victory! Earned bonus "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": " 金币",
+      "en": " gold"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "双方战力相当，判为平局；不扣生命，不获胜利奖励",
+      "en": "Evenly matched: a draw; no life lost and no victory reward"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "战斗失利，受到 ",
+      "en": "Battle lost, took "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": " 点伤害",
+      "en": " damage"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "战利品：",
+      "en": "Spoils: "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "赛季结束，整备后再次挑战",
+      "en": "Season over; regroup and challenge again"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 132,
+      "zh": "群星赛季夺冠！",
+      "en": "Star Season Champion!"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "选择赛季强化",
+      "en": "Choose a season boost"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "强化会在本赛季永久生效。",
+      "en": "Boosts last for the rest of this season."
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 133,
+      "zh": "disabled title=\"生命不足，不能选择此强化\"",
+      "en": "disabled title=\"Not enough life to choose this boost\""
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "胜",
+      "en": "W"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "负",
+      "en": "L"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "基础收入 5 · 利息 ",
+      "en": "Base income 5 · Interest "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": " · 连胜奖励 ",
+      "en": " · Streak bonus "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "赛季完成 · <span>群星冠军</span>",
+      "en": "Season complete · <span>Star Champion</span>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "赛季结束 · <span>等待重启</span>",
+      "en": "Season over · <span>Awaiting restart</span>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "备战阶段 · <span>部署 ",
+      "en": "Prep phase · <span>Deploy "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": " 名英雄</span>",
+      "en": " heroes</span>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "<button class=\"offer\" disabled>已招募</button>",
+      "en": "<button class=\"offer\" disabled>Hired</button>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "激活 ",
+      "en": "Active "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "还差 ",
+      "en": "Need "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "<div style=\"color:var(--muted);font-size:12px\">部署英雄后显示羁绊。</div>",
+      "en": "<div style=\"color:var(--muted);font-size:12px\">Bonds appear once heroes are deployed.</div>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "<div style=\"color:var(--muted);font-size:12px\">每三回合获得一件装备。</div>",
+      "en": "<div style=\"color:var(--muted);font-size:12px\">Gain one piece of gear every three rounds.</div>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "</b><small>威胁 ",
+      "en": "</b><small>Threat "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "精英回合",
+      "en": "Elite round"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "常规回合",
+      "en": "Regular round"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "刷新 免费",
+      "en": "Refresh Free"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 137,
+      "zh": "刷新 2",
+      "en": "Refresh 2"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 138,
+      "zh": "加入赛季",
+      "en": "Join season"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "战斗中不能替换档案，请先完成本局",
+      "en": "Cannot replace the log during battle; finish this run first"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "跨设备赛季档案",
+      "en": "Cross-device season log"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "<p class=\"rank\">星阶积分 ",
+      "en": "<p class=\"rank\">Star rank points "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "</p><p>胜场 ",
+      "en": "</p><p>Wins "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": " · 最佳回合 ",
+      "en": " · Best round "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyCode\">复制导出</button><button class=\"btn\" id=\"importCode\">导入上方存档</button></div>",
+      "en": "</textarea><div class=\"controls\"><button class=\"btn\" id=\"copyCode\">Copy export</button><button class=\"btn\" id=\"importCode\">Import code above</button></div>"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 139,
+      "zh": "存档导入成功",
+      "en": "Save imported"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "已达到最高等级",
+      "en": "Max level reached"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "升到 ",
+      "en": "Now level "
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 140,
+      "zh": " 级",
+      "en": "!"
+    },
+    {
+      "file": "auto-chess-forge.html",
+      "kind": "js",
+      "line": 140,
+      "zh": "放弃当前赛季并重新开始？",
+      "en": "Abandon the current season and restart?"
+    }
+  ]
+}

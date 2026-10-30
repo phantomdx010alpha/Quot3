@@ -211,7 +211,7 @@
     gameState = 'playing';
     hideAllOverlays();
     pauseBtn.classList.remove('hidden');
-    pauseBtn.textContent = '暂停';
+    pauseBtn.textContent = 'Pause';
     if (document.activeElement && document.activeElement.blur) {
       document.activeElement.blur();
     }
@@ -224,14 +224,14 @@
     joy.active = false;
     pauseTime.textContent = time.toFixed(1);
     pauseOverlay.classList.remove('hidden');
-    pauseBtn.textContent = '继续';
+    pauseBtn.textContent = 'Resume';
   }
 
   function resumeGame() {
     if (gameState !== 'paused') return;
     gameState = 'playing';
     pauseOverlay.classList.add('hidden');
-    pauseBtn.textContent = '暂停';
+    pauseBtn.textContent = 'Pause';
   }
 
   function gameOver() {

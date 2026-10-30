@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
-    <title>晶塔前线：群星赛季 V5</title>
+    <title>Crystal Tower Frontline: Starry Season V5</title>
     <style>
       :root {
         color-scheme: dark;
@@ -672,12 +672,12 @@
   </head>
   <body>
     <main class="shell">
-      <section class="stage" aria-label="晶塔前线游戏区">
+      <section class="stage" aria-label="Crystal Tower Frontline play area">
         <header class="topbar">
           <div>
-            <h1>晶塔前线 <b>群星赛季 V5</b></h1>
+            <h1>Crystal Tower Frontline <b>Starry Season V5</b></h1>
             <div class="subline">
-              <span id="statusText">待命</span> ·
+              <span id="statusText">Standby</span> ·
               <span id="timerText">00:00</span>
             </div>
           </div>
@@ -685,25 +685,25 @@
             <button
               class="icon-btn"
               id="soundBtn"
-              title="音效开关"
-              aria-label="音效开关"
+              title="Sound toggle"
+              aria-label="Sound toggle"
               aria-pressed="true"
             >
-              音
+              On
             </button>
             <button
               class="icon-btn"
               id="pauseBtn"
-              title="暂停/继续"
-              aria-label="暂停/继续"
+              title="Pause/Resume"
+              aria-label="Pause/Resume"
             >
               Ⅱ
             </button>
             <button
               class="icon-btn"
               id="restartBtn"
-              title="重新开始"
-              aria-label="重新开始"
+              title="Restart"
+              aria-label="Restart"
             >
               ↻
             </button>
@@ -711,129 +711,129 @@
         </header>
 
         <div class="canvas-wrap">
-          <canvas id="gameCanvas" aria-label="晶塔前线战场画布"></canvas>
+          <canvas id="gameCanvas" aria-label="Crystal Tower Frontline battlefield canvas"></canvas>
           <div class="toast" id="toast"></div>
           <div class="modal show" id="startModal">
             <div class="dialog">
-              <h2>晶塔前线：群星赛季 V5</h2>
+              <h2>Crystal Tower Frontline: Starry Season V5</h2>
               <p>
-                选择英雄与战场规则，三线带兵破塔；等级 2/4/6 选择星契，构筑本局战术，最终摧毁敌方晶核。
+                Pick a hero and match rules, push three lanes with minions and break towers; choose Star Pacts at levels 2/4/6 to build your tactics and finally destroy the enemy crystal core.
               </p>
               <section class="deploy-section">
-                <h3>选择出战英雄</h3>
+                <h3>Choose your hero</h3>
                 <div class="deploy-grid" id="championGrid"></div>
               </section>
               <section class="deploy-section">
-                <h3>选择对局规则</h3>
+                <h3>Choose match rules</h3>
                 <div class="deploy-grid" id="ruleGrid"></div>
               </section>
               <section class="deploy-section">
-                <h3>赛季研究</h3>
+                <h3>Season research</h3>
                 <div class="career-row" id="careerGrid"></div>
               </section>
               <section class="deploy-section">
-                <h3>赛季勋章</h3>
+                <h3>Season medals</h3>
                 <div class="season-board" id="seasonBoard"></div>
               </section>
               <div class="save-row">
-                <span id="careerMeta">晶屑 0 · 0 胜</span>
-                <button id="exportSaveBtn" type="button">导出存档码</button>
-                <button id="importSaveBtn" type="button">导入存档码</button>
+                <span id="careerMeta">Shards 0 · 0 wins</span>
+                <button id="exportSaveBtn" type="button">Export save code</button>
+                <button id="importSaveBtn" type="button">Import save code</button>
               </div>
               <div class="dialog-actions">
-                <button class="primary-btn" id="startBtn">开始对局</button>
+                <button class="primary-btn" id="startBtn">Start match</button>
               </div>
             </div>
           </div>
           <div class="modal" id="resultModal">
             <div class="dialog">
-              <h2 id="resultTitle">胜利</h2>
-              <p id="resultCopy">对局总结会显示在这里。</p>
+              <h2 id="resultTitle">Victory</h2>
+              <p id="resultCopy">The match summary will appear here.</p>
               <div class="dialog-actions">
-                <button class="primary-btn" id="againBtn">再来一局</button>
+                <button class="primary-btn" id="againBtn">Play again</button>
               </div>
             </div>
           </div>
           <div class="modal" id="augmentModal" aria-modal="true" role="dialog">
             <div class="dialog">
-              <h2 id="augmentTitle">选择星契</h2>
-              <p id="augmentCopy">三选一强化只在本局生效。不同效果通过统一修饰器管线叠加。</p>
+              <h2 id="augmentTitle">Choose a Star Pact</h2>
+              <p id="augmentCopy">Pick one of three boosts that lasts this match only. Different effects stack through a unified modifier pipeline.</p>
               <div class="augment-grid" id="augmentGrid"></div>
             </div>
           </div>
         </div>
       </section>
 
-      <aside class="rail" aria-label="晶塔前线状态栏">
+      <aside class="rail" aria-label="Crystal Tower Frontline status bar">
         <div class="stat-grid">
           <div class="stat">
-            <div class="stat-label">等级</div>
+            <div class="stat-label">Level</div>
             <div class="stat-value" id="levelValue">1</div>
           </div>
           <div class="stat">
-            <div class="stat-label">金币</div>
+            <div class="stat-label">Gold</div>
             <div class="stat-value" id="goldValue">0</div>
           </div>
           <div class="stat">
-            <div class="stat-label">蓝晶核</div>
+            <div class="stat-label">Blue core</div>
             <div class="stat-value" id="blueCoreValue">100%</div>
           </div>
           <div class="stat">
-            <div class="stat-label">赤晶核</div>
+            <div class="stat-label">Red core</div>
             <div class="stat-value" id="redCoreValue">100%</div>
           </div>
         </div>
 
         <section>
-          <p class="panel-title">战术</p>
+          <p class="panel-title">Tactics</p>
           <div class="objective-card">
             <div class="objective-row">
               <div>
-                <strong id="objectiveValue">远古晶兽</strong><br />
-                <span id="objectiveTimer">可争夺</span>
+                <strong id="objectiveValue">Ancient Crystal Beast</strong><br />
+                <span id="objectiveTimer">Contestable</span>
               </div>
-              <div class="objective-pill" id="teamBuffValue">无增益</div>
+              <div class="objective-pill" id="teamBuffValue">No buff</div>
             </div>
             <div class="lane-board" id="laneBoard"></div>
           </div>
         </section>
 
         <section>
-          <p class="panel-title">技能</p>
+          <p class="panel-title">Skills</p>
           <div class="ability-grid" id="abilityGrid"></div>
         </section>
 
         <section class="augment-summary">
-          <p class="panel-title">星契构筑 <span id="augmentProgress">0 / 3</span></p>
+          <p class="panel-title">Star Pact build <span id="augmentProgress">0 / 3</span></p>
           <div class="augment-slots" id="augmentSlots"></div>
         </section>
 
         <section>
-          <p class="panel-title">补给</p>
+          <p class="panel-title">Supplies</p>
           <div class="shop-grid">
             <button class="shop-btn" id="buyAttack">
-              <strong>攻击校准</strong><span>90 金币</span>
+              <strong>Attack Calibration</strong><span>90 gold</span>
             </button>
             <button class="shop-btn" id="buyHealth">
-              <strong>生命护符</strong><span>110 金币</span>
+              <strong>Life Charm</strong><span>110 gold</span>
             </button>
             <button class="shop-btn" id="buyHaste">
-              <strong>冷却回路</strong><span>130 金币</span>
+              <strong>Cooldown Circuit</strong><span>130 gold</span>
             </button>
             <button class="shop-btn" id="buySustain">
-              <strong>汲取晶刃</strong><span>150 金币</span>
+              <strong>Siphon Crystal Blade</strong><span>150 gold</span>
             </button>
             <button class="shop-btn" id="buyWard">
-              <strong>守望屏障</strong><span>160 金币</span>
+              <strong>Watchtower Barrier</strong><span>160 gold</span>
             </button>
             <button class="shop-btn" id="buyMomentum">
-              <strong>追风战靴</strong><span>175 金币</span>
+              <strong>Windrunner Boots</strong><span>175 gold</span>
             </button>
           </div>
         </section>
 
         <section>
-          <p class="panel-title">战况</p>
+          <p class="panel-title">Battle log</p>
           <div class="feed" id="feed"></div>
         </section>
       </aside>
@@ -892,7 +892,7 @@
         const BLUE = 0;
         const RED = 1;
         const NEUTRAL = 2;
-        const teamName = ["蓝方", "赤方", "中立"];
+        const teamName = ["Blue", "Red", "Neutral"];
         const teamColor = ["#4ec5e8", "#ff6c5f", "#f4ca58"];
         const teamSoft = [
           "rgba(78, 197, 232, 0.18)",
@@ -902,7 +902,7 @@
 
         const lanes = [
           {
-            name: "上路",
+            name: "Top lane",
             points: [
               { x: 220, y: 990 },
               { x: 310, y: 695 },
@@ -913,7 +913,7 @@
             ],
           },
           {
-            name: "中路",
+            name: "Mid lane",
             points: [
               { x: 225, y: 992 },
               { x: 505, y: 825 },
@@ -924,7 +924,7 @@
             ],
           },
           {
-            name: "下路",
+            name: "Bot lane",
             points: [
               { x: 222, y: 1000 },
               { x: 525, y: 1040 },
@@ -937,17 +937,17 @@
         ];
 
         const runeSpots = [
-          { name: "河道锋芒", x: 720, y: 670, color: "#f4ca58", type: "power" },
+          { name: "River Edge", x: 720, y: 670, color: "#f4ca58", type: "power" },
           {
-            name: "河道涌泉",
+            name: "River Spring",
             x: 1085,
             y: 515,
             color: "#67d784",
             type: "renew",
           },
-          { name: "蓝方秘印", x: 535, y: 800, color: "#4ec5e8", type: "haste" },
+          { name: "Blue Sigil", x: 535, y: 800, color: "#4ec5e8", type: "haste" },
           {
-            name: "赤方秘印",
+            name: "Red Sigil",
             x: 1268,
             y: 392,
             color: "#ff6c5f",
@@ -957,7 +957,7 @@
 
         const jungleCampSpots = [
           {
-            name: "苍蓝哨卫",
+            name: "Azure Sentinel",
             type: "aether",
             x: 420,
             y: 860,
@@ -970,7 +970,7 @@
             respawn: 36,
           },
           {
-            name: "余烬蛮兽",
+            name: "Ember Brute",
             type: "ember",
             x: 705,
             y: 930,
@@ -983,7 +983,7 @@
             respawn: 38,
           },
           {
-            name: "石甲守卫",
+            name: "Stone Guard",
             type: "bulwark",
             x: 625,
             y: 690,
@@ -996,7 +996,7 @@
             respawn: 42,
           },
           {
-            name: "赤纹魔像",
+            name: "Red-Rune Golem",
             type: "ember",
             x: 1380,
             y: 318,
@@ -1009,7 +1009,7 @@
             respawn: 38,
           },
           {
-            name: "灵泉哨卫",
+            name: "Spring Sentinel",
             type: "aether",
             x: 1100,
             y: 250,
@@ -1022,7 +1022,7 @@
             respawn: 36,
           },
           {
-            name: "古树灵",
+            name: "Elder Treant",
             type: "bulwark",
             x: 1188,
             y: 485,
@@ -1072,18 +1072,18 @@
         };
 
         const abilityDefs = {
-          q: { key: "Q", name: "弧光刃", cost: 28, cd: 4.2, range: 480 },
-          w: { key: "W", name: "相位步", cost: 22, cd: 8.5, range: 190 },
-          e: { key: "E", name: "星沼", cost: 42, cd: 11, range: 430 },
-          r: { key: "R", name: "晶陨", cost: 76, cd: 26, range: 520 },
+          q: { key: "Q", name: "Arc Blade", cost: 28, cd: 4.2, range: 480 },
+          w: { key: "W", name: "Phase Step", cost: 22, cd: 8.5, range: 190 },
+          e: { key: "E", name: "Star Mire", cost: 42, cd: 11, range: 430 },
+          r: { key: "R", name: "Crystal Fall", cost: 76, cd: 26, range: 520 },
         };
         const CHAMPIONS = {
           starblade: {
-            name: "星刃",
+            name: "Star Blade",
             icon: "✦",
             role: "duelist",
-            desc: "均衡近战，技能命中稳定。",
-            abilities: ["弧光刃", "相位步", "星沼", "晶陨"],
+            desc: "Balanced melee; reliable skill hits.",
+            abilities: ["Arc Blade", "Phase Step", "Star Mire", "Crystal Fall"],
             hp: 1,
             mana: 1,
             speed: 1,
@@ -1092,11 +1092,11 @@
             skill: 1,
           },
           windranger: {
-            name: "森弦",
+            name: "Woodstring",
             icon: "➹",
             role: "ranger",
-            desc: "远程游击，普攻汲取生命。",
-            abilities: ["穿林矢", "风行步", "荆棘域", "星雨"],
+            desc: "Ranged skirmisher; basic attacks siphon life.",
+            abilities: ["Woodpiercer", "Windrunner Step", "Thorn Domain", "Star Rain"],
             hp: 0.92,
             mana: 1.05,
             speed: 1.06,
@@ -1106,11 +1106,11 @@
             lifesteal: 0.035,
           },
           bulwark: {
-            name: "曜盾",
+            name: "Radiant Shield",
             icon: "⬡",
             role: "guard",
-            desc: "重装前排，护盾和控制更强。",
-            abilities: ["盾锋", "壁垒跃迁", "镇守领域", "天穹坠盾"],
+            desc: "Heavy front-liner with stronger shields and control.",
+            abilities: ["Shield Edge", "Bulwark Leap", "Guardian Domain", "Skyfall Shield"],
             hp: 1.2,
             mana: 0.94,
             speed: 0.95,
@@ -1121,11 +1121,11 @@
             aoe: 1.12,
           },
           frostmage: {
-            name: "霜术士",
+            name: "Frost Mage",
             icon: "❄",
             role: "mage",
-            desc: "高能法师，范围技能显著强化。",
-            abilities: ["霜晶矛", "冰镜步", "冻星沼", "极昼晶陨"],
+            desc: "High-energy mage; area skills greatly strengthened.",
+            abilities: ["Frost Lance", "Ice Mirror Step", "Frozen Star Mire", "Midnight Sun Fall"],
             hp: 0.88,
             mana: 1.2,
             speed: 0.98,
@@ -1135,11 +1135,11 @@
             aoe: 1.24,
           },
           riftstalker: {
-            name: "隙影",
+            name: "Rift Shade",
             icon: "◐",
             role: "duelist",
-            desc: "高机动刺客，暴击与追击能力突出。",
-            abilities: ["裂隙刃", "影跃", "蚀星域", "终夜坠击"],
+            desc: "High-mobility assassin with standout crits and chasing.",
+            abilities: ["Rift Blade", "Shadow Leap", "Eclipse Domain", "Endnight Strike"],
             hp: 0.84,
             mana: 1.08,
             speed: 1.14,
@@ -1150,11 +1150,11 @@
             lifesteal: 0.02,
           },
           dawnweaver: {
-            name: "曦织",
+            name: "Dawnweaver",
             icon: "✺",
             role: "mage",
-            desc: "支援法师，持续恢复并强化范围护盾。",
-            abilities: ["晨辉矛", "光织步", "复苏星域", "黎明晶陨"],
+            desc: "Support mage; sustained healing and stronger area shields.",
+            abilities: ["Dawn Lance", "Light-Weave Step", "Revival Domain", "Daybreak Crystal Fall"],
             hp: 1.02,
             mana: 1.18,
             speed: 1.02,
@@ -1168,9 +1168,9 @@
         };
         const MATCH_RULES = {
           conquest: {
-            name: "标准征服",
+            name: "Standard Conquest",
             icon: "◇",
-            desc: "完整三线、野区与晶兽节奏。",
+            desc: "Full three lanes, jungle and crystal beast tempo.",
             structure: 1,
             enemy: 1,
             wave: 1,
@@ -1178,9 +1178,9 @@
             reward: 1,
           },
           blitz: {
-            name: "闪击战",
+            name: "Blitz",
             icon: "ϟ",
-            desc: "防御塔较脆，兵线刷新加快。",
+            desc: "Towers are fragile and minion waves spawn faster.",
             structure: 0.74,
             enemy: 0.94,
             wave: 0.72,
@@ -1189,9 +1189,9 @@
             startGold: 80,
           },
           iron: {
-            name: "铁壁排位",
+            name: "Ironwall Ranked",
             icon: "▣",
-            desc: "敌方英雄强化，胜利晶屑更多。",
+            desc: "Enemy heroes are strengthened; wins give more shards.",
             structure: 1.16,
             enemy: 1.2,
             wave: 0.9,
@@ -1199,9 +1199,9 @@
             reward: 1.48,
           },
           rift: {
-            name: "双兽裂谷",
+            name: "Twin Beast Rift",
             icon: "∞",
-            desc: "两只远古晶兽同时争夺，战场更混乱。",
+            desc: "Two ancient crystal beasts contested at once for a more chaotic map.",
             structure: 0.94,
             enemy: 1.08,
             wave: 0.8,
@@ -1210,9 +1210,9 @@
             dualObjective: true,
           },
           sudden: {
-            name: "晶核闪袭",
+            name: "Core Strike",
             icon: "✹",
-            desc: "塔防显著削弱、经济加速，十分钟内决胜。",
+            desc: "Towers greatly weakened and economy accelerated; decided within ten minutes.",
             structure: 0.6,
             enemy: 1.1,
             wave: 0.66,
@@ -1221,9 +1221,9 @@
             startGold: 120,
           },
           ascension: {
-            name: "群星天梯",
+            name: "Starry Ladder",
             icon: "♛",
-            desc: "敌军、塔与晶兽全面强化，最高赛季收益。",
+            desc: "Enemy units, towers and beasts are all strengthened; the highest season rewards.",
             structure: 1.3,
             enemy: 1.34,
             wave: 0.82,
@@ -1234,38 +1234,38 @@
         };
         const CAREER_TECH = {
           power: {
-            name: "英雄校准",
-            desc: "每级攻击 +2%",
+            name: "Hero Calibration",
+            desc: "+2% attack per level",
             max: 6,
             cost: (n) => 12 + n * 10,
           },
           vitality: {
-            name: "晶甲共鸣",
-            desc: "每级生命 +2%",
+            name: "Crystal Armor Resonance",
+            desc: "+2% life per level",
             max: 6,
             cost: (n) => 12 + n * 10,
           },
           fortune: {
-            name: "赛季通行证",
-            desc: "每级晶屑 +8%",
+            name: "Season Pass",
+            desc: "+8% shards per level",
             max: 6,
             cost: (n) => 16 + n * 12,
           },
           wealth: {
-            name: "开局补给",
-            desc: "每级初始金币 +18",
+            name: "Opening Supplies",
+            desc: "+18 starting gold per level",
             max: 5,
             cost: (n) => 18 + n * 14,
           },
           recovery: {
-            name: "重构舱",
-            desc: "每级复活时间 -8%",
+            name: "Rebuild Chamber",
+            desc: "-8% respawn time per level",
             max: 5,
             cost: (n) => 20 + n * 15,
           },
           objective: {
-            name: "晶兽共鸣",
-            desc: "每级团队晶潮 +6 秒",
+            name: "Beast Resonance",
+            desc: "+6 seconds of team crystal tide per level",
             max: 5,
             cost: (n) => 22 + n * 16,
           },
@@ -1312,109 +1312,109 @@
         ]);
         const AUGMENTS = {
           bladeCircuit: {
-            name: "刃脉回路",
+            name: "Blade Vein Circuit",
             icon: "✦",
-            school: "锋锐",
+            school: "Sharp",
             color: "#ff8b72",
-            desc: "普攻伤害 +18%，暴击率 +8%。",
+            desc: "Basic attack damage +18%, crit chance +8%.",
             effects: { attackDamage: 1.18, critChance: 0.08 },
           },
           voidExecution: {
-            name: "虚空处决",
+            name: "Void Execution",
             icon: "◐",
-            school: "终结",
+            school: "Finisher",
             color: "#c39bff",
-            desc: "目标低于 28% 生命时，伤害额外 +32%。",
+            desc: "Deals an extra +32% damage to targets below 28% life.",
             effects: { executeThreshold: 0.28, executeBonus: 0.32 },
           },
           cometMatrix: {
-            name: "彗星矩阵",
+            name: "Comet Matrix",
             icon: "✹",
-            school: "术式",
+            school: "Spell",
             color: "#f4ca58",
-            desc: "技能伤害 +20%，范围技能半径 +12%。",
+            desc: "Skill damage +20%, area skill radius +12%.",
             effects: { skillDamage: 1.2, aoeRadius: 1.12 },
           },
           aetherLoop: {
-            name: "以太循环",
+            name: "Aether Loop",
             icon: "∞",
-            school: "回路",
+            school: "Circuit",
             color: "#61c9ff",
-            desc: "冷却恢复 +18%，技能能量消耗 -18%。",
+            desc: "Cooldown recovery +18%, skill energy cost -18%.",
             effects: { cooldownRate: 1.18, manaCost: 0.82 },
           },
           phaseEngine: {
-            name: "相位引擎",
+            name: "Phase Engine",
             icon: "ϟ",
-            school: "机动",
+            school: "Mobility",
             color: "#67d784",
-            desc: "移动速度 +14%；每次施法获得 42 点短暂护盾。",
+            desc: "Move speed +14%; each cast grants a brief 42-point shield.",
             effects: { moveSpeed: 1.14, shieldOnCast: 42 },
           },
           bloodCore: {
-            name: "猩红晶核",
+            name: "Crimson Core",
             icon: "◆",
-            school: "续航",
+            school: "Sustain",
             color: "#ff6c5f",
-            desc: "获得 7% 汲取；参与击败主要目标恢复 10% 生命。",
+            desc: "Gain 7% siphon; helping defeat a major objective restores 10% life.",
             effects: { lifesteal: 0.07, killHeal: 0.1 },
           },
           prismBastion: {
-            name: "棱晶壁垒",
+            name: "Prism Bulwark",
             icon: "⬡",
-            school: "守御",
+            school: "Defense",
             color: "#8de8d0",
-            desc: "承受伤害 -14%；每局可抵挡一次致命伤。",
+            desc: "Damage taken -14%; once per match, block a lethal hit.",
             effects: { damageTaken: 0.86, lastStand: 1 },
           },
           wardEcho: {
-            name: "守望回响",
+            name: "Watchtower Echo",
             icon: "▣",
-            school: "守御",
+            school: "Defense",
             color: "#87b7ff",
-            desc: "每次施法获得 80 点护盾；符印效果 +20%。",
+            desc: "Each cast grants an 80-point shield; sigil effects +20%.",
             effects: { shieldOnCast: 80, runePower: 1.2 },
           },
           siegeProtocol: {
-            name: "破城协议",
+            name: "Siege Protocol",
             icon: "▲",
-            school: "攻城",
+            school: "Siege",
             color: "#ffb45e",
-            desc: "对防御塔与晶核伤害 +42%，蓝方兵线伤害 +18%。",
+            desc: "Damage to towers and cores +42%, blue minion damage +18%.",
             effects: { structureDamage: 1.42, minionDamage: 1.18 },
           },
           beastPact: {
-            name: "晶兽盟约",
+            name: "Beast Pact",
             icon: "◇",
-            school: "目标",
+            school: "Objective",
             color: "#e5d56b",
-            desc: "对远古晶兽伤害 +50%，晶潮推进延长 12 秒。",
+            desc: "Damage to ancient crystal beasts +50%; crystal tide push lasts 12 seconds longer.",
             effects: { objectiveDamage: 1.5, objectiveBuffSeconds: 12 },
           },
           commandNetwork: {
-            name: "兵线网络",
+            name: "Lane Network",
             icon: "♟",
-            school: "指挥",
+            school: "Command",
             color: "#75e6a0",
-            desc: "蓝方兵线伤害 +24%、移动速度 +15%。",
+            desc: "Blue minion damage +24%, move speed +15%.",
             effects: { minionDamage: 1.24, minionSpeed: 1.15 },
           },
           bountyLens: {
-            name: "赏金透镜",
+            name: "Bounty Lens",
             icon: "◎",
-            school: "经济",
+            school: "Economy",
             color: "#f4ca58",
-            desc: "获得金币 +24%；击败主要目标返还技能冷却 2 秒。",
+            desc: "Gold gained +24%; defeating a major objective refunds 2 seconds of skill cooldown.",
             effects: { goldGain: 1.24, killRefund: 2 },
           },
         };
         const SEASON_MEDALS = {
-          firstVictory: { name: "前线初捷", desc: "赢得任意一局", reward: 12, test: (summary) => summary.won },
-          flawless: { name: "无暇晶甲", desc: "零阵亡获胜", reward: 18, test: (summary) => summary.won && summary.deaths === 0 },
-          beastHunter: { name: "双兽猎手", desc: "单局击败 2 只晶兽", reward: 18, test: (summary) => summary.objectives >= 2 },
-          siegeMaster: { name: "三线破城", desc: "单局摧毁 3 座敌塔", reward: 20, test: (summary) => summary.towers >= 3 },
-          fullBuild: { name: "星契成型", desc: "携带 3 项星契获胜", reward: 22, test: (summary) => summary.won && summary.augments >= 3 },
-          veteran: { name: "百战档案", desc: "累计完成 10 场", reward: 26, test: (_summary, nextCareer) => nextCareer.games >= 10 },
+          firstVictory: { name: "First Blood on the Front", desc: "Win any match", reward: 12, test: (summary) => summary.won },
+          flawless: { name: "Flawless Crystal Armor", desc: "Win with zero deaths", reward: 18, test: (summary) => summary.won && summary.deaths === 0 },
+          beastHunter: { name: "Twin Beast Hunter", desc: "Defeat 2 crystal beasts in one match", reward: 18, test: (summary) => summary.objectives >= 2 },
+          siegeMaster: { name: "Three-Lane Siege", desc: "Destroy 3 enemy towers in one match", reward: 20, test: (summary) => summary.towers >= 3 },
+          fullBuild: { name: "Pact Formed", desc: "Win carrying 3 Star Pacts", reward: 22, test: (summary) => summary.won && summary.augments >= 3 },
+          veteran: { name: "Hundred-Battle Record", desc: "Complete 10 matches in total", reward: 26, test: (_summary, nextCareer) => nextCareer.games >= 10 },
         };
         const CAREER_KEY = "crystalFrontCareerV4";
         const LEGACY_CAREER_KEY = "crystalFrontCareerV3";
@@ -1581,7 +1581,7 @@
             !payload ||
             careerHash(payload) !== checksum
           )
-            throw new Error("存档码校验失败");
+            throw new Error("Save code verification failed");
           const binary = atob(payload);
           const parsed = JSON.parse(
             new TextDecoder().decode(
@@ -1589,7 +1589,7 @@
             ),
           );
           if (parsed.game !== "crystal-front" || !parsed.data)
-            throw new Error("不是晶塔前线存档");
+            throw new Error("Not a Crystal Tower Frontline save");
           localStorage.setItem(CAREER_KEY, JSON.stringify(parsed.data));
           career = loadCareer();
           selectedChampion = CHAMPIONS[career.loadout.champion]
@@ -1603,25 +1603,25 @@
         }
 
         function rankName(points = career.rankPoints || 0) {
-          if (points >= 900) return "群星王者";
-          if (points >= 600) return "曜晶大师";
-          if (points >= 360) return "星辉钻石";
-          if (points >= 180) return "苍蓝黄金";
-          if (points >= 60) return "白银先锋";
-          return "青铜新星";
+          if (points >= 900) return "Starry King";
+          if (points >= 600) return "Radiant Master";
+          if (points >= 360) return "Starlight Diamond";
+          if (points >= 180) return "Azure Gold";
+          if (points >= 60) return "Silver Vanguard";
+          return "Bronze Rookie";
         }
 
         function renderDeployment() {
           championGrid.innerHTML = Object.entries(CHAMPIONS)
             .map(
               ([key, champion]) =>
-                `<button class="deploy-card ${selectedChampion === key ? "selected" : ""}" data-champion="${key}"><strong>${champion.icon} ${champion.name}</strong><span>${champion.desc}<br>熟练 ${career.mastery[key] || 0} 场</span></button>`,
+                `<button class="deploy-card ${selectedChampion === key ? "selected" : ""}" data-champion="${key}"><strong>${champion.icon} ${champion.name}</strong><span>${champion.desc}<br>Mastery ${career.mastery[key] || 0} matches</span></button>`,
             )
             .join("");
           ruleGrid.innerHTML = Object.entries(MATCH_RULES)
             .map(
               ([key, rule]) =>
-                `<button class="deploy-card ${selectedRule === key ? "selected" : ""}" data-rule="${key}"><strong>${rule.icon} ${rule.name}</strong><span>${rule.desc}<br>胜场 ${career.records[key]?.wins || 0}</span></button>`,
+                `<button class="deploy-card ${selectedRule === key ? "selected" : ""}" data-rule="${key}"><strong>${rule.icon} ${rule.name}</strong><span>${rule.desc}<br>Wins ${career.records[key]?.wins || 0}</span></button>`,
             )
             .join("");
           careerGrid.innerHTML = Object.entries(CAREER_TECH)
@@ -1629,19 +1629,19 @@
               const level = career.tech[key] || 0;
               const cost = tech.cost(level);
               const maxed = level >= tech.max;
-              return `<button class="career-btn" data-career="${key}" ${maxed || career.shards < cost ? "disabled" : ""}><strong>${tech.name} Lv.${level}</strong><span>${tech.desc}<br>${maxed ? "已满级" : `晶屑 ${cost}`}</span></button>`;
+              return `<button class="career-btn" data-career="${key}" ${maxed || career.shards < cost ? "disabled" : ""}><strong>${tech.name} Lv.${level}</strong><span>${tech.desc}<br>${maxed ? "Max level" : `Shards ${cost}`}</span></button>`;
             })
             .join("");
           seasonBoard.innerHTML = Object.entries(SEASON_MEDALS)
             .map(([key, medal]) => {
               const unlocked = Boolean(career.medals[key]);
-              return `<div class="medal-card ${unlocked ? "unlocked" : ""}"><strong>${unlocked ? "◆" : "◇"} ${medal.name}</strong><span>${medal.desc}${unlocked ? " · 已获得" : ` · 奖励 ${medal.reward} 晶屑`}</span></div>`;
+              return `<div class="medal-card ${unlocked ? "unlocked" : ""}"><strong>${unlocked ? "◆" : "◇"} ${medal.name}</strong><span>${medal.desc}${unlocked ? " · Earned" : ` · Reward ${medal.reward} shards`}</span></div>`;
             })
             .join("");
           const medalCount = Object.keys(SEASON_MEDALS).filter(
             (key) => career.medals[key],
           ).length;
-          careerMeta.textContent = `${rankName()} ${career.rankPoints || 0}分 · 晶屑 ${career.shards} · ${career.wins}胜/${career.games}场 · 勋章 ${medalCount}/${Object.keys(SEASON_MEDALS).length} · 最高评价 ${career.bestGrade || "-"}`;
+          careerMeta.textContent = `${rankName()} ${career.rankPoints || 0} pts · Shards ${career.shards} · ${career.wins} W/${career.games} games · Medals ${medalCount}/${Object.keys(SEASON_MEDALS).length} · Best grade ${career.bestGrade || "-"}`;
           championGrid.querySelectorAll("[data-champion]").forEach(
             (button) =>
               (button.onclick = () => {
@@ -1742,12 +1742,12 @@
           lastStandCharges: 0,
           seed: 1,
           rngState: 1,
-          message: "待命",
+          message: "Standby",
         };
 
         const teamBuffs = [
-          { duration: 0, name: "晶潮推进" },
-          { duration: 0, name: "晶潮推进" },
+          { duration: 0, name: "Crystal Tide Push" },
+          { duration: 0, name: "Crystal Tide Push" },
         ];
         const OBJECTIVE_RESPAWN = 72;
         const OBJECTIVE_BUFF_DURATION = 54;
@@ -1864,7 +1864,7 @@
 
         function renderSoundButton() {
           soundBtn.setAttribute("aria-pressed", String(soundEnabled));
-          soundBtn.textContent = soundEnabled ? "音" : "静";
+          soundBtn.textContent = soundEnabled ? "On" : "Off";
           soundBtn.classList.toggle("muted", !soundEnabled);
         }
 
@@ -1905,12 +1905,12 @@
         }
 
         function renderAugmentDraft(level) {
-          augmentTitle.textContent = `等级 ${level} · 选择第 ${game.augmentPicks.length + 1} 项星契`;
-          augmentCopy.textContent = "三选一强化只在本局生效；乘法、加法与触发效果由统一修饰器管线结算。";
+          augmentTitle.textContent = `Level ${level} · Pick Star Pact ${game.augmentPicks.length + 1} of 3`;
+          augmentCopy.textContent = "Pick one of three boosts that lasts this match only; multiplicative, additive and triggered effects are resolved by a unified modifier pipeline.";
           augmentGrid.innerHTML = game.draftOptions
             .map((key) => {
               const augment = AUGMENTS[key];
-              return `<button class="augment-card" data-augment="${key}" style="--augment-color:${augment.color}"><strong>${augment.icon} ${augment.name}</strong><span>${augment.desc}</span><em>${augment.school}星契 · 点击装配</em></button>`;
+              return `<button class="augment-card" data-augment="${key}" style="--augment-color:${augment.color}"><strong>${augment.icon} ${augment.name}</strong><span>${augment.desc}</span><em>${augment.school} Star Pact · click to equip</em></button>`;
             })
             .join("");
           augmentGrid.querySelectorAll("[data-augment]").forEach(
@@ -1946,7 +1946,7 @@
           game.draftOptions = [];
           augmentModal.classList.remove("show");
           augmentRenderKey = "";
-          pushFeed(`装配星契 · ${AUGMENTS[key].name}`);
+          pushFeed(`Equipped Star Pact · ${AUGMENTS[key].name}`);
           showToast(`${AUGMENTS[key].icon} ${AUGMENTS[key].name}`);
           playCue("augment");
           if (game.pendingDraftLevels.length) openNextAugmentDraft();
@@ -1982,7 +1982,7 @@
           game.rngState = game.seed || 1;
           game.rule = selectedRule;
           game.champion = selectedChampion;
-          game.message = "兵线集结";
+          game.message = "Minion wave assembling";
           teamBuffs[BLUE].duration = 0;
           teamBuffs[RED].duration = 0;
           abilityRenderKey = "";
@@ -2011,9 +2011,9 @@
           camera.y = player.y;
           queuedAbility = null;
           updateCamera(1, true);
-          pushFeed("蓝方晶塔上线");
-          pushFeed("赤方守军出动");
-          showToast("对局开始");
+          pushFeed("Blue crystal tower online");
+          pushFeed("Red defenders dispatched");
+          showToast("Match start");
           playCue("tap");
           updateUI();
         }
@@ -2026,25 +2026,25 @@
             champion: selectedChampion,
           });
           const allies = [
-            makeHero(BLUE, 292, 910, "巡林者", false, {
+            makeHero(BLUE, 292, 910, "Ranger", false, {
               lane: 2,
               role: "ranger",
             }),
-            makeHero(BLUE, 245, 1015, "曜盾", false, {
+            makeHero(BLUE, 245, 1015, "Radiant Shield", false, {
               lane: 0,
               role: "guard",
             }),
           ];
           const enemies = [
-            makeHero(RED, 1572, 218, "赤锋", false, {
+            makeHero(RED, 1572, 218, "Redblade", false, {
               lane: 1,
               role: "duelist",
             }),
-            makeHero(RED, 1518, 160, "霜术士", false, {
+            makeHero(RED, 1518, 160, "Frost Mage", false, {
               lane: 0,
               role: "mage",
             }),
-            makeHero(RED, 1624, 244, "铁哨", false, { lane: 2, role: "guard" }),
+            makeHero(RED, 1624, 244, "Iron Sentry", false, { lane: 2, role: "guard" }),
           ];
           allyHero = allies[0];
           enemyHero = enemies[0];
@@ -2177,7 +2177,7 @@
           entities.objectives.push({
             kind: "objective",
             team: NEUTRAL,
-            name: "远古晶兽",
+            name: "Ancient Crystal Beast",
             x: 900,
             y: 590,
             r: 34,
@@ -2204,7 +2204,7 @@
           if (rule.dualObjective) {
             entities.objectives.push({
               ...first,
-              name: "裂界晶兽",
+              name: "Rift Crystal Beast",
               x: 1040,
               y: 690,
               pulse: Math.PI,
@@ -2216,12 +2216,12 @@
 
         function createStructures() {
           const towerData = [
-            [BLUE, "上路外塔", 0, 390, 660],
-            [BLUE, "中路外塔", 1, 565, 790],
-            [BLUE, "下路外塔", 2, 650, 980],
-            [RED, "上路外塔", 0, 1240, 262],
-            [RED, "中路外塔", 1, 1248, 390],
-            [RED, "下路外塔", 2, 1362, 650],
+            [BLUE, "Top outer tower", 0, 390, 660],
+            [BLUE, "Mid outer tower", 1, 565, 790],
+            [BLUE, "Bot outer tower", 2, 650, 980],
+            [RED, "Top outer tower", 0, 1240, 262],
+            [RED, "Mid outer tower", 1, 1248, 390],
+            [RED, "Bot outer tower", 2, 1362, 650],
           ];
           for (const [team, name, lane, x, y] of towerData) {
             entities.structures.push({
@@ -2247,7 +2247,7 @@
           entities.structures.push({
             kind: "core",
             team: BLUE,
-            name: "蓝晶核",
+            name: "Blue core",
             x: 170,
             y: 1000,
             r: 38,
@@ -2265,7 +2265,7 @@
           entities.structures.push({
             kind: "core",
             team: RED,
-            name: "赤晶核",
+            name: "Red core",
             x: 1630,
             y: 180,
             r: 38,
@@ -2316,12 +2316,12 @@
             }
           }
           pushFeed(
-            "第 " +
+            "Wave " +
               game.waveNumber +
-              " 波兵线抵达" +
-              (game.waveNumber % 3 === 0 ? " · 精英兵出动" : ""),
+              " minions arrived" +
+              (game.waveNumber % 3 === 0 ? " · Elite minions dispatched" : ""),
           );
-          showToast(game.waveNumber % 3 === 0 ? "精英兵线刷新" : "兵线刷新");
+          showToast(game.waveNumber % 3 === 0 ? "Elite minion wave spawned" : "Minion wave spawned");
         }
 
         function spawnMinion(team, laneIndex, type, x, y) {
@@ -2731,7 +2731,7 @@
                 objective.aggroTarget = null;
                 objective.aggroTime = 0;
                 burst(objective.x, objective.y, teamColor[NEUTRAL], 28);
-                pushFeed(objective.name + " 重新出现");
+                pushFeed(objective.name + " respawned");
               }
               continue;
             }
@@ -2853,18 +2853,18 @@
           const blueCore = getCore(BLUE);
           const target = player?.target;
           if (target?.alive) {
-            game.message = "锁定 " + (target.name || "目标");
+            game.message = "Locked " + (target.name || "Objective");
           } else if (blueCore && blueCore.hp / blueCore.maxHp < 0.45) {
             game.message =
-              "基地告急 · 下一波 " + Math.ceil(game.waveTimer) + "s";
+              "Base in danger · Next wave " + Math.ceil(game.waveTimer) + "s";
           } else if (redCore && redCore.hp / redCore.maxHp < 0.45) {
             game.message =
-              "压制赤方 · 下一波 " + Math.ceil(game.waveTimer) + "s";
+              "Pressuring Red · Next wave " + Math.ceil(game.waveTimer) + "s";
           } else {
             game.message =
-              "第 " +
+              "Wave " +
               Math.max(1, game.waveNumber) +
-              " 波 · 下一波 " +
+              " · Next wave " +
               Math.ceil(game.waveTimer) +
               "s";
           }
@@ -3010,10 +3010,10 @@
               attacker.kind === "structure"
                 ? "#f4ca58"
                 : teamColor[attacker.team],
-              "普攻",
+              "Attack",
             );
           } else {
-            damageUnit(target, attacker.damage, attacker, "普攻");
+            damageUnit(target, attacker.damage, attacker, "Attack");
             burst(target.x, target.y, teamColor[attacker.team], 5);
           }
         }
@@ -3038,7 +3038,7 @@
           if (!unit.alive) return;
           let damage = amount;
           if (source === player) {
-            const skillHit = name !== "普攻";
+            const skillHit = name !== "Attack";
             damage *= skillHit
               ? game.modifiers.skillDamage
               : game.modifiers.attackDamage;
@@ -3059,7 +3059,7 @@
             (source === player ? game.modifiers.critChance : 0);
           if (critChance > 0 && Math.random() < critChance) {
             damage *= 1.65;
-            if (source === player) showToast("暴击");
+            if (source === player) showToast("Crit");
           }
           if (source?.buffTime > 0) damage *= 1.18;
           if (source?.emberTime > 0) damage *= 1.14;
@@ -3104,8 +3104,8 @@
             damage = Math.max(0, unit.hp - 1);
             unit.shield = Math.max(unit.shield || 0, 120 + unit.level * 24);
             unit.shieldTime = 4;
-            floatingText(unit.x, unit.y - 42, "棱晶不屈", "#8de8d0");
-            showToast("棱晶壁垒抵挡致命伤");
+            floatingText(unit.x, unit.y - 42, "Prism Resolve", "#8de8d0");
+            showToast("Prism Bulwark blocked a lethal hit");
             playCue("objective");
           }
           unit.hp -= damage;
@@ -3148,7 +3148,7 @@
 
           if (unit.kind === "tower") {
             if (source?.team === BLUE) game.towers += 1;
-            pushFeed(unit.name + " 被摧毁");
+            pushFeed(unit.name + " destroyed");
             rewardPlayer(unit, source, 150, 110);
             return;
           }
@@ -3182,7 +3182,7 @@
             }
             if (source && source.team === BLUE)
               game.kills += unit.team === RED ? 1 : 0;
-            pushFeed((source?.name || "兵线") + " 击败 " + unit.name);
+            pushFeed((source?.name || "Minions") + " defeated " + unit.name);
             rewardPlayer(unit, source, 180, 150);
             return;
           }
@@ -3197,29 +3197,29 @@
           if (unit.type === "ember") {
             hero.emberTime = Math.max(hero.emberTime || 0, 30);
             hero.buffTime = Math.max(hero.buffTime || 0, 8);
-            floatingText(hero.x, hero.y - 38, "余烬", unit.color);
-            if (hero.isPlayer) showToast("获得余烬增伤");
+            floatingText(hero.x, hero.y - 38, "Ember", unit.color);
+            if (hero.isPlayer) showToast("Gained Ember damage boost");
           } else if (unit.type === "aether") {
             hero.aetherTime = Math.max(hero.aetherTime || 0, 30);
             hero.mana = hero.maxMana;
             for (const key of ["q", "w", "e"])
               hero.cooldowns[key] = Math.max(0, hero.cooldowns[key] - 2);
-            floatingText(hero.x, hero.y - 38, "苍蓝", unit.color);
-            if (hero.isPlayer) showToast("获得苍蓝回能");
+            floatingText(hero.x, hero.y - 38, "Azure", unit.color);
+            if (hero.isPlayer) showToast("Gained Azure energy recovery");
           } else if (unit.type === "bulwark") {
             hero.bulwarkTime = Math.max(hero.bulwarkTime || 0, 28);
             hero.guardTime = Math.max(hero.guardTime || 0, 16);
             hero.shield = Math.max(hero.shield || 0, 120 + hero.level * 24);
             hero.shieldTime = Math.max(hero.shieldTime || 0, 6);
-            floatingText(hero.x, hero.y - 38, "石甲", unit.color);
-            if (hero.isPlayer) showToast("获得石甲护盾");
+            floatingText(hero.x, hero.y - 38, "Stone", unit.color);
+            if (hero.isPlayer) showToast("Gained Stone shield");
           }
           burst(unit.x, unit.y, unit.color, 24);
         }
 
         function grantObjectiveBuff(unit, source) {
           if (!source || source.team === NEUTRAL || !teamBuffs[source.team]) {
-            pushFeed(unit.name + " 被击败");
+            pushFeed(unit.name + " defeated");
             return;
           }
           teamBuffs[source.team].duration = Math.max(
@@ -3234,13 +3234,13 @@
             if (hero.team !== source.team || !hero.alive) continue;
             hero.buffTime = Math.max(hero.buffTime || 0, 12);
             hero.mana = Math.min(hero.maxMana, hero.mana + 55);
-            floatingText(hero.x, hero.y - 38, "晶潮", teamColor[source.team]);
+            floatingText(hero.x, hero.y - 38, "Crystal Tide", teamColor[source.team]);
           }
           burst(unit.x, unit.y, teamColor[source.team], 34);
           pushFeed(
-            teamName[source.team] + " 击败 " + unit.name + "，获得晶潮推进",
+            teamName[source.team] + " defeated " + unit.name + ", gaining Crystal Tide push",
           );
-          if (source.team === BLUE) showToast("晶潮推进已激活");
+          if (source.team === BLUE) showToast("Crystal Tide push activated");
           if (source.team === BLUE) playCue("objective");
         }
 
@@ -3301,7 +3301,7 @@
             player.mana = player.maxMana;
             player.damage += 7;
             abilityRenderKey = "";
-            showToast("等级提升 " + player.level);
+            showToast("Level up " + player.level);
             playCue("level");
             burst(player.x, player.y, "#67d784", 24);
             queueAugmentDraft(player.level);
@@ -3326,7 +3326,7 @@
           hero.moveTarget = null;
           hero.x = core ? core.x + (hero.team === BLUE ? 45 : -45) : hero.x;
           hero.y = core ? core.y + (hero.team === BLUE ? -45 : 45) : hero.y;
-          pushFeed(hero.name + " 回到战场");
+          pushFeed(hero.name + " returned to the battlefield");
         }
 
         function getCore(team) {
@@ -3351,20 +3351,20 @@
           const def = activeAbilityDef(key);
           if (!def) return;
           if (key === "r" && player.level < 3) {
-            showToast("R 技能需要 3 级");
+            showToast("R skill requires level 3");
             return;
           }
           if (player.cooldowns[key] > 0) {
-            showToast(def.name + " 冷却中");
+            showToast(def.name + " on cooldown");
             return;
           }
           if (player.mana < abilityCost(player, key)) {
-            showToast("能量不足");
+            showToast("Not enough energy");
             return;
           }
           queuedAbility = queuedAbility === key ? null : key;
           abilityRenderKey = "";
-          showToast(queuedAbility ? "选择 " + def.key + " 落点" : "取消技能");
+          showToast(queuedAbility ? "Select " + def.key + " target spot" : "Cancel skill");
           updateUI();
         }
 
@@ -3375,13 +3375,13 @@
           const def = activeAbilityDef(key);
           if (!def) return;
           if (key === "r" && player.level < 3) {
-            showToast("R 技能需要 3 级");
+            showToast("R skill requires level 3");
             return;
           }
           if (player.cooldowns[key] > 0) return;
           const cost = abilityCost(player, key);
           if (player.mana < cost) {
-            showToast("能量不足");
+            showToast("Not enough energy");
             return;
           }
           player.mana -= cost;
@@ -3421,7 +3421,7 @@
               ? (88 + caster.level * 18) * (caster.skillPower || 1)
               : 62,
             color: caster.team === BLUE ? "#7ee3ff" : "#ff9a82",
-            name: caster.isPlayer ? activeAbilityDef("q").name : "弧光刃",
+            name: caster.isPlayer ? activeAbilityDef("q").name : "Arc Blade",
             life: def.range / 540,
             dead: false,
           });
@@ -3474,7 +3474,7 @@
             damage: caster.isPlayer
               ? (28 + caster.level * 4) * (caster.skillPower || 1)
               : 20,
-            name: caster.isPlayer ? activeAbilityDef("e").name : "星沼",
+            name: caster.isPlayer ? activeAbilityDef("e").name : "Star Mire",
             slow: true,
             life: 2.4,
             tick: 0.05,
@@ -3504,7 +3504,7 @@
             team: caster.team,
             source: caster,
             damage: (84 + caster.level * 15) * (caster.skillPower || 1),
-            name: caster.isPlayer ? activeAbilityDef("r").name : "晶陨",
+            name: caster.isPlayer ? activeAbilityDef("r").name : "Crystal Fall",
             life: 1.05,
             tick: 0.16,
             color: "rgba(244, 202, 88, 0.26)",
@@ -3529,32 +3529,32 @@
           };
           const cost = costs[type];
           if (player.gold < cost) {
-            showToast("金币不足");
+            showToast("Not enough gold");
             return;
           }
           player.gold -= cost;
           if (type === "attack") {
             player.damage += 9;
-            showToast("攻击提升");
+            showToast("Attack up");
           } else if (type === "health") {
             player.maxHp += 120;
             player.hp = Math.min(player.maxHp, player.hp + 120);
-            showToast("生命提升");
+            showToast("Life up");
           } else if (type === "haste") {
             player.haste += 0.08;
-            showToast("冷却加速");
+            showToast("Cooldown faster");
           } else if (type === "sustain") {
             player.lifesteal = (player.lifesteal || 0) + 0.025;
-            showToast("汲取效果提升");
+            showToast("Siphon effect up");
           } else if (type === "ward") {
             player.maxMana += 35;
             player.mana = player.maxMana;
             player.shield = Math.max(player.shield || 0, 150);
             player.shieldTime = 7;
-            showToast("守望屏障展开");
+            showToast("Watchtower barrier deployed");
           } else if (type === "momentum") {
             player.speed += 16;
-            showToast("移动速度提升");
+            showToast("Move speed up");
           }
           player.items[type] = (player.items[type] || 0) + 1;
           updateUI();
@@ -3669,14 +3669,14 @@
           shards += medalResult.bonus;
           storeCareer();
           renderDeployment();
-          resultTitle.textContent = `${won ? "胜利" : "失败"} · ${grade} 评价`;
+          resultTitle.textContent = `${won ? "Victory" : "Defeat"} · ${grade} grade`;
           const medalCopy = medalResult.unlocked.length
-            ? ` · 新勋章 ${medalResult.unlocked.join("、")}`
+            ? ` · New medals ${medalResult.unlocked.join(", ")}`
             : "";
-          resultCopy.textContent = `${CHAMPIONS[selectedChampion].name} · ${rule.name} · 用时 ${formatTime(game.time)} · 击败 ${game.kills} / 阵亡 ${game.deaths} · 破塔 ${game.towers} / 晶兽 ${game.objectives} · 星契 ${game.augmentPicks.length} · 获得 ${shards} 晶屑 · 天梯 ${rankDelta >= 0 ? "+" : ""}${rankDelta}${medalCopy}`;
+          resultCopy.textContent = `${CHAMPIONS[selectedChampion].name} · ${rule.name} · Time ${formatTime(game.time)} · Kills ${game.kills} / Deaths ${game.deaths} · Towers ${game.towers} / Beasts ${game.objectives} · Pacts ${game.augmentPicks.length} · Earned ${shards} shards · Ladder ${rankDelta >= 0 ? "+" : ""}${rankDelta}${medalCopy}`;
           resultModal.classList.add("show");
-          pushFeed(won ? "赤晶核被摧毁" : "蓝晶核被摧毁");
-          showToast(won ? "胜利" : "失败");
+          pushFeed(won ? "Red core destroyed" : "Blue core destroyed");
+          showToast(won ? "Victory" : "Defeat");
           playCue(won ? "victory" : "defeat");
         }
 
@@ -3762,10 +3762,10 @@
           if (!player) return;
           statusText.textContent = game.over
             ? game.winner === BLUE
-              ? "胜利"
-              : "失败"
+              ? "Victory"
+              : "Defeat"
             : game.paused
-              ? "暂停"
+              ? "Pause"
               : game.message;
           timerText.textContent = formatTime(game.time);
           levelValue.textContent = `${player.level} (${Math.floor(player.xp)}/${xpNeed(player.level)})`;
@@ -3799,9 +3799,9 @@
           augmentSlots.innerHTML = AUGMENT_DRAFT_LEVELS.map((_, index) => {
             const key = game.augmentPicks[index];
             if (!key)
-              return `<div class="augment-chip">等级 ${AUGMENT_DRAFT_LEVELS[index]}</div>`;
+              return `<div class="augment-chip">Level ${AUGMENT_DRAFT_LEVELS[index]}</div>`;
             const augment = AUGMENTS[key];
-            const charge = key === "prismBastion" ? ` · 不屈 ${game.lastStandCharges}` : "";
+            const charge = key === "prismBastion" ? ` · Resolve ${game.lastStandCharges}` : "";
             return `<div class="augment-chip filled" style="--augment-color:${augment.color}" title="${augment.desc}">${augment.icon} ${augment.name}${charge}</div>`;
           }).join("");
         }
@@ -3816,26 +3816,26 @@
             );
           const personalBuffs = [];
           if (player.emberTime > 0)
-            personalBuffs.push(`余烬 ${Math.ceil(player.emberTime)}s`);
+            personalBuffs.push(`Ember ${Math.ceil(player.emberTime)}s`);
           if (player.aetherTime > 0)
-            personalBuffs.push(`苍蓝 ${Math.ceil(player.aetherTime)}s`);
+            personalBuffs.push(`Azure ${Math.ceil(player.aetherTime)}s`);
           if (player.bulwarkTime > 0)
-            personalBuffs.push(`石甲 ${Math.ceil(player.bulwarkTime)}s`);
+            personalBuffs.push(`Stone ${Math.ceil(player.bulwarkTime)}s`);
           const allBuffs = [...buffs, ...personalBuffs];
           teamBuffValue.textContent = allBuffs.length
             ? allBuffs.join(" / ")
-            : "无增益";
+            : "No buff";
           if (!objective) {
-            objectiveValue.textContent = "远古晶兽";
-            objectiveTimer.textContent = "未出现";
+            objectiveValue.textContent = "Ancient Crystal Beast";
+            objectiveTimer.textContent = "Not spawned";
             return;
           }
           objectiveValue.textContent = objective.alive
             ? `${objective.name} ${percent(objective.hp, objective.maxHp)}`
             : objective.name;
           objectiveTimer.textContent = objective.alive
-            ? "可争夺 · 击败强化兵线"
-            : `刷新 ${Math.ceil(Math.max(0, objective.respawn))}s`;
+            ? "Contestable · defeat the empowered minions"
+            : `Respawns ${Math.ceil(Math.max(0, objective.respawn))}s`;
         }
 
         function renderLaneBoard() {
@@ -3844,10 +3844,10 @@
             const score = Math.round(pressure * 100);
             const label =
               pressure > 0.18
-                ? "蓝方推进"
+                ? "Blue pushing"
                 : pressure < -0.18
-                  ? "赤方推进"
-                  : "均势";
+                  ? "Red pushing"
+                  : "Even";
             return { lane, pressure, score, label };
           });
           const nextKey = laneStates
@@ -3947,7 +3947,7 @@
               !player.alive ||
               game.paused ||
               game.over;
-            button.innerHTML = `<strong>${def.key} ${def.name}</strong><span>${locked ? "3 级解锁" : cd > 0 ? cd.toFixed(1) + "s" : cost + " 能量"}</span>`;
+            button.innerHTML = `<strong>${def.key} ${def.name}</strong><span>${locked ? "Unlocks at level 3" : cd > 0 ? cd.toFixed(1) + "s" : cost + " energy"}</span>`;
             button.addEventListener("click", () => queueAbility(key));
             abilityGrid.appendChild(button);
           }
@@ -4667,7 +4667,7 @@
                 ctx.font = "900 26px 'Segoe UI', sans-serif";
                 ctx.textAlign = "center";
                 ctx.fillText(
-                  "复活 " + Math.ceil(hero.respawn),
+                  "Respawn " + Math.ceil(hero.respawn),
                   WORLD_W / 2,
                   WORLD_H / 2,
                 );
@@ -4885,7 +4885,7 @@
             9 * d,
             player.hp / player.maxHp,
             "#4ec5e8",
-            "生命",
+            "Life",
           );
           hudBar(
             x,
@@ -4894,7 +4894,7 @@
             7 * d,
             player.mana / player.maxMana,
             "#67d784",
-            "能量",
+            "Energy",
           );
           hudBar(
             x,
@@ -4903,7 +4903,7 @@
             5 * d,
             player.xp / xpNeed(player.level),
             "#f4ca58",
-            "经验",
+            "XP",
           );
 
           ctx.textAlign = "center";
@@ -4940,23 +4940,23 @@
           const objective = entities.objectives[0];
           const objectiveText = objective
             ? objective.alive
-              ? `晶兽 ${percent(objective.hp, objective.maxHp)}`
-              : `晶兽刷新 ${Math.ceil(Math.max(0, objective.respawn))}s`
-            : "晶兽未出现";
+              ? `Beast ${percent(objective.hp, objective.maxHp)}`
+              : `Beast respawn ${Math.ceil(Math.max(0, objective.respawn))}s`
+            : "Beast not spawned";
           const buffText = [BLUE, RED]
             .filter((team) => teamBuffs[team].duration > 0)
             .map(
               (team) =>
-                `${teamName[team]}晶潮 ${Math.ceil(teamBuffs[team].duration)}s`,
+                `${teamName[team]}Crystal Tide ${Math.ceil(teamBuffs[team].duration)}s`,
             )
             .join(" · ");
           const personalBuffText = [
-            player.emberTime > 0 ? `余烬 ${Math.ceil(player.emberTime)}s` : "",
+            player.emberTime > 0 ? `Ember ${Math.ceil(player.emberTime)}s` : "",
             player.aetherTime > 0
-              ? `苍蓝 ${Math.ceil(player.aetherTime)}s`
+              ? `Azure ${Math.ceil(player.aetherTime)}s`
               : "",
             player.bulwarkTime > 0
-              ? `石甲 ${Math.ceil(player.bulwarkTime)}s`
+              ? `Stone ${Math.ceil(player.bulwarkTime)}s`
               : "",
           ]
             .filter(Boolean)
@@ -4991,21 +4991,21 @@
           ctx.font = `${Math.round(13 * d)}px "Segoe UI", sans-serif`;
           ctx.fillStyle = "rgba(240, 247, 237, 0.94)";
           ctx.fillText(
-            `第 ${Math.max(1, game.waveNumber)} 波`,
+            `Wave ${Math.max(1, game.waveNumber)} underway`,
             x + w / 2,
             y + 15 * d,
           );
           ctx.font = `${Math.round(11 * d)}px "Segoe UI", sans-serif`;
           ctx.fillStyle = "rgba(244, 202, 88, 0.95)";
           ctx.fillText(
-            `${objectiveText} · 下一波 ${Math.ceil(game.waveTimer)}s`,
+            `${objectiveText} · Next wave ${Math.ceil(game.waveTimer)}s`,
             x + w / 2,
             y + 31 * d,
           );
           ctx.fillStyle = allBuffText
             ? "rgba(103, 215, 132, 0.95)"
             : "rgba(167, 184, 166, 0.84)";
-          ctx.fillText(allBuffText || "无增益", x + w / 2, y + 45 * d);
+          ctx.fillText(allBuffText || "No buff", x + w / 2, y + 45 * d);
         }
 
         function drawAbilityHud(d) {
@@ -5047,7 +5047,7 @@
             ctx.font = `${Math.round(10 * d)}px "Segoe UI", sans-serif`;
             ctx.fillStyle = "rgba(167, 184, 166, 0.95)";
             const label = locked
-              ? "锁定"
+              ? "Locked"
               : player.cooldowns[key] > 0
                 ? player.cooldowns[key].toFixed(1)
                 : def.cost;
@@ -5212,7 +5212,7 @@
           if (target) {
             player.target = target;
             player.moveTarget = null;
-            showToast("锁定 " + target.name);
+            showToast("Locked " + target.name);
           } else {
             player.moveTarget = p;
             player.target = null;
@@ -5223,7 +5223,7 @@
           if (!game.started || game.over || game.draftOpen) return;
           game.paused = !game.paused;
           pauseBtn.textContent = game.paused ? "▶" : "Ⅱ";
-          showToast(game.paused ? "暂停" : "继续");
+          showToast(game.paused ? "Pause" : "Resume");
           updateUI();
         }
 
@@ -5289,16 +5289,16 @@
           try {
             await navigator.clipboard.writeText(code);
           } catch (error) {}
-          prompt("晶塔前线存档码（已尝试复制，可在其他设备导入）", code);
+          prompt("Crystal Tower Frontline save code (copy attempted; import on another device)", code);
         });
         importSaveBtn.addEventListener("click", () => {
-          const code = prompt("粘贴晶塔前线存档码：");
+          const code = prompt("Paste Crystal Tower Frontline save code:");
           if (!code) return;
           try {
             importCareer(code);
-            alert("存档导入成功，赛季成长与纪录已恢复。");
+            alert("Import successful; season progress and records restored.");
           } catch (error) {
-            alert(`导入失败：${error.message}`);
+            alert(`Import failed: ${error.message}`);
           }
         });
 
@@ -5400,7 +5400,7 @@
               game.lastStandCharges = 1;
               player.hp = 100;
               player.shield = 0;
-              damageUnit(player, 1000, enemyHero, "调试重击");
+              damageUnit(player, 1000, enemyHero, "Debug heavy strike");
               updateUI();
               return debugSnapshot();
             },

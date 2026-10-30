@@ -430,6 +430,21 @@ Read `docs/MILESTONE19_DESIGN.md` before any Phase 197-204. Phase 188 (M17 gate)
 - Docs-only changes need no version bump and no tag. Each code phase bumps the version in `package.json` and both spots in `package-lock.json` as listed in `PHASES.md`.
 - Items marked [A] are unconfirmed assumptions (`MILESTONE19_DESIGN.md` section 5); say so in every phase log.
 
+## 10o. Milestone 20 supersessions (Phases 205-217, releases 0.1.48 and 0.1.49): Games in English
+
+Read `docs/MILESTONE20_DESIGN.md` (then `docs/MILESTONE19_DESIGN.md`) before any Phase 205-217. Everything in 10n still holds. Phase 188 (M17 gate) and Phase 69 (release gate) are separate and still run. Desktop only: do not touch `src/pwa` or anything phone.
+- **Why:** 59 of the 66 bundled games have a Chinese interface (only `2048`, `bounce-ball`, `blocks`, `chess`, `snake`, `spider-solitaire`, `tower-defence` are English). Phase 205 hides them by default (`lang` in the manifest, setting `games.showChinese`, default off); Phases 206-215 translate them in batches; Phase 216 is the gate.
+- **A translation changes STRINGS ONLY.** Never change game logic, variable or file names, sizes or timing; never rewrite a whole file. Use `tools/games-i18n.mjs` (`extract`, `apply`, `check`, built in Phase 206): it replaces exact strings only and writes a unified diff to `docs/patches/<gameId>-en.diff`. Comments may stay Chinese.
+- **No translation API, no key, no network, no machine-translation service.** Claude writes the English in the session. The worksheet `docs/translations/<gameId>.json` (zh + en per string) is data kept in the repo, not shipped.
+- **A game is `lang: "en"` only when it is finished:** `check` finds no Chinese in visible text, attributes, string literals or CSS `content`, the audit still passes, and the manifest title and description are English. Never mark a half-translated game `en`; stop at a game boundary and carry the rest forward.
+- **Strings used as logic** (keys, comparisons, `split`, `length`, `localStorage`) are marked `risky` in the worksheet; translate every occurrence of a string consistently, never edit code to make English fit. If it cannot be done safely, leave the game `zh` and list it.
+- **Licence rules unchanged:** never touch a game's `LICENSE`; `docs/THIRD_PARTY_GAMES.md` records each translation and patch; Credits still lists all 66 games.
+- **Games whose content is the Chinese language** (`crossword-cafe`, maybe `star-tarot`, `shan-hai`) are judged in Phase 215; nothing is dropped without the owner's word. (Owner's word given 2026-10-30: `crossword-cafe`, `star-tarot`, `shan-hai` and `starforge-idle` were removed; 62 games remain, all English.)
+- **Versions:** Phase 205 is a release gate [A] (0.1.48); Phase 216 is the milestone release gate (0.1.49); Phases 206-215 and 217 do NOT bump or tag (push steps: extract the changed-files zip, `git add .`, `git commit`, `git push origin main`). The owner's session prompt may change this; if it says "no bump unless release gate", follow the phase entry's Version line.
+- **TESTING RULE (owner's standing rule, repeated on purpose): DO NOT RUN THE FULL TEST SUITE.** Never `npm test`, never a bare `npx vitest run`, never the whole `src` folder. `npm run typecheck` once plus ONLY the named test files (`gameLanguage`, `vendoredGames`, `manifest`, `gamesI18n`, `importBoundaries` for batch phases); no build, no dev server; list what you ran and what you did not.
+- Real Windows behaviour (does the English fit, does the game still play) is never "verified" from the sandbox; it goes in `docs/M20_OWNER_CHECKLIST.md` (written in Phase 216).
+- Items marked [A] are unconfirmed assumptions (`MILESTONE20_DESIGN.md` section 7); say so in every phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched

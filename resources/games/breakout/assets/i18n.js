@@ -22,10 +22,10 @@
   'use strict';
 
   var LANGS = ['zh', 'en', 'ja', 'ko'];
-  var LANG_LABEL = { zh: '中文', en: 'EN', ja: '日本語', ko: '한국어' };
+  var LANG_LABEL = { zh: 'ZH', en: 'EN', ja: 'JA', ko: 'KO' };
   var LANG_TITLE = {
-    zh: '切换语言', en: 'Switch language',
-    ja: '言語を切り替え', ko: '언어 변경'
+    zh: 'Switch language', en: 'Switch language',
+    ja: 'Switch language', ko: 'Switch language'
   };
 
   // Default language is Chinese (matches landing page & static HTML).
@@ -158,8 +158,8 @@
     var a = document.createElement('a');
     a.href = '../../?lang=' + lang;
     a.textContent = '🏠';
-    var label = lang === 'zh' ? '返回游戏库' : lang === 'ja' ? 'ゲーム一覧へ戻る' :
-      lang === 'ko' ? '게임 목록으로' : 'Back to game library';
+    var label = lang === 'zh' ? 'Back to game library' : lang === 'ja' ? 'Back to game library' :
+      lang === 'ko' ? 'Back to game library' : 'Back to game library';
     a.title = label;
     a.setAttribute('aria-label', label);
     var host = document.querySelector('.brand-btns') || document.querySelector('.top-links');

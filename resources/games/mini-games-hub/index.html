@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>小游戏厅 · 12 款开源小游戏（浏览器直接玩，不用装）</title>
-<meta name="description" content="12 款浏览器小游戏合集：4096、贪吃蛇、俄罗斯方块、扫雷、打砖块、2048、恐龙跳、Bird flight、五子棋、记忆翻牌、太空射击、数字华容道、打地鼠。纯本地运行，最高分存本机。" />
-<meta property="og:title" content="小游戏厅 · 13 款小游戏" />
-<meta property="og:description" content="12 款浏览器小游戏，纯本地运行，最高分存本机。" />
+<title>Mini Games Hall · 12 open-source mini games (play in the browser, no install)</title>
+<meta name="description" content="A collection of 12 browser mini games: 4096, Snake, Tetris, Minesweeper, Breakout, 2048, Dino Run, Bird Flight, Gomoku, Memory Match, Space Shooter, Number Slide Puzzle, Whack-a-Mole. Runs fully locally; high scores are kept on this device." />
+<meta property="og:title" content="Mini Games Hall · 13 mini games" />
+<meta property="og:description" content="12 browser mini games, fully local, high scores kept on this device." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='11' rx='4'/%3E%3Cpath d='M7 12h3M8.5 10.5v3M15.5 12h.01M18 12h.01'/%3E%3C/svg%3E" />
 <style>
 [hidden] { display: none !important; }
@@ -122,19 +122,19 @@ body {
 
   <section id="hall">
     <div class="hall-head">
-      <h1>小游戏厅</h1>
-      <p><b>12 款小游戏</b>，全部在浏览器里跑，不用安装、不用登录；最高分只存在你自己的浏览器里。</p>
+      <h1>Mini Games Hall</h1>
+      <p><b>12 mini games</b>, all running in the browser, no install, no login; high scores are stored only in your own browser.</p>
     </div>
     <div class="grid" id="grid"></div>
   </section>
 
   <section id="play" hidden>
     <div class="play-head">
-      <button class="back" id="backBtn">← 返回大厅</button>
+      <button class="back" id="backBtn">← Back to hall</button>
       <h2 id="gname">—</h2>
       <div class="chips">
-        <span class="chip">得分 <b id="score">0</b></span>
-        <span class="chip accent" id="bestChip">🏆 最高 <b id="best">—</b></span>
+        <span class="chip">Score <b id="score">0</b></span>
+        <span class="chip accent" id="bestChip">🏆 Best <b id="best">—</b></span>
       </div>
     </div>
 
@@ -142,15 +142,15 @@ body {
       <div class="stage-box"><div id="stage"></div></div>
       <aside class="side">
         <div class="pane">
-          <div class="lbl">状态</div>
+          <div class="lbl">Status</div>
           <div class="status" id="status">—</div>
         </div>
         <div class="pane" id="optPane" hidden>
-          <div class="lbl">选项</div>
+          <div class="lbl">Options</div>
           <div id="opts"></div>
         </div>
         <div class="pane">
-          <div class="lbl">操作</div>
+          <div class="lbl">Controls</div>
           <div class="controls" id="controls">—</div>
         </div>
       </aside>
@@ -158,7 +158,7 @@ body {
   </section>
 
   <footer class="foot">
-    <span>纯前端 · 无后端 · 最高分存本机</span>
+    <span>Front-end only · no backend · high scores stored locally</span>
     <span>
       <a href="https://github.com/bushimashen/games" target="_blank" rel="noopener">GitHub</a>
       · <a href="https://gitee.com/codegoder/games" target="_blank" rel="noopener">Gitee</a>
@@ -212,7 +212,7 @@ function renderHall() {
       <div class="ico">${g.icon}</div>
       <h3>${esc(g.name)}</h3>
       <p class="tag">${esc(g.tagline || '')}</p>
-      ${best ? `<span class="best">${g.bestLower ? '⚡ 最快' : '🏆 最高'} ${best}</span>` : ''}
+      ${best ? `<span class="best">${g.bestLower ? '⚡ Fastest' : '🏆 Best'} ${best}</span>` : ''}
     `
     b.addEventListener('click', () => openGame(g.id))
     grid.appendChild(b)
@@ -238,12 +238,12 @@ const api = {
   },
   over(v) {
     if (current && !current.bestLower) { saveBest(current.id, v, false); syncBest() }
-    $('status').textContent = '本局结束'
+    $('status').textContent = 'Game over'
   },
   win(v) {
     saveBest(current.id, v, !!current.bestLower)
     syncBest()
-    $('status').textContent = current.bestLower ? '新纪录！' : '达成目标，可继续挑战更高分'
+    $('status').textContent = current.bestLower ? 'New record!' : 'Goal reached, keep going for a higher score'
   },
   status(v) { $('status').textContent = v },
   get options() { return options },
@@ -256,7 +256,7 @@ const api = {
 function syncBest() {
   const v = bestOf(current.id)
   $('best').textContent = v || '—'
-  $('bestChip').firstChild.textContent = current.bestLower ? '⚡ 最快 ' : '🏆 最高 '
+  $('bestChip').firstChild.textContent = current.bestLower ? '⚡ Fastest ' : '🏆 Best '
 }
 
 function syncRuntimeSelects() {
@@ -311,7 +311,7 @@ async function openGame(id) {
   $('score').textContent = '0'
   $('gname').textContent = g.name
   $('controls').textContent = g.controls || '—'
-  $('status').textContent = '准备开始'
+  $('status').textContent = 'Ready to start'
   $('hall').hidden = true
   $('play').hidden = false
   syncBest()
@@ -328,7 +328,7 @@ async function openGame(id) {
     renderOptions(current)
     mount(current)
   } catch (e) {
-    $('status').textContent = '加载失败：' + (e.message || e)
+    $('status').textContent = 'Load failed: ' + (e.message || e)
   }
 }
 

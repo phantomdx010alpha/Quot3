@@ -451,10 +451,10 @@
   function applyPowerup(type) {
     if (type === 'double') {
       player.double = DOUBLE_DURATION;
-      addPopup(player.x, player.y - 28, '双发弹药', COLOR.cyan);
+      addPopup(player.x, player.y - 28, 'Double Shot', COLOR.cyan);
     } else {
       player.shield = true;
-      addPopup(player.x, player.y - 28, '能量护盾', '#b9a8ff');
+      addPopup(player.x, player.y - 28, 'Energy Shield', '#b9a8ff');
     }
   }
 
@@ -474,7 +474,7 @@
       player.invuln = SHIELD_INVULN;
       addShake(0.22, 8);
       explosion(player.x, player.y, 'player', 0.5);
-      addPopup(player.x, player.y - 28, '护盾抵挡', COLOR.cyan);
+      addPopup(player.x, player.y - 28, 'Shield Block', COLOR.cyan);
       return;
     }
     lives -= 1;
@@ -1059,7 +1059,7 @@
     if (combo >= 2) {
       const m = comboMult();
       const mText = (m % 1 === 0) ? String(m) : m.toFixed(1);
-      comboEl.textContent = '连击 x' + combo + ' · ' + mText + ' 倍';
+      comboEl.textContent = 'Combo x' + combo + ' · ' + mText + ' multiplier';
       comboEl.classList.remove('hidden');
     } else {
       comboEl.classList.add('hidden');
