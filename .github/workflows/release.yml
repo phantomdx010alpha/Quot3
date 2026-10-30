@@ -22,6 +22,11 @@ jobs:
           node-version: 22
           cache: npm
 
+      - uses: actions/setup-python@v5
+        id: setup-python
+        with:
+          python-version: '3.12'
+
       - name: Check the tag matches package.json version
         shell: bash
         run: |
@@ -37,6 +42,8 @@ jobs:
         run: npm pkg set repository.type=git repository.url="https://github.com/${GITHUB_REPOSITORY}.git"
 
       - run: npm ci
+        env:
+          npm_config_python: ${{ steps.setup-python.outputs.python-path }}
 
       # electron-builder uploads the installer and its blockmap in parallel and both try to create the release; one fails with
       # 422 already_exists and the release ends up missing files. Creating the release first avoids that race.
