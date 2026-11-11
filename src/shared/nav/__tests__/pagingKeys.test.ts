@@ -35,6 +35,11 @@ describe('Phase 220 pagingBlocked / pagingDir', () => {
     expect(pagingBlocked(tgt())).toBe(false)
     expect(pagingBlocked(tgt({ tag: 'LI' }))).toBe(false)
     expect(pagingBlocked(tgt({ inGrid: true, editable: true, tag: 'INPUT' }))).toBe(false)
+    // owner report 2026-11-11: stepping must work from the party name field of the opened bill
+    expect(pagingBlocked(tgt({ tag: 'INPUT', inBillBar: true }))).toBe(false)
+    expect(pagingBlocked(tgt({ tag: 'INPUT', inBillBar: true, inOverlay: true }))).toBe(true)
+    expect(pagingBlocked(tgt({ tag: 'TEXTAREA', inBillBar: true }))).toBe(true)
+    expect(pagingBlocked(tgt({ tag: 'INPUT' }))).toBe(true)
   })
   it('only the plain keys step', () => {
     expect(pagingDir(key('PageUp'))).toBe('prev')

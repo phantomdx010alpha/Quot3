@@ -10,6 +10,7 @@ export function pagingTargetOf(el: Element | null): PagingTarget {
     tag: h?.tagName ?? '',
     editable: !!h && (h.isContentEditable || h.getAttribute?.('role') === 'textbox'),
     inGrid: !!h?.closest?.('[role=grid][aria-label]') && !!h?.closest?.('.q3-create'),
+    inBillBar: !!h?.closest?.('.q3-create') && h.getAttribute?.('aria-expanded') !== 'true',
     inOverlay: !!h?.closest?.('[role=dialog],[role=alertdialog],[role=menu],[role=listbox],[data-q3-overlay]') || !!document.querySelector('[role=dialog][aria-modal=true],[role=alertdialog]')
   }
 }

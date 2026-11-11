@@ -1,6 +1,6 @@
 # Milestone 21 — Owner's Windows checklist (page memory, Esc, PageUp / PageDown)
 
-Handed over UNFILLED by Phase 221 (2026-11-11), release 0.1.50 [A]. Nothing below was run in a real Electron window: the sandbox ran one typecheck and named test files only. Real keyboard feel, focus and scroll restore are NEVER "verified" from the sandbox. Tick each line on a real Windows PC with the installed app and write what you see next to anything that is wrong.
+Handed over UNFILLED by Phase 221 (2026-11-11), release 0.1.51 [A]. Nothing below was run in a real Electron window: the sandbox ran one typecheck and named test files only. Real keyboard feel, focus and scroll restore are NEVER "verified" from the sandbox. Tick each line on a real Windows PC with the installed app and write what you see next to anything that is wrong.
 
 Date checked: ____________  App version shown in Settings: ____________  Windows version: ____________  Screen size(s): ____________
 

@@ -36,6 +36,8 @@ export interface PagingTarget {
   editable: boolean
   /** Inside the bill grid (its cells are editable by design). */
   inGrid: boolean
+  /** A single-line field in the opened bill's header bar (party name, phone, transport ...), outside the grid. PageUp / PageDown mean nothing in such a field, so bill stepping works from it (owner report 2026-11-11). Optional: absent = false. */
+  inBillBar?: boolean
   /** Inside a dialog, menu, listbox, popup or other overlay layer ("close one layer first", KB section 6). */
   inOverlay: boolean
 }
@@ -48,6 +50,7 @@ export function pagingBlocked(t: PagingTarget): boolean {
   if (t.inOverlay) return true
   const tag = t.tag.toUpperCase()
   if (t.inGrid) return false
+  if (t.inBillBar && tag === 'INPUT') return false
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true
   return t.editable
 }
