@@ -10,6 +10,7 @@ import { useRouter } from '../../../router/routerStore'
 import { initialNav, navPush, ROUTES } from '@shared/routes'
 import type { GroupDetail, GroupSales, GroupSummary, ItemsOverview } from '@shared/items/api'
 import type { SaleRow, SalesTab } from '@shared/items/sales'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 const openBill = vi.fn(async (_id: string) => true)
 vi.mock('../../../stores/createSession', () => ({ openBillForEdit: (id: string) => openBill(id) }))
@@ -62,6 +63,7 @@ const cellsOf = (r: HTMLElement): string[] => [...r.querySelectorAll('[role="gri
 const toSales = async (): Promise<void> => { await key({ key: '3', ctrlKey: true, altKey: true }) }
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   openBill.mockClear()
   vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(520)
   vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(900)

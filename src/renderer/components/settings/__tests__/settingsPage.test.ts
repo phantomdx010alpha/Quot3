@@ -7,6 +7,7 @@ import { useSettingsStore } from '../../../stores/settingsStore'
 import { useBehaviourStore } from '../../../stores/behaviourStore'
 import { ACTIONS } from '@shared/shortcuts'
 import { DEFAULT_BEHAVIOUR, type AppSettingsState } from '@shared/settings/appSettings'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -28,6 +29,7 @@ const base = (): AppSettingsState => ({
 const okState = () => ({ ok: true as const, data: state })
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   state = base()
   api = {
     get: vi.fn(async () => okState()),

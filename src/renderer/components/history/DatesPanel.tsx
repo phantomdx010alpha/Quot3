@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { formatHistoryDate, isListKey, moveListIndex, type HistoryDate } from '@shared/history/historyList'
+import { currentPagingMode } from '../../stores/pagingActions'
 
 export interface DatesPanelProps {
   dates: readonly HistoryDate[]
@@ -22,7 +23,8 @@ export function DatesPanel({ dates, selected, onSelect, onEnter, panelRef }: Dat
 
   const onKeyDown = (e: React.KeyboardEvent): void => {
     if (e.ctrlKey || e.altKey || e.metaKey) return
-    if (isListKey(e.key)) {
+    // Phase 220 (M21): with a party in focus PageUp / PageDown step through the parties (usePagingKeys), not the dates.
+    if (isListKey(e.key) && !((e.key === 'PageUp' || e.key === 'PageDown') && currentPagingMode() === 'parties')) {
       e.preventDefault()
       const page = Math.max(1, Math.floor((listRef.current?.clientHeight ?? 260) / 26) - 1)
       const next = moveListIndex(index, dates.length, e.key, page)

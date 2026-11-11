@@ -42,6 +42,26 @@ export function startFreshBill(): void {
   useRouter.getState().navigate(ROUTES.create)
 }
 
+/**
+ * Phase 220 (M21 bill stepping): swap the saved bill shown in the SAME bill view for another one (PageUp / PageDown). No navigation, so the
+ * stack does not grow. 'gone' = the bill cannot be read any more (deleted / trashed / synced away: the caller skips it), 'error' = no
+ * bridge or a thrown error (the caller stops). Callers go through the unsaved-changes guard first.
+ */
+export async function openBillInPlace(id: string): Promise<'ok' | 'gone' | 'error'> {
+  const api = (window as unknown as { quot3?: Pick<Quot3Bridge, 'bills'> }).quot3?.bills
+  if (!api) return 'error'
+  try {
+    const r = await api.getForEdit(id)
+    if (!r.ok) return 'gone'
+    const flag = useBehaviourStore.getState().roundOff ? (1 as const) : (0 as const)
+    useBillStore.getState().loadBill({ ...r.data, roundOff: flag })
+    createSession.set(r.data.id)
+    return 'ok'
+  } catch {
+    return 'error'
+  }
+}
+
 /** Load a saved bill into the Create page. Resolves false (nothing changed) when it cannot be read. Callers go through the guard first. */
 export async function openBillForEdit(id: string): Promise<boolean> {
   const api = (window as unknown as { quot3?: Pick<Quot3Bridge, 'bills'> }).quot3?.bills

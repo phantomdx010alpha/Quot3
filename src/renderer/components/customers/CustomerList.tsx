@@ -53,7 +53,8 @@ export function CustomerList({ rows, selectedId, edit, emptyText, onSelect, onEd
 
   const onKeyDown = (e: React.KeyboardEvent): void => {
     if (e.target !== e.currentTarget || e.altKey || e.metaKey || e.ctrlKey) return
-    if (isListKey(e.key)) {
+    // Phase 220 (M21): PageUp / PageDown step through the customers (usePagingKeys); every other list key keeps its meaning.
+    if (isListKey(e.key) && e.key !== 'PageUp' && e.key !== 'PageDown') {
       e.preventDefault()
       const page = Math.max(1, Math.floor((listRef.current?.clientHeight ?? 260) / CUSTOMER_ROW_PX) - 1)
       const next = rows[moveListIndex(index, rows.length, e.key, page)]

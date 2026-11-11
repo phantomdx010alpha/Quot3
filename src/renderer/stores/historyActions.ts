@@ -4,6 +4,7 @@ import { billToTsv } from '@shared/tsv/billTsv'
 import { currentPath, ROUTES } from '@shared/routes'
 import type { Bill, PrintMode } from '@shared/types'
 import { useRouter } from '../router/routerStore'
+import { captureHistoryContext } from '../pageMemory/billContext'
 import { forgetDraft } from './draftAutosave'
 import { useBillStore } from './billStore'
 import { createSession, openBillForEdit } from './createSession'
@@ -54,6 +55,7 @@ async function fetchBill(id: string): Promise<Bill | null> {
 export function openSelectedBill(): boolean {
   const b = single('open')
   if (!b) return false
+  captureHistoryContext(b.id)
   requestLeave(() => {
     void openBillForEdit(b.id).then((ok) => { if (!ok) say('danger', `Could not open ${b.poNumber}`) })
   })

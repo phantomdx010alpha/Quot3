@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { savePageNow, selectViewedBill, usePageMemoryStore } from '../stores/pageMemoryStore'
 import { ROUTES, canGoBack, currentPath, initialNav, isRoutePath, navBack, navPush, type NavPushOptions, type NavState } from '@shared/routes'
 
 interface RouterState {
@@ -24,8 +25,13 @@ export const useRouter = create<RouterState>((set, get) => ({
   navCount: 0,
   navigate: (path, opts) => {
     const go = (): void => {
-      const next = navPush(get().nav, path, opts)
-      if (next !== get().nav) set((s) => ({ nav: next, navCount: s.navCount + 1 }))
+      // Phase 219 (M21-2) [A: owner's word pending]: the one-previous-page rule is ON for the app router (the pure default stays off).
+      const next = navPush(get().nav, path, { keepPrevious: true, ...opts })
+      if (next === get().nav) return
+      savePageNow(currentPath(get().nav)) // save on leave, while the page's DOM is still mounted
+      // The BillContext lives only for that bill view: any navigation that is not the drill-down into a bill ends it (a new bill never has one).
+      if (!opts?.returnToCurrent) usePageMemoryStore.getState().setBillContext(null)
+      set((s) => ({ nav: next, navCount: s.navCount + 1 }))
     }
     if (leaveGuard && currentPath(get().nav) === ROUTES.create && path !== ROUTES.create) leaveGuard(go)
     else go()
@@ -33,7 +39,13 @@ export const useRouter = create<RouterState>((set, get) => ({
   back: () => {
     const go = (): void => {
       const next = navBack(get().nav)
-      if (next !== get().nav) set((s) => ({ nav: next, navCount: s.navCount + 1 }))
+      if (next !== get().nav) savePageNow(currentPath(get().nav))
+      if (next !== get().nav) {
+        const ctx = usePageMemoryStore.getState().billContext
+        if (ctx && currentPath(next) === ctx.sourcePath) selectViewedBill(ctx.sourcePath, ctx.currentId, ctx.orderedBillIds)
+        usePageMemoryStore.getState().setBillContext(null)
+        set((s) => ({ nav: next, navCount: s.navCount + 1 }))
+      }
     }
     const target = navBack(get().nav)
     if (leaveGuard && target !== get().nav && currentPath(get().nav) === ROUTES.create && currentPath(target) !== ROUTES.create) leaveGuard(go)

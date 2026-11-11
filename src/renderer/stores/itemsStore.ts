@@ -7,6 +7,7 @@ import { buildGroupRows, buildSpellingRows, groupIdsOf, type SpellingRow } from 
 import { useSaveUiStore } from './saveUiStore'
 import { openBillForEdit } from './createSession'
 import { requestLeave } from './guardStore'
+import { captureItemsContext } from '../pageMemory/billContext'
 
 /**
  * Phase 112 - Items page state (overview, search, selected group, focused window, rebuild progress).
@@ -224,6 +225,7 @@ export const useItemsStore = create<ItemsState>((set, get) => ({
     if (!res.ok) { say('danger', `Could not open ${row.poNumber}: ${res.error.message}`); return false }
     if (res.data === null) { say('warn', `${row.poNumber} no longer exists. Press F5 to read the bills again.`); return false }
     const t = res.data
+    captureItemsContext(t.billId)
     requestLeave(() => {
       void openBillForEdit(t.billId).then((ok) => { if (!ok) say('danger', `Could not open ${t.poNumber}`) })
     })

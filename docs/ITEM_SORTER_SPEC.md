@@ -52,7 +52,7 @@ Owner rules sync between branches as a new snapshot kind `item_rule` (last-write
 - Renderer shows pre-aggregated rows (virtualised list); no per-row React store subscriptions that return fresh arrays (Phase 92 rule).
 
 ## 8. Decisions and open items
-- **Decision:** v1 uses rules + learned vocabulary + owner rules, no AI model. Optional later: a local embedding model (e.g. `Xenova/all-MiniLM-L6-v2`, Apache-2.0, int8 ONNX ~23 MB, via `@huggingface/transformers`; `Xenova/multilingual-e5-small` for mixed-language names, licence to be checked) used ONLY to propose "suggested" matches, never to auto-merge, and only if the rules leave too many leftovers after real use. Embeddings are weak at telling codes like 505 vs D7 apart. Not planned in any phase.
+- **Decision:** v1 uses rules + learned vocabulary + owner rules, no AI model. Optional later: a local embedding model (e.g. `Xenova/all-MiniLM-L6-v2`, Apache-2.0, int8 ONNX ~23 MB, via `@huggingface/transformers`; `Xenova/multilingual-e5-small` for mixed-language names, licence to be checked) used ONLY to propose "suggested" matches, never to auto-merge, and only if the rules leave too many leftovers after real use. Embeddings are weak at telling codes like 505 vs D7 apart. Not planned in any phase. **Update 2026-11-11: now planned as Milestone 22 (Phases 222-232, `docs/MILESTONE22_DESIGN.md`): suggestions only, never auto-merge, numbers protected, default off.**
 - **[A]** Rules sync between branches.
 - **[A]** Item-name autocomplete while typing a bill (using the groups) is NOT in this milestone; offered to the owner, open question.
 - **[A]** Milestone 10 runs before the Phase 69 release gate.

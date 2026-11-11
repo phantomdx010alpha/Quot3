@@ -44,9 +44,20 @@ export function canGoBack(s: NavState): boolean {
   return s.stack.length > 1
 }
 
+/** Phase 218 (M21-2): the previous-page rule is built but OFF until the UI phase (219) switches it on [A: owner's word pending]. */
+export const PREVIOUS_PAGE_RULE_DEFAULT = false
+
+/** Pages that can sit underneath as "the previous page" (Esc returns there). Create and the /dev pages never do. */
+const PREVIOUS_PAGES: readonly string[] = [ROUTES.history, ROUTES.customers, ROUTES.items, ROUTES.games, ROUTES.settings]
+
 export interface NavPushOptions {
   /** The page is a drill-down opened from the current History / Customers / Items page (a bill): Esc returns there. */
   returnToCurrent?: boolean
+  /**
+   * Phase 218 (M21-2) [A]: keep ONE previous page, `[dashboard, previous, current]`. Navigating to the previous page pops back to it,
+   * the Dashboard resets to `[dashboard]`. Defaults to `PREVIOUS_PAGE_RULE_DEFAULT` (false = the Phase 94 behaviour, unchanged).
+   */
+  keepPrevious?: boolean
 }
 
 /**
@@ -58,8 +69,21 @@ export function navPush(s: NavState, path: string, opts: NavPushOptions = {}): N
   if (!isRoutePath(path) || path === currentPath(s)) return s
   if (path === ROUTES.dashboard) return { stack: [ROUTES.dashboard] }
   const cur = currentPath(s)
+  if (opts.keepPrevious ?? PREVIOUS_PAGE_RULE_DEFAULT) return navPushKeepPrevious(s, cur, path, opts)
   if (opts.returnToCurrent && RETURN_PAGES.includes(cur)) return { stack: [ROUTES.dashboard, cur, path] }
   return { stack: [ROUTES.dashboard, path] }
+}
+
+/** Phase 218 (M21-2): the one-previous-page rule (design section 4). The drill-down keeps working exactly as before. */
+function navPushKeepPrevious(s: NavState, cur: string, path: string, opts: NavPushOptions): NavState {
+  if (opts.returnToCurrent && RETURN_PAGES.includes(cur)) return { stack: [ROUTES.dashboard, cur, path] }
+  const stack = s.stack
+  const prev = stack.length >= 3 ? stack[stack.length - 2] : undefined
+  // Going to the page that is already the previous one just pops back to it (no [dashboard, a, b, a] growth).
+  if (prev !== undefined && prev !== ROUTES.dashboard && prev === path) return { stack: stack.slice(0, -1) }
+  // The page left becomes the previous one; from Create (a drill-down) the list underneath stays; /dev pages are never kept.
+  const keep = PREVIOUS_PAGES.includes(cur) ? cur : cur === ROUTES.create && prev !== undefined && PREVIOUS_PAGES.includes(prev) ? prev : null
+  return { stack: keep && keep !== path ? [ROUTES.dashboard, keep, path] : [ROUTES.dashboard, path] }
 }
 
 /** Pop one page; at the Dashboard (the root) it is a no-op. */

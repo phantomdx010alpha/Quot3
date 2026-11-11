@@ -9,6 +9,7 @@ import { useAppActions } from '../../../hooks/useAppActions'
 import { useRouter } from '../../../router/routerStore'
 import { currentPath, initialNav, ROUTES } from '@shared/routes'
 import { decodeCursor, encodeCursor, type BillListItem, type HistoryBranch } from '@shared/history/historyList'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -70,6 +71,7 @@ const billRows = (): string[] => [...host.querySelectorAll('.q3-hist__billrow')]
 const selectedBill = (): string | null => useHistoryStore.getState().billId
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   // jsdom has no layout: give every element a size so the virtualiser renders rows.
   vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(520)
   vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(900)

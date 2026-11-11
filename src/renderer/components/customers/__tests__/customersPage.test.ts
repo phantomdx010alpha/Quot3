@@ -11,6 +11,7 @@ import { useRouter } from '../../../router/routerStore'
 import { currentPath, initialNav, ROUTES } from '@shared/routes'
 import type { CustomerInput, CustomerRow } from '@shared/customers/customerList'
 import type { BillListItem } from '@shared/history/historyList'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -67,6 +68,7 @@ const names = (): string[] => [...host.querySelectorAll('.q3-hist__billrow [role
 const sel = (): string | null => useCustomersStore.getState().selectedId
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(520)
   vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(900)
   vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(520)

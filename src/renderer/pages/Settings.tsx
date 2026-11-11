@@ -24,6 +24,9 @@ import { useLegacyImportStore } from '../stores/legacyImportStore'
 import { GamesSection } from '../components/settings/GamesSection'
 import { SETTINGS_SECTIONS, useSettingsStore, type SettingsSection } from '../stores/settingsStore'
 import { GearSix } from '@phosphor-icons/react'
+import { usePageMemory } from '../hooks/usePageMemory'
+import { settingsAdapter } from '../pageMemory/adapters'
+import { ROUTES } from '@shared/routes'
 
 /**
  * Phase 48 - Settings: a section list (Up/Down move and open, Tab goes into the form) and one form per section. Company, Branch,
@@ -32,6 +35,8 @@ import { GearSix } from '@phosphor-icons/react'
 export default function Settings(): React.JSX.Element {
   const { section, status, loadError, data, savedAt } = useSettingsStore()
   const navRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  usePageMemory(ROUTES.settings, rootRef, settingsAdapter())
   const waiting = useLegacyWatchStore((s) => s.reviewCount)
   useEffect(() => { void useSettingsStore.getState().load(); void useLegacyWatchStore.getState().refreshCount() }, [])
 
@@ -66,7 +71,7 @@ export default function Settings(): React.JSX.Element {
   }
 
   return (
-    <div className="q3-page q3-set">
+    <div className="q3-page q3-set" ref={rootRef}>
       <h1 className="q3-page__title">Settings</h1>
       {status === 'error' && !data ? (
         <div role="alert" className="q3-set__error">{loadError}</div>

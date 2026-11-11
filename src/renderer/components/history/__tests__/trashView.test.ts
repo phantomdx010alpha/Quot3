@@ -14,6 +14,7 @@ import { initialNav, ROUTES } from '@shared/routes'
 import type { BillListItem } from '@shared/history/historyList'
 import { purgeAt, type TrashItem } from '@shared/trash'
 import { UNDO_DELETE_MS } from '@shared/constants'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -84,6 +85,7 @@ const del = async (): Promise<void> => {
 }
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(520)
   vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(900)
   vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(520)

@@ -9,6 +9,9 @@ import { GroupsWindow } from '../components/items/GroupsWindow'
 import { SpellingsWindow } from '../components/items/SpellingsWindow'
 import { SalesPanel } from '../components/items/SalesPanel'
 import { groupsKey, salesKey, spellingsKey } from '../components/items/windowKeys'
+import { usePageMemory } from '../hooks/usePageMemory'
+import { itemsAdapter } from '../pageMemory/adapters'
+import { ROUTES } from '@shared/routes'
 import { nextWindow, useItemsStore, type ItemsWindow } from '../stores/itemsStore'
 import { useRouter } from '../router/routerStore'
 
@@ -24,6 +27,8 @@ const PAGE_ACTIONS: ReadonlySet<string> = new Set(['items.search', 'items.rebuil
 const ACTION_OF: Record<ItemsWindow, 'items.window1' | 'items.window2' | 'items.window3'> = { groups: 'items.window1', spellings: 'items.window2', sales: 'items.window3' }
 
 export default function Items(): React.JSX.Element {
+  const rootRef = useRef<HTMLDivElement>(null)
+  usePageMemory(ROUTES.items, rootRef, itemsAdapter(() => rootRef.current))
   const status = useItemsStore((s) => s.status)
   const error = useItemsStore((s) => s.error)
   const overview = useItemsStore((s) => s.overview)
@@ -159,7 +164,7 @@ export default function Items(): React.JSX.Element {
   }
 
   return (
-    <div className="q3-hist q3-items">
+    <div className="q3-hist q3-items" ref={rootRef}>
       <header className="q3-hist__head">
         <h1 className="q3-hist__title">Items</h1>
         <span className="q3-hist__count" aria-live="polite">

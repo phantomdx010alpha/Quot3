@@ -39,6 +39,7 @@ import { toggleEffects } from '../theme/effects'
 import { useDiagnosticsStore } from '../stores/diagnosticsStore'
 import { useUpdateStore } from '../stores/updateStore'
 import { toggleSync, useSyncStatusStore } from '../stores/syncStatusStore'
+import { billSteppingActive, currentPagingMode, stepOpenedBill, stepParty } from '../stores/pagingActions'
 import { formatActionId, type ActionId } from '@shared/shortcuts'
 import { listFormats } from '@shared/format/registry'
 
@@ -97,6 +98,13 @@ export function useAppActions(): ActionHandlers {
       // Until Phase 25+, "new bill" simply opens the (placeholder) Create page.
       // Phase 28: New bill starts over (asks first when the open bill has unsaved changes); from another page it opens Create.
       'bill.new': () => { requestLeave(startFreshBill) },
+      // Phase 220 (M21): the palette runs the same code as PageUp / PageDown. They only act where the key would (a bill opened from a list; a party screen).
+      'bill.stepPrev': () => { stepOpenedBill('prev') },
+      'bill.stepNext': () => { stepOpenedBill('next') },
+      'bill.gridPageUp': () => { if (billSteppingActive()) useGridUiStore.getState().pageGrid?.('up') },
+      'bill.gridPageDown': () => { if (billSteppingActive()) useGridUiStore.getState().pageGrid?.('down') },
+      'party.prev': () => { if (currentPagingMode() === 'parties') stepParty('prev') },
+      'party.next': () => { if (currentPagingMode() === 'parties') stepParty('next') },
       // Phase 29: palette-only (no key): go to the Dashboard banner of unsaved bills.
       'draft.recover': () => { void useDraftStore.getState().showBanner() },
       'palette.open': () => togglePalette(),

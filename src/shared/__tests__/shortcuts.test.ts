@@ -170,3 +170,26 @@ describe('Phase 67 - context key hints (F1 sheet)', () => {
     }
   })
 })
+
+describe('Phase 220: PageUp / PageDown bindings (owner request 2026-11-11: step bills / parties)', () => {
+  it('opened-bill scope: plain keys step bills, Ctrl+Page keys page the grid', () => {
+    expect(matchShortcut(ev('PageUp'), ['bill'])?.action).toBe('bill.stepPrev')
+    expect(matchShortcut(ev('PageDown'), ['bill'])?.action).toBe('bill.stepNext')
+    expect(matchShortcut(ev('PageUp', { ctrlKey: true }), ['bill'])?.action).toBe('bill.gridPageUp')
+    expect(matchShortcut(ev('PageDown', { ctrlKey: true }), ['bill'])?.action).toBe('bill.gridPageDown')
+  })
+  it('party screens: plain keys step parties', () => {
+    expect(matchShortcut(ev('PageUp'), ['parties'])?.action).toBe('party.prev')
+    expect(matchShortcut(ev('PageDown'), ['parties'])?.action).toBe('party.next')
+  })
+  it('no scope (Create, no context): the registry binds nothing, so the grid keeps its own paging', () => {
+    expect(matchShortcut(ev('PageUp'), ['create', 'grid'])).toBeNull()
+    expect(matchShortcut(ev('PageDown'), ['create', 'grid'])).toBeNull()
+    expect(matchShortcut(ev('PageDown', { ctrlKey: true }), ['create', 'grid'])).toBeNull()
+  })
+  it('no conflicts introduced; every new action is registered', () => {
+    expect(findShortcutConflicts()).toEqual([])
+    for (const id of ['bill.stepPrev', 'bill.stepNext', 'bill.gridPageUp', 'bill.gridPageDown', 'party.prev', 'party.next'])
+      expect(ACTIONS.some((a) => a.id === id)).toBe(true)
+  })
+})

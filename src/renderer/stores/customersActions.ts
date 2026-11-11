@@ -3,6 +3,7 @@ import { useRouter } from '../router/routerStore'
 import { openBillForEdit } from './createSession'
 import { useCustomersStore } from './customersStore'
 import { requestLeave } from './guardStore'
+import { captureCustomerContext } from '../pageMemory/billContext'
 import { useSaveUiStore } from './saveUiStore'
 
 /** Phase 45 - what the owner can do on the Customers page; results are announced on the shared status line. */
@@ -14,6 +15,7 @@ export const onCustomersPage = (): boolean => currentPath(useRouter.getState().n
 export function openCustomerBill(id: string): boolean {
   const b = useCustomersStore.getState().bills.find((x) => x.id === id)
   if (!b) return false
+  captureCustomerContext(b.id)
   requestLeave(() => {
     void openBillForEdit(b.id).then((ok) => { if (!ok) say('danger', `Could not open ${b.poNumber}`) })
   })

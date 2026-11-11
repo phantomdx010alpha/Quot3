@@ -13,6 +13,9 @@ import { useLegacyImportStore } from '../stores/legacyImportStore'
 import { backToCustomers, cancelCustomerDelete, cancelCustomerEdit, confirmCustomerDelete, openCustomerBill, saveCustomerEdit, showCustomerBills } from '../stores/customersActions'
 import { useRouter } from '../router/routerStore'
 import { SaveFlow } from '../components/create/SaveFlow'
+import { usePageMemory } from '../hooks/usePageMemory'
+import { customersAdapter } from '../pageMemory/adapters'
+import { ROUTES } from '@shared/routes'
 
 /**
  * Phase 45 - Customers: a searchable, virtualised list (name, phone, address, transport, bill count, last bill, total billed).
@@ -25,6 +28,8 @@ export default function Customers(): React.JSX.Element {
   const listRef = useRef<HTMLDivElement>(null)
   const billsRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  usePageMemory(ROUTES.customers, rootRef, customersAdapter(() => rootRef.current))
 
   // Phase 47: an import (or its undo) changes the saved customers while this page is open.
   useEffect(() => {
@@ -98,7 +103,7 @@ export default function Customers(): React.JSX.Element {
   const keep = (e: React.MouseEvent): void => e.preventDefault()
 
   return (
-    <div className="q3-hist">
+    <div className="q3-hist" ref={rootRef}>
       <header className="q3-hist__head">
         <h1 className="q3-hist__title">{inBills ? `Bills of ${s.billsOf!.name}` : 'Customers'}</h1>
         <span className="q3-hist__count" aria-live="polite">

@@ -62,7 +62,7 @@ Rationale for 2 presses: the owner's wording is "press left arrow twice so the c
 | Home | unlock, caret to start | caret to start |
 | End | no-op (already at end) | caret to end |
 | Ctrl+Home / Ctrl+End | first cell of grid / last used cell | same |
-| PageUp / PageDown | move up/down by one visible page | same |
+| PageUp / PageDown | move up/down by one visible page | same (**Phase 220 exception:** in a saved bill opened from a list, i.e. one that has a `BillContext`, the plain keys step to the previous / next BILL of that list and the grid pages with Ctrl+PageUp / Ctrl+PageDown instead; Create and bills without a list are unchanged; see section 15) |
 | Ctrl+Up / Ctrl+Down | jump to first / last row of column (Excel-style data-edge jump) | same |
 | F2 | → Free | no-op |
 | Esc | bubbles to page guard | → Append |
@@ -111,6 +111,8 @@ Numeric cells (qty, rate, total, GST %) follow the same modes; they accept only 
 ---
 
 ## 8. Global shortcuts (**FROZEN in Phase 30**, registered in `src/shared/shortcuts.ts`; guarded by `shared/__tests__/shortcuts.test.ts` "Phase 30: frozen KB section 8 map" — change a row only with owner approval)
+
+*Phase 221 note: the frozen map below has no PageUp / PageDown row; the Milestone 21 bindings (`bill.stepPrev/stepNext/gridPageUp/gridPageDown`, `party.prev/next`) are documented in section 15 and registered in their own scopes `bill` and `parties`, so no frozen expectation changed.*
 
 *Phase 30 change: Ctrl+Shift+P is Print — Professional (this table); the Phase 25 action "Focus party name" moved from Ctrl+Shift+P to **Ctrl+Shift+F**.*
 
@@ -183,7 +185,7 @@ Decisions: **D-K5** smooth arrows setting default ON. **D-K6** with it ON, D-K1 
 
 ## 12. Milestone 9 additions (Phases 94, 95, 104) — Esc/navigation implemented in Phase 94 (stack `[dashboard, page(, bill)]`, `navPush` `returnToCurrent`); rest PLANNED
 
-**Esc and page navigation [A].** Dashboard is the root and the back-stack never goes behind it. Esc on Dashboard: nothing. Esc on History / Customers / Settings: Dashboard. Esc on a bill opened from History: History. Esc on Create: the Phase 27/28 guard (Save / Discard / Cancel) only when there is real unsaved work, then Dashboard. Esc inside cell edit, dropdowns and dialogs keeps closing only that layer first (section 6 unchanged).
+**Esc and page navigation [A] (CHANGED in Phase 219, see section 15 part 1: Esc now returns to the previous page, then the Dashboard).** Dashboard is the root and the back-stack never goes behind it. Esc on Dashboard: nothing. Esc on History / Customers / Settings: Dashboard (Phase 94 text; since Phase 219: the previous page if there is one, otherwise the Dashboard; the owner's request "the app must remember which page you were on before (the previous page) and your position on it, so going back puts you exactly where you were", 2026-11-11, is read as the approval [A]). Esc on a bill opened from History: History. Esc on Create: the Phase 27/28 guard (Save / Discard / Cancel) only when there is real unsaved work, then Dashboard. Esc inside cell edit, dropdowns and dialogs keeps closing only that layer first (section 6 unchanged).
 
 **Down in extra columns (D-K10) [A] - IMPLEMENTED Phase 104** (`GridShape.isExtraCol`; the added row is display-only, the typed content is the undo step). In an EXTRA column only, Down on the bottom-most editable row adds an empty extra-only tail row and moves into it (one undo step; trimmed on save if still empty). In every other column Down at the last row still does nothing. Works with `nav.smoothArrows` ON and OFF.
 
@@ -203,3 +205,15 @@ Esc on the Items page goes to Dashboard (section 12 model). Tab / Shift+Tab (and
 **Delete row (D-K13):** with a row selected (click its row number or Shift+Space), Delete removes the item cells of that row, the rows below move up, extra-column cells stay on their row positions; one undo step. Delete on a single cell keeps D-K4 (clears the cell). Adjustment and total rows are not row-deleted. **[Phase 122 as built]** Row selection: click the Sl.No cell, Ctrl+Space (any cell) or Shift+Space (number cells only; in text cells it stays a typed space). It is a full-width range flagged as a row selection; only then does Delete remove rows (Ctrl+A / plain ranges still clear cells). Rule in `shared/rows/deleteRows.ts`.
 **Reorder (D-K14):** Alt+Up / Alt+Down move the active item row; extras stay on their positions; one undo step; final keys decided by the shortcut-conflict test. **[Phase 123 as built, model only]** `shared/rows/moveRows.ts` + `billStore.moveRow(rowId, 'up'|'down'|'top'|'bottom')`; items never move below the last filled row; **[Phase 124 as built]** keys are **Alt+Shift+Up / Alt+Shift+Down** (plain Alt+Up/Down are the party-address keys); top / bottom are palette-only; the cursor follows the moved item; no drag handle yet.
 **Create entry (D-K15):** every way into Create opens a clean bill; Esc on Create keeps the Save/Discard/Cancel guard.
+
+---
+
+## 15. Milestone 21 additions (Phases 218-220) — Part 1 IMPLEMENTED in Phase 219, Part 2 IMPLEMENTED in Phase 220 [A]; owner request 2026-11-11
+
+Read `docs/MILESTONE21_DESIGN.md`. The owner asked for: (1) the app remembers the previous page and the position on it; (2) PageUp / PageDown step through the parties everywhere except new-bill creation. These change three rules above, each only with this recorded approval; the matching frozen tests are updated with the change quoted.
+
+**Part 1 - previous page and position (changes section 12) [A] - IMPLEMENTED in Phase 219 (`routerStore` uses `keepPrevious: true`; `pageMemoryStore` + per-page adapters in `src/renderer/pageMemory/adapters.ts`; History, Customers, Items, Settings and Games remember; Dashboard and Create store nothing; the `BillContext` is captured when a bill is opened from History, a customer's bills or an item's sales).** The back-stack keeps one previous page: `[dashboard, previous, current]`. Esc returns to the previous page if there is one, otherwise to the Dashboard; the Dashboard stays the root and Esc never goes behind it. Position (scroll, selected item by ID, filters, open panels) is saved when a page is left and restored on Esc, the Go-to shortcuts and when returning from an opened bill. Create stores nothing and always opens a clean bill (D-K15).
+
+**Part 2 - bill stepping and party paging (adds to sections 4 and 8) [A] - IMPLEMENTED in Phase 220** (`shared/nav/pagingKeys.ts` decides the meaning per screen; `stores/pagingActions.ts` runs it; `hooks/usePagingKeys.ts` is mounted in `AppShell`; registry actions `bill.stepPrev/stepNext/gridPageUp/gridPageDown`, `party.prev/next`; real-window feel is NOT verified, see Standing gaps). Built readings: "no cell text-edited" = the cell is not in Free mode [A]; a party in focus on History = the search text equals exactly one customer's name [A]; Customers PageUp / PageDown now move one customer, not one page [A]. (a) **Bill stepping (owner's word 2026-11-11):** in a saved bill opened from a list (History first), PageDown shows the next bill of that list and PageUp the previous one, directly, without going back to the list; the order is the list as seen on screen, flattened across dates; no wrap; skipped if deleted; only while no cell is being text-edited; through the Save / Discard / Cancel guard when there are unsaved changes; Esc returns to the list with the bill being viewed selected. In such a bill the grid's own page-up / page-down moves to Ctrl+PageUp / Ctrl+PageDown (a section 4 exception for bills that have a list context). A bill opened without a list keeps the grid meaning. (b) **Party paging:** PageDown / PageUp = next / previous party on the Customers list, on History when a party is in focus and on the Items sales panel; no wrap; only when focus is in the list or page body (never in an input, dropdown, dialog or menu). History with no party in focus, and the Create (new bill) screen, keep PageUp / PageDown as "move one visible page" (section 4 unchanged).
+
+Decisions (unconfirmed): **D-K16** Esc returns to the previous page. **D-K17** Memory is in memory only (restart persistence is an opt-in setting). **D-K18** Inside a bill opened from a list, plain PageUp / PageDown step to the next / previous BILL of that list and the grid's page keys there move to Ctrl+PageUp / Ctrl+PageDown. **D-K19** No wrap-around.

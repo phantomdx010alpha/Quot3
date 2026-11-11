@@ -9,6 +9,7 @@ import { useAppActions } from '../../../hooks/useAppActions'
 import { useRouter } from '../../../router/routerStore'
 import { currentPath, initialNav, navPush, ROUTES } from '@shared/routes'
 import type { GroupSummary, ItemsOverview } from '@shared/items/api'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -35,6 +36,7 @@ const key = (init: KeyboardEventInit & { key: string }, target: EventTarget = do
 const content = (n: 1 | 2 | 3): HTMLElement => host.querySelectorAll<HTMLElement>('.q3-items__content')[n - 1]!
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   host = document.createElement('div')
   document.body.appendChild(host)
   root = createRoot(host)

@@ -21,6 +21,9 @@ import { toggleRevisions } from '../stores/revisionActions'
 import { cancelEmptyTrash, cancelPurge, confirmEmptyTrash, confirmPurge, requestEmptyTrash, requestPurge, restoreSelected, toggleTrash, undoLastDelete } from '../stores/trashActions'
 import { describeTrashItems, isEmptyTrashConfirm } from '@shared/trash'
 import { TRASH_RETENTION_DAYS } from '@shared/constants'
+import { usePageMemory } from '../hooks/usePageMemory'
+import { historyAdapter } from '../pageMemory/adapters'
+import { ROUTES } from '@shared/routes'
 
 /**
  * Phase 41 — History layout: Dates (left) + bills of the selected date (right), newest first, keyboard first.
@@ -33,6 +36,8 @@ export default function History(): React.JSX.Element {
   const s = useHistoryStore()
   const datesRef = useRef<HTMLDivElement>(null)
   const billsRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  usePageMemory(ROUTES.history, rootRef, historyAdapter(() => rootRef.current))
   const searchRef = useRef<HTMLInputElement>(null)
   const fromRef = useRef<HTMLInputElement>(null)
   const trashRef = useRef<HTMLDivElement>(null)
@@ -112,7 +117,7 @@ export default function History(): React.JSX.Element {
   const emptyText = s.status !== 'ready' ? undefined : searching ? 'No bills match this search' : filtered ? 'No bills match these filters' : limited ? `No bills since ${s.cutoff}. Search, or set a From / To date, to see older bills.` : undefined
 
   return (
-    <div className="q3-hist">
+    <div className="q3-hist" ref={rootRef}>
       <HistoryHeader branches={s.branches} branch={s.branch} onBranch={(b) => { void s.setBranch(b) }} total={total} loading={s.status === 'loading'} onRefresh={() => { void s.refresh() }} />
       {limited && !t.open && <p className="q3-hist__note">{`Showing bills from ${s.cutoff} onward. Search or set a From / To date to see older bills (Settings > Behaviour changes this).`}</p>}
       {!t.open && <SourceFilter />}

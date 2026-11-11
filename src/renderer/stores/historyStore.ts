@@ -88,7 +88,7 @@ const rangeArgs = (s: { from: string; to: string; branch?: string; source?: Hist
 })
 
 /** Phase 157: the arguments of the plain (non-search) lists: the default-days cut-off stands in for From only when the owner set neither From, To nor a search. */
-const listArgs = (s: { query: string; from: string; to: string; cutoff: string; branch?: string; source?: HistorySource; batch?: string }): ReturnType<typeof rangeArgs> =>
+export const listArgs = (s: { query: string; from: string; to: string; cutoff: string; branch?: string; source?: HistorySource; batch?: string }): ReturnType<typeof rangeArgs> =>
   rangeArgs(s.query.trim() === '' && s.from === '' && s.to === '' && s.cutoff !== '' ? { ...s, from: s.cutoff } : s)
 
 /** Ranked search over every date (the date filter still applies). Fills the list; the highlight follows `prev` when still listed. */

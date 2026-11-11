@@ -19,6 +19,12 @@ export type ActionId =
   | 'nav.settings'
   | 'nav.back'
   | 'bill.new'
+  | 'bill.stepPrev'
+  | 'bill.stepNext'
+  | 'bill.gridPageUp'
+  | 'bill.gridPageDown'
+  | 'party.prev'
+  | 'party.next'
   | 'palette.open'
   | 'help.shortcuts'
   | 'dev.designPreview'
@@ -150,7 +156,8 @@ export interface ActionDef {
   group: ActionGroup
 }
 
-export type ShortcutScope = 'global' | 'create' | 'history' | 'customers' | 'items' | 'grid'
+/** Phase 220: 'bill' = a saved bill opened from a list (it has a BillContext); 'parties' = the party list screens. Both are activated by `usePagingKeys`, never by the global hotkey layer. */
+export type ShortcutScope = 'global' | 'create' | 'history' | 'customers' | 'items' | 'grid' | 'bill' | 'parties'
 
 export interface ShortcutDef {
   id: string
@@ -180,6 +187,13 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'nav.settings', label: 'Go to Settings', group: 'Navigate' },
   { id: 'nav.back', label: 'Back', group: 'Navigate' },
   { id: 'bill.new', label: 'New bill', group: 'Bill' },
+  // Phase 220 (M21): PageUp / PageDown stepping. Palette entries run the same code as the keys.
+  { id: 'bill.stepPrev', label: 'Previous bill of the list this bill was opened from', group: 'Bill' },
+  { id: 'bill.stepNext', label: 'Next bill of the list this bill was opened from', group: 'Bill' },
+  { id: 'bill.gridPageUp', label: 'Grid: up one page (in a bill opened from a list)', group: 'Bill' },
+  { id: 'bill.gridPageDown', label: 'Grid: down one page (in a bill opened from a list)', group: 'Bill' },
+  { id: 'party.prev', label: 'Previous party', group: 'Navigate' },
+  { id: 'party.next', label: 'Next party', group: 'Navigate' },
   { id: 'palette.open', label: 'Command palette', group: 'Help' },
   { id: 'help.shortcuts', label: 'Keyboard shortcuts', group: 'Help' },
   { id: 'dev.designPreview', label: 'Open design preview', group: 'Developer' },
@@ -319,6 +333,14 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'nav.back', keys: 'Escape', label: 'Back', scope: 'global', action: 'nav.back' },
   { id: 'bill.new', keys: 'Ctrl+N', label: 'New bill', scope: 'global', action: 'bill.new' },
   { id: 'palette.open', keys: 'Ctrl+K', label: 'Command palette', scope: 'global', action: 'palette.open' },
+  // Phase 220 (M21; owner's word 2026-11-11): in a bill opened from a list PageUp / PageDown show the previous / next bill of that list; the grid's own page keys move to Ctrl+PageUp / Ctrl+PageDown [A].
+  { id: 'bill.stepPrev', keys: 'PageUp', label: 'Previous bill of the list', scope: 'bill', action: 'bill.stepPrev' },
+  { id: 'bill.stepNext', keys: 'PageDown', label: 'Next bill of the list', scope: 'bill', action: 'bill.stepNext' },
+  { id: 'bill.gridPageUp', keys: 'Ctrl+PageUp', label: 'Grid: up one page', scope: 'bill', action: 'bill.gridPageUp' },
+  { id: 'bill.gridPageDown', keys: 'Ctrl+PageDown', label: 'Grid: down one page', scope: 'bill', action: 'bill.gridPageDown' },
+  // Phase 220 (M21): Customers, History with a party in focus, Items sales window: step through the parties (never on Create).
+  { id: 'party.prev', keys: 'PageUp', label: 'Previous party', scope: 'parties', action: 'party.prev' },
+  { id: 'party.next', keys: 'PageDown', label: 'Next party', scope: 'parties', action: 'party.next' },
   { id: 'help.shortcuts.f1', keys: 'F1', label: 'Keyboard shortcuts', scope: 'global', action: 'help.shortcuts' },
   { id: 'grid.resetTotal', keys: 'Ctrl+Backspace', label: 'Reset total to auto', scope: 'grid', action: 'grid.resetTotal' },
   { id: 'grid.redBold', keys: 'Ctrl+Shift+R', label: 'Red + Bold', scope: 'grid', action: 'grid.redBold' },
@@ -483,7 +505,7 @@ export function eventToKeys(e: KeyInput): string {
   return [...mods, normalizeKey(e.key)].join('+')
 }
 
-const SCOPE_PRIORITY: Record<ShortcutScope, number> = { grid: 3, create: 2, history: 2, customers: 2, items: 2, global: 1 }
+const SCOPE_PRIORITY: Record<ShortcutScope, number> = { grid: 3, bill: 3, create: 2, history: 2, customers: 2, items: 2, parties: 2, global: 1 }
 
 /**
  * Finds the shortcut for a key event. `scopes` are the currently active scopes (e.g. ['create','grid']);

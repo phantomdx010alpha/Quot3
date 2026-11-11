@@ -313,7 +313,7 @@ Read `docs/MILESTONE9_DESIGN.md` before any Phase 92–106. Order is 92→106, t
 ## 10e. Milestone 10 supersessions (item sorter)
 
 Read `docs/ITEM_SORTER_SPEC.md` before any Phase 107–115. Order is 107→115, then Phase 69.
-- Matching is pure `shared/items/*`, deterministic, explainable; numbers, sizes and units are protected tokens and are NEVER fuzzy-merged. Fuzzy matches are suggestions. No AI model in v1.
+- Matching is pure `shared/items/*`, deterministic, explainable; numbers, sizes and units are protected tokens and are NEVER fuzzy-merged. Fuzzy matches are suggestions. No AI model in v1 (SUPERSEDED for suggestions only by section 10q, Milestone 22).
 - The Items page never mutates bills; a merge only groups. Owner rules (`item_rules`) always win and are undoable.
 - GST and non-GST sales are always shown separately (by the bill's format / line GST).
 - Never put the owner's corpus contents into code, tests or logs beyond small invented examples; the real-corpus run is an optional local script.
@@ -444,6 +444,35 @@ Read `docs/MILESTONE20_DESIGN.md` (then `docs/MILESTONE19_DESIGN.md`) before any
 - **TESTING RULE (owner's standing rule, repeated on purpose): DO NOT RUN THE FULL TEST SUITE.** Never `npm test`, never a bare `npx vitest run`, never the whole `src` folder. `npm run typecheck` once plus ONLY the named test files (`gameLanguage`, `vendoredGames`, `manifest`, `gamesI18n`, `importBoundaries` for batch phases); no build, no dev server; list what you ran and what you did not.
 - Real Windows behaviour (does the English fit, does the game still play) is never "verified" from the sandbox; it goes in `docs/M20_OWNER_CHECKLIST.md` (written in Phase 216).
 - Items marked [A] are unconfirmed assumptions (`MILESTONE20_DESIGN.md` section 7); say so in every phase log.
+
+## 10p. Milestone 21 supersessions (Phases 218-221, release 0.1.50 [A]): page memory and PageUp / PageDown party paging
+
+Read `docs/MILESTONE21_DESIGN.md` before any Phase 218-221. Everything in 10o still holds. Phase 188 (M17 gate) and Phase 69 (release gate) are separate and still run. Desktop only: do not touch `src/pwa` or anything phone.
+- **Why:** the owner wants the app to remember the previous page and the position on it, and PageUp / PageDown to step through parties everywhere except new-bill creation.
+- **UI state only.** No schema, migration, Supabase, sync, backup or bill-data change. Page memory holds IDs, scroll and the owner's own filter text; never bill content. Remember by ID, never by row number; when the remembered item is gone, land on the nearest neighbour.
+- **Create is excluded:** Create always opens a clean bill (D-K15), stores no memory, and keeps PageUp / PageDown as grid paging. Dashboard stays the navigation root (D-K8). The unsaved-work guard (D-K9) and the Create leave guard are unchanged.
+- **Esc rule changed [A]:** Esc returns to the previous page (one level), then to the Dashboard; it never goes behind the Dashboard. This replaces "Esc on History / Customers / Settings: Dashboard" of 10d / keyboard rules section 12 and needs the owner's word (his request is quoted in the design); update `routes.test.ts` with the change quoted, do not delete old cases that still hold.
+- **PageUp / PageDown:** (a) in a saved bill opened from a list (History first) they step to the next / previous BILL of that list directly, without going back (the owner's word, 2026-11-11): captured `BillContext` of IDs, flattened on-screen order, no wrap, skip deleted, inactive while a cell is being text-edited, Save / Discard / Cancel guard on unsaved changes, Esc returns with the viewed bill selected; the grid's own page keys there move to Ctrl+PageUp / Ctrl+PageDown [A]. (b) On Customers, History with a party in focus and the Items sales panel they step through the PARTIES (no wrap; focus must be in the list or page body, never in an input, dropdown, dialog or menu). Create (new bill) and bills without a list context keep PageUp / PageDown as grid paging. The shortcut registry, the cheat-sheet and the frozen section-8 test change together, each change quoted.
+- **Versions:** Phase 221 is the milestone release gate (0.1.50 [A]); Phases 218-220 do NOT bump or tag.
+- **TESTING RULE (owner's standing rule): DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files; no build, no dev server; list what you ran and what you did not.
+- Real keyboard feel in a real window is never "verified" from the sandbox; it goes in `docs/M21_OWNER_CHECKLIST.md` (written in Phase 221). Items marked [A] are unconfirmed (`MILESTONE21_DESIGN.md` section 7); say so in every phase log.
+
+## 10q. Milestone 22 supersessions (Phases 222-232, release 0.1.51 [A]): local AI suggestions and plain-sentence search
+
+Read `docs/MILESTONE22_DESIGN.md` (then `docs/ITEM_SORTER_SPEC.md`) before any Phase 222-232. Everything in 10p still holds. Phase 188 and Phase 69 are separate and still run. Desktop only: no AI on the phone, do not touch `src/pwa`. This section supersedes "No AI model in v1" (10e) for SUGGESTIONS ONLY.
+- **Local only.** The model runs on the owner's PC in an Electron utility process. No network at runtime, no API key, no cloud; bills and party names never leave the PC. Model files ship inside the installer (`extraResources`), pinned to an exact revision with SHA-256s, and are NOT in the repo or the zip.
+- **Suggestions only.** The AI never fills a cell, merges a group, changes a rate or saves anything by itself. The one allowed write [A] is an explicit key that copies a suggested item NAME into the active item cell (one undo step).
+- **The AI never touches money.** Totals, GST, rounding, quantities, rates and stock stay in the decimal.js engine and `shared/billModel`. A suggestion may display an old rate as text, never write one.
+- **Protected tokens.** Numbers, sizes and units are never fuzzy-merged ("505" vs "D7"); reject conflicting candidates before ranking (`shared/items/normalise`, `shared/units/parseUnits`).
+- **Order of trust:** owner rules and groups, then near-text matches, then embeddings. Every suggestion shows why.
+- **Default OFF and harmless.** `ai.enabled`, `ai.billingPanel`, `ai.itemSuggestions`, `ai.sentenceSearch` default false. With AI off, or the model missing or crashed, behaviour equals 0.1.49 and a failing AI never blocks billing (catch, log once, hide).
+- **Speed.** The model never runs in the renderer or the main thread. The billing panel never takes focus or moves the grid cursor and is debounced.
+- **Boundary.** `src/renderer/**` and `src/pwa/**` never import `@huggingface/transformers` or `onnxruntime-*` (`importBoundaries.test.ts` enforces it). Pure code lives in `src/shared/ai/*`, runtime in `src/main/ai/*`.
+- **One additive migration only:** the vector cache `ai_text_vectors` (Phase 224, keyed by model id + hash of the normalised text, never by bill IDs, not synced). No other schema, sync, Supabase or backup-format change.
+- **The sandbox cannot reach `huggingface.co`.** No session downloads a model. The owner (and the GitHub Action) run `tools/fetch-ai-model.mjs`. Tests use the deterministic fake embedder, never a real model and never the network. Tests use invented names only, never the owner's real data.
+- **Versions:** Phase 231 is the milestone release gate (0.1.51 [A], or 0.1.50 if the owner releases M21 and M22 together); Phase 223 adds one dependency (exact pin, recorded in `DEPENDENCY_VERSIONS.md`) without a version bump; the other phases do NOT bump or tag.
+- **TESTING RULE (owner's standing rule): DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files; no build, no dev server; list what you ran and what you did not.
+- The real model, real speed, memory, the packaged install and match quality on real item names are never "verified" from the sandbox; they go in `docs/M22_OWNER_CHECKLIST.md` (written in Phase 231). Items marked [A] are unconfirmed (`MILESTONE22_DESIGN.md` section 12); say so in every phase log.
 
 ## 11. Before you finish — checklist
 

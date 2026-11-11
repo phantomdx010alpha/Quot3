@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { SyncBadgeMark } from '../sync/SyncBadgeMark'
+import { currentPagingMode } from '../../stores/pagingActions'
 import { formatHistoryDate, formatHistoryTotal, isListKey, moveListIndex, type BillListItem } from '@shared/history/historyList'
 
 export const HISTORY_ROW_PX = 26
@@ -54,7 +55,8 @@ export function BillList({ bills, selectedId, hasMore, onSelect, onLoadMore, onE
       if (!e.shiftKey && e.key.toLowerCase() === 'a' && onSelectAll) { e.preventDefault(); onSelectAll() }
       return
     }
-    if (isListKey(e.key)) {
+    // Phase 220 (M21): with a party in focus (History showing one party, a customer's bills page) PageUp / PageDown step through the parties (usePagingKeys).
+    if (isListKey(e.key) && !((e.key === 'PageUp' || e.key === 'PageDown') && currentPagingMode() === 'parties')) {
       e.preventDefault()
       const page = Math.max(1, Math.floor((listRef.current?.clientHeight ?? 260) / HISTORY_ROW_PX) - 1)
       const next = moveListIndex(index, bills.length, e.key, page)

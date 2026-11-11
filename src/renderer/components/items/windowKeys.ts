@@ -61,7 +61,8 @@ export function spellingsKey(e: KeyboardEvent<HTMLElement>): boolean {
 export function salesKey(e: KeyboardEvent<HTMLElement>): boolean {
   if (e.target !== e.currentTarget) return false
   const st = useItemsStore.getState()
-  if (isListKey(e.key) && plain(e)) {
+  // Phase 220 (M21): in the Sales window PageUp / PageDown step through the PARTIES (usePagingKeys); the other list keys move the highlighted sale.
+  if (isListKey(e.key) && plain(e) && e.key !== 'PageUp' && e.key !== 'PageDown') {
     const n = st.sales ? tabOf(st.sales, st.salesTab).rows.length : 0
     e.preventDefault()
     if (n > 0) st.setSalesCursor(moveListIndex(st.salesCursor, n, e.key, page(e)))

@@ -12,6 +12,7 @@ import { useGamesStore } from '../stores/gamesStore'
 import { closeGame, loadGames, loadGamesEnabled, openGame, openRandomGame, restartGame, setShowChinese, toggleFavourite } from '../stores/gamesActions'
 import { useRouter } from '../router/routerStore'
 import { ROUTES } from '@shared/routes'
+import { usePageMemory } from '../hooks/usePageMemory'
 
 /**
  * Phase 202 - Games page: search (focused on arrival), tag chips, Favourites / Recently played, Random game, card grid, and the player.
@@ -36,6 +37,7 @@ export default function Games(): React.JSX.Element {
   const searchRef = useRef<HTMLInputElement>(null)
   const gridWrap = useRef<HTMLDivElement>(null)
   const mounted = useRef(false)
+  const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     mounted.current = true
@@ -59,10 +61,19 @@ export default function Games(): React.JSX.Element {
   const toggleTag = (t: GameTag): void => setTags((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]))
   const focusGrid = (): void => { gridWrap.current?.querySelector<HTMLElement>('[data-game-open]')?.focus() }
   const open = (g: GameEntry): void => { void openGame(g) }
+  // Phase 219 (M21): Games remembers its search text and the grid scroll (the filters are page-local state, so the adapter closes over them).
+  usePageMemory(ROUTES.games, rootRef, {
+    capture: () => ({ scroll: { grid: Math.round(gridWrap.current?.scrollTop ?? 0) }, filters: { query }, panels: {} }),
+    apply: (m) => {
+      if (typeof m.filters.query === 'string') setQuery(m.filters.query)
+      const top = m.scroll.grid
+      if (top !== undefined) requestAnimationFrame(() => { if (gridWrap.current) gridWrap.current.scrollTop = top })
+    }
+  })
 
   if (!enabled) {
     return (
-      <div className="q3-page q3-games">
+      <div className="q3-page q3-games" ref={rootRef}>
         <h1 className="q3-page__title">Games</h1>
         <EmptyState icon={GameController} title="Games are turned off" description="Turn them on in Settings, under Games."
           action={<Button onClick={() => navigate(ROUTES.settings)}>Open Settings</Button>} />

@@ -1,4 +1,5 @@
 import { type MoveTarget } from '@shared/rows/moveRows'
+import { billSteppingActive } from '../../stores/pagingActions'
 import { flushSync } from 'react-dom'
 import { usePartyUiStore } from '../../stores/partyUiStore'
 import { MODIFIER_ONLY_KEYS, arriveAt, clickInText, createNavState, navOptionsFor, navReduce, rangeBounds, syncCaret, type GridShape, type NavEffect, type NavState } from '@shared/nav/cellNav'
@@ -118,7 +119,7 @@ export class GridController {
     const pasteFn = (): void => { void this.pasteFromBridge() }
     // Phase 151: with two grids (Hybrid) the app-level handlers (palette actions, toolbar) belong to the grid that last had the focus.
     // The primary grid claims them at once; the second one when it receives focus / a click. One composite undo port serves both.
-    const owned = { resetTotal: resetFn, format: formatFn, openFormatPalette: openFn, refocus: refocusFn, copy: copyFn, cut: cutFn, paste: pasteFn, selectRow: () => this.selectActiveRow(), deleteRows: () => { this.deleteSelectedRows() }, moveRow: (t: MoveTarget) => { this.moveActiveRow(t) } }
+    const owned = { resetTotal: resetFn, format: formatFn, openFormatPalette: openFn, refocus: refocusFn, copy: copyFn, cut: cutFn, paste: pasteFn, selectRow: () => this.selectActiveRow(), deleteRows: () => { this.deleteSelectedRows() }, pageGrid: (d: 'up' | 'down') => this.pageByPaletteOrKey(d), moveRow: (t: MoveTarget) => { this.moveActiveRow(t) } }
     this.claimFn = () => { if (current !== this) { current = this; useGridUiStore.setState(owned) } }
     live.add(this)
     if (this.side === 'primary' || current === null) this.claimFn()
@@ -131,7 +132,7 @@ export class GridController {
         current = null
         const next = [...live][0]
         if (next) next.claimFn?.()
-        else useGridUiStore.setState({ resetTotal: null, format: null, openFormatPalette: null, refocus: null, formatPalette: null, copy: null, cut: null, paste: null, selectRow: null, deleteRows: null, moveRow: null, notice: '' })
+        else useGridUiStore.setState({ resetTotal: null, format: null, openFormatPalette: null, refocus: null, formatPalette: null, copy: null, cut: null, paste: null, selectRow: null, deleteRows: null, moveRow: null, pageGrid: null, notice: '' })
       }
       r.removeEventListener('keydown', kd); r.removeEventListener('beforeinput', bi); r.removeEventListener('mousedown', md)
       r.removeEventListener('copy', cp); r.removeEventListener('cut', ct); r.removeEventListener('paste', ps); r.removeEventListener('mousemove', mm)
@@ -563,12 +564,29 @@ export class GridController {
       usePartyUiStore.getState().focusParty?.()
       return
     }
-    const res = navReduce(this.nav, { key: e.key, shift: e.shiftKey, ctrl: e.ctrlKey, alt: e.altKey, meta: e.metaKey, pageRows: this.pageRows }, this.shape(cols), { ...navOptionsFor(useBehaviourStore.getState().smoothArrows), leftUnlockPresses: useBehaviourStore.getState().leftUnlockPresses })
+    // Phase 220 (M21): in a bill opened from a list the plain page keys belong to bill stepping (PageUp / PageDown) and the grid pages with
+    // Ctrl+PageUp / Ctrl+PageDown [A]. On Create (a new bill) and in a bill without a list nothing changes. A cell in Free mode (caret unlocked,
+    // the owner is editing inside it) swallows the plain key so a stray press neither steps nor pages.
+    let keyCtrl = e.ctrlKey
+    if ((e.key === 'PageUp' || e.key === 'PageDown') && !e.altKey && !e.shiftKey && !e.metaKey && billSteppingActive()) {
+      if (!e.ctrlKey) {
+        if (this.nav.mode === 'free') e.preventDefault()
+        return // not handled here: the window-level paging hook steps to the previous / next bill
+      }
+      keyCtrl = false // Ctrl+PageUp / Ctrl+PageDown = the grid's own page move
+    }
+    const res = navReduce(this.nav, { key: e.key, shift: e.shiftKey, ctrl: keyCtrl, alt: e.altKey, meta: e.metaKey, pageRows: this.pageRows }, this.shape(cols), { ...navOptionsFor(useBehaviourStore.getState().smoothArrows), leftUnlockPresses: useBehaviourStore.getState().leftUnlockPresses })
     this.nav = res.state
     const native = res.effects.some((x) => x.type === 'NATIVE' || x.type === 'PAGE_ESCAPE')
     if (!native || (!typable && res.effects.some((x) => x.type === 'NATIVE') && this.isEditKey(e))) e.preventDefault()
     for (const eff of res.effects) this.apply(eff, cols, typable)
     this.syncUi()
+  }
+
+  /** Phase 220: the palette's "Grid: up / down one page" runs the same key path as Ctrl+PageUp / Ctrl+PageDown. */
+  pageByPaletteOrKey(dir: 'up' | 'down'): void {
+    this.refocus()
+    this.activeEl()?.dispatchEvent(new KeyboardEvent('keydown', { key: dir === 'up' ? 'PageUp' : 'PageDown', ctrlKey: true, bubbles: true, cancelable: true }))
   }
 
   /** Phase 13: drop the active Total cell's manual override; the draft then shows the auto value, caret at the end. */

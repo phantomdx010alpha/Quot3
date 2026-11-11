@@ -292,3 +292,8 @@ Understanding the owner confirmed in the same session (no objection raised):
 | Dashboard weather / forex / other tiles | 125–126 |
 | Phone version (Android PWA, Vercel, IndexedDB, compact bills, share image / PDF only) | 173–188 |
 | Games page with bundled open-source playable games + chess, "(?)" Dashboard tile (desktop only, no API) | 197–204 |
+| Page memory, previous page, PageUp / PageDown party paging | 218-221 |
+| Local AI: model service, vector cache, party purchase history in billing, Items suggestions, plain-sentence search, Settings > AI | 222-232 |
+
+**Owner requirements 2026-11-11 (Milestones 21 and 22; planned in `docs/MILESTONE21_DESIGN.md`, `docs/MILESTONE22_DESIGN.md`).** R1 The app remembers the previous page and the position on it. R2 PageUp / PageDown move between parties in History, party bills and everywhere except new-bill creation. R2b (correction, same day) In a bill opened from the History panel, PageUp / PageDown show the previous / next bill of the History list directly, without going back to History first. R3 A local Hugging Face AI model groups same-looking items (Items page suggestions). R4 In the billing screen, when the party is set and an item is typed, show whether this party bought the same-looking item before, in which format (GST / non-GST / other) and under which names. R5 The billing-screen help can be toggled on and off from the billing UI. R6 Plain-sentence search (the owner chose option 3 of the AI ideas). The owner wants a real AI model doing the matching, not only string rules; the rules stay as the first tier and the safety net. Not chosen (parking lot): photo / scan to draft bill, smart paste, duplicate-party suggestions, voice dictation.
+

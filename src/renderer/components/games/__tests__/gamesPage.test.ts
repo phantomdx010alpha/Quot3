@@ -8,6 +8,7 @@ import { emptyGamesState } from '@shared/games/gamesState'
 import { NAV_ITEMS, visibleNavItems } from '../../layout/navItems'
 import { ROUTES } from '@shared/routes'
 import { game, installApi, type FakeApi } from './gamesHelpers'
+import { resetPageMemoryForTests } from '../../../stores/pageMemoryStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -26,6 +27,7 @@ const titles = (): string[] => [...host.querySelectorAll('.q3-games__card .q3-ga
 const LONG = 'A very long game title that keeps going and going so that it must wrap onto several lines instead of being cut off at the card edge'
 
 beforeEach(() => {
+  resetPageMemoryForTests() // Phase 219: page memory is global; one test's leave must not restore into the next
   useGamesStore.setState({ enabled: true, status: 'idle', error: '', games: [], skipped: 0, state: emptyGamesState(), playing: null, frameKey: 0 })
   host = document.createElement('div'); document.body.appendChild(host); root = createRoot(host)
 })

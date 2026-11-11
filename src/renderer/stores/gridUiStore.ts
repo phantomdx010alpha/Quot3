@@ -30,6 +30,8 @@ interface GridUiState {
   deleteRows: (() => void) | null
   /** Phase 124: move the active item row (shortcut / palette). */
   moveRow: ((target: 'up' | 'down' | 'top' | 'bottom') => void) | null
+  /** Phase 220 (M21): page the grid up / down (palette action `bill.gridPageUp / Down`; the keys are Ctrl+PageUp / Ctrl+PageDown in a bill opened from a list). */
+  pageGrid: ((dir: 'up' | 'down') => void) | null
   /** Phase 80: UI-only minimum number of tail rows shown (Enter on the last tail row grows it). Never saved; the grid resets it per bill. */
   tailShown: number
   setTailShown: (n: number) => void
@@ -51,6 +53,7 @@ export const useGridUiStore = create<GridUiState>((set, get) => ({
   selectRow: null,
   deleteRows: null,
   moveRow: null,
+  pageGrid: null,
   tailShown: 0,
   setTailShown: (n) => { if (get().tailShown !== n) set({ tailShown: n }) },
   set: (mode, armed) => {

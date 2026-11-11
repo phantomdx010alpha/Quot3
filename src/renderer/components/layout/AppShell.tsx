@@ -4,6 +4,7 @@ import { SideRail } from './SideRail'
 import { CommandPalette } from './CommandPalette'
 import { ShortcutSheet } from './ShortcutSheet'
 import { useHotkeys } from '../../hooks/useHotkeys'
+import { usePagingKeys } from '../../hooks/usePagingKeys'
 import { useAppActions } from '../../hooks/useAppActions'
 import { useRouter } from '../../router/routerStore'
 import { useUiStore } from '../../stores/uiStore'
@@ -29,6 +30,7 @@ import { UpdateBanner } from './UpdateBanner'
 export function AppShell({ children }: { children: ReactNode }): React.JSX.Element {
   const actions = useAppActions()
   useHotkeys([], actions)
+  usePagingKeys() // Phase 220 (M21): PageUp / PageDown bill stepping and party paging
   useDirtyGuard()
   useDrafts()
   useEffect(() => startRemoteSync(), []) // Phase 56: tell main which bill is open; show changes from other branches

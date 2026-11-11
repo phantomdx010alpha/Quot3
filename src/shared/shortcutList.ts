@@ -11,7 +11,7 @@ export interface ShortcutRow {
   bindings: { keys: string; scope: ShortcutScope }[]
 }
 
-const SCOPE_ORDER: Record<ShortcutScope, number> = { global: 0, create: 1, grid: 2, history: 3, customers: 4, items: 5 }
+const SCOPE_ORDER: Record<ShortcutScope, number> = { global: 0, create: 1, grid: 2, history: 3, customers: 4, items: 5, bill: 6, parties: 7 }
 
 export function shortcutRows(): ShortcutRow[] {
   const shortcuts = allShortcuts()
@@ -53,10 +53,13 @@ export const CONTEXT_KEY_HINTS: readonly ContextKeyHint[] = [
   { where: 'Grid', keys: ['Delete'], does: 'Clear the cell (or the selected range)' },
   { where: 'Grid', keys: ['Ctrl+Home', 'Ctrl+End'], does: 'First cell / last used cell' },
   { where: 'Grid', keys: ['Ctrl+ArrowUp', 'Ctrl+ArrowDown'], does: 'First / last row of the column' },
-  { where: 'Grid', keys: ['PageUp', 'PageDown'], does: 'Up / down one page' },
+  { where: 'Grid', keys: ['PageUp', 'PageDown'], does: 'Up / down one page (on Create, and in a bill that was not opened from a list)' },
+  { where: 'Bill opened from a list', keys: ['PageUp', 'PageDown'], does: 'Show the previous / next bill of that list directly (no going back; asks to save first when there are unsaved changes; not while typing inside a cell)' },
+  { where: 'Bill opened from a list', keys: ['Ctrl+PageUp', 'Ctrl+PageDown'], does: 'Grid: up / down one page (the plain keys step through the bills there)' },
   { where: 'Grid', keys: ['Shift+ArrowUp', 'Shift+ArrowDown'], does: 'Select a range of cells' },
   { where: 'Grid', keys: ['Ctrl+A'], does: 'Select all cells' },
-  { where: 'Lists', keys: ['ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'], does: 'Move through the dates, bills and customers lists (the dashboard lists take the first four)' },
+  { where: 'Lists', keys: ['ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'], does: 'Move through the dates and bills lists (PageUp / PageDown: one page). The dashboard lists take the first four' },
+  { where: 'Parties', keys: ['PageUp', 'PageDown'], does: 'Customers: previous / next customer. History showing one party (search = the party name): previous / next party. Items Sales: previous / next party. Not on Create' },
   { where: 'Items', keys: ['ArrowRight', 'ArrowLeft'], does: 'Groups: Right opens its Spellings; Spellings: Left goes back to Groups, Right to Sales' },
   { where: 'Items', keys: ['Delete'], does: 'Groups: not an item. Spellings: dismiss the highlighted suggestion (same as X)' },
   { where: 'Items', keys: ['ArrowUp', 'ArrowDown', 'Enter'], does: 'Sales: move over the sales; Enter (or double-click) opens that bill, Esc comes back to the same item' },
