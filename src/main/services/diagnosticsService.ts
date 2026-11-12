@@ -30,6 +30,8 @@ export interface DiagnosticsDeps {
   os: DiagnosticsInput['os']
   db: () => { schemaVersion: number; writable: boolean; counts: Record<string, number> }
   sync: () => DiagnosticsInput['sync']
+  /** Phase 230 (M22): the one AI support line. */
+  ai?: () => string
   writeClipboard: (text: string) => void
   now?: () => Date
 }
@@ -46,8 +48,10 @@ export function createDiagnosticsService(deps: DiagnosticsDeps): DiagnosticsServ
     try { db = deps.db() } catch { db = { schemaVersion: 0, writable: false, counts: {} } }
     let sync: ReturnType<DiagnosticsDeps['sync']>
     try { sync = deps.sync() } catch { sync = { activated: false, mode: 'unknown' } }
+    let ai: string | undefined
+    try { ai = deps.ai?.() } catch { ai = undefined }
     return buildDiagnosticsText(
-      { now: now(), app: deps.versions, os: deps.os, db, sync, lastCrash: deps.state.lastCrash(), logLines: readLog() },
+      { now: now(), app: deps.versions, os: deps.os, db, sync, ...(ai ? { ai } : {}), lastCrash: deps.state.lastCrash(), logLines: readLog() },
       { home: deps.home }
     )
   }

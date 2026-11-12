@@ -61,6 +61,7 @@ export type ActionId =
   | 'settings.joinBranch'
   | 'settings.audit'
   | 'settings.updates'
+  | 'settings.ai'
   | 'settings.about'
   | 'updates.check'
   | 'diagnostics.copy'
@@ -135,6 +136,7 @@ export type ActionId =
   | 'units.marked'
   | 'calc.toggle'
   | 'calc.mode'
+  | 'ai.billingPanel.toggle'
   | 'hybrid.toggle'
   | 'hybrid.focusFirst'
   | 'hybrid.focusSecond'
@@ -230,6 +232,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'settings.joinBranch', label: 'Settings: Join an existing branch (import history)', group: 'Navigate' },
   { id: 'settings.audit', label: 'Settings: Activity log (who did what, when)', group: 'Navigate' },
   { id: 'settings.updates', label: 'Settings: Updates', group: 'Navigate' },
+  { id: 'settings.ai', label: 'Settings: AI (runs on this PC)', group: 'Navigate' },
   { id: 'settings.about', label: 'About Quot3 (version, publisher)', group: 'Help' },
   { id: 'updates.check', label: 'Check for updates now', group: 'Help' },
   { id: 'diagnostics.copy', label: 'Copy diagnostics (for support)', group: 'Help' },
@@ -279,6 +282,8 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'units.marked', label: 'Marked calculations', group: 'Bill' },
   { id: 'calc.toggle', label: 'Calculator (show / hide)', group: 'Bill' },
   { id: 'calc.mode', label: 'Calculator: switch between calculator and % calculator', group: 'Bill' },
+  // Phase 226 (M22): the billing-screen purchase-history panel. Alt+H [A, MILESTONE22_DESIGN A3] was free in the shortcut-conflict test.
+  { id: 'ai.billingPanel.toggle', label: 'Purchase history for this party (show / hide)', group: 'Bill' },
   // Phase 151: Hybrid format (GST + Non-GST side by side). Alt+3 is the owner's key (MILESTONE14_DESIGN 1.6); the table-switch keys are [A] (Ctrl+Left / Right are taken by the cell editor).
   { id: 'hybrid.toggle', label: 'Switch to Hybrid (GST + Non-GST side by side)', group: 'Bill' },
   { id: 'hybrid.focusFirst', label: 'Hybrid: go to the first table (left)', group: 'Bill' },
@@ -373,6 +378,7 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   // Phase 83: the calculator drawer. Alt+C was free in the shortcut-conflict test (shortcuts.test.ts), so the proposed key stands.
   { id: 'calc.toggle', keys: 'Alt+C', label: 'Calculator (show / hide)', scope: 'global', action: 'calc.toggle' },
   { id: 'calc.mode', keys: 'Alt+Shift+C', label: 'Calculator: switch between calculator and % calculator', scope: 'global', action: 'calc.mode' },
+  { id: 'ai.billingPanel.toggle', keys: 'Alt+H', label: 'Purchase history for this party (show / hide)', scope: 'global', action: 'ai.billingPanel.toggle' },
   { id: 'hybrid.toggle', keys: 'Alt+3', label: 'Switch to Hybrid (GST + Non-GST side by side)', scope: 'global', action: 'hybrid.toggle' },
   { id: 'hybrid.focusFirst', keys: 'Ctrl+Alt+ArrowLeft', label: 'Hybrid: go to the first table (left)', scope: 'global', action: 'hybrid.focusFirst' },
   { id: 'hybrid.focusSecond', keys: 'Ctrl+Alt+ArrowRight', label: 'Hybrid: go to the second table (right)', scope: 'global', action: 'hybrid.focusSecond' },

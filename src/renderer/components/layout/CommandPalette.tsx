@@ -4,6 +4,11 @@ import { allActions, primaryKeys, type ActionId } from '@shared/shortcuts'
 import { searchActions } from '@shared/commandSearch'
 import { Icon, Kbd } from '../ui'
 import { useGamesStore } from '../../stores/gamesStore'
+import { useHistoryStore } from '../../stores/historyStore'
+import { parseTyped } from '../../stores/sentenceSearch'
+import { useRouter } from '../../router/routerStore'
+import { ROUTES } from '@shared/routes'
+import type { QueryChip } from '@shared/ai/sentenceQuery'
 
 export interface CommandPaletteProps {
   open: boolean
@@ -20,6 +25,26 @@ export function CommandPalette({ open, onClose, onRun }: CommandPaletteProps): R
   const gamesOn = useGamesStore((s) => s.enabled)
   // Phase 202: no "Go to Games" entry while Games is switched off.
   const results = useMemo(() => searchActions(query, allActions().filter((a) => gamesOn || a.id !== 'nav.games')), [query, gamesOn])
+  // Phase 229 (M22): a typed sentence ("ruby tomato to Sharma last month") adds a "Search bills" row first; plain command text never does.
+  const [sentence, setSentence] = useState<{ text: string; chips: QueryChip[] } | null>(null)
+  useEffect(() => {
+    let live = true
+    setSentence(null)
+    if (!open || query.trim().length < 3) return
+    void parseTyped(query).then((t) => { if (live) setSentence(t ? { text: query.trim(), chips: t.parsed.chips } : null) })
+    return () => { live = false }
+  }, [open, query])
+  const total = results.length + (sentence ? 1 : 0)
+  const searchBills = (): void => {
+    if (!sentence) return
+    const text = sentence.text
+    onClose()
+    queueMicrotask(() => {
+      // History opens on its own page memory; the sentence goes in the search box and the normal sentence search answers it.
+      void useHistoryStore.getState().setQuery(text)
+      useRouter.getState().navigate(ROUTES.history)
+    })
+  }
 
   useEffect(() => {
     if (!open) return
@@ -49,13 +74,14 @@ export function CommandPalette({ open, onClose, onRun }: CommandPaletteProps): R
       onClose()
     } else if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setIndex((i) => (results.length === 0 ? 0 : (i + 1) % results.length))
+      setIndex((i) => (total === 0 ? 0 : (i + 1) % total))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      setIndex((i) => (results.length === 0 ? 0 : (i - 1 + results.length) % results.length))
+      setIndex((i) => (total === 0 ? 0 : (i - 1 + total) % total))
     } else if (e.key === 'Enter') {
       e.preventDefault()
-      const hit = results[index]
+      if (sentence && index === 0) { searchBills(); return }
+      const hit = results[index - (sentence ? 1 : 0)]
       if (hit) run(hit.id)
     } else if (e.key === 'Tab') {
       e.preventDefault() // focus stays in the input; the list is driven by arrows
@@ -75,7 +101,7 @@ export function CommandPalette({ open, onClose, onRun }: CommandPaletteProps): R
             role="combobox"
             aria-expanded="true"
             aria-controls="q3-palette-list"
-            aria-activedescendant={results[index] ? `q3-cmd-${results[index].id}` : undefined}
+            aria-activedescendant={sentence && index === 0 ? 'q3-cmd-search-bills' : results[index - (sentence ? 1 : 0)] ? `q3-cmd-${results[index - (sentence ? 1 : 0)]!.id}` : undefined}
             onChange={(e) => {
               setQuery(e.target.value)
               setIndex(0)
@@ -83,7 +109,23 @@ export function CommandPalette({ open, onClose, onRun }: CommandPaletteProps): R
           />
         </div>
         <ul ref={listRef} id="q3-palette-list" className="q3-palette__list" role="listbox" aria-label="Commands">
-          {results.map((a, i) => {
+          {sentence && (
+            <li
+              id="q3-cmd-search-bills"
+              role="option"
+              aria-selected={index === 0}
+              className={`q3-palette__row${index === 0 ? ' q3-palette__row--active' : ''}`}
+              onMouseMove={() => setIndex(0)}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={searchBills}
+            >
+              <span className="q3-palette__group">Search bills</span>
+              <span className="q3-palette__label">{sentence.chips.map((c) => c.label).join('  ·  ')}</span>
+            </li>
+          )}
+          {results.map((r, j) => {
+            const a = r
+            const i = j + (sentence ? 1 : 0)
             const keys = primaryKeys(a.id)
             return (
               <li
@@ -102,7 +144,7 @@ export function CommandPalette({ open, onClose, onRun }: CommandPaletteProps): R
               </li>
             )
           })}
-          {results.length === 0 && <li className="q3-palette__empty">No matching command</li>}
+          {total === 0 && <li className="q3-palette__empty">No matching command</li>}
         </ul>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } fr
 import type { AuditInput } from '../../shared/audit'
 import { basename, join } from 'node:path'
 import { probeDatabase, type SqliteDb } from '../db/probe'
+import { stripAiVectorsFromFile } from '../db/aiVectorRepo'
 import {
   BACKUP_IMPORT_MAX_BYTES, BACKUP_KEEP_AUTO, backupFileName, backupKindOf, dailyBackupDue, filesToPrune, isResetConfirm,
   isRestoreConfirm, isSafeBackupFile, localDay, type BackupInfo, type BackupKind, type BackupStatus
@@ -107,6 +108,7 @@ export function createBackupService(deps: BackupDeps, opts: BackupOpts = {}): Ba
       log.error('backup failed', { err })
       throw new AppError('IO_ERROR', 'Could not write the backup file. Check the disk space and try again.')
     }
+    stripAiVectorsFromFile(target) // Phase 224 [A]: the AI vector cache is not part of a backup (rebuilt after a restore)
     const p = probeDatabase(target)
     if (!p.ok) {
       rmSync(target, { force: true })

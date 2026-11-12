@@ -30,6 +30,11 @@ import type { BootstrapPreview, BootstrapResult } from './sync/bootstrap'
 import type { AuditFacets, AuditPage, AuditQuery } from './audit'
 import type { GameEntry } from './games/manifest'
 import type { GamesState } from './games/gamesState'
+import type { AiStatus } from './ai/aiStatus'
+import type { AiAdminResult, AiAdminState } from './ai/aiAdmin'
+import type { SentenceSearchAnswer } from './ai/sentenceAnswer'
+import type { PartySuggestion } from './ai/partyHistory'
+import type { GroupMergeSuggestion } from './ai/groupSuggest'
 import type { CrashNotice, RendererReportKind } from './diagnostics'
 import type { UpdateChannel, UpdateState } from './updater'
 import type { VersionList } from './rollback'
@@ -551,6 +556,22 @@ export interface Quot3Bridge {
     pickRandom(): Promise<Result<GameEntry | null>>
     getCredits(): Promise<Result<{ id: string; title: string; author: string; source: string; licence: string; commit: string }[]>>
     getLicense(id: string): Promise<Result<{ text: string }>>
+  }
+  ai: {
+    /** Phase 223 (M22): the local AI service status. The renderer never embeds; `ai:embed` is main-side only. */
+    status(): Promise<Result<AiStatus>>
+    /** Phase 230 (M22): Settings > AI. State = status + indexing progress + vector count + model size; the controls answer the new state. Delete drops only the vector cache. */
+    admin(): Promise<Result<AiAdminState>>
+    pause(): Promise<Result<AiAdminState>>
+    resume(): Promise<Result<AiAdminState>>
+    rebuild(): Promise<Result<AiAdminState>>
+    deleteData(): Promise<Result<AiAdminResult>>
+    /** Phase 226 (M22): the billing-screen panel's question (Phase 225 channel). Suggestions only; a missing model still answers with `embeddingsUsed: false`. */
+    suggestForParty(input: { partyId: string | null; partyName: string; text: string }): Promise<Result<{ suggestions: PartySuggestion[]; embeddingsUsed: boolean }>>
+    /** Phase 227 (M22): suggested merges for one Items-page group. Suggestions only; Accept uses `items.decide`. Empty when `ai.itemSuggestions` is off. */
+    suggestGroups(input: { groupId: string }): Promise<Result<{ suggestions: GroupMergeSuggestion[]; embeddingsUsed: boolean }>>
+    /** Phase 229 (M22): plain-sentence search. Re-rank scores (0..1 by bill id; only when `ai.sentenceSearch` is on and the model answered) and each bill's format. Reads only; the filtering itself uses `history.*`. */
+    searchSentence(input: { itemText: string; billIds: string[] }): Promise<Result<SentenceSearchAnswer>>
   }
   on(channel: EventChannel, callback: (payload: unknown) => void): () => void
 }

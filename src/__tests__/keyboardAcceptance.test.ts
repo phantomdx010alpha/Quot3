@@ -20,7 +20,7 @@ const PALETTE_ONLY: readonly string[] = [
   'history.focusDates', 'history.focusBills', 'history.refresh', 'history.dateRange', 'history.clearFilters', 'history.restore', 'history.purge',
   // Settings sections and one-off tools
   'settings.company', 'settings.branch', 'settings.print', 'settings.behaviour', 'settings.themes', 'settings.appearance', 'settings.shortcuts',
-  'settings.backup', 'settings.fresh', 'settings.sync', 'settings.joinBranch', 'settings.audit', 'settings.updates', 'settings.about',
+  'settings.backup', 'settings.fresh', 'settings.sync', 'settings.joinBranch', 'settings.audit', 'settings.updates', 'settings.ai', 'settings.about',
   'updates.check', 'diagnostics.copy', 'sync.keepMine', 'sync.loadTheirs', 'sync.toggle', 'sync.now', 'sync.compare', 'sync.renameBranch',
   // Create
   'grid.red', 'grid.deleteRows', 'grid.moveRowTop', 'grid.moveRowBottom', 'draft.recover', 'output.pdfRough', 'output.pdfPro', 'output.openPdf', 'customers.unify'

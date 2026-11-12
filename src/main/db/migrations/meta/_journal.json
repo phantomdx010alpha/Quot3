@@ -71,6 +71,13 @@
       "when": 1792220789889,
       "tag": "0009_legacy_watch",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1792307189889,
+      "tag": "0010_ai_text_vectors",
+      "breakpoints": true
     }
   ]
 }

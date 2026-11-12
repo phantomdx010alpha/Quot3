@@ -1,10 +1,12 @@
 import type { ItemsRepo, LoadedBill } from '../db/itemsRepo'
 import type { ItemRuleRow } from '../../shared/items/rules'
 import { toGroupingRule } from '../../shared/items/rules'
+import { itemKey } from '../../shared/items/normalise'
 import { groupItems, type GroupingResult, type ItemGroup, type ItemSpelling } from '../../shared/items/grouping'
 import { buildSalesTab, saleLine, type SaleLine } from '../../shared/items/sales'
 import type { DecisionInput, DecisionResult, GroupDetail, GroupSales, GroupSummary, ItemsOverview, LastDecisionInfo, OpenTarget, RebuildProgress, RebuildSummary, UndoOutcome } from '../../shared/items/api'
 import { planDecision } from '../../shared/items/decide'
+import { keyPairId, pairKey, type GroupAiInput } from '../../shared/ai/groupSuggest'
 import { resolveFormat } from '../../shared/format/registry'
 import { AppError } from '../ipc/envelope'
 
@@ -19,6 +21,12 @@ export interface ItemsService {
   rebuild(onProgress?: (p: RebuildProgress) => void): Promise<RebuildSummary>
   /** The bill a sales row opens (null when it was deleted since). */
   openTarget(billId: string): OpenTarget | null
+  /** Phase 225 (M22): every live sale line of one party (`partyKeyOf`) plus the group lookup, for the AI party history. Read-only. */
+  partyHistory(partyKey: string): { lines: SaleLine[]; groupIdOf(name: string): string | null }
+  /** Phase 229 (M22): the item names and GST / Non-GST of the given bills (bills with no sale lines are absent). Read-only. */
+  billLines(ids: readonly string[]): Record<string, { names: string[]; gst: boolean }>
+  /** Phase 227 (M22): every group in the slice the AI group suggestions read, plus the pairs the rules already suggest or the owner split. Read-only. */
+  aiGroups(): { groups: GroupAiInput[]; ruleSuggested: string[]; splitKeyPairs: string[] }
   /** Phase 113: saves one owner decision as Item rules (a move = two). Bills are never touched; the next read regroups. */
   decide(input: DecisionInput): DecisionResult
   /** Phase 113: reverts the newest decision, every rule step of that one action. */
@@ -179,6 +187,10 @@ export function createItemsService({ repo, rules, ruleOps }: ItemsDeps, opts: It
     return grouping
   }
 
+  let groupLookupFor: GroupingResult | null = null
+  let byExact = new Map<string, string>()
+  let byKey = new Map<string, string>()
+
   // Phase 113: one entry per owner action (steps = rule changes it made), so Undo reverts the whole action. Rules from an earlier session
   // have no entry: they undo one step at a time.
   const batches: Array<{ steps: number; label: string }> = []
@@ -215,6 +227,47 @@ export function createItemsService({ repo, rules, ruleOps }: ItemsDeps, opts: It
         for (const list of bills.values()) for (const l of list) (l.gst ? gst : non).push(l)
       }
       return { groupId: g.id, display: g.display, nonGst: buildSalesTab(non, partyKey), gst: buildSalesTab(gst, partyKey) }
+    },
+
+    partyHistory(partyKey) {
+      const r = ensure()
+      if (groupLookupFor !== r) {
+        groupLookupFor = r
+        byExact = new Map(); byKey = new Map()
+        for (const g of r.groups) for (const sp of g.spellings) {
+          byExact.set(sp.name.trim(), g.id)
+          const k = itemKey(sp.name)
+          if (k !== '' && !byKey.has(k)) byKey.set(k, g.id)
+        }
+      }
+      const lines: SaleLine[] = []
+      for (const list of linesOf.values()) for (const l of list) if (l.partyKey === partyKey) lines.push(l)
+      return { lines, groupIdOf: (name) => byExact.get(name.trim()) ?? byKey.get(itemKey(name)) ?? null }
+    },
+
+    billLines(ids) {
+      ensure()
+      const out: Record<string, { names: string[]; gst: boolean }> = {}
+      for (const id of ids) {
+        const lines = linesOf.get(id)
+        if (!lines || lines.length === 0) continue
+        out[id] = { names: [...new Set(lines.map((l) => l.name.trim()).filter((n) => n !== ''))], gst: lines.some((l) => l.gst) }
+      }
+      return out
+    },
+
+    aiGroups() {
+      const r = ensure()
+      const sum = new Map(summaries.map((x) => [x.id, x]))
+      const groups: GroupAiInput[] = r.groups.map((g) => {
+        const x = sum.get(g.id)
+        return { id: g.id, display: g.display, count: g.count, gstCount: x?.gstCount ?? 0, nonGstCount: x?.nonGstCount ?? 0, spellings: g.spellings.map((sp) => ({ name: sp.name, count: sp.count, key: sp.originalKey })) }
+      })
+      const ruleSuggested = new Set<string>()
+      for (const g of r.groups) for (const sg of g.suggestions) ruleSuggested.add(pairKey(sg.fromId, sg.toId))
+      const splitKeyPairs: string[] = []
+      for (const rule of rules()) if (rule.kind === 'split' && rule.deletedAt === null) splitKeyPairs.push(keyPairId(rule.keyA, rule.keyB))
+      return { groups, ruleSuggested: [...ruleSuggested], splitKeyPairs }
     },
 
     async rebuild(onProgress) {

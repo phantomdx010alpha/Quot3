@@ -7,6 +7,7 @@ import { FormatToolbar } from '../components/create/FormatToolbar'
 import { ExtraColsToolbar } from '../components/create/ExtraColsToolbar'
 import { BottomBar } from '../components/create/BottomBar'
 import { CalcDrawer } from '../components/create/CalcDrawer'
+import { AiHistoryPanel, AiPanelSwitch } from '../components/create/AiHistoryPanel'
 import { SaveFlow } from '../components/create/SaveFlow'
 import { RemoteChangeBanner } from '../components/create/RemoteChangeBanner'
 import { HybridRecopyDialog } from '../components/create/HybridRecopyDialog'
@@ -63,6 +64,7 @@ export default function Create(): React.JSX.Element {
       <div className="q3-create__tools">
         <FormatToolbar />
         <ExtraColsToolbar />
+        <AiPanelSwitch />
       </div>
       <div className="q3-create__grid" ref={gridHost} data-hybrid={hybridOn ? 'on' : undefined}>
         {/* Phase 151: the primary pane stays at the same tree position in and out of Hybrid, so its grid never remounts. */}
@@ -77,6 +79,7 @@ export default function Create(): React.JSX.Element {
           </div>
         )}
       </div>
+      <AiHistoryPanel gridHost={gridHost} />
       <CalcDrawer />
       <BottomBar actions>
         <GridStatus />

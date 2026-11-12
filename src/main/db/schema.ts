@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core'
+import { blob, index, integer, primaryKey, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core'
 
 /**
  * Drizzle schema = docs/DATA_MODEL.md (frozen contract). Defined for ALL tables up front so the schema is
@@ -362,4 +362,20 @@ export const partyNotSame = sqliteTable(
   'party_not_same',
   { aId: text('a_id').notNull(), bId: text('b_id').notNull(), at: text('at').notNull() },
   (t) => [primaryKey({ columns: [t.aId, t.bId] })]
+)
+
+/**
+ * Phase 224 (M22): local vector cache, keyed by model id + hash of the NORMALISED item text (never by bill or row ids).
+ * A pure cache: not synced (no shared_sync_records entry), left out of new backups, can be dropped and rebuilt at any time.
+ */
+export const aiTextVectors = sqliteTable(
+  'ai_text_vectors',
+  {
+    modelId: text('model_id').notNull(),
+    textHash: text('text_hash').notNull(),
+    dim: integer('dim').notNull(),
+    vector: blob('vector', { mode: 'buffer' }).notNull(),
+    createdAt: text('created_at').notNull()
+  },
+  (t) => [primaryKey({ columns: [t.modelId, t.textHash] })]
 )

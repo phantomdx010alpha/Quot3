@@ -19,7 +19,7 @@ export function SpellingsWindow({ rows, cursor, groupName, movingKey, onCursor }
   const cur = useRef<HTMLDivElement | null>(null)
   useEffect(() => { cur.current?.scrollIntoView?.({ block: 'nearest' }) }, [cursor, rows])
   if (groupName === '') return <div className="q3-items__note">Select an item in Groups.</div>
-  const firstSuggestion = rows.findIndex((r) => r.kind === 'suggestion')
+  const firstSuggestion = rows.findIndex((r) => r.kind === 'suggestion' || r.kind === 'aiSuggestion')
   return (
     <div role="grid" aria-label={`Spellings of ${groupName}`} aria-rowcount={rows.length}>
       {rows.map((r, i) => {
@@ -40,6 +40,26 @@ export function SpellingsWindow({ rows, cursor, groupName, movingKey, onCursor }
                 <span role="gridcell" className="q3-items__num" title="Times used">{s.count}</span>
                 <span role="gridcell" className="q3-items__muted">{s.lastUsed ? formatHistoryDate(s.lastUsed) : ''}</span>
                 <span role="gridcell" className="q3-items__muted" title={s.why.text || s.why.rule}>{s.why.text || (s.why.rule === 'most-used' ? 'Most used spelling' : '')}</span>
+              </div>
+            </div>
+          )
+        }
+        if (r.kind === 'aiSuggestion') {
+          // Phase 227 (M22): a merge the AI proposes. Enter accepts (the existing merge rule, undoable), X dismisses (remembered on this PC).
+          const a = r.ai
+          return (
+            <div key={r.key}>
+              {head}
+              <div
+                ref={sel ? cur : undefined}
+                role="row"
+                aria-selected={sel}
+                className="q3-items__row q3-items__row--suggestion"
+                onMouseDown={(e) => { e.preventDefault(); (e.currentTarget.closest('.q3-items__content') as HTMLElement | null)?.focus(); onCursor(i) }}
+              >
+                <span role="gridcell"><span className="q3-items__badge">Suggested</span></span>
+                <span role="gridcell" title={`${a.explanation} Enter accepts, X dismisses.`}>{a.fromName} &rarr; {a.toName}</span>
+                <span role="gridcell" className="q3-items__muted" title={a.explanation}>{a.why} ({Math.round(a.score * 100)}%)</span>
               </div>
             </div>
           )

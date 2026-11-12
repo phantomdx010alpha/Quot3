@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import type { Quot3Bridge } from '@shared/ipc'
+import type { SentenceView } from '@shared/ai/sentenceSearch'
+import { runSentenceSearch } from './sentenceSearch'
 import { HISTORY_DAYS_KEY, effectiveTargets, historyCutoff, normalizeHistoryDays, rangeIds, sortBillsByInvoiceNumber, type BillListItem, type HistoryBranch, type HistoryDate, type HistorySource } from '@shared/history/historyList'
 
 type HistoryApi = Quot3Bridge['history']
@@ -25,6 +27,8 @@ export interface HistoryState {
   cutoff: string
   /** The search matched more than the cap. */
   truncated: boolean
+  /** Phase 229 (M22): how a plain sentence was understood (chips); null for ordinary search and when AI is off. */
+  sentence: SentenceView | null
   /** Phase 42: multi-selection (Shift+arrows / Ctrl+click / Ctrl+A) in list order; empty = just the highlighted bill. */
   selection: string[]
   anchor: string | null
@@ -96,6 +100,19 @@ async function runSearch(seq: number, prev: string | null): Promise<void> {
   const h = api()
   const { query } = useHistoryStore.getState()
   if (!h) return
+  // Phase 229: a plain sentence (dates / party / amount / format words) is answered by the sentence path; anything else, or AI off, is the old search.
+  const sent = await runSentenceSearch(query.trim(), rangeArgs(useHistoryStore.getState()))
+  if (seq !== listSeq) return
+  if (sent) {
+    const items = sent.items
+    useHistoryStore.setState({
+      bills: items as BillListItem[], next: null, truncated: sent.truncated, status: 'ready', error: '', sentence: sent.view,
+      selection: useHistoryStore.getState().selection.filter((id) => items.some((i) => i.id === id)),
+      billId: items.some((i) => i.id === prev) ? prev : (items[0]?.id ?? null)
+    })
+    return
+  }
+  if (useHistoryStore.getState().sentence) useHistoryStore.setState({ sentence: null })
   const r = await h.search({ query: query.trim(), ...rangeArgs(useHistoryStore.getState()) })
   if (seq !== listSeq) return
   if (!r.ok) { useHistoryStore.setState({ status: 'error', error: r.error.message, bills: [], billId: null, selection: [] }); return }
@@ -109,7 +126,7 @@ async function runSearch(seq: number, prev: string | null): Promise<void> {
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
   status: 'idle', error: '', dates: [], date: null, bills: [], next: null, loadingMore: false, billId: null, branches: [], branch: 'all', source: 'all', batch: '',
-  query: '', from: '', to: '', cutoff: '', truncated: false, selection: [], anchor: null, confirmDelete: null,
+  query: '', from: '', to: '', cutoff: '', truncated: false, sentence: null, selection: [], anchor: null, confirmDelete: null,
   focusDates: null, focusBills: null, focusSearch: null, focusDateRange: null,
 
   async refresh() {
@@ -145,7 +162,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     const h = api()
     if (!h || (date === get().date && get().query.trim() === '')) return
     const seq = ++listSeq
-    set({ date, next: null, loadingMore: false, query: '', truncated: false, selection: [], anchor: null })
+    set({ date, next: null, loadingMore: false, query: '', truncated: false, sentence: null, selection: [], anchor: null })
     try {
       const l = await h.listBills({ date, ...listArgs(get()) })
       if (seq !== listSeq) return
@@ -183,7 +200,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     const seq = ++listSeq
     const h = api()
     if (!h) return
-    if (q.trim() === '') { await get().refresh(); return }
+    if (q.trim() === '') { set({ sentence: null }); await get().refresh(); return }
     set({ next: null, loadingMore: false })
     try { await runSearch(seq, get().billId) } catch (e) { if (seq === listSeq) set({ status: 'error', error: e instanceof Error ? e.message : 'Search failed.' }) }
   },
@@ -210,7 +227,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
 
   async clearFilters() {
     if (get().query === '' && get().from === '' && get().to === '' && get().source === 'all') return
-    set({ query: '', from: '', to: '', source: 'all', batch: '', error: '' })
+    set({ query: '', from: '', to: '', source: 'all', batch: '', error: '', sentence: null })
     await get().refresh()
   },
 

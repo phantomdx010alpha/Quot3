@@ -1,0 +1,17 @@
+Quot3 - local AI model notice (Milestone 22)
+
+Quot3 can use a small text-embedding model that runs on this PC only. Nothing is sent anywhere.
+
+Model: multilingual-e5-small (intfloat/multilingual-e5-small; ONNX conversion Xenova/multilingual-e5-small)
+Authors: Liang Wang, Nan Yang, Xiaolong Huang, Linjun Yang, Rangan Majumder, Furu Wei (Microsoft Research)
+Licence: MIT (confirmed by the owner on 2026-11-12; see docs/THIRD_PARTY_AI.md)
+Licence text: https://huggingface.co/intfloat/multilingual-e5-small (MIT)
+
+The model files are not part of the source repository; they are fetched by tools/fetch-ai-model.mjs and packaged into the installer.
+Full record: docs/THIRD_PARTY_AI.md
+
+Runtime packages (versions from package-lock.json, checked 2026-11-12):
+  @huggingface/transformers 4.3.2 (Apache-2.0), onnxruntime-node 1.30.0 (MIT), onnxruntime-common 1.30.0 (MIT),
+  onnxruntime-web 1.31.0-dev.20260914-8d85527a0 (MIT), @huggingface/tokenizers 0.2.0 (Apache-2.0),
+  @huggingface/jinja 0.5.12 (MIT), sharp 0.35.5 (Apache-2.0)
+Status (Phase 231 follow-up, 2026-11-12): the model is pinned to Hugging Face revision 761b726dd34fb83930e26aab4e9ac3899aa1fa78 with a SHA-256 per file, and the owner confirmed the MIT licence. The release build downloads and verifies it and packages it.

@@ -114,6 +114,16 @@ import { createElectronBackgroundPorts } from './services/backgroundElectron'
 import { resolveRuntimePaths } from './runtimePaths'
 import { registerGameScheme, installGameHost } from './games/gameProtocolElectron'
 import { createGameCatalog } from './games/gameCatalog'
+import { createAiService } from './ai/aiService'
+import { createSuggestService } from './ai/suggestService'
+import { createGroupSuggestService } from './ai/groupSuggestService'
+import { createSentenceSearchService } from './ai/sentenceSearchService'
+import { createIndexer, modelCacheKey } from './ai/indexer'
+import { createAiVectorRepo, createBillNameSource } from './db/aiVectorRepo'
+import { aiDiagnosticsLine } from '../shared/ai/aiAdmin'
+import { createUtilitySpawner } from './ai/spawnUtility'
+import { modelFilesBytes, modelFilesPresent } from './ai/modelFiles'
+import { DEFAULT_MODEL, modelDir } from '../shared/ai/modelConfig'
 import { APP_ID, APP_NAME } from '../shared/appInfo'
 
 const isDev = !app.isPackaged
@@ -471,7 +481,10 @@ if (!app.requestSingleInstanceLock()) {
     app.on('will-quit', () => background?.stop())
     const hiddenStart = shouldStartHidden({ argv: process.argv, keepRunning: readBackgroundSettings(settings.getAll()).keepRunning, platform: process.platform })
     // Changing a background.* or legacyWatch.* setting applies at once (login item, tray, tray menu).
-    const settingsForIpc: typeof settings = { ...settings, set: (k, v) => { settings.set(k, v); if (k.startsWith('background.') || k.startsWith('legacyWatch.')) background?.apply() } }
+    // Phase 230 (M22): set once the AI service exists; turning `ai.enabled` on or off calls it (stops the worker when off, starts indexing when on).
+    let aiApply: (() => void) | null = null
+    let aiDiag: (() => string) | null = null
+    const settingsForIpc: typeof settings = { ...settings, set: (k, v) => { settings.set(k, v); if (k.startsWith('background.') || k.startsWith('legacyWatch.')) background?.apply(); if (k === 'ai.enabled') { try { aiApply?.() } catch (e) { log.warn('AI apply failed', { error: String(e) }) } } } }
     const drafts = createDraftService(createDraftRepo(dbh.sqlite), {
       writable: dbh.writable,
       branchId: () => (dbh.writable ? getLocalBranch(dbh.sqlite).id : null)
@@ -523,6 +536,7 @@ if (!app.requestSingleInstanceLock()) {
       os: { platform: platform(), release: release(), arch: arch() },
       db: () => ({ schemaVersion: dbh.schemaVersion, writable: dbh.writable, counts: createDiagnosticsRepo(dbh.sqlite).counts() }),
       sync: () => ({ activated: license.isActivated() || sharedActivation.isActivated(), mode: syncManager.overview().mode }),
+      ai: () => aiDiag?.() ?? '',
       writeClipboard: (t) => clipboard.writeText(t)
     })
     // Phase 71: the image service owns the warm hidden window and the content-hash PNG cache; it is warmed once the app is up and disposed on quit.
@@ -553,6 +567,53 @@ if (!app.requestSingleInstanceLock()) {
     const gamesRoot = join(runtimePaths.resourcesRoot, 'games')
     const gameCatalog = createGameCatalog({ gamesRoot, warn: (m, extra) => log.warn(m, extra as Record<string, unknown>) })
     installGameHost({ gamesRoot, frameAncestors: devUrl ? new URL(devUrl).origin : 'file:', warn: (m, extra) => log.warn(m, extra as Record<string, unknown>) })
+    // Phase 223 (M22): the local AI service. Nothing is spawned until `ai.enabled` is on AND something asks for an embedding (the worker loads lazily).
+    const aiModelRoot = join(runtimePaths.resourcesRoot, modelDir(DEFAULT_MODEL))
+    const aiService = createAiService({
+      model: DEFAULT_MODEL,
+      modelRoot: aiModelRoot,
+      modelPresent: () => modelFilesPresent(DEFAULT_MODEL, aiModelRoot),
+      spawn: createUtilitySpawner(join(__dirname, 'embedWorker.js')),
+      isEnabled: () => settings.get('ai.enabled') === true,
+      log: (m, extra) => log.warn(m, extra as Record<string, unknown>)
+    })
+    app.on('will-quit', () => aiService.shutdown())
+    // Phase 225: party purchase-history suggestions (reads bills via the items read model and the vector cache; writes nothing).
+    const aiSuggest = createSuggestService({
+      items, ai: aiService, vectors: createAiVectorRepo(dbh.sqlite), modelKey: modelCacheKey(DEFAULT_MODEL), threshold: DEFAULT_MODEL.thresholds.history,
+      isEnabled: () => settings.get('ai.enabled') === true, log: (m, extra) => log.warn(m, extra as Record<string, unknown>)
+    })
+    // Phase 227: suggested group merges for the Items page (reads the items read model and cached vectors; writes nothing).
+    const aiGroupSuggest = createGroupSuggestService({
+      items, vectors: createAiVectorRepo(dbh.sqlite), modelKey: modelCacheKey(DEFAULT_MODEL), threshold: DEFAULT_MODEL.thresholds.group,
+      isOn: () => settings.get('ai.enabled') === true && settings.get('ai.itemSuggestions') === true, log: (m, extra) => log.warn(m, extra as Record<string, unknown>)
+    })
+    // Phase 229: plain-sentence search re-rank + bill formats (reads the items index and cached vectors; writes nothing).
+    const aiSentence = createSentenceSearchService({
+      items, ai: aiService, vectors: createAiVectorRepo(dbh.sqlite), modelKey: modelCacheKey(DEFAULT_MODEL), threshold: DEFAULT_MODEL.thresholds.sentence,
+      isEnabled: () => settings.get('ai.enabled') === true, isRerankOn: () => settings.get('ai.enabled') === true && settings.get('ai.sentenceSearch') === true,
+      log: (m, extra) => log.warn(m, extra as Record<string, unknown>)
+    })
+    // Phase 230 (M22): the background indexer + the Settings > AI controls. It only ever writes the vector cache. Nothing starts while `ai.enabled` is off.
+    const aiRepo = createAiVectorRepo(dbh.sqlite)
+    const aiModelKey = modelCacheKey(DEFAULT_MODEL)
+    const aiIndexer = createIndexer({
+      repo: aiRepo, names: createBillNameSource(dbh.sqlite), embed: (t, k, o) => aiService.embed(t, k, o), cancel: (g) => aiService.cancel(g),
+      modelKey: aiModelKey, dim: DEFAULT_MODEL.dim, isEnabled: () => settings.get('ai.enabled') === true,
+      schedule: (fn) => { const t = setTimeout(fn, 250); return () => clearTimeout(t) }, log: (m, extra) => log.warn(m, extra as Record<string, unknown>)
+    })
+    app.on('will-quit', () => aiIndexer.stop())
+    const aiAdminState = () => {
+      const status = aiService.status()
+      const present = status.state !== 'notInstalled'
+      return { status, progress: aiIndexer.progress(), vectors: aiRepo.count(aiModelKey), ...(present ? { modelBytes: modelFilesBytes(DEFAULT_MODEL, aiModelRoot) } : {}) }
+    }
+    aiDiag = () => aiDiagnosticsLine(settings.get('ai.enabled') === true, { status: aiService.status(), vectors: aiRepo.count(aiModelKey) })
+    aiApply = () => {
+      if (settings.get('ai.enabled') === true) { aiIndexer.resume(); aiIndexer.scan() } else { aiIndexer.pause(); aiService.shutdown() }
+    }
+    // A quiet start: five seconds after launch, only when AI is on, work out which item names still need a vector.
+    setTimeout(() => { try { if (settings.get('ai.enabled') === true) aiIndexer.scan() } catch (e) { log.warn('AI start scan failed', { error: String(e) }) } }, 5000)
     registerIpc({
       info: {
         version: app.getVersion(),
@@ -563,6 +624,13 @@ if (!app.requestSingleInstanceLock()) {
       log,
       themes: themeServiceRef,
       themeShare: themeShareRef,
+      ai: { service: aiService, admin: {
+        state: aiAdminState,
+        pause: () => aiIndexer.pause(),
+        resume: () => { aiIndexer.resume(); aiIndexer.scan() },
+        rebuild: () => { aiIndexer.dropAll(); aiIndexer.resume(); aiIndexer.scan() },
+        deleteData: () => { const n = aiIndexer.dropAll(); return { ok: true, removed: n } }
+      }, suggest: aiSuggest, groupSuggest: aiGroupSuggest, sentence: aiSentence },
       games: { catalog: gameCatalog, readState: () => settings.get('games.state'), writeState: (json) => { settings.set('games.state', JSON.parse(json)) }, readShowChinese: () => settings.get('games.showChinese') },
       settings: settingsForIpc,
       appSettings,

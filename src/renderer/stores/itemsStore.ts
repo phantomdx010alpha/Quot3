@@ -4,6 +4,8 @@ import type { DecisionInput, GroupDetail, GroupSales, ItemsOverview } from '@sha
 import { defaultTab, partyOfRow, saleKey, saleRowIndex, salesToTsv, tabOf, SALES_TAB_IDS, type SalesTabId } from '@shared/items/salesView'
 import { filterGroups } from '@shared/items/search'
 import { buildGroupRows, buildSpellingRows, groupIdsOf, type SpellingRow } from '@shared/items/groupRows'
+import type { GroupMergeSuggestion } from '@shared/ai/groupSuggest'
+import { readAiSettings, aiFeatureOn } from '@shared/ai/aiSettings'
 import { useSaveUiStore } from './saveUiStore'
 import { openBillForEdit } from './createSession'
 import { requestLeave } from './guardStore'
@@ -17,8 +19,14 @@ import { captureItemsContext } from '../pageMemory/billContext'
  * Phase 92 selector rule: this store keeps RAW values (the overview object as received, a string query); the filtered list is derived in
  * the page with `useMemo`. No getter here returns a fresh array / object.
  */
-type Bridge = Pick<Quot3Bridge, 'items' | 'on' | 'clipboard'>
+type Bridge = Pick<Quot3Bridge, 'items' | 'on' | 'clipboard' | 'settings' | 'ai'>
 const api = (): Partial<Bridge> | undefined => (window as unknown as { quot3?: Partial<Bridge> }).quot3
+
+/** Phase 227 (M22): where Dismiss on a suggested merge is remembered (this PC only, never synced), and how many are kept. */
+export const DISMISSED_KEY = 'items.dismissedMerges'
+export const DISMISSED_MAX = 500
+/** How many suggested merges the Spellings window shows for one group. */
+export const AI_SHOW_MAX = 5
 
 export type ItemsWindow = 'groups' | 'spellings' | 'sales'
 export const ITEMS_WINDOWS: readonly ItemsWindow[] = ['groups', 'spellings', 'sales']
@@ -60,12 +68,23 @@ export interface ItemsState {
   salesCursor: number
   /** Party filter (a `partyKey`), null = all parties. */
   partyFilter: string | null
+  /** Phase 227: `ai.enabled` AND `ai.itemSuggestions` (read when the page loads). Off = no AI call, no AI row, the page is exactly as before. */
+  aiOn: boolean
+  /** Phase 227: suggested merges for group `aiFor` (raw answer; dismissed ones are filtered when the rows are built). */
+  aiRows: readonly GroupMergeSuggestion[]
+  aiFor: string | null
+  /** Phase 227: pair keys the owner dismissed on this PC. */
+  dismissed: readonly string[]
   /** Set by the page: move DOM focus to a window / the search box. */
   ports: { focusWindow: ((w: ItemsWindow) => void) | null; focusSearch: (() => void) | null }
 
   /** `select`: group to highlight afterwards when it exists; `fallback`: used when the current selection vanished. */
   load(opts?: { select?: string | null; fallback?: string | null }): Promise<void>
   loadDetail(): Promise<void>
+  /** Phase 227: read the switches (once per page load) and the selected group's suggested merges. Never throws; any failure leaves no AI rows. */
+  loadAi(opts?: { readSettings?: boolean }): Promise<void>
+  /** Phase 227: Dismiss on a suggested merge: remembered locally, never shown again, no rule is written. */
+  dismissAi(pairKey?: string): void
   /** Phase 114: read the selected group's sales (with the party filter); keeps the highlighted sale when it is still there. */
   loadSales(): Promise<void>
   setSalesTab(id: SalesTabId): void
@@ -107,6 +126,7 @@ export interface ItemsState {
 let token = 0
 let detailToken = 0
 let salesToken = 0
+let aiToken = 0
 
 const groupRowsNow = (s: ItemsState) => (s.overview ? buildGroupRows(filterGroups(s.overview.groups, s.query), s.overview.families) : [])
 const nameOfGroup = (s: ItemsState) => (id: string): string => s.overview?.groups.find((g) => g.id === id)?.display ?? id
@@ -130,6 +150,10 @@ export const useItemsStore = create<ItemsState>((set, get) => ({
   salesTab: 'nonGst',
   salesCursor: 0,
   partyFilter: null,
+  aiOn: false,
+  aiRows: [],
+  aiFor: null,
+  dismissed: [],
   ports: { focusWindow: null, focusSearch: null },
 
   async load(opts) {
@@ -150,7 +174,42 @@ export const useItemsStore = create<ItemsState>((set, get) => ({
     const ld = await a.lastDecision?.()
     if (my === token && ld?.ok) set({ undo: ld.data.undo })
     await get().loadDetail()
+    await get().loadAi({ readSettings: true })
     await get().loadSales()
+  },
+
+  async loadAi(opts) {
+    const my = ++aiToken
+    try {
+      if (opts?.readSettings) {
+        const r = await api()?.settings?.getAll()
+        if (my !== aiToken) return
+        if (r && r.ok) {
+          const dm = (r.data as Record<string, unknown>)[DISMISSED_KEY]
+          set({ aiOn: aiFeatureOn(readAiSettings(r.data), 'itemSuggestions'), dismissed: Array.isArray(dm) ? dm.filter((x): x is string => typeof x === 'string').slice(-DISMISSED_MAX) : get().dismissed })
+        } else set({ aiOn: false })
+      }
+      const id = get().selectedGroupId
+      const ai = api()?.ai
+      if (!get().aiOn || !ai || !ai.suggestGroups || id === null) { if (get().aiRows.length > 0 || get().aiFor !== null) set({ aiRows: [], aiFor: null }); return }
+      const res = await ai.suggestGroups({ groupId: id })
+      if (my !== aiToken || get().selectedGroupId !== id) return // a newer question, another group or a reload happened meanwhile: no stale rows
+      set({ aiRows: res.ok ? res.data.suggestions : [], aiFor: id })
+    } catch {
+      if (my === aiToken) set({ aiRows: [], aiFor: null })
+    }
+  },
+
+  dismissAi(key) {
+    const s = get()
+    const row = key === undefined ? s.spellingRows()[s.cursor] : undefined
+    const pk = key ?? (row && row.kind === 'aiSuggestion' ? row.ai.pairKey : undefined)
+    if (pk === undefined || s.dismissed.includes(pk)) return
+    const next = [...s.dismissed, pk].slice(-DISMISSED_MAX)
+    set({ dismissed: next, notice: 'Dismissed. This suggestion will not be shown again.', error: '' })
+    try { void api()?.settings?.set(DISMISSED_KEY, next).catch(() => undefined) } catch { /* a dismissal that fails to save only comes back after a restart */ }
+    const rows = get().spellingRows().length
+    set({ cursor: Math.min(get().cursor, Math.max(0, rows - 1)) })
   },
 
   async loadDetail() {
@@ -161,7 +220,7 @@ export const useItemsStore = create<ItemsState>((set, get) => ({
     const res = await a.group({ groupId: id })
     if (my !== detailToken || get().selectedGroupId !== id) return
     if (!res.ok) { set({ detail: null }); return }
-    const rows = res.data.spellings.length + res.data.suggestions.length
+    const rows = res.data.spellings.length + res.data.suggestions.length + get().aiRows.length
     set({ detail: res.data, cursor: Math.min(get().cursor, Math.max(0, rows - 1)) })
   },
 
@@ -273,15 +332,19 @@ export const useItemsStore = create<ItemsState>((set, get) => ({
   setQuery: (query) => set({ query }),
   selectGroup(id) {
     if (get().selectedGroupId === id) return
-    set({ selectedGroupId: id, cursor: 0, partyFilter: null, salesCursor: 0 })
+    set({ selectedGroupId: id, cursor: 0, partyFilter: null, salesCursor: 0, aiRows: [], aiFor: null })
     void get().loadDetail()
+    void get().loadAi()
     void get().loadSales()
   },
   setCursor: (cursor) => set({ cursor }),
 
   spellingRows() {
     const s = get()
-    return s.detail && s.detail.id === s.selectedGroupId ? buildSpellingRows(s.detail, nameOfGroup(s)) : []
+    if (!(s.detail && s.detail.id === s.selectedGroupId)) return []
+    // Phase 227: AI rows only while the switches are on, for THIS group, minus the dismissed ones.
+    const ai = s.aiOn && s.aiFor === s.selectedGroupId ? s.aiRows.filter((a) => !s.dismissed.includes(a.pairKey)).slice(0, AI_SHOW_MAX) : []
+    return buildSpellingRows(s.detail, nameOfGroup(s), ai)
   },
 
   async decide(input) {
@@ -347,12 +410,15 @@ export const useItemsStore = create<ItemsState>((set, get) => ({
 
   async confirmKey() {
     const row = get().spellingRows()[get().cursor]
+    // Phase 227: Accept on a suggested merge uses the very same decision (and so the same item rule, Undo and message) as a rule suggestion.
+    if (row && row.kind === 'aiSuggestion') { await get().decide({ op: 'merge', fromGroupId: row.ai.fromId, intoGroupId: row.ai.toId }); return }
     if (!row || row.kind !== 'suggestion') return
     await get().decide({ op: 'merge', fromGroupId: row.suggestion.fromId, intoGroupId: row.suggestion.toId })
   },
 
   async rejectKey() {
     const row = get().spellingRows()[get().cursor]
+    if (row && row.kind === 'aiSuggestion') { get().dismissAi(row.ai.pairKey); return } // Dismiss: remembered locally, no rule
     if (!row || row.kind !== 'suggestion') return
     await get().decide({ op: 'reject', fromGroupId: row.suggestion.fromId, intoGroupId: row.suggestion.toId })
   },

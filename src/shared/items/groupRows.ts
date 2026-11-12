@@ -5,6 +5,7 @@
 import type { GroupDetail, GroupSummary } from './api'
 import type { GroupSpelling, ItemFamily, Suggestion } from './grouping'
 import { isListKey, moveListIndex } from '../history/historyList'
+import type { GroupMergeSuggestion } from '../ai/groupSuggest'
 
 export type GroupRow =
   | { kind: 'family'; key: string; name: string; count: number; groups: number }
@@ -47,12 +48,15 @@ export function moveGroupSelection(rows: readonly GroupRow[], selectedId: string
 
 export type SpellingRow =
   | { kind: 'spelling'; key: string; spelling: GroupSpelling }
+  /** Phase 227 (M22): a merge the AI proposes for groups the rules left alone. Shown with a "Suggested" badge; only the owner's Accept merges. */
+  | { kind: 'aiSuggestion'; key: string; ai: GroupMergeSuggestion }
   | { kind: 'suggestion'; key: string; suggestion: Suggestion; /** The group this one would merge INTO (the more used side). */ intoName: string; /** The group that would be merged (the less used side). */ fromName: string }
 
 /** Spellings (most used first, as sent), then the suggested merges of this group. `nameOf` turns a group id into its display name. */
-export function buildSpellingRows(detail: GroupDetail, nameOf: (groupId: string) => string): SpellingRow[] {
+export function buildSpellingRows(detail: GroupDetail, nameOf: (groupId: string) => string, ai: readonly GroupMergeSuggestion[] = []): SpellingRow[] {
   const out: SpellingRow[] = detail.spellings.map((s, i) => ({ kind: 'spelling', key: `s:${i}:${s.name}`, spelling: s }))
   for (const s of detail.suggestions) out.push({ kind: 'suggestion', key: `x:${s.kind}:${s.fromId}>${s.toId}`, suggestion: s, intoName: nameOf(s.toId), fromName: nameOf(s.fromId) })
+  for (const a of ai) out.push({ kind: 'aiSuggestion', key: `a:${a.pairKey}`, ai: a })
   return out
 }
 

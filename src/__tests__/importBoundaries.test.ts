@@ -93,6 +93,21 @@ describe('import boundaries', () => {
     expect(offenders).toEqual([])
   })
 
+  it('Phase 222 (M22): renderer and the phone never import the AI packages (they run only in the utility process)', () => {
+    const AI_PKG = /^(@huggingface\/transformers|onnxruntime-[a-z]+)(\/|$)/
+    const offenders: string[] = []
+    for (const dir of ['renderer', 'pwa']) {
+      for (const file of walk(join(SRC, dir))) {
+        if (file.includes(`${sep}__tests__${sep}`)) continue
+        for (const spec of importsOf(file)) if (AI_PKG.test(spec)) offenders.push(`${relative(SRC, file)} -> ${spec}`)
+      }
+    }
+    expect(offenders).toEqual([])
+    expect(AI_PKG.test('@huggingface/transformers')).toBe(true)
+    expect(AI_PKG.test('onnxruntime-node/dist/x')).toBe(true)
+    expect(AI_PKG.test('react')).toBe(false)
+  })
+
   it('the checker itself detects a violation (sanity)', () => {
     expect(importsOf(__filename)).toContain('vitest')
     expect(NODE_BUILTIN.test('node:fs')).toBe(true)

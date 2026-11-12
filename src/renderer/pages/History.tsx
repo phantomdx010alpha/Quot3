@@ -8,6 +8,7 @@ import { HistoryHeader } from '../components/history/HistoryHeader'
 import { ActionBar } from '../components/history/ActionBar'
 import { SourceFilter } from '../components/history/SourceFilter'
 import { SearchBox } from '../components/history/SearchBox'
+import { SentenceChips } from '../components/history/SentenceChips'
 import { SaveFlow } from '../components/create/SaveFlow'
 import { TrashView } from '../components/history/TrashView'
 import { UndoDeleteBar } from '../components/history/UndoDeleteBar'
@@ -135,6 +136,7 @@ export default function History(): React.JSX.Element {
           fromRef={fromRef}
         />
       )}
+      {!empty && !t.open && s.sentence && searching && <SentenceChips view={s.sentence} onChange={(q) => { void useHistoryStore.getState().setQuery(q) }} />}
       {asideLine !== '' && <div className="q3-hist__aside" role="status">{asideLine}</div>}
       {s.status === 'error' && <div className="q3-hist__error" role="alert">{s.error}</div>}
       {t.open ? (

@@ -38,6 +38,16 @@ jobs:
 
       - run: npm ci
 
+      # Phase 223 (M22): fetch the pinned local AI model (checked by SHA-256, refuses on a mismatch) before the build; cached by the pinned revision.
+      - name: Cache the AI model
+        uses: actions/cache@v4
+        with:
+          path: resources/ai-models
+          key: ai-model-${{ hashFiles('src/shared/ai/modelConfig.ts') }}
+      - name: Fetch the AI model
+        shell: bash
+        run: node --experimental-strip-types tools/fetch-ai-model.mjs --skip-if-unpinned
+
       # electron-builder uploads the installer and its blockmap in parallel and both try to create the release; one fails with
       # 422 already_exists and the release ends up missing files. Creating the release first avoids that race.
       - name: Create the GitHub release first

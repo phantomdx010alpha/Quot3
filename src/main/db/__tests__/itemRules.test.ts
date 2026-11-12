@@ -39,7 +39,7 @@ describe('Phase 109 - migration 0005', () => {
     cpSync(MIGRATIONS_DIR, mig, { recursive: true })
     const jp = join(mig, 'meta', '_journal.json')
     const full = JSON.parse(readFileSync(jp, 'utf8')) as { entries: { tag: string }[] }
-    const old = { ...full, entries: full.entries.filter((e) => e.tag !== '0005_item_rules' && e.tag !== '0006_shared_sync_records' && e.tag !== '0007_customer_merge' && e.tag !== '0008_hybrid_second_table' && e.tag !== '0009_legacy_watch') }
+    const old = { ...full, entries: full.entries.filter((e) => e.tag !== '0005_item_rules' && e.tag !== '0006_shared_sync_records' && e.tag !== '0007_customer_merge' && e.tag !== '0008_hybrid_second_table' && e.tag !== '0009_legacy_watch' && e.tag !== '0010_ai_text_vectors') }
     writeFileSync(jp, JSON.stringify(old))
     mkdirSync(join(dir, 'backups'))
     const file = join(dir, 'q.db')

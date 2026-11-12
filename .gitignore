@@ -15,3 +15,6 @@ docs/reference/legacy_import/Bills_JSON.zip
 
 # Phone (PWA) build output (Phase 174)
 dist-pwa/
+
+# Phase 222 (M22): local AI model files are fetched by tools/fetch-ai-model.mjs, never committed (about 100+ MB)
+resources/ai-models/

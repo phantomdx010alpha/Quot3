@@ -106,6 +106,8 @@ export interface DiagnosticsInput {
   os: { platform: string; release: string; arch: string }
   db: { schemaVersion: number; writable: boolean; counts: Record<string, number> }
   sync: { activated: boolean; mode: string }
+  /** Phase 230 (M22): one AI line (model id, dimension, vector count, last embed ms). Absent = no line. */
+  ai?: string
   lastCrash: CrashRecord | null
   logLines: string[]
 }
@@ -123,6 +125,7 @@ export function buildDiagnosticsText(i: DiagnosticsInput, opts: { home?: string 
   lines.push(`Database: schema ${i.db.schemaVersion}, ${i.db.writable ? 'read-write' : 'READ-ONLY'}`)
   for (const [k, v] of Object.entries(i.db.counts)) lines.push(`  ${k}: ${v}`)
   lines.push(`Sync: ${i.sync.activated ? 'activated' : 'not activated'}, ${i.sync.mode}`)
+  if (i.ai) lines.push(i.ai)
   lines.push(`Last crash: ${i.lastCrash ? `${i.lastCrash.at} ${i.lastCrash.kind} - ${i.lastCrash.message}` : 'none recorded'}`)
   lines.push('')
   lines.push(`Recent log (last ${i.logLines.length} lines):`)

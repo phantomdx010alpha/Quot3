@@ -22,6 +22,7 @@ import { useLegacyWatchStore } from '../stores/legacyWatchStore'
 import { usePartyImportStore } from '../stores/partyImportStore'
 import { useLegacyImportStore } from '../stores/legacyImportStore'
 import { GamesSection } from '../components/settings/GamesSection'
+import { AiSection } from '../components/settings/AiSection'
 import { SETTINGS_SECTIONS, useSettingsStore, type SettingsSection } from '../stores/settingsStore'
 import { GearSix } from '@phosphor-icons/react'
 import { usePageMemory } from '../hooks/usePageMemory'
@@ -60,6 +61,7 @@ export default function Settings(): React.JSX.Element {
       case 'shortcuts': return <ShortcutsSection />
       case 'dashboard': return <DashboardSection />
       case 'games': return <GamesSection />
+      case 'ai': return <AiSection />
       case 'sync': return <><SyncStatusPanel /><SyncSection /><BootstrapPanel /></>
       case 'legacywatch': return <LegacyWatchSection />
       case 'audit': return <AuditSection />

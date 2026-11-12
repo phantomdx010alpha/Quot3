@@ -9,6 +9,7 @@ import { AppError, fail, wrapHandler } from './envelope'
 import { settingsHandlers } from './settings'
 import { themeHandlers } from './themes'
 import { gamesHandlers, type GamesPorts } from './games'
+import { aiHandlers, type AiPorts } from './ai'
 import type { ThemeShareService } from '../sync/themeShare'
 import { partyHandlers } from './parties'
 import { customerHandlers } from './customers'
@@ -70,6 +71,8 @@ import type { PrintService } from '../services/printService'
 export interface IpcContext {
   /** Phase 198: the games catalogue and the per-PC state (absent in tests that do not need it). */
   games?: GamesPorts
+  /** Phase 223 (M22): the local AI service (absent in tests that do not need it). */
+  ai?: AiPorts
   info: AppInfo
   log: Logger
   themes: ThemeService
@@ -197,6 +200,7 @@ export function registerIpc(ctx: IpcContext): void {
     'app:confirmQuit': wrapHandler(emptyInput, () => { ctx.confirmQuit(); return {} }, emptyOutput),
     ...themeHandlers(ctx.themes, ctx.themeShare),
     ...(ctx.games ? gamesHandlers(ctx.games) : {}),
+    ...(ctx.ai ? aiHandlers(ctx.ai) : {}),
     ...settingsHandlers(ctx.settings),
     ...appSettingsHandlers(ctx.appSettings),
     ...partyHandlers(ctx.parties),

@@ -12,7 +12,7 @@ import { groupsKey, salesKey, spellingsKey } from '../components/items/windowKey
 import { usePageMemory } from '../hooks/usePageMemory'
 import { itemsAdapter } from '../pageMemory/adapters'
 import { ROUTES } from '@shared/routes'
-import { nextWindow, useItemsStore, type ItemsWindow } from '../stores/itemsStore'
+import { AI_SHOW_MAX, nextWindow, useItemsStore, type ItemsWindow } from '../stores/itemsStore'
 import { useRouter } from '../router/routerStore'
 
 /**
@@ -47,6 +47,11 @@ export default function Items(): React.JSX.Element {
   const salesTab = useItemsStore((s) => s.salesTab)
   const salesCursor = useItemsStore((s) => s.salesCursor)
   const partyFilter = useItemsStore((s) => s.partyFilter)
+  // Phase 227 (M22): raw values only (Phase 92 rule); the AI rows are merged into the Spellings rows inside the useMemo below.
+  const aiOn = useItemsStore((s) => s.aiOn)
+  const aiRows = useItemsStore((s) => s.aiRows)
+  const aiFor = useItemsStore((s) => s.aiFor)
+  const dismissed = useItemsStore((s) => s.dismissed)
   const refs = useRef<Record<ItemsWindow, HTMLDivElement | null>>({ groups: null, spellings: null, sales: null })
   const searchRef = useRef<HTMLInputElement>(null)
   // Phase 115: STABLE ref callbacks. An inline `(el) => ...` is a new function every render, so React detached and re-attached the ref on each render and the virtualised lists read a null scroll element in their layout effect (no rows drawn).
@@ -60,7 +65,11 @@ export default function Items(): React.JSX.Element {
   const rows = useMemo(() => (all ? filterGroups(all, query) : []), [all, query])
   const groupRows = useMemo(() => (all && overview ? buildGroupRows(rows, overview.families) : []), [all, overview, rows])
   const nameById = useMemo(() => new Map((all ?? []).map((g) => [g.id, g.display])), [all])
-  const spellingRows = useMemo(() => (detail && detail.id === selectedId ? buildSpellingRows(detail, (id) => nameById.get(id) ?? id) : []), [detail, selectedId, nameById])
+  const spellingRows = useMemo(() => {
+    if (!(detail && detail.id === selectedId)) return []
+    const ai = aiOn && aiFor === selectedId ? aiRows.filter((a) => !dismissed.includes(a.pairKey)).slice(0, AI_SHOW_MAX) : []
+    return buildSpellingRows(detail, (id) => nameById.get(id) ?? id, ai)
+  }, [detail, selectedId, nameById, aiOn, aiRows, aiFor, dismissed])
   const selected = useMemo(() => (selectedId === null ? null : (all?.find((g) => g.id === selectedId) ?? null)), [all, selectedId])
 
   useEffect(() => {

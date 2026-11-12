@@ -4,6 +4,7 @@ import { LEGACY_WATCH_DEFAULTS } from './legacyWatch/watchConfig'
 import { BACKGROUND_DEFAULTS } from './background'
 import { SCENES_ENABLED_DEFAULT, SCENES_ENABLED_KEY } from './theme/scenes'
 import { THEME_SHARE_DEFAULT, THEME_SHARE_KEY } from './theme/themeShare'
+import { AI_DEFAULTS } from './ai/aiSettings'
 import { EFFECTS_ENABLED_DEFAULT, EFFECTS_ENABLED_KEY, EFFECTS_OVERRIDES_KEY, EFFECTS_PAUSE_UNFOCUSED_DEFAULT, EFFECTS_PAUSE_UNFOCUSED_KEY } from './theme/effects'
 
 export const SETTING_KEY_RE = /^[a-z][A-Za-z0-9_]*(\.[A-Za-z0-9_]+)+$/
@@ -68,5 +69,7 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   /** Phase 160: legacy watch (folder path, on / off, rescan seconds). All OFF by default; see shared/legacyWatch/watchConfig.ts. */
   ...LEGACY_WATCH_DEFAULTS,
   /** Phase 161: start with Windows / keep running in the tray when the window is closed. Both OFF by default; see shared/background.ts. */
-  ...BACKGROUND_DEFAULTS
+  ...BACKGROUND_DEFAULTS,
+  /** Phase 222 (M22): local AI switches, all OFF by default; see shared/ai/aiSettings.ts. */
+  ...AI_DEFAULTS
 }

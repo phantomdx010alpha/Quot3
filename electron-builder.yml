@@ -20,6 +20,10 @@ files:
   - "!node_modules/better-sqlite3/prebuilds/darwin-*.node"
   - "!node_modules/better-sqlite3/prebuilds/linux*.node"
   - "!node_modules/better-sqlite3/prebuilds/win32-arm64.node"
+  # Phase 223 (M22): onnxruntime-node ships every platform in its npm package; keep only Windows x64 (the installer target).
+  - "!node_modules/onnxruntime-node/bin/napi-v6/darwin/**"
+  - "!node_modules/onnxruntime-node/bin/napi-v6/linux/**"
+  - "!node_modules/onnxruntime-node/bin/napi-v6/win32/arm64/**"
 
 # better-sqlite3 ships N-API prebuilt binaries (DEPENDENCY_VERSIONS.md), so nothing is rebuilt from source:
 # no Visual Studio Build Tools needed on the build machine.
@@ -31,6 +35,8 @@ asarUnpack:
   - "node_modules/better-sqlite3/prebuilds/win32-x64.node"
   # Phase 144 follow-up: pdf-to-printer runs this exe, so it must sit outside the asar.
   - "node_modules/pdf-to-printer/dist/SumatraPDF-3.4.6-32.exe"
+  # Phase 223 (M22): the onnxruntime native binding and its DLLs must sit outside the asar to load in the utility process [A].
+  - "node_modules/onnxruntime-node/bin/napi-v6/win32/x64/**"
 
 # Read by file path at run time, so they sit beside the asar (see src/main/runtimePaths.ts).
 extraResources:
@@ -44,6 +50,9 @@ extraResources:
     filter:
       - "**/*"
       - "!_selftest/**"
+  # Phase 223 (M22): the local AI model, fetched by tools/fetch-ai-model.mjs before the build (never in the repo); read by file path at run time.
+  - from: resources/ai-models
+    to: ai-models
   - from: resources/icons
     to: icons
     filter:

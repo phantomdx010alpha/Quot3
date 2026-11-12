@@ -10,6 +10,7 @@ import { usePartyUiStore } from '../stores/partyUiStore'
 import { runRedo, runUndo, requestRevert } from '../stores/undoActions'
 import { useUndoUiStore } from '../stores/undoUiStore'
 import { useCalcPanelStore } from '../stores/calcPanelStore'
+import { useAiPanelStore } from '../stores/aiPanelStore'
 import { runSave } from '../stores/saveActions'
 import { openLastPdf, openPrint } from '../stores/printActions'
 import { requestLeave } from '../stores/guardStore'
@@ -174,6 +175,8 @@ export function useAppActions(): ActionHandlers {
       'settings.audit': () => openSettingsSection('audit', navigate),
       // Phase 62: updates (the Updates section shows progress and the Restart button).
       'settings.updates': () => openSettingsSection('updates', navigate),
+      // Phase 230 (M22): Settings > AI.
+      'settings.ai': () => openSettingsSection('ai', navigate),
       // Phase 63: About screen.
       'settings.about': () => openSettingsSection('about', navigate),
       'updates.check': () => { openSettingsSection('updates', navigate); void useUpdateStore.getState().check() },
@@ -241,6 +244,8 @@ export function useAppActions(): ActionHandlers {
       // Phase 83: the calculator drawer lives on the Create page; from another page the key goes there first.
       'calc.toggle': () => { if (currentPath(useRouter.getState().nav) !== ROUTES.create) { navigate(ROUTES.create); useCalcPanelStore.getState().setOpen(true) } else useCalcPanelStore.getState().toggle() },
       'calc.mode': () => { if (currentPath(useRouter.getState().nav) !== ROUTES.create) navigate(ROUTES.create); useCalcPanelStore.getState().switchMode() },
+      // Phase 226 (M22): the purchase-history panel switch (writes `ai.billingPanel`); the panel itself only exists on Create.
+      'ai.billingPanel.toggle': () => { useAiPanelStore.getState().toggle() },
       // Phase 151: Hybrid (GST + Non-GST side by side) lives on the Create page; the keys do nothing elsewhere.
       'hybrid.toggle': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) enterHybrid() },
       'hybrid.focusFirst': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) focusHybridTable('primary') },

@@ -15,7 +15,9 @@ const injectProdCsp = {
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
-    resolve: { alias: { '@shared': resolve('src/shared') } }
+    resolve: { alias: { '@shared': resolve('src/shared') } },
+    // Phase 223 (M22): the AI utility-process worker is a second entry, built beside index.js as out/main/embedWorker.js.
+    build: { rollupOptions: { input: { index: resolve('src/main/index.ts'), embedWorker: resolve('src/main/ai/embedWorker.ts') } } }
   },
   preload: {
     plugins: [externalizeDepsPlugin()],

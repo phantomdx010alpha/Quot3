@@ -193,3 +193,18 @@ describe('Phase 220: PageUp / PageDown bindings (owner request 2026-11-11: step 
       expect(ACTIONS.some((a) => a.id === id)).toBe(true)
   })
 })
+
+describe('Phase 226: purchase-history panel key (M22)', () => {
+  it('Alt+H is registered for ai.billingPanel.toggle, collides with nothing, and the frozen neighbours keep their keys', () => {
+    expect(findShortcutConflicts()).toEqual([])
+    expect(ACTIONS.some((a) => a.id === 'ai.billingPanel.toggle')).toBe(true)
+    expect(matchShortcut(ev('h', { altKey: true }), ['create'])?.action).toBe('ai.billingPanel.toggle')
+    const keyOf = (id: string): string | undefined => primaryKeys(id as never)
+    expect(keyOf('ai.billingPanel.toggle')).toBe('Alt+H')
+    expect(keyOf('calc.toggle')).toBe('Alt+C')
+    expect(keyOf('hybrid.toggle')).toBe('Alt+3')
+    expect(keyOf('grid.moveRowUp')).toBe('Alt+Shift+ArrowUp')
+    expect(keyOf('grid.moveRowDown')).toBe('Alt+Shift+ArrowDown')
+  })
+})
+

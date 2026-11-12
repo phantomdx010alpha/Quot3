@@ -244,6 +244,17 @@ const bridge: Quot3Bridge = {
     getCredits: () => ipcRenderer.invoke('games:getCredits', {}),
     getLicense: (id) => ipcRenderer.invoke('games:getLicense', { id })
   },
+  ai: {
+    status: () => ipcRenderer.invoke('ai:status', {}),
+    admin: () => ipcRenderer.invoke('ai:admin', {}),
+    pause: () => ipcRenderer.invoke('ai:pause', {}),
+    resume: () => ipcRenderer.invoke('ai:resume', {}),
+    rebuild: () => ipcRenderer.invoke('ai:rebuild', {}),
+    deleteData: () => ipcRenderer.invoke('ai:deleteData', {}),
+    suggestForParty: (input) => ipcRenderer.invoke('ai:suggestForParty', input),
+    suggestGroups: (input) => ipcRenderer.invoke('ai:suggestGroups', input),
+    searchSentence: (input) => ipcRenderer.invoke('ai:searchSentence', input)
+  },
   on(channel, callback) {
     if (!isEventChannel(channel)) return () => undefined
     const listener = (_event: unknown, payload: unknown): void => callback(payload)
