@@ -3,7 +3,7 @@
  *  No helper library: this file is the whole promise wrapper. Pure browser APIs only (no Node, no Electron). */
 export const DB_NAME = 'quot3-phone'
 /** Bump only by adding a new upgrade step in `UPGRADES`; never edit a step that has shipped. */
-export const DB_VERSION = 1
+export const DB_VERSION = 2
 
 export interface IndexDef {
   readonly name: string
@@ -15,8 +15,8 @@ export interface StoreDef {
   readonly indexes: readonly IndexDef[]
 }
 
-/** Stores created by upgrade step 1. */
-export const STORE_DEFS = {
+/** Stores created by upgrade step 1. FROZEN: step 1 has shipped, never add or change an entry here (new stores go in a new step, see `STORE_DEFS_V2`). */
+const STORE_DEFS_V1 = {
   meta: { keyPath: 'key', indexes: [] },
   settings: { keyPath: 'key', indexes: [] },
   bills: {
@@ -42,6 +42,19 @@ export const STORE_DEFS = {
   sync_outbox: { keyPath: 'id', indexes: [] },
   sync_aside: { keyPath: ['kind', 'rec_id'], indexes: [] }
 } as const satisfies Record<string, StoreDef>
+
+/**
+ * Stores created by upgrade step 2 (Phase 244, M23 Price List). Records are kept exactly as the shared record (`shared/sync/priceListRecords.ts`),
+ * so what is stored is what is sent: no phone-only field that could change a content hash. Rows are looked up by tab and position; tabs by category.
+ */
+export const STORE_DEFS_V2 = {
+  price_tiers: { keyPath: 'id', indexes: [] },
+  price_categories: { keyPath: 'id', indexes: [] },
+  price_tabs: { keyPath: 'id', indexes: [{ name: 'category_id_idx', keyPath: 'categoryId' }] },
+  price_rows: { keyPath: 'id', indexes: [{ name: 'tab_idx', keyPath: ['tabId', 'idx'] }] }
+} as const satisfies Record<string, StoreDef>
+
+export const STORE_DEFS = { ...STORE_DEFS_V1, ...STORE_DEFS_V2 } as const satisfies Record<string, StoreDef>
 
 export type StoreName = keyof typeof STORE_DEFS
 export const STORE_NAMES = Object.keys(STORE_DEFS) as StoreName[]
@@ -78,14 +91,18 @@ export interface PhoneDb {
 }
 
 /** Upgrade steps by target version. A step may only ADD stores / indexes; data steps run inside the upgrade transaction. */
-const UPGRADES: Record<number, (db: IDBDatabase, tx: IDBTransaction) => void> = {
-  1: (db) => {
-    for (const name of STORE_NAMES) {
-      const def: StoreDef = STORE_DEFS[name]
-      const store = db.createObjectStore(name, { keyPath: def.keyPath as string | string[] })
-      for (const ix of def.indexes) store.createIndex(ix.name, ix.keyPath as string | string[], { unique: ix.unique ?? false })
-    }
+function createStores(db: IDBDatabase, defs: Record<string, StoreDef>): void {
+  for (const name of Object.keys(defs)) {
+    const def = defs[name] as StoreDef
+    const store = db.createObjectStore(name, { keyPath: def.keyPath as string | string[] })
+    for (const ix of def.indexes) store.createIndex(ix.name, ix.keyPath as string | string[], { unique: ix.unique ?? false })
   }
+}
+
+/** Upgrade steps by target version. A step may only ADD stores / indexes; data steps run inside the upgrade transaction. */
+const UPGRADES: Record<number, (db: IDBDatabase, tx: IDBTransaction) => void> = {
+  1: (db) => createStores(db, STORE_DEFS_V1),
+  2: (db) => createStores(db, STORE_DEFS_V2)
 }
 
 export function runUpgrades(db: IDBDatabase, tx: IDBTransaction, oldVersion: number, newVersion: number): void {

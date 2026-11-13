@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { billRecordSchema, billRowRecordSchema } from '../billModel'
 import { ITEM_RULE_KINDS } from '../items/rules'
 import { canonicalJson } from './canonicalJson'
+import { PRICE_KINDS, priceCategoryData, priceRowData, priceTabData, priceTierData } from './priceListRecords'
 
 /**
  * Phase 133 (docs/SYNC_SHARED_STORE_SPEC.md section 8): the snapshot codec of the shared notebook. Pure (no Electron, Node or DOM).
@@ -25,19 +26,28 @@ export const SCHEMA_VER = 1
 /** Payload format number (`payload.v`). */
 export const PAYLOAD_V = 2
 
-export const RECORD_KINDS = ['bill', 'party', 'party_merge', 'item_rule'] as const
+export const RECORD_KINDS = ['bill', 'party', 'party_merge', 'item_rule', ...PRICE_KINDS] as const
 export type RecordKind = (typeof RECORD_KINDS)[number]
 export const isRecordKind = (k: unknown): k is RecordKind => typeof k === 'string' && (RECORD_KINDS as readonly string[]).includes(k)
 
 /** Oldest reader able to handle every field this build writes, per kind. */
-export const MIN_READER_VER_BY_KIND: Readonly<Record<RecordKind, number>> = { bill: 1, party: 1, party_merge: 1, item_rule: 1 }
+export const MIN_READER_VER_BY_KIND: Readonly<Record<RecordKind, number>> = {
+  bill: 1, party: 1, party_merge: 1, item_rule: 1,
+  // Phase 241 [A]: min_reader_ver stays 1. An app older than the Price List does not know these KINDS, so decodeRecord already sets them aside as
+  // `unknown_kind` (kept in sync_aside, applied by retryAside after the update); raising READER_VER would also set aside every bill.
+  price_tier: 1, price_category: 1, price_tab: 1, price_row: 1
+}
 
 /** The top-level payload keys this build knows, per kind (everything else is "unknown optional" and preserved). */
 export const KNOWN_DATA_KEYS: Readonly<Record<RecordKind, readonly string[]>> = {
   bill: ['bill', 'rows'],
   party: ['party'],
   party_merge: ['merge'],
-  item_rule: ['rule']
+  item_rule: ['rule'],
+  price_tier: ['tier'],
+  price_category: ['category'],
+  price_tab: ['tab'],
+  price_row: ['row']
 }
 const RESERVED_KEYS = ['v', 'kind', 'deleted'] as const
 
@@ -63,7 +73,10 @@ const ruleData = z.object({
     createdAt: z.string().min(1), updatedAt: z.string().min(1), deletedAt: nul, branchId: z.string().min(1)
   }).loose()
 })
-const DATA_SCHEMAS = { bill: billData, party: partyData, party_merge: mergeData, item_rule: ruleData } as const
+const DATA_SCHEMAS = {
+  bill: billData, party: partyData, party_merge: mergeData, item_rule: ruleData,
+  price_tier: priceTierData, price_category: priceCategoryData, price_tab: priceTabData, price_row: priceRowData
+} as const
 
 /** Fields left out of the content hash (and only those), per kind and per known top-level object. */
 const HASH_SKIP: Readonly<Record<RecordKind, Readonly<Record<string, readonly string[]>>>> = {
@@ -72,7 +85,12 @@ const HASH_SKIP: Readonly<Record<RecordKind, Readonly<Record<string, readonly st
   bill: { bill: ['revision', 'updatedAt', 'createdAt', 'totalsJson', 'itemRowCount', 'syncState', 'deletedAt', 'partyId'] },
   party: { party: ['updatedAt', 'createdAt', 'deletedAt'] },
   party_merge: { merge: ['by', 'at'] },
-  item_rule: { rule: ['updatedAt', 'createdAt', 'deletedAt', 'branchId'] }
+  item_rule: { rule: ['updatedAt', 'createdAt', 'deletedAt', 'branchId'] },
+  // Phase 241: who made it and when is not content (same price on two PCs = same hash); `updatedBySeat` is bookkeeping (Phase 242).
+  price_tier: { tier: ['updatedAt', 'createdAt', 'deletedAt', 'branchId'] },
+  price_category: { category: ['updatedAt', 'createdAt', 'deletedAt', 'branchId', 'updatedBySeat'] },
+  price_tab: { tab: ['updatedAt', 'createdAt', 'deletedAt', 'branchId', 'updatedBySeat'] },
+  price_row: { row: ['updatedAt', 'createdAt', 'deletedAt', 'branchId', 'updatedBySeat'] }
 }
 
 // ---------------------------------------------------------------------------------------------------------------- SHA-256 (pure)

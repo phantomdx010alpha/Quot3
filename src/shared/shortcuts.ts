@@ -16,6 +16,7 @@ export type ActionId =
   | 'nav.customers'
   | 'nav.items'
   | 'nav.games'
+  | 'nav.pricelist'
   | 'nav.settings'
   | 'nav.back'
   | 'bill.new'
@@ -97,6 +98,26 @@ export type ActionId =
   | 'items.salesTab'
   | 'items.salesParty'
   | 'items.salesCopy'
+  | 'pricelist.filter'
+  | 'pricelist.rowAbove'
+  | 'pricelist.rowBelow'
+  | 'pricelist.rowDelete'
+  | 'pricelist.rowUp'
+  | 'pricelist.rowDown'
+  | 'pricelist.section'
+  | 'pricelist.columns'
+  | 'pricelist.tiers'
+  | 'pricelist.panel'
+  | 'pricelist.noPrice'
+  | 'pricelist.newTab'
+  | 'pricelist.tabPrev'
+  | 'pricelist.tabNext'
+  | 'pricelist.fillDown'
+  | 'pricelist.fillRight'
+  | 'pricelist.search'
+  | 'pricelist.find'
+  | 'pricelist.bulk'
+  | 'pricelist.csv'
   | 'history.emptyTrash'
   | 'history.restore'
   | 'history.purge'
@@ -110,6 +131,7 @@ export type ActionId =
   | 'grid.highlight'
   | 'grid.clearFormat'
   | 'grid.formatPalette'
+  | 'grid.caseNames'
   | 'grid.copy'
   | 'grid.cut'
   | 'grid.paste'
@@ -137,6 +159,7 @@ export type ActionId =
   | 'calc.toggle'
   | 'calc.mode'
   | 'ai.billingPanel.toggle'
+  | 'pricelist.billing.toggle'
   | 'hybrid.toggle'
   | 'hybrid.focusFirst'
   | 'hybrid.focusSecond'
@@ -159,7 +182,7 @@ export interface ActionDef {
 }
 
 /** Phase 220: 'bill' = a saved bill opened from a list (it has a BillContext); 'parties' = the party list screens. Both are activated by `usePagingKeys`, never by the global hotkey layer. */
-export type ShortcutScope = 'global' | 'create' | 'history' | 'customers' | 'items' | 'grid' | 'bill' | 'parties'
+export type ShortcutScope = 'global' | 'create' | 'history' | 'customers' | 'items' | 'pricelist' | 'grid' | 'bill' | 'parties'
 
 export interface ShortcutDef {
   id: string
@@ -186,6 +209,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'nav.customers', label: 'Go to Customers', group: 'Navigate' },
   { id: 'nav.items', label: 'Go to Items', group: 'Navigate' },
   { id: 'nav.games', label: 'Go to Games', group: 'Navigate' },
+  { id: 'nav.pricelist', label: 'Go to Price List', group: 'Navigate' },
   { id: 'nav.settings', label: 'Go to Settings', group: 'Navigate' },
   { id: 'nav.back', label: 'Back', group: 'Navigate' },
   { id: 'bill.new', label: 'New bill', group: 'Bill' },
@@ -256,6 +280,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'grid.highlight', label: 'Highlight cell', group: 'Bill' },
   { id: 'grid.clearFormat', label: 'Clear formatting', group: 'Bill' },
   { id: 'grid.formatPalette', label: 'Format palette', group: 'Bill' },
+  { id: 'grid.caseNames', label: 'Item names: UPPER / lower case', group: 'Bill' },
   { id: 'grid.copy', label: 'Copy cell / range', group: 'Bill' },
   { id: 'grid.cut', label: 'Cut cell / range', group: 'Bill' },
   { id: 'grid.paste', label: 'Paste (Excel / Quot3)', group: 'Bill' },
@@ -284,6 +309,8 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'calc.mode', label: 'Calculator: switch between calculator and % calculator', group: 'Bill' },
   // Phase 226 (M22): the billing-screen purchase-history panel. Alt+H [A, MILESTONE22_DESIGN A3] was free in the shortcut-conflict test.
   { id: 'ai.billingPanel.toggle', label: 'Purchase history for this party (show / hide)', group: 'Bill' },
+  // Phase 240 (M23): the billing Price List rate mode (Auto / Suggest / Off). Alt+R [A] was free in the shortcut-conflict test.
+  { id: 'pricelist.billing.toggle', label: 'Price List rate for billing (Auto / Suggest / Off)', group: 'Bill' },
   // Phase 151: Hybrid format (GST + Non-GST side by side). Alt+3 is the owner's key (MILESTONE14_DESIGN 1.6); the table-switch keys are [A] (Ctrl+Left / Right are taken by the cell editor).
   { id: 'hybrid.toggle', label: 'Switch to Hybrid (GST + Non-GST side by side)', group: 'Bill' },
   { id: 'hybrid.focusFirst', label: 'Hybrid: go to the first table (left)', group: 'Bill' },
@@ -322,6 +349,28 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'items.salesTab', label: 'Items: switch Non-GST / GST sales', group: 'Navigate' },
   { id: 'items.salesParty', label: 'Items: sales of this party only (again = all)', group: 'Navigate' },
   { id: 'items.salesCopy', label: 'Items: copy the sales table (TSV)', group: 'Navigate' },
+  // Phase 238 (M23): Price List page actions (all keyed, so the palette-only list is unchanged).
+  { id: 'pricelist.filter', label: 'Price List: go to the filter box', group: 'Navigate' },
+  { id: 'pricelist.rowAbove', label: 'Price List: insert a row above', group: 'Navigate' },
+  { id: 'pricelist.rowBelow', label: 'Price List: insert a row below', group: 'Navigate' },
+  { id: 'pricelist.rowDelete', label: 'Price List: delete the row(s)', group: 'Navigate' },
+  { id: 'pricelist.rowUp', label: 'Price List: move the row(s) up', group: 'Navigate' },
+  { id: 'pricelist.rowDown', label: 'Price List: move the row(s) down', group: 'Navigate' },
+  { id: 'pricelist.section', label: 'Price List: make the row a section heading / an item again', group: 'Navigate' },
+  { id: 'pricelist.columns', label: 'Price List: columns of this tab', group: 'Navigate' },
+  { id: 'pricelist.tiers', label: 'Price List: price tiers', group: 'Navigate' },
+  { id: 'pricelist.panel', label: 'Price List: show / hide the categories panel', group: 'Navigate' },
+  { id: 'pricelist.noPrice', label: 'Price List: show only items with no price', group: 'Navigate' },
+  { id: 'pricelist.newTab', label: 'Price List: add a tab', group: 'Navigate' },
+  { id: 'pricelist.tabPrev', label: 'Price List: previous tab', group: 'Navigate' },
+  { id: 'pricelist.tabNext', label: 'Price List: next tab', group: 'Navigate' },
+  { id: 'pricelist.fillDown', label: 'Price List: fill down (Ctrl+D)', group: 'Navigate' },
+  { id: 'pricelist.fillRight', label: 'Price List: fill right (Ctrl+R)', group: 'Navigate' },
+  // Phase 239 (M23): power tools (all keyed).
+  { id: 'pricelist.search', label: 'Price List: search every tab', group: 'Navigate' },
+  { id: 'pricelist.find', label: 'Price List: find and replace / tidy names', group: 'Navigate' },
+  { id: 'pricelist.bulk', label: 'Price List: change prices in bulk', group: 'Navigate' },
+  { id: 'pricelist.csv', label: 'Price List: save this tab as a CSV file', group: 'Navigate' },
   { id: 'output.openPdf', label: 'Open last saved PDF', group: 'Bill' }
 ]
 
@@ -334,6 +383,8 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'nav.items', keys: 'Ctrl+5', label: 'Go to Items', scope: 'global', action: 'nav.items' },
   // Phase 202 (M19): Ctrl+6 was free [A]. Does nothing while Games is switched off in Settings.
   { id: 'nav.games', keys: 'Ctrl+6', label: 'Go to Games', scope: 'global', action: 'nav.games' },
+  // Phase 238 (M23): Alt+P was free [A].
+  { id: 'nav.pricelist', keys: 'Alt+P', label: 'Go to Price List', scope: 'global', action: 'nav.pricelist' },
   { id: 'nav.settings', keys: 'Ctrl+4', label: 'Go to Settings', scope: 'global', action: 'nav.settings' },
   { id: 'nav.back', keys: 'Escape', label: 'Back', scope: 'global', action: 'nav.back' },
   { id: 'bill.new', keys: 'Ctrl+N', label: 'New bill', scope: 'global', action: 'bill.new' },
@@ -353,6 +404,8 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'grid.highlight', keys: 'Ctrl+H', label: 'Highlight cell', scope: 'grid', action: 'grid.highlight' },
   { id: 'grid.clearFormat', keys: 'Ctrl+Shift+C', label: 'Clear formatting', scope: 'grid', action: 'grid.clearFormat' },
   { id: 'grid.formatPalette', keys: 'Ctrl+Shift+K', label: 'Format palette', scope: 'grid', action: 'grid.formatPalette' },
+  // Phase 234 (M23) [A]: item names UPPER <-> lower (selected rows, else the whole bill).
+  { id: 'grid.caseNames', keys: 'Ctrl+Shift+Q', label: 'Item names: UPPER / lower case', scope: 'grid', action: 'grid.caseNames' },
   { id: 'grid.copy', keys: 'Ctrl+C', label: 'Copy cell / range', scope: 'grid', action: 'grid.copy' },
   { id: 'grid.cut', keys: 'Ctrl+X', label: 'Cut cell / range', scope: 'grid', action: 'grid.cut' },
   { id: 'grid.paste', keys: 'Ctrl+V', label: 'Paste (Excel / Quot3)', scope: 'grid', action: 'grid.paste' },
@@ -379,6 +432,7 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'calc.toggle', keys: 'Alt+C', label: 'Calculator (show / hide)', scope: 'global', action: 'calc.toggle' },
   { id: 'calc.mode', keys: 'Alt+Shift+C', label: 'Calculator: switch between calculator and % calculator', scope: 'global', action: 'calc.mode' },
   { id: 'ai.billingPanel.toggle', keys: 'Alt+H', label: 'Purchase history for this party (show / hide)', scope: 'global', action: 'ai.billingPanel.toggle' },
+  { id: 'pricelist.billing.toggle', keys: 'Alt+R', label: 'Price List rate for billing (Auto / Suggest / Off)', scope: 'global', action: 'pricelist.billing.toggle' },
   { id: 'hybrid.toggle', keys: 'Alt+3', label: 'Switch to Hybrid (GST + Non-GST side by side)', scope: 'global', action: 'hybrid.toggle' },
   { id: 'hybrid.focusFirst', keys: 'Ctrl+Alt+ArrowLeft', label: 'Hybrid: go to the first table (left)', scope: 'global', action: 'hybrid.focusFirst' },
   { id: 'hybrid.focusSecond', keys: 'Ctrl+Alt+ArrowRight', label: 'Hybrid: go to the second table (right)', scope: 'global', action: 'hybrid.focusSecond' },
@@ -438,7 +492,28 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   // Phase 114: Sales window. G / P are handled by the focused Sales window (windowKeys.ts; Enter there opens the sale's bill and is the same registry key as `items.confirm`, which does whichever fits the focused window); Ctrl+Alt+T by the page [A] (Ctrl+Shift+T is the global whole-bill TSV key).
   { id: 'items.salesTab', keys: 'G', label: 'Items: switch Non-GST / GST sales', scope: 'items', action: 'items.salesTab' },
   { id: 'items.salesParty', keys: 'P', label: 'Items: sales of this party only (again = all)', scope: 'items', action: 'items.salesParty' },
-  { id: 'items.salesCopy', keys: 'Ctrl+Alt+T', label: 'Items: copy the sales table (TSV)', scope: 'items', action: 'items.salesCopy' }
+  { id: 'items.salesCopy', keys: 'Ctrl+Alt+T', label: 'Items: copy the sales table (TSV)', scope: 'items', action: 'items.salesCopy' },
+  // Phase 238 (M23): Price List page keys [A]; every key is free in its scope and passes the conflict test.
+  { id: 'pricelist.filter', keys: 'Ctrl+F', label: 'Price List: go to the filter box', scope: 'pricelist', action: 'pricelist.filter' },
+  { id: 'pricelist.rowAbove', keys: 'Ctrl+Shift+Enter', label: 'Price List: insert a row above', scope: 'pricelist', action: 'pricelist.rowAbove' },
+  { id: 'pricelist.rowBelow', keys: 'Ctrl+Enter', label: 'Price List: insert a row below', scope: 'pricelist', action: 'pricelist.rowBelow' },
+  { id: 'pricelist.rowDelete', keys: 'Ctrl+Shift+Delete', label: 'Price List: delete the row(s)', scope: 'pricelist', action: 'pricelist.rowDelete' },
+  { id: 'pricelist.rowUp', keys: 'Alt+Shift+ArrowUp', label: 'Price List: move the row(s) up', scope: 'pricelist', action: 'pricelist.rowUp' },
+  { id: 'pricelist.rowDown', keys: 'Alt+Shift+ArrowDown', label: 'Price List: move the row(s) down', scope: 'pricelist', action: 'pricelist.rowDown' },
+  { id: 'pricelist.section', keys: 'Ctrl+Alt+S', label: 'Price List: make the row a section heading / an item again', scope: 'pricelist', action: 'pricelist.section' },
+  { id: 'pricelist.columns', keys: 'Ctrl+Alt+C', label: 'Price List: columns of this tab', scope: 'pricelist', action: 'pricelist.columns' },
+  { id: 'pricelist.tiers', keys: 'Ctrl+Alt+Y', label: 'Price List: price tiers', scope: 'pricelist', action: 'pricelist.tiers' },
+  { id: 'pricelist.panel', keys: 'Ctrl+Alt+P', label: 'Price List: show / hide the categories panel', scope: 'pricelist', action: 'pricelist.panel' },
+  { id: 'pricelist.noPrice', keys: 'Ctrl+Alt+N', label: 'Price List: show only items with no price', scope: 'pricelist', action: 'pricelist.noPrice' },
+  { id: 'pricelist.newTab', keys: 'Ctrl+Alt+A', label: 'Price List: add a tab', scope: 'pricelist', action: 'pricelist.newTab' },
+  { id: 'pricelist.tabPrev', keys: 'Ctrl+PageUp', label: 'Price List: previous tab', scope: 'pricelist', action: 'pricelist.tabPrev' },
+  { id: 'pricelist.tabNext', keys: 'Ctrl+PageDown', label: 'Price List: next tab', scope: 'pricelist', action: 'pricelist.tabNext' },
+  { id: 'pricelist.fillDown', keys: 'Ctrl+D', label: 'Price List: fill down (Ctrl+D)', scope: 'pricelist', action: 'pricelist.fillDown' },
+  { id: 'pricelist.fillRight', keys: 'Ctrl+R', label: 'Price List: fill right (Ctrl+R)', scope: 'pricelist', action: 'pricelist.fillRight' },
+  { id: 'pricelist.search', keys: 'Ctrl+Alt+F', label: 'Price List: search every tab', scope: 'pricelist', action: 'pricelist.search' },
+  { id: 'pricelist.find', keys: 'Ctrl+Alt+H', label: 'Price List: find and replace / tidy names', scope: 'pricelist', action: 'pricelist.find' },
+  { id: 'pricelist.bulk', keys: 'Ctrl+Alt+K', label: 'Price List: change prices in bulk', scope: 'pricelist', action: 'pricelist.bulk' },
+  { id: 'pricelist.csv', keys: 'Ctrl+Alt+X', label: 'Price List: save this tab as a CSV file', scope: 'pricelist', action: 'pricelist.csv' }
 ]
 
 /** Phase 20: formats are data, so their palette actions and key bindings come from the registry, never from a hand-written list. */
@@ -511,7 +586,7 @@ export function eventToKeys(e: KeyInput): string {
   return [...mods, normalizeKey(e.key)].join('+')
 }
 
-const SCOPE_PRIORITY: Record<ShortcutScope, number> = { grid: 3, bill: 3, create: 2, history: 2, customers: 2, items: 2, parties: 2, global: 1 }
+const SCOPE_PRIORITY: Record<ShortcutScope, number> = { grid: 3, bill: 3, create: 2, history: 2, customers: 2, items: 2, pricelist: 2, parties: 2, global: 1 }
 
 /**
  * Finds the shortcut for a key event. `scopes` are the currently active scopes (e.g. ['create','grid']);

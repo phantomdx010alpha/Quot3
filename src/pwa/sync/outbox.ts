@@ -2,6 +2,8 @@ import { reqToPromise, txDone, type PhoneDb } from '../data/db'
 import type { BillChangeInfo, BillsOptions } from '../data/billsRepo'
 import type { PartiesOptions, PartyChangeInfo } from '../data/partiesRepo'
 import { OUTBOX_MAX_ATTEMPTS } from '../../shared/sync/outbox'
+import { PRICE_REVISION, type PriceKind } from '../../shared/sync/priceListRecords'
+import type { PriceChangeInfo, PriceListOptions } from '../data/priceListRepo'
 
 /**
  * Phase 179 - `sync_outbox` on IndexedDB (port of the desktop outbox rules).
@@ -12,7 +14,7 @@ import { OUTBOX_MAX_ATTEMPTS } from '../../shared/sync/outbox'
  * Capture happens INSIDE the save transaction (`withOutbox`), so a bill and its outbox row commit or roll back together.
  * Parties sort before bills (a bill never reaches another branch before the customer it names).
  */
-export type OutboxKind = 'bill' | 'party' | 'party_merge' | 'item_rule'
+export type OutboxKind = 'bill' | 'party' | 'party_merge' | 'item_rule' | PriceKind
 export type OutboxOp = 'upsert' | 'delete'
 export type OutboxState = 'pending' | 'failed'
 
@@ -35,7 +37,7 @@ interface StoredOutbox { id: string; kind: OutboxKind; rec_id: string; op: Outbo
 
 const toRow = (s: StoredOutbox): OutboxRow => ({ id: s.id, kind: s.kind, recId: s.rec_id, op: s.op, revision: s.revision, n: s.n, createdAt: s.created_at, attempts: s.attempts, lastError: s.last_error, state: s.state })
 export const outboxKey = (kind: string, recId: string): string => `${kind}:${recId}`
-const KIND_RANK: Record<string, number> = { party_merge: 0, party: 1, bill: 2, item_rule: 3 }
+const KIND_RANK: Record<string, number> = { party_merge: 0, party: 1, bill: 2, item_rule: 3, price_tier: 4, price_category: 5, price_tab: 6, price_row: 7 } // Phase 244: a Price List parent before its children
 const byOrder = (a: OutboxRow, b: OutboxRow): number =>
   a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : (KIND_RANK[a.kind] ?? 9) - (KIND_RANK[b.kind] ?? 9) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
 
@@ -69,6 +71,12 @@ export function withOutbox(o: OutboxCaptureOptions = {}): Pick<BillsOptions, 'in
       captureInTx(tx, { kind: 'bill', recId: info.billId, op: info.op === 'delete' ? 'delete' : 'upsert', revision: info.revision }, now().toISOString()),
     parties: { inTx: (tx: IDBTransaction, info: PartyChangeInfo) => captureInTx(tx, { kind: 'party', recId: info.partyId, op: 'upsert', revision: 0 }, now().toISOString()) }
   }
+}
+
+/** Phase 244: the option for `savePriceRecord` / `softDeletePrice`: every local Price List change queues its record (a delete is queued as a tombstone upsert; the server sees `deleted`). */
+export function withPriceOutbox(o: OutboxCaptureOptions = {}): Pick<PriceListOptions, 'inTx'> {
+  const now = o.now ?? (() => new Date())
+  return { inTx: (tx: IDBTransaction, c: PriceChangeInfo) => captureInTx(tx, { kind: c.kind, recId: c.id, op: c.deleted ? 'delete' : 'upsert', revision: PRICE_REVISION }, now().toISOString()) }
 }
 
 /** Unsent rows (state `pending`), oldest first. */

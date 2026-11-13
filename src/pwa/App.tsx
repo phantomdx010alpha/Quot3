@@ -46,7 +46,8 @@ const TITLES: Record<RouteName, string> = {
   about: 'About',
   billview: 'Bill',
   trash: 'Recently deleted',
-  customer: 'Customer'
+  customer: 'Customer',
+  pricelist: 'Price List'
 }
 
 export interface AppProps {
@@ -247,7 +248,7 @@ export function App(props: AppProps = {}): ReactElement {
     const Screen = built.screens[route]
     const title = route === 'settings' && cur.param ? plainText(settingsPageLabel(cur.param)) : TITLES[route]
     const screenProps: ScreenProps = {
-      db, now, param: cur.param, onNavigate: (r, p) => setRouter((x) => navigate(x, r, p)), onChanged: services?.onDataChanged,
+      db, now, param: cur.param, onNavigate: (r, p) => setRouter((x) => navigate(x, r, p)), onChanged: services?.onDataChanged, refreshPriceRights: services?.refreshPriceRights,
       onBack: () => setRouter((r) => goBack(r)), dashboard: { view, error: loadError },
       justSaved: route === 'billview' && savedId !== null && savedId === cur.param, onSavedDone: () => setSavedId(null)
     }

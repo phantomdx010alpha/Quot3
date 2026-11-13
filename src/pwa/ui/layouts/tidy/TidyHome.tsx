@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { BillRow } from './TidyRows'
+import { PriceListEntry } from '../../kit/PriceListParts'
 import type { ScreenProps } from '../types'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -26,6 +27,7 @@ export function TidyHome(props: ScreenProps): ReactElement {
           <span className="q3x-tidy-sub">{billsWord(view.month.count)}</span>
         </div>
       </section>
+      <PriceListEntry db={props.db} onOpen={() => props.onNavigate('pricelist')} />
       <section aria-label="Recent bills">
         <h2 className="q3x-tidy-h2">Recent bills</h2>
         {view.recent.length === 0 ? <p className="q3-muted">No bills yet. Tap the + button to make one.</p> : (

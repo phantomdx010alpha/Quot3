@@ -7,6 +7,7 @@ import { createSessionVault, persistSessionChanges, signOutPhone, type SessionVa
 import { PhoneSupabaseTransport, type PhoneSupabaseFactory } from './supabaseTransport'
 import type { PhoneBranchInfo, PhoneBranchScope, PhoneManifestRow, PhonePullResult, PhonePushItem, PhonePushResult, PhoneSession, PhoneSharedPort } from './transport'
 import type { RecordKind } from '../../shared/sync/codecV2'
+import { writeCachedPerms } from '../data/priceRights'
 
 /**
  * Wires the phone's sync together for the running app: ONE port that talks to the real Supabase once the phone knows the URL and key,
@@ -47,6 +48,11 @@ export function createLazyPort(factory?: PhoneSupabaseFactory, makeTransport?: (
     listBranches: async (a: PhoneBranchScope): Promise<PhoneBranchInfo[]> => need().listBranches(a),
     manifest: async (a: PhoneBranchScope & { kind: RecordKind; afterRecId?: string; limit?: number }): Promise<PhoneManifestRow[]> => need().manifest(a),
     push: async (a: PhoneBranchScope & { items: PhonePushItem[] }): Promise<PhonePushResult[]> => need().push(a),
+    pricePermsGet: async (a) => {
+      const p = need()
+      if (typeof p.pricePermsGet !== 'function') throw new PhoneSyncError('server', 'This connection cannot read Price List rights.')
+      return p.pricePermsGet(a)
+    },
     pull: async (a: PhoneBranchScope & { afterSeq: number; limit?: number }): Promise<PhonePullResult> => need().pull(a),
     subscribeDoorbell(a, onRing, onLive) {
       if (!inner) { onLive?.(false); return () => undefined }
@@ -65,6 +71,8 @@ export interface PhoneSyncRuntime {
   signOut(): Promise<void>
   /** Tell the engine a bill or customer changed. */
   notifySaved(): void
+  /** Phase 246: ask the server for this seat's Price List rights and cache the answer. Never throws; a failure keeps the last known rights. */
+  refreshPriceRights(): Promise<void>
 }
 
 export interface PhoneSyncRuntimeOptions {
@@ -119,6 +127,14 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
       await signOutPhone(vault, port)
       connection.reset()
     },
-    notifySaved() { engine.notifySaved() }
+    notifySaved() { engine.notifySaved() },
+    async refreshPriceRights() {
+      try {
+        const c = await connection.connect()
+        if (typeof c.port.pricePermsGet !== 'function') return
+        const r = await c.port.pricePermsGet({ license: c.creds.license })
+        await writeCachedPerms(db, r, new Date().toISOString())
+      } catch { /* offline or not linked: the last known rights stay */ }
+    }
   }
 }

@@ -4,10 +4,13 @@ import { partyRecordId } from '../../shared/customers/duplicates'
 import { resolveFormat } from '../../shared/format/registry'
 import { normalizePartyName } from '../../shared/party/partyLite'
 import { type DecodedRecord } from '../../shared/sync/codecV2'
+import { PRICE_DATA_KEY, isPriceKind, priceFingerprint, priceIncomingWins, type PriceKind } from '../../shared/sync/priceListRecords'
+import { nameKeyOf, uniqueName } from '../../shared/pricelist/structure'
 import { correctedEditedAt, resolveConflict } from '../../shared/sync/diff'
 import { reqToPromise } from '../data/db'
 import { REVISION_CAP_PER_BILL, rowRange, toStoredBill, toStoredRow, type StoredBill, type StoredRevision, type StoredRow } from '../data/billsRepo'
 import type { PartyRecord } from '../data/partiesRepo'
+import { PRICE_STORE } from '../data/priceListRepo'
 import { isAsideTx } from './aside'
 import { billRecordOf, billRowRecordOf, encodeLocalInTx } from './encode'
 import { dropUnsentTx, hasUnsentTx } from './outbox'
@@ -192,15 +195,47 @@ async function applyMerge(tx: IDBTransaction, rec: DecodedRecord): Promise<Apply
   return changed ? 'updated' : 'ignored'
 }
 
+/**
+ * Phase 244: a tier, category, tab or row from the notebook (port of the desktop `priceListRepo.applyRemote`). The newer `updatedAt` wins, then the
+ * greater branch id; the same content (same fingerprint) or an older version changes nothing; nothing is queued. The record is stored AS RECEIVED
+ * (unknown fields kept) so its hash stays the server's. Two live categories (or tabs of one category) with the same name keep the received name
+ * made unique, like the PC; two tiers with the same key keep the smaller id.
+ */
+async function applyPrice(tx: IDBTransaction, rec: DecodedRecord): Promise<ApplyOutcome> {
+  const kind = rec.kind as PriceKind
+  const x = rec.data[PRICE_DATA_KEY[kind]] as Record<string, unknown> & { id: string; updatedAt: string; branchId: string; deletedAt: string | null; name?: string; key?: string; categoryId?: string }
+  if (x.id !== rec.recId) throw new Error('The record does not match its Price List id.')
+  if ((x.deletedAt !== null && x.deletedAt !== undefined) !== rec.deleted) throw new Error('The record disagrees with itself about being deleted.')
+  const store = tx.objectStore(PRICE_STORE[kind])
+  const cur = (await reqToPromise(store.get(x.id))) as (Record<string, unknown> & { updatedAt: string; branchId: string }) | undefined
+  if (kind === 'price_tier') {
+    const clash = ((await reqToPromise(store.getAll())) as Array<{ id: string; key: string }>).find((t) => t.key === x.key && t.id !== x.id)
+    if (clash) { if (x.id < clash.id) store.delete(clash.id); else return 'ignored' }
+  }
+  if (cur) {
+    if (priceFingerprint(kind, cur) === priceFingerprint(kind, x)) return 'ignored'
+    if (!priceIncomingWins(cur, x)) return 'ignored'
+  }
+  const out: Record<string, unknown> = { ...x }
+  if ((kind === 'price_category' || kind === 'price_tab') && x.deletedAt === null && typeof x.name === 'string') {
+    const all = (await reqToPromise(store.getAll())) as Array<{ id: string; name: string; deletedAt: string | null; categoryId?: string }>
+    const taken = all.filter((o) => o.id !== x.id && o.deletedAt === null && (kind === 'price_category' || o.categoryId === x.categoryId)).map((o) => o.name)
+    if (taken.some((n) => nameKeyOf(n) === nameKeyOf(x.name as string))) out.name = uniqueName(x.name, taken)
+  }
+  store.put(out)
+  return cur ? 'updated' : 'inserted'
+}
+
 export async function applyRecord(tx: IDBTransaction, rec: DecodedRecord, ctx: ApplyContext, d: ApplierDeps): Promise<ApplyOutcome> {
   if (!ctx.fromAside && (await isAsideTx(tx, rec.kind, rec.recId))) return 'ignored'
   switch (rec.kind) {
     case 'bill': return applyBill(tx, rec, ctx, d)
     case 'party': return applyParty(tx, rec)
     case 'party_merge': return applyMerge(tx, rec)
+    case 'price_tier': case 'price_category': case 'price_tab': case 'price_row': return isPriceKind(rec.kind) ? applyPrice(tx, rec) : 'unsupported'
     default: return 'unsupported' // item rules: the phone has no Items page [A]
   }
 }
 
 /** The stores `applyRecord` needs in one transaction. */
-export const APPLY_STORES = ['meta', 'parties', 'bills', 'bill_rows', 'bill_revisions', 'sync_outbox', 'sync_record_state', 'sync_aside'] as const
+export const APPLY_STORES = ['meta', 'parties', 'bills', 'bill_rows', 'bill_revisions', 'sync_outbox', 'sync_record_state', 'sync_aside', 'price_tiers', 'price_categories', 'price_tabs', 'price_rows'] as const

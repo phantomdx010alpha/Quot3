@@ -7,6 +7,7 @@ import { isNumericStr, tryD, toDec } from './money'
 import type { BillRow, Run, Runs } from './types'
 import type { GridColumn } from './gridModel'
 import { applyTextChange, runsEqual } from './richtext/runs'
+import { applyAutoRedBold, type AutoRedBoldConfig } from './richtext/autoRedBold'
 
 /** Phase 13: the Total cell is typable — editing it sets a manual override (Delete / empty / Ctrl+Backspace reset to auto). */
 export const TOTAL_OVERRIDE_EDITABLE = true
@@ -123,14 +124,15 @@ export function applyCellText(
   col: Pick<GridColumn, 'key' | 'kind' | 'editable' | 'isExtra'>,
   text: string,
   /** `display` = the text the cell showed when editing began (the Total cell uses it to ignore an unchanged visit). */
-  ctx: { display?: string } = {}
+  ctx: { display?: string; /** Phase 233: the auto red-bold settings; absent = off (tests, saved-bill code paths). */ autoRedBold?: AutoRedBoldConfig } = {}
 ): Partial<BillRow> | null {
   if (!isTypable(col)) return null
   const k = col.key
   if (k === 'total') return applyTotalText(row, text, ctx.display ?? '')
   if (k === 'name') {
     // Phase 15: the runs engine keeps per-letter formatting through any edit (prefix/suffix diff).
-    const runs = applyTextChange(row.nameRuns, text)
+    const typed = applyTextChange(row.nameRuns, text)
+    const runs = ctx.autoRedBold ? applyAutoRedBold(row.nameRuns, typed, ctx.autoRedBold) : typed // Phase 233: same patch = one undo step with the typing
     return runsEqual(runs, row.nameRuns) ? null : { nameRuns: runs }
   }
   if (k === 'qty' && col.kind === 'text') {

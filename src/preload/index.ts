@@ -182,6 +182,27 @@ const bridge: Quot3Bridge = {
     undo: (importId) => ipcRenderer.invoke('partyImport:undo', { importId }),
     list: () => ipcRenderer.invoke('partyImport:list', {})
   },
+  pricelist: {
+    tree: () => ipcRenderer.invoke('pricelist:tree', {}),
+    rows: (tabId) => ipcRenderer.invoke('pricelist:rows', { tabId }),
+    saveRows: (input) => ipcRenderer.invoke('pricelist:saveRows', input),
+    structure: (input) => ipcRenderer.invoke('pricelist:structure', input),
+    columns: (input) => ipcRenderer.invoke('pricelist:columns', input),
+    trash: () => ipcRenderer.invoke('pricelist:trash', {}),
+    restore: (ref) => ipcRenderer.invoke('pricelist:restore', ref),
+    purge: (ref) => ipcRenderer.invoke('pricelist:purge', ref),
+    clear: (typed) => ipcRenderer.invoke('pricelist:clear', { typed }),
+    log: (input) => ipcRenderer.invoke('pricelist:log', input ?? {}),
+    importPick: () => ipcRenderer.invoke('pricelist:importPick', {}),
+    importPreview: (sourceId) => ipcRenderer.invoke('pricelist:importPreview', { sourceId }),
+    importRun: (sourceId) => ipcRenderer.invoke('pricelist:importRun', { sourceId }),
+    perms: (input) => ipcRenderer.invoke('pricelist:perms', input ?? {}),
+    permsList: () => ipcRenderer.invoke('pricelist:permsList', {}),
+    permsSet: (input) => ipcRenderer.invoke('pricelist:permsSet', input),
+    activityAccess: () => ipcRenderer.invoke('pricelist:activityAccess', {}),
+    activity: (input) => ipcRenderer.invoke('pricelist:activity', input ?? {}),
+    activityCsv: () => ipcRenderer.invoke('pricelist:activityCsv', {})
+  },
   items: {
     overview: () => ipcRenderer.invoke('items:overview', {}),
     group: (input) => ipcRenderer.invoke('items:group', input),

@@ -28,3 +28,9 @@ export function createElectronLegacyPicker(): LegacyPicker {
 }
 
 export const writeReportFile = (path: string, text: string): Promise<void> => writeFile(path, text, 'utf8')
+
+/** Phase 237 (M23) - the file dialog for the old inventory file (Settings > Price List); not unit tested. */
+export async function pickLegacyInventoryFile(): Promise<string | null> {
+  const r = await open({ title: 'Choose the old inventory file (bills_data.db)', properties: ['openFile'], filters: [{ name: 'Old inventory file (.db)', extensions: ['db', 'sqlite', 'sqlite3'] }] })
+  return r.canceled ? null : (r.filePaths[0] ?? null)
+}

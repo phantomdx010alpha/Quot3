@@ -1,4 +1,4 @@
-import { House, PlusCircle, ClockCounterClockwise, UsersThree, ListMagnifyingGlass, GameController, GearSix, type Icon as PhosphorIcon } from '@phosphor-icons/react'
+import { House, PlusCircle, ClockCounterClockwise, UsersThree, ListMagnifyingGlass, GameController, GearSix, Tag, type Icon as PhosphorIcon } from '@phosphor-icons/react'
 import { ROUTES, type RoutePath } from '@shared/routes'
 import type { ActionId } from '@shared/shortcuts'
 
@@ -16,6 +16,8 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { path: ROUTES.history, label: 'History', action: 'nav.history', icon: ClockCounterClockwise },
   { path: ROUTES.customers, label: 'Customers', action: 'nav.customers', icon: UsersThree },
   { path: ROUTES.items, label: 'Items', action: 'nav.items', icon: ListMagnifyingGlass },
+  // Phase 238 (M23): always shown for now; the `pricelist.enabled` master switch that hides it comes with the billing settings [A].
+  { path: ROUTES.pricelist, label: 'Price List', action: 'nav.pricelist', icon: Tag },
   // Phase 202 (M19): shown only while `games.enabled` is on (see `visibleNavItems`).
   { path: ROUTES.games, label: 'Games', action: 'nav.games', icon: GameController },
   { path: ROUTES.settings, label: 'Settings', action: 'nav.settings', icon: GearSix }

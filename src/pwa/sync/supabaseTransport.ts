@@ -67,9 +67,10 @@ const iso = z.string().min(1)
 const branchWire = z.object({ branch_id: uuid, name: z.string(), po_prefix: z.string() })
 const activateWire = z.object({ org_id: uuid, seat_no: z.number().int(), server_time: iso, max_server_seq: z.number().int().nonnegative(), branches: z.array(branchWire) })
 const branchInfoWire = branchWire.extend({ device_name: z.string().nullable().optional(), last_seen_at: z.string().nullable().optional() })
-const kindWire = z.enum(['bill', 'party', 'party_merge', 'item_rule'])
+const kindWire = z.enum(['bill', 'party', 'party_merge', 'item_rule', 'price_tier', 'price_category', 'price_tab', 'price_row']) // Phase 241: the phone must parse a pull that carries Price List records (its applier reports them unsupported)
 const manifestWire = z.array(z.object({ rec_id: uuid, version: z.number().int(), payload_hash: z.string(), server_seq: z.number().int(), deleted: z.boolean() }))
-const pushWire = z.array(z.object({ kind: kindWire, rec_id: uuid, outcome: z.enum(['accepted', 'noop', 'won', 'lost']), version: z.number().int(), server_seq: z.number().int() }))
+const pushWire = z.array(z.object({ kind: kindWire, rec_id: uuid, outcome: z.enum(['accepted', 'noop', 'won', 'lost', 'refused']), version: z.number().int(), server_seq: z.number().int(), code: z.string().max(20).nullish(), missing: z.array(z.string().max(20)).max(10).nullish() }))
+const permsWire = z.object({ seat_no: z.number().int(), flags: z.record(z.string(), z.boolean()) })
 const pulledWire = z.object({
   items: z.array(z.object({
     kind: kindWire, rec_id: uuid, version: z.number().int(), server_seq: z.number().int(), deleted: z.boolean(), payload: z.record(z.string(), z.unknown()),
@@ -223,7 +224,15 @@ export class PhoneSupabaseTransport implements PhoneSharedPort {
     }))
     const d = this.parse(pushWire, await this.rpc('sn_push', { p_license: a.license, p_branch_id: a.branchId, p_items: items }))
     if (d.length !== a.items.length) throw new PhoneSyncError('server')
-    return d.map((r) => ({ kind: r.kind as RecordKind, recId: r.rec_id, outcome: r.outcome, version: r.version, serverSeq: r.server_seq }))
+    return d.map((r) => (r.outcome === 'refused'
+      ? { kind: r.kind as RecordKind, recId: r.rec_id, outcome: 'refused' as const, version: 0, serverSeq: 0, code: r.code ?? 'Q3P01', missing: r.missing ?? [] }
+      : { kind: r.kind as RecordKind, recId: r.rec_id, outcome: r.outcome, version: r.version, serverSeq: r.server_seq }))
+  }
+
+  /** Phase 246: this seat's Price List rights. */
+  async pricePermsGet(a: { license: string }): Promise<{ seatNo: number; flags: Record<string, boolean> }> {
+    const d = this.parse(permsWire, await this.rpc('qt_price_perms_get', { p_license: a.license }))
+    return { seatNo: d.seat_no, flags: d.flags }
   }
 
   async pull(a: PhoneBranchScope & { afterSeq: number; limit?: number }): Promise<PhonePullResult> {

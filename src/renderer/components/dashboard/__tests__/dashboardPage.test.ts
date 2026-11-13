@@ -54,9 +54,10 @@ beforeEach(() => {
 afterEach(() => { act(() => root.unmount()); host.remove(); delete (window as unknown as { quot3?: unknown }).quot3; vi.restoreAllMocks() })
 
 describe('Dashboard page (Phase 46)', () => {
-  it('keeps the four entry cards with their shortcuts', async () => {
+  // Phase 238 (M23) CHANGE QUOTED: before ['Create','History','Customers','Items','Settings']; after a 'Price List' quick-entry card (AltP in the card text) sits between Items and Settings.
+  it('keeps the entry cards with their shortcuts', async () => {
     await mount()
-    expect([...host.querySelectorAll('.q3-dash__card')].map((c) => c.textContent)).toEqual(['CreateCtrl1', 'HistoryCtrl2', 'CustomersCtrl3', 'ItemsCtrl5', 'SettingsCtrl4'])
+    expect([...host.querySelectorAll('.q3-dash__card')].map((c) => c.textContent)).toEqual(['CreateCtrl1', 'HistoryCtrl2', 'CustomersCtrl3', 'ItemsCtrl5', 'Price ListAltP', 'SettingsCtrl4'])
   })
 
   it('shows today / month with ₹ Indian grouping and bill counts', async () => {

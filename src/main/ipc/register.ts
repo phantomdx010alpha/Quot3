@@ -51,6 +51,10 @@ import type { DashboardService } from '../services/dashboardService'
 import type { CustomerService } from '../services/customerService'
 import { historyHandlers } from './history'
 import { itemsHandlers } from './items'
+import { priceListHandlers, type PriceImportIpc } from './pricelist'
+import type { PriceRightsService } from '../services/priceRightsService'
+import type { PriceActivityService } from '../services/priceActivityService'
+import type { PriceListService } from '../services/priceListService'
 import type { ItemsService } from '../services/itemsService'
 import { draftHandlers } from './drafts'
 import { billHandlers } from './bills'
@@ -124,6 +128,14 @@ export interface IpcContext {
   history: HistoryService
   /** Phase 110: the Items read model (groups, sales). */
   items: ItemsService
+  /** Phase 236 (M23): the Price List (storage + IPC only; UI / billing / import / sync come later). */
+  priceList: PriceListService
+  /** Phase 237: the legacy inventory import (service + file dialog). */
+  priceImport: PriceImportIpc
+  /** Phase 242: who may edit the Price List on this PC (seat rights). */
+  priceRights: PriceRightsService
+  /** Phase 243: the Price List activity list (seat 1 / a PC without sync). */
+  priceActivity: PriceActivityService
   /** Phase 110: sends `items:progress` to the window during a rebuild. */
   itemsEmit: (channel: 'items:progress', payload: { done: number; total: number }) => void
   drafts: DraftService
@@ -225,6 +237,7 @@ export function registerIpc(ctx: IpcContext): void {
     ...dashboardLiveHandlers(ctx.dashboardLive),
     ...historyHandlers(ctx.history),
     ...itemsHandlers(ctx.items, ctx.itemsEmit),
+    ...priceListHandlers(ctx.priceList, ctx.priceImport, ctx.priceRights, ctx.priceActivity),
     ...billHandlers(ctx.bills),
     ...trashHandlers(ctx.trash),
     ...revisionHandlers(ctx.revisions),

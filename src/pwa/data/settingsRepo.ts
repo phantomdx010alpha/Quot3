@@ -16,6 +16,18 @@ export interface SettingDefaults {
   /** Phone layout (Phase 189): 'classic' | 'tidy' | 'guided' | 'inbox'. A plain string like `theme.name` (the data layer does not import the UI);
    *  `resolveLayout` (ui/layouts/layoutRegistry.ts) checks it at start, an unknown or unbuilt value is classic. Per phone, NOT synced, kept in the backup file. */
   'ui.layout': string
+  /** Phase 245 (M23): the Price List settings the phone READS (mirrors of `PRICELIST_DEFAULTS`, checked by a test). The phone writes none of them yet; a value
+   *  that fails its schema is read as the default (`readPriceListSettings`). Per phone, NOT synced, kept in the backup file. */
+  'pricelist.enabled': boolean
+  'pricelist.billing.mode': 'off' | 'suggest' | 'auto'
+  'pricelist.billing.formatTier': Record<string, string | null>
+  'pricelist.billing.strictness': 'strict' | 'normal' | 'loose'
+  'pricelist.billing.maxSuggestions': number
+  'pricelist.billing.markAutoFilled': boolean
+  'pricelist.billing.fillName': boolean
+  'pricelist.billing.excludedTabs': string[]
+  /** This seat's Price List rights as last stored on the phone [A] (null = unknown). Phase 246 fills it from the server; Phase 245 only reads it. */
+  'pricelist.seatFlags': { add: boolean; edit: boolean; overwrite: boolean; delete: boolean; structure: boolean } | null
 }
 
 export const SETTING_DEFAULTS: SettingDefaults = {
@@ -24,7 +36,16 @@ export const SETTING_DEFAULTS: SettingDefaults = {
   'backup.reminderDays': 14,
   'appLock.enabled': false,
   'theme.name': 'navy-ember',
-  'ui.layout': 'classic'
+  'ui.layout': 'classic',
+  'pricelist.enabled': true,
+  'pricelist.billing.mode': 'auto',
+  'pricelist.billing.formatTier': { non_gst: 'cash_wo', gst: 'cash_gst' },
+  'pricelist.billing.strictness': 'normal',
+  'pricelist.billing.maxSuggestions': 5,
+  'pricelist.billing.markAutoFilled': true,
+  'pricelist.billing.fillName': false,
+  'pricelist.billing.excludedTabs': [],
+  'pricelist.seatFlags': null
 }
 
 export type SettingKey = keyof SettingDefaults

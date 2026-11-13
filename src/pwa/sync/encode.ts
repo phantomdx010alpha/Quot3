@@ -1,6 +1,8 @@
 import { encodeRecord, type EncodedRecord, type RecordKind } from '../../shared/sync/codecV2'
 import { correctedEditedAt } from '../../shared/sync/diff'
+import { PRICE_DATA_KEY, isPriceKind } from '../../shared/sync/priceListRecords'
 import { reqToPromise, type PhoneDb } from '../data/db'
+import { PRICE_STORE } from '../data/priceListRepo'
 import { rowRange, type StoredBill, type StoredRow } from '../data/billsRepo'
 
 /**
@@ -39,22 +41,27 @@ export async function encodeLocalInTx(tx: IDBTransaction, kind: RecordKind, recI
       editedAt: correctedEditedAt(ms(p.updatedAt), o.offsetMs), appVer: o.appVer
     })
   }
+  if (isPriceKind(kind)) { // Phase 244: the stored row IS the shared record (unknown fields kept), so the hash equals the PC's for the same content
+    const rec = (await reqToPromise(tx.objectStore(PRICE_STORE[kind]).get(recId))) as (Obj & { updatedAt: string; deletedAt: string | null }) | undefined
+    if (!rec) return null
+    return encodeRecord({ kind, recId, data: { [PRICE_DATA_KEY[kind]]: rec }, deleted: rec.deletedAt !== null, editedAt: correctedEditedAt(ms(rec.updatedAt), o.offsetMs), appVer: o.appVer })
+  }
   return null // `party_merge` / `item_rule` are never made on the phone [A]
 }
 
 /** Same, in its own read transaction. `null` = the record is not here (purged): nothing to send. */
 export async function encodeLocal(db: PhoneDb, kind: RecordKind, recId: string, o: EncodeOptions): Promise<EncodedRecord | null> {
-  return encodeLocalInTx(db.idb.transaction(['bills', 'bill_rows', 'parties'], 'readonly'), kind, recId, o)
+  return encodeLocalInTx(db.idb.transaction(['bills', 'bill_rows', 'parties', 'price_tiers', 'price_categories', 'price_tabs', 'price_rows'], 'readonly'), kind, recId, o)
 }
 
 export interface LocalHash { recId: string; hash: string; deleted: boolean; revision: number }
 
 /** Every local record of a kind with its content hash as the server would see it (the local side of the first-sync compare). A record that cannot be encoded is left out. */
 export async function listLocalHashes(db: PhoneDb, kind: RecordKind, o: EncodeOptions): Promise<LocalHash[]> {
-  const tx = db.idb.transaction(['bills', 'bill_rows', 'parties'], 'readonly')
-  const ids = (await reqToPromise(tx.objectStore(kind === 'bill' ? 'bills' : 'parties').getAllKeys())) as string[]
   const out: LocalHash[] = []
-  if (kind !== 'bill' && kind !== 'party') return out
+  if (kind !== 'bill' && kind !== 'party' && !isPriceKind(kind)) return out
+  const tx = db.idb.transaction(['bills', 'bill_rows', 'parties', 'price_tiers', 'price_categories', 'price_tabs', 'price_rows'], 'readonly')
+  const ids = (await reqToPromise(tx.objectStore(kind === 'bill' ? 'bills' : kind === 'party' ? 'parties' : PRICE_STORE[kind]).getAllKeys())) as string[]
   for (const id of ids) {
     try {
       const e = await encodeLocalInTx(tx, kind, id, o)

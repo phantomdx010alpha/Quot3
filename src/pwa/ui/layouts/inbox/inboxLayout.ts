@@ -1,6 +1,7 @@
 import { InboxBillView } from './InboxBillView'
 import { InboxEditor } from './InboxEditor'
 import { InboxHome } from './InboxHome'
+import { InboxPriceList } from './InboxPriceList'
 import { InboxShell } from './InboxShell'
 import type { BuiltLayoutDefinition } from '../types'
 
@@ -9,7 +10,7 @@ import type { BuiltLayoutDefinition } from '../types'
 export const inboxLayout: BuiltLayoutDefinition = {
   id: 'inbox',
   Shell: InboxShell,
-  screens: { home: InboxHome, history: InboxHome, billview: InboxBillView },
+  screens: { home: InboxHome, history: InboxHome, billview: InboxBillView, pricelist: InboxPriceList },
   Editor: InboxEditor,
   navItems: [],
   reusesClassic: ['customers', 'customer', 'settings', 'about', 'trash']

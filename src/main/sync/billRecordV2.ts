@@ -6,6 +6,8 @@ import type { BillRepo } from '../db/billRepo'
 import type { BillRecord, BillRowRecord } from '../../shared/billModel'
 import type { ItemRulesRepo } from '../db/itemRulesRepo'
 import type { PartyRepo } from '../db/partyRepo'
+import type { PriceListRepo } from '../db/priceListRepo'
+import { PRICE_DATA_KEY, PRICE_KINDS, PRICE_REVISION } from '../../shared/sync/priceListRecords'
 import { encodeRecord, type EncodedRecord, type RecordKind } from '../../shared/sync/codecV2'
 import { correctedEditedAt } from '../../shared/sync/diff'
 
@@ -20,6 +22,8 @@ export interface LocalRecordSource {
   itemRules?: Pick<ItemRulesRepo, 'get'>
   /** Phase 137: customers (any state) and merges, by record id. */
   parties?: Pick<PartyRepo, 'getAny' | 'getMerge'>
+  /** Phase 241: the Price List (tiers, categories, tabs, rows; any state, by record id). */
+  priceList?: Pick<PriceListRepo, 'getSyncRecord'>
 }
 
 /** An unreadable time becomes the epoch, so it can only LOSE a conflict (`resolveConflict`), never crash a push. */
@@ -70,6 +74,14 @@ export function encodeLocalRecord(src: LocalRecordSource, id: string, o: EncodeL
       deleted: undone, editedAt: correctedEditedAt(ms(merge.undoneAt ?? merge.at), o.offsetMs), appVer: o.appVer
     })
   }
+  const price = src.priceList?.getSyncRecord(id)
+  if (price) {
+    const rec = price.rec as { updatedAt: string; deletedAt: string | null }
+    return encodeRecord({
+      kind: price.kind, recId: id, data: { [PRICE_DATA_KEY[price.kind]]: price.rec }, deleted: rec.deletedAt !== null,
+      editedAt: correctedEditedAt(ms(rec.updatedAt), o.offsetMs), appVer: o.appVer
+    })
+  }
   return null
 }
 
@@ -86,6 +98,8 @@ export interface CompareSourceDeps {
   itemRules?: Pick<ItemRulesRepo, 'get' | 'list'>
   /** Phase 137: customers and merges (listed in the compare so existing customers reach the other branches). */
   parties?: Pick<PartyRepo, 'getAny' | 'getMerge' | 'allIds' | 'mergeIds'>
+  /** Phase 241: the Price List kinds join the first-sync compare, so an existing list reaches the other PCs (and theirs this one). */
+  priceList?: Pick<PriceListRepo, 'getSyncRecord' | 'listSyncIds'>
   appVer: string
   now?: () => Date
 }
@@ -149,6 +163,24 @@ export function createLocalCompareSources(d: CompareSourceDeps): CompareSource[]
     // Customers and merges go FIRST so a bill never reaches another branch before the customer it names.
     src.unshift({ kind: 'party_merge', list: (offsetMs) => ps.mergeIds().flatMap((id) => encodes(id, offsetMs)), enqueue: (ids) => queue('party_merge', ids) })
     src.unshift({ kind: 'party', list: (offsetMs) => ps.allIds().flatMap((id) => encodes(id, offsetMs)), enqueue: (ids) => queue('party', ids) })
+  }
+  if (d.priceList) {
+    const pl = d.priceList
+    for (const kind of PRICE_KINDS) {
+      src.push({
+        kind,
+        list(offsetMs) {
+          return pl.listSyncIds(kind).flatMap((id) => {
+            try { const e = encodeLocalRecord({ bills: { getRecord: () => undefined, getRows: () => [] }, priceList: pl }, id, { offsetMs, appVer: d.appVer }); return e ? [{ recId: id, hash: e.payloadHash }] : [] } catch { return [] }
+          })
+        },
+        enqueue(ids) {
+          const items = ids.flatMap((id) => { const r = pl.getSyncRecord(id); return r ? [{ billId: id, op: ((r.rec as { deletedAt: string | null }).deletedAt ? 'delete' : 'upsert') as 'delete' | 'upsert', revision: PRICE_REVISION }] : [] })
+          const s = stamp()
+          d.outbox.transaction(() => { d.outbox.enqueueMany(items, s.at, s.keep) })
+        }
+      })
+    }
   }
   return src
 }

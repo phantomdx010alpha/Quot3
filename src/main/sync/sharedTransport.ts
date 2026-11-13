@@ -1,5 +1,7 @@
 import { randomBytes, randomUUID } from 'node:crypto'
 import { z } from 'zod'
+import { flagsToStore, effectiveFlags, missingFlags, normalizeFlags, permRecordFromPayload, requiredFlags, type PermFlags, type PriceKind } from '../../shared/pricelist/perms'
+import { deriveServerChange, type LogChange, type LogEntity, type LogOp } from '../../shared/pricelist/logEntry'
 import { SHARED_MESSAGES, SHARED_SQLSTATE_KIND, classifySharedFailure, normalizeLicenseKey, type SharedErrorKind, type SharedFailure } from '../../shared/sync/license'
 
 /**
@@ -14,8 +16,8 @@ import { SHARED_MESSAGES, SHARED_SQLSTATE_KIND, classifySharedFailure, normalize
  * The v1 transport (`transport.ts`, encrypted postbox) is untouched and stays dormant until Phase 142 removes it.
  */
 
-export type SharedKind = 'bill' | 'party' | 'party_merge' | 'item_rule'
-export const SHARED_KINDS: readonly SharedKind[] = ['bill', 'party', 'party_merge', 'item_rule']
+export type SharedKind = 'bill' | 'party' | 'party_merge' | 'item_rule' | 'price_tier' | 'price_category' | 'price_tab' | 'price_row'
+export const SHARED_KINDS: readonly SharedKind[] = ['bill', 'party', 'party_merge', 'item_rule', 'price_tier', 'price_category', 'price_tab', 'price_row']
 export const SHARED_PUSH_MAX_ITEMS = 200
 export const SHARED_PULL_MAX_ITEMS = 200
 export const SHARED_PULL_MAX_BYTES = 4 * 1024 * 1024
@@ -58,7 +60,18 @@ export interface PushItem {
 }
 export interface PushArgs extends BranchScope { items: PushItem[] }
 export type SharedPushOutcome = 'accepted' | 'noop' | 'won' | 'lost'
-export interface PushResultItem { kind: SharedKind; recId: string; outcome: SharedPushOutcome; version: number; serverSeq: number }
+/** A price-list item the server refused for lack of a right (Phase 242): nothing was written and the other items of the batch still went through. */
+export type PushResultOutcome = SharedPushOutcome | 'refused'
+export interface PushResultItem {
+  kind: SharedKind
+  recId: string
+  outcome: PushResultOutcome
+  version: number
+  serverSeq: number
+  /** Only for `refused`: the error code (`Q3P01`) and the rights this seat is missing. */
+  code?: string
+  missing?: string[]
+}
 export interface PullArgs extends BranchScope { afterSeq: number; limit?: number }
 export interface PulledRecord {
   kind: SharedKind
@@ -84,6 +97,34 @@ export interface ThemePullResult { items: PulledTheme[]; hasMore: boolean; serve
 export interface ThemeShareCalls {
   themePush(a: BranchScope & { items: ThemePushItem[] }): Promise<ThemePushResult[]>
   themePull(a: BranchScope & { afterSeq: number; limit?: number }): Promise<ThemePullResult>
+}
+
+/** Phase 242: who may edit the Price List. `get` = this seat's own rights; `list` / `set` = seat 1 only (else `seat1_only`, code `Q3P02`). */
+export interface PriceSeatRights { seatNo: number; flags: PermFlags }
+export interface PriceSeatRow extends PriceSeatRights { branchName: string | null; updatedAt: string | null }
+export interface PriceRightsCalls {
+  pricePermsGet(a: LicenseArgs): Promise<PriceSeatRights>
+  pricePermsList(a: LicenseArgs): Promise<PriceSeatRow[]>
+  pricePermsSet(a: LicenseArgs & { seatNo: number; flags: PermFlags }): Promise<PriceSeatRights>
+}
+
+/** Phase 243: the shared Price List activity log. Both calls are seat 1 only (else `seat1_only`, code `Q3P02`). Newest first; `beforeId` pages. */
+export interface SharedLogRow {
+  id: number; at: string; seatNo: number | null; branchId: string | null; branchName: string; device: 'pc' | 'phone'
+  entity: LogEntity; recId: string | null; op: LogOp; path: string
+  /** Old / new values keyed by column label (null when the entry has no values). */
+  before: Record<string, string> | null; after: Record<string, string> | null; count: number
+}
+export interface PriceLogCalls {
+  priceLogList(a: LicenseArgs & { limit?: number; beforeId?: number }): Promise<SharedLogRow[]>
+  /** Removes entries older than `days` (30..3650). Returns how many. */
+  priceLogTrim(a: LicenseArgs & { days: number }): Promise<number>
+}
+/** `before` / `after` maps -> the pure entry's `changes` list. */
+export function logChangesOf(r: Pick<SharedLogRow, 'before' | 'after'>): LogChange[] | null {
+  const keys = [...new Set([...Object.keys(r.before ?? {}), ...Object.keys(r.after ?? {})])]
+  const out = keys.map((k) => ({ column: k, before: r.before?.[k] ?? '', after: r.after?.[k] ?? '' })).filter((c) => c.before !== c.after)
+  return out.length > 0 ? out : null
 }
 
 export interface SharedStoreTransport {
@@ -121,6 +162,7 @@ export class SharedTransportError extends Error {
 }
 
 const isUuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
+const isPriceKind = (k: SharedKind): k is PriceKind => k === 'price_tier' || k === 'price_category' || k === 'price_tab' || k === 'price_row'
 const byteLength = (v: unknown): number => Buffer.byteLength(JSON.stringify(v), 'utf8')
 const normName = (n: string): string => n.replace(/\s+/g, ' ').trim().toLowerCase()
 const err = (kind: SharedErrorKind, sqlstate?: string): SharedTransportError => new SharedTransportError(kind, sqlstate ?? Object.entries(SHARED_SQLSTATE_KIND).find(([, k]) => k === kind)?.[0])
@@ -151,7 +193,7 @@ export interface InMemoryRecord {
 }
 export interface InMemoryHistory { kind: SharedKind; recId: string; version: number; reason: 'superseded' | 'conflict_loser'; payload: Record<string, unknown>; fromBranch: string | null; editedAt: string }
 
-interface Org { orgId: string; licenseKey: string; status: 'active' | 'suspended'; records: Map<string, InMemoryRecord>; history: InMemoryHistory[]; pingSeq: number }
+interface Org { orgId: string; licenseKey: string; status: 'active' | 'suspended'; records: Map<string, InMemoryRecord>; history: InMemoryHistory[]; pingSeq: number; /** Phase 243: the Price List activity log (newest last). */ priceLog: SharedLogRow[]; /** seat number -> granted Price List flags (a seat without an entry has none). */ pricePerms: Map<number, PermFlags> }
 interface User { userId: string; email: string; password: string; orgId: string; seatNo: number; branchId: string | null; banned: boolean }
 interface BranchRow { branchId: string; orgId: string; userId: string; name: string; nameNorm: string; poPrefix: string; deviceName: string; lastSeenAt: string }
 interface TokenRow { userId: string; expiresAt: number }
@@ -178,7 +220,7 @@ export class InMemorySharedServer {
   setOffline(on: boolean): void { this.offline = on }
   addOrg(spec: InMemoryOrgSpec): { orgId: string } {
     const orgId = spec.orgId ?? randomUUID()
-    this.orgs.set(orgId, { orgId, licenseKey: normalizeLicenseKey(spec.licenseKey), status: spec.status ?? 'active', records: new Map(), history: [], pingSeq: 0 })
+    this.orgs.set(orgId, { orgId, licenseKey: normalizeLicenseKey(spec.licenseKey), status: spec.status ?? 'active', records: new Map(), history: [], pingSeq: 0, priceLog: [], pricePerms: new Map() })
     spec.seats.forEach((s, i) => {
       const userId = randomUUID()
       this.users.set(userId, { userId, email: s.email.trim().toLowerCase(), password: s.password, orgId, seatNo: i + 1, branchId: null, banned: false })
@@ -353,6 +395,88 @@ export class InMemorySharedServer {
     return { serverTime: new Date(this.now()).toISOString() }
   }
 
+  // ---- Phase 242: Price List rights (mirrors supabase/sql/19_price_perms.sql) ----------------------------------------
+  /** Test control: grant flags to a seat directly (what seat 1's `qt_price_perms_set` stores). */
+  setPricePerms(orgId: string, seatNo: number, flags: Partial<PermFlags>): void { this.mustOrg(orgId).pricePerms.set(seatNo, flagsToStore(seatNo, flags)) }
+  private seatNoOf(uid: string | null): number { const u = uid === null ? undefined : this.users.get(uid); if (!u) throw err('not_member'); return u.seatNo }
+  private flagsOf(org: Org, seatNo: number): PermFlags { return effectiveFlags(seatNo, org.pricePerms.get(seatNo), true) }
+
+  rpcPricePermsGet(uid: string | null, a: LicenseArgs): PriceSeatRights {
+    this.gate()
+    const org = this.memberOrg(uid, a.license, null)
+    const seatNo = this.seatNoOf(uid)
+    return { seatNo, flags: this.flagsOf(org, seatNo) }
+  }
+
+  rpcPricePermsList(uid: string | null, a: LicenseArgs): PriceSeatRow[] {
+    this.gate()
+    const org = this.memberOrg(uid, a.license, null)
+    if (this.seatNoOf(uid) !== 1) throw err('seat1_only')
+    return [...this.users.values()].filter((u) => u.orgId === org.orgId).sort((x, y) => x.seatNo - y.seatNo)
+      .map((u) => ({ seatNo: u.seatNo, flags: this.flagsOf(org, u.seatNo), branchName: u.branchId ? this.branchRows.get(u.branchId)?.name ?? null : null, updatedAt: null }))
+  }
+
+  rpcPricePermsSet(uid: string | null, a: LicenseArgs & { seatNo: number; flags: PermFlags }): PriceSeatRights {
+    this.gate()
+    const org = this.memberOrg(uid, a.license, null)
+    if (this.seatNoOf(uid) !== 1) throw err('seat1_only')
+    const known = [...this.users.values()].some((u) => u.orgId === org.orgId && u.seatNo === a.seatNo)
+    if (!Number.isInteger(a.seatNo) || a.seatNo < 1 || a.seatNo > 50 || typeof a.flags !== 'object' || a.flags === null || !known) throw err('invalid_input')
+    const stored = flagsToStore(a.seatNo, a.flags)
+    const was = this.flagsOf(org, a.seatNo)
+    org.pricePerms.set(a.seatNo, stored)
+    if (JSON.stringify(was) !== JSON.stringify(stored)) {
+      const own = [...this.users.values()].find((u) => u.userId === uid)
+      const asText = (f: PermFlags): Record<string, string> => ({ add: String(f.add), edit: String(f.edit), overwrite: String(f.overwrite), delete: String(f.delete), structure: String(f.structure) })
+      this.addLog(org, { seatNo: 1, branchId: own?.branchId ?? null, branchName: own?.branchId ? this.branchRows.get(own.branchId)?.name ?? '' : '', device: 'pc', entity: 'perms', recId: null, op: 'permission', path: `Seat ${a.seatNo}`, before: asText(was), after: asText(stored), count: 1 })
+    }
+    return { seatNo: a.seatNo, flags: stored }
+  }
+
+  // ---- Phase 243: Price List activity log (mirrors supabase/sql/20_price_log.sql) ----------------------------------------
+  private logSeq = 0
+  private addLog(org: Org, e: Omit<SharedLogRow, 'id' | 'at'>): void { org.priceLog.push({ ...e, id: ++this.logSeq, at: new Date(this.now()).toISOString() }) }
+  /** One entry per accepted / winning price change; the author is the seat of the caller (never the payload). Never throws: logging must not stop a save. */
+  private logPriceChange(org: Org, seatNo: number, branchId: string, it: PushItem, old: InMemoryRecord | undefined): void {
+    try {
+      const pk = it.kind as PriceKind
+      const tabRec = pk === 'price_row' ? org.records.get(`price_tab:${String((it.payload as { row?: { tabId?: unknown } }).row?.tabId ?? '')}`) : pk === 'price_tab' ? { payload: it.payload } : undefined
+      const tab = (tabRec?.payload as { tab?: { name?: unknown; categoryId?: unknown; columns?: unknown } } | undefined)?.tab
+      const cat = tab ? (org.records.get(`price_category:${String(tab.categoryId ?? '')}`)?.payload as { category?: { name?: unknown } } | undefined)?.category : undefined
+      const cols = Array.isArray(tab?.columns) ? (tab!.columns as Array<{ key?: unknown; label?: unknown }>) : []
+      const colLabel = (k: string): string => { const c = cols.find((x) => x.key === k); return typeof c?.label === 'string' && c.label !== '' ? c.label : k }
+      const ch = deriveServerChange(old ? permRecordFromPayload(pk, old.payload, old.deleted) : null, permRecordFromPayload(pk, it.payload, it.deleted === true), {
+        ...(typeof cat?.name === 'string' ? { categoryName: cat.name } : {}), ...(pk === 'price_row' && typeof tab?.name === 'string' ? { tabName: tab.name } : {}), colLabel
+      })
+      if (!ch) return
+      const before: Record<string, string> = {}
+      const after: Record<string, string> = {}
+      for (const c of ch.changes) { before[c.column] = c.before; after[c.column] = c.after }
+      this.addLog(org, {
+        seatNo, branchId, branchName: this.branchRows.get(branchId)?.name ?? '', device: /^(pwa|phone)/i.test(it.appVer ?? '') ? 'phone' : 'pc', entity: ch.entity, recId: it.recId, op: ch.op,
+        path: ch.path.map((x) => x.replace(/\s+/g, ' ').trim()).filter((x) => x !== '').join(' \u203A ').slice(0, 300),
+        before: ch.changes.length > 0 ? before : null, after: ch.changes.length > 0 ? after : null, count: 1
+      })
+    } catch { /* never blocks a save */ }
+  }
+  rpcPriceLogList(uid: string | null, a: LicenseArgs & { limit?: number; beforeId?: number }): SharedLogRow[] {
+    this.gate()
+    const org = this.memberOrg(uid, a.license, null)
+    if (this.seatNoOf(uid) !== 1) throw err('seat1_only')
+    const lim = Math.max(1, Math.min(500, Math.round(a.limit ?? 100)))
+    return org.priceLog.filter((r) => a.beforeId === undefined || r.id < a.beforeId).sort((x, y) => y.id - x.id).slice(0, lim).map((r) => ({ ...r }))
+  }
+  rpcPriceLogTrim(uid: string | null, a: LicenseArgs & { days: number }): number {
+    this.gate()
+    const org = this.memberOrg(uid, a.license, null)
+    if (this.seatNoOf(uid) !== 1) throw err('seat1_only')
+    const cutoff = this.now() - Math.max(30, Math.min(3650, Math.round(a.days))) * 86_400_000
+    const keep = org.priceLog.filter((r) => Date.parse(r.at) >= cutoff)
+    const gone = org.priceLog.length - keep.length
+    org.priceLog = keep
+    return gone
+  }
+
   rpcManifest(uid: string | null, a: ManifestArgs): ManifestRow[] {
     this.gate()
     const org = this.memberOrg(uid, a.license, a.branchId)
@@ -386,10 +510,19 @@ export class InMemorySharedServer {
     }
     const results: PushResultItem[] = []
     let changed = false
+    const seatNo = this.seatNoOf(uid)
+    const seatFlags = this.flagsOf(org, seatNo)
     for (const it of items as PushItem[]) {
       const key = `${it.kind}:${it.recId}`
       const row = org.records.get(key)
       const edited = Date.parse(it.editedAt)
+      // Phase 242: a price-list item needs the seat's rights. Seat 1 is never refused; a same-hash resend writes nothing, so it is not checked.
+      // A refused item writes nothing (no record, no history) and the batch carries on.
+      if (isPriceKind(it.kind) && seatNo !== 1 && !(row && row.payloadHash === it.payloadHash)) {
+        const need = requiredFlags(row ? permRecordFromPayload(it.kind, row.payload, row.deleted) : null, permRecordFromPayload(it.kind, it.payload, it.deleted === true))
+        const missing = missingFlags(seatFlags, need)
+        if (missing.length > 0) { results.push({ kind: it.kind, recId: it.recId, outcome: 'refused', code: 'Q3P01', missing, version: 0, serverSeq: 0 }); continue }
+      }
       const next = (over: Partial<InMemoryRecord>): InMemoryRecord => ({
         kind: it.kind, recId: it.recId, version: 1, serverSeq: ++this.seq, deleted: it.deleted === true, payload: it.payload, payloadHash: it.payloadHash,
         schemaVer: it.schemaVer ?? 1, minReaderVer: it.minReaderVer ?? 1, appVer: it.appVer ?? '', editedAt: it.editedAt, fromBranch: a.branchId, ...over
@@ -426,6 +559,7 @@ export class InMemorySharedServer {
         }
         changed = true
       }
+      if (isPriceKind(it.kind) && (outcome === 'accepted' || outcome === 'won')) this.logPriceChange(org, seatNo, a.branchId, it, row)
       results.push({ kind: it.kind, recId: it.recId, outcome, version: rec.version, serverSeq: rec.serverSeq })
     }
     if (changed) this.ring(org)
@@ -455,7 +589,7 @@ export class InMemorySharedServer {
 export interface InMemorySharedTransportOptions { /** Stops a test hanging: nothing is async here, so unused unless a wrapper delays. */ label?: string }
 
 /** One computer talking to an `InMemorySharedServer`. Several instances on one server = several branches. */
-export class InMemorySharedTransport implements SharedStoreTransport {
+export class InMemorySharedTransport implements SharedStoreTransport, PriceRightsCalls, PriceLogCalls {
   private session: SharedSession | null = null
   private readonly listeners = new Set<(s: SharedSession) => void>()
 
@@ -502,6 +636,11 @@ export class InMemorySharedTransport implements SharedStoreTransport {
   manifest = (a: ManifestArgs): Promise<ManifestRow[]> => this.run((uid) => this.server.rpcManifest(uid, a))
   push = (a: PushArgs): Promise<PushResultItem[]> => this.run((uid) => this.server.rpcPush(uid, a))
   pull = (a: PullArgs): Promise<PullResult> => this.run((uid) => this.server.rpcPull(uid, a))
+  pricePermsGet = (a: LicenseArgs): Promise<PriceSeatRights> => this.run((uid) => this.server.rpcPricePermsGet(uid, a))
+  pricePermsList = (a: LicenseArgs): Promise<PriceSeatRow[]> => this.run((uid) => this.server.rpcPricePermsList(uid, a))
+  pricePermsSet = (a: LicenseArgs & { seatNo: number; flags: PermFlags }): Promise<PriceSeatRights> => this.run((uid) => this.server.rpcPricePermsSet(uid, a))
+  priceLogList = (a: LicenseArgs & { limit?: number; beforeId?: number }): Promise<SharedLogRow[]> => this.run((uid) => this.server.rpcPriceLogList(uid, a))
+  priceLogTrim = (a: LicenseArgs & { days: number }): Promise<number> => this.run((uid) => this.server.rpcPriceLogTrim(uid, a))
 
   subscribeDoorbell(a: { orgId: string }, onRing: () => void, onLive?: (live: boolean) => void): () => void {
     onLive?.(true)
@@ -564,9 +703,20 @@ const iso = z.string().min(1)
 const branchWire = z.object({ branch_id: uuid, name: z.string(), po_prefix: z.string() })
 const activateWire = z.object({ org_id: uuid, seat_no: z.number().int(), server_time: iso, max_server_seq: z.number().int().nonnegative(), branches: z.array(branchWire) })
 const branchInfoWire = branchWire.extend({ device_name: z.string().nullable().optional(), last_seen_at: z.string().nullable().optional() })
-const kindWire = z.enum(['bill', 'party', 'party_merge', 'item_rule'])
+const kindWire = z.enum(['bill', 'party', 'party_merge', 'item_rule', 'price_tier', 'price_category', 'price_tab', 'price_row'])
 const manifestWire = z.array(z.object({ rec_id: uuid, version: z.number().int(), payload_hash: z.string(), server_seq: z.number().int(), deleted: z.boolean() }))
-const pushWire = z.array(z.object({ kind: kindWire, rec_id: uuid, outcome: z.enum(['accepted', 'noop', 'won', 'lost']), version: z.number().int(), server_seq: z.number().int() }))
+const pushWire = z.array(z.object({
+  kind: kindWire, rec_id: uuid, outcome: z.enum(['accepted', 'noop', 'won', 'lost', 'refused']), version: z.number().int(), server_seq: z.number().int(),
+  code: z.string().nullable().optional(), missing: z.array(z.string()).nullable().optional()
+}))
+const permFlagsWire = z.record(z.string(), z.unknown()).transform((o) => normalizeFlags(o))
+const priceGetWire = z.object({ seat_no: z.number().int(), flags: permFlagsWire })
+const logMap = z.record(z.string(), z.string()).nullable().optional()
+const priceLogWire = z.array(z.object({
+  id: z.number().int(), at: z.string(), seat_no: z.number().int().nullable().optional(), branch_id: z.string().nullable().optional(), branch_name: z.string().nullable().optional(),
+  device: z.string().optional(), entity: z.string(), rec_id: z.string().nullable().optional(), op: z.string(), path: z.string().optional(), before: logMap, after: logMap, count: z.number().int().optional()
+}))
+const priceListWire = z.array(z.object({ seat_no: z.number().int(), branch_name: z.string().nullable().optional(), flags: permFlagsWire, updated_at: z.string().nullable().optional() }))
 const pulledWire = z.object({
   items: z.array(z.object({
     kind: kindWire, rec_id: uuid, version: z.number().int(), server_seq: z.number().int(), deleted: z.boolean(), payload: z.record(z.string(), z.unknown()),
@@ -590,7 +740,7 @@ const renameWire = z.object({ branch_id: uuid, name: z.string() })
 const TRANSIENT: ReadonlySet<SharedErrorKind> = new Set(['offline', 'timeout', 'server'])
 const NETWORK_RE = /fetch failed|failed to fetch|network|enotfound|econnrefused|econnreset|etimedout|eai_again|socket|getaddrinfo/i
 
-export class SupabaseSharedTransport implements SharedStoreTransport, ThemeShareCalls {
+export class SupabaseSharedTransport implements SharedStoreTransport, ThemeShareCalls, PriceRightsCalls, PriceLogCalls {
   private client: SupabaseLike | null = null
   private session: SharedSession | null = null
   private readonly listeners = new Set<(s: SharedSession) => void>()
@@ -744,7 +894,37 @@ export class SupabaseSharedTransport implements SharedStoreTransport, ThemeShare
     }))
     const d = this.parse(pushWire, await this.rpc('sn_push', { p_license: a.license, p_branch_id: a.branchId, p_items: items }))
     if (d.length !== a.items.length) throw new SharedTransportError('server')
-    return d.map((r) => ({ kind: r.kind, recId: r.rec_id, outcome: r.outcome, version: r.version, serverSeq: r.server_seq }))
+    return d.map((r) => (r.outcome === 'refused'
+      ? { kind: r.kind, recId: r.rec_id, outcome: 'refused' as const, version: 0, serverSeq: 0, code: r.code ?? 'Q3P01', missing: r.missing ?? [] }
+      : { kind: r.kind, recId: r.rec_id, outcome: r.outcome, version: r.version, serverSeq: r.server_seq }))
+  }
+
+  async pricePermsGet(a: LicenseArgs): Promise<PriceSeatRights> {
+    const d = this.parse(priceGetWire, await this.rpc('qt_price_perms_get', { p_license: a.license }))
+    return { seatNo: d.seat_no, flags: d.flags }
+  }
+
+  async pricePermsList(a: LicenseArgs): Promise<PriceSeatRow[]> {
+    const d = this.parse(priceListWire, await this.rpc('qt_price_perms_list', { p_license: a.license }))
+    return d.map((r) => ({ seatNo: r.seat_no, flags: r.flags, branchName: r.branch_name ?? null, updatedAt: r.updated_at ?? null }))
+  }
+
+  async priceLogList(a: LicenseArgs & { limit?: number; beforeId?: number }): Promise<SharedLogRow[]> {
+    const d = this.parse(priceLogWire, await this.rpc('qt_price_log_list', { p_license: a.license, p_limit: a.limit ?? 100, p_before_id: a.beforeId ?? null }))
+    return d.map((r) => ({
+      id: r.id, at: r.at, seatNo: r.seat_no ?? null, branchId: r.branch_id ?? null, branchName: r.branch_name ?? '', device: r.device === 'phone' ? 'phone' as const : 'pc' as const,
+      entity: r.entity as LogEntity, recId: r.rec_id ?? null, op: r.op as LogOp, path: r.path ?? '', before: r.before ?? null, after: r.after ?? null, count: r.count ?? 1
+    }))
+  }
+
+  async priceLogTrim(a: LicenseArgs & { days: number }): Promise<number> {
+    const d = this.parse(z.number().int(), await this.rpc('qt_price_log_trim', { p_license: a.license, p_days: a.days }))
+    return d
+  }
+
+  async pricePermsSet(a: LicenseArgs & { seatNo: number; flags: PermFlags }): Promise<PriceSeatRights> {
+    const d = this.parse(priceGetWire, await this.rpc('qt_price_perms_set', { p_license: a.license, p_seat: a.seatNo, p_flags: a.flags }))
+    return { seatNo: d.seat_no, flags: d.flags }
   }
 
   async pull(a: PullArgs): Promise<PullResult> {

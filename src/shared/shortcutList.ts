@@ -11,7 +11,7 @@ export interface ShortcutRow {
   bindings: { keys: string; scope: ShortcutScope }[]
 }
 
-const SCOPE_ORDER: Record<ShortcutScope, number> = { global: 0, create: 1, grid: 2, history: 3, customers: 4, items: 5, bill: 6, parties: 7 }
+const SCOPE_ORDER: Record<ShortcutScope, number> = { global: 0, create: 1, grid: 2, history: 3, customers: 4, items: 5, pricelist: 6, bill: 7, parties: 8 }
 
 export function shortcutRows(): ShortcutRow[] {
   const shortcuts = allShortcuts()

@@ -32,6 +32,8 @@ export interface ScreenProps {
   param?: string
   onNavigate: (route: RouteName, param?: string) => void
   onChanged?: () => void
+  /** Phase 246: refresh this seat's Price List rights from the server (never throws). */
+  refreshPriceRights?: () => Promise<void>
   /** Back through the unsaved-bill guard (Phase 192). */
   onBack?: () => void
   /** What App.tsx loaded for Home (Phase 192); a layout's Home draws it. */

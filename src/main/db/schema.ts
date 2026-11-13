@@ -379,3 +379,105 @@ export const aiTextVectors = sqliteTable(
   },
   (t) => [primaryKey({ columns: [t.modelId, t.textHash] })]
 )
+
+/**
+ * Phase 236 (M23): the Price List (MILESTONE23_DESIGN 7.1, migration 0011). Categories -> tabs -> rows; tiers are org-wide named price levels.
+ * All soft deleted (`deleted_at`) so Trash / restore / later sync tombstones work. Money-like cell values live as decimal strings inside `cells_json`.
+ */
+export const priceTiers = sqliteTable(
+  'price_tiers',
+  {
+    id: text('id').primaryKey(),
+    key: text('key').notNull(),
+    label: text('label').notNull(),
+    position: integer('position').notNull().default(0),
+    createdAt: text('created_at').notNull(),
+    updatedAt: text('updated_at').notNull(),
+    deletedAt: text('deleted_at'),
+    branchId: text('branch_id').notNull()
+  },
+  (t) => [uniqueIndex('price_tiers_key_uq').on(t.key)]
+)
+
+export const priceCategories = sqliteTable(
+  'price_categories',
+  {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    color: text('color'),
+    position: integer('position').notNull().default(0),
+    createdAt: text('created_at').notNull(),
+    updatedAt: text('updated_at').notNull(),
+    deletedAt: text('deleted_at'),
+    branchId: text('branch_id').notNull(),
+    updatedBySeat: integer('updated_by_seat')
+  },
+  (t) => [uniqueIndex('price_categories_name_uq').on(sql`lower(${t.name})`).where(sql`${t.deletedAt} IS NULL`)]
+)
+
+export const priceTabs = sqliteTable(
+  'price_tabs',
+  {
+    id: text('id').primaryKey(),
+    categoryId: text('category_id').notNull(),
+    name: text('name').notNull(),
+    position: integer('position').notNull().default(0),
+    columnsJson: text('columns_json').notNull().default('[]'),
+    createdAt: text('created_at').notNull(),
+    updatedAt: text('updated_at').notNull(),
+    deletedAt: text('deleted_at'),
+    branchId: text('branch_id').notNull(),
+    updatedBySeat: integer('updated_by_seat')
+  },
+  (t) => [
+    uniqueIndex('price_tabs_cat_name_uq').on(t.categoryId, sql`lower(${t.name})`).where(sql`${t.deletedAt} IS NULL`),
+    index('price_tabs_cat_idx').on(t.categoryId, t.position)
+  ]
+)
+
+export const priceRows = sqliteTable(
+  'price_rows',
+  {
+    id: text('id').primaryKey(),
+    tabId: text('tab_id').notNull(),
+    idx: integer('idx').notNull().default(0),
+    kind: text('kind').notNull().default('item'), // item | section
+    nameRunsJson: text('name_runs_json').notNull().default('[]'),
+    namePlain: text('name_plain').notNull().default(''),
+    nameNorm: text('name_norm').notNull().default(''),
+    cellsJson: text('cells_json').notNull().default('{}'),
+    createdAt: text('created_at').notNull(),
+    updatedAt: text('updated_at').notNull(),
+    deletedAt: text('deleted_at'),
+    branchId: text('branch_id').notNull(),
+    updatedBySeat: integer('updated_by_seat')
+  },
+  (t) => [index('price_rows_tab_idx').on(t.tabId, t.idx), index('price_rows_norm_idx').on(t.nameNorm)]
+)
+
+/** Local activity log of Price List changes (never synced; the server keeps its own in Phase 240). */
+export const priceLog = sqliteTable(
+  'price_log',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    at: text('at').notNull(),
+    seatNo: integer('seat_no'),
+    branchId: text('branch_id').notNull(),
+    entity: text('entity').notNull(),
+    entityId: text('entity_id').notNull(),
+    op: text('op').notNull(),
+    path: text('path').notNull().default(''),
+    beforeJson: text('before_json'),
+    afterJson: text('after_json')
+  },
+  (t) => [index('price_log_at_idx').on(t.at)]
+)
+
+/** Phase 237 re-run support: legacy key -> the row it became (empty until the importer exists). */
+export const priceImportMap = sqliteTable('price_import_map', {
+  legacyKey: text('legacy_key').primaryKey(),
+  rowId: text('row_id').notNull(),
+  sourceFingerprint: text('source_fingerprint').notNull(),
+  importedAt: text('imported_at').notNull(),
+  editedSinceImport: integer('edited_since_import').notNull().default(0)
+})

@@ -23,6 +23,8 @@ export interface AppServices {
   readonly now?: () => Date
   /** Called after a screen changed bills (delete / restore). The sync engine's `notifySaved` goes here once it is wired. */
   readonly onDataChanged?: () => void
+  /** Phase 246: asks the server for this seat's Price List rights and caches them (never throws). Absent = the phone keeps the rights it already knows. */
+  readonly refreshPriceRights?: () => Promise<void>
   readonly theme?: ThemeName
   /** The saved phone layout (Phase 189), already checked by `resolveLayout`. Absent = classic. */
   readonly layout?: LayoutId

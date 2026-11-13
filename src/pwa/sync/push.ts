@@ -1,7 +1,9 @@
 import { createProgressTracker, type SyncProgress } from '../../shared/sync/progress'
 import { PUSH_BATCH_MAX_BYTES, PUSH_BATCH_ROWS, PUSH_KICK_DELAY_MS, PUSH_MAX_BATCHES_PER_RUN, pushDelayMs, type SharedBlock } from '../../shared/sync/push'
 import type { BillRecord, BillRowRecord } from '../../shared/billModel'
+import { isPriceKind } from '../../shared/sync/priceListRecords'
 import { reqToPromise, txDone, type PhoneDb } from '../data/db'
+import { keepRefusedTx } from '../data/priceRights'
 import { REVISION_CAP_PER_BILL, rowRange, type StoredBill, type StoredRevision, type StoredRow } from '../data/billsRepo'
 import { ensureClockOffset } from './clock'
 import { billRecordOf, billRowRecordOf, encodeLocal } from './encode'
@@ -83,7 +85,7 @@ export function createPhonePushWorker(deps: PhonePushDeps, opts: PhoneWorkerOpti
 
   /** `null` = nothing to send any more (the record was purged). Throws for a row that cannot be encoded (the caller blames it). */
   async function prepare(row: OutboxRow, offsetMs: number | null): Promise<Prepared | null> {
-    if (row.kind !== 'bill' && row.kind !== 'party') return null // the phone makes no merges or rules [A]
+    if (row.kind !== 'bill' && row.kind !== 'party' && !isPriceKind(row.kind)) return null // the phone makes no merges or rules [A]; Price List records since Phase 244
     const enc = await encodeLocal(db, row.kind, row.recId, { offsetMs, appVer: deps.appVer })
     if (!enc) return null
     const st = (await reqToPromise(db.idb.transaction('sync_record_state', 'readonly').objectStore('sync_record_state').get([enc.kind, enc.recId]))) as { base_version: number } | undefined
@@ -129,11 +131,12 @@ export function createPhonePushWorker(deps: PhonePushDeps, opts: PhoneWorkerOpti
       const out = res[i]
       if (!out || out.recId !== p.item.recId || out.kind !== p.item.kind) throw new Error('The server answered a different list than was sent.')
       db.assertWritable()
-      const tx = db.idb.transaction(['bills', 'bill_rows', 'bill_revisions', 'sync_record_state', 'sync_outbox'], 'readwrite')
+      const tx = db.idb.transaction(['bills', 'bill_rows', 'bill_revisions', 'sync_record_state', 'sync_outbox', 'meta'], 'readwrite')
       const done = txDone(tx)
       done.catch(() => undefined)
       try {
         if (out.outcome === 'lost') { await keepLoserTx(tx, p); r.lost++ }
+        else if (out.outcome === 'refused') { await keepRefusedTx(tx, { kind: p.item.kind, recId: p.item.recId, code: out.code, missing: out.missing, at }) /* never store version 0 as a base; the row is settled below so it stops retrying; Phase 246 keeps ids + missing rights only (never content) so the Price List can say so */ }
         else {
           putStateTx(tx, { kind: p.item.kind, recId: p.item.recId, baseVersion: out.version, baseHash: p.item.payloadHash, serverSeq: out.serverSeq, syncedAt: at })
           if (out.outcome === 'accepted') r.accepted++

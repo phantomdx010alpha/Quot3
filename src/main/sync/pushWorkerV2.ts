@@ -5,6 +5,7 @@ import type { BillRepo } from '../db/billRepo'
 import type { RemoteApplyRepo } from '../db/remoteApplyRepo'
 import type { BillRecord, BillRowRecord } from '../../shared/billModel'
 import type { ItemRulesRepo } from '../db/itemRulesRepo'
+import type { PriceListRepo } from '../db/priceListRepo'
 import type { PartyRepo } from '../db/partyRepo'
 import type { Logger } from '../logger'
 import type { OutboxItem } from '../../shared/sync/outbox'
@@ -27,6 +28,10 @@ import type { SharedCredentials } from './activationV2'
  *    (`base_version`, `base_hash`) and the outbox row is settled;
  *  - `lost`: another branch's version is later; this computer's version is kept as a local revision (History -> compare) and the row is
  *    settled. The winner arrives with the next pull (its `server_seq` is above the cursor), and the received version replaces the local one.
+ *  - `refused` (Phase 242, Price List only): this seat lacks a right (`Q3P01`). The server wrote nothing and the rest of the batch went
+ *    through. Nothing is stored as a server version (version 0 must never become a base), the outbox row is settled so it stops retrying,
+ *    and a small kept-list (`sync_state` key `pricelist.refused`, newest 200, ids and missing rights only, never content) tells the
+ *    Price List screen which local changes the main branch did not accept. The local edit itself stays on this PC [A].
  * Failure rules are the v1 ones: connection trouble / paused server / refused login / refused license pause the worker and never count
  * against a row; a request the server refuses itself is retried one row at a time and the culprit is blamed (10 attempts -> `failed`).
  * All state is in SQLite, so a restart resumes. Nothing here logs record content.
@@ -39,6 +44,8 @@ export interface PushWorkerV2Deps {
   itemRules?: Pick<ItemRulesRepo, 'get'>
   /** Phase 137: customers and merges (outbox rows whose id is a customer / merge record id). */
   parties?: Pick<PartyRepo, 'getAny' | 'getMerge'>
+  /** Phase 241: Price List records (outbox rows whose id is a tier / category / tab / row id). */
+  priceList?: Pick<PriceListRepo, 'getSyncRecord'>
   records: SyncRecordRepo
   sync: Pick<SyncStateRepo, 'get' | 'set'>
   /** `activationV2.connect()` (a signed-in transport + the credentials). */
@@ -62,6 +69,8 @@ export interface PushRunResultV2 {
   noop: number
   won: number
   lost: number
+  /** Price List items the server refused for a missing right (Phase 242). Counted as settled (`sent`), never retried. */
+  refused: number
   failedAttempts: number
   poisoned: number
   block: SharedBlock
@@ -78,6 +87,22 @@ export interface PushWorkerV2 {
   notifyOnline(): void
   runOnce(): Promise<PushRunResultV2>
   status(): PushStatusV2
+}
+
+/** Phase 242: the kept-list of refused Price List changes (ids and rights only; no names, no prices). */
+export const REFUSED_STATE_KEY = 'pricelist.refused'
+export const REFUSED_KEEP_MAX = 200
+export interface RefusedEntry { kind: string; recId: string; code: string; missing: string[]; at: string }
+
+/** Reads the kept-list; anything unreadable is an empty list. */
+export function readRefused(sync: Pick<SyncStateRepo, 'get'>): RefusedEntry[] {
+  const raw = sync.get(REFUSED_STATE_KEY)
+  if (!raw) return []
+  try {
+    const v: unknown = JSON.parse(raw)
+    if (!Array.isArray(v)) return []
+    return v.filter((x): x is RefusedEntry => typeof x === 'object' && x !== null && typeof (x as RefusedEntry).kind === 'string' && typeof (x as RefusedEntry).recId === 'string')
+  } catch { return [] }
 }
 
 class Pause extends Error { constructor(readonly block: SharedBlock, msg: string) { super(msg) } }
@@ -127,7 +152,7 @@ export function createPushWorkerV2(deps: PushWorkerV2Deps, opts: PushWorkerV2Opt
 
   /** `null` = nothing to send any more (the bill / rule was purged). Throws for a row that cannot be encoded (it is blamed by the caller). */
   function prepare(row: OutboxItem, offsetMs: number | null): Prepared | null {
-    const enc = encodeLocalRecord({ bills: deps.bills, itemRules: deps.itemRules, parties: deps.parties }, row.billId, { offsetMs, appVer: deps.appVer })
+    const enc = encodeLocalRecord({ bills: deps.bills, itemRules: deps.itemRules, parties: deps.parties, priceList: deps.priceList }, row.billId, { offsetMs, appVer: deps.appVer })
     if (!enc) return null
     const base = records.getState(enc.kind, enc.recId)?.baseVersion ?? 0
     return { row, item: { kind: enc.kind, recId: enc.recId, baseVersion: base, payload: enc.payload, payloadHash: enc.payloadHash, schemaVer: enc.schemaVer, minReaderVer: enc.minReaderVer, appVer: enc.appVer, editedAt: enc.editedAt, deleted: enc.deleted } }
@@ -135,13 +160,20 @@ export function createPushWorkerV2(deps: PushWorkerV2Deps, opts: PushWorkerV2Opt
 
   /** This computer lost the conflict: its version must survive as a local revision (the bill row is replaced by the winner on the next pull). */
   function keepLoser(p: Prepared): void {
-    if (p.item.kind !== 'bill') return // a rule, customer or merge has no revision list; the server keeps the loser in `sn_history`
+    if (p.item.kind !== 'bill') return // a rule, customer, merge or Price List record has no revision list; the server keeps the loser in `sn_history`
     const rec = deps.bills.getRecord(p.item.recId) as BillRecord | undefined
     if (!rec) return
     if (deps.revisions.authorOf(rec.id, rec.revision) !== undefined) return // that revision is already in the list (every save writes one)
     const rows = deps.bills.getRows(rec.id) as BillRowRecord[]
     deps.revisions.putRevision({ id: deps.newId(), billId: rec.id, revision: rec.revision, snapshotJson: JSON.stringify({ bill: rec, rows }), savedAt: rec.updatedAt, savedByBranch: rec.branchId })
     deps.revisions.pruneRevisions(rec.id)
+  }
+
+  /** Remembers a refused change (replacing an older entry for the same record). */
+  function keepRefused(p: Prepared, code: string, missing: string[], at: string): void {
+    const list = readRefused(deps.sync).filter((x) => !(x.kind === p.item.kind && x.recId === p.item.recId))
+    list.push({ kind: p.item.kind, recId: p.item.recId, code, missing, at })
+    deps.sync.set(REFUSED_STATE_KEY, JSON.stringify(list.slice(-REFUSED_KEEP_MAX)))
   }
 
   async function sendBatch(transport: SharedStoreTransport, c: { license: string; branchId: string }, batch: Prepared[], r: PushRunResultV2, tried: Set<number>): Promise<void> {
@@ -167,7 +199,11 @@ export function createPushWorkerV2(deps: PushWorkerV2Deps, opts: PushWorkerV2Opt
       const out = res[i]
       if (!out || out.recId !== p.item.recId || out.kind !== p.item.kind) throw new Error('The server answered a different list than was sent.')
       records.transaction(() => {
-        if (out.outcome === 'lost') {
+        if (out.outcome === 'refused') {
+          keepRefused(p, out.code ?? 'Q3P01', out.missing ?? [], at)
+          r.refused++
+          log.warn('The main branch did not accept a Price List change', { kind: p.item.kind, code: out.code ?? 'Q3P01', missing: out.missing ?? [] })
+        } else if (out.outcome === 'lost') {
           keepLoser(p)
           r.lost++
         } else {
@@ -183,7 +219,7 @@ export function createPushWorkerV2(deps: PushWorkerV2Deps, opts: PushWorkerV2Opt
   }
 
   async function run(): Promise<PushRunResultV2> {
-    const r: PushRunResultV2 = { sent: 0, accepted: 0, noop: 0, won: 0, lost: 0, failedAttempts: 0, poisoned: 0, block: 'idle' }
+    const r: PushRunResultV2 = { sent: 0, accepted: 0, noop: 0, won: 0, lost: 0, refused: 0, failedAttempts: 0, poisoned: 0, block: 'idle' }
     lastRunAt = now().toISOString()
     const tracker = createProgressTracker('send', deps.progress ?? (() => undefined))
     const tried = new Set<number>()
@@ -242,7 +278,7 @@ export function createPushWorkerV2(deps: PushWorkerV2Deps, opts: PushWorkerV2Opt
   function runOnce(): Promise<PushRunResultV2> {
     if (current) return current
     current = run()
-      .catch((e): PushRunResultV2 => { lastError = errText(e); return { sent: 0, accepted: 0, noop: 0, won: 0, lost: 0, failedAttempts: 0, poisoned: 0, block } })
+      .catch((e): PushRunResultV2 => { lastError = errText(e); return { sent: 0, accepted: 0, noop: 0, won: 0, lost: 0, refused: 0, failedAttempts: 0, poisoned: 0, block } })
       .finally(() => { current = null; schedule() })
     return current
   }

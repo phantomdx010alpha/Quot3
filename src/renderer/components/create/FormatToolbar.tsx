@@ -1,4 +1,4 @@
-import { Drop, HighlighterCircle, TextB, TextAa, Eraser } from '@phosphor-icons/react'
+import { Drop, HighlighterCircle, TextB, TextAa, TextAUnderline, Eraser } from '@phosphor-icons/react'
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react'
 import { primaryKeys } from '@shared/shortcuts'
 import type { FormatKind } from '@shared/richtext/format'
@@ -32,6 +32,9 @@ export function FormatToolbar(): React.JSX.Element {
       })}
       <IconButton icon={TextAa} label="Format palette" text={toolbarName('grid.formatPalette')} {...(primaryKeys('grid.formatPalette') ? { shortcut: primaryKeys('grid.formatPalette') as string } : {})} tabIndex={-1} disabled={!hasGrid}
         onMouseDown={(e) => e.preventDefault()} onClick={() => useGridUiStore.getState().openFormatPalette?.()} />
+      {/* Phase 234 (M23): item names UPPER <-> lower (selected rows, else the whole bill). */}
+      <IconButton icon={TextAUnderline} label="Item names: UPPER / lower case" text={toolbarName('grid.caseNames')} {...(primaryKeys('grid.caseNames') ? { shortcut: primaryKeys('grid.caseNames') as string } : {})} tabIndex={-1} disabled={!hasGrid}
+        onMouseDown={(e) => e.preventDefault()} onClick={() => { const st = useGridUiStore.getState(); st.caseNames?.(); st.refocus?.() }} />
     </div>
   )
 }

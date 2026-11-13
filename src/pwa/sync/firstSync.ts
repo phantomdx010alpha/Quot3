@@ -1,9 +1,13 @@
 import { RECORD_KINDS, type RecordKind } from '../../shared/sync/codecV2'
+import { isPriceKind } from '../../shared/sync/priceListRecords'
 import { planSync, planCounts, type LocalEntry, type PlanCounts, type RemoteEntry, type SyncPlan } from '../../shared/sync/diff'
 import { createProgressTracker, type SyncProgress } from '../../shared/sync/progress'
 import { cursorAfterCompare } from '../../shared/sync/pull'
 import { txDone, type PhoneDb } from '../data/db'
 import { ensureClockOffset } from './clock'
+import type { PriceSyncInfo } from './priceSyncWords'
+import { SERVER_MISSING_KEY } from './priceSyncWords'
+import { toSyncFailure } from './errors'
 import { listLocalHashes } from './encode'
 import { enqueueManyTx, type EnqueueItem } from './outbox'
 import { listStates, putStateTx } from './recordState'
@@ -29,7 +33,7 @@ import { PHONE_MANIFEST_PAGE, type PhoneManifestRow, type PhoneSharedPort } from
  *    time, not the download itself [A]. "Load older bills" (`requestOlderBills`) lifts the floor and pulls again.
  * Phone customers: kinds `party_merge` and `party` come first, so a bill never lands before its customer. `item_rule` records are not part of the phone.
  */
-export const PHONE_RECORD_KINDS: readonly RecordKind[] = RECORD_KINDS.filter((k) => k !== 'item_rule')
+export const PHONE_RECORD_KINDS: readonly RecordKind[] = RECORD_KINDS.filter((k) => k !== 'item_rule') // Phase 244: the four Price List kinds are part of the phone compare
 
 /** [A] unconfirmed estimates of what one record costs on the phone (rows, JSON, revision snapshot). Not measured on a real phone. */
 export const EST_BILL_BYTES = 8 * 1024
@@ -77,6 +81,8 @@ export interface FirstSyncPreview {
   plans: { kind: RecordKind; counts: PlanCounts }[]
   totals: PlanCounts
   assessment: FirstSyncAssessment
+  /** Phase 248: the Price List part of the compare (counts only), for the plain-words line. */
+  priceList: PriceSyncInfo
   /** Opaque: pass it back to `applyFirstSync`. */
   token: PreparedFirstSync
 }
@@ -130,11 +136,20 @@ export async function prepareFirstSync(deps: FirstSyncDeps): Promise<FirstSyncPr
   const localByKind = new Map<RecordKind, Map<string, { deleted: boolean; revision: number }>>()
   const stateByKind = new Map<RecordKind, Map<string, { baseVersion: number; baseHash: string; serverSeq: number; syncedAt: string | null }>>()
   let highestSeq = 0
+  let priceMissing = false
   let first = true
   let examined = 0
   try {
     for (const kind of PHONE_RECORD_KINDS) {
-      const remote = await manifestOf(port, creds, kind)
+      let remote: RemoteEntry[]
+      try {
+        remote = await manifestOf(port, creds, kind)
+      } catch (e) {
+        // Phase 244: a server that has not run 18_price_list.sql refuses the Price List kinds (`invalid_input`). Bills and customers must still sync:
+        // the kind is left out of this compare (an empty plan, nothing written for it). Never for other kinds.
+        if (isPriceKind(kind) && toSyncFailure(e).kind === 'invalid_input') { priceMissing = true; plansByKind.set(kind, planSync([], [])); localByKind.set(kind, new Map()); stateByKind.set(kind, new Map()); continue }
+        throw e
+      }
       const local = await listLocalHashes(db, kind, { offsetMs, appVer: deps.appVer })
       const states = new Map((await listStates(db, kind)).map((s) => [s.recId, s]))
       const entries: LocalEntry[] = local.map((l) => ({ recId: l.recId, hash: l.hash, baseVersion: states.get(l.recId)?.baseVersion ?? 0, baseHash: states.get(l.recId)?.baseHash ?? null }))
@@ -156,8 +171,10 @@ export async function prepareFirstSync(deps: FirstSyncDeps): Promise<FirstSyncPr
   const billPlan = plansByKind.get('bill') as SyncPlan
   const partyPlan = plansByKind.get('party') as SyncPlan
   const assessment = assessFirstSync(billPlan.download.length, partyPlan.download.length, await (deps.storage ?? defaultStorage)())
+  const priceCounts = plans.filter((p) => isPriceKind(p.kind)).reduce((a, p) => ({ download: a.download + p.counts.download, upload: a.upload + p.counts.upload }), { download: 0, upload: 0 })
+  const priceList: PriceSyncInfo = { available: !priceMissing, ...priceCounts }
   const billDownloadSeqsDesc = billPlan.download.map((d) => d.serverSeq).sort((a, b) => b - a)
-  return { plans, totals, assessment, token: { plansByKind, localByKind, stateByKind, highestSeq, billDownloadSeqsDesc } }
+  return { plans, totals, assessment, priceList, token: { plansByKind, localByKind, stateByKind, highestSeq, billDownloadSeqsDesc } }
 }
 
 export interface FirstSyncResult {
@@ -206,7 +223,7 @@ export async function applyFirstSync(deps: Pick<FirstSyncDeps, 'db' | 'now'>, pr
       }
       const queue = (recId: string): void => {
         const l = locals?.get(recId)
-        if (kind === 'bill' || kind === 'party') toQueue.push({ kind, recId, op: l?.deleted ? 'delete' : 'upsert', revision: l?.revision ?? 0 })
+        if (kind === 'bill' || kind === 'party' || isPriceKind(kind)) toQueue.push({ kind, recId, op: l?.deleted ? 'delete' : 'upsert', revision: l?.revision ?? 0 })
       }
       for (const u of plan.upload) { build(u.recId, u.baseVersion, 0); queue(u.recId) }
       for (const c of plan.conflict) { build(c.recId, c.baseVersion, c.serverSeq); queue(c.recId); want(c.serverSeq) }
@@ -221,6 +238,7 @@ export async function applyFirstSync(deps: Pick<FirstSyncDeps, 'db' | 'now'>, pr
     setRawTx(tx, SYNC_META.floorSeq, floorSeq)
     setRawTx(tx, SYNC_META.deferredBills, deferred)
     setRawTx(tx, SYNC_META.compareDone, at)
+    setRawTx(tx, SERVER_MISSING_KEY, !preview.priceList.available) // Phase 248: lets the status screen keep saying "no Price List on this server"
     await done
     return { queued: toQueue.length, skipped, cursor, deferredBills: deferred, floorSeq }
   } catch (e) {

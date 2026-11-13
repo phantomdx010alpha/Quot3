@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactElement } from 'react'
 import { getBill } from '../../../data/billsRepo'
 import { findRecoverable } from '../../editor/editorIo'
 import { Button } from '../../kit/Button'
+import { PriceListEntry } from '../../kit/PriceListParts'
 import { loadShareDefaults, shareBillNow } from './guidedShare'
 import { requestContinueDraft } from './guidedStep'
 import type { ScreenProps } from '../types'
@@ -51,6 +52,7 @@ export function GuidedHome(props: ScreenProps): ReactElement {
         <Plus size={28} weight="bold" aria-hidden="true" /><span>New bill</span>
       </button>
       {hasDraft ? <Button label="Continue draft" onClick={() => { requestContinueDraft(); props.onNavigate('create') }} /> : null}
+      <PriceListEntry db={db} onOpen={() => props.onNavigate('pricelist')} />
       <section aria-label="Today">
         <h2 className="q3x-tidy-h2 q3x-tidy-day"><span>Today</span><span>{billsWord(view.today.count)} {'·'} {view.today.total}</span></h2>
         {todays.length === 0 ? <p className="q3-muted">No bills yet today.</p> : (

@@ -2,6 +2,8 @@ import type { BillRepo } from '../db/billRepo'
 import type { RemoteApplyRepo } from '../db/remoteApplyRepo'
 import type { OutboxRepo } from '../db/outboxRepo'
 import type { ItemRulesRepo } from '../db/itemRulesRepo'
+import type { PriceListRepo } from '../db/priceListRepo'
+import { PRICE_DATA_KEY, isPriceKind, type PriceRec } from '../../shared/sync/priceListRecords'
 import type { Logger } from '../logger'
 import { partySnapshotSchema, type BillRecord, type BillRowRecord } from '../../shared/billModel'
 import { normalizePartyName } from '../../shared/party/partyLite'
@@ -47,6 +49,8 @@ export interface RecordApplierV2Deps {
   bills: Pick<BillRepo, 'getRecord' | 'getRows'>
   outbox: Pick<OutboxRepo, 'dropUnsent'>
   itemRules?: Pick<ItemRulesRepo, 'get' | 'applyRemote'>
+  /** Phase 241: the Price List (records of the four price kinds; never written to the outbox). */
+  priceList?: Pick<PriceListRepo, 'applyRemote'>
   localBranchId: () => string
   /** Branches known from the server (for a bill from a branch this computer has not seen yet). */
   branches: () => readonly SharedBranch[]
@@ -179,6 +183,14 @@ export function createRecordApplierV2(deps: RecordApplierV2Deps, opts: { now?: (
     return deps.itemRules.applyRemote(rule, { at: now().toISOString(), branchId: deps.localBranchId() })
   }
 
+  /** Phase 241: a tier, category, tab or row. Newer version wins; the same version twice changes nothing; nothing is sent back. */
+  function applyPrice(rec: DecodedRecord): ApplyOutcomeV2 {
+    if (!deps.priceList || !isPriceKind(rec.kind)) return 'unsupported'
+    const body = rec.data[PRICE_DATA_KEY[rec.kind]] as { id: string }
+    if (body.id !== rec.recId) throw new Error('The record does not match its Price List id.')
+    return deps.priceList.applyRemote({ kind: rec.kind, rec: body } as PriceRec)
+  }
+
   return {
     apply(rec, ctx) {
       // A record that is set aside (a newer app wrote it) is never overwritten by anything this app receives.
@@ -188,6 +200,7 @@ export function createRecordApplierV2(deps: RecordApplierV2Deps, opts: { now?: (
         case 'party': return applyParty(rec)
         case 'party_merge': return applyMerge(rec)
         case 'item_rule': return applyRule(rec)
+        case 'price_tier': case 'price_category': case 'price_tab': case 'price_row': return applyPrice(rec)
         default: return 'unsupported'
       }
     }

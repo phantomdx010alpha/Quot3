@@ -18,3 +18,9 @@ dist-pwa/
 
 # Phase 222 (M22): local AI model files are fetched by tools/fetch-ai-model.mjs, never committed (about 100+ MB)
 resources/ai-models/
+
+# Milestone 23 (planned 2026-11-12): the legacy price database is private business data; never commit it, never print its contents
+bills_data.db
+bills_data.db-*
+*.legacy-pricelist.db
+docs/reference/legacy_app/bills_data.db

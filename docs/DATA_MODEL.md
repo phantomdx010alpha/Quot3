@@ -176,3 +176,33 @@ Sl.No, per-row total (unless `total_override`), GST amount, amount, items subtot
 Phase 177 as built (`src/pwa/data/partiesRepo.ts`; IndexedDB version stays 1): a `parties` row is the shared `PartyRecord` (camelCase: `id, name, nameNorm, phone, address, transport, createdAt, updatedAt, deletedAt, mergedInto`; blank text is `null`, as in the sync codec) plus the snake_case index field `name_norm` (the `phone` index reads `phone`; null is simply not indexed). A customer is LIVE when `deletedAt` and `mergedInto` are both null. The id of a new customer is `partyRecordId(orgId, nameNorm)` (deterministic, spec section 9) once meta `org_id` is set (Phase 178 writes it; new meta key, default null, no upgrade step); before that it is a random UUID. Meta gained `org_id` only.
 
 Phase 178 as built (no store or index change; IndexedDB version stays 1): `meta` keys `org_id`, `branch_id`, `branch_name`, `po_prefix` are written together in one transaction when the phone is linked; `clock_offset_ms` is written by the clock measurement. New `settings` rows (never exported in a backup): `secret.syncVaultKey` (non-extractable AES-GCM `CryptoKey`), `secret.syncVault` (`{ v: 1, iv, ct }`, base64), `secret.appLockPin` (`{ v: 1, salt, hash, iterations, fails, lockedUntil }`); `appLock.enabled` (Phase 175 key) is set with the PIN.
+
+## Milestone 23 tables (BUILT in Phases 233-248, released as 0.1.55 [A] in Phase 249; desktop migration `0011_price_list.sql`, additive; makes the release notes line `schema: 12`; phone IndexedDB `DB_VERSION` 2, backup `format_version` 2; phone meta keys `pricelist.perms`, `pricelist.refused`, `pricelist.draft`, `pricelist.serverMissing`)
+
+All ids are UUID text (legacy integer ids are never kept). Timestamps follow the other tables. Money-like values inside `cells_json` are canonical decimal strings. Items marked [A] are unconfirmed.
+
+**Desktop SQLite**
+| Table | Columns | Notes |
+|---|---|---|
+| `price_tiers` | `id` pk, `key` unique, `label`, `position`, `created_at`, `updated_at`, `deleted_at`, `branch_id` | seed `cash_wo`, `wholesale_wo`, `cash_gst`, `credit_gst` [A]; user can add more |
+| `price_categories` | `id` pk, `name`, `color` null, `position`, `created_at`, `updated_at`, `deleted_at`, `branch_id`, `updated_by_seat` null | no icon (emoji forbidden) |
+| `price_tabs` | `id` pk, `category_id`, `name`, `position`, `columns_json`, `created_at`, `updated_at`, `deleted_at`, `branch_id`, `updated_by_seat` null | unique active `(category_id, name)`, case / space-insensitive; columns belong to the tab (max 12 [A]) |
+| `price_rows` | `id` pk, `tab_id`, `idx`, `kind` `'item'|'section'`, `name_runs_json`, `name_plain`, `name_norm`, `cells_json`, `created_at`, `updated_at`, `deleted_at`, `branch_id`, `updated_by_seat` null | indexes `(tab_id, idx)`, `(name_norm)` |
+| `price_log` | `id` integer pk autoincrement, `at`, `seat_no` null, `branch_id`, `entity`, `entity_id`, `op`, `path`, `before_json`, `after_json` | local log for PCs without sync (reuse audit conventions) |
+| `price_import_map` | `legacy_key` pk, `row_id`, `source_fingerprint`, `imported_at`, `edited_since_import` | legacy import re-run support (`docs/PRICELIST_IMPORT_SPEC.md`) |
+
+Backup: the SQLite online backup includes these tables automatically (no emptied copy needed). "Start fresh" Level 1 does NOT clear them [A]; Level 2 does; a separate "Clear Price List" with typed confirmation.
+
+**Phone IndexedDB (`quot3-phone`, NEW upgrade step 2; BUILT in Phase 244, `DB_VERSION` 2, backup `format_version` 2):** stores `price_categories`, `price_tabs`, `price_rows`, `price_tiers`, same fields as above (no `price_log`, no `price_import_map`: the log is desktop-only and the import is desktop-only [A]).
+
+**Supabase (`supabase/sql/18_price_list.sql`, PLANNED, NOT RUN):** `sn_records` / `sn_history` accept kinds `price_tier`, `price_category`, `price_tab`, `price_row`; `sn_price_perms(org_id, seat_no, flags jsonb, updated_at, updated_by)`; `sn_price_log(id bigserial, org_id, at, seat_no, branch_id, branch_name, kind, rec_id, op, path, before jsonb, after jsonb)` (no direct grants).
+
+## Price List tables (Phase 236, migration `0011_price_list.sql`; M23)
+**As built:** all ids are UUID text; timestamps ISO-8601 UTC text; soft delete via `deleted_at`; `branch_id` = the branch that last wrote it.
+- `price_tiers(id pk, key UNIQUE, label, position, created_at, updated_at, deleted_at, branch_id)`. Keys are never reused (the unique index includes removed tiers).
+- `price_categories(id pk, name, color null, position, ..., updated_by_seat null)`; unique index on `lower(name)` WHERE `deleted_at IS NULL`.
+- `price_tabs(id pk, category_id, name, position, columns_json, ..., updated_by_seat null)`; unique `(category_id, lower(name))` WHERE `deleted_at IS NULL`; index `(category_id, position)`. `columns_json` = the `PriceColumn[]` of `shared/pricelist/types.ts`.
+- `price_rows(id pk, tab_id, idx, kind item|section, name_runs_json, name_plain, name_norm, cells_json, ..., updated_by_seat null)`; indexes `(tab_id, idx)`, `(name_norm)`. `name_plain` / `name_norm` are derived from the runs by the repo on every write. `cells_json` maps column key -> text (money = canonical decimal string; the name column is not in it).
+- `price_log(id autoincrement, at, seat_no null, branch_id, entity, entity_id, op, path, before_json (unused), after_json)`; `after_json` = `{ deviceKind, changes, count }`. Local only; trimmed by `pricelist.log.retentionDays`.
+- `price_import_map(legacy_key pk, row_id, source_fingerprint, imported_at, edited_since_import)`: empty until Phase 237.
+No foreign keys (soft deletes and later sync tombstones). A category / tab delete soft-deletes its live children with the SAME `deleted_at`; restore brings back exactly those. Not cleared by "Start fresh" Level 1; cleared by Level 2 (new database) and by "Clear Price List" (tiers kept [A]). The backup copies them with the rest of the database.

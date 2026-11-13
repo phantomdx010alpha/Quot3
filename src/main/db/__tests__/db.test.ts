@@ -26,7 +26,7 @@ describe('migrations', () => {
     const t = mk()
     const h = t.handle
     expect(tables(h.sqlite)).toEqual(
-      ['ai_text_vectors', 'audit_log', 'backups', 'bill_revisions', 'bill_rows', 'bills', 'branches', 'drafts', 'import_batches', 'item_rule_log', 'item_rules', 'legacy_watch_activity', 'legacy_watch_bills', 'legacy_watch_files', 'legacy_watch_review', 'parties', 'party_imports', 'party_merge_log', 'party_not_same', 'po_counters', 'settings', 'sync_aside', 'sync_outbox', 'sync_record_state', 'sync_state']
+      ['ai_text_vectors', 'audit_log', 'backups', 'bill_revisions', 'bill_rows', 'bills', 'branches', 'drafts', 'import_batches', 'item_rule_log', 'item_rules', 'legacy_watch_activity', 'legacy_watch_bills', 'legacy_watch_files', 'legacy_watch_review', 'parties', 'party_imports', 'party_merge_log', 'party_not_same', 'po_counters', 'price_categories', 'price_import_map', 'price_log', 'price_rows', 'price_tabs', 'price_tiers', 'settings', 'sync_aside', 'sync_outbox', 'sync_record_state', 'sync_state']
     )
     expect(getUserVersion(h.sqlite)).toBe(h.schemaVersion)
     expect(h.schemaVersion).toBeGreaterThanOrEqual(1)

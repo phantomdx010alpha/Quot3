@@ -2192,3 +2192,192 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Key files:** only the listed ones, `PHASE_STATUS.md`.
 **Version:** no bump by itself; the owner may ship it with the next release.
 **How to verify:** typecheck once; the named tests of the touched code; NO FULL TEST SUITE.
+
+## MILESTONE 23 — Price List, billing auto-rate, seat permissions, activity log, auto red-bold, case button (Phases 233–250)
+**Planned 2026-11-12** (docs only). Design: `docs/MILESTONE23_DESIGN.md` (binding); legacy import: `docs/PRICELIST_IMPORT_SPEC.md`; rules: `CLAUDE_MUST_READ.md` section 10r. Renumber if Phase 188 ships 0.2.0 first.
+**Exit criteria:** the owner can build a Price List of any shape (categories, tabs, per-tab columns, rows) and edit it with the bill grid's own keyboard feel, on desktop and phone; legacy data imports from `bills_data.db` (inventory tables only); in Create/Edit the rate fills itself on leaving an item cell (or shows only a compact strip, or is off), per format tier, never over a typed rate; seat 1 grants other seats Price List rights, enforced on the server; seat 1 alone can view who changed what; "by hand" turns red + bold by itself (toggle); a button turns item names UPPER/lower; with everything off the app behaves exactly as 0.1.52. Desktop and phone. Phase 188 and Phase 69 remain separate.
+**Standing rules for every Phase 233-250:** section 10r; edits to shared files small, additive, tests updated not deleted; contract first in `API_CONTRACTS.md`; no full test suite; list what you ran and did NOT run; [A] items stated; Phase 92 selector rule; tokens only; Phosphor only; no emoji; money decimal strings; real Windows / Android / Supabase never "verified".
+
+| # | Title | Version |
+|---|---|---|
+| 233 | Auto red-bold phrases ("by hand") | release 0.1.53 [A] |
+| 234 | Case button (UPPER / lower) | release 0.1.54 [A] |
+| 235 | Price List foundations: contract, settings keys, shared pure core | no bump |
+| 236 | Desktop storage: migration 0011, repo, service, IPC, trash, backup/wipe rules, local log | no bump |
+| 237 | Legacy importer + preview (Settings) | no bump |
+| 238 | Desktop Price List page: grid, tabs, categories, columns dialog, shortcuts, palette, nav, tile, Settings section | no bump |
+| 239 | Bulk tools, search, export/share | no bump |
+| 240 | Billing integration: strip, auto-fill, modes, settings | no bump |
+| 241 | Supabase `18_price_list.sql` + desktop sync of the four kinds | no bump |
+| 242 | Seat permissions (server check, seat-1 UI, enforcement, aside) | no bump |
+| 243 | Activity log (seat 1 only) | no bump |
+| 244 | Phone data layer: IndexedDB step, sync, backup | no bump |
+| 245 | Phone Price List: browse + search (read-only) in the three new layouts, Dashboard entry, phone settings mirrors | no bump |
+| 246 | Phone Price List: editing (cell edit, add item, add / rename tab and category) subject to the seat's flags | no bump |
+| 247 | Phone bill features: "by hand" (233), case button (234), price strip + auto-fill (240) in the new layouts' bill editor | no bump |
+| 248 | Phone sync UX and hardening: Price List in first sync / status, offline revoke, storage and backup notes, three-layout parity sweep | no bump |
+| 249 | Milestone 23 QA gate (release gate) | 0.1.55 [A] |
+| 250 | Fix pack from the owner's report (only if needed) | no bump |
+
+## Phase 233 — Auto red-bold phrases ("by hand")
+**Goal:** Typing or pasting a configured phrase (default "by hand") anywhere in an item name turns exactly that text red + bold by itself. Toggleable, ON by default [A]. Independent of the Price List.
+**Depends on:** Phase 232 state (0.1.52 zip). Design 4.6.
+**In scope:** `shared/richtext/autoRedBold.ts` (pure; tests: start / middle / end, case-insensitive, whole word only, multiple spaces count as one, paste, idempotent, a manual "Clear formatting" on that range sticks, `when` modes); settings `bill.autoRedBold.{enabled,phrases,when}` (defaults `true`, `['by hand']`, `'word'` [A]) + zod schema + default tests; wiring into the item-name cell edit path as ONE undo step with the typing; Settings > Behaviour controls (editable phrase list). Saved bills are never rewritten on open. Phone wiring is Phase 247.
+**Out of scope:** the Price List; any schema, sync, print or backup change; phone UI.
+**Key files:** `src/shared/richtext/autoRedBold.ts` (+ test), `src/shared/richtext/runs.ts` (read), `src/shared/settings.ts`, the Create grid edit path, Settings Behaviour section, `API_CONTRACTS.md`, `PHASE_STATUS.md`.
+**Version:** release 0.1.53 [A] (`package.json` + both spots in `package-lock.json`; follow `GITHUB_UPDATE_PUSH.md`).
+**How to verify:** typecheck once; the new test, the `richtext` tests, settings default/schema tests, `gridEdit` / undo tests that could conflict, `shortcuts`, `importBoundaries`. NO FULL TEST SUITE.
+
+## Phase 234 — Case button (UPPER / lower)
+**Goal:** A button in the Create / Edit window turns the item names of the bill UPPER or lower (cycle), preserving bold / red / highlight runs. Independent of the Price List.
+**Depends on:** Phase 233. Design 4.7.
+**In scope:** `shared/richtext/caseTransform.ts` (run-preserving, Unicode-safe incl. length-changing cases like "ß"; tests); toolbar button in Create / Edit; registered action + shortcut + palette entry (must pass the shortcuts conflict test); scope = item-name column of all rows, selected rows when a range is selected [A]; Hybrid second table rows included [A]; ONE undo step; in History edit it is a normal edit and creates a revision. Other columns are never touched.
+**Out of scope:** phone UI (Phases 245-248); Title Case beyond an optional extra mode.
+**Key files:** `src/shared/richtext/caseTransform.ts` (+ test), `src/shared/shortcuts.ts`, `src/shared/shortcutList.ts`, Create toolbar, `API_CONTRACTS.md`, `PHASE_STATUS.md`.
+**Version:** release 0.1.54 [A].
+**How to verify:** typecheck; the new test, `shortcuts`, `hybrid` and the bill-edit tests touched. NO FULL TEST SUITE.
+
+## Phase 235 — Price List foundations: contract, settings keys, shared pure core
+**Goal:** All pure logic and contracts for the Price List, before any storage or UI.
+**Depends on:** Phases 233-234 (or independent; no code dependency). Design 4.1-4.5, 4.8, 7.
+**In scope:** `src/shared/pricelist/*` (`types`, `columns`, `tiers`, `structure`, `rows`, `bulk`, `match`, `autofill` state machine, `perms` diff → required flag, `logEntry`, `csv`), all unit tested with invented names; settings keys + zod schema + defaults (`pricelist.enabled`, `pricelist.billing.*`, `pricelist.log.*`, `pricelist.defaultColumns`); `API_CONTRACTS.md` M23-1..M23-6 finalised; docs tweaks found necessary.
+**Out of scope:** storage, IPC, UI, sync.
+**Key files:** `src/shared/pricelist/*`, `src/shared/settings.ts`, `API_CONTRACTS.md`, `DATA_MODEL.md`.
+**Version:** no bump.
+**How to verify:** only the new pure tests + settings tests + `importBoundaries`; typecheck once.
+
+## Phase 236 — Desktop storage
+**Goal:** The Price List persists on the desktop and can be read / written through IPC.
+**Depends on:** Phase 235. Design 7.1, 7.4.
+**In scope:** migration `0011_price_list.sql` (+ journal + Drizzle tables: `price_tiers`, `price_categories`, `price_tabs`, `price_rows`, `price_log`, `price_import_map`); repos (`priceListRepo`, `priceLogRepo`), service, zod IPC (`pricelist:*`), preload `window.quot3.pricelist.*`; trash / restore; the `wipeRules` decision (not cleared by Level 1 [A]; cleared by Level 2; separate "Clear Price List" with typed confirmation); local `price_log` (reuse `auditRepo` conventions); update the migration lists in `db.test.ts`, `itemRules.test.ts`, `syncRecords.test.ts` (they hard-code the migration count).
+**Out of scope:** UI, import, sync, seat permissions.
+**Key files:** `src/main/db/*`, `src/main/services/priceListService.ts`, `src/main/ipc/pricelist.ts`, preload, `src/shared/wipe/wipeRules.ts`, migrations folder.
+**Version:** no bump (the release notes line becomes `schema: 12` at the gate).
+**How to verify:** typecheck; the new repo / service tests, `db`, `itemRules`, `syncRecords`, `backupService`, `wipeRules` tests.
+
+## Phase 237 — Legacy importer + preview
+**Goal:** Import the legacy inventory (categories, tabs, items) into the Price List safely, with a preview first.
+**Depends on:** Phase 236. Design 8; `docs/PRICELIST_IMPORT_SPEC.md`. The owner must attach `bills_data.db` for the real-run check.
+**In scope:** importer per the spec with a SYNTHETIC fixture DB (invented names), read-only open, `inv_*` tables only; preview UI in Settings > Price List (writes nothing); `pre-import` backup first, ONE transaction, one log entry, normal write path (feeds the sync outbox later); re-run safety via `price_import_map`; a local optional script for the real-run check (never in tests).
+**Out of scope:** the Price List page; phone import (the phone gets data by sync).
+**Key files:** `src/main/services/priceListImportService.ts`, Settings Price List section, tests.
+**Version:** no bump.
+**How to verify:** the new importer tests + typecheck. The real `bills_data.db` is never in tests, logs or commits.
+
+## Phase 238 — Desktop Price List page
+**Goal:** The `/pricelist` page: categories, tabs, per-tab columns, rows, edited with the bill grid's own keyboard behaviour.
+**Depends on:** Phases 235-236. Design 4.2; read `docs/reference/KEYBOARD_CELL_RULES.md` first.
+**In scope:** page, grid reuse (`cellNav`, `gridEdit`, `gridModel`, `gridClip`, `moveRows` / `deleteRows`, `undoStack`, `columnWidths`), category side panel, tab strip (× and "+ Tab"), columns dialog, tiers editor, section rows, filters, autosave, shortcuts (registered; candidate keys pass the conflict test [A]), palette entries, `ROUTES` / `PREVIOUS_PAGES` / page-memory + `routes.test.ts` update quoted, Dashboard tile (stored `dash.tiles` without the key reads as default), Settings section "Price List" + the section-count test (17 → 18, say so), density ≥ 20 rows at 1366x768, theme tokens, Phosphor, no emoji.
+**Out of scope:** bulk tools, search, export (239); billing (240).
+**Key files:** `src/renderer/pages/PriceList.tsx`, `src/renderer/components/pricelist/*`, `src/renderer/stores/priceListStore.ts`, `src/shared/shortcuts.ts`, routes, `src/shared/dashboard/live.ts`.
+**Version:** no bump.
+**How to verify:** typecheck; the new page / store tests, `shortcuts`, `routes`, `keyboardAcceptance` (compare to baseline), the settings page test (compare to baseline).
+
+## Phase 239 — Bulk tools, search, export/share
+**Goal:** The Price List power tools.
+**Depends on:** Phase 238. Design 4.2 operations.
+**In scope:** bulk adjust (+%, +amount; column / selection / tab / category) with preview + undo; "fill column from another column by %" (ONE-TIME action, not a live formula); find & replace; name clean-up; global search with jump-to-cell; "no price" and "contains" filters; CSV export; share as image / PDF via the existing pipeline; duplicate warning while typing (safe matcher).
+**Out of scope:** live formulas; billing.
+**Key files:** `src/shared/pricelist/bulk.ts`, `csv.ts`, page components.
+**Version:** no bump.
+**How to verify:** the new tests + typecheck.
+
+## Phase 240 — Billing integration
+**Goal:** In Create / Edit, the Rate cell fills itself from the Price List (or a compact strip only shows the match, or the feature is off).
+**Depends on:** Phases 235-236 (data), 238 recommended. Design 4.3.
+**In scope:** the whole of 4.3: `PriceStrip` component + store with debounce and stale-answer guard like `aiPanelStore`; auto-fill on cell-leave via passive listeners like the M22 panel; never on keystrokes, never when opening a saved bill, never over a hand-typed rate; per-row state `{ rateTouched, autoFilledValue, autoFilledForNameKey }`; re-fill rule; 3 modes (Off / Suggest / Auto, default Auto [A]); one fill = ONE undo step; format → tier mapping from the registry (data, never a format name); Hybrid sides each use their own mapping; stock transfer does nothing; no auto-fill for pasted rows [A]; settings UI; free toggle key [A]. Measure grid latency before/after on an 80-row bill (rule 5.6) and record it; never claim the budget without a measurement.
+**Out of scope:** customer tier (parked); AI; phone UI (Phases 245-248).
+**Key files:** `src/renderer/components/create/PriceStrip.tsx`, `src/renderer/stores/priceStripStore.ts`, `src/shared/pricelist/{match,autofill}.ts`, `src/shared/shortcuts.ts`.
+**Version:** no bump.
+**How to verify:** typecheck; new tests (invented names only), `gridEdit`, `shortcuts`, `importBoundaries`, the Create component tests touched.
+
+## Phase 241 — Supabase `18_price_list.sql` + desktop sync
+**Goal:** The four kinds sync between PCs through the shared notebook.
+**Depends on:** Phases 236, 238. Design 7.2-7.3; copy the `item_rule` path.
+**In scope:** `supabase/sql/18_price_list.sql` (NEVER RUN from the sandbox): extend the kind CHECKs on `sn_records` / `sn_history`, replace the RPC kind lists (`drop function` first where arguments change); static SQL tests; desktop applier / push / pull for `price_tier`, `price_category`, `price_tab`, `price_row`; aside / `min_reader_ver` behaviour; simulation harness cases; checklist G in `docs/SUPABASE_MIGRATIONS.md`.
+**Out of scope:** permissions and log.
+**Key files:** `supabase/sql/18_price_list.sql`, `src/main/sync/priceListApplier.ts`, `recordApplierV2.ts`, `pushWorkerV2.ts`, `pullWorkerV2.ts`, `src/__tests__/supabaseSql.test.ts`.
+**Version:** no bump.
+**How to verify:** `supabaseSql`, `applyV2`, an `itemRuleSync`-style new test, `syncRecords`, `simHarness` users.
+
+## Phase 242 — Seat permissions
+**Goal:** Seat 1 decides who may edit the Price List; enforced on the server.
+**Depends on:** Phase 241. Design 4.4.
+**In scope:** flags `add / edit / overwrite / delete / structure`; server check inside the push RPC; `sn_price_perms`, `qt_price_perms_get / list / set`; error codes `Q3P01 not_allowed`, `Q3P02 seat1_only` with plain-words messages; aside on refusal / revoke; seat-1-only UI "Who can edit"; local read-only states in the Price List UI; no sync = full rights; verify `seat_no` exposure (add as a masked non-secret field if missing).
+**Out of scope:** the activity log (243).
+**Key files:** `supabase/sql` (new numbered file only if 18 was already run), `src/shared/pricelist/perms.ts`, Settings Price List section.
+**Version:** no bump.
+**How to verify:** new tests + `supabaseSql` + typecheck.
+
+## Phase 243 — Activity log (seat 1 only)
+**Goal:** Seat 1 can see who added / edited what in the Price List, when toggled on.
+**Depends on:** Phase 242. Design 4.5.
+**In scope:** server-side log written inside the push RPC; `qt_price_log_list` (seat 1 only); Settings > Price List > Activity visible only on seat 1 and only when `pricelist.log.visible` is on; retention (365 days [A]); CSV export [A]; local log for no-sync PCs (that PC counts as main [A]).
+**Out of scope:** phone viewing of the log (desktop only in M23 [A]).
+**Key files:** `src/main/db/priceLogRepo.ts`, `src/shared/pricelist/logEntry.ts`, Settings.
+**Version:** no bump.
+**How to verify:** new tests + `supabaseSql`.
+
+## Phase 244 — Phone data layer
+**Goal:** The phone stores and syncs the Price List.
+**Depends on:** Phase 241. Design 4.9.
+**In scope:** a NEW IndexedDB upgrade step (never edit step 1): `price_categories`, `price_tabs`, `price_rows`, `price_tiers`; repo; sync encode / decode / apply / outbox / first-sync for the four kinds; backup `STORE_NAMES` + `newer-backup` handling; tests under `src/pwa/__tests__`. Phone code never imports Electron, better-sqlite3 or main.
+**Out of scope:** phone UI (Phases 245-248).
+**Key files:** `src/pwa/data/db.ts`, `src/pwa/data/priceListRepo.ts`, `src/pwa/sync/*`.
+**Version:** no bump.
+**How to verify:** the named pwa tests + `importBoundaries` + `classicParity` (must stay green; snapshot untouched).
+
+## Phase 245 — Phone Price List: browse + search (read-only)
+**Goal:** The phone can open the Price List and find a price, in all three new layouts. Nothing can be changed yet.
+**Depends on:** Phase 244 (data layer; Phase 245 was split on 2026-11-13 because one phase was too big for one session: 245 browse, 246 editing, 247 bill features, 248 hardening).
+**In scope:** Dashboard entry (the bottom nav keeps exactly 5 tabs) to a Price List screen in `tidy` / `guided` / `inbox` via NEW files only: categories, then tabs, then rows with the tab's own columns and tier columns; search box (deterministic matching, not AI: say so in 10r; reuses `shared/pricelist/search.ts` / `match.ts`); a phone read model that turns `priceListRepo` records into the shared grid model (read only); the seat's rights shown with `rightsNotice` (a phone with no rights is "Read only"; reading is always allowed); empty state when nothing has synced yet ("Price List not on this phone yet", with the sync state in plain words); phone settings mirrors in `src/pwa/data/settingsRepo.ts` (the `pricelist.*` keys the phone needs to READ; none written by the phone yet); names / amounts never truncated (M18 rule); tokens only, no emoji, Phosphor icons only.
+**Out of scope:** any edit (Phase 246); the bill editor features (Phase 247); first-sync / status polish (Phase 248); Classic layout changes; column design, bulk and paste (desktop-only [A]); AI.
+**Key files:** `src/pwa/ui/layouts/*` (new files), `src/pwa/ui/kit/*` (new files), `src/pwa/data/priceListRepo.ts` (read helpers only if needed), `src/pwa/data/settingsRepo.ts`.
+**Version:** no bump.
+**How to verify:** new pwa tests (read model, search, empty state, three layouts render the same data, no truncation helper used on names / amounts) + `classicParity` (snapshot untouched), `importBoundaries`, `layoutRegistry`; typecheck once.
+
+## Phase 246 — Phone Price List: editing
+**Goal:** The phone can change the Price List, only as far as the seat's flags allow.
+**Depends on:** Phase 245.
+**In scope:** edit a cell (fill an empty price = `edit`, change an existing price = `overwrite`), add an item (`add`), add / rename a tab or category (`structure`), delete an item (`delete`) with the trash rule of the desktop (soft delete, tombstone), all through `savePriceRecord` / `softDeletePrice` with `withPriceOutbox` so every change is queued and pushed; the flags come from the same seat rights as the desktop (`effectiveFlags`, cached last server answer, none cached = no rights until the first answer [A]); controls the seat may not use are disabled with the plain-words reason (`notAllowedText`); the phone keeps its own small kept-list of refused changes (`pricelist.refused` equivalent in `meta` / `sync_state`, ids and missing rights only, never content) and shows the same note as the desktop; push kick after a save; unsaved-edit safety (draft survives a closed tab, one writer tab rule); names / amounts never truncated; Classic untouched.
+**Out of scope:** column design, price levels, bulk tools, Excel paste, import, export (desktop-only [A]); bill features (247); sync status polish (248).
+**Key files:** new files under `src/pwa/ui/layouts/*` and `src/pwa/ui/kit/*`, `src/pwa/data/priceListRepo.ts`, a small `src/pwa/data/priceRights.ts` (pure, shared rule from `shared/pricelist/perms.ts`).
+**Version:** no bump.
+**How to verify:** new pwa tests (each flag allowed / refused for each control, edit queues exactly one outbox row, refused push is settled and listed without content, two phones converge with the PC by the Phase 244 harness) + `classicParity`, `importBoundaries`, `priceListData244`; typecheck once.
+
+## Phase 247 — Phone bill features: "by hand", case button, price strip + auto-fill
+**Goal:** The three bill features from Phases 233, 234 and 240 work in the phone's new layouts.
+**Depends on:** Phases 233, 234, 240, 245 (the strip and auto-fill read the phone Price List; 246 is not needed).
+**In scope:** "by hand" auto red-bold in the new layouts' bill editor (shared `autoRedBold` function; Phase 233 wired the desktop only); the UPPER / lower case button (shared function of Phase 234); the price strip and auto-fill in `suggest` / `auto` / `off` modes using the shared deterministic matching and the format-tier rule (GST and non-GST); the phone mirrors of the settings (`bill.autoRedBold.*`, case button, `pricelist.billing.*`) in `src/pwa/data/settingsRepo.ts` and its settings screen rows; an auto-filled value is only written into an empty cell and is shown as a suggestion in `suggest` mode; names / amounts never truncated; Classic untouched.
+**Out of scope:** any Price List edit screen (246); Classic bill editor; AI; a rate the person typed is never overwritten.
+**Key files:** new files under `src/pwa/ui/layouts/*` and `src/pwa/ui/kit/*`, `src/pwa/data/settingsRepo.ts`, `src/shared/richtext/autoRedBold.ts` and `src/shared/pricelist/billing.ts` (read only; additive changes only if unavoidable).
+**Version:** no bump.
+**How to verify:** new pwa tests (by hand on type / paste, case button on a selection and on a whole row, strip and auto-fill in each mode and both formats, typed rate never overwritten, settings mirrors) + `classicParity`, `importBoundaries`, the existing editor tests of the three layouts; typecheck once.
+
+## Phase 248 — Phone sync UX and hardening
+**Goal:** The phone's Price List sync is understandable and safe on a real phone, and the three layouts behave the same.
+**Depends on:** Phases 244-247.
+**In scope:** the Price List in the phone's sync status and first-sync screens in plain words (counts, size note, "this server has no Price List yet" when file 18 has not been run); what the phone does when the seat's rights are revoked while offline (the next push is refused, the local change stays and is flagged, no crash, no silent loss); storage size note and backup / restore with the four stores (`format_version` 2; a v1 file still imports); a parity sweep over `tidy`, `guided` and `inbox` (same data, same disabled states, same words, no truncated names / amounts, keyboard-free touch targets per the M18 rules); the Classic decision recorded in `PHASE_STATUS.md` (still untouched unless the owner approved).
+**Out of scope:** new features; Classic layout changes unless the owner approved; anything on a real Supabase or real phone (written as NOT verified).
+**Key files:** `src/pwa/sync/*`, `src/pwa/ui/*` (new files), `src/pwa/data/backup.ts` (only if a gap shows).
+**Version:** no bump.
+**How to verify:** new pwa tests for the cases above + `classicParity`, `importBoundaries`, `syncPushPull`, `priceListData244`; typecheck once.
+
+## Phase 249 — Milestone 23 QA gate (release gate)
+**Goal:** Close M23: reconcile docs, write the owner checklist, release.
+**Depends on:** Phases 233-248.
+**In scope:** typecheck once + the named test files of 233-248; reconcile `PHASE_STATUS.md`, `PROJECT_STRUCTURE.md`, `API_CONTRACTS.md`, `DATA_MODEL.md`, `GITHUB_UPDATE_PUSH.md` (schema 12, Supabase file 18); write `docs/M23_OWNER_CHECKLIST.md` UNFILLED (desktop import, page feel, auto-fill in GST and non-GST, strip mode, off mode, permissions with two seats incl. a phone, log visible only on seat 1, offline revoke, "by hand", case button, grid smoothness measured on a real PC, Supabase checklist G, real Android); bump to 0.1.55 [A] in `package.json` + both spots in `package-lock.json`; hand back changed-files zip + full zip + push steps with the tag. AI-off / Price-List-off = 0.1.52 behaviour, by test.
+**Out of scope:** new features.
+**Key files:** the docs above, `package.json`, `package-lock.json`.
+**Version:** 0.1.55 (release gate [A]).
+**How to verify:** typecheck once + the named test files green, or each failure listed with its cause (compare against the previous zip). NO FULL TEST SUITE unless the owner agrees; real Windows / Android / Supabase never written as "verified".
+
+## Phase 250 — Fix pack from the owner's report (only if needed)
+**Goal:** Fix what the owner found when testing M23.
+**Depends on:** Phase 249 and the owner's filled `docs/M23_OWNER_CHECKLIST.md`. Skip this phase if there is no report.
+**In scope:** only what the report lists. Never loosen the rules of section 10r.
+**Out of scope:** new features.
+**Key files:** only the listed ones, `PHASE_STATUS.md`.
+**Version:** no bump by itself; the owner may ship it with the next release.
+**How to verify:** typecheck once; the named tests of the touched code; NO FULL TEST SUITE.
+

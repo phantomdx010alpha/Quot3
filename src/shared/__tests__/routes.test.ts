@@ -146,3 +146,21 @@ describe('command search', () => {
     expect(fuzzyScore('xyz', 'New bill')).toBe(-1)
   })
 })
+
+// Phase 238 (M23): CHANGE QUOTED. Before: ROUTES had no `pricelist`; isRoutePath('/pricelist') was false. After: ROUTES.pricelist = '/pricelist'
+// is a real page and one of the PREVIOUS_PAGES (it is remembered like History / Items). Every earlier expectation above is unchanged.
+describe('Price List route (Phase 238)', () => {
+  it('is a known route and can be opened and left with Esc', () => {
+    expect(ROUTES.pricelist).toBe('/pricelist')
+    let s = navPush(initialNav(), ROUTES.pricelist)
+    expect(currentPath(s)).toBe(ROUTES.pricelist)
+    s = navBack(s)
+    expect(currentPath(s)).toBe('/')
+  })
+  it('with the previous-page rule on, Price List then Settings keeps Price List as the page to return to', () => {
+    let s = navPush(initialNav(), ROUTES.pricelist, { keepPrevious: true })
+    s = navPush(s, ROUTES.settings, { keepPrevious: true })
+    expect(s.stack).toEqual(['/', '/pricelist', '/settings'])
+    expect(currentPath(navBack(s))).toBe(ROUTES.pricelist)
+  })
+})

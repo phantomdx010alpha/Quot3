@@ -223,7 +223,7 @@ describe('Phase 147: visible toolbar names', () => {
   it('the bottom bar and both top toolbars show a name next to every icon, and keep the tooltip label as aria-label', async () => {
     await mount()
     expect(texts('.q3-bbar')).toEqual(['Undo', 'Redo', 'History', 'Revert', 'Print Rough', 'Print Pro', 'Image Rough', 'Image Pro', 'Copy TSV', 'New', 'Save'])
-    expect(texts('.q3-fmtbar')).toEqual(['Red + Bold', 'Bold', 'Clear', 'Highlight', 'Palette'])
+    expect(texts('.q3-fmtbar')).toEqual(['Red + Bold', 'Bold', 'Clear', 'Highlight', 'Palette', 'Case']) // Phase 234: the Case button
     expect(texts('.q3-colbar')).toEqual(['Add col', 'Remove col', 'Rename col', 'Mark', 'Units', 'Marked calc'])
     // every button in the three bars is named; aria-label (full label) is unchanged
     for (const b of host.querySelectorAll('.q3-bbar button, .q3-fmtbar button, .q3-colbar button')) {

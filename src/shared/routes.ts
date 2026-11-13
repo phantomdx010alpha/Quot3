@@ -6,6 +6,8 @@ export const ROUTES = {
   history: '/history',
   customers: '/customers',
   items: '/items',
+  /** Phase 238 (M23): the Price List page. */
+  pricelist: '/pricelist',
   /** Phase 202 (M19): the Games page (shown only while the setting `games.enabled` is on). */
   games: '/games',
   settings: '/settings',
@@ -48,7 +50,7 @@ export function canGoBack(s: NavState): boolean {
 export const PREVIOUS_PAGE_RULE_DEFAULT = false
 
 /** Pages that can sit underneath as "the previous page" (Esc returns there). Create and the /dev pages never do. */
-const PREVIOUS_PAGES: readonly string[] = [ROUTES.history, ROUTES.customers, ROUTES.items, ROUTES.games, ROUTES.settings]
+const PREVIOUS_PAGES: readonly string[] = [ROUTES.history, ROUTES.customers, ROUTES.items, ROUTES.pricelist, ROUTES.games, ROUTES.settings]
 
 export interface NavPushOptions {
   /** The page is a drill-down opened from the current History / Customers / Items page (a bill): Esc returns there. */

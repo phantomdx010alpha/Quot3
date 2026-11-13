@@ -2,6 +2,7 @@ import { TidyBillView } from '../tidy/TidyBillView'
 import { TidyBills } from '../tidy/TidyBills'
 import { GuidedEditor } from './GuidedEditor'
 import { GuidedHome } from './GuidedHome'
+import { GuidedPriceList } from './GuidedPriceList'
 import { GUIDED_TABS, GuidedShell } from './GuidedShell'
 import { guidedInterceptBack } from './guidedStep'
 import { createElement } from 'react'
@@ -15,7 +16,7 @@ const GuidedBillView = (p: ScreenProps) => createElement(TidyBillView, { ...p, j
 export const guidedLayout: BuiltLayoutDefinition = {
   id: 'guided',
   Shell: GuidedShell,
-  screens: { home: GuidedHome, history: TidyBills, billview: GuidedBillView },
+  screens: { home: GuidedHome, history: TidyBills, billview: GuidedBillView, pricelist: GuidedPriceList },
   Editor: GuidedEditor,
   navItems: GUIDED_TABS.map((t) => ({ route: t.route, label: t.label, Icon: t.Icon })),
   reusesClassic: ['customers', 'customer', 'settings', 'about', 'trash'],

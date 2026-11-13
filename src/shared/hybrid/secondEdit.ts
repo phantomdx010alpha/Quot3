@@ -10,6 +10,7 @@ import { applyCellText } from '../gridEdit'
 import type { GridColumn } from '../gridModel'
 import { toggleMarkCell } from '../extraCols'
 import { runsEqual } from '../richtext/runs'
+import type { AutoRedBoldConfig } from '../richtext/autoRedBold'
 import { deleteItemRows } from '../rows/deleteRows'
 import { moveItemRow } from '../rows/moveRows'
 import type { BillRow, HybridSecond, Id, Runs } from '../types'
@@ -82,7 +83,9 @@ export function editSecondCells(
   t: TwoTables,
   cells: ReadonlyArray<{ rowId: Id; colKey: string; text: string; runs?: Runs }>,
   cols: readonly Pick<GridColumn, 'key' | 'kind' | 'editable' | 'isExtra'>[],
-  display: (rowId: Id, colKey: string) => string
+  display: (rowId: Id, colKey: string) => string,
+  /** Phase 233: auto red-bold settings (absent = off). */
+  autoRedBold?: AutoRedBoldConfig
 ): TwoTables | null {
   const rows = new Map(resolveSecondRows(t.rows, t.hybrid).map((r) => [r.id, r]))
   const patches: RowPatch[] = []
@@ -92,7 +95,7 @@ export function editSecondCells(
     if (!col || !cur) continue
     const patch = c.runs && col.key === 'name'
       ? (runsEqual(c.runs, cur.nameRuns) ? null : { nameRuns: c.runs })
-      : applyCellText(cur, col, c.text, { display: display(c.rowId, c.colKey) })
+      : applyCellText(cur, col, c.text, { display: display(c.rowId, c.colKey), ...(autoRedBold ? { autoRedBold } : {}) })
     if (!patch) continue
     patches.push({ rowId: c.rowId, patch })
     rows.set(c.rowId, { ...cur, ...patch }) // a later cell of the same row sees this one

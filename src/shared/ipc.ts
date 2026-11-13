@@ -6,6 +6,10 @@ import type { BillListItem, HistoryBranch, HistoryDate, HistorySource } from './
 import type { SearchHit } from './history/historySearch'
 import type { DecisionInput, DecisionResult, GroupDetail, GroupSales, ItemsOverview, LastDecisionInfo, OpenTarget, RebuildSummary, UndoOutcome } from './items/api'
 import type { DraftSummary } from './draft'
+import type { ColumnsInput, ColumnsResult, PriceLogPage, PriceLogQuery, PriceTrashEntry, PriceTrashRef, PriceTree, SaveRowsInput, SaveRowsResult, StructureInput, StructureResult, PriceImportRunResult, PriceRightsInfo, PriceSeatRightsRow, PriceActivityAccess, PriceActivityPage, PriceActivityCsv } from './pricelist/api'
+import type { PriceRow } from './pricelist/types'
+import type { PermFlags } from './pricelist/perms'
+import type { ImportPreview } from './pricelist/legacyImport'
 import type { TrashItem } from './trash'
 import type { CustomerInput, CustomerRow } from './customers/customerList'
 import type { DuplicateSuggestion, MergeResult, UndoMergeResult, UnifyResult } from './customers/duplicates'
@@ -456,6 +460,42 @@ export interface Quot3Bridge {
     activityList(): Promise<Result<ActivityItem[]>>
     /** Phase 163: undo one automatic import / update (never a hard delete). VALIDATION when the bill changed since. */
     activityUndo(id: string): Promise<Result<{ message: string; billId: string }>>
+  }
+  pricelist: {
+    /** Phase 236 (M23): tiers, categories and tabs (with columns). The seed tiers are created on first use. */
+    tree(): Promise<Result<PriceTree>>
+    /** The live rows of one tab, in order. */
+    rows(tabId: string): Promise<Result<PriceRow[]>>
+    /** Add / edit / delete rows of one tab in ONE transaction and ONE log entry. */
+    saveRows(input: SaveRowsInput): Promise<Result<SaveRowsResult>>
+    /** Categories, tabs and tiers: add / rename / reorder / move / duplicate / delete (soft, to Trash). */
+    structure(input: StructureInput): Promise<Result<StructureResult>>
+    /** The columns of one tab: add / rename / remove / move / update. */
+    columns(input: ColumnsInput): Promise<Result<ColumnsResult>>
+    /** Deleted categories, tabs and rows (top-level entries). */
+    trash(): Promise<Result<PriceTrashEntry[]>>
+    restore(ref: PriceTrashRef): Promise<Result<{ restored: boolean }>>
+    purge(ref: PriceTrashRef): Promise<Result<{ purged: boolean }>>
+    /** "Clear Price List": needs the typed words CLEAR PRICE LIST; takes a safety backup first. */
+    clear(typed: string): Promise<Result<{ categories: number; tabs: number; rows: number }>>
+    /** The local Price List activity log, newest first. */
+    log(input?: PriceLogQuery): Promise<Result<PriceLogPage>>
+    /** Phase 237: choose the old inventory file (bills_data.db); null = cancelled. The path stays in the main process. */
+    importPick(): Promise<Result<{ sourceId: string; label: string } | null>>
+    /** Phase 237: read-only look at the old inventory against the Price List; writes nothing. */
+    importPreview(sourceId: string): Promise<Result<ImportPreview>>
+    /** Phase 237: pre-import backup, then ONE transaction; safe to run again. */
+    importRun(sourceId: string): Promise<Result<PriceImportRunResult>>
+    /** Phase 242: this PC's Price List rights (no sync = full rights). `refresh` asks the shared notebook first (best effort; offline keeps the last answer). */
+    perms(input?: { refresh?: boolean }): Promise<Result<PriceRightsInfo>>
+    /** Phase 242: every seat with its rights. Seat 1 only (`seat1_only` otherwise). */
+    permsList(): Promise<Result<PriceSeatRightsRow[]>>
+    /** Phase 242: store one seat's rights. Seat 1 only; seat 1's own rights stay all on. */
+    permsSet(input: { seatNo: number; flags: PermFlags }): Promise<Result<PriceSeatRightsRow>>
+    /** Phase 243: the Activity list (seat 1, or a PC without sync). */
+    activityAccess(): Promise<Result<PriceActivityAccess>>
+    activity(input?: PriceLogQuery): Promise<Result<PriceActivityPage>>
+    activityCsv(): Promise<Result<PriceActivityCsv>>
   }
   items: {
     /** Phase 110: groups (light rows), families, not-items and totals; brings the index up to date first. */

@@ -1,6 +1,6 @@
 /** Tiny in-memory router for the phone shell (Phase 174). Pure: no DOM, no history API (an installed app has no URL bar).
  *  Later phases add route names here; the stack never goes behind the first entry. */
-export type RouteName = 'home' | 'history' | 'create' | 'customers' | 'settings' | 'about' | 'billview' | 'trash' | 'customer'
+export type RouteName = 'home' | 'history' | 'create' | 'customers' | 'settings' | 'about' | 'billview' | 'trash' | 'customer' | 'pricelist'
 
 /** The five bottom-navigation destinations (Phase 180). `home` is the Dashboard and the root: Back never goes behind it. */
 export const TAB_ROUTES = ['home', 'history', 'create', 'customers', 'settings'] as const satisfies readonly RouteName[]

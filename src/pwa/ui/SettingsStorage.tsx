@@ -6,6 +6,7 @@ import { resetPhoneData } from '../data/resetData'
 import { getSetting } from '../data/settingsRepo'
 import { formatBytes, readStorageHealth, requestPersistence, type StorageEnv, type StorageHealth } from '../platform/storage'
 import { plainText } from './kit/plainWords'
+import { PriceStorageNote } from './PriceSyncLines'
 import { lastExportText, nextResetStep, type ResetStep } from './settingsModel'
 
 function browserDownload(blob: Blob, name: string): void {
@@ -36,6 +37,7 @@ export function SettingsStorage(props: {
   const [pendingImport, setPendingImport] = useState<File | null>(null)
   const [reset, setReset] = useState<ResetStep>('idle')
   const [busy, setBusy] = useState(false)
+  const [noteTick, setNoteTick] = useState(0)
   const env = props.storageEnv ?? (typeof navigator !== 'undefined' ? (navigator as StorageEnv) : {})
   const nowDate = (): Date => (props.now ? props.now() : new Date())
 
@@ -57,7 +59,7 @@ export function SettingsStorage(props: {
     try {
       const f = await exportBackup(db, { appVersion: props.version, now: props.now })
       ;(props.download ?? browserDownload)(f.blob, f.fileName)
-      setNote(`Backup saved to your downloads (${f.counts.bills ?? 0} bills, ${f.counts.parties ?? 0} customers).`)
+      setNote(`Backup saved to your downloads (${f.counts.bills ?? 0} bills, ${f.counts.parties ?? 0} customers${props.plain ? `, ${f.counts.price_rows ?? 0} Price List rows` : ''}).`)
       await refresh()
     } catch (e) { setError(msg(e)) } finally { setBusy(false) }
   }
@@ -68,8 +70,9 @@ export function SettingsStorage(props: {
     setBusy(true); setError(null); setNote(null)
     try {
       const r = await importBackup(db, file, props.now)
-      setNote(`Backup restored (${r.counts.bills ?? 0} bills, ${r.counts.parties ?? 0} customers).`)
+      setNote(`Backup restored (${r.counts.bills ?? 0} bills, ${r.counts.parties ?? 0} customers${props.plain ? `, ${r.counts.price_rows ?? 0} Price List rows` : ''}).`)
       props.onChanged?.()
+      setNoteTick((n) => n + 1)
       await refresh()
     } catch (e) { setError(msg(e)) } finally { setPendingImport(null); setBusy(false) }
   }
@@ -94,6 +97,7 @@ export function SettingsStorage(props: {
       <div className="q3-row"><span>Kept by the browser</span><span>{yn(health?.persisted ?? null)}</span></div>
       <div className="q3-row"><span>Used</span><span>{formatBytes(health?.usageBytes ?? null)} of {formatBytes(health?.quotaBytes ?? null)}</span></div>
       <div className="q3-row"><span>{props.plain ? plainText('Last export') : 'Last export'}</span><span>{lastExportText(lastExport, nowDate())}</span></div>
+      {props.plain ? <PriceStorageNote db={db} refreshKey={noteTick} /> : null}
       {health?.persisted === false && health.persistApiAvailable ? (
         <button type="button" className="q3-btn" disabled={!canWrite} onClick={() => void requestPersistence(env).then(refresh)}>Ask the browser to keep my data</button>
       ) : null}

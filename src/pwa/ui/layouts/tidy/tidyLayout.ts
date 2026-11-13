@@ -2,6 +2,7 @@ import { TidyBillView } from './TidyBillView'
 import { TidyBills } from './TidyBills'
 import { TidyEditor } from './TidyEditor'
 import { TidyHome } from './TidyHome'
+import { TidyPriceList } from './TidyPriceList'
 import { TIDY_TABS, TidyShell } from './TidyShell'
 import type { BuiltLayoutDefinition } from '../types'
 
@@ -10,7 +11,7 @@ import type { BuiltLayoutDefinition } from '../types'
 export const tidyLayout: BuiltLayoutDefinition = {
   id: 'tidy',
   Shell: TidyShell,
-  screens: { home: TidyHome, history: TidyBills, billview: TidyBillView },
+  screens: { home: TidyHome, history: TidyBills, billview: TidyBillView, pricelist: TidyPriceList },
   Editor: TidyEditor,
   navItems: TIDY_TABS.map((t) => ({ route: t.route, label: t.label, Icon: t.Icon })),
   reusesClassic: ['customers', 'customer', 'settings', 'about', 'trash']

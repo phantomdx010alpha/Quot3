@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { defaultWipeOptions, isWipeConfirm, isWipeSafetyFile, normaliseWipeOptions, parsePoStart } from '../wipeRules'
+import { LEVEL1_TABLES, PRICE_LIST_TABLES, defaultWipeOptions, isWipeConfirm, isWipeSafetyFile, normaliseWipeOptions, parsePoStart, wipeClearsPriceList } from '../wipeRules'
 import { backupKindOf, isSafeBackupFile } from '../../backup/backupRules'
 import { PUBLISHER, PUBLISHER_EMAIL, PUBLISHER_NAME, publisherMailto } from '../../appInfo'
 
@@ -31,5 +31,13 @@ describe('wipeRules (Phase 90)', () => {
     expect(PUBLISHER_EMAIL).toBe('phantomdx9@gmail.com')
     expect(PUBLISHER).toBe('Quot3')
     expect(publisherMailto()).toBe('mailto:phantomdx9@gmail.com?subject=Quot3%20feedback')
+  })
+})
+
+describe('wipeRules: Price List (Phase 236 [A])', () => {
+  it('Level 1 never touches a Price List table; only Level 2 (a new database) clears it', () => {
+    for (const t of PRICE_LIST_TABLES) expect(LEVEL1_TABLES as readonly string[]).not.toContain(t)
+    expect(wipeClearsPriceList(1)).toBe(false)
+    expect(wipeClearsPriceList(2)).toBe(true)
   })
 })

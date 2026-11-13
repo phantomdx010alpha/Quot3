@@ -68,7 +68,7 @@ When handing off the zip, the owner uses exactly this prompt (replace NN with th
 
 ---
 
-You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, PLANNED 2026-10-21, see section 10l; Milestone 18 = the phone UI layouts, Phases 189-196, PLANNED 2026-10-22, see section 10m) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
+You are working inside **Quot3** — a Windows-only, local-first, keyboard-first desktop quotation application, built incrementally across 188 phases (Milestones 14-16 = Phases 145-172, built; Milestone 17 = the phone PWA, Phases 173-188, PLANNED 2026-10-21, see section 10l; Milestone 18 = the phone UI layouts, Phases 189-196, PLANNED 2026-10-22, see section 10m; Milestone 23 = Phases 233-250, PLANNED 2026-11-12, see section 10r) (Phases 70–91 = Milestone 8, 92–106 = Milestone 9, 107–115 = Milestone 10, 116–127 = Milestone 11, 128–143 = Milestone 12 and 144 = Milestone 13, executed before the release gate Phase 69), each completed in a separate Claude.ai session. You are *one* of those sessions. This document is the contract for how you behave. Read it fully before opening any other file.
 
 ---
 
@@ -473,6 +473,23 @@ Read `docs/MILESTONE22_DESIGN.md` (then `docs/ITEM_SORTER_SPEC.md`) before any P
 - **Versions:** Phase 231 is the milestone release gate (0.1.51 [A], or 0.1.50 if the owner releases M21 and M22 together); Phase 223 adds one dependency (exact pin, recorded in `DEPENDENCY_VERSIONS.md`) without a version bump; the other phases do NOT bump or tag.
 - **TESTING RULE (owner's standing rule): DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files; no build, no dev server; list what you ran and what you did not.
 - The real model, real speed, memory, the packaged install and match quality on real item names are never "verified" from the sandbox; they go in `docs/M22_OWNER_CHECKLIST.md` (written in Phase 231). Items marked [A] are unconfirmed (`MILESTONE22_DESIGN.md` section 12); say so in every phase log.
+
+## 10r. Milestone 23 supersessions (Phases 233-250, releases from 0.1.53 [A]): Price List, billing auto-rate, seat permissions, activity log, auto red-bold, case button
+
+Read `docs/MILESTONE23_DESIGN.md` (then `docs/PRICELIST_IMPORT_SPEC.md`) before any Phase 233-250. Everything in 10q still holds. Phase 188 and Phase 69 are separate and still run.
+- The Price List supersedes the "no item catalogue / price list" line in MASTERPLAN. Bills stay free text: the Price List is optional and billing works exactly as before when it is off or empty.
+- Rows are data: columns, tiers, categories and tabs are user data; billing asks for a TIER by key and the format → tier mapping is a setting keyed by registry format id. Never branch on a format name (rule 4.4).
+- Money is decimal strings only (rule 4.3). A fill goes through the normal grid edit command, one undo step, only on leaving an item cell, never on keystrokes, never when opening a saved bill, never over a rate the owner typed.
+- Matching is deterministic and uses protected tokens (10e/10q); **no AI model** is used for the Price List. 10q's "the AI never fills a cell" is about the AI only; the owner explicitly wants this deterministic auto-fill (2026-11-12).
+- **Scoped exception to "all branches are equal" (10g): seat 1 is the main branch for the Price List ONLY** (grants edit rights to other seats; sole reader of the Price List activity log). Enforced on the server by RPC; bills, customers and all other data stay equal. Seat 1 cannot lose its rights. No Price List permission applies when shared sync is off.
+- Activity log authorship is written server-side inside the push RPC, never taken from the client; only seat 1 can read it.
+- Auto red-bold and the case button change run data / text only (no schema, no sync or print change) and are one undo step each.
+- Legacy import reads ONLY the `inv_*` tables, never `bills`; the legacy DB is private business data (never commit, log or embed; tests use invented names); Phase 237 needs the owner to attach `bills_data.db`.
+- One additive desktop migration `0011_price_list.sql` (release notes line becomes `schema: 12`); one new numbered Supabase file `18_price_list.sql` (never edit one that was run); the phone gets a new IndexedDB upgrade step (never edit a shipped step).
+- Classic phone layout and its pinned files (`ui.css`, `tokens.css`, `themes.css`, `pwa.css`, DOM snapshot) are not touched without the owner's approval; new phone screens go in the new layouts (`tidy`, `guided`, `inbox`). The phone has no AI; the Price List matching is deterministic, not AI.
+- Never run anything against a real Supabase; "works on Supabase", the real phone, real Windows behaviour, grid smoothness with the strip on, are never "verified" from the sandbox: Standing gaps (`docs/M23_OWNER_CHECKLIST.md`, written in Phase 249).
+- **TESTING RULE (owner's standing rule): DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files; no build, no dev server. Known pre-existing failures (compare against the previous zip before calling anything a regression): `keyboardAcceptance.test.ts` (2), `settingsPage.test.ts` (6), one `historyPage.test.ts` case, `indexer.test.ts` fixtures (see the Phase 230/231 logs).
+- Items marked [A] are unconfirmed (`MILESTONE23_DESIGN.md` section 11); say so in every phase log.
 
 ## 11. Before you finish — checklist
 

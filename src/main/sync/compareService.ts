@@ -2,6 +2,7 @@ import type { SyncRecordRepo } from '../db/syncRecordRepo'
 import type { SyncStateRepo } from '../db/syncStateRepo'
 import type { Logger } from '../logger'
 import { type RecordKind, RECORD_KINDS } from '../../shared/sync/codecV2'
+import { isPriceKind } from '../../shared/sync/priceListRecords'
 import { planSync, type LocalEntry, type RemoteEntry } from '../../shared/sync/diff'
 import { createProgressTracker, type SyncProgress } from '../../shared/sync/progress'
 import { cursorAfterCompare } from '../../shared/sync/pull'
@@ -116,7 +117,15 @@ export function createCompareService(deps: CompareDeps): CompareService {
       const offsetMs = await ensureClockOffset(sync, transport, () => now().getTime())
       for (const kind of RECORD_KINDS) {
         if (saved.done.some((d) => d.kind === kind)) continue
-        const remote = await manifestOf(transport, creds, kind)
+        let remote: RemoteEntry[]
+        try {
+          remote = await manifestOf(transport, creds, kind)
+        } catch (e) {
+          // Phase 241: a server that has not run supabase/sql/18_price_list.sql yet refuses the Price List kinds (`invalid_input`). That must not
+          // stop bills and customers: the kind is left out of this compare (not marked done) and says so in the log. Never for other kinds.
+          if (isPriceKind(kind) && e instanceof SharedTransportError && e.kind === 'invalid_input') { log.warn('The Price List was left out of the first sync: the server does not know it yet (18_price_list.sql)', { kind }); continue }
+          throw e
+        }
         const source = deps.sources.find((s) => s.kind === kind)
         const localList = source ? source.list(offsetMs) : []
         const stateById = new Map(records.listStates(kind).map((s) => [s.recId, s]))

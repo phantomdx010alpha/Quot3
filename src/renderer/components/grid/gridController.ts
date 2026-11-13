@@ -8,6 +8,7 @@ import { buildGridColumns, type GridColumn } from '@shared/gridModel'
 import { displayedTailCount, freeNavIds, getFreeCell, isFreeRowId, parseFreeRowId } from '@shared/freeCells'
 import { resolveFormat } from '@shared/format/registry'
 import { tableApi, type TableApi, type TableSide } from '../../stores/tableApi'
+import { applyCaseToNames } from '../../stores/caseNames'
 import { useBehaviourStore } from '../../stores/behaviourStore'
 import { useGridUiStore } from '../../stores/gridUiStore'
 import { applyFormat, type FormatKind } from '@shared/richtext/format'
@@ -119,7 +120,7 @@ export class GridController {
     const pasteFn = (): void => { void this.pasteFromBridge() }
     // Phase 151: with two grids (Hybrid) the app-level handlers (palette actions, toolbar) belong to the grid that last had the focus.
     // The primary grid claims them at once; the second one when it receives focus / a click. One composite undo port serves both.
-    const owned = { resetTotal: resetFn, format: formatFn, openFormatPalette: openFn, refocus: refocusFn, copy: copyFn, cut: cutFn, paste: pasteFn, selectRow: () => this.selectActiveRow(), deleteRows: () => { this.deleteSelectedRows() }, pageGrid: (d: 'up' | 'down') => this.pageByPaletteOrKey(d), moveRow: (t: MoveTarget) => { this.moveActiveRow(t) } }
+    const owned = { resetTotal: resetFn, format: formatFn, openFormatPalette: openFn, refocus: refocusFn, copy: copyFn, cut: cutFn, paste: pasteFn, selectRow: () => this.selectActiveRow(), deleteRows: () => { this.deleteSelectedRows() }, pageGrid: (d: 'up' | 'down') => this.pageByPaletteOrKey(d), moveRow: (t: MoveTarget) => { this.moveActiveRow(t) }, caseNames: () => { this.caseNames() } }
     this.claimFn = () => { if (current !== this) { current = this; useGridUiStore.setState(owned) } }
     live.add(this)
     if (this.side === 'primary' || current === null) this.claimFn()
@@ -132,7 +133,7 @@ export class GridController {
         current = null
         const next = [...live][0]
         if (next) next.claimFn?.()
-        else useGridUiStore.setState({ resetTotal: null, format: null, openFormatPalette: null, refocus: null, formatPalette: null, copy: null, cut: null, paste: null, selectRow: null, deleteRows: null, moveRow: null, pageGrid: null, notice: '' })
+        else useGridUiStore.setState({ resetTotal: null, format: null, openFormatPalette: null, refocus: null, formatPalette: null, copy: null, cut: null, paste: null, selectRow: null, deleteRows: null, moveRow: null, caseNames: null, pageGrid: null, notice: '' })
       }
       r.removeEventListener('keydown', kd); r.removeEventListener('beforeinput', bi); r.removeEventListener('mousedown', md)
       r.removeEventListener('copy', cp); r.removeEventListener('cut', ct); r.removeEventListener('paste', ps); r.removeEventListener('mousemove', mm)
@@ -348,6 +349,24 @@ export class GridController {
       this.nav = { ...this.nav, caret: range.end }
     }
     return true
+  }
+
+  /**
+   * Phase 234 (M23): the Case button. A typed-but-uncommitted draft is committed first, then the item names go UPPER / lower as ONE
+   * undo step: the selected rows when a range is selected (this table only), otherwise every row of the bill. Other columns untouched.
+   */
+  caseNames(): boolean {
+    this.commit()
+    const range = this.nav.range
+    const b = range ? rangeBounds(range) : null
+    const ids = b ? this.navIds().slice(b.top, b.bottom + 1).filter((id) => !isFreeRowId(id)) : null
+    const r = applyCaseToNames(ids ? { side: this.side, ids } : null)
+    this.refreshActiveText()
+    const el = this.activeEl()
+    if (el && el.dataset.editing === '1') { setCaret(el, 'end'); this.nav = { ...this.nav, caret: textOf(el).length } }
+    useGridUiStore.getState().setNotice(r.changed === 0 ? 'Item names already in that case' : `Item names changed to ${r.mode === 'upper' ? 'UPPER CASE' : 'lower case'}${ids ? ' (selected rows)' : ''}`)
+    this.syncUi()
+    return r.changed > 0
   }
 
   openFormatPalette(): void {

@@ -7,6 +7,7 @@ import { localIsoDate } from '../../dashboardModel'
 import { buildHistory, listTotal } from '../../historyModel'
 import { BillRow } from '../tidy/TidyRows'
 import { Button } from '../../kit/Button'
+import { PriceListEntry } from '../../kit/PriceListParts'
 import type { ScreenProps } from '../types'
 
 /** Bills inbox Home (Phase 194): an always-on search bar (the SAME shared ranking as History), a one-line today / sync strip, then ALL bills grouped by
@@ -66,6 +67,7 @@ export function InboxHome(props: ScreenProps): ReactElement {
         ))
       )}
       {result.hiddenCount > 0 ? <Button label={`Show ${Math.min(HISTORY_PAGE_SIZE, result.hiddenCount)} more (${result.hiddenCount} hidden)`} onClick={() => setLimit((n) => n + HISTORY_PAGE_SIZE)} /> : null}
+      <PriceListEntry db={db} onOpen={() => props.onNavigate('pricelist')} />
       <Button label={`Recently deleted${trashed > 0 ? ` (${trashed})` : ''}`} variant="text" icon={<Trash size={20} weight="light" />} onClick={() => props.onNavigate('trash')} />
     </div>
   )

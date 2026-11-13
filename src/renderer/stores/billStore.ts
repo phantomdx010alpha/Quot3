@@ -13,6 +13,8 @@ import { deleteSecondRows, editSecondCells, moveSecondRow, resetSecondTotal, res
 import type { SaveBillResponse } from '@shared/ipc'
 import { PARTY_FIELDS, PARTY_FIELD_LABEL, isValidBillDate, withPartyField, type PartyField } from '@shared/partyFields'
 import { runsEqual } from '@shared/richtext/runs'
+import { applyAutoRedBold } from '@shared/richtext/autoRedBold'
+import { useBehaviourStore } from './behaviourStore'
 import { getFormat } from '@shared/format/registry'
 import type { BillDoc } from '@shared/history/billDoc'
 import type { HistoryEntry } from '@shared/history/undoStack'
@@ -350,7 +352,7 @@ export const useBillStore = create<BillState>((rawSet, get) => {
       const t = twoOf(s)
       if (!t || !s.second) return false
       const cols = buildGridColumns(resolveFormat(s.second.formatId), s.extraCols)
-      const r = editSecondCells(t, cells, cols, (rowId, colKey) => s.second?.view.body[rowId]?.cells[colKey] ?? '')
+      const r = editSecondCells(t, cells, cols, (rowId, colKey) => s.second?.view.body[rowId]?.cells[colKey] ?? '', useBehaviourStore.getState().autoRedBold)
       return r ? commitTwo(r) : false
     }, () => {
       if (cells.length !== 1) return { label: `Edited ${cells.length} cells (second table)` }
@@ -539,9 +541,10 @@ export const useBillStore = create<BillState>((rawSet, get) => {
       if (i === undefined || !col) continue
       const cur = (next ?? s.rows)[i] as BillRow
       // Phase 16: a Quot3-flavour paste into an item-name cell carries its formatting runs.
+      const arb = useBehaviourStore.getState().autoRedBold // Phase 233: auto red-bold, inside this same recorded edit (one undo step)
       const patch = c.runs && col.key === 'name'
-        ? (runsEqual(c.runs, cur.nameRuns) ? null : { nameRuns: c.runs })
-        : applyCellText(cur, col, c.text, { display: s.view.body[c.rowId]?.cells[c.colKey] ?? '' })
+        ? (runsEqual(c.runs, cur.nameRuns) ? null : { nameRuns: applyAutoRedBold(cur.nameRuns, c.runs, arb) })
+        : applyCellText(cur, col, c.text, { display: s.view.body[c.rowId]?.cells[c.colKey] ?? '', autoRedBold: arb })
       if (!patch) continue
       if (!next) next = s.rows.slice()
       next[i] = { ...cur, ...patch }

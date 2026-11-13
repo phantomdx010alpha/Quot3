@@ -177,7 +177,7 @@ describe('backup', () => {
     await expect(importBackup(dst, 'not json')).rejects.toMatchObject({ code: 'bad-backup' })
     await expect(importBackup(dst, JSON.stringify({ hello: 1 }))).rejects.toMatchObject({ code: 'bad-backup' })
     const base = { format: 'quot3-phone-backup', app_version: '9', exported_at: NOW.toISOString() }
-    await expect(importBackup(dst, JSON.stringify({ ...base, format_version: 2, stores: {} }))).rejects.toMatchObject({ code: 'newer-backup' })
+    await expect(importBackup(dst, JSON.stringify({ ...base, format_version: 3, stores: {} }))).rejects.toMatchObject({ code: 'newer-backup' })
     await expect(importBackup(dst, JSON.stringify({ ...base, format_version: 1, stores: { evil: [] } }))).rejects.toMatchObject({ code: 'bad-backup' })
     expect(await countRecords(dst, 'parties')).toBe(1)
   })

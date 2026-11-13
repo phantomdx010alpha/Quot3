@@ -51,8 +51,9 @@ export interface PhonePushItem {
   editedAt: string
   deleted: boolean
 }
-export type PhonePushOutcome = 'accepted' | 'noop' | 'won' | 'lost'
-export interface PhonePushResult { kind: RecordKind; recId: string; outcome: PhonePushOutcome; version: number; serverSeq: number }
+/** `refused` is the Price List rights answer (Phase 242); the phone sends no Price List records yet, so it only has to not break on it. */
+export type PhonePushOutcome = 'accepted' | 'noop' | 'won' | 'lost' | 'refused'
+export interface PhonePushResult { kind: RecordKind; recId: string; outcome: PhonePushOutcome; version: number; serverSeq: number; code?: string; missing?: string[] }
 export interface PhonePulled {
   kind: RecordKind
   recId: string
@@ -75,6 +76,8 @@ export interface PhonePullResult { items: PhonePulled[]; hasMore: boolean; serve
  * is NOT built yet (Phase 186 / owner's real-Supabase checklist): a STANDING GAP. [A]
  */
 export interface PhoneSharedPort extends PhoneSyncPort {
+  /** Phase 246: this seat's Price List rights (`qt_price_perms_get`). Optional: a port without it simply never learns the flags (the phone then has no Price List rights [A]). */
+  pricePermsGet?(a: { license: string }): Promise<{ seatNo: number; flags: Record<string, boolean> }>
   listBranches(a: PhoneBranchScope): Promise<PhoneBranchInfo[]>
   manifest(a: PhoneBranchScope & { kind: RecordKind; afterRecId?: string; limit?: number }): Promise<PhoneManifestRow[]>
   /** All or nothing (one transaction). Outcomes come back in input order. */

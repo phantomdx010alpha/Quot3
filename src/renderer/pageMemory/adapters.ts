@@ -11,6 +11,7 @@ import { useTrashStore } from '../stores/trashStore'
 import { toggleTrash } from '../stores/trashActions'
 import { useCustomersStore } from '../stores/customersStore'
 import { useItemsStore } from '../stores/itemsStore'
+import { usePriceListStore } from '../stores/priceListStore'
 import { useSettingsStore, SETTINGS_SECTIONS, type SettingsSection } from '../stores/settingsStore'
 
 export interface Region { sel: string; nth?: number }
@@ -184,6 +185,37 @@ export function settingsAdapter(): PageAdapter {
     apply(mem: PageMemory): void {
       const id = mem.panels.section
       if (typeof id === 'string' && SETTINGS_SECTIONS.some((s) => s.id === id) && id !== useSettingsStore.getState().section) useSettingsStore.getState().setSection(id as SettingsSection)
+    }
+  }
+}
+
+// ---------------------------------------------------------------- Price List (Phase 238)
+const PL_REGIONS: Record<string, Region> = { grid: { sel: '.q3-plgrid' } }
+
+export function priceListAdapter(root: Root): PageAdapter {
+  return {
+    capture(): PageSnapshot {
+      const s = usePriceListStore.getState()
+      return {
+        scroll: readScroll(root(), PL_REGIONS),
+        filters: { contains: s.filter.contains, noPrice: s.filter.noPrice },
+        panels: { categoryId: s.categoryId ?? '', tabId: s.tabId ?? '', panel: s.panelOpen }
+      }
+    },
+    async apply(mem: PageMemory): Promise<void> {
+      await waitFor(usePriceListStore, (s) => s.status === 'ready' || s.status === 'error')
+      const s = usePriceListStore.getState()
+      const tab = typeof mem.panels.tabId === 'string' ? s.tree?.tabs.find((t) => t.id === mem.panels.tabId) : undefined
+      if (tab && tab.id !== s.tabId) {
+        await s.selectTab(tab.id)
+        await waitFor(usePriceListStore, (x) => x.tabId === tab.id && !x.rowsLoading)
+      }
+      const st = usePriceListStore.getState()
+      if (typeof mem.panels.panel === 'boolean' && mem.panels.panel !== st.panelOpen) st.togglePanel()
+      const contains = typeof mem.filters.contains === 'string' ? mem.filters.contains : st.filter.contains
+      const noPrice = typeof mem.filters.noPrice === 'boolean' ? mem.filters.noPrice : st.filter.noPrice
+      if (contains !== st.filter.contains || noPrice !== st.filter.noPrice) st.setFilter({ contains, noPrice })
+      applyScroll(root, PL_REGIONS, mem.scroll)
     }
   }
 }

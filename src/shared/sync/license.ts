@@ -180,6 +180,8 @@ export const SHARED_MESSAGES = {
   invalid_input: 'The server refused the details sent. Check the branch name and PO prefix.',
   too_large: 'The server refused a record as too large.',
   too_many: 'The server refused a message with too many items.',
+  not_allowed: 'This seat is not allowed to make that Price List change. Ask the main branch (seat 1) to give this seat the right in Settings > Price List > Who can edit.',
+  seat1_only: 'Only the main branch (seat 1) can see or change who may edit the Price List.',
   anon_key: 'The Supabase address or anon key was not accepted. Check both and try again.',
   not_installed: 'The Supabase project has no Quot3 shared-notebook functions yet. Run the SQL files in supabase/sql first.',
   server_paused: 'The sync server is paused or not answering (a free Supabase project pauses after about a week without use). Ask the owner to restore it in the Supabase dashboard.',
@@ -192,7 +194,9 @@ export type SharedErrorKind = keyof typeof SHARED_MESSAGES
 /** SQLSTATE codes raised by supabase/sql/15_rpcs.sql (v2). */
 export const SHARED_SQLSTATE_KIND: Readonly<Record<string, SharedErrorKind>> = {
   Q3L01: 'license', Q3A01: 'not_member', Q3M01: 'unknown_branch', Q3B02: 'prefix_taken', Q3B03: 'branch_conflict', Q3B04: 'name_taken',
-  Q3B05: 'seat_in_use', Q3I01: 'invalid_input', Q3I03: 'too_many', Q3R01: 'too_large'
+  Q3B05: 'seat_in_use', Q3I01: 'invalid_input', Q3I03: 'too_many', Q3R01: 'too_large',
+  // Phase 242 (supabase/sql/19_price_perms.sql)
+  Q3P01: 'not_allowed', Q3P02: 'seat1_only'
 }
 
 /** What a failed HTTP / auth / network call looked like, before it is turned into a kind. Only these fields are read; message text is never logged. */

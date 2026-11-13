@@ -39,7 +39,8 @@ async function startServices(): Promise<AppServices> {
       db, theme, layout, startLocked,
       engine: runtime.engine, syncEngine: runtime.engine,
       sync: { link: (i) => runtime.link(i), signOut: () => runtime.signOut() },
-      onDataChanged: () => runtime.notifySaved()
+      onDataChanged: () => runtime.notifySaved(),
+      refreshPriceRights: () => runtime.refreshPriceRights()
     }
   } catch (e) {
     const msg = e instanceof PhoneDbError ? e.message : `Could not start: ${e instanceof Error ? e.message : String(e)}`

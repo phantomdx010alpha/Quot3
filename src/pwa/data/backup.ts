@@ -7,7 +7,8 @@ import { getMeta, setMetaValue } from './metaRepo'
  *  One JSON file: `{ format, format_version, app_version, exported_at, stores: { <store>: rows[] } }`.
  *  Money stays decimal strings because rows are stored as they are. Session material (`secret.*` settings) is never exported. */
 export const BACKUP_FORMAT = 'quot3-phone-backup'
-export const BACKUP_FORMAT_VERSION = 1
+/** 2 = Phase 244: the file also carries the four Price List stores. An older app reads 2 as "newer" and says "update the app"; this app still reads 1. */
+export const BACKUP_FORMAT_VERSION = 2
 export const BACKUP_MIME = 'application/json'
 
 const envelope = z.object({

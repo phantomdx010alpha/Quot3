@@ -5,6 +5,8 @@ import { BACKGROUND_DEFAULTS } from './background'
 import { SCENES_ENABLED_DEFAULT, SCENES_ENABLED_KEY } from './theme/scenes'
 import { THEME_SHARE_DEFAULT, THEME_SHARE_KEY } from './theme/themeShare'
 import { AI_DEFAULTS } from './ai/aiSettings'
+import { AUTO_RED_BOLD_DEFAULTS } from './richtext/autoRedBold'
+import { PRICELIST_DEFAULTS } from './pricelist/settings'
 import { EFFECTS_ENABLED_DEFAULT, EFFECTS_ENABLED_KEY, EFFECTS_OVERRIDES_KEY, EFFECTS_PAUSE_UNFOCUSED_DEFAULT, EFFECTS_PAUSE_UNFOCUSED_KEY } from './theme/effects'
 
 export const SETTING_KEY_RE = /^[a-z][A-Za-z0-9_]*(\.[A-Za-z0-9_]+)+$/
@@ -71,5 +73,9 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   /** Phase 161: start with Windows / keep running in the tray when the window is closed. Both OFF by default; see shared/background.ts. */
   ...BACKGROUND_DEFAULTS,
   /** Phase 222 (M22): local AI switches, all OFF by default; see shared/ai/aiSettings.ts. */
-  ...AI_DEFAULTS
+  ...AI_DEFAULTS,
+  /** Phase 233 (M23): auto red + bold phrases ("by hand"); see shared/richtext/autoRedBold.ts. */
+  ...AUTO_RED_BOLD_DEFAULTS,
+  /** Phase 235 (M23): Price List switches (master, billing mode / tiers, activity log, default columns); see shared/pricelist/settings.ts. */
+  ...PRICELIST_DEFAULTS
 }

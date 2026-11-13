@@ -28,6 +28,8 @@ interface GridUiState {
   /** Phase 122: registered by the mounted controller (palette / shortcut actions): select the active row, delete the selected rows. */
   selectRow: (() => void) | null
   deleteRows: (() => void) | null
+  /** Phase 234 (M23): registered by the mounted controller; the Case button / shortcut / palette action (item names UPPER <-> lower). */
+  caseNames: (() => void) | null
   /** Phase 124: move the active item row (shortcut / palette). */
   moveRow: ((target: 'up' | 'down' | 'top' | 'bottom') => void) | null
   /** Phase 220 (M21): page the grid up / down (palette action `bill.gridPageUp / Down`; the keys are Ctrl+PageUp / Ctrl+PageDown in a bill opened from a list). */
@@ -53,6 +55,7 @@ export const useGridUiStore = create<GridUiState>((set, get) => ({
   selectRow: null,
   deleteRows: null,
   moveRow: null,
+  caseNames: null,
   pageGrid: null,
   tailShown: 0,
   setTailShown: (n) => { if (get().tailShown !== n) set({ tailShown: n }) },

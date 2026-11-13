@@ -134,3 +134,11 @@ Written 2026-10-21 (docs only). Desktop release steps in sections 2-3 are unchan
 - While `revision` and the SHA-256 values in `modelConfig.ts` are empty, the step is skipped and the installer has no model (Settings > AI says "Not installed"). Once the owner has pinned them (see `docs/M22_OWNER_CHECKLIST.md` section 1), the Action downloads the pinned revision, checks every file's SHA-256 (it refuses on a mismatch) and packages it through `extraResources`. The installer and the update download are then about 100+ MB bigger.
 - Local build (only if you ever build on your PC; releasing never needs it): run `node --experimental-strip-types tools/fetch-ai-model.mjs` once in the repo folder before `npm run dist`. First time only: add `--allow-unpinned`; it prints the commit and the hashes to paste into `modelConfig.ts`.
 - The app never downloads the model and never uses the network for AI.
+
+## 10. The Price List (Milestone 23; built in Phases 233-248, release 0.1.55 [A] prepared in Phase 249, not yet pushed or tagged)
+
+- Migration `0011_price_list.sql` is the 12th desktop migration (0000-0010 are the 11 that exist today), so the workflow's release-notes line becomes `schema: 12` automatically (it counts `src/main/db/migrations/*.sql`).
+- The owner must run `supabase/sql/18_price_list.sql` ONCE on Supabase before the Price List syncs (checklist G in `docs/SUPABASE_MIGRATIONS.md`); without it the app still works on one PC and shared sync keeps working for everything else. The sandbox never runs it.
+- Versions [A]: Phases 233-248 kept 0.1.52 in the files; the gate (Phase 249) bumped `package.json` and both spots of `package-lock.json` to 0.1.55 (skipping 0.1.53 / 0.1.54, which were never released). Phone phase 247 (bill features) was skipped by the owner.
+- Phase 249 release: tag `v0.1.55` after the push steps in section 3. Order for the owner: run Supabase files 18, 19 and the log file ONCE, push + tag, install, then fill `docs/M23_OWNER_CHECKLIST.md`. The phone deploys from the `pwa` branch (section 8): merge `main` into `pwa` after the push. The phone is deployed from the `pwa` branch as in section 8.
+- The legacy `bills_data.db` is private business data: never commit it (it is in `.gitignore`).

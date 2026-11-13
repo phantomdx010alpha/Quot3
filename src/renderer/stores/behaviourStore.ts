@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { Quot3Bridge } from '@shared/ipc'
 import { DEFAULT_BEHAVIOUR, type BehaviourSettings } from '@shared/settings/appSettings'
+import { DEFAULT_AUTO_RED_BOLD, readAutoRedBold, type AutoRedBoldConfig } from '@shared/richtext/autoRedBold'
 import { DEFAULT_PERCENT_PRESETS, validatePercentPresets } from '@shared/calc/percentPresets'
 
 /**
@@ -14,6 +15,9 @@ export interface BehaviourState extends BehaviourSettings {
   roundOff: boolean
   /** Phase 83: the % calculator's preset chips (`calc.percentPresets`, validated; default 18, 5, 3). */
   percentPresets: string[]
+  /** Phase 233 (M23): `bill.autoRedBold.*` (default ON, phrase "by hand"); the bill store reads it on every item-name commit. */
+  autoRedBold: AutoRedBoldConfig
+  applyAutoRedBold: (c: AutoRedBoldConfig) => void
   load: () => Promise<void>
   applyNav: (n: { smoothArrows: boolean }) => void
   applyCalc: (c: { roundOff: boolean; percentPresets?: string }) => void
@@ -28,6 +32,8 @@ export const useBehaviourStore = create<BehaviourState>((set) => ({
   smoothArrows: true,
   roundOff: true,
   percentPresets: [...DEFAULT_PERCENT_PRESETS],
+  autoRedBold: DEFAULT_AUTO_RED_BOLD,
+  applyAutoRedBold: (c) => set({ autoRedBold: c }),
   applyNav: (n) => set({ smoothArrows: n.smoothArrows }),
   applyCalc: (c) => {
     const v = c.percentPresets === undefined ? null : validatePercentPresets(c.percentPresets)
@@ -40,6 +46,11 @@ export const useBehaviourStore = create<BehaviourState>((set) => ({
     try {
       const r = await a.get()
       if (r.ok) { useBehaviourStore.getState().apply(r.data.behaviour); useBehaviourStore.getState().applyNav(r.data.nav); useBehaviourStore.getState().applyCalc(r.data.calc) }
+    } catch { /* keep the defaults */ }
+    try {
+      const s = (window as unknown as { quot3?: { settings?: { getAll?: () => Promise<{ ok: boolean; data?: unknown }> } } }).quot3?.settings
+      const r = s?.getAll ? await s.getAll() : undefined
+      if (r && r.ok && r.data && typeof r.data === 'object') useBehaviourStore.getState().applyAutoRedBold(readAutoRedBold(r.data as Record<string, unknown>))
     } catch { /* keep the defaults */ }
   }
 }))

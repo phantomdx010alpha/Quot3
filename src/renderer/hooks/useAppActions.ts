@@ -11,6 +11,8 @@ import { runRedo, runUndo, requestRevert } from '../stores/undoActions'
 import { useUndoUiStore } from '../stores/undoUiStore'
 import { useCalcPanelStore } from '../stores/calcPanelStore'
 import { useAiPanelStore } from '../stores/aiPanelStore'
+import { usePriceStripStore } from '../stores/priceStripStore'
+import { nextBillingMode } from '@shared/pricelist/billing'
 import { runSave } from '../stores/saveActions'
 import { openLastPdf, openPrint } from '../stores/printActions'
 import { requestLeave } from '../stores/guardStore'
@@ -28,6 +30,7 @@ import { useHistoryStore } from '../stores/historyStore'
 import { useCustomersStore } from '../stores/customersStore'
 import { useDuplicatesStore } from '../stores/duplicatesStore'
 import { useItemsStore } from '../stores/itemsStore'
+import { viaPriceList } from '../stores/priceListActions'
 import { useGamesStore } from '../stores/gamesStore'
 import { onCustomersPage, showCustomerBills } from '../stores/customersActions'
 import { toggleRevisions } from '../stores/revisionActions'
@@ -92,6 +95,28 @@ export function useAppActions(): ActionHandlers {
       'nav.history': () => navigate(ROUTES.history),
       'nav.customers': () => navigate(ROUTES.customers),
       'nav.items': () => navigate(ROUTES.items),
+      // Phase 238 (M23): the Price List page; its own actions run on the page, and from elsewhere only take you there.
+      'nav.pricelist': () => navigate(ROUTES.pricelist),
+      'pricelist.filter': () => viaPriceList('pricelist.filter', navigate),
+      'pricelist.rowAbove': () => viaPriceList('pricelist.rowAbove', navigate),
+      'pricelist.rowBelow': () => viaPriceList('pricelist.rowBelow', navigate),
+      'pricelist.rowDelete': () => viaPriceList('pricelist.rowDelete', navigate),
+      'pricelist.rowUp': () => viaPriceList('pricelist.rowUp', navigate),
+      'pricelist.rowDown': () => viaPriceList('pricelist.rowDown', navigate),
+      'pricelist.section': () => viaPriceList('pricelist.section', navigate),
+      'pricelist.columns': () => viaPriceList('pricelist.columns', navigate),
+      'pricelist.tiers': () => viaPriceList('pricelist.tiers', navigate),
+      'pricelist.panel': () => viaPriceList('pricelist.panel', navigate),
+      'pricelist.noPrice': () => viaPriceList('pricelist.noPrice', navigate),
+      'pricelist.newTab': () => viaPriceList('pricelist.newTab', navigate),
+      'pricelist.tabPrev': () => viaPriceList('pricelist.tabPrev', navigate),
+      'pricelist.tabNext': () => viaPriceList('pricelist.tabNext', navigate),
+      'pricelist.fillDown': () => viaPriceList('pricelist.fillDown', navigate),
+      'pricelist.fillRight': () => viaPriceList('pricelist.fillRight', navigate),
+      'pricelist.search': () => viaPriceList('pricelist.search', navigate),
+      'pricelist.find': () => viaPriceList('pricelist.find', navigate),
+      'pricelist.bulk': () => viaPriceList('pricelist.bulk', navigate),
+      'pricelist.csv': () => viaPriceList('pricelist.csv', navigate),
       // Phase 202: off when Games is switched off in Settings (the key and palette entry then do nothing).
       'nav.games': () => { if (useGamesStore.getState().enabled) navigate(ROUTES.games) },
       'nav.settings': () => navigate(ROUTES.settings),
@@ -212,6 +237,7 @@ export function useAppActions(): ActionHandlers {
       'grid.highlight': () => fmt('highlight'),
       'grid.clearFormat': () => fmt('clear'),
       'grid.formatPalette': () => useGridUiStore.getState().openFormatPalette?.(),
+      'grid.caseNames': () => useGridUiStore.getState().caseNames?.(),
       'grid.copy': () => useGridUiStore.getState().copy?.(),
       'grid.cut': () => useGridUiStore.getState().cut?.(),
       'grid.paste': () => useGridUiStore.getState().paste?.(),
@@ -246,6 +272,8 @@ export function useAppActions(): ActionHandlers {
       'calc.mode': () => { if (currentPath(useRouter.getState().nav) !== ROUTES.create) navigate(ROUTES.create); useCalcPanelStore.getState().switchMode() },
       // Phase 226 (M22): the purchase-history panel switch (writes `ai.billingPanel`); the panel itself only exists on Create.
       'ai.billingPanel.toggle': () => { useAiPanelStore.getState().toggle() },
+      // Phase 240 (M23): the billing Price List rate mode; the strip itself only exists on Create.
+      'pricelist.billing.toggle': () => { const st = usePriceStripStore.getState(); st.setMode(nextBillingMode(st.settings.mode)) },
       // Phase 151: Hybrid (GST + Non-GST side by side) lives on the Create page; the keys do nothing elsewhere.
       'hybrid.toggle': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) enterHybrid() },
       'hybrid.focusFirst': () => { if (currentPath(useRouter.getState().nav) === ROUTES.create) focusHybridTable('primary') },

@@ -627,6 +627,16 @@ button.q3-sychip:focus-visible { outline: 2px solid var(--focus-ring); outline-o
 .q3-aipanel__pill, .q3-aipanel__chip { flex: none; padding: 0 var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-inset); color: var(--text-secondary); white-space: nowrap; }
 .q3-aipanel__pill[data-gst='1'] { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); }
 .q3-aipanel__cell { flex: none; color: var(--text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Phase 240 (M23) - billing Price List strip (display only; tokens only; never focusable) and the auto-filled Rate marker. */
+.q3-pricestrip { flex: none; padding: var(--space-1) var(--space-3); background: var(--surface-raised); border-top: 1px solid var(--border-color); color: var(--text-primary); font-size: var(--text-sm); }
+.q3-pricestrip__note { color: var(--text-muted); }
+.q3-pricestrip__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.q3-pricestrip__row { display: flex; align-items: center; gap: var(--space-3); min-height: 20px; min-width: 0; flex-wrap: wrap; }
+.q3-pricestrip__row[data-best='1'] .q3-pricestrip__name { font-weight: 600; }
+.q3-pricestrip__name { flex: 1 1 12rem; min-width: 0; overflow-wrap: anywhere; }
+.q3-pricestrip__tab, .q3-pricestrip__tier, .q3-pricestrip__chip { flex: none; padding: 0 var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-inset); color: var(--text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.q3-pricestrip__tier[data-current='1'] { background: var(--accent-soft); border-color: var(--accent); color: var(--text-primary); }
+.q3-gc[data-autofilled='1'] { box-shadow: inset 2px 0 0 var(--accent); }
 
 /* Phase 229 (M22): plain-sentence search chips under the History search box (tokens only). */
 .q3-hist__chips { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); }

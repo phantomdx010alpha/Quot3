@@ -48,3 +48,14 @@ export function parsePoStart(text: string): number | null {
 
 /** A backup file the wipe must keep even when "remove backups" is chosen. */
 export const isWipeSafetyFile = (file: string): boolean => file.startsWith('pre-wipe-')
+
+/** The tables "Start fresh" Level 1 empties (children first). Phase 236 moved the list here so a test can pin what it does NOT touch. */
+export const LEVEL1_TABLES = ['bill_revisions', 'bill_rows', 'bills', 'parties', 'party_imports', 'import_batches', 'drafts', 'sync_outbox', 'legacy_watch_files', 'legacy_watch_bills', 'legacy_watch_review', 'legacy_watch_activity'] as const
+
+/**
+ * Phase 236 (M23) decision [A]: the Price List is NOT cleared by Level 1 (it is the shop's catalogue, not bills or customers).
+ * Level 2 (factory reset) starts a new database, so it goes. A separate "Clear Price List" (typed words, `PRICE_CLEAR_WORDS`)
+ * empties it on its own, after a safety backup. Never sends deletes to other branches either (nothing is captured).
+ */
+export const PRICE_LIST_TABLES = ['price_rows', 'price_tabs', 'price_categories', 'price_tiers', 'price_log', 'price_import_map'] as const
+export const wipeClearsPriceList = (level: WipeLevel): boolean => level === 2

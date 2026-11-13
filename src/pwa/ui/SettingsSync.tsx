@@ -7,6 +7,7 @@ import { toSyncFailure } from '../sync/errors'
 import type { SyncAdmin } from './services'
 import { AdvancedFold } from './layouts/shared/AdvancedFold'
 import { settingsWords } from './layouts/shared/SettingsWords'
+import { PriceSyncLines } from './PriceSyncLines'
 
 const STATE_TEXT: Record<EngineState, string> = {
   stopped: 'Sync is stopped. Tap Start sync.',
@@ -17,8 +18,9 @@ const STATE_TEXT: Record<EngineState, string> = {
 }
 
 /** The sync controls shown once the phone is linked: the first-sync choice, then Sync now (Phase 187b). */
-function SyncPanel(props: { engine: PhoneSyncEngine; onChanged?: () => void }): ReactElement {
+function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolean; onChanged?: () => void }): ReactElement {
   const { engine } = props
+  const [tick, setTick] = useState(0) // Phase 248: re-reads the Price List lines after a sync
   const [state, setState] = useState<EngineState>(engine.state())
   const [preview, setPreview] = useState<FirstSyncPreview | null>(null)
   const [scope, setScope] = useState<'all' | 'recent'>('all')
@@ -45,21 +47,23 @@ function SyncPanel(props: { engine: PhoneSyncEngine; onChanged?: () => void }): 
       {state === 'first_sync_needed' && preview ? (
         <>
           <p className="q3-note">{preview.assessment.note}</p>
+          {props.plain ? <PriceSyncLines db={props.db} refreshKey={tick} preview={preview.priceList} /> : null}
           <label className="q3-row"><input type="radio" name="fs-scope" checked={scope === 'all'} onChange={() => setScope('all')} /> <span>Download everything</span></label>
           <label className="q3-row"><input type="radio" name="fs-scope" checked={scope === 'recent'} onChange={() => setScope('recent')} /> <span>Newest {DEFAULT_RECENT_BILLS} bills and all customers (older bills can be loaded later)</span></label>
           <button type="button" className="q3-btn q3-btn-primary" disabled={busy} onClick={() => void run(async () => {
             const r = await engine.completeFirstSync(preview, scope === 'all' ? { mode: 'all' } : { mode: 'recent', billLimit: DEFAULT_RECENT_BILLS })
-            setPreview(null); setNote(`First sync done. ${r.queued} records queued to send.`); props.onChanged?.()
+            setPreview(null); setTick((n) => n + 1); setNote(`First sync done. ${r.queued} records queued to send.`); props.onChanged?.()
           })}>{busy ? 'Syncing…' : 'Start syncing'}</button>
         </>
       ) : null}
       {state === 'running' ? (
-        <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.syncNow(); setNote('Synced.'); props.onChanged?.() })}>{busy ? 'Syncing…' : 'Sync now'}</button>
+        <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.syncNow(); setTick((n) => n + 1); setNote('Synced.'); props.onChanged?.() })}>{busy ? 'Syncing…' : 'Sync now'}</button>
       ) : null}
       {state === 'stopped' || state === 'not_linked' ? (
         <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.start() })}>Start sync</button>
       ) : null}
       {note ? <p className="q3-note" role="status">{note}</p> : null}
+      {props.plain && state !== 'first_sync_needed' ? <PriceSyncLines db={props.db} refreshKey={tick} /> : null}
     </div>
   )
 }
@@ -136,7 +140,7 @@ export function SettingsSync(props: { db: PhoneDb; plain?: boolean; sync?: SyncA
           <div className="q3-row"><span>Branch</span><span>{link.branchName}</span></div>
           <div className="q3-row"><span>{words.t('PO prefix')}</span><span>{link.poPrefix}</span></div>
           <p className="q3-muted">The branch name and {words.t('PO prefix').toLowerCase()} are fixed once this phone is linked.</p>
-          {props.engine ? <SyncPanel engine={props.engine} onChanged={props.onChanged} /> : null}
+          {props.engine ? <SyncPanel engine={props.engine} db={db} plain={props.plain} onChanged={props.onChanged} /> : null}
           <button type="button" className="q3-btn" disabled={!sync || busy} onClick={() => void signOut()}>Sign out of sync</button>
         </>
       ) : (

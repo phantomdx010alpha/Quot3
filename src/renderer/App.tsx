@@ -9,6 +9,7 @@ import Create from './pages/Create'
 import History from './pages/History'
 import Customers from './pages/Customers'
 import Items from './pages/Items'
+import PriceList from './pages/PriceList'
 import Games from './pages/Games'
 import Settings from './pages/Settings'
 import { TitleBar } from './components/layout/TitleBar'
@@ -27,6 +28,8 @@ function Page({ path }: { path: string }): React.JSX.Element {
       return <Customers />
     case ROUTES.items:
       return <Items />
+    case ROUTES.pricelist:
+      return <PriceList />
     case ROUTES.games:
       return <Games />
     case ROUTES.settings:

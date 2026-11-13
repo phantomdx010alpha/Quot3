@@ -14,6 +14,7 @@ export const TOOLBAR_NAMES = {
   'grid.clearFormat': 'Clear',
   'grid.highlight': 'Highlight',
   'grid.formatPalette': 'Palette',
+  'grid.caseNames': 'Case',
   'cols.add': 'Add col',
   'cols.remove': 'Remove col',
   'cols.rename': 'Rename col',

@@ -4,6 +4,10 @@ import { createBillRepo } from '../../db/billRepo'
 import { createItemRulesRepo } from '../../db/itemRulesRepo'
 import { createOutboxRepo } from '../../db/outboxRepo'
 import { createPartyRepo } from '../../db/partyRepo'
+import { createPriceListRepo } from '../../db/priceListRepo'
+import { createPriceLogRepo } from '../../db/priceLogRepo'
+import { createPriceListService } from '../../services/priceListService'
+import { PRICE_REVISION } from '../../../shared/sync/priceListRecords'
 import { createRemoteApplyRepo } from '../../db/remoteApplyRepo'
 import { createSyncRecordRepo } from '../../db/syncRecordRepo'
 import { createSyncStateRepo } from '../../db/syncStateRepo'
@@ -41,7 +45,9 @@ export interface SimOptions { branches?: number; skewMs?: number[]; isOpen?: (br
   /** Phase 138: options for each branch's pull worker (poll interval, fake timers). */
   pullOpts?: PullWorkerV2Options
   /** Phase 141: wraps each branch's transport (e.g. in a `FlakySharedTransport`). Sign-in and activation happen on the plain transport first. */
-  wrapTransport?: (t: SharedStoreTransport, branchIndex: number) => SharedStoreTransport }
+  wrapTransport?: (t: SharedStoreTransport, branchIndex: number) => SharedStoreTransport
+  /** Phase 242: `false` leaves seats 2+ without Price List rights (the real default). Every older suite tests syncing, not rights, so the harness grants all rights unless told not to. */
+  grantPriceRights?: boolean }
 
 export async function createSim(o: SimOptions = {}) {
   const dbs: TestDb[] = []
@@ -49,6 +55,7 @@ export async function createSim(o: SimOptions = {}) {
   const server = new InMemorySharedServer({ now: () => clock.t })
   const n = o.branches ?? 2
   const { orgId } = server.addOrg({ licenseKey: SIM_KEY, seats: Array.from({ length: n }, (_, i) => ({ email: `seat${i + 1}@example.com`, password: `pw${i + 1}` })) })
+  if (o.grantPriceRights !== false) for (let seat = 2; seat <= n; seat++) server.setPricePerms(orgId, seat, { add: true, edit: true, overwrite: true, delete: true, structure: true })
   const prefixes = ['AA', 'BB', 'CC', 'DD']
   const bs: SimBranchV2[] = []
   for (let i = 0; i < n; i++) bs.push(await makeBranch(i))
@@ -69,6 +76,9 @@ export async function createSim(o: SimOptions = {}) {
     const outbox = createOutbox({ repo: outboxRepo, capturing: () => true }, { now })
     const capture = (c: { billId: string; revision: number; op?: 'upsert' | 'delete' }): void => outbox.capture({ billId: c.billId, revision: c.revision, op: c.op ?? 'upsert' })
     const rules = createItemRulesRepo(sqlite, { onChange: (r) => outbox.capture({ billId: r.id, revision: ITEM_RULE_REVISION, op: r.deletedAt ? 'delete' : 'upsert' }) })
+    // Phase 241: the Price List of this virtual PC; every local change reaches the outbox exactly like in src/main/index.ts.
+    const priceRepo = createPriceListRepo(sqlite, { onChange: (cs) => { for (const c of cs) outbox.capture({ billId: c.id, revision: PRICE_REVISION, op: c.deleted ? 'delete' : 'upsert' }) } })
+    const price = createPriceListService({ repo: priceRepo, logRepo: createPriceLogRepo(sqlite), branchId: () => id }, { now, newId: () => randomUUID() })
     const billRepo = createBillRepo(sqlite)
     const partyRepo = createPartyRepo(sqlite)
     const emitIds = (ids: readonly string[]): void => { if (!o.parties) return; for (const rid of ids) outbox.capture({ billId: rid, revision: 0, op: 'upsert' }) }
@@ -83,7 +93,7 @@ export async function createSim(o: SimOptions = {}) {
     let known: readonly SharedBranch[] = []
     const held: { current: HeldService } = { current: null as unknown as HeldService }
     const baseApplier = createRecordApplierV2({
-      repo, bills: billRepo, outbox: outboxRepo, itemRules: rules, localBranchId: () => id, branches: () => known, isAside: (k, r) => records.isAside(k, r), isOpen: (b) => (o.isOpen ? o.isOpen(i, b) : false) || held.current.isOpen(b),
+      repo, bills: billRepo, outbox: outboxRepo, itemRules: rules, priceList: priceRepo, localBranchId: () => id, branches: () => known, isAside: (k, r) => records.isAside(k, r), isOpen: (b) => (o.isOpen ? o.isOpen(i, b) : false) || held.current.isOpen(b),
       rememberBase: (kind, recId, version, hash, serverSeq) => records.putState({ kind, recId, baseVersion: version, baseHash: hash, serverSeq, syncedAt: now().toISOString() }),
       log: silent
     }, { now, newId: () => randomUUID() })
@@ -91,16 +101,16 @@ export async function createSim(o: SimOptions = {}) {
     held.current = createHeldService({ records, sync, applier: baseApplier, offsetMs: () => null, now })
     let readerVer = 1
     const aside = createAsideService({ repo: records, now, readerVer: () => readerVer, apply: createAsideApply({ applier: baseApplier, records, offsetMs: () => null, now }) })
-    const push = createPushWorkerV2({ outbox: outboxRepo, bills: billRepo, revisions: repo, itemRules: rules, parties: partySrc, records, sync, connect, appVer: '1.0.0', newId: () => randomUUID(), log: silent }, { now })
+    const push = createPushWorkerV2({ outbox: outboxRepo, bills: billRepo, revisions: repo, itemRules: rules, parties: partySrc, priceList: priceRepo, records, sync, connect, appVer: '1.0.0', newId: () => randomUUID(), log: silent }, { now })
     const pullDeps: PullWorkerV2Deps = { records, sync, aside, applier: { apply: (r, c) => applier.current.apply(r, c) }, connect, setBranches: (l) => { known = l }, log: silent }
     const pull = createPullWorkerV2(pullDeps, { now, ...(o.pullOpts ?? {}) })
     const compare = createCompareService({
       records, sync, connect, log: silent, now,
-      sources: createLocalCompareSources({ bills: billRepo, heads: () => repo.heads(), outbox: outboxRepo, itemRules: rules, parties: partySrc, appVer: '1.0.0', now })
+      sources: createLocalCompareSources({ bills: billRepo, heads: () => repo.heads(), outbox: outboxRepo, itemRules: rules, parties: partySrc, priceList: priceRepo, appVer: '1.0.0', now })
     })
     const q = <T>(sql: string, ...a: unknown[]): T[] => sqlite.prepare(sql).all(...a) as T[]
     return {
-      index: i, partyRepo, customers, held, setReaderVer: (n: number): void => { readerVer = n }, id, sqlite, bills, trash, rules, outbox, outboxRepo, sync, records, repo, billRepo, aside, push, pull, compare, q, wrapped, applier, transport,
+      index: i, priceRepo, price, partyRepo, customers, held, setReaderVer: (n: number): void => { readerVer = n }, id, sqlite, bills, trash, rules, outbox, outboxRepo, sync, records, repo, billRepo, aside, push, pull, compare, q, wrapped, applier, transport,
       decide: (input: Parameters<typeof rules.save>[0]) => rules.save(input, { at: now().toISOString(), branchId: id }),
       rows: (billId: string): string[] => q<{ name_plain: string; qty: string | null }>('SELECT name_plain, qty FROM bill_rows WHERE bill_id = ? ORDER BY idx', billId).map((r) => `${r.name_plain}:${r.qty}`),
       bill: (billId: string) => q<{ revision: number; deletedAt: string | null; syncState: string }>('SELECT revision, deleted_at AS deletedAt, sync_state AS syncState FROM bills WHERE id = ?', billId)[0],

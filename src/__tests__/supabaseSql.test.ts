@@ -495,3 +495,140 @@ describe('scripts/generate-license.mjs (Phase 51)', () => {
     expect(() => execFileSync(process.execPath, [join(root, 'scripts', 'generate-license.mjs'), '--max-branches', '0'], { stdio: 'pipe' })).toThrow()
   })
 })
+
+describe('18_price_list.sql (Phase 241)', () => {
+  const s = code(sql('18_price_list.sql'))
+  const KINDS = "('bill', 'party', 'party_merge', 'item_rule', 'price_tier', 'price_category', 'price_tab', 'price_row')"
+  it('widens both kind CHECKs and is safe to run twice', () => {
+    expect(s).toContain('alter table public.sn_records drop constraint if exists sn_records_kind_check')
+    expect(s).toContain('alter table public.sn_history drop constraint if exists sn_history_kind_check')
+    expect(s.split(`check (kind in ${KINDS})`).length - 1).toBe(2)
+  })
+  it('replaces sn_manifest and sn_push with the same signatures and only the new kind list; sn_pull is untouched', () => {
+    expect(s).toContain('create or replace function public.sn_manifest(')
+    expect(s).toContain('create or replace function public.sn_push(')
+    expect(s).not.toContain('sn_pull')
+    expect(s.split(`not in ${KINDS}`).length - 1).toBe(2)
+    expect(s).not.toContain("not in ('bill', 'party', 'party_merge', 'item_rule')")
+  })
+  it('keeps both RPCs closed to anon and public, open to authenticated, and has no drop function', () => {
+    expect(s).toMatch(/revoke all on function public\.sn_manifest\([^)]*\)\s+from public, anon, authenticated/)
+    expect(s).toMatch(/revoke all on function public\.sn_push\([^)]*\)\s+from public, anon, authenticated/)
+    expect(s).toMatch(/grant execute on function public\.sn_push\([^)]*\)\s+to authenticated/)
+    expect(s).not.toMatch(/drop function/i)
+    expect(s).not.toMatch(/drop table|truncate|delete from/i)
+  })
+  it('the sn_push copy still declares the 15-file safeguards (security definer, fixed search_path)', () => {
+    const fifteen = code(sql('15_rpcs.sql'))
+    const pick = (t: string): string => t.slice(t.indexOf('create or replace function public.sn_push'))
+    expect(pick(s)).toContain('security definer')
+    expect(pick(s)).toContain('set search_path')
+    expect(pick(fifteen)).toContain('security definer')
+  })
+})
+
+describe('19_price_perms.sql (Phase 242)', () => {
+  const s = code(sql('19_price_perms.sql'))
+  const fn = (name: string): string => { const i = s.indexOf(`create or replace function public.${name}(`); const j = s.indexOf('create or replace function', i + 10); return s.slice(i, j === -1 ? undefined : j) }
+  it('runs after file 18 and creates the rights table with RLS on, no policies and no direct grants', () => {
+    expect(files.indexOf('19_price_perms.sql')).toBeGreaterThan(files.indexOf('18_price_list.sql'))
+    expect(s).toContain('create table if not exists public.sn_price_perms')
+    expect(s).toContain('alter table public.sn_price_perms enable row level security')
+    expect(s).toMatch(/revoke all on table public\.sn_price_perms\s+from public, anon, authenticated/)
+    expect(s).not.toMatch(/create policy/i)
+    expect(s).not.toMatch(/grant [a-z, ]+ on table public\.sn_price_perms/i)
+    expect(s).toContain('on delete cascade')
+  })
+  it('uses the permission error codes and never the service key', () => {
+    expect(s).toContain("errcode = 'Q3P02'")
+    expect(s).toContain("'Q3P01'")
+    expect(s).toContain("'refused'")
+    expect(s).not.toMatch(/service_role/i)
+    expect(s).not.toMatch(/drop table|truncate|drop function/i)
+  })
+  it('every function is security definer with a fixed search_path (the pure helpers only set the search_path)', () => {
+    for (const n of ['qt_price_seat', 'qt_price_flags', 'sn_push', 'qt_price_perms_get', 'qt_price_perms_list', 'qt_price_perms_set']) {
+      expect(fn(n), n).toContain('security definer')
+      expect(fn(n), n).toContain("set search_path = ''")
+    }
+    for (const n of ['qt_price_norm', 'qt_price_row_name', 'qt_price_required']) expect(fn(n), n).toContain("set search_path = ''")
+  })
+  it('seat 1 only: list and set raise seat1_only for other seats; set forces seat 1 to all rights', () => {
+    expect(fn('qt_price_perms_list')).toContain("'seat1_only'")
+    expect(fn('qt_price_perms_set')).toContain("'seat1_only'")
+    expect(fn('qt_price_perms_set')).toMatch(/p_seat\s*=\s*1/)
+  })
+  it('helpers stay closed; the app may call sn_push and the three qt_price_perms_* functions only', () => {
+    for (const sig of ['qt_price_seat()', 'qt_price_norm(jsonb)', 'qt_price_flags(uuid, int)', 'qt_price_row_name(jsonb)']) expect(s).toContain(`revoke all on function public.${sig}`)
+    for (const sig of ['sn_push(text, uuid, jsonb)', 'qt_price_perms_get(text)', 'qt_price_perms_list(text)', 'qt_price_perms_set(text, int, jsonb)']) {
+      expect(s).toContain(`revoke all on function public.${sig}`)
+      expect(s).toContain(`grant execute on function public.${sig}`)
+    }
+    for (const sig of ['qt_price_seat()', 'qt_price_norm(jsonb)', 'qt_price_flags(uuid, int)', 'qt_price_row_name(jsonb)', 'qt_price_required(text, boolean, boolean, jsonb, jsonb, boolean)']) expect(s).not.toContain(`grant execute on function public.${sig}`)
+  })
+  it('the sn_push copy keeps the 18 signature and every price kind', () => {
+    expect(s).toContain('create or replace function public.sn_push(p_license text, p_branch_id uuid, p_items jsonb)')
+    for (const k of ['price_tier', 'price_category', 'price_tab', 'price_row']) expect(s).toContain(`'${k}'`)
+  })
+})
+
+describe('20_price_log.sql (Phase 243)', () => {
+  const s = code(sql('20_price_log.sql'))
+  const fn = (name: string): string => { const i = s.indexOf(`create or replace function public.${name}(`); const j = s.indexOf('create or replace function', i + 10); return s.slice(i, j === -1 ? undefined : j) }
+  it('runs after file 19 and creates the log table with RLS on, no policies and no direct grants', () => {
+    expect(files.indexOf('20_price_log.sql')).toBeGreaterThan(files.indexOf('19_price_perms.sql'))
+    expect(s).toContain('create table if not exists public.sn_price_log')
+    expect(s).toContain('alter table public.sn_price_log enable row level security')
+    expect(s).toMatch(/revoke all on table public\.sn_price_log\s+from public, anon, authenticated/)
+    expect(s).not.toMatch(/create policy/i)
+    expect(s).not.toMatch(/grant [a-z, ]+ on table public\.sn_price_log/i)
+  })
+  it('never the service key; no destructive DDL; ends cleanly', () => {
+    expect(s).not.toMatch(/service_role/i)
+    expect(s).not.toMatch(/drop table|truncate|drop function/i)
+    expect((s.match(/\$\$/g) ?? []).length % 2).toBe(0)
+    expect(s.trimEnd().endsWith(';')).toBe(true)
+  })
+  it('every function is security definer with a fixed search_path (the pure helpers only set the search_path)', () => {
+    for (const n of ['qt_price_log_add', 'sn_push', 'qt_price_perms_set', 'qt_price_log_list', 'qt_price_log_trim']) {
+      expect(fn(n), n).toContain('security definer')
+      expect(fn(n), n).toContain("set search_path = ''")
+    }
+    for (const n of ['qt_price_log_label', 'qt_price_log_change']) expect(fn(n), n).toContain("set search_path = ''")
+  })
+  it('the author comes from the login (qt_price_seat), never from the payload; the log is written inside sn_push for accepted and won items only', () => {
+    const push = fn('sn_push')
+    expect(push).toContain('public.qt_price_seat()')
+    expect(push).toMatch(/v_outcome in \('accepted', 'won'\)/)
+    expect(push).toContain('public.qt_price_log_add(v_org, v_seat, p_branch_id')
+    expect(push).toContain("'refused'")
+    expect(s).toContain('create or replace function public.sn_push(p_license text, p_branch_id uuid, p_items jsonb)')
+    expect(fn('qt_price_log_add')).not.toMatch(/p_payload|p_seat_from_client/)
+  })
+  it('only seat 1 can read or trim: Q3P02 seat1_only; retention is clamped 30..3650; paging is keyset', () => {
+    for (const n of ['qt_price_log_list', 'qt_price_log_trim']) {
+      expect(fn(n), n).toContain("errcode = 'Q3P02'")
+      expect(fn(n), n).toMatch(/qt_price_seat\(\) is distinct from 1/)
+    }
+    expect(fn('qt_price_log_trim')).toMatch(/greatest\(30, least\(/)
+    expect(fn('qt_price_log_list')).toMatch(/l\.id < p_before_id/)
+    expect(fn('qt_price_log_list')).toMatch(/least\(coalesce\(p_limit, 100\), 500\)/)
+  })
+  it('helpers stay closed; the app may call sn_push, qt_price_perms_set and the two log functions only', () => {
+    for (const sig of ['qt_price_log_label(jsonb, text)', 'qt_price_log_change(text, boolean, boolean, jsonb, jsonb, boolean, text, text, jsonb)',
+      'qt_price_log_add(uuid, int, uuid, text, text, uuid, boolean, boolean, jsonb, jsonb, boolean)']) {
+      expect(s).toContain(`revoke all on function public.${sig}`)
+      expect(s).not.toContain(`grant execute on function public.${sig}`)
+    }
+    for (const sig of ['sn_push(text, uuid, jsonb)', 'qt_price_perms_set(text, int, jsonb)', 'qt_price_log_list(text, int, bigint)', 'qt_price_log_trim(text, int)']) {
+      expect(s).toContain(`revoke all on function public.${sig}`)
+      expect(s).toContain(`grant execute on function public.${sig}`)
+    }
+  })
+  it('a permission change is logged with before and after flags only when the flags really changed', () => {
+    const f = fn('qt_price_perms_set')
+    expect(f).toContain("'permission'")
+    expect(f).toMatch(/v_old is distinct from v_flags/)
+    expect(f).toMatch(/p_seat\s*=\s*1/)
+  })
+})

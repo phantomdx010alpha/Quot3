@@ -46,7 +46,7 @@ import { createPartyImportService } from './services/partyImportService'
 import { createPartyImportRepo } from './db/partyImportRepo'
 import { createExcelSheetReader } from './import/excelSheetReader'
 import { createElectronFilePicker } from './import/electronFilePicker'
-import { createElectronLegacyPicker, writeReportFile } from './import/electronLegacyPicker'
+import { createElectronLegacyPicker, pickLegacyInventoryFile, writeReportFile } from './import/electronLegacyPicker'
 import { createLegacyImportService } from './services/legacyImportService'
 import { createLegacyImportRepo } from './db/legacyImportRepo'
 import { createLegacyWatchRepo } from './db/legacyWatchRepo'
@@ -63,6 +63,15 @@ import { createImageService } from './services/imageService'
 import { readImageScale } from '../shared/print/imageFlow'
 import { createThemeService } from './services/themeService'
 import { createBackupService } from './services/backupService'
+import { createPriceListService } from './services/priceListService'
+import { createPriceRightsService } from './services/priceRightsService'
+import { createPriceActivityService } from './services/priceActivityService'
+import { createPriceListImportService } from './services/priceListImportService'
+import { readLegacyInventory } from './db/legacyInventoryReader'
+import { createPriceListRepo } from './db/priceListRepo'
+import { PRICE_REVISION } from '../shared/sync/priceListRecords'
+import { createPriceLogRepo } from './db/priceLogRepo'
+import { PRICELIST_KEYS, readPriceListSettings } from '../shared/pricelist/settings'
 import { createGithubReleaseFeed } from './services/releaseFeed'
 import { createLicenseService } from './sync/licenseService'
 import { createBootstrapService } from './sync/bootstrapService'
@@ -71,7 +80,7 @@ import { createOutbox } from './sync/outbox'
 import { createPushWorker } from './sync/pushWorker'
 import { createPullWorker } from './sync/pullWorker'
 import { createSyncManager } from './sync/syncManager'
-import { createSharedActivation } from './sync/activationV2'
+import { SHARED_KEYS, createSharedActivation } from './sync/activationV2'
 import { createSharedBranches } from './sync/sharedBranches'
 import { createSharedSyncService, singleFlightCompare } from './sync/sharedSyncService'
 import { createCutoverService } from './sync/cutoverService'
@@ -289,6 +298,10 @@ if (!app.requestSingleInstanceLock()) {
     // Phase 111: owner item rules. Every local rule change (save / remove / undo) records one outbox row inside its own transaction, like a bill
     // (id = the rule's id, revision 0); the push worker sends it as an `item_rule` snapshot. Rules received from other branches never come back out.
     const itemRules = createItemRulesRepo(dbh.sqlite, { onChange: (r) => { outbox.capture({ billId: r.id, revision: ITEM_RULE_REVISION, op: r.deletedAt ? 'delete' : 'upsert' }); pushSwitch.kick() } })
+    // Phase 241 (M23): the Price List repo is built ONCE and shared by the service, the legacy import and the sync. Every local change (and every child
+    // a delete / restore of a tab or category touched) records one outbox row inside its own write (id = the record id, revision 0); records received
+    // from other PCs go through `applyRemote` and never come back out.
+    const priceRepo = createPriceListRepo(dbh.sqlite, { onChange: (cs) => { for (const c of cs) outbox.capture({ billId: c.id, revision: PRICE_REVISION, op: c.deleted ? 'delete' : 'upsert' }); pushSwitch.kick() } })
     // Phase 55: the push worker sends captured changes (encrypted, one copy per other branch) every 15 s and shortly after a save. Idle while sync is not activated.
     const pushWorker = createPushWorker(
       { outbox: outbox.repo, bills: billRepo, itemRules, credentials: () => license.credentials(), encryptionKey: () => license.encryptionKey(), recipients: () => license.recipients(), makeTransport: (c) => new SupabaseTransport(c), log, progress: (p) => { broadcast('sync:progress', p) } }
@@ -325,7 +338,7 @@ if (!app.requestSingleInstanceLock()) {
     let heldRef: ReturnType<typeof createHeldService> | null = null
     const sharedApplier = createRecordApplierV2(
       {
-        repo: remoteRepo, bills: billRepo, outbox: outbox.repo, itemRules, localBranchId: () => getLocalBranch(dbh.sqlite).id, branches: () => knownBranches,
+        repo: remoteRepo, bills: billRepo, outbox: outbox.repo, itemRules, priceList: priceRepo, localBranchId: () => getLocalBranch(dbh.sqlite).id, branches: () => knownBranches,
         isAside: (k, r) => syncRecords.isAside(k, r), isOpen: (b) => heldRef?.isOpen(b) ?? false,
         onBillChanged: (id) => send('bills:remoteChanged', { id, held: false }),
         rememberBase: (kind, recId, version, hash, serverSeq) => syncRecords.putState({ kind, recId, baseVersion: version, baseHash: hash, serverSeq, syncedAt: new Date().toISOString() }),
@@ -338,7 +351,7 @@ if (!app.requestSingleInstanceLock()) {
     const sharedAside = createAsideService({ repo: syncRecords, apply: createAsideApply({ applier: sharedApplier, records: syncRecords, offsetMs: sharedClockOffset }) })
     const connectShared = (): ReturnType<typeof sharedActivation.connect> => sharedActivation.connect()
     const pushV2 = createPushWorkerV2({
-      outbox: outbox.repo, bills: billRepo, revisions: remoteRepo, itemRules, parties: partyRepo, records: syncRecords, sync: syncState, connect: connectShared,
+      outbox: outbox.repo, bills: billRepo, revisions: remoteRepo, itemRules, parties: partyRepo, priceList: priceRepo, records: syncRecords, sync: syncState, connect: connectShared,
       appVer: app.getVersion(), newId: () => randomUUID(), log, progress: (p) => { send('sync:progress', p) }
     })
     const pullV2 = createPullWorkerV2(
@@ -347,7 +360,7 @@ if (!app.requestSingleInstanceLock()) {
     )
     const compareV2 = singleFlightCompare(createCompareService({
       records: syncRecords, sync: syncState, connect: connectShared, log, progress: (p) => { send('sync:progress', p) },
-      sources: createLocalCompareSources({ bills: billRepo, heads: () => remoteRepo.heads(), outbox: outbox.repo, itemRules, parties: partyRepo, appVer: app.getVersion() })
+      sources: createLocalCompareSources({ bills: billRepo, heads: () => remoteRepo.heads(), outbox: outbox.repo, itemRules, parties: partyRepo, priceList: priceRepo, appVer: app.getVersion() })
     }))
     // Phase 171: the theme service is built here (not at registerIpc) so theme sharing can share the doorbell and the shared-notebook connection.
     const themeServiceRef = createThemeService({ dir: layout.themes, log, settings, openPath: (d) => shell.openPath(d), applyTitleBar: (o) => { if (process.platform === 'win32') for (const w of windows) if (!w.isDestroyed()) w.setTitleBarOverlay(o) } })
@@ -445,6 +458,33 @@ if (!app.requestSingleInstanceLock()) {
           }
         : undefined
     })
+    // Phase 242 (M23): who may edit the Price List on this PC (cached rights; no sync = full rights).
+    const seatNoNow = (): number | null => { const n = Number(syncState.get(SHARED_KEYS.seatNo)); return sharedActivation.isActivated() && Number.isInteger(n) && n > 0 ? n : null }
+    const priceRights = createPriceRightsService({ sync: syncState, syncActive: () => sharedActivation.isActivated(), seatNo: seatNoNow, connect: connectShared, log })
+    // Phase 236 (M23): the Price List storage; Phase 242 adds the seat number and the local rights guard.
+    const priceList = createPriceListService(
+      { repo: priceRepo, logRepo: createPriceLogRepo(dbh.sqlite), branchId: () => (dbh.writable ? getLocalBranch(dbh.sqlite).id : null) },
+      {
+        writable: dbh.writable,
+        seatNo: seatNoNow,
+        rights: () => priceRights.own(),
+        defaultColumns: () => settings.getAll()[PRICELIST_KEYS.defaultColumns],
+        logRetentionDays: () => readPriceListSettings(settings.getAll()).logRetentionDays,
+        backupBefore: () => backup.create('pre-wipe')
+      }
+    )
+    // Phase 237 (M23): the legacy inventory import (read-only source, `pre-import` backup, one transaction).
+    const priceImport = createPriceListImportService(
+      { repo: priceRepo, logRepo: createPriceLogRepo(dbh.sqlite), branchId: () => (dbh.writable ? getLocalBranch(dbh.sqlite).id : null), tiers: () => priceList.tree().tiers, readLegacy: readLegacyInventory, backup: { create: (k) => backup.create(k) } },
+      { writable: dbh.writable, seatNo: seatNoNow, rights: () => priceRights.own() }
+    )
+    // Phase 243 (M23): the activity list. Shared sync on = the server log, seat 1 only; otherwise this PC's own log (this PC counts as main [A]).
+    const priceActivity = createPriceActivityService({
+      local: priceList, syncActive: () => sharedActivation.isActivated(), seatNo: seatNoNow, connect: connectShared, log,
+      settings: () => { const p = readPriceListSettings(settings.getAll()); return { logVisible: p.logVisible, logRetentionDays: p.logRetentionDays } }
+    })
+    void priceActivity.trimServer()
+    if (dbh.writable) { try { priceList.trimLog() } catch (e) { log.warn('The Price List log could not be trimmed', { error: e instanceof Error ? e.message : String(e) }) } }
     // Phase 86: the legacy-bill import (Phase 85 service). Deletes made by `undo` reach the outbox like any delete; the bulk enqueue on import is Phase 88.
     const legacyImport = createLegacyImportService(
       { sqlite: dbh.sqlite, repo: createLegacyImportRepo(dbh.sqlite), bills: billRepo, backup: { create: (k) => backup.create(k) }, logsDir: layout.logs, log },
@@ -659,6 +699,10 @@ if (!app.requestSingleInstanceLock()) {
       dashboardLive,
       history,
       items,
+      priceList,
+      priceImport: { service: priceImport, pickFile: pickLegacyInventoryFile },
+      priceRights,
+      priceActivity,
       itemsEmit: (channel, payload) => { broadcast(channel, payload) },
       trash,
       revisions,

@@ -45,7 +45,8 @@ export function resolveLayout(v: unknown): LayoutId {
 export function layoutHasRoute(layout: LayoutId, route: RouteName): boolean {
   const def = LAYOUTS[layout]
   if (!def) return false
-  if (def.id === 'classic') return true
+  // Phase 245: the Price List screens exist only in the new layouts (Classic is frozen), so a switch to Classic from there goes Home.
+  if (def.id === 'classic') return route !== 'pricelist'
   return route === 'home' || route === 'create' || def.screens[route] !== undefined || def.reusesClassic?.includes(route) === true
 }
 
