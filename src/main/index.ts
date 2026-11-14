@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { writeFileSync } from 'node:fs'
-import { arch, homedir, platform, release } from 'node:os'
+import { arch, homedir, hostname, platform, release } from 'node:os'
 import { join } from 'node:path'
 import { app, BrowserWindow, clipboard, shell } from 'electron'
 import { registerIpc } from './ipc/register'
@@ -106,6 +106,14 @@ import { createOutboxRepo } from './db/outboxRepo'
 import { createSyncStateRepo } from './db/syncStateRepo'
 import { createSyncRecordRepo } from './db/syncRecordRepo'
 import { createElectronSecretStore } from './sync/electronSecretStore'
+import { MASTER_ANON, MASTER_URL } from '../shared/master/config'
+import { createMasterClient } from './sync/master/masterClient'
+import { createMasterStore } from './sync/master/masterStore'
+import { createMasterService } from './sync/master/masterService'
+import { createCompanyProfileService } from './services/companyProfileService'
+import { startProfileHeartbeat } from './sync/master/profileHeartbeat'
+import { encodeLogoPng } from './import/electronLogoEncoder'
+import { startSilentAdopt } from './sync/master/silentAdopt'
 import { SupabaseTransport } from './sync/transport'
 import { SupabaseSharedTransport } from './sync/sharedTransport'
 import { createBackupRepo } from './db/backupRepo'
@@ -279,10 +287,44 @@ if (!app.requestSingleInstanceLock()) {
     // Phase 140b: the shared notebook (v2). Its keys are `shared.*`, so it can sit beside the old sync until the cutover is done.
     const syncState = createSyncStateRepo(dbh.sqlite)
     const makeSharedTransport = (c: { url: string; anonKey: string }): SupabaseSharedTransport => new SupabaseSharedTransport(c)
+    // Phase 267 (M24): silent re-credential. The activation asks the master ONCE (device token, 60 s gap) when the seat password stops working;
+    // the master service is built right after it, so the two are tied together through these late-bound refs.
+    const masterRefs: { svc: ReturnType<typeof createMasterService> | null; store: ReturnType<typeof createMasterStore> | null } = { svc: null, store: null }
     const sharedActivation = createSharedActivation(
-      { sync: syncState, branches: createBranchRepo(dbh.sqlite), secrets: createElectronSecretStore(), makeTransport: makeSharedTransport, log },
+      {
+        sync: syncState, branches: createBranchRepo(dbh.sqlite), secrets: createElectronSecretStore(), makeTransport: makeSharedTransport, log,
+        recredential: {
+          hasDeviceToken: () => masterRefs.store?.link() != null,
+          refresh: async () => (masterRefs.svc ? masterRefs.svc.refreshCredentials() : { ok: false as const, code: 'Q3M04', message: '' })
+        }
+      },
       { writable: dbh.writable }
     )
+    // Phase 263 (M24): the master client. Built here; the `master:*` channels call it, and since Phase 267 the shared-sync sign-in does (auth_failed only).
+    const masterSecrets = createElectronSecretStore()
+    const masterStore = createMasterStore({ kv: syncState, secrets: masterSecrets })
+    masterRefs.store = masterStore
+    // Phase 270 (M24): the company profile (company default from the master + this PC's overrides). Built before the master service because that service hands it the downloaded profile.
+    const companyProfile = createCompanyProfileService({ settings, app: appSettings, assetsDir: layout.assets, master: () => masterRefs.svc, encodePng: encodeLogoPng, log, writable: dbh.writable })
+    appSettings.setDecorator(companyProfile.decorate)
+    const masterSvc = createMasterService({
+      applyProfile: (p) => companyProfile.applyProfile(p),
+      client: createMasterClient({ url: MASTER_URL, anon: MASTER_ANON, fetchImpl: (u, i) => fetch(u, i), log }),
+      store: masterStore,
+      applyCredentials: async (r) => { if (r.seat.password !== null) sharedActivation.storeSeatPassword(r.seat.password, r.seat.email) },
+      config: { url: MASTER_URL, anon: MASTER_ANON },
+      company: {
+        credentials: () => { const c = sharedActivation.credentials(); return c ? { url: c.url, anonKey: c.anonKey, license: c.license } : null },
+        accessToken: async () => {
+          if (!sharedActivation.isActivated()) return null
+          await sharedActivation.connect() // refreshes the stored session when it is old
+          const blob = syncState.get(SHARED_KEYS.sessionBlob)
+          return blob ? (JSON.parse(masterSecrets.decrypt(blob)) as { accessToken?: string }).accessToken ?? null : null
+        }
+      },
+      appVersion: app.getVersion(), deviceLabel: () => hostname().slice(0, 40), newReqId: () => randomUUID(), log
+    })
+    masterRefs.svc = masterSvc
     // Phase 58: new-branch bootstrap = merge a backup from another branch (never a restore; the license and keys here are untouched).
     const bootstrap = createBootstrapService(
       {
@@ -593,7 +635,7 @@ if (!app.requestSingleInstanceLock()) {
     })
     app.on('will-quit', () => imageService.dispose())
     setTimeout(() => imageService.warm(), 1500) // after first paint, so start-up is not slowed
-    const printService = createPrintService({ port: createElectronPrintPort(), files: createElectronPdfFiles(), settings, logoDataUrl: appSettings.logoDataUrl, resourcesRoot: runtimePaths.resourcesRoot, log })
+    const printService = createPrintService({ port: createElectronPrintPort(), files: createElectronPdfFiles(), settings, logoDataUrl: appSettings.logoDataUrl, effectiveCompany: () => companyProfile.effective(), resourcesRoot: runtimePaths.resourcesRoot, log })
     // Phase 62: updates. Checks run in the background; the install only ever starts from the owner's click (and is refused while a bill is unsaved).
     const updates = createUpdateService({
       port: createElectronUpdaterPort(), settings, version: app.getVersion(), packaged: app.isPackaged, log,
@@ -657,6 +699,12 @@ if (!app.requestSingleInstanceLock()) {
     }
     // A quiet start: five seconds after launch, only when AI is on, work out which item names still need a vector.
     setTimeout(() => { try { if (settings.get('ai.enabled') === true) aiIndexer.scan() } catch (e) { log.warn('AI start scan failed', { error: String(e) }) } }, 5000)
+    // Phase 264 (M24): one silent adopt after start. Scheduled, never awaited, never throws; does nothing unless the master is configured, this PC has no device token and shared sync is on.
+    const silentAdopt = startSilentAdopt({ master: masterSvc, sharedActive: () => sharedActivation.isActivated(), schedule: (fn, ms) => { const t = setTimeout(fn, ms); return () => clearTimeout(t) }, log })
+    app.on('will-quit', () => silentAdopt.cancel())
+    // Phase 270 (M24): download the company profile shortly after start and every 6 hours (only when linked; never blocks start).
+    const profileHeartbeat = startProfileHeartbeat({ master: masterSvc, schedule: (fn, ms) => { const t = setTimeout(fn, ms); return () => clearTimeout(t) }, log })
+    app.on('will-quit', () => profileHeartbeat.cancel())
     registerIpc({
       info: {
         version: app.getVersion(),
@@ -666,6 +714,8 @@ if (!app.requestSingleInstanceLock()) {
       },
       log,
       themes: themeServiceRef,
+      master: masterSvc,
+      companyProfile,
       themeShare: themeShareRef,
       ai: { service: aiService, admin: {
         state: aiAdminState,

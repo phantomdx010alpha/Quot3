@@ -7,7 +7,7 @@ import { useBehaviourStore } from './behaviourStore'
 type Api = Quot3Bridge['appSettings']
 const api = (): Api | undefined => (window as unknown as { quot3?: { appSettings?: Api } }).quot3?.appSettings
 
-export type SettingsSection = 'company' | 'branch' | 'print' | 'behaviour' | 'themes' | 'appearance' | 'shortcuts' | 'dashboard' | 'backup' | 'fresh' | 'sync' | 'audit' | 'updates' | 'about' | 'legacywatch' | 'games' | 'ai' | 'pricelist'
+export type SettingsSection = 'company' | 'branch' | 'print' | 'behaviour' | 'themes' | 'appearance' | 'shortcuts' | 'dashboard' | 'backup' | 'fresh' | 'sync' | 'audit' | 'updates' | 'about' | 'legacywatch' | 'games' | 'ai' | 'pricelist' | 'seats'
 export const SETTINGS_SECTIONS: readonly { id: SettingsSection; label: string }[] = [
   { id: 'company', label: 'Company' },
   { id: 'branch', label: 'Branch and PO prefix' },
@@ -23,6 +23,7 @@ export const SETTINGS_SECTIONS: readonly { id: SettingsSection; label: string }[
   { id: 'backup', label: 'Backup and restore' },
   { id: 'fresh', label: 'Start fresh' },
   { id: 'sync', label: 'Sync and license' },
+  { id: 'seats', label: 'Company seats' },
   { id: 'legacywatch', label: 'Background and legacy watch' },
   { id: 'audit', label: 'Activity log' },
   { id: 'updates', label: 'Updates' },
@@ -48,6 +49,8 @@ export interface SettingsUiState {
   saveCompany: (i: { name: string; phone: string; address: string }) => Promise<boolean>
   chooseLogo: () => Promise<void>
   removeLogo: () => Promise<void>
+  /** Phase 270: "Use company default" for one field. */
+  companyUseDefault: (field: 'name' | 'phone' | 'address' | 'logo') => Promise<void>
   savePrefix: (prefix: string) => Promise<boolean>
   savePrint: (i: { rupeeOnTotal: boolean; silent: boolean; printer: string }) => Promise<boolean>
   saveBehaviour: (i: BehaviourSettings) => Promise<boolean>
@@ -116,6 +119,7 @@ export const useSettingsStore = create<SettingsUiState>((set, get) => {
       }
     },
     removeLogo: async () => { await run((a) => a.removeLogo()) },
+    companyUseDefault: async (field) => { await run((a) => a.companyUseDefault({ field })) },
     savePrefix: (prefix) => run((a) => a.savePrefix(prefix)),
     savePrint: (i) => run((a) => a.savePrint(i)),
     saveBehaviour: (i) => run((a) => a.saveBehaviour(i)),

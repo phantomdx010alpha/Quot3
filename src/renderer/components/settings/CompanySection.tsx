@@ -25,15 +25,32 @@ export function CompanySection(): React.JSX.Element {
   }, [name, phone, address, c.logoDataUrl])
 
   const st = useSettingsStore.getState
+  // Phase 270 (M24): linked to the master. Seat 1 edits the company default; another seat sees it and may override a field on this PC.
+  const m = data.companyMaster
+  const isSeat = m !== undefined && m.linked && !m.isAdmin && m.default !== null
+  const isAdminLinked = m !== undefined && m.linked && m.isAdmin
+  const differs = (field: 'name' | 'phone' | 'address' | 'logo', text: string): React.JSX.Element | null =>
+    isSeat && m !== undefined && m.overrides[field] ? (
+      <div className="q3-set__row">
+        <span className="q3-set__muted">{text !== '' ? `This PC differs. Company default: ${text}` : 'This PC differs from the company default.'}</span>
+        <Button variant="ghost" onClick={() => { void st().companyUseDefault(field) }} disabled={saving}>Use company default</Button>
+      </div>
+    ) : null
   return (
     <div className="q3-set__two">
       <form className="q3-set__form" onSubmit={(e) => { e.preventDefault(); void st().saveCompany({ name, phone, address }) }} aria-label="Company details">
+        {isAdminLinked && <p className="q3-set__muted">These details are the company default: every other device receives them. Each device may still change a field for itself.</p>}
+        {isSeat && <p className="q3-set__muted">The name, phone, address and logo come from the company. Changing a field here changes it on this PC only.</p>}
+        {m !== undefined && m.notice !== '' && <p role="status" className="q3-set__muted">{m.notice}</p>}
         <Input label="Company name" value={name} maxLength={400} autoFocus onChange={(e) => setName(e.target.value)} />
+        {differs('name', m?.default?.name ?? '')}
         <Input label="Phone" value={phone} maxLength={200} onChange={(e) => setPhone(e.target.value)} />
+        {differs('phone', m?.default?.phone ?? '')}
         <label className="q3-field">
           <span className="q3-field__label">Address</span>
           <textarea className="q3-set__textarea" value={address} rows={3} onChange={(e) => setAddress(e.target.value)} aria-label="Address" />
         </label>
+        {differs('address', m?.default?.address ?? '')}
         <div className="q3-set__logo">
           <div className="q3-set__logobox" aria-label="Logo preview">
             {c.logoDataUrl ? <img src={c.logoDataUrl} alt="Company logo" className="q3-set__logoimg" /> : <span className="q3-set__muted">No logo</span>}
@@ -42,7 +59,8 @@ export function CompanySection(): React.JSX.Element {
             <Button onClick={() => { void st().chooseLogo() }} disabled={saving}>{c.logo ? 'Change logo' : 'Add logo'}</Button>
             {c.logo && <Button variant="ghost" onClick={() => { void st().removeLogo() }} disabled={saving}>Remove logo</Button>}
           </div>
-          <p className="q3-set__muted">PNG or JPEG, up to {LOGO_MAX_BYTES / 1024} KB and {LOGO_MAX_SIDE_PX} px on each side. It prints at a limited height with its shape kept.</p>
+          {differs('logo', '')}
+          <p className="q3-set__muted">PNG or JPEG, up to {LOGO_MAX_BYTES / 1024} KB and {LOGO_MAX_SIDE_PX} px on each side. It prints at a limited height with its shape kept.{isAdminLinked ? ' A logo shared with the other devices is made into a PNG of at most 150 KB.' : ''}</p>
         </div>
         {error !== '' && <p role="alert" className="q3-set__error">{error}</p>}
         <div className="q3-set__row"><Button type="submit" variant="primary" disabled={saving || data.readOnly}>Save company details</Button></div>

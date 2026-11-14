@@ -143,12 +143,40 @@ Written 2026-10-21 (docs only). Desktop release steps in sections 2-3 are unchan
 - Phase 249 release: tag `v0.1.55` after the push steps in section 3. Order for the owner: run Supabase files 18, 19 and the log file ONCE, push + tag, install, then fill `docs/M23_OWNER_CHECKLIST.md`. The phone deploys from the `pwa` branch (section 8): merge `main` into `pwa` after the push. The phone is deployed from the `pwa` branch as in section 8.
 - The legacy `bills_data.db` is private business data: never commit it (it is in `.gitignore`).
 
-## 11. Milestone 24 (Phases 251-274; planned 2026-11-13, nothing released yet)
+## 11. Milestone 24 (Phases 251-274; planned 2026-11-13; Release B steps in 11b)
 
 - Release A = **0.1.56 [A]**, prepared by Phase 256 (quick fixes 251-254 and the price-rights fix 255-256 if done). Owner order: run `supabase/sql/21_price_perms_bell.sql` once on each company project (after 18, 19, 20), then push + tag `v0.1.56`, install, test two seats.
 - Release B = **0.1.57 [A]**, prepared by the gate Phase 273 (master, one-code onboarding, seats, profile). Owner order: create the master Supabase project and follow `docs/MASTER_OWNER_SETUP.md` (master SQL `supabase/master/M01..`, deploy the Edge Functions, set the secrets, mint an enrol token), THEN push + tag `v0.1.57`, install, link the first company, fill `docs/M24_OWNER_CHECKLIST.md`.
 - A phase other than 256 and 273 does NOT bump the version. The same push steps as section 3 apply; always hand back the changed-files zip, the full zip and the steps with the real version number.
 - Do not build the exe locally; GitHub does it.
+
+## 11b. Release B = 0.1.57 [A] (Phase 273, 2026-11-14): exact steps for the owner
+
+What it contains: Phases 257-272 (master project, one-code phone onboarding, Seat-1 "Company seats", silent adopt / re-credential on PC and phone, company profile on PC print / image and on the phone). With NO master configured the app behaves exactly like 0.1.56.
+
+**Master deploy order (once, details in `docs/MASTER_OWNER_SETUP.md`):**
+1. Make the master Supabase project (2FA on, sign-ups OFF).
+2. Run `supabase/master/M01_tables.sql`, `M02_rls.sql`, `M03_helpers.sql` in that order in the MASTER project only.
+3. `node tools/master-cli.mjs init`; set `MASTER_KEK`, `MASTER_PEPPER`, `ALLOWED_ORIGIN` as function secrets.
+4. `node tools/master-cli.mjs bundle`, then deploy the 13 functions with `--no-verify-jwt`.
+5. **Put the master Project URL and anon key into `src/shared/master/config.ts` (`MASTER_URL`, `MASTER_ANON`; both are public values, NEVER the service_role key) before you commit.** Left empty, 0.1.57 ships with the master switched off (the safe default). Claude does not know these values; paste them yourself or give them to a Claude session to edit that one file.
+6. Company projects need `supabase/sql/21_price_perms_bell.sql` if not already run (release 0.1.56 step 1).
+
+**Then push and tag:**
+1. Extract the **changed-files zip** over the repo folder, "Replace the files".
+2. In the repo folder:
+
+```powershell
+git add .
+git commit -m "Release B: master, one-code onboarding, company seats, company profile, version 0.1.57"
+git push origin main
+git tag v0.1.57
+git push origin v0.1.57
+```
+
+3. Wait for the **Release** run (green tick); check `Quot3-Setup-0.1.57.exe`, its `.blockmap` and `latest.yml` are on the release; Settings > Updates > Check for updates > Restart.
+4. Phone: merge `main` into `pwa` after the push (section 8).
+5. Fill `docs/M24_OWNER_CHECKLIST.md` on real devices and send Claude the failed lines (Phase 274).
 
 ## 11a. Release A = 0.1.56 [A] (Phase 256, 2026-11-13): exact steps for the owner
 

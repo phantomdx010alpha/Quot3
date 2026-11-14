@@ -106,7 +106,8 @@ export async function linkPhoneToOrganisation(db: PhoneDb, port: PhoneSyncPort, 
   try {
     const session = await port.signIn({ email: c.email, password: c.password })
     // Save the login first (refresh tokens are single-use), then watch for refreshes.
-    await vault.save({ supabaseUrl: c.supabaseUrl, anonKey: c.anonKey, license: c.licenseKey, email: c.email, session })
+    const kept = (await vault.load().catch(() => null))?.deviceToken // Phase 268: linking again (old form) keeps the master device token
+    await vault.save({ supabaseUrl: c.supabaseUrl, anonKey: c.anonKey, license: c.licenseKey, email: c.email, session, ...(kept ? { deviceToken: kept } : {}) })
     stopPersist = persistSessionChanges(port, vault)
 
     const free = await port.branchNameFree({ license: c.licenseKey, name: c.branchName, branchId })

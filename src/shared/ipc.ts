@@ -24,6 +24,8 @@ import type { UpcomingHoliday } from './dashboard/holidays'
 import type { BackupInfo, BackupStatus } from './backup/backupRules'
 import type { WipeOptions } from './wipe/wipeRules'
 import type { ActivateInput, LicenseStatus } from './sync/license'
+import type { MasterAdoptOutcome, MasterHeartbeatOutcome, MasterRefreshOutcome, MasterStatus } from './master/clientTypes'
+import type { ProfileView, SeatView } from './master/schemas'
 import type { OutboxStatus } from './sync/outbox'
 import type { HeldChange, ResolveHeldInput } from './sync/pull'
 import type { ConflictInfo } from './sync/conflict'
@@ -258,6 +260,8 @@ export interface Quot3Bridge {
     /** Phase 48: native Open dialog, then type / size / pixel checks and a copy into assets/. `cancelled` = dialog closed. */
     chooseLogo(): Promise<Result<{ cancelled: boolean; state: AppSettingsState }>>
     removeLogo(): Promise<Result<AppSettingsState>>
+    /** Phase 270 (M24): "Use company default" - drops this PC's override of one company field (name / phone / address / logo). */
+    companyUseDefault(input: { field: 'name' | 'phone' | 'address' | 'logo' }): Promise<Result<AppSettingsState>>
     /** Phase 48: new prefix for FUTURE bills only (saved bills keep their number); unique across known branches. */
     savePrefix(prefix: string): Promise<Result<AppSettingsState>>
     savePrint(input: { rupeeOnTotal: boolean; silent: boolean; printer: string }): Promise<Result<AppSettingsState>>
@@ -612,6 +616,23 @@ export interface Quot3Bridge {
     suggestGroups(input: { groupId: string }): Promise<Result<{ suggestions: GroupMergeSuggestion[]; embeddingsUsed: boolean }>>
     /** Phase 229 (M22): plain-sentence search. Re-rank scores (0..1 by bill id; only when `ai.sentenceSearch` is on and the model answered) and each bill's format. Reads only; the filtering itself uses `history.*`. */
     searchSentence(input: { itemText: string; billIds: string[] }): Promise<Result<SentenceSearchAnswer>>
+  }
+  master: {
+    /** Phase 263 (M24): the desktop master client. No password, device token, enrol token or service_role key ever comes back; `link` takes the service_role key IN once. */
+    status(): Promise<Result<MasterStatus>>
+    link(input: { enrolToken: string; label: string; serviceRoleKey: string }): Promise<Result<MasterStatus>>
+    redeem(input: { code: string }): Promise<Result<MasterStatus>>
+    adopt(): Promise<Result<MasterAdoptOutcome>>
+    refresh(): Promise<Result<MasterRefreshOutcome>>
+    heartbeat(): Promise<Result<MasterHeartbeatOutcome>>
+    seatList(): Promise<Result<{ company: { id: string; label: string; maxSeats: number; status: string }; seats: SeatView[] }>>
+    seatCreate(input: { label: string }): Promise<Result<SeatView>>
+    seatReset(input: { seatNo: number }): Promise<Result<SeatView>>
+    seatRevoke(input: { seatNo: number }): Promise<Result<SeatView>>
+    seatRename(input: { seatNo: number; label: string }): Promise<Result<SeatView>>
+    seatRegen(input: { seatNo: number }): Promise<Result<SeatView>>
+    profileGet(): Promise<Result<ProfileView>>
+    profileSet(input: { name: string; phone: string; address: string; logo?: string | null; expectVersion?: number }): Promise<Result<ProfileView>>
   }
   on(channel: EventChannel, callback: (payload: unknown) => void): () => void
 }

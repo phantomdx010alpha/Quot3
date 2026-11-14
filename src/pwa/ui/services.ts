@@ -1,5 +1,6 @@
 import type { PhoneDb } from '../data/db'
 import type { LinkInput, LinkResult } from '../sync/branch'
+import type { ConnectCodeApi } from './ConnectCode'
 import type { PhoneSyncEngine } from '../sync/engine'
 import type { EngineReader } from './loadDashboard'
 
@@ -36,4 +37,6 @@ export interface AppServices {
   readonly syncEngine?: PhoneSyncEngine | null
   /** The app lock is on: the PIN screen shows before anything else (Phase 185). Decided at start by `bootstrapServices`. */
   readonly startLocked?: boolean
+  /** Phase 269: the one-code first-launch screen. Absent (or `ready()` false) = the old behaviour, no gate. */
+  readonly connectCode?: ConnectCodeApi | null
 }

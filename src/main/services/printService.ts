@@ -1,7 +1,7 @@
 import type { Bill, Paper, PrintMode } from '../../shared/types'
 import type { PaperDecision } from '../../shared/paper/paperTypes'
 import { buildPrintModel, type PrintSettings } from '../../shared/print/printModel'
-import { parsePrintMethod, type PrintMethod, countPdfPages, decideForBill, fitDensity, isOverflow, isPdfPath, pdfFileName, resolvePrintSettings, type ForcedPaper } from '../../shared/print/printFlow'
+import { parsePrintMethod, type PrintMethod, countPdfPages, decideForBill, fitDensity, isOverflow, isPdfPath, pdfFileName, PRINT_SETTING_KEYS, resolvePrintSettings, type ForcedPaper } from '../../shared/print/printFlow'
 import { fitCapFor, fitScaleSearch } from '../../shared/print/fitScale'
 import { renderPrintHtml } from '../../shared/print/template/renderHtml'
 import { AppError } from '../ipc/envelope'
@@ -84,7 +84,7 @@ export interface PrintService {
   resolveOutput(req: PrintRequest): Promise<{ html: string; decision: PaperDecision; switchedByMeasure: boolean }>
 }
 
-export function createPrintService(deps: { port: PrintPort; settings: SettingsService; /** Phase 48: turns the saved logo file name into a data URL for the template. */ logoDataUrl?: (fileName: string) => string; resourcesRoot: string; files?: PdfFilePort; log?: Pick<Logger, 'warn' | 'info'> }): PrintService {
+export function createPrintService(deps: { port: PrintPort; settings: SettingsService; /** Phase 48: turns the saved logo file name into a data URL for the template. */ logoDataUrl?: (fileName: string) => string; /** Phase 271 (M24): the single effective company getter (company default + this PC's overrides); absent = the local `company.profile` exactly as before. */ effectiveCompany?: () => { logo: string; name: string; phone: string; address: string }; resourcesRoot: string; files?: PdfFilePort; log?: Pick<Logger, 'warn' | 'info'> }): PrintService {
   const fontBaseUrl = printFontBaseUrl(deps.resourcesRoot)
   const render = (bill: Bill, mode: PrintMode, settings: PrintSettings, decision: PaperDecision, density = 0, fit = 1): string =>
     renderPrintHtml(buildPrintModel(bill, mode, settings, decision), { fontBaseUrl, density, ...(fit > 1 ? { fit } : {}) })
@@ -99,7 +99,11 @@ export function createPrintService(deps: { port: PrintPort; settings: SettingsSe
 
   /** Rules, then (only for an unforced A5 result) the measured-overflow safety net; returns the final decision and its HTML. */
   async function resolve(req: PrintRequest, quick = false): Promise<DecideResult & { html: string; resolved: ReturnType<typeof resolvePrintSettings> }> {
-    const resolved = resolvePrintSettings(deps.settings.getAll())
+    // Phase 271 (M24): print, PDF, image and copy all read the company block through the one effective getter; a failure falls back to the local record.
+    const all = deps.settings.getAll()
+    let eff: ReturnType<NonNullable<typeof deps.effectiveCompany>> | null = null
+    try { eff = deps.effectiveCompany ? deps.effectiveCompany() : null } catch (err) { deps.log?.warn('Effective company profile unavailable; using the local record', { err: err instanceof Error ? err.message : String(err) }) }
+    const resolved = resolvePrintSettings(eff ? { ...all, [PRINT_SETTING_KEYS.company]: { logo: eff.logo, name: eff.name, phone: eff.phone, address: eff.address } } : all)
     const co = resolved.print.company
     const settings = co && co.logo !== '' && !co.logo.includes(':') && deps.logoDataUrl ? { ...resolved.print, company: { ...co, logo: deps.logoDataUrl(co.logo) } } : resolved.print
     let decision = decideForBill(req.bill, req.mode, { forced: req.forced })

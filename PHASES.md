@@ -2522,6 +2522,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once (tools have `.d.mts`); the helper tests.
 
 ## Phase 263 — Desktop master client service (no UI) [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md; contract block M24-I in `API_CONTRACTS.md`). Next: Phase 264.**
 **Goal:** Main-process code that talks to the master, with IPC, storage and tests; no screens.
 **Depends on:** 257, 259 (shapes). The live server is not needed.
 **In scope:** NEW `src/main/sync/master/{masterClient,masterStore,masterService}.ts`: client for every call of 257 (fetch, one retry, timeout 10 s, errors -> plain words, all logging through `redact`), `masterStore` keeps in the existing OS secret store: master URL + anon key (baked in as constants from build config, `MASTER_URL` / `MASTER_ANON` in `src/shared/appInfo.ts` or a new `shared/master/config.ts`), device token, linked company id, seat label; `masterService` = `link(enrol...)`, `adopt()`, `refreshCredentials()`, `seatList/create/reset/revoke/rename/regen()`, `profileGet/Set()`, `status()`; IPC channels `master:*` (zod, `src/main/ipc/master.ts`, registered in `register.ts`) and bridge typings in `src/shared/ipc.ts` + preload. Tests against a fake fetch: every call shape, retry, offline = "Master unreachable", nothing secret reaches the log or `diagnostics`. NO UI.
@@ -2530,6 +2531,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the new tests + `importBoundaries` + `ipc` registration tests that list channels.
 
 ## Phase 264 — Desktop "Link to master" wizard + silent adopt [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md; contract block M24-J in `API_CONTRACTS.md`). Next: Phase 265.**
 **Goal:** Seat 1 links the company in one wizard; every updated PC adopts silently.
 **Depends on:** 263.
 **In scope:** (a) silent adopt: on app start, when shared sync is active, a master is configured and this PC has no device token: `masterService.adopt()` in the background (never blocks start, never throws, retries later, only logs a redacted line); (b) Settings > "Company seats" section (new file, section registered like the others; action key + palette entry; shows "Not linked to master / Linked as seat N") with the seat-1-only "Link to master" wizard: enrol token, company label, service_role key (password-style field, cleared immediately after the call, never stored), plain-words result; non-seat-1 PCs see only the status line; (c) tests for the store and wizard logic (the key is never kept: assert it is absent from state after success AND failure).
@@ -2538,6 +2540,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the new tests; `shortcuts`; `importBoundaries`; settings section-count test updated (known `settingsPage` failures are pre-existing).
 
 ## Phase 265 — Desktop Company seats A: list + create [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md; contract block M24-K in `API_CONTRACTS.md`). Next: Phase 266.**
 **Goal:** Seat 1 sees every seat and creates new ones (max 15), and can show / copy a seat's code.
 **Depends on:** 264.
 **In scope:** `renderer/stores/masterSeatsStore.ts` + the "Company seats" panel: table (seat no, label, status, legacy badge "existing login", last seen, code hint), "Add seat" (label), shows the new code once in a copy box with a plain "Give this code to the person" line, "Show code" for non-legacy seats, cap message at 15, all strings plain words; seat 1 only (others see nothing but the status line). Fake-bridge store tests (list, create, cap, error words).
@@ -2546,6 +2549,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the store test; `importBoundaries`.
 
 ## Phase 266 — Desktop Company seats B: seat actions [E]
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-L in `API_CONTRACTS.md`; typecheck / vitest not run, see log). Next: Phase 267.**
 **Goal:** Reset, delete, regenerate code, rename label; Price List rights inline.
 **Depends on:** 265.
 **In scope:** per-seat actions with typed confirmations (reset: "Everyone on this seat will reconnect by themselves"; delete: type `DELETE`; seat 1 has no reset/delete buttons), regenerate code (old code stops working at once, linked devices unaffected), rename label; an inline "Price List rights" button per seat that opens the existing `PriceRightsSettings` editor for that seat (reuse, do not duplicate); legacy seat: "Reset to enable a code" explanation; tests for the store actions and the confirmation rules.
@@ -2554,6 +2558,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the store tests.
 
 ## Phase 267 — Desktop silent re-credential [E]
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-M in `API_CONTRACTS.md`; typecheck / vitest not run, see log). Next: Phase 268.**
 **Goal:** After a seat reset, active desktops keep working without anyone typing.
 **Depends on:** 263.
 **In scope:** where the shared-sync connect path gets `auth_failed` (`activationV2.connect`, push / pull workers): if a master device token exists, call `masterService.refreshCredentials()` ONCE, store the new password in the secret store exactly where the old one lives, retry; if the master says seat removed -> existing "sync stopped" state with the plain words "This seat was removed. Ask the admin for a new code."; if the master is unreachable keep the current "paused, will retry" behaviour; no loops (one attempt per 60 s). Tests with the sim: reset mid-run, offline reset, removed seat, master down, no device token (unchanged behaviour).
@@ -2562,6 +2567,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the new test + `activationV2`, `sharedSync*` named tests that exist for the touched files; no full suite.
 
 ## Phase 268 — Phone master client + redeem (no UI) [E]
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-N in `API_CONTRACTS.md`; typecheck / vitest not run, see log). Next: Phase 269.**
 **Goal:** The PWA can redeem a code and write the bundle into its existing vault.
 **Depends on:** 259, 257.
 **In scope:** NEW `src/pwa/sync/master.ts` (fetch client for redeem / adopt / refresh / heartbeat / profile-get; plain-words errors; `redact`), `redeemCode(code)` = validate check character locally -> call -> write bundle to the vault (`VaultData` keys, no schema change) + `meta` (branch setup stays the existing step) -> return the existing "linked" state so the existing first-sync flow runs; `adoptIfPossible()` for old phones (valid session + registered company -> device token; silent); device token stored in the vault blob (extend `VaultData` with an OPTIONAL `deviceToken`, version-tolerant: old blobs still open). Tests with a fake fetch + fake vault.
@@ -2570,6 +2576,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the new test + `syncLogin`, `phoneRuntime`, `syncPushPull`.
 
 ## Phase 269 — Phone one-field first-launch + silent re-credential [E]
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-O in `API_CONTRACTS.md`; typecheck (pwa project) and the named tests ran, see log). Next: Phase 270.**
 **Goal:** An unlinked PWA asks for ONE code; a reset seat reconnects by itself.
 **Depends on:** 268.
 **In scope:** the first-launch screen (when no company is linked): one input, paste-friendly, check-character feedback as you type, "Connect", plain error words, progress then straight into the existing first-sync; a small "Advanced: enter details by hand" link that opens the existing old form [A]; `auth_failed` path in `createPhoneConnect`: one `refresh` attempt with the device token before falling back to "Sign in again"; "seat removed" screen. In the NEW layouts' shared shell if possible; the classic layout is not touched without the owner's approval (10r) - if the first-launch gate lives in shared bootstrap code, add it there as a screen that all layouts show. Tests: redeem happy path, bad code, revoked, offline, reset recovery, removed seat, advanced form still reachable.
@@ -2584,6 +2591,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Out of scope:** print / bill header / images (271), phone (272).
 **Key files:** `src/shared/settings.ts` (company keys), the Company settings section, `masterService.ts`, `shared/master/schemas.ts`.
 **Version:** no bump. **How to verify:** typecheck once; the new test + settings default / schema tests.
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-P in `API_CONTRACTS.md`; typecheck and the named tests ran, see log). Next: Phase 271.**
 
 ## Phase 271 — Company profile B: desktop print / header / image [E]
 **Goal:** Everything printed or shared uses the effective profile.
@@ -2592,6 +2600,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Out of scope:** new layouts; phone.
 **Key files:** grep results of `company.`; `src/main/print/*`, `shared/print/*` (only the readers), their tests.
 **Version:** no bump. **How to verify:** typecheck once; the named print / image tests of the touched code; page-feel on a real printer is an owner check.
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-Q in `API_CONTRACTS.md`; typecheck and the named tests ran, see log). Next: Phase 272.**
 
 ## Phase 272 — Company profile C: phone [E]
 **Goal:** The phone shows and uses the same effective profile (bill view / share / about).
@@ -2600,6 +2609,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Out of scope:** classic layout restyle; override editor.
 **Key files:** `src/pwa/sync/master.ts`, `pwa/data/settingsRepo`, `pwa/ui/{BillView,SharePanel,AboutPage}.tsx`.
 **Version:** no bump. **How to verify:** typecheck once; the new test + `phoneRuntime`, `classicParity`.
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; contract block M24-R in `API_CONTRACTS.md`; typecheck (pwa project) and the named tests ran, see log). Next: Phase 273.**
 
 ## Phase 273 — Milestone 24 QA gate (release gate) [G]
 **Goal:** Close M24: reconcile docs, write the owner checklist, release.
@@ -2607,6 +2617,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **In scope:** typecheck once + the named test files of 251-272 (each phase's log lists them); reconcile `PHASE_STATUS.md`, `PROJECT_STRUCTURE.md`, `API_CONTRACTS.md`, `GITHUB_UPDATE_PUSH.md` (section 11: master deploy order, release 0.1.57); write `docs/M24_OWNER_CHECKLIST.md` UNFILLED (master project setup, deploy functions, link the first company, an existing phone keeps working after update, adopt, new phone one code, create / reset / delete seats while a phone is open, 15-seat cap, price rights live change, profile inherit / override, master paused behaviour, backup export, the Dashboard / Price List / PWA price columns / AI-off checks on real devices); bump 0.1.57 [A]; hand back changed-files zip + full zip + push steps with the tag. Master unused = 0.1.55 behaviour is checked by test.
 **Out of scope:** new features.
 **Version:** 0.1.57 (release gate [A]). **How to verify:** typecheck once + the named tests green or each failure listed with its cause (compare against the previous zip). NO FULL SUITE; real Supabase / Windows / Android never written as "verified".
+**STATUS: ✅ DONE 2026-11-14 (see PHASE_STATUS.md; version 0.1.57 [A], NOT yet pushed or tagged by the owner; `docs/M24_OWNER_CHECKLIST.md` written UNFILLED). Next: owner checklist, then Phase 274 only if it reports problems.**
 
 ## Phase 274 — Fix pack from the owner's report (only if needed) [E]
 **Goal:** Fix what the owner found when testing M24.

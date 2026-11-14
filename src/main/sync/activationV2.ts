@@ -56,6 +56,11 @@ export interface SharedActivation {
    * session is stored again by itself.
    */
   connect(): Promise<{ transport: SharedStoreTransport; creds: SharedCredentials }>
+  /**
+   * Phase 267: the master's refreshed seat password goes into the SAME wrapped login blob the activation wrote (e-mail kept unless a new one is
+   * given). Returns false when this PC is not activated or the blob cannot be read; nothing is logged with the password.
+   */
+  storeSeatPassword(password: string, email?: string): boolean
 }
 
 export interface SharedActivationDeps {
@@ -66,7 +71,21 @@ export interface SharedActivationDeps {
   makeTransport: (cfg: { url: string; anonKey: string }) => SharedStoreTransport
   log: Pick<Logger, 'info' | 'warn' | 'error'>
   deviceName?: () => string
+  /**
+   * Phase 267 (M24): silent re-credential. Absent = old behaviour exactly. `hasDeviceToken` says whether this PC is linked to the master;
+   * `refresh` is `masterService.refreshCredentials()` (it hands the new password to `storeSeatPassword` by itself and never throws).
+   */
+  recredential?: {
+    hasDeviceToken(): boolean
+    refresh(): Promise<{ ok: true; legacy: boolean; applied: boolean } | { ok: false; code: string; message: string }>
+  }
 }
+
+/** One master refresh attempt per this many ms (Phase 267). */
+export const RECREDENTIAL_GAP_MS = 60_000
+/** The plain words shown when the master says this seat was removed (Phase 267). */
+export const SEAT_REMOVED_WORDS = 'This seat was removed. Ask the admin for a new code.'
+type RecredentialResult = 'applied' | 'removed' | 'none'
 
 const json = <T>(raw: string | undefined, fallback: T): T => { if (raw === undefined) return fallback; try { return JSON.parse(raw) as T } catch { return fallback } }
 function need<T>(c: Checked<T>): T { if (!c.ok) throw new AppError('VALIDATION', c.message); return c.value }
@@ -128,6 +147,32 @@ export function createSharedActivation(deps: SharedActivationDeps, opts: { writa
     }
   }
 
+  // Phase 267: at most one master refresh per 60 s; callers that arrive while one runs (push, pull, doorbell) wait for it and share its answer.
+  let lastRecred = { at: -Infinity, result: 'none' as RecredentialResult }
+  let recredInflight: Promise<RecredentialResult> | null = null
+  function recredential(): Promise<RecredentialResult> {
+    const r = deps.recredential
+    if (!r || !r.hasDeviceToken()) return Promise.resolve('none')
+    if (recredInflight) return recredInflight
+    if (now().getTime() - lastRecred.at < RECREDENTIAL_GAP_MS) return Promise.resolve(lastRecred.result === 'none' ? 'none' : lastRecred.result)
+    const run = async (): Promise<RecredentialResult> => {
+      let result: RecredentialResult = 'none'
+      try {
+        const o = await r.refresh()
+        if (o.ok) result = o.applied ? 'applied' : 'none'
+        else if (o.code === 'Q3M07') result = 'removed'
+        // any other failure (master unreachable, not linked, ...) keeps the old behaviour: paused, retried later
+      } catch { result = 'none' }
+      lastRecred = { at: now().getTime(), result }
+      deps.log.info('Shared sync re-credential', { result })
+      return result
+    }
+    lastRecred = { ...lastRecred, at: now().getTime() }
+    recredInflight = run().finally(() => { recredInflight = null })
+    return recredInflight
+  }
+  const readLogin = (): { email?: string; password?: string } | null => json<{ email?: string; password?: string } | null>(unwrap(SHARED_KEYS.loginBlob) ?? undefined, null)
+
   async function connect(): Promise<{ transport: SharedStoreTransport; creds: SharedCredentials }> {
     const creds = credentials()
     if (!creds) throw new AppError('LICENSE_INVALID', 'Sync is not activated on this computer, or the stored login could not be read. Activate again.')
@@ -145,9 +190,25 @@ export function createSharedActivation(deps: SharedActivationDeps, opts: { writa
           // The session ended (refresh token revoked or replaced): sign in again with the seat password below.
         }
       }
-      const login = json<{ email?: string; password?: string } | null>(unwrap(SHARED_KEYS.loginBlob) ?? undefined, null)
+      const login = readLogin()
       if (!login?.email || login.password === undefined) throw new AppError('AUTH_FAILED', 'The stored login for this computer could not be read. Activate again.')
-      storeSession(await transport.signIn({ email: login.email, password: login.password }))
+      try {
+        storeSession(await transport.signIn({ email: login.email, password: login.password }))
+      } catch (e) {
+        if (!(e instanceof SharedTransportError) || e.kind !== 'auth_failed') throw e
+        // Phase 267: the seat password no longer works (the admin reset the seat). Ask the master ONCE (device token, 60 s gap), then try again.
+        const res = await recredential()
+        if (res === 'removed') {
+          setLink('license_problem', SEAT_REMOVED_WORDS)
+          deps.log.warn('Shared sync seat removed by the master')
+          throw new AppError('AUTH_FAILED', SEAT_REMOVED_WORDS, { kind: 'seat_removed' })
+        }
+        if (res !== 'applied') throw e
+        const fresh = readLogin()
+        if (!fresh?.email || fresh.password === undefined) throw e
+        storeSession(await transport.signIn({ email: fresh.email, password: fresh.password }))
+        setLink('ok', 'Connected.')
+      }
       return { transport, creds }
     } catch (e) {
       const err = sharedToAppError(e)
@@ -175,6 +236,15 @@ export function createSharedActivation(deps: SharedActivationDeps, opts: { writa
     credentials,
     isActivated: activated,
     connect,
+    storeSeatPassword(password, email) {
+      if (!activated() || password === '') return false
+      const login = readLogin()
+      const mail = email ?? login?.email
+      if (!mail) return false
+      sync.set(SHARED_KEYS.loginBlob, secrets.encrypt(JSON.stringify({ email: mail, password })))
+      sync.set(SHARED_KEYS.emailHint, maskEmail(mail))
+      return true
+    },
 
     async status(o = {}) {
       if (o.check === true && activated() && opts.writable !== false) await check()

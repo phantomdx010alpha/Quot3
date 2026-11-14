@@ -7,6 +7,7 @@ import { THEME_SHARE_DEFAULT, THEME_SHARE_KEY } from './theme/themeShare'
 import { AI_DEFAULTS } from './ai/aiSettings'
 import { AUTO_RED_BOLD_DEFAULTS } from './richtext/autoRedBold'
 import { PRICELIST_DEFAULTS } from './pricelist/settings'
+import { COMPANY_MASTER_DEFAULTS } from './master/profile'
 import { EFFECTS_ENABLED_DEFAULT, EFFECTS_ENABLED_KEY, EFFECTS_OVERRIDES_KEY, EFFECTS_PAUSE_UNFOCUSED_DEFAULT, EFFECTS_PAUSE_UNFOCUSED_KEY } from './theme/effects'
 
 export const SETTING_KEY_RE = /^[a-z][A-Za-z0-9_]*(\.[A-Za-z0-9_]+)+$/
@@ -77,5 +78,7 @@ export const SETTING_DEFAULTS: Readonly<Record<string, unknown>> = {
   /** Phase 233 (M23): auto red + bold phrases ("by hand"); see shared/richtext/autoRedBold.ts. */
   ...AUTO_RED_BOLD_DEFAULTS,
   /** Phase 235 (M23): Price List switches (master, billing mode / tiers, activity log, default columns); see shared/pricelist/settings.ts. */
-  ...PRICELIST_DEFAULTS
+  ...PRICELIST_DEFAULTS,
+  /** Phase 270 (M24): the company default downloaded from the master (null = none) and the per-field "this PC differs" flags; see shared/master/profile.ts. */
+  ...COMPANY_MASTER_DEFAULTS
 }

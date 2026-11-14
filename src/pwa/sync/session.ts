@@ -24,6 +24,8 @@ export interface VaultData {
   license: string
   email: string
   session: PhoneSession | null
+  /** Phase 268 (M24): the master device token. OPTIONAL so every older blob still opens; never part of a backup (the whole vault is not). */
+  deviceToken?: string
 }
 
 interface Blob {

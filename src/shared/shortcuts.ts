@@ -59,6 +59,7 @@ export type ActionId =
   | 'settings.backup'
   | 'settings.fresh'
   | 'settings.sync'
+  | 'settings.seats'
   | 'settings.joinBranch'
   | 'settings.audit'
   | 'settings.updates'
@@ -252,6 +253,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'settings.backup', label: 'Settings: Backup and restore', group: 'Navigate' },
   { id: 'settings.fresh', label: 'Settings: Start fresh (clear bills and customers, or factory reset)', group: 'Navigate' },
   { id: 'settings.sync', label: 'Settings: Sync and license', group: 'Navigate' },
+  { id: 'settings.seats', label: 'Settings: Company seats (link this company to the master)', group: 'Navigate' },
   { id: 'settings.joinBranch', label: 'Settings: Join an existing branch (import history)', group: 'Navigate' },
   { id: 'settings.audit', label: 'Settings: Activity log (who did what, when)', group: 'Navigate' },
   { id: 'settings.updates', label: 'Settings: Updates', group: 'Navigate' },

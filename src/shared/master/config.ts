@@ -5,8 +5,8 @@
  * false and no client makes a master call (test T21). Never put a service_role key or the MASTER_KEK here.
  */
 
-export const MASTER_URL: string = ''
-export const MASTER_ANON: string = ''
+export const MASTER_URL: string = 'https://mlejwzywyqkljpejerli.supabase.co'
+export const MASTER_ANON: string = 'sb_publishable_eYd_Rj5LlFI0NzGd48lMEA_a0aN4916'
 
 /** The thirteen function names, in contract order F1..F13. */
 export const MASTER_FUNCTION_NAMES = [

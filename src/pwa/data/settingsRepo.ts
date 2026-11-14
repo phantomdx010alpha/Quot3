@@ -5,6 +5,8 @@ import { deleteRecord, getAllRecords, getRecord, putRecord, type PhoneDb } from 
 export interface SettingDefaults {
   /** The phone's own company block for professional output (company settings do NOT sync, Phase 173 Q10). Phase 185 builds the entry. */
   'company.profile': { name: string; phone: string; address: string; logoDataUrl: string | null }
+  /** Phase 272 (M24): the company default downloaded from the master (null = none). The phone only displays it [A]; `effectiveCompany` (sync/companyProfile.ts) is the one reader. Not secret, kept in the backup file. */
+  'company.master': { version: number; name: string; phone: string; address: string; logoDataUrl: string | null } | null
   /** Remembered share choice [A]. */
   'share.defaults': { style: 'rough' | 'professional'; kind: 'image' | 'pdf' }
   /** Show the "last export is old" note after this many days. */
@@ -32,6 +34,7 @@ export interface SettingDefaults {
 
 export const SETTING_DEFAULTS: SettingDefaults = {
   'company.profile': { name: '', phone: '', address: '', logoDataUrl: null },
+  'company.master': null,
   'share.defaults': { style: 'professional', kind: 'image' },
   'backup.reminderDays': 14,
   'appLock.enabled': false,

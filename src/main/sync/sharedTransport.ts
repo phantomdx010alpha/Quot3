@@ -233,6 +233,13 @@ export class InMemorySharedServer {
     o.status = status
     for (const u of this.users.values()) if (u.orgId === orgId) u.banned = status === 'suspended'
   }
+  /** Test helper (Phase 267): the admin reset a seat: a new password, and every refresh token of that seat is gone. */
+  setSeatPassword(email: string, password: string): void {
+    const u = [...this.users.values()].find((x) => x.email === email.trim().toLowerCase())
+    if (!u) return
+    u.password = password
+    for (const [t, id] of this.refresh) if (id === u.userId) this.refresh.delete(t)
+  }
   revokeSeat(email: string): void {
     const u = [...this.users.values()].find((x) => x.email === email.trim().toLowerCase())
     if (!u) return

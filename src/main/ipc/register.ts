@@ -47,6 +47,7 @@ import { dashboardLiveHandlers } from './dashboardLive'
 import type { DashboardLiveService } from '../services/dashboardLiveService'
 import { appSettingsHandlers } from './appSettings'
 import type { AppSettingsService } from '../services/appSettingsService'
+import type { CompanyProfileService } from '../services/companyProfileService'
 import type { DashboardService } from '../services/dashboardService'
 import type { CustomerService } from '../services/customerService'
 import { historyHandlers } from './history'
@@ -67,6 +68,8 @@ import { trashHandlers } from './trash'
 import type { RevisionService } from '../services/revisionService'
 import { revisionHandlers } from './revisions'
 import { clipboardHandlers, type ClipboardPort } from './clipboard'
+import { masterHandlers } from './master'
+import type { MasterService } from '../sync/master/masterService'
 import { printHandlers } from './print'
 import { imageHandlers } from './image'
 import type { ImageService } from '../services/imageService'
@@ -77,6 +80,8 @@ export interface IpcContext {
   games?: GamesPorts
   /** Phase 223 (M22): the local AI service (absent in tests that do not need it). */
   ai?: AiPorts
+  /** Phase 263 (M24): the master client service (absent in tests that do not need it). */
+  master?: MasterService
   info: AppInfo
   log: Logger
   themes: ThemeService
@@ -85,6 +90,8 @@ export interface IpcContext {
   settings: SettingsService
   /** Phase 48: the Settings screens (company, logo, PO prefix, print defaults, behaviour). */
   appSettings: AppSettingsService
+  /** Phase 270 (M24): company profile (company default / overrides); absent in tests that do not need it. */
+  companyProfile?: CompanyProfileService
   parties: PartyService
   customers: CustomerService
   partyImport: PartyImportService
@@ -213,8 +220,9 @@ export function registerIpc(ctx: IpcContext): void {
     ...themeHandlers(ctx.themes, ctx.themeShare),
     ...(ctx.games ? gamesHandlers(ctx.games) : {}),
     ...(ctx.ai ? aiHandlers(ctx.ai) : {}),
+    ...(ctx.master ? masterHandlers(ctx.master) : {}),
     ...settingsHandlers(ctx.settings),
-    ...appSettingsHandlers(ctx.appSettings),
+    ...appSettingsHandlers(ctx.appSettings, ctx.companyProfile),
     ...partyHandlers(ctx.parties),
     ...customerHandlers(ctx.customers),
     ...partyImportHandlers(ctx.partyImport, ctx.filePicker),

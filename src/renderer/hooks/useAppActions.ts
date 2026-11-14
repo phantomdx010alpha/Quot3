@@ -194,6 +194,8 @@ export function useAppActions(): ActionHandlers {
       'settings.backup': () => openSettingsSection('backup', navigate),
       'settings.fresh': () => openSettingsSection('fresh', navigate),
       'settings.sync': () => openSettingsSection('sync', navigate),
+      // Phase 264 (M24): Settings > Company seats.
+      'settings.seats': () => openSettingsSection('seats', navigate),
       'settings.joinBranch': () => openSettingsSection('sync', navigate),
       // Phase 61: the activity log; Copy diagnostics shows its result there.
       'settings.audit': () => openSettingsSection('audit', navigate),

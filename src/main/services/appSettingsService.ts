@@ -36,6 +36,8 @@ export interface AppSettingsService {
   printers(): Promise<string[]>
   /** For the print template: the saved logo as a data URL ('' when none / unreadable). */
   logoDataUrl(fileName: string): string
+  /** Phase 270: a hook applied to every state this service returns (the company profile overlay); null = none. */
+  setDecorator(fn: ((s: AppSettingsState) => AppSettingsState) | null): void
 }
 
 const MIME: Record<string, string> = { png: 'image/png', jpg: 'image/jpeg' }
@@ -45,6 +47,7 @@ export function createAppSettingsService(deps: { settings: SettingsService; bran
   const guard = (): void => { if (opts.writable === false) throw new AppError('DB_ERROR', 'Database is read-only (created by a newer version of Quot3)') }
   const company = () => readCompany(deps.settings.get(COMPANY_PROFILE_KEY))
   const bad = (message: string): never => { throw new AppError('VALIDATION', message) }
+  let decorate: ((s: AppSettingsState) => AppSettingsState) | null = null
 
   function logoDataUrl(name: string): string {
     const m = /^[A-Za-z0-9._-]{1,80}\.(png|jpg)$/.exec(name)
@@ -71,7 +74,7 @@ export function createAppSettingsService(deps: { settings: SettingsService; bran
     const b = deps.branches.local()
     const resolved = validatePrintDefaults({ rupeeOnTotal: all[PRINT_SETTING_KEYS.rupeeOnTotal], silent: all[PRINT_SETTING_KEYS.silent], printer: all[PRINT_SETTING_KEYS.printer] })
     const print: PrintDefaults = resolved.ok ? resolved.value : { rupeeOnTotal: all[PRINT_SETTING_KEYS.rupeeOnTotal] !== false, silent: false, printer: typeof all[PRINT_SETTING_KEYS.printer] === 'string' ? (all[PRINT_SETTING_KEYS.printer] as string).trim() : '' }
-    return {
+    const state: AppSettingsState = {
       company: { ...c, logoDataUrl: c.logo ? logoDataUrl(c.logo) : '' },
       branch: b ? { name: b.name, prefix: b.poPrefix, nextSeq: b.nextSeq, nextPo: previewPo(b.poPrefix, b.nextSeq), otherPrefixes: deps.branches.otherPrefixes(b.id) } : null,
       print,
@@ -81,6 +84,7 @@ export function createAppSettingsService(deps: { settings: SettingsService; bran
       calc: { roundOff: readRoundOffSetting(all), percentPresets: readPercentPresets(all).join(', ') },
       readOnly: opts.writable === false
     }
+    return decorate ? decorate(state) : state
   }
 
   const putCompany = (c: ReturnType<typeof company>): void => deps.settings.set(COMPANY_PROFILE_KEY, c)
@@ -181,7 +185,8 @@ export function createAppSettingsService(deps: { settings: SettingsService; bran
       return get()
     },
     printers: () => deps.ports.listPrinters().catch(() => []),
-    logoDataUrl
+    logoDataUrl,
+    setDecorator(fn) { decorate = fn }
   }
 
   function validatePrefixFor(prefix: string, others: string[]): string {

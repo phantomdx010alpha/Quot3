@@ -135,7 +135,8 @@ describe('schemas', () => {
   })
 
   it('config helpers', () => {
-    expect(isMasterConfigured()).toBe(false) // empty on purpose until the owner sets the build constants [A]
+    expect(isMasterConfigured('', '')).toBe(false) // empty constants = master switched off
+    expect(isMasterConfigured()).toBe(true) // the owner set the build constants (Phase 273 follow-up, 2026-11-14)
     expect(isMasterConfigured('https://m.supabase.co', 'x'.repeat(30))).toBe(true)
     expect(isMasterConfigured('http://m.supabase.co', 'x'.repeat(30))).toBe(false)
     expect(masterFunctionUrl('https://m.supabase.co/', 'profile-get')).toBe('https://m.supabase.co/functions/v1/profile-get')

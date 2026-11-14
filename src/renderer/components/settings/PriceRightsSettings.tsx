@@ -8,8 +8,9 @@ const seatName = (seatNo: number, branchName: string | null): string => (branchN
 /**
  * Phase 242 (M23) - Settings > Price List > Who can edit. Shown to seat 1 only, and only while shared sync is on (rights are not used otherwise).
  * One row per seat, five checkboxes with plain words; seat 1 always keeps every right. The server enforces it; this only edits the table.
+ * Phase 266: `onlySeat` shows just that seat's row, without the status block (opened from Settings > Company seats; seat numbers are the same [A]).
  */
-export function PriceRightsSettings(): React.JSX.Element | null {
+export function PriceRightsSettings({ onlySeat }: { onlySeat?: number } = {}): React.JSX.Element | null {
   const info = usePriceRightsStore((s) => s.info)
   const seats = usePriceRightsStore((s) => s.seats)
   const error = usePriceRightsStore((s) => s.error)
@@ -25,7 +26,7 @@ export function PriceRightsSettings(): React.JSX.Element | null {
   // Phase 255: the Rights status is shown to EVERY seat while shared sync is on (not only seat 1), so "granted but cannot edit" can be seen on the seat itself.
   if (info === null || !info.syncActive) return null
   const sv = rightsStatusView(info, when)
-  const statusBlock = (
+  const statusBlock = onlySeat !== undefined ? null : (
     <div className="q3-set__panel" role="group" aria-label="Rights of this seat" data-testid="plr-status">
       <h2 className="q3-page__title">Rights of this seat</h2>
       <p data-testid="plr-seat">{sv.seat}</p>
@@ -35,18 +36,18 @@ export function PriceRightsSettings(): React.JSX.Element | null {
       <Button type="button" disabled={busy} onClick={() => { void usePriceRightsStore.getState().load(true) }}>Check again</Button>
     </div>
   )
-  if (!show) return statusBlock
+  if (!show) return onlySeat !== undefined ? <p className="q3-set__muted" data-testid="plr-unavailable">Price List rights need shared sync to be on.</p> : statusBlock
   const flagsOf = (seatNo: number, saved: PermFlags): PermFlags => draft[seatNo] ?? saved
   const toggle = (seatNo: number, saved: PermFlags, f: PermFlag, on: boolean): void => setDraft((d) => ({ ...d, [seatNo]: { ...flagsOf(seatNo, saved), [f]: on } }))
   return (
     <>
     {statusBlock}
     <div className="q3-set__panel" role="group" aria-label="Who can edit the Price List">
-      <h2 className="q3-page__title">Who can edit</h2>
+      <h2 className="q3-page__title">{onlySeat !== undefined ? `Price List rights for seat ${onlySeat}` : 'Who can edit'}</h2>
       <p className="q3-set__muted">Every seat can look at the Price List, search it and use it while billing. Choose what each other seat may also change. Seat 1 (this PC) can always do everything. A change a seat is not allowed to make is not accepted, even if that PC is offline when you change this.</p>
-      {seats.length === 0 && !busy && error === '' && <p className="q3-set__muted" data-testid="plr-none">No other seats yet.</p>}
+      {seats.filter((r) => onlySeat === undefined || r.seatNo === onlySeat).length === 0 && !busy && error === '' && <p className="q3-set__muted" data-testid="plr-none">No other seats yet.</p>}
       <div className="q3-plseat">
-        {seats.map((r) => {
+        {seats.filter((r) => onlySeat === undefined || r.seatNo === onlySeat).map((r) => {
           const own = r.seatNo === 1
           const f = own ? ALL_RIGHTS : flagsOf(r.seatNo, r.flags)
           const changed = !own && PERM_FLAGS.some((k) => f[k] !== r.flags[k])

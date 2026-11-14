@@ -24,6 +24,7 @@ import { useLegacyImportStore } from '../stores/legacyImportStore'
 import { GamesSection } from '../components/settings/GamesSection'
 import { AiSection } from '../components/settings/AiSection'
 import { PriceListSection } from '../components/settings/PriceListSection'
+import { CompanySeatsSection } from '../components/settings/CompanySeatsSection'
 import { SETTINGS_SECTIONS, useSettingsStore, type SettingsSection } from '../stores/settingsStore'
 import { GearSix } from '@phosphor-icons/react'
 import { usePageMemory } from '../hooks/usePageMemory'
@@ -65,6 +66,7 @@ export default function Settings(): React.JSX.Element {
       case 'ai': return <AiSection />
       case 'pricelist': return <PriceListSection />
       case 'sync': return <><SyncStatusPanel /><SyncSection /><BootstrapPanel /></>
+      case 'seats': return <CompanySeatsSection />
       case 'legacywatch': return <LegacyWatchSection />
       case 'audit': return <AuditSection />
       case 'updates': return <UpdatesSection />

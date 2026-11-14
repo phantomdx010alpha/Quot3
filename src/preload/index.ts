@@ -29,6 +29,7 @@ const bridge: Quot3Bridge = {
     saveCompany: (input) => ipcRenderer.invoke('appSettings:saveCompany', input),
     chooseLogo: () => ipcRenderer.invoke('appSettings:chooseLogo', {}),
     removeLogo: () => ipcRenderer.invoke('appSettings:removeLogo', {}),
+    companyUseDefault: (input) => ipcRenderer.invoke('appSettings:companyUseDefault', input),
     savePrefix: (prefix) => ipcRenderer.invoke('appSettings:savePrefix', { prefix }),
     savePrint: (input) => ipcRenderer.invoke('appSettings:savePrint', input),
     saveBehaviour: (input) => ipcRenderer.invoke('appSettings:saveBehaviour', input),
@@ -275,6 +276,22 @@ const bridge: Quot3Bridge = {
     suggestForParty: (input) => ipcRenderer.invoke('ai:suggestForParty', input),
     suggestGroups: (input) => ipcRenderer.invoke('ai:suggestGroups', input),
     searchSentence: (input) => ipcRenderer.invoke('ai:searchSentence', input)
+  },
+  master: {
+    status: () => ipcRenderer.invoke('master:status', {}),
+    link: (input) => ipcRenderer.invoke('master:link', input),
+    redeem: (input) => ipcRenderer.invoke('master:redeem', input),
+    adopt: () => ipcRenderer.invoke('master:adopt', {}),
+    refresh: () => ipcRenderer.invoke('master:refresh', {}),
+    heartbeat: () => ipcRenderer.invoke('master:heartbeat', {}),
+    seatList: () => ipcRenderer.invoke('master:seatList', {}),
+    seatCreate: (input) => ipcRenderer.invoke('master:seatCreate', input),
+    seatReset: (input) => ipcRenderer.invoke('master:seatReset', input),
+    seatRevoke: (input) => ipcRenderer.invoke('master:seatRevoke', input),
+    seatRename: (input) => ipcRenderer.invoke('master:seatRename', input),
+    seatRegen: (input) => ipcRenderer.invoke('master:seatRegen', input),
+    profileGet: () => ipcRenderer.invoke('master:profileGet', {}),
+    profileSet: (input) => ipcRenderer.invoke('master:profileSet', input)
   },
   on(channel, callback) {
     if (!isEventChannel(channel)) return () => undefined

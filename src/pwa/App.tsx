@@ -9,7 +9,11 @@ import { browserMarkerStore, checkDataCleared, CLEARED_NOTE } from './platform/c
 import { getMeta } from './data/metaRepo'
 import { countRecords } from './data/db'
 import { loadVersionGate } from './ui/versionGate'
-import { setSetting } from './data/settingsRepo'
+import { getSetting, setSetting } from './data/settingsRepo'
+import { getBranchLink } from './sync/branch'
+import { isSeatRemoved } from './sync/recredential'
+import { ConnectCode } from './ui/ConnectCode'
+import { CONNECT_SKIPPED_SETTING, connectGate, type ConnectGate } from './ui/connectCodeModel'
 import { LAYOUTS, planLayoutChange, resolveLayout, type LayoutId } from './ui/layouts/layoutRegistry'
 import type { ScreenProps } from './ui/layouts/types'
 import type { StatusActionId, StatusFlags } from './ui/kit/statusModel'
@@ -83,6 +87,11 @@ export function App(props: AppProps = {}): ReactElement {
   const appLock = useMemo<AppLock | null>(() => (services?.db ? createAppLock(services.db) : null), [services?.db])
   // Phase 192: the bill that was just saved from a NEW layout's editor, so its bill view shows the "Saved" sheet (classic never sets it).
   const [savedId, setSavedId] = useState<string | null>(null)
+  // Phase 269: the one-code screen (unlinked phone) / "seat removed" screen. Decided here, in the shared shell, so every layout shows the same one.
+  const connectApi = services?.connectCode ?? null
+  const [gate, setGate] = useState<ConnectGate | 'checking'>(connectApi ? 'checking' : 'none')
+  const [gateTick, setGateTick] = useState(0)
+  const [gateDismissed, setGateDismissed] = useState(false)
   const editorApi = useRef<EditorApi | null>(null)
   const silentSaved = useRef(false)
 
@@ -154,6 +163,19 @@ export function App(props: AppProps = {}): ReactElement {
 
   const cur = currentRoute(router)
   const route = cur.name
+
+  useEffect(() => {
+    if (!connectApi || !services?.db) { setGate('none'); return undefined }
+    let cancelled = false
+    const d = services.db
+    void (async () => {
+      try {
+        const [linked, skipped, removed] = await Promise.all([getBranchLink(d), getSetting<boolean>(d, CONNECT_SKIPPED_SETTING, false), isSeatRemoved(d)])
+        if (!cancelled) setGate(connectGate({ ready: connectApi.ready(), linked: linked.linked, skipped: skipped === true, removed }))
+      } catch { if (!cancelled) setGate('none') } // a read problem never blocks the app
+    })()
+    return () => { cancelled = true }
+  }, [connectApi, services?.db, route, gateTick])
   const db = services?.db ?? null
   const now = services?.now
 
@@ -240,6 +262,20 @@ export function App(props: AppProps = {}): ReactElement {
   }
 
   if (locked && appLock) return <LockScreen lock={appLock} onUnlocked={() => setLocked(false)} />
+
+  if (connectApi && db && gate === 'checking') return <div className="q3-shell" aria-busy="true" />
+  if (connectApi && db && (gate === 'first' || gate === 'removed') && !(gate === 'removed' && gateDismissed)) {
+    return (
+      <ConnectCode
+        db={db} mode={gate} connect={connectApi} sync={services?.sync} engine={services?.syncEngine}
+        onLinked={() => { setGateDismissed(false); setGateTick((n) => n + 1); setRouter((r) => navigate(r, 'settings', 'sync')) }}
+        onNotNow={() => {
+          setGateDismissed(true)
+          if (gate === 'first') { setGate('none'); if (db.canWrite()) void setSetting(db, CONNECT_SKIPPED_SETTING, true).catch(() => undefined) }
+        }}
+      />
+    )
+  }
 
   /** Phase 192: a NEW layout draws the same state with its own Shell and screens. App keeps every guard (this prompt included). */
   const built = LAYOUTS[layout]

@@ -1,6 +1,7 @@
 import type { Bill } from '../../../../shared/types'
 import type { PhoneDb } from '../../../data/db'
 import { getSetting } from '../../../data/settingsRepo'
+import { effectiveCompany } from '../../../sync/companyProfile'
 import { browserShareDeps, makeShareFile, type PhoneCompany, type ShareChoice, type ShareEnvDeps, type ShareFileData, type ShareKind, type ShareStyle } from '../../../share/shareBill'
 import { browserShareEnv, shareFile, type ShareEnv } from '../../../share/shareSheet'
 import { SHARE_MESSAGES } from '../../kit/useShare'
@@ -15,13 +16,13 @@ export async function loadShareDefaults(db: PhoneDb): Promise<ShareChoice> {
 }
 
 export async function hasCompanyName(db: PhoneDb): Promise<boolean> {
-  try { const c = await getSetting(db, 'company.profile'); return c !== null && c.name.trim() !== '' } catch { return false }
+  try { const c = await effectiveCompany(db); return c !== null && c.name.trim() !== '' } catch { return false }
 }
 
 /** Builds the image / PDF of a SAVED bill and opens the phone's share list (the existing share code). Reads the bill, never changes it. Returns the note to show. */
 export async function shareBillNow(db: PhoneDb, bill: Bill, style: ShareStyle, kind: ShareKind): Promise<string> {
   let company: PhoneCompany | null = null
-  try { company = await getSetting(db, 'company.profile') } catch { /* the page shows a placeholder */ }
+  try { company = await effectiveCompany(db) } catch { /* the page shows a placeholder */ }
   const choice: ShareChoice = { style, kind }
   const file = shareHooks.make ? await shareHooks.make(bill, choice, company) : await makeShareFile(bill, choice, company, shareHooks.deps ?? (cachedDeps ??= browserShareDeps()))
   const r = await shareFile(shareHooks.env ?? browserShareEnv(), file.bytes, file.fileName, file.mime, `Quotation ${bill.poNumber}`)

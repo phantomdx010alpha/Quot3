@@ -3,6 +3,7 @@
  * No Electron / Node / DOM. Main applies these before anything is stored; the renderer reuses them for live messages.
  */
 import { DEFAULT_PO_PREFIX, formatPoNumber } from '../po'
+import type { CompanyMasterView } from '../master/profile'
 
 export const COMPANY_PROFILE_KEY = 'company.profile'
 export const BEHAVIOUR_KEYS = { trashRetentionDays: 'trash.retentionDays', leftUnlockPresses: 'behaviour.leftUnlockPresses', autosaveSeconds: 'behaviour.autosaveSeconds' } as const
@@ -169,6 +170,8 @@ export interface AppSettingsState {
     /** The saved logo as a data URL for display (empty = none). */
     logoDataUrl: string
   }
+  /** Phase 270 (M24): the company default / override state. Absent = the master is not involved (exactly the old screen). */
+  companyMaster?: CompanyMasterView
   branch: { name: string; prefix: string; nextSeq: number; nextPo: string; otherPrefixes: string[] } | null
   print: PrintDefaults
   behaviour: BehaviourSettings

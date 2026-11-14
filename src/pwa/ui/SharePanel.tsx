@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react'
 import type { Bill } from '../../shared/types'
 import type { PhoneDb } from '../data/db'
 import { getSetting, setSetting } from '../data/settingsRepo'
+import { effectiveCompany } from '../sync/companyProfile'
 import { browserShareDeps, makeShareFile, type PhoneCompany, type ShareChoice, type ShareEnvDeps, type ShareFileData, type ShareKind, type ShareStyle } from '../share/shareBill'
 import { browserShareEnv, shareFile, type ShareEnv, type ShareResult } from '../share/shareSheet'
 
@@ -33,7 +34,7 @@ export function SharePanel(props: SharePanelProps): ReactElement {
     void (async () => {
       try {
         const d = await getSetting(db, 'share.defaults')
-        const c = await getSetting(db, 'company.profile')
+        const c = await effectiveCompany(db)
         if (off) return
         setStyle(d.style); setKind(d.kind); setCompany(c)
       } catch { /* defaults stay */ }
