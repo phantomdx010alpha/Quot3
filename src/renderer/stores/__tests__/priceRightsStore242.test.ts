@@ -13,7 +13,7 @@ let calls: string[]
 let setReply: (seatNo: number, flags: PermFlags) => unknown
 
 beforeEach(() => {
-  info = { seatNo: 2, syncActive: true, isSeat1: false, flags: { ...NO_RIGHTS, add: true }, refused: 0 }
+  info = { seatNo: 2, syncActive: true, isSeat1: false, flags: { ...NO_RIGHTS, add: true }, refused: 0, checkedAt: null, answeredAt: null, lastError: '', refusedNeeds: [] }
   seats = [{ seatNo: 1, branchName: 'Main', updatedAt: null, flags: { ...ALL_RIGHTS } }, { seatNo: 2, branchName: null, updatedAt: null, flags: { ...NO_RIGHTS } }]
   calls = []
   setReply = (seatNo, flags) => ok({ seatNo, branchName: null, updatedAt: '2026-11-13T00:00:00Z', flags })

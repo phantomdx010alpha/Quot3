@@ -69,6 +69,10 @@ export interface PhoneSyncEngineDeps {
   onChanged?: (kind: string, recId: string) => void
   onMode?: (mode: DeliveryMode) => void
   revisionCap?: number
+  /** Phase 255: after every push run (each sync cycle); the runtime re-reads the Price List rights from here. */
+  onPushRun?: (r: PushRunResult) => void
+  /** Phase 256: the doorbell rang (one call per ring burst); the runtime re-reads the Price List rights from here. */
+  onRing?: () => void
 }
 
 export interface EngineStatus {
@@ -114,10 +118,10 @@ export function createPhoneSyncEngine(deps: PhoneSyncEngineDeps): PhoneSyncEngin
   let unsub: (() => void)[] = []
 
   const timers = { setTimer: deps.setTimer, clearTimer: deps.clearTimer, now: deps.now }
-  const push = createPhonePushWorker({ db, connect: deps.connect, appVer: deps.appVer, progress: deps.progress, revisionCap: deps.revisionCap }, timers)
+  const push = createPhonePushWorker({ db, connect: deps.connect, appVer: deps.appVer, progress: deps.progress, revisionCap: deps.revisionCap, onRun: deps.onPushRun }, timers)
   const pull = createPhonePullWorker({ db, connect: deps.connect, appVer: deps.appVer, newId, isOpen: deps.isOpen, progress: deps.progress, onChanged: deps.onChanged, revisionCap: deps.revisionCap }, { ...timers, pollMs: deps.pollMs })
   const doorbell = createPhoneDoorbell(
-    { connect: async () => { const c = await deps.connect(); return { port: c.port } }, orgId: () => orgId, kick: () => pull.kick(), onMode: deps.onMode },
+    { connect: async () => { const c = await deps.connect(); return { port: c.port } }, orgId: () => orgId, kick: () => { pull.kick(); try { deps.onRing?.() } catch { /* a listener never breaks the doorbell */ } }, onMode: deps.onMode },
     timers
   )
 

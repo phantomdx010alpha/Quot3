@@ -350,9 +350,11 @@ if (!app.requestSingleInstanceLock()) {
     heldRef = sharedHeld
     const sharedAside = createAsideService({ repo: syncRecords, apply: createAsideApply({ applier: sharedApplier, records: syncRecords, offsetMs: sharedClockOffset }) })
     const connectShared = (): ReturnType<typeof sharedActivation.connect> => sharedActivation.connect()
+    let rightsAuto: ((afterRefused: boolean) => void) | null = null // set once the rights service exists (Phase 255)
     const pushV2 = createPushWorkerV2({
       outbox: outbox.repo, bills: billRepo, revisions: remoteRepo, itemRules, parties: partyRepo, priceList: priceRepo, records: syncRecords, sync: syncState, connect: connectShared,
-      appVer: app.getVersion(), newId: () => randomUUID(), log, progress: (p) => { send('sync:progress', p) }
+      appVer: app.getVersion(), newId: () => randomUUID(), log, progress: (p) => { send('sync:progress', p) },
+      onRun: (r) => rightsAuto?.(r.refused > 0) // Phase 255: re-read the Price List rights each cycle / after a refusal
     })
     const pullV2 = createPullWorkerV2(
       { records: syncRecords, sync: syncState, aside: sharedAside, applier: sharedApplier, connect: connectShared, setBranches: (l) => { knownBranches = l }, log, progress: (p) => { send('sync:progress', p) } },
@@ -369,7 +371,7 @@ if (!app.requestSingleInstanceLock()) {
       isSignedIn: sharedOn, appVer: app.getVersion(), log, onChanged: () => send('themes:changed', {})
     })
     themeShareRef.start()
-    const doorbell = createDoorbell({ connect: async () => ({ transport: (await sharedActivation.connect()).transport }), orgId: () => sharedActivation.credentials()?.orgId ?? null, kick: () => { pullV2.kick(); themeShareRef.kick() }, log })
+    const doorbell = createDoorbell({ connect: async () => ({ transport: (await sharedActivation.connect()).transport }), orgId: () => sharedActivation.credentials()?.orgId ?? null, kick: () => { pullV2.kick(); themeShareRef.kick(); rightsAuto?.(true) /* Phase 256: a ring may be a rights change; re-read (10 s throttle) */ }, log })
     app.on('will-quit', () => { pushV2.stop(); pullV2.stop(); doorbell.stop(); themeShareRef.stop() })
     // One push and one pull as far as the manager is concerned: v1 until the shared notebook is activated, v2 afterwards.
     pushSwitch = createWorkerSwitch<PushStatus>({
@@ -461,6 +463,7 @@ if (!app.requestSingleInstanceLock()) {
     // Phase 242 (M23): who may edit the Price List on this PC (cached rights; no sync = full rights).
     const seatNoNow = (): number | null => { const n = Number(syncState.get(SHARED_KEYS.seatNo)); return sharedActivation.isActivated() && Number.isInteger(n) && n > 0 ? n : null }
     const priceRights = createPriceRightsService({ sync: syncState, syncActive: () => sharedActivation.isActivated(), seatNo: seatNoNow, connect: connectShared, log })
+    rightsAuto = (afterRefused) => { void priceRights.auto(afterRefused).catch(() => undefined) }
     // Phase 236 (M23): the Price List storage; Phase 242 adds the seat number and the local rights guard.
     const priceList = createPriceListService(
       { repo: priceRepo, logRepo: createPriceLogRepo(dbh.sqlite), branchId: () => (dbh.writable ? getLocalBranch(dbh.sqlite).id : null) },

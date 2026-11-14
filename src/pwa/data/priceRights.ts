@@ -35,6 +35,22 @@ export async function writeCachedPerms(db: PhoneDb, answer: { seatNo: number; fl
   await putRecord(db, 'meta', { key: PERMS_KEY, value: { seatNo: answer.seatNo, flags: normalizeFlags(answer.flags), at } satisfies CachedPerms } satisfies MetaRow)
 }
 
+// ---- last ask (Phase 255) ----------------------------------------------------------------------------------------------------
+
+export const PERMS_STATUS_KEY = 'pricelist.permsStatus'
+/** The last ASK of the server: when, and the plain-words reason it failed ('' = it worked). A failed refresh is recorded, never swallowed. */
+export interface RightsAsk { at: string; error: string }
+export function parseRightsAsk(raw: unknown): RightsAsk {
+  return isObj(raw) ? { at: typeof raw.at === 'string' ? raw.at.slice(0, 40) : '', error: typeof raw.error === 'string' ? raw.error.slice(0, 300) : '' } : { at: '', error: '' }
+}
+export async function readRightsAsk(db: PhoneDb): Promise<RightsAsk> {
+  return parseRightsAsk((await getRecord<MetaRow>(db, 'meta', PERMS_STATUS_KEY))?.value)
+}
+export async function writeRightsAsk(db: PhoneDb, a: RightsAsk): Promise<void> {
+  if (!db.canWrite()) return
+  await putRecord(db, 'meta', { key: PERMS_STATUS_KEY, value: { at: a.at, error: a.error.slice(0, 300) } satisfies RightsAsk } satisfies MetaRow)
+}
+
 /** This phone's rights now: no sync = full; seat 1 = full; another seat = the cached flags; none cached = none [A]. */
 export function rightsFor(linked: boolean, cached: CachedPerms | null): PermFlags {
   return effectiveFlags(cached?.seatNo ?? null, cached?.flags, linked)

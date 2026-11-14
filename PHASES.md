@@ -2381,3 +2381,235 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump by itself; the owner may ship it with the next release.
 **How to verify:** typecheck once; the named tests of the touched code; NO FULL TEST SUITE.
 
+
+
+## MILESTONE 24 — Master Supabase, one-code onboarding, Seat-1 admin, company profile, quick fixes (Phases 251–274)
+**Planned 2026-11-13** (docs only). Design: `docs/MILESTONE24_DESIGN.md` (binding); rules: `CLAUDE_MUST_READ.md` section 10s and the "ONE PHASE PER SESSION" block at its top. Phase 188 and Phase 69 remain separate.
+**Exit criteria:** (1) the Dashboard, Price List page, phone Price List and AI-off behaviour are fixed as listed; (2) a seat other than seat 1 can edit the Price List when seat 1 grants it, and changes reach live devices; (3) a master Supabase project holds the company registry; (4) a new phone/PC needs ONE code and then syncs everything; (5) seat 1, from the desktop, creates up to 15 seats and deletes / resets / renames them and regenerates codes with no hand-run SQL; (6) devices already logged in keep working and adopt the master silently; (7) every device inherits the company logo, name, contact number and address from seat 1 and may override them; (8) with the master unused the app behaves exactly as 0.1.55.
+**Standing rules for every Phase 251-274:** section 10s; **ONE PHASE = ONE FREE SESSION** (read only the listed files, touch only the listed files, stop at a step boundary if the session runs short); edits to shared files small and additive, tests updated not deleted; contract first in `API_CONTRACTS.md`; NO FULL TEST SUITE; list what you ran and did NOT run; [A] items stated; Phase 92 selector rule; tokens only; Phosphor only; no emoji; real Windows / Android / Supabase never "verified". Types: **[E]** code, **[D]** decision/spec (docs only, no code, no typecheck), **[G]** release gate.
+
+| # | Type | Title | Version |
+|---|---|---|---|
+| 251 | E | Desktop Dashboard: five tiles in one row, Today+This month combined, second (monthly) graph | no bump |
+| 252 | E | Desktop Price List page: remove the tab filter box, one overall search in its place, fix the focus-jump bug | no bump |
+| 253 | E | Phone Price List: price columns stacked one under another (all three layouts) | no bump |
+| 254 | E | AI default OFF everywhere; hide the Create-page AI switch (and the billing price strip [A]) while AI is off | no bump |
+| 255 | E | Price rights A: find the real cause, show the rights state, refresh on start / sync / refusal (client only) | no bump |
+| 256 | E | Price rights B: server doorbell on rights save (new SQL file 21), clear refusal wording, RELEASE A | release 0.1.56 [A] |
+| 257 | D | Master contract freeze (docs only): tables, function shapes, errors, compatibility matrix | no bump |
+| 258 | E | Master SQL: `supabase/master/M01..` tables, RLS, static test | no bump |
+| 259 | E | Master shared pure core: seat code + check char, bundle and request schemas, sealing helpers, redaction | no bump |
+| 260 | E | Master Edge Functions A (client): redeem, adopt, refresh, heartbeat, profile-get | no bump |
+| 261 | E | Master Edge Functions B (admin, seat 1 only): seat-list, seat-create, seat-reset, seat-revoke, seat-rename, seat-regen, profile-set | no bump |
+| 262 | E | Owner tooling: onboard / enrol-token / export / keep-alive CLI + `docs/MASTER_OWNER_SETUP.md` | no bump |
+| 263 | E | Desktop master client service + IPC + secret-store keys (no UI) | no bump |
+| 264 | E | Desktop "Link to master" wizard + silent adopt of this PC | no bump |
+| 265 | E | Desktop Settings > Company seats A: list, create (max 15), show / copy code | no bump |
+| 266 | E | Desktop Company seats B: reset, delete, regenerate code, rename label, inline Price List rights | no bump |
+| 267 | E | Desktop silent re-credential (auth_failed -> master refresh -> sign in again) | no bump |
+| 268 | E | Phone master client + redeem + vault write (no UI) | no bump |
+| 269 | E | Phone one-field first-launch screen + silent re-credential + "Advanced" old form | no bump |
+| 270 | E | Company profile A: pure model, local override rules, desktop settings sync (seat 1 edits, others inherit) | no bump |
+| 271 | E | Company profile B: desktop print / bill header / image use the effective profile | no bump |
+| 272 | E | Company profile C: phone fetch + use | no bump |
+| 273 | G | Milestone 24 QA gate (release gate) + `docs/M24_OWNER_CHECKLIST.md` | 0.1.57 [A] |
+| 274 | E | Fix pack from the owner's report (only if needed) | no bump |
+
+**Order:** 251-254 any order and any time (independent). 255 → 256. 257 → 258 → 259 → 260 → 261 → 262 (260-261 need 258 and 259). 263 needs 259 and 257 (not the live server). 264 → 265 → 266 → 267 need 263. 268 → 269 need 259 and 263's shapes. 270 → 271 → 272 need 260-261 shapes (profile) and 265. 273 last. A phase that finds its dependency missing STOPS and says so.
+
+## Phase 251 — Desktop Dashboard: five tiles in one row [E]
+**Goal:** The Dashboard stats are compact: ONE row of five tiles, no dead space.
+**Depends on:** 0.1.55 zip. Design 1 item 6.
+**In scope:** (a) tile row: [Today + This month in ONE tile (two figures, bill counts)] [Last 7 days graph + a second small monthly graph in the same tile (last 6 or 12 months, reuse the existing stats source; if no monthly series exists add the smallest pure function in `shared/dashboard`)] [Recent bills] [Top customers] [Last backup + sync status]; (b) CSS in the existing dashboard styles: equal-height tiles in one row, wraps below ~1100 px only, tile height follows content (no big empty areas), tokens only, text never truncates ugly (rule 5.7); (c) keep the four quick-entry cards, Enter-opens-bill and Tab order (cards, Recent bills, Top customers), focus-refresh and all existing test ids. Update the existing dashboard tests, never delete.
+**Out of scope:** any data/sync/IPC change except the one pure monthly series if missing; other pages.
+**Key files (read only these):** `src/renderer/pages/Dashboard.tsx`, `components/dashboard/{TodayTiles,StatTile,Sparkline,DashList}.tsx`, dashboard CSS, `shared/dashboard/dashboardStats.ts`, `stores/dashboardStore.ts`, the dashboard tests.
+**Version:** no bump. **How to verify:** typecheck once; the dashboard store / stats / page tests; `shortcuts`; `importBoundaries`. NO FULL SUITE. Layout on a real window is an owner check.
+
+## Phase 252 — Desktop Price List page: one search [E]
+**Goal:** Remove the per-tab filter box; the page's search is the overall ("Search all") search, and typing never loses focus.
+**Depends on:** 0.1.55 zip.
+**In scope:** (a) reproduce the bug in a test first: after one typed letter the box loses focus and the first grid row becomes active (look at `ports.focusGrid`, `focusTick` and what `setFilter` triggers in `priceListStore.ts` / `PriceList.tsx` lines ~40-115); (b) remove the "Filter this tab" input safely: keep `filter` state only if other code needs it, remove its shortcut / palette entry cleanly (`shared/shortcuts.ts` + `FILTER_OK`), leave nothing dangling; (c) put the overall search input in the same toolbar spot (inline box, results list under it or reuse `SearchDialog`'s engine `shared/pricelist/search.ts`), Enter/ArrowDown moves into results, Esc clears, Ctrl+K-style key stays what `pricelist.search` already is; (d) the focus fix is covered by a test that types several letters and keeps focus.
+**Out of scope:** Price List data, sync, rights, bulk tools, billing strip.
+**Key files:** `src/renderer/pages/PriceList.tsx`, `stores/priceListStore.ts`, `components/pricelist/{ToolsDialogs,PriceGrid}.tsx`, `shared/pricelist/search.ts`, `shared/shortcuts.ts`, the price list store / tools tests.
+**Version:** no bump. **How to verify:** typecheck once; `priceListStore238`, `priceListTools239`, `search239`, `shortcuts`, `keyboardAcceptance` (only compare to the 2 known failures), `importBoundaries`.
+
+## Phase 253 — Phone Price List: stacked price columns [E]
+**Goal:** In the phone Price List each item shows its prices one under another (label: value per line), not side by side.
+**Depends on:** 0.1.55 zip. The classic layout and its pinned files are NOT touched (10r).
+**In scope:** (a) find where an item's tier/price cells are laid out in the shared kit (`src/pwa/ui/kit/PriceListParts.tsx`, `PriceEditParts.tsx`, model `priceListModel.ts`) and in the three layouts' own CSS; (b) change to a compact vertical list, label left / amount right, same Indian grouping, no truncation helper, touch targets >= `--touch-min`; (c) the edit controls follow the same stacking; (d) update the existing parity tests (three layouts still show the same names and amounts).
+**Out of scope:** data, sync, rights, classic layout.
+**Key files:** the kit files above, `src/pwa/ui/layouts/{tidy,guided,inbox}/*PriceList*`, `src/pwa/__tests__/{priceListScreens245,priceSync248,priceListEditUi246}.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; those three tests + `classicParity`. Real phone look is an owner check.
+
+## Phase 254 — AI default OFF and hidden when off [E]
+**Goal:** AI is OFF for every app by default; while it is off the Create-page AI switch (and the billing price strip [A]) are not shown.
+**Depends on:** 0.1.55 zip. Design 1 item 6, open question 5.
+**In scope:** (a) confirm by test that `AI_DEFAULTS` keep every key false and a fresh settings store gives AI off (they already do: only add the missing assertion); (b) `AiPanelSwitch` and the AI history panel render nothing when `ai.enabled` is false (the Phase 226 note "switch always visible" is superseded here; turning the panel on while the master is off no longer auto-enables the master); (c) the price strip in billing (`priceStripStore`, Create bottom area) is hidden while AI is off [A, owner to confirm: if he says the strip is independent of AI, skip this step and say so]; (d) existing installs keep whatever they set; nothing is force-reset; (e) update `aiOffGate231`-style tests to the new rule.
+**Out of scope:** the AI engine, model, indexer, Settings > AI layout.
+**Key files:** `src/shared/ai/aiSettings.ts`, `renderer/stores/{aiPanelStore,priceStripStore}.ts`, `components/create/{AiHistoryPanel,AiPanelSwitch?}.tsx` (find the switch with grep), `components/settings/AiSection.tsx`, the two `aiOffGate231` tests, `aiHistoryPanel226` test.
+**Version:** no bump. **How to verify:** typecheck once; `aiSettings`, `aiPanelStore226`, `aiHistoryPanel226`, both `aiOffGate231`, `priceStripStore240`, `billing240`, `importBoundaries`.
+
+## Phase 255 — Price rights A: find, show, refresh (client only) [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md). Next: Phase 256.**
+**Goal:** Find why another seat cannot edit although seat 1 shows "granted", make the seat's real state visible, and make the client re-read its rights at the right moments.
+**Depends on:** 0.1.55 zip. Design section 2 (price rights).
+**In scope:** (a) **Diagnose first** (write the finding at the top of the phase log): trace a seat-2 edit end to end in the existing in-memory sim (`src/main/sync/__tests__/sharedSim.ts`): `setPricePerms` -> cache -> `own()` -> `priceListService` guard -> push `refused`; and the phone path (`runtime.refreshPriceRights`, `pwa/data/priceRights.ts`). Check specifically: refresh is never called on start / sync; `own()` returns none when `cached.seatNo !== seat`; errors swallowed; the `overwrite` vs `edit` flag mapping; whether `connect()` can return a transport without `pricePermsGet`. Add a failing test for what you find. (b) a "Rights" status block in Settings > Price List (desktop) and the phone sync status: seat number, flags cached, when last checked, last error in plain words, a "Check again" button (desktop already has one: extend). (c) refresh triggers: app start (after sync is active), after each sync cycle (throttled 60 s), after any `refused` push outcome, when the Price List page opens (existing). (d) a failed refresh keeps the last good flags and RECORDS the error (no more silent info log). (e) never grant locally; the server stays the gate.
+**Out of scope:** SQL (Phase 256), the master, UI redesign.
+**Key files:** `src/main/services/priceRightsService.ts`, `main/index.ts` (the wiring near line 463), `main/sync/{pushWorkerV2,sharedSyncService}.ts` (only the hook points), `renderer/stores/priceRightsStore.ts`, `components/settings/{PriceRightsSettings,PriceListSection}.tsx`, `src/pwa/sync/runtime.ts`, `pwa/data/priceRights.ts`, `pwa/ui/priceSyncStatus.ts`, `shared/pricelist/perms.ts`, `sharedSim.ts`, tests `priceRights242` (both), `priceRightsStore242`, `priceSync248`.
+**Version:** no bump. **How to verify:** typecheck once; the named tests; NO FULL SUITE. If the cause turns out to be SQL-side, write it down and let 256 fix it.
+
+## Phase 256 — Price rights B: doorbell + wording + RELEASE A [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md). Release A = 0.1.56 [A], to be pushed and tagged by the owner. Next: Phase 257 [D].**
+**Goal:** Changing a seat's rights reaches live devices at once, and a refusal says exactly what is missing. Then release.
+**Depends on:** 255 (its finding).
+**In scope:** (a) NEW `supabase/sql/21_price_perms_bell.sql` (never edit 19/20): `qt_price_perms_set` additionally touches `sn_ping` for the organisation exactly like `sn_push` does (read how at `15_rpcs.sql` near the end of `sn_push`), safe to re-run, header says "NEVER RUN from the sandbox", add it to `docs/SUPABASE_MIGRATIONS.md` and to the static test `src/__tests__/supabaseSql.test.ts`; (b) the desktop and phone doorbell handlers re-read rights when a ring arrives (reuse the Phase 255 refresh); (c) refusal text names the flag: "needs Overwrite", "needs Add", "needs Edit", "needs Delete", "needs Structure" (pure words in `shared/pricelist/perms.ts`, used by desktop and phone); (d) any extra fix found in 255; (e) **Release A:** bump to 0.1.56 [A] in `package.json` + both spots of `package-lock.json`, update `GITHUB_UPDATE_PUSH.md` (new section 11a: Supabase file 21 first, then push + tag `v0.1.56`), hand back changed-files zip + full zip + push steps.
+**Out of scope:** the master.
+**Key files:** `supabase/sql/{15,19}*.sql` (read), NEW `21_*.sql`, `docs/SUPABASE_MIGRATIONS.md`, `src/__tests__/supabaseSql.test.ts`, `shared/pricelist/perms.ts`, desktop doorbell consumer in `main/sync/` (`doorbell.ts`), `pwa/sync/doorbell.ts`, `package.json`, `package-lock.json`.
+**Version:** release 0.1.56 [A]. **How to verify:** typecheck once; `supabaseSql`, `perms242`, both `priceRights242`, `priceSync248`; real Supabase = owner checklist, not claimed.
+
+## Phase 257 — Master contract freeze [D]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md; the frozen block is `API_CONTRACTS.md` M24-0). Next: Phase 258.**
+**Goal:** Turn `docs/MILESTONE24_DESIGN.md` into frozen exact shapes so no later phase has to decide anything. **DOCS ONLY: no code, no typecheck, no tests.**
+**Depends on:** the owner's answers to design section 11 if he gave them (otherwise the bracketed defaults are adopted and logged as [A]).
+**In scope:** (a) write the "Milestone 24 — master contract" section in `API_CONTRACTS.md`: every Edge Function (URL path, headers, request JSON, response JSON, error codes `Q3M*` list with plain-words messages, idempotency, rate limits) for redeem, adopt, refresh, heartbeat, profile-get, profile-set, seat-list, seat-create, seat-reset, seat-revoke, seat-rename, seat-regen, enrol; (b) the exact table DDL (columns, types, checks) as a spec block for 258; (c) the seat code format + check-character algorithm as a worked example with 5 sample codes (invented); (d) the bundle JSON and the vault / secret-store field mapping for desktop and phone; (e) the compatibility matrix of design section 7 as numbered test cases T1..Tn that the later phases must automate; (f) the exact desktop IPC channels and phone runtime methods (names only) for 263 / 268 / 269; (g) list for each later phase which contract lines it implements.
+**Out of scope:** everything that is code.
+**Key files:** `docs/MILESTONE24_DESIGN.md`, `API_CONTRACTS.md` (append), `PHASE_STATUS.md`.
+**Version:** no bump. **How to verify:** re-read: every function used in design section 6 has a frozen shape; every error has words; every later phase lists its contract lines.
+
+## Phase 258 — Master SQL [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md). Next: Phase 259.**
+**Goal:** The master's database, as numbered SQL files in a separate folder.
+**Depends on:** 257.
+**In scope:** `supabase/master/M01_tables.sql` (the tables of design 4 exactly as frozen in 257), `M02_rls.sql` (RLS on, no policies, revoke), `M03_helpers.sql` (attempt counter, token hashing is done in functions so keep SQL minimal), safe to re-run, header "NEVER RUN from the sandbox"; a static test `src/__tests__/masterSql258.test.ts` in the style of `supabaseSql.test.ts` (every table has RLS and a `revoke`, no policy, no `grant ... to anon`, seat check 1..15, `max_seats` check). `docs/SUPABASE_MIGRATIONS.md` gets a short "Master project" section.
+**Out of scope:** functions, clients.
+**Key files:** `src/__tests__/supabaseSql.test.ts` (style only), `docs/SUPABASE_MIGRATIONS.md`, `API_CONTRACTS.md` (the spec block).
+**Version:** no bump. **How to verify:** typecheck once; `masterSql258` + `supabaseSql`.
+
+## Phase 259 — Master shared pure core [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md). Next: Phase 260.**
+**Goal:** All master logic that has no I/O, shared by desktop, phone and the Edge Functions, fully tested.
+**Depends on:** 257.
+**In scope:** NEW `src/shared/master/` : `seatCode.ts` (generate from random bytes passed in, normalise, validate, check character), `schemas.ts` (zod schemas for every request / response / bundle / profile from 257), `errors.ts` (`Q3M*` codes -> plain words), `redact.ts` (strip codes, passwords, tokens, `*_enc` from any object / string for logs and diagnostics), `seal.ts` (AES-GCM seal / open using WebCrypto `crypto.subtle`, key passed in; works in Node 22, browsers and Deno), `profile.ts` is Phase 270 (not here). Tests for each: the 5 worked sample codes of 257, typo detection, wrong-version bundle refused, redaction of nested data, seal round trip + tamper fails. No Electron / Node-only import (it runs in the PWA and Deno).
+**Out of scope:** network calls, UI.
+**Key files:** `API_CONTRACTS.md` (the master section), `src/shared/sync/license.ts` (style), `src/__tests__/importBoundaries.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new tests; `importBoundaries`.
+
+## Phase 260 — Master Edge Functions A (client side) [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md). Next: Phase 261.**
+**Goal:** The functions every device uses: redeem, adopt, refresh, heartbeat, profile-get.
+**Depends on:** 258, 259.
+**In scope:** `supabase/master/functions/{redeem,adopt,refresh,heartbeat,profile-get}/index.ts` (Deno) + `_shared/` (db client with the master service role, `MASTER_KEK` loader, rate limit, device-token check, CORS for the PWA origin from an env value, logging through `redact`). Logic per design 6: redeem (code -> bundle + new device row), adopt (verify the device's company session against the company project, map to seat, issue token, never changes a password), refresh (device token -> current credentials of THAT seat), heartbeat (device token -> `profile_version`, status of seat / company, `last_seen_at`), profile-get. Unit tests run the handlers (plain exported functions taking `Request` + injected deps) against an in-memory fake master and a fake company project (`src/__tests__/master/` or `supabase/master/functions/__tests__/`, runnable by vitest); cover test cases T1..T8 of 257.
+**Out of scope:** admin functions, clients, deploy.
+**Key files:** `supabase/master/M0*.sql`, `src/shared/master/*`, `API_CONTRACTS.md`.
+**Version:** no bump. **How to verify:** typecheck once; the new handler tests; nothing deployed or run on real Supabase.
+
+## Phase 261 — Master Edge Functions B (seat admin) [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md; contract block M24-G in `API_CONTRACTS.md`). Next: Phase 262.**
+**Goal:** Seat 1's admin actions, enforced on the master.
+**Depends on:** 260.
+**In scope:** `functions/{seat-list,seat-create,seat-reset,seat-revoke,seat-rename,seat-regen,profile-set,enrol}/index.ts`: each requires a valid device token with `seat_no = 1` of an `active` company (else `Q3M05 admin_only`); drives the company through its owner functions by PostgREST with the sealed service_role key (`qt_add_seats`, `qt_reset_seat`, `qt_revoke_seat`); enforces `max_seats` (15) before creating; seals returned passwords; marks `legacy=false` on first reset; seat 1 can never be revoked or reset through the app (it is only reset by the owner CLI); `profile-set` validates sizes / logo <= 150 KB and bumps `profile_version`; `enrol` (owner-minted token + seat 1 session + service_role key + label -> register company, all legacy seats recorded). Tests with the same fakes; cover T9..T20 of 257 (cap 15, not seat 1 -> refused, reset ends old password, revoke, regen kills old code, profile version bump, enrol token one-use).
+**Out of scope:** clients, CLI, deploy.
+**Key files:** `functions/_shared/*`, `src/shared/master/*`, `supabase/sql/14_license_admin.sql` (read the signatures only).
+**Version:** no bump. **How to verify:** typecheck once; the new tests.
+
+## Phase 262 — Owner tooling [E]
+**STATUS: ✅ DONE 2026-11-13 (see PHASE_STATUS.md; contract block M24-H in `API_CONTRACTS.md`). Next: Phase 263.**
+**Goal:** The owner can stand up the master and onboard / link companies without writing SQL.
+**Depends on:** 258-261.
+**In scope:** `tools/master-cli.mjs` (+ `.d.mts`): `init` (prints the exact deploy steps and the secrets to set: `MASTER_KEK` generation), `enrol-token <label>`, `onboard <label> <seats> --url --anon --service-role` (stores the company, runs `supabase/sql/11..21` via the Supabase Management / SQL endpoint if a token is given, otherwise prints "paste these files in order" with the file list, calls `qt_create_org`, prints the Seat-1 code), `export` (companies + seats minus secrets to a JSON the owner backs up), `keepalive` (one harmless request; docs show a free GitHub Actions cron that calls it daily; add `.github/workflows/master-keepalive.yml`). NEW `docs/MASTER_OWNER_SETUP.md` (step by step, 2FA on the Supabase account, "sign-ups OFF", deploy functions, set secrets, first company, link an existing company, backups, what to do if the master is paused). Tests only for the pure helpers (argument parsing, file ordering, secret redaction in CLI output).
+**Out of scope:** running anything against a real Supabase.
+**Key files:** `tools/` (style from `tools/fetch-ai-model.mjs`), `.github/workflows/` (style), `docs/SUPABASE_MIGRATIONS.md`.
+**Version:** no bump. **How to verify:** typecheck once (tools have `.d.mts`); the helper tests.
+
+## Phase 263 — Desktop master client service (no UI) [E]
+**Goal:** Main-process code that talks to the master, with IPC, storage and tests; no screens.
+**Depends on:** 257, 259 (shapes). The live server is not needed.
+**In scope:** NEW `src/main/sync/master/{masterClient,masterStore,masterService}.ts`: client for every call of 257 (fetch, one retry, timeout 10 s, errors -> plain words, all logging through `redact`), `masterStore` keeps in the existing OS secret store: master URL + anon key (baked in as constants from build config, `MASTER_URL` / `MASTER_ANON` in `src/shared/appInfo.ts` or a new `shared/master/config.ts`), device token, linked company id, seat label; `masterService` = `link(enrol...)`, `adopt()`, `refreshCredentials()`, `seatList/create/reset/revoke/rename/regen()`, `profileGet/Set()`, `status()`; IPC channels `master:*` (zod, `src/main/ipc/master.ts`, registered in `register.ts`) and bridge typings in `src/shared/ipc.ts` + preload. Tests against a fake fetch: every call shape, retry, offline = "Master unreachable", nothing secret reaches the log or `diagnostics`. NO UI.
+**Out of scope:** any renderer screen, any change to the existing shared-sync code.
+**Key files:** `src/main/sync/electronSecretStore.ts`, `secretStore.ts`, `src/main/ipc/{sync,license,register}.ts` (pattern), `src/shared/ipc.ts`, `src/preload/*`, `src/shared/master/*`, `API_CONTRACTS.md`.
+**Version:** no bump. **How to verify:** typecheck once; the new tests + `importBoundaries` + `ipc` registration tests that list channels.
+
+## Phase 264 — Desktop "Link to master" wizard + silent adopt [E]
+**Goal:** Seat 1 links the company in one wizard; every updated PC adopts silently.
+**Depends on:** 263.
+**In scope:** (a) silent adopt: on app start, when shared sync is active, a master is configured and this PC has no device token: `masterService.adopt()` in the background (never blocks start, never throws, retries later, only logs a redacted line); (b) Settings > "Company seats" section (new file, section registered like the others; action key + palette entry; shows "Not linked to master / Linked as seat N") with the seat-1-only "Link to master" wizard: enrol token, company label, service_role key (password-style field, cleared immediately after the call, never stored), plain-words result; non-seat-1 PCs see only the status line; (c) tests for the store and wizard logic (the key is never kept: assert it is absent from state after success AND failure).
+**Out of scope:** seat list / actions (265-266).
+**Key files:** `renderer/components/settings/` (pattern: `SharedSyncSection.tsx`), `renderer/stores/sharedSyncStore.ts` (pattern), `renderer/stores/settingsStore.ts`, `shared/shortcuts.ts` (action key), `main/index.ts` (adopt hook).
+**Version:** no bump. **How to verify:** typecheck once; the new tests; `shortcuts`; `importBoundaries`; settings section-count test updated (known `settingsPage` failures are pre-existing).
+
+## Phase 265 — Desktop Company seats A: list + create [E]
+**Goal:** Seat 1 sees every seat and creates new ones (max 15), and can show / copy a seat's code.
+**Depends on:** 264.
+**In scope:** `renderer/stores/masterSeatsStore.ts` + the "Company seats" panel: table (seat no, label, status, legacy badge "existing login", last seen, code hint), "Add seat" (label), shows the new code once in a copy box with a plain "Give this code to the person" line, "Show code" for non-legacy seats, cap message at 15, all strings plain words; seat 1 only (others see nothing but the status line). Fake-bridge store tests (list, create, cap, error words).
+**Out of scope:** reset / delete / regenerate (266).
+**Key files:** `components/settings/CompanySeatsSection.tsx` (from 264), `stores/masterSeatsStore.ts`, `shared/master/errors.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the store test; `importBoundaries`.
+
+## Phase 266 — Desktop Company seats B: seat actions [E]
+**Goal:** Reset, delete, regenerate code, rename label; Price List rights inline.
+**Depends on:** 265.
+**In scope:** per-seat actions with typed confirmations (reset: "Everyone on this seat will reconnect by themselves"; delete: type `DELETE`; seat 1 has no reset/delete buttons), regenerate code (old code stops working at once, linked devices unaffected), rename label; an inline "Price List rights" button per seat that opens the existing `PriceRightsSettings` editor for that seat (reuse, do not duplicate); legacy seat: "Reset to enable a code" explanation; tests for the store actions and the confirmation rules.
+**Out of scope:** device-side re-credential (267).
+**Key files:** `CompanySeatsSection.tsx`, `masterSeatsStore.ts`, `components/settings/PriceRightsSettings.tsx`.
+**Version:** no bump. **How to verify:** typecheck once; the store tests.
+
+## Phase 267 — Desktop silent re-credential [E]
+**Goal:** After a seat reset, active desktops keep working without anyone typing.
+**Depends on:** 263.
+**In scope:** where the shared-sync connect path gets `auth_failed` (`activationV2.connect`, push / pull workers): if a master device token exists, call `masterService.refreshCredentials()` ONCE, store the new password in the secret store exactly where the old one lives, retry; if the master says seat removed -> existing "sync stopped" state with the plain words "This seat was removed. Ask the admin for a new code."; if the master is unreachable keep the current "paused, will retry" behaviour; no loops (one attempt per 60 s). Tests with the sim: reset mid-run, offline reset, removed seat, master down, no device token (unchanged behaviour).
+**Out of scope:** the phone.
+**Key files:** `src/main/sync/activationV2.ts`, `pushWorkerV2.ts`, `pullWorkerV2.ts` (hook points only), `masterService.ts`, `sharedSim.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test + `activationV2`, `sharedSync*` named tests that exist for the touched files; no full suite.
+
+## Phase 268 — Phone master client + redeem (no UI) [E]
+**Goal:** The PWA can redeem a code and write the bundle into its existing vault.
+**Depends on:** 259, 257.
+**In scope:** NEW `src/pwa/sync/master.ts` (fetch client for redeem / adopt / refresh / heartbeat / profile-get; plain-words errors; `redact`), `redeemCode(code)` = validate check character locally -> call -> write bundle to the vault (`VaultData` keys, no schema change) + `meta` (branch setup stays the existing step) -> return the existing "linked" state so the existing first-sync flow runs; `adoptIfPossible()` for old phones (valid session + registered company -> device token; silent); device token stored in the vault blob (extend `VaultData` with an OPTIONAL `deviceToken`, version-tolerant: old blobs still open). Tests with a fake fetch + fake vault.
+**Out of scope:** screens.
+**Key files:** `src/pwa/sync/{session,connect,runtime,branch}.ts`, `src/pwa/__tests__/syncLogin.test.ts` (pattern), `src/shared/master/*`.
+**Version:** no bump. **How to verify:** typecheck once; the new test + `syncLogin`, `phoneRuntime`, `syncPushPull`.
+
+## Phase 269 — Phone one-field first-launch + silent re-credential [E]
+**Goal:** An unlinked PWA asks for ONE code; a reset seat reconnects by itself.
+**Depends on:** 268.
+**In scope:** the first-launch screen (when no company is linked): one input, paste-friendly, check-character feedback as you type, "Connect", plain error words, progress then straight into the existing first-sync; a small "Advanced: enter details by hand" link that opens the existing old form [A]; `auth_failed` path in `createPhoneConnect`: one `refresh` attempt with the device token before falling back to "Sign in again"; "seat removed" screen. In the NEW layouts' shared shell if possible; the classic layout is not touched without the owner's approval (10r) - if the first-launch gate lives in shared bootstrap code, add it there as a screen that all layouts show. Tests: redeem happy path, bad code, revoked, offline, reset recovery, removed seat, advanced form still reachable.
+**Out of scope:** profile (272), classic layout restyle.
+**Key files:** `src/pwa/ui/bootstrap.ts`, `src/pwa/App.tsx`, `src/pwa/ui/SettingsSync.tsx` (old form, reuse), `src/pwa/sync/connect.ts`, a NEW `src/pwa/ui/ConnectCode.tsx`.
+**Version:** no bump. **How to verify:** typecheck once; the new test + `syncLogin`, `phoneRuntime`, `classicParity`.
+
+## Phase 270 — Company profile A: model + desktop settings [E]
+**Goal:** Name / contact number / address / logo come from seat 1 by default; each device can override a field.
+**Depends on:** 260, 261 shapes, 265. FIRST read how `company.*` settings and the logo are stored and used today (grep `company.`, `assets\` logo path) and write that in the phase log.
+**In scope:** NEW `src/shared/master/profile.ts` (pure): `effectiveProfile(master, local, overrides)`, `diffProfile`, size limits, logo rules (PNG, <= 150 KB after resize); desktop: seat 1's Settings > Company edits the master profile (calls `profileSet`), other PCs: on start and on each heartbeat if `profile_version` moved, download and store as the DEFAULT; a local edit of a field sets that field's override flag (`company.override.<field>`), "Use company default" button clears it; when not linked to the master the behaviour is exactly as now. Tests: precedence, override survives a master update for other fields only, clear override, size limits, offline keeps last.
+**Out of scope:** print / bill header / images (271), phone (272).
+**Key files:** `src/shared/settings.ts` (company keys), the Company settings section, `masterService.ts`, `shared/master/schemas.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test + settings default / schema tests.
+
+## Phase 271 — Company profile B: desktop print / header / image [E]
+**Goal:** Everything printed or shared uses the effective profile.
+**Depends on:** 270.
+**In scope:** find every reader of the company name / phone / address / logo (print layouts, image export, share, PO header, About) and switch them to the single effective-profile getter; no layout change; tests with a master profile + override.
+**Out of scope:** new layouts; phone.
+**Key files:** grep results of `company.`; `src/main/print/*`, `shared/print/*` (only the readers), their tests.
+**Version:** no bump. **How to verify:** typecheck once; the named print / image tests of the touched code; page-feel on a real printer is an owner check.
+
+## Phase 272 — Company profile C: phone [E]
+**Goal:** The phone shows and uses the same effective profile (bill view / share / about).
+**Depends on:** 268, 270.
+**In scope:** heartbeat on start and each sync cycle (throttled) -> download profile when the version moved -> store in `settings` (IndexedDB, no schema change) -> use in bill view / share image / About; phone override fields optional [A: the phone only DISPLAYS the company default, no override editor]; tests.
+**Out of scope:** classic layout restyle; override editor.
+**Key files:** `src/pwa/sync/master.ts`, `pwa/data/settingsRepo`, `pwa/ui/{BillView,SharePanel,AboutPage}.tsx`.
+**Version:** no bump. **How to verify:** typecheck once; the new test + `phoneRuntime`, `classicParity`.
+
+## Phase 273 — Milestone 24 QA gate (release gate) [G]
+**Goal:** Close M24: reconcile docs, write the owner checklist, release.
+**Depends on:** 251-272.
+**In scope:** typecheck once + the named test files of 251-272 (each phase's log lists them); reconcile `PHASE_STATUS.md`, `PROJECT_STRUCTURE.md`, `API_CONTRACTS.md`, `GITHUB_UPDATE_PUSH.md` (section 11: master deploy order, release 0.1.57); write `docs/M24_OWNER_CHECKLIST.md` UNFILLED (master project setup, deploy functions, link the first company, an existing phone keeps working after update, adopt, new phone one code, create / reset / delete seats while a phone is open, 15-seat cap, price rights live change, profile inherit / override, master paused behaviour, backup export, the Dashboard / Price List / PWA price columns / AI-off checks on real devices); bump 0.1.57 [A]; hand back changed-files zip + full zip + push steps with the tag. Master unused = 0.1.55 behaviour is checked by test.
+**Out of scope:** new features.
+**Version:** 0.1.57 (release gate [A]). **How to verify:** typecheck once + the named tests green or each failure listed with its cause (compare against the previous zip). NO FULL SUITE; real Supabase / Windows / Android never written as "verified".
+
+## Phase 274 — Fix pack from the owner's report (only if needed) [E]
+**Goal:** Fix what the owner found when testing M24.
+**Depends on:** 273 and the owner's filled `docs/M24_OWNER_CHECKLIST.md`. Skip if there is no report.
+**In scope:** only what the report lists; if the list is long, do the first items that fit one free session and log the rest as the next fix pack. Never loosen the security rules of design section 8.
+**Version:** no bump by itself. **How to verify:** typecheck once; the named tests of the touched code; NO FULL SUITE.

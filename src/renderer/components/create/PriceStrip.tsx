@@ -6,6 +6,7 @@ import { tierForFormat } from '@shared/pricelist/settings'
 import { IconButton } from '../ui'
 import { usePriceStripStore, billingOn } from '../../stores/priceStripStore'
 import { useBillStore } from '../../stores/billStore'
+import { useAiPanelStore } from '../../stores/aiPanelStore'
 import type { TableSide } from '../../stores/tableApi'
 
 const NAME_CELL = '.q3-gc[data-col="name"] .q3-gc__text'
@@ -124,6 +125,10 @@ export function PriceStrip({ gridHost }: { gridHost: React.RefObject<HTMLElement
   const data = usePriceStripStore((s) => s.data)
   const tiers = usePriceStripStore((s) => s.tiers)
 
+  // Phase 254 (M24) [A]: the strip is hidden while the master AI switch is off. Only the DISPLAY is hidden; the Rate mode (Auto / Suggest / Off), its switch and the
+  // Auto fill are the Price List's own settings and are untouched.
+  const aiOn = useAiPanelStore((s) => s.enabled)
+  useEffect(() => { void useAiPanelStore.getState().load() }, [])
   useEffect(() => { void usePriceStripStore.getState().load(true) }, [])
   useEffect(() => { usePriceStripStore.getState().reset() }, [billId])
   useGridWatch(gridHost)
@@ -135,7 +140,7 @@ export function PriceStrip({ gridHost }: { gridHost: React.RefObject<HTMLElement
     () => stripView({ enabled: settings.enabled, mode: settings.mode, cellActive, hasData: data.index.length > 0, typed, match, tierKey, tiers, data, filled }),
     [settings.enabled, settings.mode, cellActive, data, typed, match, tierKey, tiers, filled]
   )
-  if (view.kind === 'hidden') return null
+  if (!aiOn || view.kind === 'hidden') return null
   return (
     <div className="q3-pricestrip" role="region" aria-label="Price List match" aria-live="polite" onMouseDown={(e) => e.preventDefault()}>
       {view.kind === 'notice' ? (

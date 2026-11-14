@@ -92,17 +92,37 @@ describe('aiPanelStore (Phase 226)', () => {
     await expect(useAiPanelStore.getState().load()).resolves.toBeUndefined()
   })
 
-  it('load reads both switches; toggle writes ai.billingPanel; turning it ON also turns the master on [A], OFF leaves the master alone', async () => {
+  it('load reads both switches; toggle writes ai.billingPanel only while the master is on; it NEVER turns the master on (Phase 254 supersedes the Phase 226 auto-enable)', async () => {
     await useAiPanelStore.getState().load()
     expect(useAiPanelStore.getState()).toMatchObject({ enabled: true, billingPanel: true })
+    // master OFF: the switch is hidden, so its key does nothing at all and nothing is saved
     useAiPanelStore.setState({ enabled: false, billingPanel: false })
+    set.mockClear()
+    useAiPanelStore.getState().toggle()
+    expect(set).not.toHaveBeenCalled()
+    expect(useAiPanelStore.getState()).toMatchObject({ enabled: false, billingPanel: false })
+    // master ON: the panel key flips and saves only ai.billingPanel
+    useAiPanelStore.setState({ enabled: true, billingPanel: false })
     useAiPanelStore.getState().toggle()
     expect(set).toHaveBeenCalledWith('ai.billingPanel', true)
-    expect(set).toHaveBeenCalledWith('ai.enabled', true)
     set.mockClear()
     useAiPanelStore.getState().toggle()
     expect(set).toHaveBeenCalledWith('ai.billingPanel', false)
     expect(set).not.toHaveBeenCalledWith('ai.enabled', expect.anything())
     expect(useAiPanelStore.getState().enabled).toBe(true)
+    // setBillingPanel(true) with the master off still never touches the master
+    useAiPanelStore.setState({ enabled: false, billingPanel: false })
+    set.mockClear()
+    useAiPanelStore.getState().setBillingPanel(true)
+    expect(set).not.toHaveBeenCalledWith('ai.enabled', expect.anything())
+    expect(useAiPanelStore.getState().enabled).toBe(false)
+  })
+})
+
+describe('fresh AI panel store (Phase 254)', () => {
+  it('a store that has read no settings has the master AI switch and the panel switch OFF', async () => {
+    vi.resetModules()
+    const { useAiPanelStore: fresh } = await import('../aiPanelStore')
+    expect(fresh.getState()).toMatchObject({ enabled: false, billingPanel: false })
   })
 })

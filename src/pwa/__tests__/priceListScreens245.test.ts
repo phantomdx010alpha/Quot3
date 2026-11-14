@@ -346,3 +346,40 @@ describe('wrap rule and tokens in the new Price List files', () => {
     }
   })
 })
+
+// ---- Phase 253 (M24): the prices of an item are stacked one under another ----------------------------------------------------------
+describe('stacked price columns (Phase 253)', () => {
+  it('CSS: the cells list is a column, each cell is label-left / amount-right, nothing is side by side or cut', () => {
+    const cells = RULES.find((r) => r.selector === '.q3x-pl-cells')!
+    expect(decl(cells, 'flex-direction')).toBe('column')
+    expect(decl(cells, 'flex-wrap')).not.toBe('wrap')
+    const cell = RULES.find((r) => r.selector === '.q3x-pl-cell')!
+    expect(decl(cell, 'justify-content')).toBe('space-between')
+    expect(decl(cell, 'width')).toBe('100%')
+    const value = RULES.find((r) => r.selector === '.q3x-pl-cell-value')!
+    expect(decl(value, 'text-align')).toBe('right')
+    const field = RULES.find((r) => r.selector === '.q3x-pl-editor .q3x-pl-field')!
+    expect(decl(field, 'justify-content')).toBe('space-between') // the edit fields follow the same label-left / box-right line
+    expect(decl(RULES.find((r) => r.selector === '.q3x-pl-field-input')!, 'min-height')).toBe('var(--touch-min)') // touch target kept
+  })
+
+  it('all three layouts draw every price as its own labelled line, in the same order with the same amounts', async () => {
+    const seen: string[][] = []
+    for (const [, Screen] of SCREENS) {
+      const h = await mount(Screen, props(await seeded()))
+      expect(search(h)).toBeTruthy()
+      await typeInto(search(h), 'pvc pipe 1/2')
+      const first = h.querySelector('[data-testid="price-row"]')!
+      const lists = first.querySelectorAll('dl.q3x-pl-cells')
+      expect(lists.length).toBe(1) // ONE list holding the lines, not several columns
+      const lines = [...lists[0]!.querySelectorAll(':scope > .q3x-pl-cell')]
+      expect(lines.length).toBe(3)
+      for (const l of lines) { expect(l.children.length).toBe(2); expect(l.children[0]!.tagName).toBe('DT'); expect(l.children[1]!.tagName).toBe('DD') }
+      seen.push(lines.map((l) => `${l.children[0]!.textContent}=${l.children[1]!.textContent}`))
+      act(() => root!.unmount()); root = null; document.body.innerHTML = ''
+    }
+    expect(seen[0]).toEqual(['cash w/o=110', 'Retail (cash+GST)=1,250.5', 'Pack=6 m'])
+    expect(seen[1]).toEqual(seen[0])
+    expect(seen[2]).toEqual(seen[0])
+  })
+})

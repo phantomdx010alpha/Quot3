@@ -10,7 +10,7 @@ import { exportCsv } from './priceListTools'
  * Off the Price List page the palette entries only take you there (they need the page's grid and ports).
  */
 export const PRICELIST_ACTION_IDS: readonly ActionId[] = [
-  'pricelist.filter', 'pricelist.rowAbove', 'pricelist.rowBelow', 'pricelist.rowDelete', 'pricelist.rowUp', 'pricelist.rowDown',
+  'pricelist.rowAbove', 'pricelist.rowBelow', 'pricelist.rowDelete', 'pricelist.rowUp', 'pricelist.rowDown',
   'pricelist.section', 'pricelist.columns', 'pricelist.tiers', 'pricelist.panel', 'pricelist.noPrice', 'pricelist.newTab',
   'pricelist.tabPrev', 'pricelist.tabNext', 'pricelist.fillDown', 'pricelist.fillRight', 'pricelist.search', 'pricelist.find', 'pricelist.bulk', 'pricelist.csv'
 ]
@@ -18,7 +18,6 @@ export const PRICELIST_ACTION_IDS: readonly ActionId[] = [
 export function runPriceListAction(id: ActionId): void {
   const st = usePriceListStore.getState()
   switch (id) {
-    case 'pricelist.filter': st.ports.focusFilter?.(); break
     case 'pricelist.rowAbove': st.insertRow('above'); break
     case 'pricelist.rowBelow': st.insertRow('below'); break
     case 'pricelist.rowDelete': st.deleteSelected(); break
@@ -34,7 +33,7 @@ export function runPriceListAction(id: ActionId): void {
     case 'pricelist.tabNext': void st.stepTab(1); break
     case 'pricelist.fillDown': st.fill('down'); break
     case 'pricelist.fillRight': st.fill('right'); break
-    case 'pricelist.search': st.openDialog('search'); break
+    case 'pricelist.search': st.ports.focusSearch?.(); break
     case 'pricelist.find': if (st.tabId) st.openDialog('find'); break
     case 'pricelist.bulk': if (st.tabId) st.openDialog('bulk'); break
     case 'pricelist.csv': exportCsv(); break

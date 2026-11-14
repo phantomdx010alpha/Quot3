@@ -98,7 +98,6 @@ export type ActionId =
   | 'items.salesTab'
   | 'items.salesParty'
   | 'items.salesCopy'
-  | 'pricelist.filter'
   | 'pricelist.rowAbove'
   | 'pricelist.rowBelow'
   | 'pricelist.rowDelete'
@@ -350,7 +349,6 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'items.salesParty', label: 'Items: sales of this party only (again = all)', group: 'Navigate' },
   { id: 'items.salesCopy', label: 'Items: copy the sales table (TSV)', group: 'Navigate' },
   // Phase 238 (M23): Price List page actions (all keyed, so the palette-only list is unchanged).
-  { id: 'pricelist.filter', label: 'Price List: go to the filter box', group: 'Navigate' },
   { id: 'pricelist.rowAbove', label: 'Price List: insert a row above', group: 'Navigate' },
   { id: 'pricelist.rowBelow', label: 'Price List: insert a row below', group: 'Navigate' },
   { id: 'pricelist.rowDelete', label: 'Price List: delete the row(s)', group: 'Navigate' },
@@ -367,7 +365,7 @@ export const ACTIONS: readonly ActionDef[] = [
   { id: 'pricelist.fillDown', label: 'Price List: fill down (Ctrl+D)', group: 'Navigate' },
   { id: 'pricelist.fillRight', label: 'Price List: fill right (Ctrl+R)', group: 'Navigate' },
   // Phase 239 (M23): power tools (all keyed).
-  { id: 'pricelist.search', label: 'Price List: search every tab', group: 'Navigate' },
+  { id: 'pricelist.search', label: 'Price List: search every tab (the search box)', group: 'Navigate' },
   { id: 'pricelist.find', label: 'Price List: find and replace / tidy names', group: 'Navigate' },
   { id: 'pricelist.bulk', label: 'Price List: change prices in bulk', group: 'Navigate' },
   { id: 'pricelist.csv', label: 'Price List: save this tab as a CSV file', group: 'Navigate' },
@@ -494,7 +492,6 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'items.salesParty', keys: 'P', label: 'Items: sales of this party only (again = all)', scope: 'items', action: 'items.salesParty' },
   { id: 'items.salesCopy', keys: 'Ctrl+Alt+T', label: 'Items: copy the sales table (TSV)', scope: 'items', action: 'items.salesCopy' },
   // Phase 238 (M23): Price List page keys [A]; every key is free in its scope and passes the conflict test.
-  { id: 'pricelist.filter', keys: 'Ctrl+F', label: 'Price List: go to the filter box', scope: 'pricelist', action: 'pricelist.filter' },
   { id: 'pricelist.rowAbove', keys: 'Ctrl+Shift+Enter', label: 'Price List: insert a row above', scope: 'pricelist', action: 'pricelist.rowAbove' },
   { id: 'pricelist.rowBelow', keys: 'Ctrl+Enter', label: 'Price List: insert a row below', scope: 'pricelist', action: 'pricelist.rowBelow' },
   { id: 'pricelist.rowDelete', keys: 'Ctrl+Shift+Delete', label: 'Price List: delete the row(s)', scope: 'pricelist', action: 'pricelist.rowDelete' },
@@ -510,7 +507,7 @@ export const SHORTCUTS: readonly ShortcutDef[] = [
   { id: 'pricelist.tabNext', keys: 'Ctrl+PageDown', label: 'Price List: next tab', scope: 'pricelist', action: 'pricelist.tabNext' },
   { id: 'pricelist.fillDown', keys: 'Ctrl+D', label: 'Price List: fill down (Ctrl+D)', scope: 'pricelist', action: 'pricelist.fillDown' },
   { id: 'pricelist.fillRight', keys: 'Ctrl+R', label: 'Price List: fill right (Ctrl+R)', scope: 'pricelist', action: 'pricelist.fillRight' },
-  { id: 'pricelist.search', keys: 'Ctrl+Alt+F', label: 'Price List: search every tab', scope: 'pricelist', action: 'pricelist.search' },
+  { id: 'pricelist.search', keys: 'Ctrl+Alt+F', label: 'Price List: search every tab (the search box)', scope: 'pricelist', action: 'pricelist.search' },
   { id: 'pricelist.find', keys: 'Ctrl+Alt+H', label: 'Price List: find and replace / tidy names', scope: 'pricelist', action: 'pricelist.find' },
   { id: 'pricelist.bulk', keys: 'Ctrl+Alt+K', label: 'Price List: change prices in bulk', scope: 'pricelist', action: 'pricelist.bulk' },
   { id: 'pricelist.csv', keys: 'Ctrl+Alt+X', label: 'Price List: save this tab as a CSV file', scope: 'pricelist', action: 'pricelist.csv' }

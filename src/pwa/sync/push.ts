@@ -31,9 +31,11 @@ export interface PhonePushDeps {
   appVer: string
   progress?: (p: SyncProgress) => void
   revisionCap?: number
+  /** Phase 255: called after EVERY run (also an idle one) so the Price List rights are re-read each cycle; `refused` > 0 = the main branch refused something. */
+  onRun?: (r: PushRunResult) => void
 }
 
-export interface PushRunResult { sent: number; accepted: number; noop: number; won: number; lost: number; failedAttempts: number; poisoned: number; block: SharedBlock }
+export interface PushRunResult { sent: number; accepted: number; noop: number; won: number; lost: number; failedAttempts: number; poisoned: number; block: SharedBlock; /** Phase 255: Price List changes the main branch refused in this run. */ refused?: number }
 export interface PushStatus {
   running: boolean
   block: SharedBlock
@@ -136,7 +138,7 @@ export function createPhonePushWorker(deps: PhonePushDeps, opts: PhoneWorkerOpti
       done.catch(() => undefined)
       try {
         if (out.outcome === 'lost') { await keepLoserTx(tx, p); r.lost++ }
-        else if (out.outcome === 'refused') { await keepRefusedTx(tx, { kind: p.item.kind, recId: p.item.recId, code: out.code, missing: out.missing, at }) /* never store version 0 as a base; the row is settled below so it stops retrying; Phase 246 keeps ids + missing rights only (never content) so the Price List can say so */ }
+        else if (out.outcome === 'refused') { r.refused = (r.refused ?? 0) + 1; await keepRefusedTx(tx, { kind: p.item.kind, recId: p.item.recId, code: out.code, missing: out.missing, at }) /* never store version 0 as a base; the row is settled below so it stops retrying; Phase 246 keeps ids + missing rights only (never content) so the Price List can say so */ }
         else {
           putStateTx(tx, { kind: p.item.kind, recId: p.item.recId, baseVersion: out.version, baseHash: p.item.payloadHash, serverSeq: out.serverSeq, syncedAt: at })
           if (out.outcome === 'accepted') r.accepted++
@@ -217,6 +219,7 @@ export function createPhonePushWorker(deps: PhonePushDeps, opts: PhoneWorkerOpti
     if (current) return current
     current = run()
       .catch((e): PushRunResult => { lastError = errText(e); return emptyRun(block) })
+      .then((res) => { try { deps.onRun?.(res) } catch { /* a hook never stops the worker */ } return res })
       .finally(() => { current = null; schedule() })
     return current
   }

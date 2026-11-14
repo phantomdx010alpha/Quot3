@@ -915,3 +915,287 @@ Desktop: `createPriceListRepo(sqlite, { onChange })` records one outbox row per 
 - Port: `PhoneSharedPort.pricePermsGet?({license}) -> {seatNo, flags}` (RPC `qt_price_perms_get`); `PhonePushResult` of a refused change carries `code` and `missing` (phone wire reads them); `PhoneSyncRuntime.refreshPriceRights(): Promise<void>`; `AppServices.refreshPriceRights?`, `ScreenProps.refreshPriceRights?`.
 - Push worker: a `refused` outcome is settled in the outbox AND written to `pricelist.refused` in the same transaction (the `meta` store is part of that transaction now).
 - UI kit: `priceEditContext.ts` (`PriceEditContext`, `usePriceEdit`), `PriceEditParts.tsx` (`PriceEditProvider`, `RowEditControls`, `AddItemControls`, `StructurePanel`), `PriceListGate` props `onChanged`, `refreshRights`, `now`; `PriceRowList` prop `tabId`; `priceNotices(flags, refused = 0)`; `usePriceList(db, refreshRights?)` ready state has `reload`.
+
+## Milestone 24 — master Supabase (contract FROZEN by Phase 257, 2026-11-13, docs only; sections M24-A to M24-C are built, the master itself is built from Phase 258)
+
+### M24-0. THE MASTER CONTRACT (FROZEN by Phase 257, 2026-11-13; docs only, nothing built, run or tested)
+
+Binding for Phases 258-274. Source of intent: `docs/MILESTONE24_DESIGN.md` (sections 4-9). Where this block adds a detail the design left open it is marked **[A]** (unconfirmed assumption; the owner's answers to design section 11 were NOT given, so the bracketed defaults of section 11 are adopted: code reusable until reset, master holds each company's service_role key sealed, master on its own free project + keep-alive, five Dashboard tiles, AI-off hides the switch (strip [A]), old five-field phone form kept under "Advanced"). A later phase that disagrees with this block fixes THIS block first, then its code.
+
+**C0. Decisions made while freezing (all [A])**
+- D1. The seat's PASSWORD is never shown to seat 1 or any client list. A client receives a password only inside the redeem bundle and the refresh answer, for its own seat. Seat 1 sees and gives out the CODE only.
+- D2. Reset = new password AND new code (the old code dies at once). Regenerate = new code only. Both leave already-linked devices alone (they hold device tokens).
+- D3. Company SQL numbers new seats as `max(seat_no)+1` (read from `14_license_admin.sql`), and `qt_revoke_seat` deletes the login. So the master allows a create only when `active seats < max_seats` AND the number the company returns is <= 15; a returned number that equals a revoked master row replaces that row; a returned number > 15 is undone with `qt_revoke_seat` and answered `Q3M08`.
+- D4. Two columns the design table list did not name are added: `companies.org_id` (the company's `licenses.org_id`, read by enrol) and `seats.auth_user_id` (the company's auth user id, so `adopt` maps a session to a seat without knowing the e-mail domain; legacy seats get their `email` filled at first `adopt`).
+- D5. Code randomness is 15 random characters = 75 bits (the design text said 79; corrected). The 16th character is the check character.
+- D6. The code check is mod 31 (not a power of two). Corrected by Phase 259 [A]: because A (value 0) and 7 (value 31) are equal mod 31, the check misses a single substitution A <-> 7 in any of the 15 payload positions and an adjacent swap involving only that pair; every other single wrong character (and every wrong check character) and every other adjacent swap is caught. This is accepted as a known limit; the algorithm and the five worked codes stay frozen. (The Phase 257 wording "any single wrong character is caught" was too strong.)
+- D7. `heartbeat` never answers a removed or suspended state as an error: it returns the statuses so the client can show the right words; `refresh` and the admin calls do answer errors.
+- D8. Idempotency uses a client `reqId` (uuid v4) stored in `master_log`; a repeated `reqId` for the same company + action does nothing and answers `Q3M13`.
+- D9. All master reads of a company project use PostgREST with that company's service_role key: `licenses?select=org_id&label=eq.<label>`, `sn_members?select=seat_no,user_id&org_id=eq.<org>`, `rpc/qt_add_seats`, `rpc/qt_reset_seat`, `rpc/qt_revoke_seat` (all take the company LABEL, `14_license_admin.sql`), and `GET /auth/v1/user` with the company anon key + the device's access token for session checks. That service_role can read `licenses` and `sn_members` through PostgREST is an [A] closed only by the owner checklist.
+
+**C1. Wire conventions (every function)**
+- URL: `POST {MASTER_URL}/functions/v1/<name>` where `<name>` is `redeem`, `adopt`, `refresh`, `heartbeat`, `profile-get`, `profile-set`, `seat-list`, `seat-create`, `seat-reset`, `seat-revoke`, `seat-rename`, `seat-regen`, `enrol`. Only POST (and OPTIONS) is accepted. JSON in, JSON out, UTF-8, body <= 400 KB (logo included).
+- Request headers: `content-type: application/json`; `apikey: <MASTER_ANON>` and `authorization: Bearer <MASTER_ANON>` (the master project's public anon key, a build constant `MASTER_URL` / `MASTER_ANON` in `src/shared/master/config.ts`; it opens nothing by itself); device-authenticated functions also send `x-q3-device: <device token>`.
+- CORS: `access-control-allow-origin` = the env value `ALLOWED_ORIGIN` (the PWA origin; the desktop has no origin), `access-control-allow-headers: apikey, authorization, content-type, x-q3-device`, OPTIONS answers 204.
+- Every request body carries `v: 1`. An unknown `v` is answered `Q3M19`.
+- Success: HTTP 200 `{ ok: true, ...fields }`. Failure: HTTP per the table in C2, body `{ ok: false, code: 'Q3M01', error: 'invalid_code', message: '<plain words>' }`. `message` is the sentence the user sees; clients may show it as is.
+- Timeouts: function 10 s; client timeout 10 s and ONE retry (network error or 5xx only, never after a 4xx). Nothing secret is ever written to a log (`shared/master/redact.ts`); `master_log.detail` holds only `ok` or an error code.
+- Device token: 32 random bytes, base64url, 43 characters; the master stores `sha256(token)` hex only.
+- Rate limits: `redeem`, `adopt`, `enrol`: 10 failed tries per 15 minutes per `ip_hash` (`sha256(ip + MASTER_PEPPER)`) then `Q3M02`, successes do not count. `heartbeat` writes `last_seen_at` at most once per 60 s per device (extra calls just answer). Admin functions: no extra limit beyond the device token.
+- Env (Edge Function secrets, never in SQL): `MASTER_KEK` (32 bytes base64url), `MASTER_PEPPER`, `ALLOWED_ORIGIN`, plus Supabase's own `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` of the MASTER project.
+
+**C2. Error codes** (`Q3M*`; words are final; `shared/master/errors.ts` holds them; HTTP in brackets)
+| Code | error | HTTP | Words |
+|---|---|---|---|
+| Q3M01 | invalid_code | 400 | That code did not work. Check it and try again. (same for wrong, revoked, expired or regenerated) |
+| Q3M02 | rate_limited | 429 | Too many tries. Wait 15 minutes and try again. |
+| Q3M03 | bad_request | 400 | The request was not understood. Update the app and try again. |
+| Q3M04 | device_unknown | 401 | This device is not known to the master. Ask the admin for a new code. |
+| Q3M05 | admin_only | 403 | Only the admin seat (seat 1) can do this. |
+| Q3M06 | company_suspended | 403 | This company is switched off. Contact the owner. |
+| Q3M07 | seat_revoked | 403 | This seat was removed. Ask the admin for a new code. |
+| Q3M08 | seat_cap | 409 | The seat limit of 15 is reached. |
+| Q3M09 | seat_not_found | 404 | That seat does not exist. |
+| Q3M10 | seat1_protected | 409 | Seat 1 is the admin seat and cannot be reset or removed here. |
+| Q3M11 | company_unreachable | 502 | The company database could not be reached. Try again. |
+| Q3M12 | company_refused | 502 | The company database refused the request. Ask the owner to check the setup. |
+| Q3M13 | duplicate_request | 409 | That request was already done. Open the seat list to see the result. |
+| Q3M14 | session_invalid | 401 | Your sign-in to the company could not be verified. Sign in again and retry. |
+| Q3M15 | not_registered | 404 | This company is not linked to the master yet. |
+| Q3M16 | enrol_invalid | 400 | That setup token is wrong, used or expired. |
+| Q3M17 | already_registered | 409 | This company is already linked to the master. |
+| Q3M18 | too_large | 413 | The logo or a text is too large. |
+| Q3M19 | version_unsupported | 426 | This app is too old or too new for the master. Update the app and try again. |
+| Q3M20 | profile_conflict | 409 | The company details were changed elsewhere. Reload and try again. |
+| Q3M21 | seat_legacy | 409 | This seat has no code yet. Reset it first to make one. |
+| Q3M99 | internal | 500 | Something went wrong on the master. Try again later. |
+Client-only codes (never sent by the server): `Q3M90 master_unreachable` "Master unreachable, try again." (network, timeout, or 5xx after the retry); `Q3M91 code_typo` "That code has a typo. Check it and try again." (offline check-character failure); `Q3M92 bundle_version` "This code needs a newer app. Update the app." (bundle `v` other than 1); `Q3M93 bundle_invalid` "The master sent something unreadable. Try again later." (bundle fails its zod schema).
+
+**C3. Tables (spec block for Phase 258; `supabase/master/M01_tables.sql`)**
+All tables: `enable row level security` and NO policy; `revoke all ... from public, anon, authenticated`; only the master's own service role (Edge Functions) reads or writes. Every `*_enc` value is `shared/master/seal.ts` text (`v1.<iv>.<ct>`), never plain.
+```
+companies(
+  id uuid primary key default gen_random_uuid(),
+  label text not null unique check (char_length(label) between 1 and 80),
+  org_id uuid not null,
+  supabase_url text not null unique check (supabase_url ~ '^https://'),
+  anon_key text not null,
+  license_key_enc text not null,
+  service_role_enc text not null,
+  status text not null default 'active' check (status in ('active','suspended')),
+  max_seats int not null default 15 check (max_seats between 1 and 15),
+  profile jsonb not null default '{}'::jsonb,
+  profile_version int not null default 0 check (profile_version >= 0),
+  created_at timestamptz not null default now())
+seats(
+  company_id uuid not null references companies(id) on delete cascade,
+  seat_no int not null check (seat_no between 1 and 15),
+  label text not null check (char_length(label) between 1 and 40),
+  email text,                       -- null only for a legacy seat not seen yet
+  auth_user_id uuid,
+  password_enc text,                -- null for a legacy seat until its first reset
+  code_hash text unique,            -- sha256 hex of the 16 normalised characters
+  code_enc text,
+  code_hint text check (code_hint is null or char_length(code_hint) = 4),
+  legacy boolean not null default false,
+  status text not null default 'active' check (status in ('active','revoked')),
+  created_at timestamptz not null default now(),
+  reset_at timestamptz,
+  primary key (company_id, seat_no),
+  check (not legacy or (password_enc is null and code_hash is null and code_enc is null)),
+  check (status = 'active' or (code_hash is null and code_enc is null)))
+devices(
+  id uuid primary key default gen_random_uuid(),
+  company_id uuid not null,
+  seat_no int not null,
+  token_hash text not null unique,
+  label text not null default '' check (char_length(label) <= 40),
+  platform text not null check (platform in ('desktop','phone')),
+  app_version text not null default '' check (char_length(app_version) <= 40),
+  created_at timestamptz not null default now(),
+  last_seen_at timestamptz,
+  foreign key (company_id, seat_no) references seats(company_id, seat_no) on delete cascade)
+enrol_tokens(
+  token_hash text primary key,
+  company_label text not null check (char_length(company_label) between 1 and 80),
+  expires_at timestamptz not null,
+  used_at timestamptz,
+  created_at timestamptz not null default now())
+attempts(
+  id bigserial primary key,
+  ip_hash text not null,
+  at timestamptz not null default now(),
+  ok boolean not null)               -- index (ip_hash, at)
+master_log(
+  id bigserial primary key,
+  at timestamptz not null default now(),
+  company_id uuid,
+  seat_no int,
+  action text not null,
+  req_id uuid,
+  detail text not null default '' check (char_length(detail) <= 500))
+  -- unique index (company_id, action, req_id) where req_id is not null
+```
+`M02_rls.sql`: RLS on, no policies, revokes for the six tables (and `revoke all on sequences`). `M03_helpers.sql` (security definer, `set search_path = ''`, revoked from public / anon / authenticated): `m_attempts_recent(p_ip_hash text) returns int` (failures in the last 15 minutes), `m_attempts_purge() returns int` (deletes rows older than 1 day). Safe to re-run; header "NEVER RUN from the sandbox".
+
+**C4. Seat code format (Phase 259 `src/shared/master/seatCode.ts`)**
+- Shape: `Q3C-XXXX-XXXX-XXXX-XXXX` = prefix `Q3C` + 16 characters in four groups of four. Alphabet `ABCDEFGHIJKLMNOPQRSTUVWXYZ234567` (A=0 ... Z=25, 2=26 ... 7=31). Characters 1-15 are random, character 16 is the check.
+- Generate: take 15 random bytes (passed in, never drawn inside the function), each byte `& 31` picks an alphabet letter (uniform, 256 / 32 is whole).
+- Check character: `sum = Σ value(char_i) × i` for i = 1..15 (weight = position), `check = ALPHABET[sum mod 31]` (so the check is never `7`).
+- Normalise: uppercase; remove spaces, tabs and `-` / en dash / em dash; map `0` -> `O` and `1` -> `I` (those two digits are not in the alphabet); then the `Q3C` prefix is optional on input and is added back. `8` and `9` are NOT mapped (they are invalid characters).
+- Validate order: (1) length 16 after prefix else reason `format`; (2) every character in the alphabet else `chars`; (3) check character else `check` (reported to the user as `Q3M91`, no network call).
+- Stored: `code_hash = sha256 hex of the 16 characters` (no prefix, no dashes), `code_hint` = the last 4 characters, `code_enc` = sealed full `Q3C-...` text.
+- **Five worked examples (invented, never issued):**
+| Random values (15 bytes & 31) | Payload | Check | Code |
+|---|---|---|---|
+| 0,1,2,...,14 | ABCDEFGHIJKLMNO | E | `Q3C-ABCD-EFGH-IJKL-MNOE` |
+| 31 x 15 | 777777777777777 | A | `Q3C-7777-7777-7777-777A` |
+| 7,19,2,25,30,11,4,16,22,9,28,13,1,20,5 | HTCZ6LEQWJ4NBUF | A | `Q3C-HTCZ-6LEQ-WJ4N-BUFA` |
+| 26,27,28,29,30,31,0,1,2,3,4,5,6,7,8 | 234567ABCDEFGHI | S | `Q3C-2345-67AB-CDEF-GHIS` |
+| 15,3,21,8,17,29,6,24,12,0,18,31,10,23,14 | PDVIR5GYMAS7KXO | 3 | `Q3C-PDVI-R5GY-MAS7-KXO3` |
+Typo examples that must be refused offline: `Q3C-ABCD-EFGH-IJKL-MNOF` (wrong check), `Q3C-ABCD-EFGH-IJLK-MNOE` (swap, `check`), `Q3C-ABCD-EFGH-IJKL-MN8E` (`chars`), `Q3C-ABCD-EFGH-IJKL-MNO` (`format`). Input `q3c abcd efgh ijkl mnoe` and `ABCDEFGHIJKLMNOE` both normalise to the first example.
+
+**C5. Function shapes**
+Shared types (zod in `shared/master/schemas.ts`):
+- `ProfileView = { version: number, name: string, phone: string, address: string, logo: string | null }` (text fields <= 200 chars; `logo` = base64 of a PNG <= 150 KB decoded, no `data:` prefix; a company with no profile set answers `{ version: 0, name: <company label>, phone: '', address: '', logo: null }`).
+- `SeatView = { no: number, label: string, email: string | null, status: 'active' | 'revoked', legacy: boolean, code: string | null, codeHint: string | null, createdAt: string, resetAt: string | null, devices: number, lastSeenAt: string | null }` (`code` is the full code, only ever returned by `seat-list` / `seat-create` / `seat-reset` / `seat-regen` to seat 1; never the password).
+- `Bundle = { v: 1, company: { id: string, label: string }, supabaseUrl: string, anonKey: string, license: string, seat: { no: number, email: string, password: string }, profile: ProfileView | null, deviceToken: string }`.
+
+| # | Function | Auth | Request body (besides `v:1`) | Success fields (besides `ok:true`) | Errors | Idempotency |
+|---|---|---|---|---|---|---|
+| F1 | `redeem` | none | `code`, `platform: 'desktop'\|'phone'`, `deviceLabel?`, `appVersion` | `bundle: Bundle` | Q3M01 Q3M02 Q3M03 Q3M06 Q3M19 Q3M99 | each success makes a NEW device row; the client calls once and stores the token; the code stays valid |
+| F2 | `adopt` | company session | `supabaseUrl`, `accessToken` (the device's company session access token), `platform`, `deviceLabel?`, `appVersion` | `deviceToken: string \| null`, `existing: boolean`, `company`, `seat: { no, label }`, `profile: ProfileView \| null` | Q3M02 Q3M03 Q3M06 Q3M07 Q3M14 Q3M15 Q3M99 | if header `x-q3-device` is valid for the SAME seat: `existing:true, deviceToken:null` and no new row; never changes any password |
+| F3 | `refresh` | device | (none) | `supabaseUrl`, `anonKey`, `license`, `seat: { no, email, password: string \| null }`, `legacy: boolean` | Q3M04 Q3M06 Q3M07 Q3M99 | read-only (writes `last_seen_at`); `password:null` + `legacy:true` = the master does not know it, the device asks the person to type it as today |
+| F4 | `heartbeat` | device | `profileVersion: number \| null`, `appVersion` | `profileVersion`, `profileChanged: boolean`, `seat: { no, label, status }`, `company: { status }`, `serverTime` | Q3M04 Q3M99 | read-only; at most one `last_seen_at` write per 60 s |
+| F5 | `profile-get` | device | (none) | `profile: ProfileView` | Q3M04 Q3M06 Q3M07 | read-only |
+| F6 | `profile-set` | device, seat 1 | `reqId`, `expectVersion?`, `name`, `phone`, `address`, `logo?` (omitted = unchanged, `null` = remove) | `profile: ProfileView` | Q3M04 Q3M05 Q3M06 Q3M13 Q3M18 Q3M20 Q3M03 | `version` rises by 1 only if something changed; same `reqId` -> Q3M13 |
+| F7 | `seat-list` | device, seat 1 | (none) | `company: { id, label, maxSeats, status }`, `seats: SeatView[]` (ordered by `no`, includes revoked) | Q3M04 Q3M05 Q3M06 | read-only |
+| F8 | `seat-create` | device, seat 1 | `reqId`, `label` (1-40 chars) | `seat: SeatView` (with `code`) | Q3M04 Q3M05 Q3M06 Q3M08 Q3M11 Q3M12 Q3M13 Q3M03 | one seat per call (`qt_add_seats(label, 1)`); same `reqId` -> Q3M13 |
+| F9 | `seat-reset` | device, seat 1 | `reqId`, `seatNo` | `seat: SeatView` (new `code`, `legacy:false`, `resetAt` set) | Q3M04 Q3M05 Q3M06 Q3M09 Q3M10 Q3M07 Q3M11 Q3M12 Q3M13 | seat 1 refused; revoked seat -> Q3M07 |
+| F10 | `seat-revoke` | device, seat 1 | `reqId`, `seatNo` | `seat: SeatView` (`status:'revoked'`, `code:null`) | Q3M04 Q3M05 Q3M06 Q3M09 Q3M10 Q3M11 Q3M12 | revoking a revoked seat answers ok again; seat 1 refused |
+| F11 | `seat-rename` | device, seat 1 | `seatNo`, `label` (1-40) | `seat: SeatView` | Q3M04 Q3M05 Q3M06 Q3M09 Q3M03 | naturally idempotent; master-only (the company project has no seat label); seat 1 can be renamed |
+| F12 | `seat-regen` | device, seat 1 | `reqId`, `seatNo` | `seat: SeatView` (new `code`) | Q3M04 Q3M05 Q3M06 Q3M09 Q3M07 Q3M21 Q3M13 | old code dead at once; a legacy seat -> Q3M21 |
+| F13 | `enrol` | owner token + seat-1 session | `enrolToken`, `label`, `supabaseUrl`, `anonKey`, `license`, `accessToken`, `serviceRoleKey`, `platform`, `appVersion` | `deviceToken`, `company: { id, label }`, `seats: number` (recorded legacy seats), `profile: ProfileView` | Q3M02 Q3M03 Q3M05 Q3M11 Q3M12 Q3M14 Q3M16 Q3M17 Q3M99 | token is one-use: the second try -> Q3M16; an already registered label -> Q3M17 |
+
+Behaviour rules that go with the table:
+- **redeem:** normalise + hash the code, find a seat with `status='active'` whose company is `active`; wrong / revoked / expired / regenerated all return the identical Q3M01 body; a suspended company -> Q3M06 only after the code matched. On success: unseal `password_enc` + `license_key_enc`, insert a device row (new token), return the bundle. A seat with `legacy=true` has no code, so it can never match.
+- **adopt:** find the company by `supabaseUrl` (lower-case, no trailing `/`), call the company's `/auth/v1/user` with its `anon_key` and the given `accessToken`, match `id` to `seats.auth_user_id` (or, for a legacy row without it, `email` to `seats.email`, then fill both columns), require the seat `active` and the company `active`, insert a device row. The master does not read or change any password.
+- **refresh:** token -> device -> seat; the seat must be `active` (else Q3M07) and the company `active` (else Q3M06); unseal and return the CURRENT credentials of THAT seat only.
+- **admin calls (F6-F12):** the master looks the device up, requires `seat_no = 1`, seat 1 `active`, company `active`; the check is on the master, never only in the client.
+- **seat-create:** count active seats < `max_seats` else Q3M08; call `rpc/qt_add_seats {p_label: <company label>, p_n: 1}` with the unsealed service_role key; apply D3; seal the returned password; make a code (C4); insert / replace the seat row; return it. `seat-reset` calls `rpc/qt_reset_seat {p_label, p_seat_no}` (the login's sessions end); `seat-revoke` calls `rpc/qt_revoke_seat`. A company-call failure leaves the master rows unchanged (write the master row only after the company call succeeded; if the master write then fails, answer Q3M99 and log it for the owner).
+- **enrol:** order: rate limit -> hash the owner token, it must exist, be unused, unexpired and its `company_label` equal `label` (else Q3M16) -> verify the session at `/auth/v1/user` (Q3M14) -> read `licenses?label=eq.<label>` for `org_id` and `sn_members` with the service_role key (Q3M11 / Q3M12) -> the session's user id must be the `sn_members` row of seat 1 (else Q3M05) -> insert the company (seal `license` and `serviceRoleKey`), one `seats` row per `sn_members` row with `legacy=true`, `status='active'`, label `Seat N`, `auth_user_id`, seat 1's `email` from the session -> insert seat 1's device row -> mark the token used. All in one transaction after the remote reads. The service_role key is held in memory for this request only.
+
+**C6. Bundle -> storage mapping (field by field)**
+- **Master constants (not secrets, not in the vault):** `MASTER_URL`, `MASTER_ANON` in `src/shared/master/config.ts` (set by build config).
+- **Phone** (`src/pwa/sync/session.ts` `VaultData`, one encrypted blob): `bundle.supabaseUrl -> supabaseUrl`, `anonKey -> anonKey`, `license -> license`, `seat.email -> email`, the first sign-in with `seat.password` gives `session` (the password is used once and NOT stored, exactly as today). New OPTIONAL field `master?: { deviceToken: string, companyId: string, companyLabel: string, seatNo: number, seatLabel: string, profileVersion: number, adoptedAt: string }`. An old blob without `master` must still open (extend only, rule 10s).
+- **Desktop** (OS secret store, same entries as `activationV2.ts` for URL / anon / license / e-mail / session): the same five values; new entries in the namespace `master.`: `master.deviceToken`, `master.companyId`, `master.companyLabel`, `master.seatNo`, `master.seatLabel`, `master.profileVersion`. Never saved: the seat password after first sign-in, the service_role key at all.
+- **Company profile** (Phases 270-272): `ProfileView.name / phone / address / logo` map to the existing `company.name`, `company.phone`, `company.address`, `company.logo` settings (Phase 270 reads how first); a local override of a field is the flag `company.override.<field>` = `true` [A], and a later master update skips only the overridden fields.
+- **Logs and diagnostics:** every object / string that may hold a code, password, device token, enrol token, service_role key, `deviceToken`, `password`, `*_enc` goes through `redactSecrets` first.
+
+**C7. Compatibility and behaviour tests (each must be automated by the phase named)**
+T1..T8 (Phase 260, client functions, fake master + fake company):
+- T1 redeem with a good code returns a valid Bundle and a new device row; the code still works a second time.
+- T2 redeem with a wrong code, a revoked seat's code, an expired / regenerated (old) code gives the IDENTICAL Q3M01 body (a suspended company with a MATCHING code -> Q3M06).
+- T3 redeem: the 11th failure from one ip within 15 minutes -> Q3M02; successes do not count; the window ends after 15 minutes.
+- T4 adopt with a valid session of a registered company returns a device token, maps the seat, changes no password; a repeat call with the token returns `existing:true`.
+- T5 adopt with a bad session -> Q3M14; with an unregistered company -> Q3M15; with a revoked seat -> Q3M07.
+- T6 refresh returns the current credentials of that seat only; after a reset it returns the NEW password; a revoked seat -> Q3M07; a legacy seat -> `password:null, legacy:true`.
+- T7 heartbeat returns `profileVersion`, `profileChanged`, seat and company status, and updates `last_seen_at` at most once per 60 s; a revoked seat or suspended company is a status, not an error.
+- T8 profile-get returns the profile; a bad token -> Q3M04; a never-set profile -> version 0 and the label as name.
+T9..T20 (Phase 261, seat admin + enrol):
+- T9 seat-create by a seat other than 1 -> Q3M05 (also for profile-set, reset, revoke, rename, regen, list).
+- T10 seat-create with 15 active seats -> Q3M08; a returned seat number > 15 is undone and -> Q3M08.
+- T11 seat-create ok: `qt_add_seats` called once with the company label and n=1; `password_enc` is sealed (not the plain password); the answer has `code` and no password.
+- T12 seat-reset and seat-revoke of seat 1 -> Q3M10.
+- T13 seat-reset ok: `qt_reset_seat` called; old password ends, new one sealed; `legacy` becomes false on the first reset; the old code -> Q3M01, the new code works; a device of that seat gets the new password through refresh.
+- T14 seat-revoke ok: `qt_revoke_seat` called, `code` gone, devices of the seat get Q3M07 on refresh, revoking again is ok.
+- T15 seat-rename ok; empty or 41-char label -> Q3M03.
+- T16 seat-regen: old code -> Q3M01, new code works, devices already linked keep working; a legacy seat -> Q3M21.
+- T17 profile-set bumps `profile_version` by exactly 1 when something changed and by 0 when nothing changed; a logo over 150 KB or a text over 200 chars -> Q3M18; a wrong `expectVersion` -> Q3M20.
+- T18 a repeated `reqId` on any write function -> Q3M13 and nothing changes.
+- T19 enrol ok: company registered, every `sn_members` row recorded `legacy=true`, `service_role_enc` and `license_key_enc` sealed, token used; the second use -> Q3M16; the same label again -> Q3M17.
+- T20 enrol with a session that is not seat 1 -> Q3M05; a suspended company on any admin call -> Q3M06; a company call that fails -> Q3M11 / Q3M12 and the master rows are unchanged.
+T21..T34 (client, desktop, phone, profile; the phase that owns each is in C9):
+- T21 a company never linked and a device set up the old way: no master call is made at start, sync start or anywhere (a spy on the master client sees zero calls).
+- T22 a linked company and an old device after the update: `adopt` runs silently, no logout, no prompt; when the master is unreachable nothing changes and sync is unaffected.
+- T23 an old vault / secret-store blob (no `master` field) still opens and syncs.
+- T24 master down: sync keeps working; redeem, seat admin and profile refresh answer "Master unreachable, try again." (Q3M90) and nothing else breaks.
+- T25 a seat reset while a device is offline: its next online start gets `auth_failed`, calls `refresh`, signs in silently with the new password; a legacy seat with `password:null` falls back to the normal "type the password" prompt.
+- T26 a removed seat: the device shows "This seat was removed. Ask the admin for a new code." and its local data is NOT wiped.
+- T27 the phone's old five-field form still works under "Advanced: enter details by hand" [A].
+- T28 no code, password, device token, enrol token, service_role key or `*_enc` value reaches any log or `diagnostics.copy` (nested objects and strings).
+- T29 the service_role key is never stored, logged, backed up or in diagnostics after "Link to master".
+- T30 the 5 worked codes validate; the typo examples of C4 are refused offline with no network call; the normalised forms match.
+- T31 a bundle with `v` other than 1 is refused (`Q3M92`); a bundle that fails its schema -> `Q3M93`.
+- T32 profile inheritance: a device with no override shows the master's profile after a heartbeat shows a newer version; an overridden field keeps the local value while the other fields follow the master.
+- T33 seal round trip returns the text; any changed byte or wrong key or wrong `aad` fails to open.
+- T34 desktop and phone agree on the same plain-words text for every `Q3M*` code (one table).
+T35..T36 (Phase 262, owner CLI): T35 minting an enrol token stores only its hash, one use, expiry honoured; T36 the export command keeps every `*_enc` value sealed and writes no plain secret.
+
+**C8. Names only: desktop IPC, phone runtime, shared core, owner CLI**
+- Desktop IPC channels (`src/main/ipc/master.ts`, zod, Phase 263): `master:status`, `master:link` (enrol), `master:redeem`, `master:adopt`, `master:refresh`, `master:heartbeat`, `master:seatList`, `master:seatCreate`, `master:seatReset`, `master:seatRevoke`, `master:seatRename`, `master:seatRegen`, `master:profileGet`, `master:profileSet`. Main service `masterService`: `link`, `redeem`, `adopt`, `refreshCredentials`, `heartbeat`, `status`, `seatList`, `seatCreate`, `seatReset`, `seatRevoke`, `seatRename`, `seatRegen`, `profileGet`, `profileSet`. `master:status` returns `{ configured: boolean, linked: boolean, companyLabel: string | null, seatNo: number | null, seatLabel: string | null, isAdmin: boolean, profileVersion: number | null, lastError: string }`.
+- Phone runtime (`src/pwa/sync/master.ts`, Phases 268-269): `masterStatus()`, `masterRedeem(code)`, `masterAdopt()`, `masterRefreshCredentials()`, `masterHeartbeat()`, `masterProfileGet()`. The phone has no seat-admin calls.
+- Shared core (`src/shared/master/`, Phase 259): `seatCode.ts` -> `generateSeatCode(bytes)`, `normaliseSeatCode(input)`, `validateSeatCode(input)`, `checkChar(payload15)`, `formatSeatCode(chars16)`, `SEAT_ALPHABET`; `schemas.ts` -> `ProfileViewSchema`, `SeatViewSchema`, `BundleSchema`, one request and one response schema per F1-F13, `ErrorBodySchema`; `errors.ts` -> `MASTER_ERRORS`, `masterErrorWords(code)`; `redact.ts` -> `redactSecrets(value)`; `seal.ts` -> `sealText(key, plain, aad?)`, `openText(key, sealed, aad?)` (format `v1.<b64url iv 12 bytes>.<b64url ciphertext+tag>`, AES-256-GCM, WebCrypto only); `config.ts` -> `MASTER_URL`, `MASTER_ANON`.
+- Owner CLI (Phase 262): `master-mint-enrol`, `master-onboard`, `master-export`, `master-keepalive`.
+
+**C9. Which later phase implements which contract lines**
+| Phase | Implements |
+|---|---|
+| 258 | C3 (all six tables, checks, RLS, revokes, `M03` helpers); static test only |
+| 259 | C4, C2 (words + client-only codes), C5 shared types and every request / response schema, C6 redaction rule, `seal.ts`, `config.ts`; tests T28 (shared part), T30, T31, T33, T34 |
+| 260 | C1, C2, F1-F5 and their behaviour rules; T1-T8 |
+| 261 | F6-F13 and their behaviour rules, D3, D8; T9-T20 |
+| 262 | C3 (`enrol_tokens`), F13 token minting, design flow 1 (qt_create_org via service_role), keep-alive, export; T35, T36; `docs/MASTER_OWNER_SETUP.md` |
+| 263 | C1 client rules (retry, timeout, redaction), C6 desktop storage, C8 IPC and service; T21, T24, T28 |
+| 264 | F13 + F2 from the desktop (link wizard, silent adopt); T22, T23, T29 |
+| 265 | F7 + F8 (list, create); T24 |
+| 266 | F9 + F10 + F11 + F12 (reset, revoke, rename, regen) |
+| 267 | F3 silent re-credential on `auth_failed`; T25, T26 |
+| 268 | C8 phone methods, C6 phone storage, F1 + F2 + F3 + F4 + F5 from the phone; T24, T28, T30 |
+| 269 | F1 one-field screen, "Advanced" door, F3 silent re-credential; T25, T26, T27, T30 |
+| 270 | ProfileView, F5 + F6 + F4, `company.*` mapping and override flags (desktop Settings); T32 |
+| 271 | desktop print and header use of the inherited profile; T32 |
+| 272 | phone use of the inherited profile; T32 |
+| 273 | the gate: re-lists T1..T36 in `docs/M24_OWNER_CHECKLIST.md`, version 0.1.57 [A] |
+| 274 | fix pack for what the owner's checklist finds |
+Phases 251-256 touch no line of this block.
+
+
+### M24-A. Phases 251-252 (BUILT 2026-11-13; desktop UI only, no IPC channel, no schema, no sync change)
+
+**Dashboard stats (Phase 251).** `shared/dashboard/dashboardStats.ts` gains (pure, decimal.js for money): `MONTH_BARS = 6`; `interface MonthTotal { month: 'YYYY-MM'; count: number; total: string }`; `addMonths(key, n): string`; `seriesWindowStart(today, bars = MONTH_BARS): string` (first day of the oldest bar's month, or `statsWindowStart(today)` if that is earlier); `buildMonthlySeries(rows: DayRow[], today, bars = MONTH_BARS): MonthTotal[]` (oldest first, this month last, empty months `'0.00'`, bills dated after `today` ignored); `barHeights(values: string[], h): number[]` (0 for zero, otherwise at least 2); `monthLabel(key): 'Jan'..'Dec'`. `DashboardStats` gains the OPTIONAL field `months?: MonthTotal[]` (an older payload without it still renders; the monthly graph is then simply not drawn). `buildDashboardStats` and `statsWindowStart` are UNCHANGED. `dashboardService.stats()` now reads ONCE with `repo.daysSince(seriesWindowStart(today))` and feeds the same rows to `buildDashboardStats` and `buildMonthlySeries`; the IPC channel `dashboard:stats` keeps its name and request shape (the response carries the extra optional field). Renderer: the stats block is ONE row of five tiles, in this order and with these `aria-label`s: `Sales` (Today + This month; the two figures keep their own `role=group` labels `Today` / `This month`), `Last 7 days` (7-day line + the six-month bars `MonthBars`), `Recent bills` (the newest 5 of the 8 in the payload [A]), `Top customers`, `Backup and sync` (the `.q3-stats__foot` line is unchanged). Existing hooks kept: `data-testid="dash-stats"`, `dash-sync-chip`, the four quick-entry cards, Enter-opens-bill, focus refresh, Tab order (cards, Recent bills, Top customers).
+
+**Price List search (Phase 252).** The toolbar's "Filter this tab" box and the "Search all" button are REPLACED by one search box `PriceSearchBox` (`components/pricelist/PriceSearchBox.tsx`, `aria-label="Search all tabs"`): every tab, `searchAll` / `jumpToHit` from `stores/priceListTools.ts` (engine `shared/pricelist/search.ts`, unchanged), minimum 2 letters, 250 ms debounce, results listbox under the box. Its text, hits and highlight are LOCAL component state: typing never changes `nav`, `focusTick` or `filter` in `priceListStore`. Keys: ArrowDown / ArrowUp move the highlight, Enter opens the highlighted hit (`jumpToHit`: the grid takes the cursor and the box empties), Esc clears a typed search (a second Esc is the page's Back). REMOVED: action / shortcut `pricelist.filter` (Ctrl+F) from `ActionId`, the palette list, the key list, `PRICELIST_ACTION_IDS`, `runPriceListAction` and `useAppActions`; the `SearchDialog` component and `PriceDialog` value `'search'`. CHANGED: store port `focusFilter` is now `focusSearch` (focus + select the box); `pricelist.search` (key unchanged, Ctrl+Alt+F) runs `ports.focusSearch` instead of opening a dialog. KEPT: `filter.contains` and `setFilter` in the store (used by `jumpToRow`, the store tests and `filterRows`), but NO UI sets it any more; `filter.noPrice` and its button are unchanged. `pageMemory/adapters.ts` `priceListAdapter` no longer saves or restores `contains` (the saved `filters` is `{ noPrice }`; an old remembered `contains` is dropped on apply so rows are never hidden by a filter the owner cannot see).
+
+### M24-B. Phase 255 (BUILT 2026-11-13; no new IPC channel, no schema, no SQL, no Supabase change)
+
+**`PriceRightsInfo`** (`pricelist:perms`, `shared/pricelist/api.ts`) gains three fields: `checkedAt: string | null` (last ASK of the server, ISO), `answeredAt: string | null` (last answer received; null = never, then a non-seat-1 PC has no rights), `lastError: string` (plain words, '' = the last ask worked). `PriceRightsService.auto(afterRefused: boolean): Promise<void>` is new (throttled automatic refresh, never throws, skipped for seat 1 and without sync). New `sync_state` key `pricelist.permsStatus` = `{ at, error }`. `createPushWorkerV2` deps gain `onRun?: (r: PushRunResultV2) => void` (called after every run). Pure helpers in `shared/pricelist/perms.ts`: `rightsStatusView(input, when?) -> { seat, rights, checked, error }`, `autoRefreshDue(lastIso, nowMs, afterRefused)`, constants `AUTO_REFRESH_MS = 60000`, `REFUSED_REFRESH_MS = 10000`.
+**Phone:** `PhonePushDeps.onRun`, `PushRunResult.refused?: number`, `PhoneSyncEngineDeps.onPushRun`, `PhoneSyncRuntime.autoRefreshPriceRights(afterRefused)`, `SyncAdmin.checkPriceRights?()`, `PriceSyncStatus.rights?: RightsStatusView | null`, `meta` key `pricelist.permsStatus` = `{ at, error }` (`readRightsAsk` / `writeRightsAsk`).
+
+### M24-C. Phase 256 (BUILT 2026-11-13; release A 0.1.56 [A]; one SQL file, no new IPC channel, no table change)
+
+**SQL file 21** `supabase/sql/21_price_perms_bell.sql`: `qt_price_perms_set(p_license text, p_seat int, p_flags jsonb) returns jsonb` keeps its signature, result `{ seat_no, flags }`, errors (`Q3P02` seat1_only, `Q3I01` invalid_input) and the 'permission' log entry of file 20, and now also upserts `sn_ping` (`seq + 1`) when the stored flags changed. Grants unchanged (`authenticated` only). NEVER RUN from the sandbox.
+**Client:** `PriceRightsInfo.refusedNeeds: PermFlag[]` (flags the kept-list of refused changes was missing, settings order, no repeats). `shared/pricelist/perms.ts`: `PERM_NEEDS`, `needsWord(flag)`, `needsWords(flags)`, `refusedNeeds(entries)`, `rightsNotice(flags, refused, needs = [])`; `notAllowedText(missing)` now reads "This seat is not allowed to do that (needs Overwrite: Change existing prices). Ask the main branch (seat 1) ...". Phone: `refusedLine(n, needs = [])`, `PhoneSyncEngineDeps.onRing`, `PriceListContext.refusedNeeds`, `PriceSyncStatus.refusedNeeds?`, `priceNotices(flags, refused, needs)`.
+
+### M24-D. Phase 258 (BUILT 2026-11-13; master SQL only, no IPC channel, no function, no client change, nothing run)
+`supabase/master/M01_tables.sql`, `M02_rls.sql`, `M03_helpers.sql` implement M24-0 section C3 exactly (six tables, the two added columns `companies.org_id` and `seats.auth_user_id`, the check constraints, `master_log_req_idx` and `attempts_ip_at_idx`, RLS + revokes with no policy, `m_attempts_recent(p_ip_hash text) returns int` and `m_attempts_purge() returns int`, both `security definer`, empty `search_path`, executable by `service_role` only). No contract line changed. NEVER RUN from the sandbox.
+
+### M24-E. Phase 259 (BUILT 2026-11-13; shared pure core only, no IPC channel, no function, no client, no SQL change)
+
+`src/shared/master/` implements M24-0 C2, C4, C5 (types, requests, responses), C6 (redaction rule) and C8 (shared-core names) exactly; no contract line changed except the wording of D6 (see C0). Extras beyond the C8 name list (all pure, additive): `errors.ts` -> `MASTER_ERRORS` (code, error, http, message), `SERVER_ERROR_CODES`, `CLIENT_ERROR_CODES`, `isMasterErrorCode`, `masterErrorBody(code)`, `masterErrorHttp(code)`; `seatCode.ts` -> `seatCodeChars`, `isSeatCode`, `seatCodeHint`, `SeatCodeCheck`; `seal.ts` -> `SealError`, `b64urlEncode/Decode`, `randomBytes`, `keyFromBase64Url` (MASTER_KEK, 32 bytes), `sha256Hex`, `seatCodeHash(chars16)`, `looksSealed`; `redact.ts` -> `redactText`, `redactedJson`, `isSecretKey`, `REDACTED`; `schemas.ts` -> `MASTER_FUNCTIONS` registry (F1..F13: name, auth, request, response), `parseRequest(schema, body)` (`v` other than 1 -> `Q3M19`, any other shape problem -> `Q3M03`), `profileTooLarge(p)` (text over 200 or logo over 150 KB / not base64 -> the handler answers `Q3M18`; the profile-set request schema does NOT cap lengths so over-size is `Q3M18`, not `Q3M03`), `parseBundle(raw)` (`v` != 1 -> `Q3M92`, schema failure -> `Q3M93`), `parseErrorBody`, `base64DecodedLength`; `config.ts` -> `MASTER_URL` / `MASTER_ANON` (EMPTY in source [A], the owner sets them at Phase 273; `isMasterConfigured()` is false until then), `MASTER_FUNCTION_NAMES`, `masterFunctionUrl`, `masterHeaders`, timeouts / retries / body cap constants. [A] limits chosen where C5 was silent: `deviceLabel` <= 80, `appVersion` 1..32, `reqId` = uuid, `accessToken` / `serviceRoleKey` <= 4096, `code` (redeem) <= 64, a device token = 43 base64url characters. The `redactSecrets` rule: secret keys (password, token, `*_enc`, license, anonKey, apikey, authorization, x-q3-device, code ...) -> `[redacted]`, an error code `Q3Mnn` under `code` stays visible, strings are scanned for seat codes, license keys, sealed text, bearer / JWT, 43-character tokens and `key=value` pairs.
+
+### M24-F. Phase 260 (BUILT 2026-11-13; Edge Functions F1-F5 as code + tests, nothing deployed or run on a real Supabase)
+
+`supabase/master/functions/{redeem,adopt,refresh,heartbeat,profile-get}/{handler.ts,index.ts}` + `_shared/{types,aad,http,views,pgrest,deps}.ts` implement C1, C2 and F1-F5 with their behaviour rules exactly; no contract line changed. A handler is `handleX(req: Request, deps: Deps): Promise<Response>`; `Deps` = `{ db: MasterDb, company: CompanyClient, kek, pepper, allowedOrigin, now, randomBytes, log }` (`_shared/types.ts`); the index files only call `Deno.serve(req => handleX(req, realDeps()))`. Decisions where C5 was silent [A]: (1) sealed values are bound to an `aad` (`_shared/aad.ts`): `seat-password:<companyId>:<no>`, `seat-code:<companyId>:<no>`, `company-license:<companyId>`, `company-service-role:<companyId>`; Phase 261 must seal with the same helpers; (2) the rate limit is checked BEFORE the body is parsed, blocks when >= 10 failed tries are recorded in 15 minutes (so the 11th try is `Q3M02`, even with a right code), successes are recorded but never counted; `redeem` counts every `Q3M01`, `adopt` counts `Q3M14` / `Q3M15`; (3) a session that is valid at the company but maps to no master seat -> `Q3M14`; (4) refresh / profile-get check seat `Q3M07` before company `Q3M06`; (5) `profileChanged` = `profileVersion` differs from the company's, and for `null` = the company's version > 0; (6) body > 400 KB -> `Q3M18`, GET -> `Q3M03`; (7) a master-db or seal failure inside a handler -> `Q3M99`, logged only through `redactedJson`; (8) `master_log.detail` = `ok` or a code. Deploy [A]: the handlers and `src/shared/master/*` use extension-less imports (they type-check and test under vitest), so Deno needs a bundle step (esbuild); Phase 262 prints it. `_shared/pgrest.ts` (the real `MasterDb` over PostgREST) is untested against a real Postgres.
+
+### M24-G. Phase 261 (BUILT 2026-11-13; Edge Functions F6-F13 as code + tests, nothing deployed or run on a real Supabase)
+`supabase/master/functions/{profile-set,seat-list,seat-create,seat-reset,seat-revoke,seat-rename,seat-regen,enrol}/handler.ts` implement M24-0 C5 F6-F13 and their behaviour rules, D3 and D8; tests T9..T20 in `src/__tests__/master/adminFunctions261.test.ts`. No contract line changed. Added seams (internal, not wire): `MasterDb` gained `listSeats`, `listDevices`, `upsertSeat`, `deleteDevicesOfSeat`, `updateCompany`, `claimRequest`, `releaseRequest`, `findCompanyByLabel`, `findEnrolToken`, `registerCompany`; `CompanyClient` gained `adminRpc(company, serviceRoleKey, fn, args)` and `adminSelect(company, serviceRoleKey, path)` (both throw `CompanyCallError('unreachable' | 'refused')`, mapped to Q3M11 / Q3M12). [A] decisions made where C5 was silent: (1) the D8 claim is the `master_log` row (`action`, `req_id`, `detail='ok'`), written before the work, given back when nothing changed at the company yet, kept (plus an owner log row `<action>.master_write_failed`, `Q3M99`) when the company changed but the master write failed; (2) a replaced revoked seat row loses its devices, a plain revoke keeps them (they answer Q3M07); (3) revoke nulls `password_enc`, `code_*`; (4) new seats start with `auth_user_id = null` (filled by `adopt`); (5) `enrol` is not one SQL transaction (claim the token with `used_at is null`, insert, delete the company and give the token back on failure); (6) `enrol` refuses more than 15 `sn_members` rows with Q3M08 and does not check the license text against the label; (7) `profile-set` order: schema (Q3M03 / Q3M19) -> seat-1 check -> size (Q3M18) -> claim -> `expectVersion` (Q3M20) -> write, `version` +1 only when name, phone, address or logo differ from what `profileView` shows (so a never-set profile whose name equals the label is unchanged); (8) `seat-reset` and `seat-revoke` of seat 1 answer Q3M10 before any claim or company call; a non-seat-1 device gets Q3M05 first for every admin function, a removed seat 1 Q3M07, a suspended company Q3M06.
+
+### M24-H. Phase 262 (BUILT 2026-11-13; owner CLI, nothing run against a real Supabase)
+
+`tools/master-cli.mjs` implements the C8 "owner CLI" names as commands: `master-mint-enrol` = `enrol-token <label> [--hours 1..168, default 24]`, `master-onboard` = `onboard <label> <seats 1..15> --url --anon --service-role [--management-token] [--project-ref] [--dry-run]`, `master-export` = `export [--out] [--no-sealed]`, `master-keepalive` = `keepalive`; plus `init` and `bundle`. Environment: `MASTER_URL`, `MASTER_SERVICE_ROLE_KEY`, `MASTER_KEK` (base64url, 32 bytes), `MASTER_ANON_KEY` (keepalive), `COMPANY_URL`, `COMPANY_ANON_KEY`, `COMPANY_SERVICE_ROLE_KEY`, `SUPABASE_ACCESS_TOKEN`.
+- Enrol token: `base64url(32 random bytes)`; the row written to `enrol_tokens` is exactly `{ token_hash: sha256hex(token), company_label, expires_at }` (`used_at` and `created_at` left to their defaults); `enrol` (F13) hashes `enrolToken.trim()` the same way (T35).
+- Onboard writes `companies` (`license_key_enc`, `service_role_enc` sealed with `aad` `company-license:<id>` / `company-service-role:<id>`; `supabase_url` in the `normaliseUrl` form; `max_seats` 15) and one `seats` row per seat (`label` `Seat n`, `legacy` false, `auth_user_id` from the company's `sn_members`, `password_enc` aad `seat-password:<id>:<n>`, `code_enc` aad `seat-code:<id>:<n>`, `code_hash` = sha256 of the 16 characters, `code_hint` = last 4), plus a `master_log` row `onboard` / `ok`. Same sealed format and check-character algorithm as `src/shared/master/{seal,seatCode}.ts` (re-implemented in `.mjs`, cross-checked by `tools/__tests__/masterCli262.test.ts`).
+- Export: `{ format: 'quot3-master-export', version: 1, exportedAt, sealed, companies[], seats[] }`; every `*_enc` value is either a sealed text or dropped (T36); `devices`, `attempts` and `master_log` are never exported.
+- Company SQL applied by `onboard`: files `11_*.sql` .. `21_*.sql` of `supabase/sql/`, in numeric order, nothing else (01-06, 90, 91, 99 never).
+- Output rule: everything printed passes `redactCliOutput` (known secret values, `Q3C-` codes, `Q3-` license keys, sealed text, JWTs, Bearer values, 43-character tokens). Only a new `MASTER_KEK` / `MASTER_PEPPER`, an enrol token, the Seat-1 code and the failure RECOVERY block are shown.

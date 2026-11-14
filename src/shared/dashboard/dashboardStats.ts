@@ -18,11 +18,17 @@ export interface DashboardStats {
   /** ISO time of the newest backup file, or null. */
   lastBackup: string | null
   syncStatus: 'off'
+  /** Phase 251: the last `MONTH_BARS` calendar months, oldest first, this month last (months without bills are zero). Optional so an older payload still reads. */
+  months?: MonthTotal[]
 }
+
+export interface MonthTotal { month: string; count: number; total: string }
 
 export const RECENT_BILLS = 8
 export const TOP_CUSTOMERS = 5
 export const WEEK_DAYS = 7
+/** Phase 251: bars in the small monthly graph. */
+export const MONTH_BARS = 6
 
 const ISO = /^(\d{4})-(\d{2})-(\d{2})$/
 
@@ -109,4 +115,46 @@ export function formatBackupTime(iso: string | null, now: Date): string {
   if (ymd(t) === ymd(now)) return `Today ${hm}`
   if (ymd(t) === ymd(y)) return `Yesterday ${hm}`
   return `${p(t.getDate())}-${p(t.getMonth() + 1)}-${String(t.getFullYear()).slice(2)} ${hm}`
+}
+
+/** `2026-10` shifted by `n` calendar months (`n` may be negative): `addMonths('2026-02', -3)` is `2025-11`. Anything that is not `YYYY-MM` comes back unchanged. */
+export function addMonths(key: string, n: number): string {
+  const m = /^(\d{4})-(\d{2})$/.exec(key)
+  if (!m) return key
+  const idx = Number(m[1]) * 12 + (Number(m[2]) - 1) + n
+  const y = Math.floor(idx / 12)
+  return `${String(y).padStart(4, '0')}-${String((idx % 12) + 1).padStart(2, '0')}`
+}
+
+/** The first date the stats query must read once the monthly graph is shown: the start of the oldest bar's month (or `statsWindowStart`, if that is earlier). */
+export function seriesWindowStart(today: string, bars: number = MONTH_BARS): string {
+  const first = `${addMonths(monthKey(today), -(Math.max(1, bars) - 1))}-01`
+  const base = statsWindowStart(today)
+  return first < base ? first : base
+}
+
+/** Phase 251: totals per calendar month for the last `bars` months, oldest first, today's month last; bills dated after `today` are ignored. Money is summed with decimal.js. */
+export function buildMonthlySeries(rows: readonly DayRow[], today: string, bars: number = MONTH_BARS): MonthTotal[] {
+  const out: MonthTotal[] = []
+  const n = Math.max(1, bars)
+  for (let i = n - 1; i >= 0; i--) {
+    const key = addMonths(monthKey(today), -i)
+    const r = rows.filter((x) => monthKey(x.billDate) === key && x.billDate <= today)
+    out.push({ month: key, count: r.length, total: totalOf(r) })
+  }
+  return out
+}
+
+/** Bar heights (display pixels) for canonical money strings scaled to the largest value in a box `h` high: zero is 0, any other value is at least 2 so it stays visible. */
+export function barHeights(values: readonly string[], h: number): number[] {
+  const ds = values.map((v) => tryD(v) ?? tryD('0')!)
+  const max = ds.reduce((m, d) => (d.greaterThan(m) ? d : m), tryD('0')!)
+  return ds.map((d) => (max.isZero() || d.lessThanOrEqualTo(0) ? 0 : Math.max(2, d.dividedBy(max).times(h).toNumber())))
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+/** `2026-10` -> `Oct`. */
+export function monthLabel(key: string): string {
+  const m = /^(\d{4})-(\d{2})$/.exec(key)
+  return m ? (MONTHS[Number(m[2]) - 1] ?? '') : ''
 }

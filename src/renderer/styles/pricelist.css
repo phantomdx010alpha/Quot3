@@ -84,3 +84,9 @@
 .q3-pla__row { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); padding: var(--space-2); border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--surface-raised); }
 .q3-pla__when { min-width: 150px; font-size: var(--text-sm); color: var(--text-secondary); }
 .q3-pla__what { flex: 1 1 280px; font-size: var(--text-base); color: var(--text-primary); overflow-wrap: anywhere; }
+/* Phase 252 - the one search box: results drop under it (local state, never the grid's). Tokens only. */
+.q3-plsrch { position: relative; display: flex; align-items: center; gap: var(--space-2); flex: 1 1 220px; max-width: 420px; min-width: 0; }
+.q3-plsrch .q3-hist__search { flex: 1 1 auto; max-width: none; }
+.q3-plsrch__note { color: var(--text-muted); font-size: var(--text-sm); white-space: nowrap; }
+.q3-plsrch__list { position: absolute; top: 100%; left: 0; z-index: var(--z-popover); width: max(100%, 28rem); max-width: 90vw; margin-top: var(--space-1); padding: var(--space-1); background: var(--surface-raised); border-radius: var(--radius-md); }
+.q3-plsrch__list .q3-plsearch__hit { cursor: default; }

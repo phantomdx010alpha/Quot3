@@ -95,14 +95,12 @@ export const useAiPanelStore = create<AiPanelState>((set, get) => {
         if (a.enabled !== get().enabled || a.billingPanel !== get().billingPanel) { set({ enabled: a.enabled, billingPanel: a.billingPanel }); plan() }
       } catch { /* both switches stay as they are */ }
     },
-    toggle: () => get().setBillingPanel(!get().billingPanel),
+    // Phase 254 (M24): with the master switch off the panel switch is not shown, so its key does nothing; the master is only ever turned on in Settings > AI.
+    toggle: () => { if (get().enabled) get().setBillingPanel(!get().billingPanel) },
     setBillingPanel: (on) => {
-      // [A] Turning the panel ON while the master switch is off turns the master on too: the owner's explicit click on an AI control is the consent,
-      // and Settings > AI (Phase 230) does not exist yet. Turning it OFF never touches the master.
-      const turnMasterOn = on && !get().enabled
-      set({ billingPanel: on, ...(turnMasterOn ? { enabled: true } : {}) })
+      // Phase 254 (M24): turning the panel on NEVER turns the master on any more (the Phase 226 auto-enable is gone). Only the panel's own key is saved.
+      set({ billingPanel: on })
       persist(AI_KEYS.billingPanel, on)
-      if (turnMasterOn) persist(AI_KEYS.enabled, true)
       plan()
     },
     setParty: (partyId, partyName) => {

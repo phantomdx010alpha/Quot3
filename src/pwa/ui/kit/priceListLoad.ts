@@ -6,7 +6,7 @@ import { hasPriceList, listCategories, listRows, listTabs, listTiers } from '../
 import { readCachedPerms, readRefused, rightsFor } from '../../data/priceRights'
 import { getAllSettings } from '../../data/settingsRepo'
 import { readPriceListSettings, type PriceListSettings } from '../../../shared/pricelist/settings'
-import type { PermFlags } from '../../../shared/pricelist/perms'
+import { refusedNeeds, type PermFlag, type PermFlags } from '../../../shared/pricelist/perms'
 import type { PriceRowRec, PriceTabRec } from '../../../shared/sync/priceListRecords'
 import { buildPriceData, type PriceListData } from './priceListModel'
 
@@ -19,6 +19,8 @@ export interface PriceListContext {
   rights: PermFlags
   /** Local changes the main branch refused (the kept-list size; ids only). */
   refused: number
+  /** Phase 256: the flags those refused changes were missing ("needs Overwrite"). */
+  refusedNeeds: PermFlag[]
   /** False in a tab that is not the writer. */
   writable: boolean
 }
@@ -28,7 +30,7 @@ export interface PriceListLoaded { data: PriceListData; context: PriceListContex
 export async function loadPriceContext(db: PhoneDb): Promise<PriceListContext> {
   const [all, meta, cached, refused] = await Promise.all([getAllSettings(db), getMeta(db), readCachedPerms(db), readRefused(db)])
   const linked = meta.org_id !== null && meta.branch_id !== null
-  return { settings: readPriceListSettings(all), linked, rights: rightsFor(linked, cached), refused: refused.length, writable: db.canWrite() }
+  return { settings: readPriceListSettings(all), linked, rights: rightsFor(linked, cached), refused: refused.length, refusedNeeds: refusedNeeds(refused), writable: db.canWrite() }
 }
 
 export async function loadPriceData(db: PhoneDb): Promise<PriceListData> {

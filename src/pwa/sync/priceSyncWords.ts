@@ -1,5 +1,6 @@
 /** Phase 248 (M23): the Price List in the phone's first-sync and sync-status screens, in plain words. Pure: no database, no clock, no network.
  *  Used by the NEW layouts only (the Classic screens keep their exact words, see PHASE_STATUS "Classic decision"). */
+import { needsWords, type PermFlag, type RightsStatusView } from '../../shared/pricelist/perms'
 export const EST_PRICE_ITEM_BYTES = 300
 /** `meta` key written when a first-sync compare found the server has no Price List tables yet (file 18 not run). */
 export const SERVER_MISSING_KEY = 'pricelist.serverMissing'
@@ -39,6 +40,10 @@ export interface PriceSyncStatus {
   serverMissing: boolean
   /** Linked to sync at all. */
   linked: boolean
+  /** Phase 256: the flags the refused changes were missing (absent = not read). */
+  refusedNeeds?: PermFlag[]
+  /** Phase 255: the seat's rights as words (absent = not read; the older tests build a status without it). */
+  rights?: RightsStatusView | null
 }
 
 /** The sync-status lines, in the order they are shown. Never empty. */
@@ -47,13 +52,17 @@ export function priceSyncLines(s: PriceSyncStatus): string[] {
   if (s.serverMissing) out.push(NO_SERVER_PRICE_LIST)
   out.push(s.items === 0 ? 'Price List: nothing on this phone yet.' : `Price List: ${plural(s.items, 'item', 'items')} on this phone.`)
   if (s.linked && !s.serverMissing) out.push(s.queued > 0 ? `${plural(s.queued, 'Price List change is', 'Price List changes are')} waiting to be sent.` : 'Price List: everything is sent.')
-  if (s.refused > 0) out.push(refusedLine(s.refused))
+  if (s.refused > 0) out.push(refusedLine(s.refused, s.refusedNeeds ?? []))
+  if (s.linked && s.rights) {
+    out.push(`Rights: ${s.rights.seat} ${s.rights.rights}`, s.rights.checked)
+    if (s.rights.error !== '') out.push(`The last rights check failed: ${s.rights.error} The last known rights stay.`)
+  }
   return out
 }
 
 /** Offline-revoke wording: the change stays on the phone, it is flagged, and nothing is lost. */
-export function refusedLine(n: number): string {
-  return `${plural(n, 'Price List change was', 'Price List changes were')} not accepted by the main branch. ${n === 1 ? 'It stays' : 'They stay'} on this phone and ${n === 1 ? 'was' : 'were'} not sent. Ask the owner about your Price List rights.`
+export function refusedLine(n: number, needs: readonly PermFlag[] = []): string {
+  return `${plural(n, 'Price List change was', 'Price List changes were')} not accepted by the main branch${needs.length > 0 ? ` (${needsWords(needs)})` : ''}. ${n === 1 ? 'It stays' : 'They stay'} on this phone and ${n === 1 ? 'was' : 'were'} not sent. Ask the owner about your Price List rights.`
 }
 
 /** Storage and backup note for the new layouts: what the Price List adds and that the backup carries it. */

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from '../ui'
-import { ALL_RIGHTS, PERM_FLAGS, PERM_LABELS, type PermFlag, type PermFlags } from '@shared/pricelist/perms'
+import { ALL_RIGHTS, PERM_FLAGS, PERM_LABELS, rightsStatusView, type PermFlag, type PermFlags } from '@shared/pricelist/perms'
 import { usePriceRightsStore } from '../../stores/priceRightsStore'
 
 const seatName = (seatNo: number, branchName: string | null): string => (branchName ? `Seat ${seatNo} (${branchName})` : `Seat ${seatNo}`)
@@ -17,14 +17,30 @@ export function PriceRightsSettings(): React.JSX.Element | null {
   const savedSeat = usePriceRightsStore((s) => s.savedSeat)
   const [draft, setDraft] = useState<Record<number, PermFlags>>({})
   const show = info !== null && info.syncActive && info.isSeat1
+  const when = (iso: string): string => { const d = new Date(iso); return Number.isNaN(d.getTime()) ? iso : d.toLocaleString() }
   useEffect(() => {
     void usePriceRightsStore.getState().load(false).then(() => { if (usePriceRightsStore.getState().info?.isSeat1) void usePriceRightsStore.getState().loadSeats() })
     return () => usePriceRightsStore.getState().reset()
   }, [])
-  if (!show) return null
+  // Phase 255: the Rights status is shown to EVERY seat while shared sync is on (not only seat 1), so "granted but cannot edit" can be seen on the seat itself.
+  if (info === null || !info.syncActive) return null
+  const sv = rightsStatusView(info, when)
+  const statusBlock = (
+    <div className="q3-set__panel" role="group" aria-label="Rights of this seat" data-testid="plr-status">
+      <h2 className="q3-page__title">Rights of this seat</h2>
+      <p data-testid="plr-seat">{sv.seat}</p>
+      <p data-testid="plr-rights">{sv.rights}</p>
+      <p className="q3-set__muted" data-testid="plr-checked">{sv.checked}</p>
+      {sv.error !== '' && <p role="alert" className="q3-set__error" data-testid="plr-lasterror">The last check failed: {sv.error} The last known rights stay.</p>}
+      <Button type="button" disabled={busy} onClick={() => { void usePriceRightsStore.getState().load(true) }}>Check again</Button>
+    </div>
+  )
+  if (!show) return statusBlock
   const flagsOf = (seatNo: number, saved: PermFlags): PermFlags => draft[seatNo] ?? saved
   const toggle = (seatNo: number, saved: PermFlags, f: PermFlag, on: boolean): void => setDraft((d) => ({ ...d, [seatNo]: { ...flagsOf(seatNo, saved), [f]: on } }))
   return (
+    <>
+    {statusBlock}
     <div className="q3-set__panel" role="group" aria-label="Who can edit the Price List">
       <h2 className="q3-page__title">Who can edit</h2>
       <p className="q3-set__muted">Every seat can look at the Price List, search it and use it while billing. Choose what each other seat may also change. Seat 1 (this PC) can always do everything. A change a seat is not allowed to make is not accepted, even if that PC is offline when you change this.</p>
@@ -55,5 +71,6 @@ export function PriceRightsSettings(): React.JSX.Element | null {
       </div>
       {error !== '' && <p role="alert" className="q3-set__error">{error}</p>}
     </div>
+    </>
   )
 }

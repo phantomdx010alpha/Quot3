@@ -12,6 +12,8 @@ export type { ThemeName }
 export interface SyncAdmin {
   link(input: LinkInput): Promise<LinkResult>
   signOut(): Promise<void>
+  /** Phase 255: asks the main branch for this seat's Price List rights now ("Check again" in the sync status). Never throws. */
+  checkPriceRights?(): Promise<void>
 }
 
 /** What the running app hands to the screens. `db` is null when the database could not be opened (`error` says why). */

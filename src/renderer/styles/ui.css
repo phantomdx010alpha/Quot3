@@ -262,6 +262,26 @@
 [aria-label="Top customers"] .q3-dashlist__row { grid-template-columns: minmax(0, 1fr) auto auto; }
 .q3-dashlist__row[aria-selected="true"] { background: var(--grid-active-bg); box-shadow: inset 2px 0 0 var(--grid-active-border); }
 .q3-dashlist__empty { margin: 0; color: var(--text-secondary); font-size: var(--text-sm); }
+/* Phase 251 - ONE row of five tiles. Equal height (grid stretch), height follows the tallest tile, wraps only below ~1100 px. Tokens only. */
+.q3-stats--row { grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: stretch; }
+@media (max-width: 1100px) { .q3-stats--row { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
+.q3-stats--row .q3-stats__panel { gap: var(--space-2); }
+.q3-stats__panel--pair { justify-content: space-between; }
+.q3-stat--in { padding: 0; background: none; box-shadow: none; }
+.q3-stats--row .q3-stat__value { overflow-wrap: anywhere; }
+.q3-stats--row .q3-stats__foot { grid-column: auto; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+.q3-stats--row .q3-stats__foot > [aria-hidden="true"] { display: none; }
+.q3-monthbars__bar { fill: var(--accent); opacity: 0.55; }
+.q3-monthbars__bar--now { opacity: 1; }
+/* In the narrow tiles a list row wraps onto two lines instead of clipping: Recent bills = PO + total / party + date; Top customers = name + total / bills. */
+.q3-stats--row .q3-dashlist__row { height: auto; min-height: var(--row-height); grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--space-2); padding-block: var(--space-1); }
+.q3-stats--row .q3-dashlist__row > :nth-child(1) { grid-column: 1; grid-row: 1; min-width: 0; overflow-wrap: anywhere; }
+.q3-stats--row [aria-label="Recent bills"] .q3-dashlist__row > :nth-child(2) { grid-column: 2; grid-row: 2; color: var(--text-muted); }
+.q3-stats--row [aria-label="Recent bills"] .q3-dashlist__row > :nth-child(3) { grid-column: 1; grid-row: 2; min-width: 0; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+.q3-stats--row [aria-label="Recent bills"] .q3-dashlist__row > :nth-child(4) { grid-column: 2; grid-row: 1; text-align: right; }
+.q3-stats--row [aria-label="Top customers"] .q3-dashlist__row > :nth-child(1) { white-space: normal; overflow: visible; text-overflow: clip; }
+.q3-stats--row [aria-label="Top customers"] .q3-dashlist__row > :nth-child(2) { grid-column: 1; grid-row: 2; color: var(--text-muted); }
+.q3-stats--row [aria-label="Top customers"] .q3-dashlist__row > :nth-child(3) { grid-column: 2; grid-row: 1; text-align: right; }
 
 /* Phase 126 - Dashboard "Today" tiles: a 12-column grid, every tile spans whole columns so rows are always full (see tileLayout.ts). Colours only from tokens. */
 .q3-today { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-3); }

@@ -18,7 +18,7 @@ const STATE_TEXT: Record<EngineState, string> = {
 }
 
 /** The sync controls shown once the phone is linked: the first-sync choice, then Sync now (Phase 187b). */
-function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolean; onChanged?: () => void }): ReactElement {
+function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolean; onChanged?: () => void; checkRights?: () => Promise<void> }): ReactElement {
   const { engine } = props
   const [tick, setTick] = useState(0) // Phase 248: re-reads the Price List lines after a sync
   const [state, setState] = useState<EngineState>(engine.state())
@@ -63,7 +63,7 @@ function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolea
         <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.start() })}>Start sync</button>
       ) : null}
       {note ? <p className="q3-note" role="status">{note}</p> : null}
-      {props.plain && state !== 'first_sync_needed' ? <PriceSyncLines db={props.db} refreshKey={tick} /> : null}
+      {props.plain && state !== 'first_sync_needed' ? <PriceSyncLines db={props.db} refreshKey={tick} onCheckRights={props.checkRights ? async () => { await props.checkRights?.(); setTick((n) => n + 1) } : undefined} /> : null}
     </div>
   )
 }
@@ -140,7 +140,7 @@ export function SettingsSync(props: { db: PhoneDb; plain?: boolean; sync?: SyncA
           <div className="q3-row"><span>Branch</span><span>{link.branchName}</span></div>
           <div className="q3-row"><span>{words.t('PO prefix')}</span><span>{link.poPrefix}</span></div>
           <p className="q3-muted">The branch name and {words.t('PO prefix').toLowerCase()} are fixed once this phone is linked.</p>
-          {props.engine ? <SyncPanel engine={props.engine} db={db} plain={props.plain} onChanged={props.onChanged} /> : null}
+          {props.engine ? <SyncPanel engine={props.engine} db={db} plain={props.plain} onChanged={props.onChanged} checkRights={props.sync?.checkPriceRights ? () => props.sync!.checkPriceRights!() : undefined} /> : null}
           <button type="button" className="q3-btn" disabled={!sync || busy} onClick={() => void signOut()}>Sign out of sync</button>
         </>
       ) : (

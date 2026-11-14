@@ -198,7 +198,8 @@ export function priceListAdapter(root: Root): PageAdapter {
       const s = usePriceListStore.getState()
       return {
         scroll: readScroll(root(), PL_REGIONS),
-        filters: { contains: s.filter.contains, noPrice: s.filter.noPrice },
+        // Phase 252: the "Filter this tab" box is gone, so its text is no longer remembered (an old saved value must never hide rows).
+        filters: { noPrice: s.filter.noPrice },
         panels: { categoryId: s.categoryId ?? '', tabId: s.tabId ?? '', panel: s.panelOpen }
       }
     },
@@ -212,9 +213,8 @@ export function priceListAdapter(root: Root): PageAdapter {
       }
       const st = usePriceListStore.getState()
       if (typeof mem.panels.panel === 'boolean' && mem.panels.panel !== st.panelOpen) st.togglePanel()
-      const contains = typeof mem.filters.contains === 'string' ? mem.filters.contains : st.filter.contains
       const noPrice = typeof mem.filters.noPrice === 'boolean' ? mem.filters.noPrice : st.filter.noPrice
-      if (contains !== st.filter.contains || noPrice !== st.filter.noPrice) st.setFilter({ contains, noPrice })
+      if (st.filter.contains !== '' || noPrice !== st.filter.noPrice) st.setFilter({ contains: '', noPrice }) // an old remembered `contains` is dropped
       applyScroll(root, PL_REGIONS, mem.scroll)
     }
   }

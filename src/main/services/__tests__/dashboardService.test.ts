@@ -93,3 +93,19 @@ describe('latestBackupTime / localToday', () => {
     expect(localToday(new Date(2026, 0, 5, 23, 59))).toBe('2026-01-05')
   })
 })
+
+describe('dashboardService monthly series (Phase 251)', () => {
+  it('stats() carries the last six months from the same single read; older and trashed bills are left out', () => {
+    const { bills, dash } = mk()
+    bills.save(bill('m1', 'Ruby Traders', '2026-10-09', '1', '100'))
+    bills.save(bill('m2', 'Ruby Traders', '2026-09-20', '1', '500'))
+    bills.save(bill('m3', 'Ruby Traders', '2026-05-02', '1', '25'))
+    bills.save(bill('m4', 'Ruby Traders', '2026-04-30', '1', '999')) // before the oldest bar
+    bills.save(bill('m5', 'Ruby Traders', '2026-08-10', '1', '7777')) // trashed
+    bills.delete(['m5'])
+    const s = dash.stats()
+    expect(s.months?.map((x) => x.month)).toEqual(['2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10'])
+    expect(s.months?.map((x) => x.total)).toEqual(['25.00', '0.00', '0.00', '0.00', '500.00', '100.00'])
+    expect(s.month).toEqual({ month: '2026-10', count: 1, total: '100.00' })
+  })
+})

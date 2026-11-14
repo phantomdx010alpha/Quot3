@@ -119,7 +119,7 @@ export function PriceListGate(props: { db: PhoneDb | null; sync: SyncLine | null
   }
   return (
     <div className="q3x-pl-page">
-      <PriceNotices lines={priceNotices(context.rights, context.refused)} />
+      <PriceNotices lines={priceNotices(context.rights, context.refused, context.refusedNeeds)} />
       <PriceEditProvider db={db} data={data} flags={context.rights} writable={context.writable} now={props.now} onDone={done}>
         <StructurePanel />
         {props.children(data)}

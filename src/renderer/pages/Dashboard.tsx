@@ -9,7 +9,8 @@ import { DraftRecovery } from '../components/create/DraftRecovery'
 import { CrashNotice } from '../components/diagnostics/CrashNotice'
 import { DashList } from '../components/dashboard/DashList'
 import { Sparkline } from '../components/dashboard/Sparkline'
-import { StatTile } from '../components/dashboard/StatTile'
+import { StatPair } from '../components/dashboard/StatTile'
+import { MonthBars } from '../components/dashboard/MonthBars'
 import { TodayTiles } from '../components/dashboard/TodayTiles'
 import { primaryKeys } from '@shared/shortcuts'
 import { useRouter } from '../router/routerStore'
@@ -19,11 +20,13 @@ import { SyncDot, useProgressChip } from '../components/sync/SyncStatusPanel'
 import { openSettingsSection } from '../stores/settingsStore'
 import { openRecentBill, openTopCustomer } from '../stores/dashboardActions'
 
+/** Phase 251 [A]: the Recent bills tile shows the newest five (the stats still carry eight) so the five tiles stay about the same height. */
+const RECENT_SHOWN = 5
 const bills = (n: number): string => `${n} ${n === 1 ? 'bill' : 'bills'}`
 
 /**
- * Phase 46 - the landing screen: four entry cards (Create, History, Customers, Settings with their keys), today / this month,
- * the last seven days, recent bills (Enter opens one), top customers, last backup and the sync placeholder. Numbers refresh on
+ * Phase 46 - the landing screen: entry cards (Create, History, Customers, Settings with their keys), then ONE row of five tiles (Phase 251: Today + This month,
+ * Last 7 days + the monthly graph, Recent bills (Enter opens one), Top customers, Last backup + sync). Numbers refresh on
  * mount and whenever the window regains focus; amounts use Indian grouping. Tab order: cards, Recent bills, Top customers.
  */
 export default function Dashboard(): React.JSX.Element {
@@ -68,18 +71,27 @@ export default function Dashboard(): React.JSX.Element {
       </div>
       {st.status === 'error' && <div className="q3-hist__error" role="alert">{st.error}</div>}
       {s && (
-        <div className="q3-stats" data-testid="dash-stats">
-          <StatTile label="Today" value={formatHistoryTotal(s.today.total)} sub={bills(s.today.count)} />
-          <StatTile label="This month" value={formatHistoryTotal(s.month.total)} sub={bills(s.month.count)} />
+        <div className="q3-stats q3-stats--row" data-testid="dash-stats">
+          <StatPair
+            title="Sales"
+            first={{ label: 'Today', value: formatHistoryTotal(s.today.total), sub: bills(s.today.count) }}
+            second={{ label: 'This month', value: formatHistoryTotal(s.month.total), sub: bills(s.month.count) }}
+          />
           <section className="q3-stats__panel nm-inset nm-sm" aria-label="Last 7 days">
             <h2 className="q3-stats__title">Last 7 days</h2>
             <Sparkline week={s.week} />
+            {s.months && s.months.length > 0 && (
+              <>
+                <h2 className="q3-stats__title">Last {s.months.length} months</h2>
+                <MonthBars months={s.months} />
+              </>
+            )}
           </section>
           <section className="q3-stats__panel nm-inset nm-sm" aria-label="Recent bills">
             <h2 className="q3-stats__title">Recent bills</h2>
             <DashList
               label="Recent bills"
-              items={s.recent}
+              items={s.recent.slice(0, RECENT_SHOWN)}
               empty="No bills yet. Press Ctrl+1 to create one."
               onOpen={(b) => { openRecentBill(b.id) }}
               render={(b) => (
@@ -108,18 +120,21 @@ export default function Dashboard(): React.JSX.Element {
               )}
             />
           </section>
-          <p className="q3-page__hint q3-stats__foot">
-            <span>Last backup: {formatBackupTime(s.lastBackup, new Date())}</span>
-            <span aria-hidden="true">·</span>
-            {syncLoaded && sync.mode !== 'off'
-              ? (
-                <button type="button" className={`q3-sychip q3-sychip--${sync.mode === 'attention' ? 'bad' : sync.mode === 'ok' ? 'ok' : sync.mode === 'paused' ? 'off' : 'wait'}`} data-testid="dash-sync-chip" title={sync.headline}
-                  onClick={() => { openSettingsSection('sync', navigate) }}>
-                  <SyncDot mode={sync.mode} />{progressChip ?? sync.chip}
-                </button>
-              )
-              : <span data-testid="dash-sync-chip">Sync: off</span>}
-          </p>
+          <section className="q3-stats__panel nm-inset nm-sm" aria-label="Backup and sync">
+            <h2 className="q3-stats__title">Backup and sync</h2>
+            <p className="q3-page__hint q3-stats__foot">
+              <span>Last backup: {formatBackupTime(s.lastBackup, new Date())}</span>
+              <span aria-hidden="true">·</span>
+              {syncLoaded && sync.mode !== 'off'
+                ? (
+                  <button type="button" className={`q3-sychip q3-sychip--${sync.mode === 'attention' ? 'bad' : sync.mode === 'ok' ? 'ok' : sync.mode === 'paused' ? 'off' : 'wait'}`} data-testid="dash-sync-chip" title={sync.headline}
+                    onClick={() => { openSettingsSection('sync', navigate) }}>
+                    <SyncDot mode={sync.mode} />{progressChip ?? sync.chip}
+                  </button>
+                )
+                : <span data-testid="dash-sync-chip">Sync: off</span>}
+            </p>
+          </section>
         </div>
       )}
       <TodayTiles />

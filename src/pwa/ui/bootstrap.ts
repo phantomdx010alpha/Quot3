@@ -38,7 +38,7 @@ async function startServices(): Promise<AppServices> {
     return {
       db, theme, layout, startLocked,
       engine: runtime.engine, syncEngine: runtime.engine,
-      sync: { link: (i) => runtime.link(i), signOut: () => runtime.signOut() },
+      sync: { link: (i) => runtime.link(i), signOut: () => runtime.signOut(), checkPriceRights: () => runtime.refreshPriceRights() },
       onDataChanged: () => runtime.notifySaved(),
       refreshPriceRights: () => runtime.refreshPriceRights()
     }

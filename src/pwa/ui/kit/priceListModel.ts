@@ -7,7 +7,7 @@
  *  Search is the shared deterministic search (every typed word must appear in the row; `shared/pricelist/search.ts`). It is NOT AI: the phone has no AI. */
 import { gridColumns, cellText, type GridCol } from '../../../shared/pricelist/gridModel'
 import { sanitizeColumns } from '../../../shared/pricelist/columns'
-import { ALL_RIGHTS, normalizeFlags, rightsNotice, type PermFlags } from '../../../shared/pricelist/perms'
+import { ALL_RIGHTS, normalizeFlags, rightsNotice, type PermFlag, type PermFlags } from '../../../shared/pricelist/perms'
 import { sanitizeRow } from '../../../shared/pricelist/rows'
 import { rankHits, searchTabRows, SEARCH_LIMIT, type SearchHit } from '../../../shared/pricelist/search'
 import { tierLabel } from '../../../shared/pricelist/tiers'
@@ -179,9 +179,9 @@ export function phoneRights(syncActive: boolean, stored: unknown): PermFlags {
 }
 
 /** The plain-words lines at the top of the Price List: the shared `rightsNotice` ("Read only: ...") plus the Phase 245 line that nothing can be changed yet. */
-export function priceNotices(flags: PermFlags, refused = 0): string[] {
+export function priceNotices(flags: PermFlags, refused = 0, needs: readonly PermFlag[] = []): string[] {
   // Phase 246: editing exists, so the Phase 245 "not available yet" line is gone; the shared note names what this seat may not do and the refused count.
-  return rightsNotice(flags, refused)
+  return rightsNotice(flags, refused, needs)
 }
 
 export const EMPTY_TITLE = 'Price List not on this phone yet'

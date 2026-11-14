@@ -47,10 +47,11 @@
 .q3x-pl-section-name { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); font-weight: 700; }
 .q3x-pl-item-name { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-title, var(--font-size-base)); }
 .q3x-pl-path-text { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
-.q3x-pl-cells { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin: 0; }
-.q3x-pl-cell { display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; }
-.q3x-pl-cell-label { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
-.q3x-pl-cell-value { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }
+/* Phase 253 (M24): the prices of an item are stacked ONE UNDER ANOTHER, label on the left and amount on the right (never side by side). */
+.q3x-pl-cells { display: flex; flex-direction: column; flex-wrap: nowrap; gap: var(--space-1); margin: 0; }
+.q3x-pl-cell { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); min-width: 0; width: 100%; }
+.q3x-pl-cell-label { flex: 1 1 auto; margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
+.q3x-pl-cell-value { margin: 0; min-width: 0; text-align: right; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }
 .q3x-pl-amount { flex: none; font-size: var(--font-size-amount, var(--font-size-base)); font-weight: var(--font-weight-amount, 600); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .q3x-pl-noprice-text { margin: 0; color: var(--text-muted); font-size: var(--font-size-base); }
 
@@ -69,6 +70,10 @@
 .q3x-pl-field-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-secondary); font-size: var(--font-size-base); }
 .q3x-pl-field-input { min-height: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); min-width: 0; width: 100%; box-sizing: border-box; }
 .q3x-pl-field-input:disabled { color: var(--text-muted); }
+/* Phase 253 (M24): the edit fields follow the same stacking: one field per line, label left and box right; a long label wraps the box onto its own line. */
+.q3x-pl-editor .q3x-pl-field { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-1) var(--space-3); }
+.q3x-pl-editor .q3x-pl-field-label { flex: 1 1 8rem; }
+.q3x-pl-editor .q3x-pl-field-input { flex: 1 1 8rem; width: auto; text-align: right; }
 .q3x-pl-why-text { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
 .q3x-pl-manage { border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); }
 .q3x-pl-manage-summary { min-height: var(--touch-min); display: flex; align-items: center; cursor: pointer; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }

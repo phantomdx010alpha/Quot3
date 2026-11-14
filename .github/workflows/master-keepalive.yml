@@ -1,0 +1,28 @@
+# Phase 262 - keeps the free MASTER Supabase project from being paused for inactivity (a paused master = nobody can link or re-credential).
+# One harmless read request per day. Set two repository secrets: MASTER_URL (https://<ref>.supabase.co) and MASTER_ANON_KEY (the master's anon key).
+# Never put the master's service_role key here. Any answer below HTTP 500 counts as "awake" [A: owner confirms in his first week that the project stays active].
+name: Master keep-alive
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/master-cli.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: One request to the master
+        env:
+          MASTER_URL: ${{ secrets.MASTER_URL }}
+          MASTER_ANON_KEY: ${{ secrets.MASTER_ANON_KEY }}
+        run: node tools/master-cli.mjs keepalive

@@ -114,3 +114,50 @@ describe('Dashboard page (Phase 46)', () => {
     expect(q('[aria-label="Today"]')).not.toBeNull()
   })
 })
+
+describe('Dashboard five tiles in one row (Phase 251)', () => {
+  const months = [{ month: '2026-05', count: 1, total: '25.00' }, { month: '2026-06', count: 0, total: '0.00' }, { month: '2026-07', count: 0, total: '0.00' }, { month: '2026-08', count: 0, total: '0.00' }, { month: '2026-09', count: 2, total: '500.00' }, { month: '2026-10', count: 9, total: '9876543.21' }]
+
+  it('the stats row has exactly five tiles, in order, Today and This month sharing the first', async () => {
+    stats = { ...mkStats(), months }
+    await mount()
+    const row = q('[data-testid="dash-stats"]')
+    expect(row.classList.contains('q3-stats--row')).toBe(true)
+    expect([...row.children].map((c) => c.getAttribute('aria-label'))).toEqual(['Sales', 'Last 7 days', 'Recent bills', 'Top customers', 'Backup and sync'])
+    const first = row.children[0]!
+    expect([...first.querySelectorAll('[role="group"]')].map((g) => g.getAttribute('aria-label'))).toEqual(['Today', 'This month'])
+  })
+
+  it('the second tile also holds the monthly graph: one bar per month, the last one titled with the month figures', async () => {
+    stats = { ...mkStats(), months }
+    await mount()
+    const tile = q('section[aria-label="Last 7 days"]')
+    expect(tile.querySelectorAll('svg[role="img"]')).toHaveLength(2)
+    const bars = tile.querySelectorAll('.q3-monthbars__bar')
+    expect(bars).toHaveLength(6)
+    expect(bars[5]!.querySelector('title')?.textContent).toBe('Oct: ₹98,76,543.21, 9 bills')
+    expect(tile.querySelector('.q3-monthbars svg')?.getAttribute('aria-label')).toMatch(/^Last 6 months: May ₹25\.00, Jun ₹0\.00/)
+  })
+
+  it('an older payload without months shows no monthly graph and still draws the five tiles', async () => {
+    await mount()
+    expect(host.querySelector('.q3-monthbars')).toBeNull()
+    expect(q('[data-testid="dash-stats"]').children).toHaveLength(5)
+  })
+
+  it('Recent bills shows at most the newest five and Enter still opens the highlighted one', async () => {
+    const recent = Array.from({ length: 8 }, (_, i) => ({ id: `r${i}`, poNumber: `Q3-${String(i).padStart(4, '0')}`, poSeq: i, billDate: '2026-10-09', partyName: `P${i}`, grandTotal: '10', branchId: 'l', revision: 1 }))
+    stats = { ...mkStats(), recent }
+    await mount()
+    const list = q('[role="listbox"][aria-label="Recent bills"]')
+    expect(list.querySelectorAll('[role="option"]')).toHaveLength(5)
+    await key(list, 'Enter')
+    expect(getForEdit).toHaveBeenCalledWith('r0')
+  })
+
+  it('the Tab order is unchanged: cards, Recent bills list, Top customers list', async () => {
+    await mount()
+    const order = [...host.querySelectorAll<HTMLElement>('.q3-dash__card, [role="listbox"][tabindex="0"]')].map((e) => e.getAttribute('aria-label') ?? 'card')
+    expect(order.slice(-2)).toEqual(['Recent bills', 'Top customers'])
+  })
+})

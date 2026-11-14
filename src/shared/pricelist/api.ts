@@ -1,4 +1,4 @@
-import type { PermFlags } from './perms'
+import type { PermFlag, PermFlags } from './perms'
 /** Phase 236 (M23) - Price List IPC contract types (pure, zod-free so the renderer may import them). API_CONTRACTS.md M23-7. */
 import type { Runs } from '../types'
 import type { PriceLogRow } from './apiLog'
@@ -63,6 +63,12 @@ export const PRICE_CLEAR_WORDS = 'CLEAR PRICE LIST'
 export const isPriceClearConfirm = (typed: string): boolean => typed.trim().replace(/\s+/g, ' ').toUpperCase() === PRICE_CLEAR_WORDS
 
 /** Phase 242: what this PC may do in the Price List (`pricelist:perms`). `refused` = how many local changes the main branch did not accept (ids only are kept). */
-export interface PriceRightsInfo { seatNo: number | null; syncActive: boolean; isSeat1: boolean; flags: PermFlags; refused: number }
+export interface PriceRightsInfo {
+  seatNo: number | null; syncActive: boolean; isSeat1: boolean; flags: PermFlags; refused: number
+  /** Phase 255: when this PC last ASKED the server (ISO, null = never), when it last GOT an answer (null = never; then a non-seat-1 PC has no rights), and the plain-words reason the last ask failed ('' = it worked). */
+  checkedAt: string | null; answeredAt: string | null; lastError: string
+  /** Phase 256: the flags the refused changes were missing ("needs Overwrite"), for the refusal text. */
+  refusedNeeds: PermFlag[]
+}
 /** Phase 242: one seat of the organisation with its Price List rights (`pricelist:permsList`, seat 1 only). */
 export interface PriceSeatRightsRow { seatNo: number; branchName: string | null; updatedAt: string | null; flags: PermFlags }

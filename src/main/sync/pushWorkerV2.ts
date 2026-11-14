@@ -54,6 +54,8 @@ export interface PushWorkerV2Deps {
   newId: () => string
   log: Pick<Logger, 'info' | 'warn' | 'error'>
   progress?: (p: SyncProgress) => void
+  /** Phase 255: called after EVERY run (also an idle one), so the Price List rights are re-read each sync cycle; a run with refused items passes it. */
+  onRun?: (r: PushRunResultV2) => void
 }
 
 export interface PushWorkerV2Options {
@@ -279,6 +281,7 @@ export function createPushWorkerV2(deps: PushWorkerV2Deps, opts: PushWorkerV2Opt
     if (current) return current
     current = run()
       .catch((e): PushRunResultV2 => { lastError = errText(e); return { sent: 0, accepted: 0, noop: 0, won: 0, lost: 0, refused: 0, failedAttempts: 0, poisoned: 0, block } })
+      .then((res) => { try { deps.onRun?.(res) } catch { /* a hook never stops the worker */ } return res })
       .finally(() => { current = null; schedule() })
     return current
   }

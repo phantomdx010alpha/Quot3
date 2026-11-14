@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { ArrowLeft, ArrowsLeftRight, Columns, DownloadSimple, FunnelSimple, MagnifyingGlass, Percent, SidebarSimple, Tag, X } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowsLeftRight, Columns, DownloadSimple, FunnelSimple, Percent, SidebarSimple, Tag } from '@phosphor-icons/react'
 import { matchShortcut, primaryKeys } from '@shared/shortcuts'
 import { ROUTES } from '@shared/routes'
-import { Button, EmptyState, Icon } from '../components/ui'
+import { Button, EmptyState } from '../components/ui'
 import { CategoryPanel } from '../components/pricelist/CategoryPanel'
 import { TabStrip } from '../components/pricelist/TabStrip'
 import { PriceGrid } from '../components/pricelist/PriceGrid'
 import { ColumnsDialog } from '../components/pricelist/ColumnsDialog'
 import { TiersDialog } from '../components/pricelist/TiersDialog'
-import { BulkDialog, FindDialog, SearchDialog } from '../components/pricelist/ToolsDialogs'
+import { BulkDialog, FindDialog } from '../components/pricelist/ToolsDialogs'
+import { PriceSearchBox } from '../components/pricelist/PriceSearchBox'
 import { usePageMemory } from '../hooks/usePageMemory'
 import { priceListAdapter } from '../pageMemory/adapters'
 import { runPriceListAction } from '../stores/priceListActions'
@@ -17,8 +18,8 @@ import { usePriceRightsStore } from '../stores/priceRightsStore'
 import { rightsNotice } from '@shared/pricelist/perms'
 import { useRouter } from '../router/routerStore'
 
-/** Actions that make sense while the cursor is in the filter box (the rest belong to the grid). */
-const FILTER_OK: ReadonlySet<string> = new Set(['pricelist.filter', 'pricelist.panel', 'pricelist.noPrice', 'pricelist.columns', 'pricelist.tiers', 'pricelist.newTab', 'pricelist.tabPrev', 'pricelist.tabNext', 'pricelist.search'])
+/** Actions that make sense while the cursor is in the search box (the rest belong to the grid). */
+const SEARCH_OK: ReadonlySet<string> = new Set(['pricelist.panel', 'pricelist.noPrice', 'pricelist.columns', 'pricelist.tiers', 'pricelist.newTab', 'pricelist.tabPrev', 'pricelist.tabNext', 'pricelist.search'])
 const SAVE_TEXT = { saved: 'All changes saved', dirty: 'Saving soon...', saving: 'Saving...', error: 'Not saved' } as const
 
 /**
@@ -27,7 +28,7 @@ const SAVE_TEXT = { saved: 'All changes saved', dirty: 'Saving soon...', saving:
  */
 export default function PriceList(): React.JSX.Element {
   const rootRef = useRef<HTMLDivElement>(null)
-  const filterRef = useRef<HTMLInputElement>(null)
+  const searchRef = useRef<HTMLInputElement>(null)
   usePageMemory(ROUTES.pricelist, rootRef, priceListAdapter(() => rootRef.current))
   const status = usePriceListStore((s) => s.status)
   const error = usePriceListStore((s) => s.error)
@@ -43,11 +44,12 @@ export default function PriceList(): React.JSX.Element {
   const dupWarn = usePriceListStore((s) => s.dupWarn)
   const rights = usePriceRightsStore((s) => s.flags)
   const refusedCount = usePriceRightsStore((s) => s.info?.refused ?? 0)
+  const refusedNeeds = usePriceRightsStore((s) => s.info?.refusedNeeds) // Phase 256: raw value (Phase 92 rule)
 
   useEffect(() => {
     const st = usePriceListStore.getState()
     st.setPorts({
-      focusFilter: () => { filterRef.current?.focus(); filterRef.current?.select() },
+      focusSearch: () => { searchRef.current?.focus(); searchRef.current?.select() },
       focusGrid: () => usePriceListStore.setState((s) => ({ focusTick: s.focusTick + 1 }))
     })
     void st.load()
@@ -57,7 +59,7 @@ export default function PriceList(): React.JSX.Element {
     return () => {
       document.removeEventListener('visibilitychange', onHide)
       const s = usePriceListStore.getState()
-      s.setPorts({ focusFilter: null, focusGrid: null })
+      s.setPorts({ focusSearch: null, focusGrid: null })
       s.commit()
       void s.flush() // leaving the page never loses an edit
     }
@@ -70,8 +72,8 @@ export default function PriceList(): React.JSX.Element {
       if ((e.target as HTMLElement | null)?.closest?.('.q3-overlay')) return // a dialog is open: its own keys
       const def = matchShortcut(e, ['pricelist'])
       if (!def || def.scope !== 'pricelist') return
-      const inFilter = e.target === filterRef.current
-      if (inFilter && !FILTER_OK.has(def.action)) return
+      const inSearch = e.target === searchRef.current
+      if (inSearch && !SEARCH_OK.has(def.action)) return
       e.preventDefault()
       runPriceListAction(def.action)
     }
@@ -83,7 +85,7 @@ export default function PriceList(): React.JSX.Element {
   const keep = (e: React.MouseEvent): void => e.preventDefault()
   const noCats = status === 'ready' && (tree?.categories.length ?? 0) === 0
   const filterOn = filter.noPrice || filter.contains.trim() !== ''
-  const notice242 = rightsNotice(rights, refusedCount)
+  const notice242 = rightsNotice(rights, refusedCount, refusedNeeds ?? [])
 
   return (
     <div className="q3-hist q3-pl" ref={rootRef}>
@@ -100,19 +102,9 @@ export default function PriceList(): React.JSX.Element {
         <>
           <div className="q3-hist__tools q3-pl__tools" role="search">
             <Button size="sm" icon={SidebarSimple} aria-pressed={panelOpen} shortcut={primaryKeys('pricelist.panel') ?? ''} title="Show or hide the categories" onMouseDown={keep} onClick={() => usePriceListStore.getState().togglePanel()}>Categories</Button>
-            <label className="q3-hist__search nm-inset nm-sm">
-              <Icon icon={MagnifyingGlass} weight="light" size="sm" />
-              <input ref={filterRef} className="q3-hist__searchinput" aria-label="Filter this tab" placeholder={`Filter this tab${primaryKeys('pricelist.filter') ? ` (${primaryKeys('pricelist.filter')})` : ''}`} value={filter.contains} autoComplete="off"
-                onChange={(e) => usePriceListStore.getState().setFilter({ contains: e.target.value })}
-                onKeyDown={(e) => {
-                  if (e.key === 'ArrowDown' || e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); usePriceListStore.getState().ports.focusGrid?.() }
-                  else if (e.key === 'Escape' && filter.contains !== '') { e.preventDefault(); e.stopPropagation(); usePriceListStore.getState().setFilter({ contains: '' }) }
-                }} />
-              {filter.contains !== '' && <button type="button" className="q3-hist__refresh" aria-label="Clear filter" onMouseDown={keep} onClick={() => { usePriceListStore.getState().setFilter({ contains: '' }); usePriceListStore.getState().ports.focusGrid?.() }}><Icon icon={X} weight="bold" size="sm" /></button>}
-            </label>
+            <PriceSearchBox inputRef={searchRef} />
             <Button size="sm" icon={FunnelSimple} aria-pressed={filter.noPrice} shortcut={primaryKeys('pricelist.noPrice') ?? ''} title="Show only items with no price" onMouseDown={keep} onClick={() => usePriceListStore.getState().setFilter({ noPrice: !filter.noPrice })}>No price</Button>
             <Button size="sm" icon={Columns} disabled={!tabId || !rights.structure} shortcut={primaryKeys('pricelist.columns') ?? ''} onMouseDown={keep} onClick={() => usePriceListStore.getState().openDialog('columns')}>Columns</Button>
-            <Button size="sm" icon={MagnifyingGlass} shortcut={primaryKeys('pricelist.search') ?? ''} title="Search every tab" onMouseDown={keep} onClick={() => usePriceListStore.getState().openDialog('search')}>Search all</Button>
             <Button size="sm" icon={Percent} disabled={!tabId || !rights.overwrite} shortcut={primaryKeys('pricelist.bulk') ?? ''} title="Change many prices at once" onMouseDown={keep} onClick={() => usePriceListStore.getState().openDialog('bulk')}>Bulk</Button>
             <Button size="sm" icon={ArrowsLeftRight} disabled={!tabId || !rights.edit} shortcut={primaryKeys('pricelist.find') ?? ''} title="Find and replace, tidy names" onMouseDown={keep} onClick={() => usePriceListStore.getState().openDialog('find')}>Replace</Button>
             <Button size="sm" icon={DownloadSimple} disabled={!tabId} shortcut={primaryKeys('pricelist.csv') ?? ''} title="Save this tab as a CSV file" onMouseDown={keep} onClick={() => runPriceListAction('pricelist.csv')}>CSV</Button>
@@ -138,7 +130,6 @@ export default function PriceList(): React.JSX.Element {
       <TiersDialog />
       <BulkDialog />
       <FindDialog />
-      <SearchDialog />
     </div>
   )
 }

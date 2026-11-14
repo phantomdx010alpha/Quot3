@@ -97,7 +97,6 @@ export function useAppActions(): ActionHandlers {
       'nav.items': () => navigate(ROUTES.items),
       // Phase 238 (M23): the Price List page; its own actions run on the page, and from elsewhere only take you there.
       'nav.pricelist': () => navigate(ROUTES.pricelist),
-      'pricelist.filter': () => viaPriceList('pricelist.filter', navigate),
       'pricelist.rowAbove': () => viaPriceList('pricelist.rowAbove', navigate),
       'pricelist.rowBelow': () => viaPriceList('pricelist.rowBelow', navigate),
       'pricelist.rowDelete': () => viaPriceList('pricelist.rowDelete', navigate),

@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { SearchHit } from '@shared/pricelist/search'
+import { useEffect, useMemo, useState } from 'react'
 import { Button, Dialog, Field, Input, Select } from '../ui'
 import { usePriceListStore } from '../../stores/priceListStore'
-import { applyBulk, applyCategory, applyClean, applyFind, bulkValueOk, canUndoCategory, jumpToHit, previewBulk, previewCategory, previewClean, previewFind, searchAll, undoCategory, type BulkMode, type BulkScopeKind, type BulkSpec } from '../../stores/priceListTools'
+import { applyBulk, applyCategory, applyClean, applyFind, bulkValueOk, canUndoCategory, previewBulk, previewCategory, previewClean, previewFind, undoCategory, type BulkMode, type BulkScopeKind, type BulkSpec } from '../../stores/priceListTools'
 
 const close = (): void => { const s = usePriceListStore.getState(); s.openDialog(null); s.ports.focusGrid?.() }
 const SAMPLE = 5
@@ -105,47 +104,6 @@ export function FindDialog(): React.JSX.Element | null {
           <Button size="sm" disabled={dirty === 0} onClick={() => { const n = applyClean(); setMsgText(`${n} name${n === 1 ? '' : 's'} tidied`) }}>Tidy names</Button>
         </div>
         {msgText !== '' && <p className="q3-plcols__note" role="status">{msgText}</p>}
-      </div>
-    </Dialog>
-  )
-}
-
-/** Phase 239 - search every tab; Enter or a click jumps to the cell. */
-export function SearchDialog(): React.JSX.Element | null {
-  const open = usePriceListStore((s) => s.dialog === 'search')
-  const [q, setQ] = useState('')
-  const [hits, setHits] = useState<SearchHit[]>([])
-  const [busy, setBusy] = useState(false)
-  const [pick, setPick] = useState(0)
-  const seq = useRef(0)
-  useEffect(() => { if (!open) { setQ(''); setHits([]); setPick(0) } }, [open])
-  useEffect(() => {
-    if (!open) return
-    const my = ++seq.current
-    if (q.trim().length < 2) { setHits([]); setBusy(false); return }
-    setBusy(true)
-    const t = setTimeout(() => { void searchAll(q).then((h) => { if (my !== seq.current) return; setHits(h); setPick(0); setBusy(false) }) }, 250)
-    return () => clearTimeout(t)
-  }, [q, open])
-  const go = (h: SearchHit | undefined): void => { if (!h) return; close(); void jumpToHit(h) }
-  return (
-    <Dialog open={open} wide title="Search the whole Price List" onClose={close} footer={<Button onClick={close}>Close</Button>}>
-      <div className="q3-plcols">
-        <Input data-autofocus label="Type part of a name or a price" value={q} autoComplete="off" onChange={(e) => setQ(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'ArrowDown') { e.preventDefault(); setPick((p) => Math.min(p + 1, hits.length - 1)) }
-            else if (e.key === 'ArrowUp') { e.preventDefault(); setPick((p) => Math.max(p - 1, 0)) }
-            else if (e.key === 'Enter') { e.preventDefault(); go(hits[pick]) }
-          }} />
-        <p className="q3-plcols__note" role="status" aria-live="polite">{q.trim().length < 2 ? 'Type at least 2 letters.' : busy ? 'Searching...' : hits.length === 0 ? 'Nothing found.' : `${hits.length}${hits.length >= 100 ? '+' : ''} found. Enter opens the highlighted one.`}</p>
-        <div className="q3-plsearch" role="listbox" aria-label="Search results">
-          {hits.map((h, i) => (
-            <button key={`${h.tabId}:${h.rowId}`} type="button" role="option" aria-selected={i === pick} className="q3-plsearch__hit" data-active={i === pick || undefined} onMouseDown={(e) => e.preventDefault()} onClick={() => go(h)}>
-              <span className="q3-plsearch__name">{h.name === '' ? '(no name)' : h.name}</span>
-              <span className="q3-plsearch__where">{h.tabName}{h.detail !== '' ? `  -  ${h.detail}` : ''}</span>
-            </button>
-          ))}
-        </div>
       </div>
     </Dialog>
   )

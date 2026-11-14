@@ -2,7 +2,7 @@ import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import type { DashboardRepo } from '../db/dashboardRepo'
 import type { CustomerService } from './customerService'
-import { buildDashboardStats, RECENT_BILLS, statsWindowStart, topCustomers, type DashboardStats } from '../../shared/dashboard/dashboardStats'
+import { buildDashboardStats, buildMonthlySeries, RECENT_BILLS, seriesWindowStart, topCustomers, type DashboardStats } from '../../shared/dashboard/dashboardStats'
 
 export interface DashboardService {
   stats(): DashboardStats
@@ -42,8 +42,11 @@ export function createDashboardService({ repo, customers, lastBackup, today }: D
   return {
     stats() {
       const t = (today ?? localToday)()
+      // Phase 251: ONE read, wide enough for today / month / week AND the monthly graph (the same rows feed both builders).
+      const rows = repo.daysSince(seriesWindowStart(t))
       return {
-        ...buildDashboardStats(repo.daysSince(statsWindowStart(t)), t),
+        ...buildDashboardStats(rows, t),
+        months: buildMonthlySeries(rows, t),
         recent: repo.recent(RECENT_BILLS),
         topCustomers: topCustomers(customers.list()),
         lastBackup: lastBackup(),

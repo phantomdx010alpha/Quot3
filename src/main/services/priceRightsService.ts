@@ -1,7 +1,7 @@
 import type { SyncStateRepo } from '../db/syncStateRepo'
 import type { Logger } from '../logger'
 import type { PriceRightsInfo, PriceSeatRightsRow } from '../../shared/pricelist/api'
-import { effectiveFlags, flagsToStore, normalizeFlags, type PermFlags } from '../../shared/pricelist/perms'
+import { AUTO_REFRESH_MS, REFUSED_REFRESH_MS, autoRefreshDue, effectiveFlags, flagsToStore, normalizeFlags, refusedNeeds, type PermFlags } from '../../shared/pricelist/perms'
 import { SHARED_MESSAGES } from '../../shared/sync/license'
 import { AppError } from '../ipc/envelope'
 import { sharedToAppError } from '../sync/activationV2'
@@ -17,6 +17,9 @@ import type { PriceRightsCalls, SharedStoreTransport } from '../sync/sharedTrans
  * The server is the real gate (`sn_push` refuses with `Q3P01`); this service only lets the screen and the local guard say so early.
  */
 export const PERMS_STATE_KEY = 'pricelist.perms'
+/** Phase 255: the LAST ASK (when, and why it failed), so a failed refresh is never silent. `{ at, error }`. */
+export const PERMS_STATUS_KEY = 'pricelist.permsStatus'
+export { AUTO_REFRESH_MS, REFUSED_REFRESH_MS }
 
 export interface PriceRightsDeps {
   sync: Pick<SyncStateRepo, 'get' | 'set'>
@@ -33,6 +36,8 @@ export interface PriceRightsService {
   info(): PriceRightsInfo
   /** Asks the server for this seat's rights and caches them. A network failure keeps the cached answer; never throws. */
   refresh(): Promise<PriceRightsInfo>
+  /** Phase 255: the automatic refresh (app start / after each sync cycle / after a refused push). Throttled, never throws, no-op for seat 1 and without sync. */
+  auto(afterRefused: boolean): Promise<void>
   list(): Promise<PriceSeatRightsRow[]>
   set(seatNo: number, flags: unknown): Promise<PriceSeatRightsRow>
 }
@@ -52,6 +57,15 @@ export function createPriceRightsService(deps: PriceRightsDeps, opts: { now?: ()
       return typeof v.seatNo === 'number' ? { seatNo: v.seatNo, flags: normalizeFlags(v.flags), at: typeof v.at === 'string' ? v.at : '' } : null
     } catch { return null }
   }
+  const status = (): { at: string; error: string } => {
+    const raw = deps.sync.get(PERMS_STATUS_KEY)
+    if (!raw) return { at: '', error: '' }
+    try {
+      const v = JSON.parse(raw) as { at?: unknown; error?: unknown }
+      return { at: typeof v.at === 'string' ? v.at : '', error: typeof v.error === 'string' ? v.error.slice(0, 300) : '' }
+    } catch { return { at: '', error: '' } }
+  }
+  const setStatus = (error: string): void => deps.sync.set(PERMS_STATUS_KEY, JSON.stringify({ at: now().toISOString(), error }))
   const own = (): PermFlags => {
     const seat = deps.seatNo()
     const c = cached()
@@ -60,7 +74,13 @@ export function createPriceRightsService(deps: PriceRightsDeps, opts: { now?: ()
   const info = (): PriceRightsInfo => {
     const seatNo = deps.seatNo()
     const syncActive = deps.syncActive()
-    return { seatNo, syncActive, isSeat1: syncActive && seatNo === 1, flags: own(), refused: readRefused(deps.sync).length }
+    const st = status()
+    const c = cached()
+    const kept = readRefused(deps.sync)
+    return {
+      seatNo, syncActive, isSeat1: syncActive && seatNo === 1, flags: own(), refused: kept.length, refusedNeeds: refusedNeeds(kept),
+      checkedAt: st.at === '' ? null : st.at, answeredAt: c !== null && c.at !== '' ? c.at : null, lastError: st.error
+    }
   }
   const seat1Only = (): void => {
     if (!deps.syncActive()) throw new AppError('VALIDATION', 'Rights are only used when shared sync is on. Without sync this computer can change everything.')
@@ -72,19 +92,32 @@ export function createPriceRightsService(deps: PriceRightsDeps, opts: { now?: ()
     return { t: c.transport, license: c.creds.license }
   }
 
+  const refresh = async (): Promise<PriceRightsInfo> => {
+    if (!deps.syncActive()) return info()
+    try {
+      const { t, license } = await door()
+      const r = await t.pricePermsGet({ license })
+      deps.sync.set(PERMS_STATE_KEY, JSON.stringify({ seatNo: r.seatNo, flags: r.flags, at: now().toISOString() } satisfies Cached))
+      const seat = deps.seatNo()
+      // [A] The server's seat number differs from the one this PC stored: the cache is ignored (own() never grants locally), so say it.
+      setStatus(seat !== null && r.seatNo !== seat ? `The main branch says this PC is seat ${r.seatNo}, but this PC has seat ${seat} stored. Sign in to shared sync again.` : '')
+    } catch (e) {
+      // Phase 255: the last good flags stay, and the reason is KEPT (it used to be an info line nobody saw).
+      const msg = e instanceof AppError ? e.message : sharedToAppError(e).message
+      setStatus(msg === '' ? 'The main branch could not be reached.' : msg)
+      deps.log.info('The Price List rights could not be refreshed; the last known rights stay', { error: e instanceof Error ? e.message : 'unknown' })
+    }
+    return info()
+  }
+
   return {
     own,
     info,
-    async refresh() {
-      if (!deps.syncActive()) return info()
-      try {
-        const { t, license } = await door()
-        const r = await t.pricePermsGet({ license })
-        deps.sync.set(PERMS_STATE_KEY, JSON.stringify({ seatNo: r.seatNo, flags: r.flags, at: now().toISOString() } satisfies Cached))
-      } catch (e) {
-        deps.log.info('The Price List rights could not be refreshed; the last known rights stay', { error: e instanceof Error ? e.message : 'unknown' })
-      }
-      return info()
+    refresh,
+    async auto(afterRefused) {
+      if (!deps.syncActive() || deps.seatNo() === 1) return
+      if (!autoRefreshDue(status().at, now().getTime(), afterRefused)) return
+      await refresh()
     },
     async list() {
       seat1Only()

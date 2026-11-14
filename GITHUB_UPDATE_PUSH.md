@@ -142,3 +142,30 @@ Written 2026-10-21 (docs only). Desktop release steps in sections 2-3 are unchan
 - Versions [A]: Phases 233-248 kept 0.1.52 in the files; the gate (Phase 249) bumped `package.json` and both spots of `package-lock.json` to 0.1.55 (skipping 0.1.53 / 0.1.54, which were never released). Phone phase 247 (bill features) was skipped by the owner.
 - Phase 249 release: tag `v0.1.55` after the push steps in section 3. Order for the owner: run Supabase files 18, 19 and the log file ONCE, push + tag, install, then fill `docs/M23_OWNER_CHECKLIST.md`. The phone deploys from the `pwa` branch (section 8): merge `main` into `pwa` after the push. The phone is deployed from the `pwa` branch as in section 8.
 - The legacy `bills_data.db` is private business data: never commit it (it is in `.gitignore`).
+
+## 11. Milestone 24 (Phases 251-274; planned 2026-11-13, nothing released yet)
+
+- Release A = **0.1.56 [A]**, prepared by Phase 256 (quick fixes 251-254 and the price-rights fix 255-256 if done). Owner order: run `supabase/sql/21_price_perms_bell.sql` once on each company project (after 18, 19, 20), then push + tag `v0.1.56`, install, test two seats.
+- Release B = **0.1.57 [A]**, prepared by the gate Phase 273 (master, one-code onboarding, seats, profile). Owner order: create the master Supabase project and follow `docs/MASTER_OWNER_SETUP.md` (master SQL `supabase/master/M01..`, deploy the Edge Functions, set the secrets, mint an enrol token), THEN push + tag `v0.1.57`, install, link the first company, fill `docs/M24_OWNER_CHECKLIST.md`.
+- A phase other than 256 and 273 does NOT bump the version. The same push steps as section 3 apply; always hand back the changed-files zip, the full zip and the steps with the real version number.
+- Do not build the exe locally; GitHub does it.
+
+## 11a. Release A = 0.1.56 [A] (Phase 256, 2026-11-13): exact steps for the owner
+
+What it contains: Phases 251-256 (Dashboard five tiles, one Price List search, phone stacked prices, AI off by default, price rights: automatic refresh + visible "Rights of this seat" block, a rights change rings the doorbell, refusals say "needs Overwrite" / "needs Add" / "needs Edit" / "needs Delete" / "needs Structure"). Phase 249 (0.1.55) was never pushed or tagged, so 0.1.56 also carries the whole Price List (Milestone 23): run Supabase files 18, 19, 20 and 21 in that order. [A]
+
+1. **Supabase FIRST** (SQL editor, once per company project, in this order, skipping any that were already run): `supabase/sql/18_price_list.sql`, `19_price_perms.sql`, `20_price_log.sql`, then `21_price_perms_bell.sql`. Never edit a file after it was run. Each one is safe to run twice. The sandbox never runs them: checklist G in `docs/SUPABASE_MIGRATIONS.md` is yours to tick.
+2. Extract the **changed-files zip** over the repo folder and choose "Replace the files" (see section 3, step 1).
+3. In the repo folder run:
+
+```powershell
+git add .
+git commit -m "Release A: price rights, Dashboard, Price List fixes, version 0.1.56"
+git push origin main
+git tag v0.1.56
+git push origin v0.1.56
+```
+
+4. Wait for the **Release** run on GitHub Actions (green tick), check `Quot3-Setup-0.1.56.exe`, its `.blockmap` and `latest.yml` are on the release, then Settings > Updates > Check for updates > Restart.
+5. Phone: merge `main` into `pwa` after the push (section 8).
+6. Check with two seats: seat 1 changes a flag in Settings > Price List > Who can edit; seat 2 (PC and phone) shows the new rights within seconds without opening the Price List (Settings > Price List > "Rights of this seat" shows when it last checked); seat 2 trying a change it may not make says "needs Overwrite" (or the flag it lacks).

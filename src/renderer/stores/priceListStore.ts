@@ -23,7 +23,7 @@ const msg = (r: Result<unknown>): string => (r.ok ? '' : r.error.message)
  * Selectors must return raw values (Phase 92 rule): components derive filtered / mapped lists with `useMemo`.
  */
 export type SaveState = 'saved' | 'dirty' | 'saving' | 'error'
-export type PriceDialog = null | 'columns' | 'tiers' | 'bulk' | 'find' | 'search'
+export type PriceDialog = null | 'columns' | 'tiers' | 'bulk' | 'find'
 export interface PriceFilter { noPrice: boolean; contains: string }
 
 const AUTOSAVE_MS = 600
@@ -53,7 +53,7 @@ export interface PriceListState {
   dupWarn: string
   canUndo: boolean
   canRedo: boolean
-  ports: { focusFilter: (() => void) | null; focusGrid: (() => void) | null; askAddTab: (() => void) | null }
+  ports: { focusSearch: (() => void) | null; focusGrid: (() => void) | null; askAddTab: (() => void) | null }
 
   load: () => Promise<void>
   selectCategory: (id: string) => Promise<void>
@@ -187,7 +187,7 @@ export const usePriceListStore = create<PriceListState>((set, get) => {
     focusTick: 0,
     caretCmd: { pos: 'end', tick: 0 },
     panelOpen: true,
-    ports: { focusFilter: null, focusGrid: null, askAddTab: null },
+    ports: { focusSearch: null, focusGrid: null, askAddTab: null },
     dupWarn: '',
 
     async load() {

@@ -9,6 +9,11 @@ describe('ai settings (Phase 222)', () => {
     for (const k of Object.values(AI_KEYS)) { expect(SETTING_KEY_RE.test(k)).toBe(true); expect(SETTING_DEFAULTS[k]).toBe(false); expect(AI_DEFAULTS[k]).toBe(false) }
     expect(readAiSettings(SETTING_DEFAULTS as Record<string, unknown>)).toEqual({ enabled: false, billingPanel: false, itemSuggestions: false, sentenceSearch: false })
   })
+  it('Phase 254: a settings store with nothing saved gives every AI switch OFF, so no AI feature is live', () => {
+    const none = readAiSettings({})
+    expect(none).toEqual({ enabled: false, billingPanel: false, itemSuggestions: false, sentenceSearch: false })
+    for (const f of ['billingPanel', 'itemSuggestions', 'sentenceSearch'] as const) expect(aiFeatureOn(none, f)).toBe(false)
+  })
   it('only a real true turns a switch on; a feature needs the master switch too', () => {
     expect(readAiSettings({ 'ai.enabled': 'yes', 'ai.billingPanel': 1 })).toEqual({ enabled: false, billingPanel: false, itemSuggestions: false, sentenceSearch: false })
     const s = readAiSettings({ 'ai.billingPanel': true })

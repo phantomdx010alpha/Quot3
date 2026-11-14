@@ -108,16 +108,51 @@ export const PERM_LABELS: Readonly<Record<PermFlag, string>> = {
   add: 'Add new items', edit: 'Edit names, notes and fill empty prices', overwrite: 'Change existing prices', delete: 'Delete items, tabs and categories', structure: 'Change categories, tabs, columns and price levels'
 }
 
+/** Phase 256: the flag a refusal names, in the words the owner sees in Settings > Price List > Who can edit ("needs Overwrite"). */
+export const PERM_NEEDS: Readonly<Record<PermFlag, string>> = { add: 'needs Add', edit: 'needs Edit', overwrite: 'needs Overwrite', delete: 'needs Delete', structure: 'needs Structure' }
+export const needsWord = (f: PermFlag): string => PERM_NEEDS[f]
+/** "needs Overwrite, needs Edit" (one phrase for several flags). */
+export const needsWords = (flags: readonly PermFlag[]): string => flags.map(needsWord).join(', ')
+/** The flags named by a kept-list of refused changes (any entry shape with `missing`), without repeats, in the order of the settings page. Unknown names are dropped. */
+export function refusedNeeds(entries: readonly { missing?: readonly string[] }[]): PermFlag[] {
+  const seen = new Set<string>()
+  for (const e of entries) for (const m of e.missing ?? []) seen.add(m)
+  return PERM_FLAGS.filter((f) => seen.has(f))
+}
+
 /** The plain-words refusal for a local change this seat may not make (Phase 242; the server answers `Q3P01` with its own text). */
 export const notAllowedText = (missing: readonly PermFlag[]): string =>
-  `This seat is not allowed to do that (missing: ${missing.map((f) => PERM_LABELS[f]).join('; ')}). Ask the main branch (seat 1) to allow it in Settings > Price List > Who can edit.`
+  `This seat is not allowed to do that (${missing.map((f) => `${needsWord(f)}: ${PERM_LABELS[f]}`).join('; ')}). Ask the main branch (seat 1) to allow it in Settings > Price List > Who can edit.`
 
 /** Phase 242 - the plain-words lines the Price List page shows for this seat (empty = full rights, nothing to say). `refused` = local changes the main branch did not accept. */
-export function rightsNotice(flags: PermFlags, refused: number): string[] {
+export function rightsNotice(flags: PermFlags, refused: number, needs: readonly PermFlag[] = []): string[] {
   const missing = PERM_FLAGS.filter((f) => !flags[f])
   const out: string[] = []
   if (missing.length === PERM_FLAGS.length) out.push('Read only: this seat can look at the Price List and search it, but cannot change it. Ask the main branch (seat 1) to allow it in Settings > Price List > Who can edit.')
   else if (missing.length > 0) out.push(`This seat is not allowed to: ${missing.map((f) => PERM_LABELS[f].toLowerCase()).join('; ')}. Ask the main branch (seat 1) in Settings > Price List > Who can edit.`)
-  if (refused > 0) out.push(`${refused === 1 ? '1 change' : `${refused} changes`} made on this PC ${refused === 1 ? 'was' : 'were'} not accepted by the main branch and ${refused === 1 ? 'stays' : 'stay'} only on this PC.`)
+  if (refused > 0) out.push(`${refused === 1 ? '1 change' : `${refused} changes`} made on this PC ${refused === 1 ? 'was' : 'were'} not accepted by the main branch${needs.length > 0 ? ` (${needsWords(needs)})` : ''} and ${refused === 1 ? 'stays' : 'stay'} only on this PC.`)
   return out
+}
+
+/** Phase 255 - what the "Rights" status block shows (desktop Settings > Price List and the phone sync status). Pure words, no clock: `when` turns an ISO time into text. */
+export interface RightsStatusInput { seatNo: number | null; syncActive: boolean; flags: PermFlags; checkedAt: string | null; answeredAt: string | null; lastError: string }
+export interface RightsStatusView { seat: string; rights: string; checked: string; error: string }
+export function rightsStatusView(i: RightsStatusInput, when: (iso: string) => string = (s) => s): RightsStatusView {
+  const seat = !i.syncActive ? 'Shared sync is off: this PC can change everything.' : i.seatNo === null ? 'This PC has no seat number yet.' : `Seat ${i.seatNo}${i.seatNo === 1 ? ' (main branch)' : ''}`
+  const on = PERM_FLAGS.filter((f) => i.flags[f])
+  const rights = !i.syncActive || i.seatNo === 1 ? 'Everything is allowed.'
+    : i.answeredAt === null ? 'Nothing is allowed yet: the main branch has not answered. Press Check again.'
+    : on.length === 0 ? 'Read only (nothing may be changed).'
+    : `Allowed: ${on.map((f) => PERM_LABELS[f].toLowerCase()).join('; ')}.`
+  const checked = i.checkedAt === null ? 'Not checked yet.' : `Last checked ${when(i.checkedAt)}${i.answeredAt === null ? '' : `; last answer ${when(i.answeredAt)}`}.`
+  return { seat, rights, checked, error: i.lastError }
+}
+
+/** Phase 255 - automatic refresh throttle shared by desktop and phone: start / each sync cycle at most once a minute; after a refused push at most once per 10 s. */
+export const AUTO_REFRESH_MS = 60_000
+export const REFUSED_REFRESH_MS = 10_000
+/** Is an automatic refresh due? `lastIso` = when the last ask happened ('' / unreadable = never). */
+export function autoRefreshDue(lastIso: string, nowMs: number, afterRefused: boolean): boolean {
+  const last = Date.parse(lastIso)
+  return !Number.isFinite(last) || nowMs - last >= (afterRefused ? REFUSED_REFRESH_MS : AUTO_REFRESH_MS)
 }

@@ -7,6 +7,7 @@ import { useHotkeys } from '../../../hooks/useHotkeys'
 import { useAppActions } from '../../../hooks/useAppActions'
 import { useBillStore } from '../../../stores/billStore'
 import { useAiPanelStore } from '../../../stores/aiPanelStore'
+import { usePriceStripStore } from '../../../stores/priceStripStore'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -142,5 +143,52 @@ describe('billing-screen panel (Phase 226)', () => {
     await typeIn(cell, 'ruby')
     await wait()
     expect(useBillStore.getState().dirty).toBe(dirtyBefore)
+  })
+})
+
+// ---- Phase 254 (M24): the Create-page AI switch (and the price strip display) are hidden while the master AI switch is off -----------------
+const historySwitch = (): HTMLElement | null => [...host.querySelectorAll<HTMLElement>('button')].find((b) => (b.textContent ?? '').includes('History AI')) ?? null
+
+describe('AI switch hidden while AI is off (Phase 254)', () => {
+  it('the History AI switch is drawn only while ai.enabled is on', async () => {
+    await wait()
+    expect(historySwitch()).not.toBeNull() // beforeEach saved ai.enabled = true
+    await act(async () => { useAiPanelStore.setState({ enabled: false }) })
+    expect(historySwitch()).toBeNull()
+    await act(async () => { useAiPanelStore.setState({ enabled: true }) })
+    expect(historySwitch()).not.toBeNull()
+  })
+
+  it('with nothing saved (a fresh install) the page shows no AI switch and no panel', async () => {
+    act(() => root.unmount()); host.remove()
+    stored = {}
+    useAiPanelStore.setState({ enabled: false, billingPanel: false, status: null, partyId: null, partyName: '', cellActive: false, typed: '', rows: [], seq: 0 })
+    host = document.createElement('div'); document.body.appendChild(host); root = createRoot(host)
+    await act(async () => { root.render(createElement(Shell)) })
+    await act(async () => { useBillStore.getState().setPartyField('name', 'Invented Traders') })
+    await wait()
+    expect(historySwitch()).toBeNull()
+    expect(panel()).toBeNull()
+    expect(useAiPanelStore.getState()).toMatchObject({ enabled: false, billingPanel: false })
+  })
+
+  it('the panel key does nothing while AI is off: no setting is written and the master stays off', async () => {
+    await act(async () => { useAiPanelStore.setState({ enabled: false, billingPanel: false }) })
+    set.mockClear()
+    await act(async () => { useAiPanelStore.getState().toggle() })
+    expect(set).not.toHaveBeenCalled()
+    expect(useAiPanelStore.getState()).toMatchObject({ enabled: false, billingPanel: false })
+  })
+})
+
+describe('price strip hidden while AI is off (Phase 254) [A]', () => {
+  it('the strip shows with AI on and nothing is drawn with AI off; the Rate switch stays (it is the Price List\'s own setting)', async () => {
+    await wait()
+    const cur = usePriceStripStore.getState().settings
+    await act(async () => { usePriceStripStore.setState({ settings: { ...cur, enabled: true, mode: 'suggest' }, cellActive: true, typed: 'pvc' }) })
+    expect(host.querySelector('.q3-pricestrip')).not.toBeNull() // AI on: the quiet notice / match line is drawn
+    await act(async () => { useAiPanelStore.setState({ enabled: false }) })
+    expect(host.querySelector('.q3-pricestrip')).toBeNull() // AI off: nothing
+    expect([...host.querySelectorAll('button')].some((b) => (b.textContent ?? '').includes('Rate:'))).toBe(true)
   })
 })

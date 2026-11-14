@@ -1,5 +1,5 @@
 import type { PhoneDb } from '../data/db'
-import { linkPhoneToOrganisation, validateLinkInput, type LinkInput, type LinkResult } from './branch'
+import { getBranchLink, linkPhoneToOrganisation, validateLinkInput, type LinkInput, type LinkResult } from './branch'
 import { createPhoneConnect } from './connect'
 import { createPhoneSyncEngine, type PhoneSyncEngine, type PhoneSyncEngineDeps } from './engine'
 import { PhoneSyncError } from './errors'
@@ -7,7 +7,8 @@ import { createSessionVault, persistSessionChanges, signOutPhone, type SessionVa
 import { PhoneSupabaseTransport, type PhoneSupabaseFactory } from './supabaseTransport'
 import type { PhoneBranchInfo, PhoneBranchScope, PhoneManifestRow, PhonePullResult, PhonePushItem, PhonePushResult, PhoneSession, PhoneSharedPort } from './transport'
 import type { RecordKind } from '../../shared/sync/codecV2'
-import { writeCachedPerms } from '../data/priceRights'
+import { readCachedPerms, readRightsAsk, writeCachedPerms, writeRightsAsk } from '../data/priceRights'
+import { autoRefreshDue } from '../../shared/pricelist/perms'
 
 /**
  * Wires the phone's sync together for the running app: ONE port that talks to the real Supabase once the phone knows the URL and key,
@@ -73,6 +74,8 @@ export interface PhoneSyncRuntime {
   notifySaved(): void
   /** Phase 246: ask the server for this seat's Price List rights and cache the answer. Never throws; a failure keeps the last known rights. */
   refreshPriceRights(): Promise<void>
+  /** Phase 255: the automatic refresh (start / each sync cycle / after a refused push). Throttled (60 s; 10 s after a refusal), skipped for seat 1 and an unlinked phone. Never throws. */
+  autoRefreshPriceRights(afterRefused: boolean): Promise<void>
 }
 
 export interface PhoneSyncRuntimeOptions {
@@ -90,8 +93,33 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
   const vault = o.vault ?? createSessionVault(db)
   const port = createLazyPort(o.factory, o.makeTransport)
   const connection = createPhoneConnect(db, vault, port)
+  // Phase 255: ask the server for this seat's Price List rights. The answer is cached; a failure keeps the last flags AND is recorded (plain words) so the sync status can show it.
+  const nowIso = (): string => new Date().toISOString()
+  async function refreshRights(): Promise<void> {
+    try {
+      const c = await connection.connect()
+      if (typeof c.port.pricePermsGet !== 'function') { await writeRightsAsk(db, { at: nowIso(), error: 'This connection cannot read Price List rights.' }); return }
+      const r = await c.port.pricePermsGet({ license: c.creds.license })
+      await writeCachedPerms(db, r, nowIso())
+      await writeRightsAsk(db, { at: nowIso(), error: '' })
+    } catch (e) {
+      const msg = e instanceof PhoneSyncError && e.message !== '' ? e.message : 'The main branch could not be reached.'
+      try { await writeRightsAsk(db, { at: nowIso(), error: msg }) } catch { /* the last known rights stay */ }
+    }
+  }
+  async function autoRefreshRights(afterRefused: boolean): Promise<void> {
+    try {
+      if (!(await getBranchLink(db)).linked) return
+      const cached = await readCachedPerms(db)
+      if (cached?.seatNo === 1) return // seat 1 always has everything
+      if (!autoRefreshDue((await readRightsAsk(db)).at, Date.now(), afterRefused)) return
+      await refreshRights()
+    } catch { /* best effort */ }
+  }
   const engine = createPhoneSyncEngine({
     db, connect: connection.connect, appVer: o.appVer,
+    onPushRun: (r) => { void autoRefreshRights((r.refused ?? 0) > 0) },
+    onRing: () => { void autoRefreshRights(true) }, // Phase 256: a ring may be a rights change (10 s throttle)
     storage: async () => {
       try {
         const e = await navigator.storage.estimate()
@@ -128,13 +156,7 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
       connection.reset()
     },
     notifySaved() { engine.notifySaved() },
-    async refreshPriceRights() {
-      try {
-        const c = await connection.connect()
-        if (typeof c.port.pricePermsGet !== 'function') return
-        const r = await c.port.pricePermsGet({ license: c.creds.license })
-        await writeCachedPerms(db, r, new Date().toISOString())
-      } catch { /* offline or not linked: the last known rights stay */ }
-    }
+    refreshPriceRights: refreshRights,
+    autoRefreshPriceRights: autoRefreshRights
   }
 }

@@ -29,6 +29,19 @@ If the owner's request changes the app (anything that must reach the installed c
 
 ---
 
+## ONE PHASE PER SESSION — FREE-PLAN BUDGET (owner rule, 2026-11-13; applies to Milestone 24 and everything after)
+
+The owner works on the FREE Claude plan. A session that burns the usage limit, or the reroll window, delivers nothing. So:
+- **Do exactly ONE phase per session. Never start the next phase**, even if time is left. The phase entry in `PHASES.md` is already sized for one free session.
+- **Read only the files listed under "Key files"** of the phase (plus `CLAUDE_MUST_READ.md` and the phase entry). Use `grep -n` and `sed -n` for the part you need; never read a file over ~300 lines whole. Do not read `PHASE_STATUS.md` beyond "Current state" and your own phase. Do not read other milestones' design docs unless the phase names them.
+- **Phase types:** `[D]` = decision / spec, DOCS ONLY (no code, no typecheck, no tests); `[E]` = execution; `[G]` = release gate. A `[D]` phase freezes contracts so the `[E]` phases do not re-think anything. If an `[E]` phase finds it needs a decision that is not already frozen in `API_CONTRACTS.md` / the design doc, it records the decision as [A], takes the simplest option, and moves on; it does NOT open a long analysis.
+- **Steps:** every phase lists Steps (a), (b), (c)... Work them in order. After each step that leaves the repo type-checking, you may stop. If you feel the session getting long (many files read, many tool calls, a failing test you cannot fix in two tries), STOP at the next clean step boundary: write what is done / left in `PHASE_STATUS.md` (rule 7), re-zip, hand over. A partial phase that re-zips cleanly is a success; an exhausted session is a failure.
+- **No big commands:** typecheck ONCE, only the named test files, no build, no dev server, no full suite, no `npm install` unless the phase adds a dependency (these phases do not).
+- **If a phase is bigger than it looks, split it yourself:** log "Phase NN split into NN-a / NN-b" in `PHASE_STATUS.md`, finish the first half, and leave the second half as the next phase.
+- **Docs and re-zip are cheap:** use `str_replace` / append only (the rule above). The prompt the owner sends is in `README.md`.
+
+---
+
 ## SESSION EFFICIENCY PROTOCOL — Read this before anything else
 
 You are operating under a **5-hour rolling session limit**. Every minute spent extracting files you don't need, running installs unnecessarily, or reading docs cover-to-cover is a minute not spent building. Follow these rules without exception:
@@ -491,6 +504,20 @@ Read `docs/MILESTONE23_DESIGN.md` (then `docs/PRICELIST_IMPORT_SPEC.md`) before 
 - **TESTING RULE (owner's standing rule): DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files; no build, no dev server. Known pre-existing failures (compare against the previous zip before calling anything a regression): `keyboardAcceptance.test.ts` (2), `settingsPage.test.ts` (6), one `historyPage.test.ts` case, `indexer.test.ts` fixtures (see the Phase 230/231 logs).
 - Items marked [A] are unconfirmed (`MILESTONE23_DESIGN.md` section 11); say so in every phase log.
 
+## 10s. Milestone 24 supersessions (Phases 251-274, releases 0.1.56 [A] and 0.1.57 [A]): master Supabase, one-code onboarding, Seat-1 admin, company profile, quick fixes
+
+Read `docs/MILESTONE24_DESIGN.md` before any Phase 257-274 (Phases 251-256 need only their own entry). Everything in 10r and earlier still holds. Phase 188 and Phase 69 are separate and still run.
+- **The master is OPTIONAL and ADDITIVE.** A company that is not linked, and a device set up the old way, behave exactly as 0.1.55. The master NEVER holds bills, Price List data or any company data except the registry, seat credentials, device tokens and the company profile. Sync keeps going device <-> its company project; it must never depend on the master being up.
+- **No existing device may break.** Never change a shipped vault / secret-store format in a way an old blob cannot be read (extend with OPTIONAL fields only), never change a numbered SQL file that was run (new numbered file instead), never force a re-login, never wipe local data when a seat is removed.
+- **Secrets:** a company's service_role key exists only sealed inside the master and, for one request, in the memory of seat 1's desktop during "Link to master"; it is never stored, logged, backed up, put in diagnostics or tests (tests use invented strings). Codes, passwords, device tokens and `*_enc` values go through `shared/master/redact.ts` before any log. `redeem` returns the same error for wrong / revoked / expired codes and is rate limited.
+- **Admin is enforced on the master** (device token with `seat_no = 1`), never only in the client. Seat 1 cannot be reset or revoked through the app. 15 seats max (the company SQL allows 50, the master caps at 15).
+- **Supabase files:** the company-project series stays `supabase/sql/NN_*.sql` (next free number 21, written in Phase 256); the master has its OWN series `supabase/master/M01_*.sql` and `supabase/master/functions/`. Never run anything against a real Supabase from the sandbox; "works on Supabase" is a standing gap closed only by `docs/M24_OWNER_CHECKLIST.md` (written in Phase 273).
+- **Shared master code** lives in `src/shared/master/` and must run in Electron main, the PWA and Deno: no Node-only or DOM-only imports, no new npm dependency.
+- **Phone:** the classic layout and its pinned files are not touched without the owner's approval (10r); new phone screens go through the shared bootstrap / new layouts. The phone's one-field screen keeps an "Advanced" door to the old form [A].
+- **AI:** from Phase 254 the Create-page AI switch is hidden while `ai.enabled` is off (supersedes the Phase 226 "always visible" note). Defaults stay all-off.
+- **TESTING RULE unchanged: DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files. Known pre-existing failures: see 10r.
+- Items marked [A] are unconfirmed (`MILESTONE24_DESIGN.md` section 11); say so in every phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched
@@ -502,6 +529,7 @@ Read `docs/MILESTONE23_DESIGN.md` (then `docs/PRICELIST_IMPORT_SPEC.md`) before 
 - [ ] No emoji in any UI; no hardcoded colors, shadows or radii in components — tokens only
 - [ ] `PHASE_STATUS.md` updated (done/partial, date, decisions, known issues, next phase)
 - [ ] `PROJECT_STRUCTURE.md` and `API_CONTRACTS.md` updated in place if structure or contracts changed
+- [ ] Exactly ONE phase was done this session (the next one was NOT started); steps done / left are logged
 - [ ] The whole project re-zipped per Section 8 and presented
 
 Then hand the zip back. That's the end of your session's job.

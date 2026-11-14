@@ -64,7 +64,8 @@ export function AiHistoryPanel({ gridHost }: { gridHost: React.RefObject<HTMLEle
   useActiveNameCell(gridHost)
 
   const view = useMemo(() => panelView({ enabled, billingPanel, partyName, cellActive }, status, suggestions), [enabled, billingPanel, partyName, cellActive, status, suggestions])
-  if (view.kind === 'hidden') return null
+  // Phase 254 (M24): nothing at all while the master AI switch is off (the panel's own switch is irrelevant then).
+  if (!enabled || view.kind === 'hidden') return null
   return (
     <div className="q3-aipanel" role="region" aria-label="This party's earlier items" aria-live="polite" onMouseDown={(e) => e.preventDefault()}>
       {view.kind === 'notice' ? (
@@ -88,10 +89,14 @@ export function AiHistoryPanel({ gridHost }: { gridHost: React.RefObject<HTMLEle
   )
 }
 
-/** The visible on / off switch in the Create toolbar. Never takes focus (the cell keeps its caret); the key does the same thing. */
-export function AiPanelSwitch(): React.JSX.Element {
+/** The visible on / off switch in the Create toolbar. Never takes focus (the cell keeps its caret); the key does the same thing.
+ *  Phase 254 (M24): drawn ONLY while the master AI switch (`ai.enabled`) is on; with AI off it renders nothing (supersedes the Phase 226 "always visible" note). */
+export function AiPanelSwitch(): React.JSX.Element | null {
+  const enabled = useAiPanelStore((s) => s.enabled)
   const billingPanel = useAiPanelStore((s) => s.billingPanel)
   const keys = primaryKeys('ai.billingPanel.toggle')
+  useEffect(() => { void useAiPanelStore.getState().load() }, [])
+  if (!enabled) return null
   return (
     <IconButton icon={Lightbulb} label="Purchase history for this party" text="History AI" active={billingPanel} {...(keys ? { shortcut: keys } : {})} tabIndex={-1}
       onMouseDown={(e) => e.preventDefault()} onClick={() => useAiPanelStore.getState().toggle()} />
