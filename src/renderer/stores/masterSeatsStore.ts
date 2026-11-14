@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { SeatView } from '@shared/master/schemas'
+import { SEATS_MAX, type SeatView } from '@shared/master/schemas'
 import { capMessage, capReached, confirmReady, seatActions, validateSeatLabel, type SeatActionKind } from '@shared/master/seatsView'
 
 /**
@@ -74,7 +74,7 @@ export const useMasterSeatsStore = create<MasterSeatsState>((set, get) => ({
     if (busy) return false
     const bad = validateSeatLabel(addLabel)
     if (bad) { set({ error: bad }); return false }
-    if (capReached(seats.length, company?.maxSeats ?? 15)) { set({ error: capMessage(company?.maxSeats ?? 15) }); return false }
+    if (capReached(seats.length, company?.maxSeats ?? SEATS_MAX)) { set({ error: capMessage(company?.maxSeats ?? SEATS_MAX) }); return false }
     if (!b) { set({ error: NO_BRIDGE }); return false }
     set({ busy: true, error: '' })
     try {

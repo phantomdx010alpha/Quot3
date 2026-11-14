@@ -72,6 +72,10 @@ export interface PriceListState {
   commit: () => void
   keyDown: (k: KeyInput) => boolean
   clickCell: (row: number, col: number, shift?: boolean) => void
+  /** Mouse drag: the range from the cell the button went down on to the cell under the pointer (visible coordinates). */
+  dragRange: (from: { row: number; col: number }, to: { row: number; col: number }) => void
+  /** Click on a column header: the whole column is selected (Shift extends from the active column). */
+  selectColumn: (col: number, shift?: boolean) => void
   syncCaret: (pos: number) => void
   copySelection: () => { tsv: string; payload: GridClipCell[][] } | null
   pasteMatrix: (matrix: GridClipCell[][]) => void
@@ -384,6 +388,31 @@ export const usePriceListStore = create<PriceListState>((set, get) => {
       const shape = gridShape(vis, cols)
       if (shift) { set({ nav: { ...s.nav, range: { anchor: s.nav.range?.anchor ?? { row: s.nav.row, col: s.nav.col }, focus: { row, col } } } }); return }
       set({ nav: arriveAt(shape, row, col) })
+      focusNow()
+    },
+
+    dragRange(from, to) {
+      const s = get()
+      const cols = colsOf(s)
+      const vis = visibleOf(s)
+      if (cols.length === 0 || vis.length === 0) return
+      const cl = (v: number, max: number): number => Math.max(0, Math.min(max, v))
+      const a = { row: cl(from.row, vis.length - 1), col: cl(from.col, cols.length - 1) }
+      const f = { row: cl(to.row, vis.length - 1), col: cl(to.col, cols.length - 1) }
+      if (a.row === f.row && a.col === f.col) { if (s.nav.range) set({ nav: { ...s.nav, range: null } }); return }
+      if (s.draft !== null) commit() // a half-typed cell is saved before the range takes over
+      const n = get()
+      set({ nav: { ...n.nav, row: a.row, col: a.col, range: { anchor: a, focus: f } } })
+    },
+
+    selectColumn(col, shift) {
+      commit()
+      const s = get()
+      const cols = colsOf(s)
+      const vis = visibleOf(get())
+      if (cols.length === 0 || vis.length === 0 || col < 0 || col >= cols.length) return
+      const anchorCol = shift ? (s.nav.range?.anchor.col ?? s.nav.col) : col
+      set({ nav: { ...s.nav, row: 0, col: shift ? anchorCol : col, mode: 'append', caret: 0, range: { anchor: { row: 0, col: anchorCol }, focus: { row: vis.length - 1, col } } } })
       focusNow()
     },
 

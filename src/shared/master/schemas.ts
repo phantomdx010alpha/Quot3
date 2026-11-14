@@ -11,7 +11,7 @@ import { isMasterErrorCode, type MasterErrorCode } from './errors'
 export const PROFILE_TEXT_MAX = 200
 export const LOGO_MAX_BYTES = 150 * 1024
 export const SEAT_LABEL_MAX = 40
-export const SEATS_MAX = 15
+export const SEATS_MAX = 50
 
 /** Decoded size of a standard base64 string (padding counted), without decoding it. */
 export function base64DecodedLength(b64: string): number {

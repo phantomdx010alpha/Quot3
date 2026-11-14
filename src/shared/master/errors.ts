@@ -25,7 +25,7 @@ export const MASTER_ERRORS = {
   Q3M05: e('Q3M05', 'admin_only', 403, 'Only the admin seat (seat 1) can do this.'),
   Q3M06: e('Q3M06', 'company_suspended', 403, 'This company is switched off. Contact the owner.'),
   Q3M07: e('Q3M07', 'seat_revoked', 403, 'This seat was removed. Ask the admin for a new code.'),
-  Q3M08: e('Q3M08', 'seat_cap', 409, 'The seat limit of 15 is reached.'),
+  Q3M08: e('Q3M08', 'seat_cap', 409, 'The seat limit is reached.'),
   Q3M09: e('Q3M09', 'seat_not_found', 404, 'That seat does not exist.'),
   Q3M10: e('Q3M10', 'seat1_protected', 409, 'Seat 1 is the admin seat and cannot be reset or removed here.'),
   Q3M11: e('Q3M11', 'company_unreachable', 502, 'The company database could not be reached. Try again.'),

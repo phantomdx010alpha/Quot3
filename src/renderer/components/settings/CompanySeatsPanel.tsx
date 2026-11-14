@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { canShowCode, capMessage, capReached, confirmReady, confirmWords, lastSeenWords, resetButtonWords, seatActions, seatStatusWords } from '@shared/master/seatsView'
+import { SEATS_MAX } from '@shared/master/schemas'
 import { Button, Input } from '../ui'
 import { useMasterSeatsStore } from '../../stores/masterSeatsStore'
 import { PriceRightsSettings } from './PriceRightsSettings'
@@ -12,7 +13,7 @@ export function CompanySeatsPanel(): React.JSX.Element {
   const st = useMasterSeatsStore()
   const [note, setNote] = useState('')
   useEffect(() => { void useMasterSeatsStore.getState().load(); return () => useMasterSeatsStore.getState().clear() }, [])
-  const max = st.company?.maxSeats ?? 15
+  const max = st.company?.maxSeats ?? SEATS_MAX
   const full = st.status === 'ready' && capReached(st.seats.length, max)
   const copy = async (code: string): Promise<void> => {
     try { await navigator.clipboard.writeText(code); setNote('Code copied.') } catch { setNote('Could not copy. Select the code and press Ctrl+C.') }

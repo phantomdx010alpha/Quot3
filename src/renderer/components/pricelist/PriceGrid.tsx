@@ -168,9 +168,36 @@ export function PriceGrid(): React.JSX.Element {
     if (!cell || e.button !== 0) return
     const r = Number(cell.dataset.r), c = Number(cell.dataset.c)
     const st = usePriceListStore.getState()
-    if (st.nav.row === r && st.nav.col === c && !e.shiftKey) return // already active: let the input take the click (caret)
-    e.preventDefault()
-    st.clickCell(r, c, e.shiftKey)
+    const from = { row: r, col: c }
+    if (!(st.nav.row === r && st.nav.col === c && !e.shiftKey)) { // not the active cell (or Shift): select it / extend the range now
+      e.preventDefault()
+      st.clickCell(r, c, e.shiftKey)
+    }
+    if (e.shiftKey) return
+    // Mouse drag: hold the button and move over other cells to select a block (works from the active cell too; the page scrolls near its edges).
+    let dragged = false
+    const cellAt = (x: number, y: number): { row: number; col: number } | null => {
+      const el = document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-c]')
+      return el ? { row: Number(el.dataset.r), col: Number(el.dataset.c) } : null
+    }
+    const move = (m: PointerEvent): void => {
+      const box = wrap.current?.getBoundingClientRect()
+      if (box) {
+        if (m.clientY > box.bottom - 24) wrap.current?.scrollBy({ top: 18 })
+        else if (m.clientY < box.top + 24) wrap.current?.scrollBy({ top: -18 })
+      }
+      const at = cellAt(m.clientX, m.clientY)
+      if (!at) return
+      if (!dragged && at.row === from.row && at.col === from.col) return
+      dragged = true
+      window.getSelection()?.removeAllRanges() // no stray text highlight while dragging
+      usePriceListStore.getState().dragRange(from, at)
+    }
+    const up = (): void => {
+      window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up)
+      if (dragged) usePriceListStore.setState((x) => ({ focusTick: x.focusTick + 1 })) // keep the keyboard in the grid so Ctrl+C works at once
+    }
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up)
   }, [])
 
   // Keep the active row in view when it changes by key (the input scrolls itself; this covers the very first render).
@@ -194,7 +221,8 @@ export function PriceGrid(): React.JSX.Element {
       <div className="q3-grid__inner">
         <div className="q3-gh" role="row" style={{ gridTemplateColumns: tmpl }}>
           {cols.map((c) => (
-            <div key={c.key} className={`q3-gh__cell q3-gc--${c.isName ? 'left' : c.align}`} role="columnheader" data-col={c.key} title={c.label}>
+            <div key={c.key} className={`q3-gh__cell q3-gc--${c.isName ? 'left' : c.align}`} role="columnheader" data-col={c.key} title={`${c.label} - click to select the whole column`}
+              onClick={(e) => { if ((e.target as HTMLElement).closest('.q3-pl__resize')) return; usePriceListStore.getState().selectColumn(cols.findIndex((x) => x.key === c.key), e.shiftKey) }}>
               <span className="q3-gc__text">{c.label}</span>
               <span className="q3-pl__resize" role="separator" aria-orientation="vertical" aria-label={`Resize ${c.label}`} onPointerDown={(e) => resize(c, e)} />
             </div>

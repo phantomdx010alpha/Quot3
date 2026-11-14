@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 
 export const COMMANDS = ['help', 'init', 'enrol-token', 'onboard', 'export', 'keepalive', 'bundle']
 export const SEAT_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
-export const SEATS_MAX = 15
+export const SEATS_MAX = 50
 /** Company SQL files, in the order the owner applies them to a NEW company project (design flow 1). 90 / 91 / 99 are NOT part of onboarding. */
 export const COMPANY_SQL_FIRST = 11
 export const COMPANY_SQL_LAST = 21
