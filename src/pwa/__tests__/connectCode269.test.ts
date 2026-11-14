@@ -120,10 +120,10 @@ describe('Phase 269 redeem through the runtime', () => {
     expect(r).toMatchObject({ ok: false, code: 'Q3M90', message: 'Master unreachable, try again.' })
     expect((await getBranchLink(db)).linked).toBe(false)
   })
-  it('the real master is not switched on while its build constants are empty', async () => {
+  it('the real master is switched on now that the build holds the master address (Phase 273 config)', async () => {
     const db = await newDb()
     const runtime = createPhoneSyncRuntime({ db, appVer: '0.1.56', makeTransport: () => new InMemorySharedTransport(world().server) })
-    expect(runtime.masterReady()).toBe(false)
+    expect(runtime.masterReady()).toBe(true)
   })
 })
 

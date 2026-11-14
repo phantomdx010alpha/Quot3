@@ -110,11 +110,30 @@ function failureCode(json: unknown, status: number): MasterErrorCode {
   return status >= 500 ? 'Q3M99' : 'Q3M93'
 }
 
-/** The branch a phone gets when the person typed only a code [A]: the seat's own name and `P<seat no>`. Pure. */
-export function defaultPhoneBranch(seat: { no: number }, label: string): { branchName: string; poPrefix: string } {
-  const base = `Phone ${label.trim() === '' ? `seat ${seat.no}` : label.trim()}`
+/**
+ * The branch a phone gets when the person typed only a code [A]: the seat's own name (as the admin typed it) and `P<seat no>`. Pure.
+ * An old master that sends no seat name gives `Phone <company>` as before.
+ */
+export function defaultPhoneBranch(seat: { no: number; label?: string }, label: string): { branchName: string; poPrefix: string } {
+  const own = (seat.label ?? '').trim().replace(/\s+/g, ' ')
+  const base = own !== '' ? own : `Phone ${label.trim() === '' ? `seat ${seat.no}` : label.trim()}`
   return { branchName: base.slice(0, 80), poPrefix: `P${seat.no}`.slice(0, 8) }
 }
+
+/** Try number `i` (0 = the plain name) when the company already has a branch of that name: `Rahul 2`, `Rahul 3`... Pure, max 80 letters. */
+export function nameVariant(base: string, i: number): string {
+  if (i <= 0) return base
+  const suffix = ` ${i + 1}`
+  return base.slice(0, 80 - suffix.length).trimEnd() + suffix
+}
+
+/** Try number `i` when the company already uses that PO prefix: `P9`, `P9A`, `P9B`... (up to 8 characters). Pure. */
+export function prefixVariant(base: string, i: number): string {
+  if (i <= 0) return base
+  return base.slice(0, 7) + String.fromCharCode(64 + Math.min(i, 26))
+}
+
+const MAX_BRANCH_TRIES = 10
 
 export type RedeemResult =
   | { ok: true; link: BranchLink; seatNo: number; companyLabel: string; profile: ProfileView | null; branches: Extract<LinkResult, { ok: true }>['branches'] }
@@ -140,10 +159,21 @@ export async function redeemCode(deps: RedeemDeps, input: string, opts: { branch
   }
   deps.onBundle?.({ supabaseUrl: bundle.supabaseUrl, anonKey: bundle.anonKey })
   const def = defaultPhoneBranch(bundle.seat, bundle.company.label)
-  const link = await linkPhoneToOrganisation(deps.db, deps.port, deps.vault, {
-    supabaseUrl: bundle.supabaseUrl, anonKey: bundle.anonKey, licenseKey: bundle.license, email: bundle.seat.email, password: bundle.seat.password,
-    branchName: opts.branchName ?? def.branchName, poPrefix: opts.poPrefix ?? def.poPrefix, device: deps.deviceLabel?.() ?? 'Phone'
-  }, deps.nowMs)
+  // Name and prefix chosen by us (not typed, not kept from a removed seat): if the company already uses them, try the next variant instead of failing.
+  const auto = opts.branchName === undefined && opts.poPrefix === undefined
+  let nameTry = 0
+  let prefixTry = 0
+  let link: LinkResult
+  for (let attempt = 0; ; attempt++) {
+    link = await linkPhoneToOrganisation(deps.db, deps.port, deps.vault, {
+      supabaseUrl: bundle.supabaseUrl, anonKey: bundle.anonKey, licenseKey: bundle.license, email: bundle.seat.email, password: bundle.seat.password,
+      branchName: opts.branchName ?? nameVariant(def.branchName, nameTry), poPrefix: opts.poPrefix ?? prefixVariant(def.poPrefix, prefixTry), device: deps.deviceLabel?.() ?? 'Phone'
+    }, deps.nowMs)
+    if (link.ok || !auto || link.code !== 'SYNC' || attempt + 1 >= MAX_BRANCH_TRIES) break
+    if (link.failure.kind === 'name_taken') nameTry++
+    else if (link.failure.kind === 'prefix_taken') prefixTry++
+    else break
+  }
   if (!link.ok) {
     const message = link.code === 'SYNC' ? link.failure.message : link.code === 'VALIDATION' ? 'The company details from the master could not be used. Ask the admin for a new code.' : link.message
     return { ok: false, code: 'LINK', message, link }

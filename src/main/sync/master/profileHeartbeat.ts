@@ -13,6 +13,8 @@ export interface ProfileHeartbeatDeps {
   master: Pick<MasterService, 'status' | 'heartbeat'>
   schedule(fn: () => void, ms: number): () => void
   log: { info(msg: string, meta?: unknown): void; warn(msg: string, meta?: unknown): void }
+  /** Seat 1: send this PC's own company profile to the master after a good heartbeat (a no-op there when nothing changed). */
+  publishLocal?(): Promise<void>
   firstDelayMs?: number
   intervalMs?: number
 }
@@ -27,6 +29,7 @@ export function startProfileHeartbeat(deps: ProfileHeartbeatDeps): { cancel(): v
       const st = deps.master.status()
       if (!st.configured || !st.linked) return
       const out = await deps.master.heartbeat()
+      if (out.ok && st.isAdmin && deps.publishLocal) await deps.publishLocal()
       if (out.ok) { if (out.profileApplied) deps.log.info('master profile', redactSecrets({ outcome: 'updated' })) }
       else deps.log.warn('master profile', redactSecrets({ outcome: 'failed', code: out.code }))
     } catch {

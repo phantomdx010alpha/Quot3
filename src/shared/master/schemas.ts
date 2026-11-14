@@ -69,7 +69,7 @@ export const BundleSchema = z.object({
   supabaseUrl: httpUrl,
   anonKey,
   license: z.string().regex(LICENSE_KEY_RE),
-  seat: z.object({ no: seatNo, email: z.string().min(3).max(320), password: z.string().min(1).max(256) }),
+  seat: z.object({ no: seatNo, label: seatLabel.optional(), email: z.string().min(3).max(320), password: z.string().min(1).max(256) }),
   profile: ProfileViewSchema.nullable(),
   deviceToken: z.string().length(43).regex(/^[A-Za-z0-9_-]+$/)
 })

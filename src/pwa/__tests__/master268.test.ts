@@ -6,7 +6,7 @@ import { openPhoneDb } from '../data/db'
 import { getMeta } from '../data/metaRepo'
 import { getSetting } from '../data/settingsRepo'
 import { linkPhoneToOrganisation } from '../sync/branch'
-import { adoptIfPossible, createPhoneMasterClient, defaultPhoneBranch, redeemCode, PHONE_NOT_CONFIGURED_WORDS } from '../sync/master'
+import { adoptIfPossible, createPhoneMasterClient, defaultPhoneBranch, nameVariant, prefixVariant, redeemCode, PHONE_NOT_CONFIGURED_WORDS } from '../sync/master'
 import { createSessionVault, VAULT_BLOB_SETTING } from '../sync/session'
 
 ;(globalThis as { IDBKeyRange?: unknown }).IDBKeyRange = IDBKeyRange
@@ -141,6 +141,22 @@ describe('Phase 268 redeemCode', () => {
   it('defaults are plain and within the server limits', () => {
     expect(defaultPhoneBranch({ no: 12 }, '  ')).toEqual({ branchName: 'Phone seat 12', poPrefix: 'P12' })
     expect(defaultPhoneBranch({ no: 3 }, 'x'.repeat(200)).branchName.length).toBe(80)
+  })
+
+  it('defect fix: the phone is named after the seat the admin typed; a taken name or prefix gets the next variant', async () => {
+    expect(defaultPhoneBranch({ no: 9, label: ' RAHUL   BHAI ' }, 'MB')).toEqual({ branchName: 'RAHUL BHAI', poPrefix: 'P9' })
+    expect([nameVariant('RAHUL BHAI', 0), nameVariant('RAHUL BHAI', 1), nameVariant('x'.repeat(80), 2).length]).toEqual(['RAHUL BHAI', 'RAHUL BHAI 2', 80])
+    expect([prefixVariant('P9', 0), prefixVariant('P9', 1), prefixVariant('P12345678', 2)]).toEqual(['P9', 'P9A', 'P123456B'])
+    const w = world()
+    const first = await phone(w.server); const second = await phone(w.server)
+    const seat = { no: 2, label: 'RAHUL BHAI', email: 'seat2@example.test', password: SEAT_PW }
+    const other = { no: 2, label: 'RAHUL BHAI', email: 'seat1@example.test', password: 'pw-1' } // another login that happens to be named and numbered alike
+    w.replies.redeem = [ok({ ok: true, bundle: w.bundle({ seat }) }), ok({ ok: true, bundle: w.bundle({ seat: other }) })]
+    const a = await redeemCode({ ...first, master: w.master, deviceLabel: () => 'Pixel' }, CODE)
+    const b = await redeemCode({ ...second, master: w.master, deviceLabel: () => 'Samsung' }, CODE)
+    expect(a.ok && a.link.branchName).toBe('RAHUL BHAI')
+    expect(b.ok).toBe(true)
+    if (b.ok) { expect(b.link.branchName).toBe('RAHUL BHAI 2'); expect(b.link.poPrefix).toBe('P2A') }
   })
 })
 

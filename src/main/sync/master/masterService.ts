@@ -38,6 +38,8 @@ export interface MasterServiceDeps {
   applyCredentials?(c: RefreshResponse): Promise<void>
   /** A newer company profile (Phase 270). */
   applyProfile?(p: ProfileView): Promise<void>
+  /** Called once after seat 1 linked the company: lets seat 1 send its own company profile to the master. Errors are ignored. */
+  afterLink?(): Promise<void>
 }
 
 export interface MasterService {
@@ -143,6 +145,7 @@ export function createMasterService(deps: MasterServiceDeps): MasterService {
         if (e instanceof MasterError) { remember(e); throw masterAppError(e) }
         throw e
       }
+      try { await deps.afterLink?.() } catch { /* the link itself worked */ }
       return status()
     },
 

@@ -42,7 +42,7 @@ export async function storeMasterProfile(db: PhoneDb, p: ProfileView): Promise<b
 export interface ProfileRefreshDeps { db: PhoneDb; vault: Pick<SessionVault, 'load'>; master: PhoneMasterClient; nowMs?: () => number }
 
 /** Throttle: one master call per this many ms per runtime (a sync cycle may run every few seconds). */
-export const PROFILE_REFRESH_GAP_MS = 10 * 60_000
+export const PROFILE_REFRESH_GAP_MS = 2 * 60_000
 
 export function createProfileRefresher(deps: ProfileRefreshDeps): { refresh(force?: boolean): Promise<'updated' | 'same' | 'skipped' | 'failed'> } {
   const now = deps.nowMs ?? Date.now

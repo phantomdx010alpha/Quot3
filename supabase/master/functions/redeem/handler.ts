@@ -44,7 +44,7 @@ export function handleRedeem(req: Request, deps: Deps): Promise<Response> {
     })
     const bundle = BundleSchema.safeParse({
       v: 1, company: { id: company.id, label: company.label }, supabaseUrl: company.supabase_url, anonKey: company.anon_key,
-      license, seat: { no: seat.seat_no, email, password }, profile: profileView(company), deviceToken: token
+      license, seat: { no: seat.seat_no, ...(seat.label.trim() !== '' ? { label: seat.label.trim().slice(0, 40) } : {}), email, password }, profile: profileView(company), deviceToken: token
     })
     if (!bundle.success) throw new MasterError('Q3M99')
     await noteAttempt(ctx, true)

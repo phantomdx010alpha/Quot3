@@ -309,6 +309,7 @@ if (!app.requestSingleInstanceLock()) {
     appSettings.setDecorator(companyProfile.decorate)
     const masterSvc = createMasterService({
       applyProfile: (p) => companyProfile.applyProfile(p),
+      afterLink: () => companyProfile.publishLocal(),
       client: createMasterClient({ url: MASTER_URL, anon: MASTER_ANON, fetchImpl: (u, i) => fetch(u, i), log }),
       store: masterStore,
       applyCredentials: async (r) => { if (r.seat.password !== null) sharedActivation.storeSeatPassword(r.seat.password, r.seat.email) },
@@ -703,7 +704,7 @@ if (!app.requestSingleInstanceLock()) {
     const silentAdopt = startSilentAdopt({ master: masterSvc, sharedActive: () => sharedActivation.isActivated(), schedule: (fn, ms) => { const t = setTimeout(fn, ms); return () => clearTimeout(t) }, log })
     app.on('will-quit', () => silentAdopt.cancel())
     // Phase 270 (M24): download the company profile shortly after start and every 6 hours (only when linked; never blocks start).
-    const profileHeartbeat = startProfileHeartbeat({ master: masterSvc, schedule: (fn, ms) => { const t = setTimeout(fn, ms); return () => clearTimeout(t) }, log })
+    const profileHeartbeat = startProfileHeartbeat({ master: masterSvc, publishLocal: () => companyProfile.publishLocal(), schedule: (fn, ms) => { const t = setTimeout(fn, ms); return () => clearTimeout(t) }, log })
     app.on('will-quit', () => profileHeartbeat.cancel())
     registerIpc({
       info: {

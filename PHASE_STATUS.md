@@ -3155,3 +3155,14 @@ So **the template is NOT the cause**: the sheet starts at the page margin (the t
 **Section 12 of the design (things the planning session did NOT check):** still to be verified by the Phase 235 / 236 / 240 sessions against the real code (seat number exposure, how `15_rpcs.sql` identifies the caller, how the phone logs in, the M22 strip's grid hooks, the Create edit command / undo grouping). If the zip disagrees with the design, the zip wins; flag it here.
 **Known doc inconsistency (flagged, not changed):** this Phase table had no rows for Phases 218-232 (M21 / M22); they are recorded in the Phase log instead.
 **Next:** Phase 233.
+
+### Defect fix 0.1.59 - phone branch name/prefix + Company seats card list (2026-11-14, after owner test of 0.1.58)
+**Found:** a code-redeemed phone was named `Phone <company label>` (e.g. `Phone MB`) because `defaultPhoneBranch` used the COMPANY label and the bundle carried no seat name; a second phone got `name_taken`. Prefix `P<seat no>` could also collide (`prefix_taken`).
+**Changed:** bundle `seat.label` (optional, old masters still work; `schemas.ts`); `redeem` handler sends it (**redeploy `redeem` to the master**); `master.ts`: phone branch is named after the seat, `nameVariant` / `prefixVariant` retry up to 10 times on name_taken / prefix_taken when the name was chosen automatically; `CompanySeatsPanel.tsx` table replaced by one card per seat + styles in `grid.css`; stale test `connectCode269` (master now configured) updated; tests added in `master268.test.ts`.
+**Ran:** typecheck (all 5 projects) clean; vitest `master268`, `connectCode269`, `schemas` only: all pass.
+**Not changed (open [A]):** a seat login is bound to ONE installation (`seat_in_use`); a second device or a reinstall with the same code needs "take over" - to decide in Phase 274.
+
+### Defect fix 0.1.60 - company profile never reached the phones (2026-11-14)
+**Found:** seat 1's own company name / phone / address / logo were set before linking and never sent to the master (publish only ran on a later Save, and a Save never re-sent the logo), so the master default was empty and phones (and their shared images) had nothing to show.
+**Changed:** `companyProfileService.publish` always sends the PC's logo too; new `publishLocal()` (seat 1 only, no-op when unchanged) runs right after "Link to master" (`afterLink` in `masterService`) and after every good profile heartbeat (`profileHeartbeat`, 15 s after start, then every 6 h); phone refresh gap 10 -> 2 min. Wired in `main/index.ts`. Includes the 0.1.59 fixes. Typecheck clean; no vitest run (owner asked for none).
+**Needs:** the owner opens the 0.1.60 app on seat 1 (it publishes by itself after ~15 s), then reopens the phone.

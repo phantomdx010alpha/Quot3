@@ -50,6 +50,8 @@ export interface CompanyProfileService {
   applyProfile(p: ProfileView): Promise<void>
   /** The profile this PC uses now (name / phone / address / logo FILE NAME + where each came from). */
   effective(): EffectiveProfile
+  /** Seat 1 only: sends this PC's own company name / phone / address / logo to the master (a no-op on the master when nothing differs). Never throws. */
+  publishLocal(): Promise<void>
 }
 
 type Mode = 'plain' | 'admin' | 'seat'
@@ -97,8 +99,15 @@ export function createCompanyProfileService(deps: CompanyProfileDeps): CompanyPr
     const m = deps.master()
     if (!m) return
     const c = local()
+    let logo: string | null | undefined = body.logo
+    if (logo === undefined) {
+      // Every save also sends the logo this PC has, so the master never keeps an old / empty one (the master ignores it when nothing changed).
+      const bytes = localLogoBytes()
+      const fit = bytes ? fitLogoForMaster(bytes, deps.encodePng) : null
+      if (fit) logo = Buffer.from(fit).toString('base64')
+    }
     try {
-      await m.profileSet({ name: c.name, phone: c.phone, address: c.address, ...(body.logo !== undefined ? { logo: body.logo } : {}) })
+      await m.profileSet({ name: c.name, phone: c.phone, address: c.address, ...(logo !== undefined ? { logo } : {}) })
       notice = ''
     } catch (e) {
       notice = `Saved on this PC, not shared with the other devices yet: ${e instanceof Error && e.message !== '' ? e.message : 'the master could not be reached.'}`
@@ -116,6 +125,14 @@ export function createCompanyProfileService(deps: CompanyProfileDeps): CompanyPr
     get,
     decorate,
     effective,
+
+    async publishLocal() {
+      try {
+        if (deps.writable === false || mode() !== 'admin') return
+        if (local().name.trim() === '') return // nothing to share yet
+        await publish({})
+      } catch { /* never breaks linking or start-up */ }
+    },
 
     async saveCompany(input) {
       const md = mode()
