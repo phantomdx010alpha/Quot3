@@ -1,0 +1,26 @@
+{
+  "name": "Meenakshi Buttons QR Pay",
+  "short_name": "MB QR Pay",
+  "description": "UPI QR Code Generator for Meenakshi Buttons",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#060b17",
+  "theme_color": "#060b17",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "utilities"],
+  "lang": "en-IN"
+}

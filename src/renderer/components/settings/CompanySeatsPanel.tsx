@@ -3,7 +3,9 @@ import { canShowCode, capMessage, capReached, confirmReady, confirmWords, lastSe
 import { SEATS_MAX } from '@shared/master/schemas'
 import { Button, Input } from '../ui'
 import { useMasterSeatsStore } from '../../stores/masterSeatsStore'
+import { useSeatRightsStore } from '../../stores/seatRightsStore'
 import { PriceRightsSettings } from './PriceRightsSettings'
+import { PhoneRightsSettings } from './PhoneRightsSettings'
 
 /**
  * Phase 265 - the seat list for seat 1 (API_CONTRACTS.md M24-K): table, "Add seat", the new code shown once with a Copy button, and
@@ -12,7 +14,8 @@ import { PriceRightsSettings } from './PriceRightsSettings'
 export function CompanySeatsPanel(): React.JSX.Element {
   const st = useMasterSeatsStore()
   const [note, setNote] = useState('')
-  useEffect(() => { void useMasterSeatsStore.getState().load(); return () => useMasterSeatsStore.getState().clear() }, [])
+  const phoneFor = useSeatRightsStore((s) => s.openFor)
+  useEffect(() => { void useMasterSeatsStore.getState().load(); return () => { useMasterSeatsStore.getState().clear(); useSeatRightsStore.getState().reset() } }, [])
   const max = st.company?.maxSeats ?? SEATS_MAX
   const full = st.status === 'ready' && capReached(st.seats.length, max)
   const copy = async (code: string): Promise<void> => {
@@ -63,6 +66,7 @@ export function CompanySeatsPanel(): React.JSX.Element {
                 <div className="q3-seat__actions">
                   {a.rename && <Button variant="ghost" disabled={st.busy} onClick={() => st.ask('rename', s.no)}>Rename</Button>}
                   {a.rights && <Button variant="ghost" onClick={() => st.openRights(st.rightsFor === s.no ? null : s.no)}>{st.rightsFor === s.no ? 'Close rights' : 'Price List rights'}</Button>}
+                  {a.rights && <Button variant="ghost" aria-expanded={phoneFor === s.no} onClick={() => useSeatRightsStore.getState().open(phoneFor === s.no ? null : s.no)}>{phoneFor === s.no ? 'Close phone rights' : 'Phone rights'}</Button>}
                   {a.regen && <Button variant="ghost" disabled={st.busy} onClick={() => st.ask('regen', s.no)}>New code</Button>}
                   {a.reset && <Button variant="ghost" disabled={st.busy} onClick={() => st.ask('reset', s.no)}>{resetButtonWords(s)}</Button>}
                   {a.delete && <Button variant="ghost" disabled={st.busy} onClick={() => st.ask('delete', s.no)}>Delete</Button>}
@@ -89,7 +93,12 @@ export function CompanySeatsPanel(): React.JSX.Element {
           </form>
         )
       })()}
-      {st.rightsFor !== null && <PriceRightsSettings onlySeat={st.rightsFor} />}
+      {(st.rightsFor !== null || phoneFor !== null) && (
+        <div className="q3-rights2" data-testid="rights-side-by-side">
+          {st.rightsFor !== null && <PriceRightsSettings onlySeat={st.rightsFor} />}
+          {phoneFor !== null && phoneFor !== 1 && <PhoneRightsSettings seatNo={phoneFor} />}
+        </div>
+      )}
       <form className="q3-seatadd" aria-label="Add seat" onSubmit={(e) => { e.preventDefault(); void st.add() }}>
         <Input label="New seat name" value={st.addLabel} autoComplete="off" disabled={st.busy || full} onChange={(e) => st.setAddLabel(e.target.value)} />
         <Button type="submit" variant="primary" disabled={st.busy || full || st.status !== 'ready'}>{st.busy ? 'Adding...' : 'Add seat'}</Button>

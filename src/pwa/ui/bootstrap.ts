@@ -9,6 +9,7 @@ import type { AppServices } from './services'
 import { DEFAULT_THEME, isThemeName, type ThemeName } from './themes'
 import { resolveLayout } from './layouts/layoutRegistry'
 import { schedulePartyPrebuild } from './kit/partyPrebuild'
+import { noteHadRecords } from './protectionRead'
 
 /** Opens the phone database for the real app: single-writer lock, database, first-run meta, persistence request, saved theme.
  *  Never throws: a failure becomes `services.error` and the Dashboard shows it. Only the browser calls this (tests build `AppServices` by hand). */
@@ -35,13 +36,25 @@ async function startServices(): Promise<AppServices> {
     const version = typeof __QUOT3_APP_VERSION__ === 'string' ? __QUOT3_APP_VERSION__ : 'unknown'
     const runtime = createPhoneSyncRuntime({ db, appVer: version })
     void runtime.init()
+    // Phase 292: ask the browser to keep the data again after the first save on this page (it may say yes once the phone has real data in it).
+    let askedAfterSave = false
+    void noteHadRecords(db) // Phase 292: the second "had data" marker (IndexedDB meta), set once there is something to lose
+    const afterSave = (): void => {
+      runtime.notifySaved()
+      void noteHadRecords(db)
+      if (askedAfterSave || typeof navigator === 'undefined') return
+      askedAfterSave = true
+      void requestPersistence(navigator)
+    }
     return {
       db, theme, layout, startLocked,
       engine: runtime.engine, syncEngine: runtime.engine,
-      sync: { link: (i) => runtime.link(i), signOut: () => runtime.signOut(), checkPriceRights: () => runtime.refreshPriceRights() },
+      sync: { link: (i) => runtime.link(i), signOut: () => runtime.signOut(), checkPriceRights: () => runtime.refreshPriceRights(), selfCheck: { run: () => runtime.selfCheck.run(), last: () => runtime.selfCheck.last() } }, // Phase 294
       connectCode: { ready: () => runtime.masterReady(), redeem: (c, o) => runtime.redeem(c, o) },
-      onDataChanged: () => runtime.notifySaved(),
-      refreshPriceRights: () => runtime.refreshPriceRights()
+      restore: { run: (onProgress) => runtime.restore(onProgress) }, // Phase 293
+      onDataChanged: afterSave,
+      refreshPriceRights: () => runtime.refreshPriceRights(),
+      payments: runtime.payments
     }
   } catch (e) {
     const msg = e instanceof PhoneDbError ? e.message : `Could not start: ${e instanceof Error ? e.message : String(e)}`

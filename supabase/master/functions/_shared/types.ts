@@ -17,6 +17,9 @@ export interface CompanyRow {
   max_seats: number
   profile: { name?: string; phone?: string; address?: string; logo?: string | null }
   profile_version: number
+  /** Phase 280 (M05): a `PaymentsBody` or `{}`. ABSENT when `M05_payments.sql` has not been run (-> Q3M27). */
+  payments?: Record<string, unknown>
+  payments_version?: number
 }
 
 export interface SeatRow {
@@ -78,7 +81,7 @@ export interface MasterDb {
   /** Insert a seat row, or replace the row of the same (company, seat_no). */
   upsertSeat(row: SeatRow): Promise<void>
   deleteDevicesOfSeat(companyId: string, seatNo: number): Promise<void>
-  updateCompany(id: string, patch: Partial<Pick<CompanyRow, 'profile' | 'profile_version'>>): Promise<void>
+  updateCompany(id: string, patch: Partial<Pick<CompanyRow, 'profile' | 'profile_version' | 'payments' | 'payments_version'>>): Promise<void>
   /** Idempotency (D8): write the `master_log` row of (company, action, reqId); false = that row already exists. */
   claimRequest(companyId: string, action: string, reqId: string, seatNo: number): Promise<boolean>
   /** Undo a claim after a failure that changed nothing, so the same `reqId` may be retried. */
@@ -98,7 +101,8 @@ export interface EnrolTokenRow {
 
 /** A company-project call that failed: `unreachable` (network / timeout / 5xx) -> Q3M11, `refused` (4xx) -> Q3M12. */
 export class CompanyCallError extends Error {
-  constructor(public readonly kind: 'unreachable' | 'refused') {
+  /** `status` = the HTTP status of a refusal when known (Phase 280: 404 = the table does not exist). */
+  constructor(public readonly kind: 'unreachable' | 'refused', public readonly status?: number) {
     super(`company call ${kind}`)
     this.name = 'CompanyCallError'
   }

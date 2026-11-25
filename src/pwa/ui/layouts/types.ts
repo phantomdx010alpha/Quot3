@@ -5,6 +5,8 @@ import type { RouteName, TabRoute } from '../../router'
 import type { EditorApi } from '../editor/BillEditor'
 import type { DashboardView } from '../dashboardModel'
 import type { StatusActionId, StatusFlags } from '../kit/statusModel'
+import type { PaymentsSync } from '../../sync/payments'
+import type { ProfileEngine } from '../loadProfile'
 import type { LayoutId } from './layoutRegistry'
 
 /** What a layout Shell receives from App.tsx. App keeps ALL state (router, unsaved guard, banners, theme, lock); a layout only draws it. */
@@ -34,6 +36,10 @@ export interface ScreenProps {
   onChanged?: () => void
   /** Phase 246: refresh this seat's Price List rights from the server (never throws). */
   refreshPriceRights?: () => Promise<void>
+  /** Phase 283: the Payments list sync (refresh / publish), for the Payments screen. */
+  payments?: PaymentsSync
+  /** Phase 295: what the Profile screen reads (app version and the sync engine's status). */
+  profile?: { version: string; engine?: ProfileEngine | null }
   /** Back through the unsaved-bill guard (Phase 192). */
   onBack?: () => void
   /** What App.tsx loaded for Home (Phase 192); a layout's Home draws it. */

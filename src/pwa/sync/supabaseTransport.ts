@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { classifySharedFailure, type SharedErrorKind } from '../../shared/sync/license'
 import type { RecordKind } from '../../shared/sync/codecV2'
 import { PhoneSyncError } from './errors'
+import { normalizeSeatFlags } from '../../shared/seatRights'
 import {
   PHONE_MANIFEST_PAGE, PHONE_PULL_PAGE,
   type PhoneActivateArgs, type PhoneActivateResult, type PhoneBranchInfo, type PhoneBranchScope, type PhoneManifestRow, type PhonePullResult,
@@ -71,6 +72,7 @@ const kindWire = z.enum(['bill', 'party', 'party_merge', 'item_rule', 'price_tie
 const manifestWire = z.array(z.object({ rec_id: uuid, version: z.number().int(), payload_hash: z.string(), server_seq: z.number().int(), deleted: z.boolean() }))
 const pushWire = z.array(z.object({ kind: kindWire, rec_id: uuid, outcome: z.enum(['accepted', 'noop', 'won', 'lost', 'refused']), version: z.number().int(), server_seq: z.number().int(), code: z.string().max(20).nullish(), missing: z.array(z.string().max(20)).max(10).nullish() }))
 const permsWire = z.object({ seat_no: z.number().int(), flags: z.record(z.string(), z.boolean()) })
+const seatRightsWire = z.object({ seat_no: z.number().int(), flags: z.record(z.string(), z.unknown()), configured: z.boolean() })
 const pulledWire = z.object({
   items: z.array(z.object({
     kind: kindWire, rec_id: uuid, version: z.number().int(), server_seq: z.number().int(), deleted: z.boolean(), payload: z.record(z.string(), z.unknown()),
@@ -233,6 +235,12 @@ export class PhoneSupabaseTransport implements PhoneSharedPort {
   async pricePermsGet(a: { license: string }): Promise<{ seatNo: number; flags: Record<string, boolean> }> {
     const d = this.parse(permsWire, await this.rpc('qt_price_perms_get', { p_license: a.license }))
     return { seatNo: d.seat_no, flags: d.flags }
+  }
+
+  /** Phase 286 (M25): this seat's phone rights. A project without SQL 23 fails with kind `not_installed`. */
+  async seatRightsGet(a: { license: string }): Promise<{ seatNo: number; flags: Record<string, boolean>; configured: boolean }> {
+    const d = this.parse(seatRightsWire, await this.rpc('qt_seat_rights_get', { p_license: a.license }))
+    return { seatNo: d.seat_no, flags: normalizeSeatFlags(d.flags), configured: d.configured }
   }
 
   async pull(a: PhoneBranchScope & { afterSeq: number; limit?: number }): Promise<PhonePullResult> {

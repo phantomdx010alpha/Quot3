@@ -1,3 +1,4 @@
+import { salesText } from '../../shared/seatRights'
 import { formatHistoryDate, formatHistoryTotal, HISTORY_PAGE_SIZE, type BillListItem } from '../../shared/history/historyList'
 import { rankBills, type SearchCandidate } from '../../shared/history/historySearch'
 import { addDays } from '../../shared/dashboard/dashboardStats'
@@ -81,4 +82,7 @@ export function buildHistory(candidates: readonly SearchCandidate[], o: { query:
   return { items, searching, hiddenCount: all.length - items.length, groups: searching ? [] : groupByDate(items, o.today) }
 }
 
-export const listTotal = (grandTotal: string): string => formatHistoryTotal(grandTotal)
+/** `showSales` false (Phase 290, no `seeSales`) = the "Not shown" line instead of the amount. */
+export const listTotal = (grandTotal: string, showSales = true): string => salesText(formatHistoryTotal(grandTotal), showSales)
+/** A date group's header total, with the same rule. */
+export const groupTotal = (total: string, showSales = true): string => salesText(total, showSales)

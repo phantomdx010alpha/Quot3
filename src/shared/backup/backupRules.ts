@@ -5,8 +5,12 @@
 export const BACKUP_KINDS = ['auto', 'manual', 'pre-restore', 'pre-migration', 'imported', 'pre-import', 'pre-wipe', 'pre-rollback'] as const
 export type BackupKind = (typeof BACKUP_KINDS)[number]
 
-/** Automatic daily backups kept (older ones are pruned). Other kinds are never pruned automatically. */
-export const BACKUP_KEEP_AUTO = 14
+/** Phase 275: automatic daily backups kept (the newest 3; older ones are pruned). */
+export const BACKUP_KEEP_AUTO = 3
+/** Phase 275: safety copies kept PER `pre-*` kind (the newest 3 of each). */
+export const BACKUP_KEEP_PRE = 3
+/** The safety-copy kinds that are pruned. `manual` and `imported` are never pruned by code. */
+export const PRUNABLE_PRE_KINDS = ['pre-migration', 'pre-restore', 'pre-import', 'pre-wipe', 'pre-rollback'] as const satisfies readonly BackupKind[]
 export const RESTORE_WORD = 'RESTORE'
 export const RESET_WORD = 'RESET'
 /** Backup files larger than this are refused on import (a Quot3 database is a few MB). */
@@ -37,14 +41,21 @@ export function isSafeBackupFile(file: string): boolean {
 
 export interface PruneCandidate { file: string; kind: BackupKind; createdAt: string }
 
-/** Files to delete so only the newest `keep` automatic backups remain. Manual / pre-restore / imported are never listed. */
-export function filesToPrune(all: readonly PruneCandidate[], keep: number = BACKUP_KEEP_AUTO): string[] {
-  const k = Number.isFinite(keep) ? Math.max(1, Math.floor(keep)) : BACKUP_KEEP_AUTO
-  return all
-    .filter((f) => f.kind === 'auto')
-    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : a.file < b.file ? 1 : -1))
-    .slice(k)
-    .map((f) => f.file)
+/**
+ * Files to delete: everything after the newest `keep` automatic backups, and, for each `pre-*` kind, everything after the
+ * newest `keepPre` of that kind. `manual` and `imported` are never listed, a kind is never emptied (the minimum kept is 1),
+ * and a file named in `protect` (the one just created) is never listed.
+ */
+export function filesToPrune(all: readonly PruneCandidate[], keep: number = BACKUP_KEEP_AUTO, keepPre: number = BACKUP_KEEP_PRE, protect: readonly string[] = []): string[] {
+  const num = (n: number, d: number): number => (Number.isFinite(n) ? Math.max(1, Math.floor(n)) : d)
+  const kAuto = num(keep, BACKUP_KEEP_AUTO)
+  const kPre = num(keepPre, BACKUP_KEEP_PRE)
+  const newestFirst = (list: readonly PruneCandidate[]): PruneCandidate[] =>
+    [...list].sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : a.file < b.file ? 1 : -1))
+  const out: string[] = []
+  out.push(...newestFirst(all.filter((f) => f.kind === 'auto')).slice(kAuto).map((f) => f.file))
+  for (const kind of PRUNABLE_PRE_KINDS) out.push(...newestFirst(all.filter((f) => f.kind === kind)).slice(kPre).map((f) => f.file))
+  return out.filter((f) => !protect.includes(f))
 }
 
 /** Local calendar date `YYYY-MM-DD` of an ISO instant. */

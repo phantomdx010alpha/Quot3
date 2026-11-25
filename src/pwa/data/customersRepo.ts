@@ -9,6 +9,7 @@ import { listBillHeads, type BillHead } from './billsRepo'
 import { reqToPromise, txDone, type PhoneDb } from './db'
 import { getMetaValue } from './metaRepo'
 import { resolvePartyInTx, type PartiesOptions, type PartyRecord } from './partiesRepo'
+import { assertSeatRight } from './seatRights'
 
 export type CustomerErrorCode = 'VALIDATION' | 'DUPLICATE' | 'NOT_FOUND'
 export class CustomerError extends Error {
@@ -47,6 +48,7 @@ function tooLong(i: Partial<CustomerInput>): string | null {
 
 /** Adds one customer. Throws `CustomerError`. Returns the stored record. */
 export async function addCustomer(db: PhoneDb, input: CustomerInput, opts: CustomerWriteOptions = {}): Promise<PartyRecord> {
+  assertSeatRight('editCustomers', 'add customers')
   db.assertWritable()
   const norm = normalizePartyName(input.name)
   if (norm === '') throw new CustomerError('VALIDATION', 'Enter the customer’s name.')
@@ -86,6 +88,7 @@ async function getOne(db: PhoneDb, id: string): Promise<PartyRecord | undefined>
 
 /** Changes phone / address / transport of a live customer (blank clears). Nothing is written, queued or re-dated when nothing changed. */
 export async function editCustomer(db: PhoneDb, id: string, edit: CustomerEdit, opts: CustomerWriteOptions = {}): Promise<PartyRecord> {
+  assertSeatRight('editCustomers', 'edit customers')
   db.assertWritable()
   const long = tooLong(edit)
   if (long) throw new CustomerError('VALIDATION', long)

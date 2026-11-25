@@ -10,6 +10,7 @@ import { EMPTY_CELL, SEARCH_HINT, emptyState, priceNotices, type PriceListData, 
 import { usePriceList } from './usePriceList'
 import { AddItemControls, PriceEditProvider, RowEditControls, StructurePanel } from './PriceEditParts'
 import './pricelist.css'
+import { useSeatRights } from '../useSeatRights'
 
 export function PriceSearch(props: { value: string; onChange: (v: string) => void }): ReactElement {
   return (
@@ -130,6 +131,7 @@ export function PriceListGate(props: { db: PhoneDb | null; sync: SyncLine | null
 
 /** The Dashboard entry of the new layouts (the bottom nav keeps exactly five tabs). Hidden only when the Price List is switched off on this phone. */
 export function PriceListEntry(props: { db: PhoneDb | null; onOpen: () => void }): ReactElement | null {
+  const rights = useSeatRights()
   const [enabled, setEnabled] = useState(true)
   useEffect(() => {
     if (!props.db) return undefined
@@ -137,7 +139,7 @@ export function PriceListEntry(props: { db: PhoneDb | null; onOpen: () => void }
     getSetting(props.db, 'pricelist.enabled').then((v) => { if (!off) setEnabled(v !== false) }, () => undefined)
     return () => { off = true }
   }, [props.db])
-  if (!enabled) return null
+  if (!enabled || !rights.can('seePriceList')) return null
   return (
     <button type="button" className="q3x-pl-entry" onClick={props.onOpen}>
       <ListBullets size={24} weight="light" aria-hidden="true" />

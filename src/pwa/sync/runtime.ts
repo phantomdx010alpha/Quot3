@@ -3,16 +3,23 @@ import { getBranchLink, linkPhoneToOrganisation, validateLinkInput, type LinkInp
 import { createPhoneConnect } from './connect'
 import { MASTER_ANON, MASTER_URL } from '../../shared/master/config'
 import { createProfileRefresher, storeMasterProfile } from './companyProfile'
+import { createPaymentsSync, type PaymentsSync } from './payments'
+import { dropPayments } from '../data/paymentsRepo'
 import { createPhoneMasterClient, redeemCode, type PhoneMasterClient, type RedeemResult } from './master'
 import { clearSeatRemoved, createPhoneRecredential } from './recredential'
+import { runRestore, type RestoreExtra, type RestoreOutcome, type RestoreProgress } from './restore'
+import { createSelfChecker, type SelfChecker } from './selfCheck'
 import { createPhoneSyncEngine, type PhoneSyncEngine, type PhoneSyncEngineDeps } from './engine'
-import { PhoneSyncError } from './errors'
+import { PhoneSyncError, toSyncFailure } from './errors'
 import { createSessionVault, persistSessionChanges, signOutPhone, type SessionVault } from './session'
 import { PhoneSupabaseTransport, type PhoneSupabaseFactory } from './supabaseTransport'
 import type { PhoneBranchInfo, PhoneBranchScope, PhoneManifestRow, PhonePullResult, PhonePushItem, PhonePushResult, PhoneSession, PhoneSharedPort } from './transport'
 import type { RecordKind } from '../../shared/sync/codecV2'
 import { readCachedPerms, readRightsAsk, writeCachedPerms, writeRightsAsk } from '../data/priceRights'
-import { autoRefreshDue } from '../../shared/pricelist/perms'
+import {
+  publishSeatRights, readCachedSeatRights, readRightsStatus, resolveSeatRights, seatRightsAskDue, writeCachedSeatRights, writeRightsStatus, type SeatRightsSnapshot
+} from '../data/seatRights'
+import { AUTO_REFRESH_MS, REFUSED_REFRESH_MS, autoRefreshDue } from '../../shared/pricelist/perms'
 
 /**
  * Wires the phone's sync together for the running app: ONE port that talks to the real Supabase once the phone knows the URL and key,
@@ -58,6 +65,11 @@ export function createLazyPort(factory?: PhoneSupabaseFactory, makeTransport?: (
       if (typeof p.pricePermsGet !== 'function') throw new PhoneSyncError('server', 'This connection cannot read Price List rights.')
       return p.pricePermsGet(a)
     },
+    seatRightsGet: async (a) => {
+      const p = need()
+      if (typeof p.seatRightsGet !== 'function') throw new PhoneSyncError('not_installed', 'This connection cannot read phone rights.')
+      return p.seatRightsGet(a)
+    },
     pull: async (a: PhoneBranchScope & { afterSeq: number; limit?: number }): Promise<PhonePullResult> => need().pull(a),
     subscribeDoorbell(a, onRing, onLive) {
       if (!inner) { onLive?.(false); return () => undefined }
@@ -84,6 +96,16 @@ export interface PhoneSyncRuntime {
   refreshPriceRights(): Promise<void>
   /** Phase 255: the automatic refresh (start / each sync cycle / after a refused push). Throttled (60 s; 10 s after a refusal), skipped for seat 1 and an unlinked phone. Never throws. */
   autoRefreshPriceRights(afterRefused: boolean): Promise<void>
+  /** Phase 281: the Payments list sync (refresh / publish). Never throws. */
+  readonly payments: PaymentsSync
+  /** Phase 288 (M25-7): re-reads the cached rights and asks the server (throttled unless `force`; `afterRefused` = the short 10 s gap). Publishes the result to `useSeatRights()`. Never throws. */
+  refreshSeatRights(opts?: { force?: boolean; afterRefused?: boolean }): Promise<void>
+  /** Phase 288: the rights this phone has right now (instant). `source` says where they come from. */
+  getSeatRights(): SeatRightsSnapshot
+  /** Phase 293: restore everything from the server (first sync with scope `all`, pull, company profile, payments, rights). Never throws; "Try again" is a second call. */
+  restore(onProgress?: (p: RestoreProgress) => void): Promise<RestoreOutcome>
+  /** Phase 294 (M25-15): the daily self-check against the server ("Check now" = `selfCheck.run()`). Never throws; one at a time. */
+  readonly selfCheck: SelfChecker
 }
 
 export interface PhoneSyncRuntimeOptions {
@@ -107,6 +129,10 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
     fetchImpl: (url, init) => fetch(url, init).then((r) => ({ status: r.status, text: () => r.text() }))
   })
   const profileRefresher = createProfileRefresher({ db, vault, master }) // Phase 272: company default for the phone's share output (throttled, never throws)
+  const paymentsSync = createPaymentsSync({ db, vault, master }) // Phase 281: the Payments list (throttled 5 min, never throws)
+  /** Phase 294: how often the automatic check looks at the clock while the app is open (the check itself runs at most once a day). */
+  const SELF_CHECK_POLL_MS = 30 * 60 * 1000
+  let selfChecker: SelfChecker | null = null
   const recredential = createPhoneRecredential({ db, vault, port, master })
   const connection = createPhoneConnect(db, vault, port, recredential)
   // Phase 255: ask the server for this seat's Price List rights. The answer is cached; a failure keeps the last flags AND is recorded (plain words) so the sync status can show it.
@@ -132,10 +158,41 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
       await refreshRights()
     } catch { /* best effort */ }
   }
+  // Phase 288 (M25): this phone's own rights. Cached answer + last ask -> one snapshot, published to the screens. A failure keeps the last answer.
+  let rightsNow: SeatRightsSnapshot = resolveSeatRights({ linked: false, cached: null, status: { serverKnows: 'unknown', at: '', error: '' } })
+  async function recomputeSeatRights(): Promise<void> {
+    const linked = (await getBranchLink(db)).linked
+    const cached = await readCachedSeatRights(db)
+    const hint = cached === null ? (await readCachedPerms(db))?.seatNo ?? null : null
+    rightsNow = resolveSeatRights({ linked, cached, status: await readRightsStatus(db), seatHint: hint })
+    publishSeatRights(rightsNow)
+    // Phase 290 (M25-5): without `seePayments` the phone does not keep the Payments list.
+    if (!rightsNow.flags.seePayments && db.canWrite()) await dropPayments(db).catch(() => undefined)
+  }
+  async function refreshSeatRights(opts: { force?: boolean; afterRefused?: boolean } = {}): Promise<void> {
+    try {
+      await recomputeSeatRights()
+      if (rightsNow.source === 'not_linked' || rightsNow.source === 'seat1') return
+      const status = await readRightsStatus(db)
+      if (!seatRightsAskDue(status, Date.now(), { ...opts, autoMs: AUTO_REFRESH_MS, refusedMs: REFUSED_REFRESH_MS })) return
+      try {
+        const c = await connection.connect()
+        if (typeof c.port.seatRightsGet !== 'function') throw new PhoneSyncError('not_installed')
+        const r = await c.port.seatRightsGet({ license: c.creds.license })
+        await writeCachedSeatRights(db, r, nowIso())
+        await writeRightsStatus(db, { serverKnows: 'yes', at: nowIso(), error: '' })
+      } catch (e) {
+        const f = toSyncFailure(e)
+        if (f.kind === 'not_installed') await writeRightsStatus(db, { serverKnows: 'no', at: nowIso(), error: '' })
+        else await writeRightsStatus(db, { serverKnows: status.serverKnows, at: nowIso(), error: f.message !== '' ? f.message : 'The main branch could not be reached.' })
+      }
+      await recomputeSeatRights()
+    } catch { /* best effort: the last known rights stay */ }
+  }
   const engine = createPhoneSyncEngine({
     db, connect: connection.connect, appVer: o.appVer,
-    onPushRun: (r) => { void autoRefreshRights((r.refused ?? 0) > 0); void profileRefresher.refresh() },
-    onRing: () => { void autoRefreshRights(true) }, // Phase 256: a ring may be a rights change (10 s throttle)
+    onPushRun: (r) => { void autoRefreshRights((r.refused ?? 0) > 0); void refreshSeatRights({ afterRefused: (r.refused ?? 0) > 0 }); void profileRefresher.refresh(); void paymentsSync.refresh() },
+    onRing: () => { void autoRefreshRights(true); void refreshSeatRights({ afterRefused: true }) }, // Phase 256: a ring may be a rights change (10 s throttle)
     storage: async () => {
       try {
         const e = await navigator.storage.estimate()
@@ -144,6 +201,19 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
     },
     ...o.engine
   })
+  // Phase 294: the self-check. The automatic run happens at start and then when the half-hourly look finds it due (`selfCheckDue`); never during a restore (the engine is not "running" until the first sync is applied).
+  selfChecker = createSelfChecker({ db, engine, connect: connection.connect })
+  const checker = selfChecker
+  const selfTimer = o.engine?.setTimer ?? ((fn: () => void, ms: number): unknown => setTimeout(fn, ms))
+  async function autoSelfCheck(): Promise<void> {
+    try {
+      const s = await engine.status()
+      const idle = s.outbox.pending === 0 && !s.pull.running
+      const online = typeof navigator === 'undefined' || navigator.onLine !== false
+      await checker.maybeRun({ online, idle })
+    } catch { /* best effort */ }
+    try { selfTimer(() => { void autoSelfCheck() }, SELF_CHECK_POLL_MS) } catch { /* no timer: the next start checks */ }
+  }
   // Refresh tokens are single-use: every refreshed pair must reach the vault (also while linking and while the engine runs).
   persistSessionChanges(port, vault)
 
@@ -156,6 +226,9 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
         await engine.start()
       } catch { /* a start problem never stops the app: Settings shows the state and the person can sign in again */ }
       void profileRefresher.refresh(true) // Phase 272: on start
+      void paymentsSync.refresh(true) // Phase 281: on start
+      void refreshSeatRights() // Phase 288: on start
+      void autoSelfCheck() // Phase 294: on start (then every half hour it looks whether a day has passed)
     },
     async link(input) {
       const checked = validateLinkInput(input)
@@ -189,6 +262,22 @@ export function createPhoneSyncRuntime(o: PhoneSyncRuntimeOptions): PhoneSyncRun
     },
     notifySaved() { engine.notifySaved() },
     refreshPriceRights: refreshRights,
-    autoRefreshPriceRights: autoRefreshRights
+    autoRefreshPriceRights: autoRefreshRights,
+    payments: paymentsSync,
+    refreshSeatRights,
+    getSeatRights: () => rightsNow,
+    selfCheck: checker,
+    restore(onProgress) {
+      return runRestore({
+        db, engine, onProgress,
+        fetchExtras: async (): Promise<Record<RestoreExtra, boolean>> => {
+          const [company, payments] = await Promise.all([profileRefresher.refresh(true).catch(() => 'failed' as const), paymentsSync.refresh(true).catch(() => 'failed' as const)])
+          await refreshSeatRights({ force: true })
+          // 'skipped' = nothing to fetch with (master not switched on / no device token) and 'refused' = this seat may not see it: neither is a failure.
+          const rights = rightsNow.source !== 'unknown_staff' && rightsNow.source !== 'cached_offline'
+          return { company: company !== 'failed', payments: payments !== 'failed', rights }
+        }
+      })
+    }
   }
 }

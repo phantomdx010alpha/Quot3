@@ -46,7 +46,9 @@ export function layoutHasRoute(layout: LayoutId, route: RouteName): boolean {
   const def = LAYOUTS[layout]
   if (!def) return false
   // Phase 245: the Price List screens exist only in the new layouts (Classic is frozen), so a switch to Classic from there goes Home.
-  if (def.id === 'classic') return route !== 'pricelist'
+  // Phase 283: the Payments page is the same (Classic reaches nothing new; its Settings list is pinned).
+  // Phase 295: so is the Profile page [A].
+  if (def.id === 'classic') return route !== 'pricelist' && route !== 'payments' && route !== 'profile'
   return route === 'home' || route === 'create' || def.screens[route] !== undefined || def.reusesClassic?.includes(route) === true
 }
 

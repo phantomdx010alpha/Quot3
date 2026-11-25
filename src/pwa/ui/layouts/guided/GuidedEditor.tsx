@@ -25,6 +25,9 @@ import { EMPTY_QUICK, isBlankRow, quickAddIssue, type QuickFields } from './guid
 import { hasCompanyName, loadShareDefaults, shareBillNow } from './guidedShare'
 import { GUIDED_STEPS, setGuidedBackHandler, stepBack, takeContinueDraft, type GuidedStepId } from './guidedStep'
 import type { EditorProps } from '../types'
+import { ACTION_OFF_WORDS, HIDDEN_BY_ADMIN } from '../../../../shared/seatRights'
+import { redactSuggestions } from '../../customersModel'
+import { useSeatRights } from '../../useSeatRights'
 
 const STEP_NAMES: Record<GuidedStepId, string> = { party: 'Party', items: 'Items', review: 'Review' }
 
@@ -182,7 +185,8 @@ export function GuidedEditor(props: EditorProps): ReactElement {
   const view = useMemo(() => (state ? buildEditorView(state) : null), [state])
   const totals = useMemo(() => (state ? tidyTotals(state.bill) : null), [state])
   const formats = useMemo(() => editableFormats(), [])
-  const suggestions = useMemo(() => (state && dir && suggestOpen ? dir.search(state.bill.party.name) : []), [state, dir, suggestOpen])
+  const rights = useSeatRights()
+  const suggestions = useMemo(() => (state && dir && suggestOpen ? redactSuggestions(dir.search(state.bill.party.name), state.bill.party.name, rights.flags) : []), [state, dir, suggestOpen, rights.flags])
 
   if (blocked) return <p className="q3-note q3-note-warn" role="alert">{blocked}</p>
   if (!db) return <p className="q3-muted">The phone database is not available.</p>
@@ -272,7 +276,7 @@ export function GuidedEditor(props: EditorProps): ReactElement {
               <ul className="q3x-tidy-suggest" role="listbox" aria-label="Customers">
                 {suggestions.map((p) => (
                   <li key={p.id} role="option" aria-selected="false">
-                    <button type="button" className="q3x-tidy-row" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, p)); setSuggestOpen(false) }}>
+                    <button type="button" className="q3x-tidy-row" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, dir?.find(p.name) ?? p)); setSuggestOpen(false) }}>
                       <span className="q3x-tidy-row-title">{p.name}</span><span className="q3x-tidy-sub">{p.phone}</span>
                     </button>
                   </li>
@@ -283,9 +287,13 @@ export function GuidedEditor(props: EditorProps): ReactElement {
           {isNewName ? <p className="q3x-tidy-sub">New customer: it is added when you save.</p> : null}
           <SegmentedControl ariaLabel="Bill format" value={state.bill.formatId} onChange={(f) => update((s) => setFormat(s, f))} options={formats.map((f) => ({ id: f.id, label: f.label }))} />
           <DateField label="Bill date" value={state.bill.billDate} onChange={(d) => update((s) => changeBillDate(s, d))} />
-          <input className="q3x-input" inputMode="tel" aria-label="Phone" placeholder="Phone (optional)" value={state.bill.party.phone} onChange={(e) => update((s) => setPartyField(s, 'phone', e.target.value))} />
+          {rights.can('seeContact') ? (
+            <input className="q3x-input" inputMode="tel" aria-label="Phone" placeholder="Phone (optional)" value={state.bill.party.phone} onChange={(e) => update((s) => setPartyField(s, 'phone', e.target.value))} />
+          ) : <input className="q3x-input" aria-label="Phone" readOnly value={HIDDEN_BY_ADMIN} />}
           <input className="q3x-input" aria-label="Transport" placeholder="Transport (optional)" value={state.bill.party.transport} onChange={(e) => update((s) => setPartyField(s, 'transport', e.target.value))} />
-          <textarea className="q3x-input q3x-grow" rows={2} aria-label="Address" placeholder="Address (optional)" value={state.bill.party.address} onChange={(e) => update((s) => setPartyField(s, 'address', e.target.value))} />
+          {rights.can('seeAddress') ? (
+            <textarea className="q3x-input q3x-grow" rows={2} aria-label="Address" placeholder="Address (optional)" value={state.bill.party.address} onChange={(e) => update((s) => setPartyField(s, 'address', e.target.value))} />
+          ) : <input className="q3x-input" aria-label="Address" readOnly value={HIDDEN_BY_ADMIN} />}
           {message ? <p className="q3x-tidy-note" role="alert">{message}</p> : null}
           <Button label="Next: items" variant="primary" onClick={() => { setSuggestOpen(false); setStep('items'); setFocusKey('q:name') }} />
         </section>
@@ -341,10 +349,12 @@ export function GuidedEditor(props: EditorProps): ReactElement {
           ) : (
             <>
               <p className="q3x-tidy-text" role="status">Saved as {saved.poNumber}; pick WhatsApp in the share list.</p>
+              {rights.can('shareBills') ? <>
               <SegmentedControl ariaLabel="Style" value={style} onChange={(v) => setStyle(v as ShareStyle)} options={[{ id: 'rough', label: 'Rough' }, { id: 'professional', label: 'Professional' }]} />
               {noCompany && style === 'professional' ? <p className="q3x-tidy-sub" role="note">No company name yet: the page shows a placeholder. Add yours in Settings.</p> : null}
               <Button label={sharing && kind === 'image' ? 'Preparing' : 'Share image'} variant="primary" disabled={sharing} onClick={() => { void share('image') }} />
               <Button label={sharing && kind === 'pdf' ? 'Preparing' : 'Share PDF'} disabled={sharing} onClick={() => { void share('pdf') }} />
+              </> : <p className="q3x-tidy-sub" role="note">{ACTION_OFF_WORDS.shareBills}</p>}
               {shareNote ? <p className="q3x-tidy-sub" role="status">{shareNote}</p> : null}
               <Button label="Done" onClick={() => props.onSaved(saved.id)} />
             </>

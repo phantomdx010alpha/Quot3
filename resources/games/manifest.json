@@ -1080,6 +1080,24 @@
       "players": 2,
       "touch": false,
       "added": "2026-10-29"
+    },
+    {
+      "id": "country-wars",
+      "title": "Country Wars",
+      "tags": [
+        "arcade"
+      ],
+      "description": "Countries battle it out in a battle royale or a tournament: place your bets and see which flag wins.",
+      "source": "",
+      "commit": "",
+      "own": true,
+      "licence": "Owner",
+      "lang": "en",
+      "author": "The Quot3 owner",
+      "entry": "index.html",
+      "players": 1,
+      "touch": false,
+      "added": "2026-11-24"
     }
   ]
 }

@@ -78,6 +78,8 @@ export interface PhonePullResult { items: PhonePulled[]; hasMore: boolean; serve
 export interface PhoneSharedPort extends PhoneSyncPort {
   /** Phase 246: this seat's Price List rights (`qt_price_perms_get`). Optional: a port without it simply never learns the flags (the phone then has no Price List rights [A]). */
   pricePermsGet?(a: { license: string }): Promise<{ seatNo: number; flags: Record<string, boolean> }>
+  /** Phase 286 (M25): this seat's phone rights (`qt_seat_rights_get`). Optional: a port without it never learns them. A project without SQL 23 throws a `not_installed` error (the runtime maps it to "server does not know rights"). */
+  seatRightsGet?(a: { license: string }): Promise<{ seatNo: number; flags: Record<string, boolean>; configured: boolean }>
   listBranches(a: PhoneBranchScope): Promise<PhoneBranchInfo[]>
   manifest(a: PhoneBranchScope & { kind: RecordKind; afterRecId?: string; limit?: number }): Promise<PhoneManifestRow[]>
   /** All or nothing (one transaction). Outcomes come back in input order. */

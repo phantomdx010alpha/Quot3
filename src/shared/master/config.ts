@@ -8,10 +8,11 @@
 export const MASTER_URL: string = 'https://mlejwzywyqkljpejerli.supabase.co'
 export const MASTER_ANON: string = 'sb_publishable_eYd_Rj5LlFI0NzGd48lMEA_a0aN4916'
 
-/** The thirteen function names, in contract order F1..F13. */
+/** The function names, in contract order F1..F15 (F14, F15 = Payments, Phase 280). */
 export const MASTER_FUNCTION_NAMES = [
   'redeem', 'adopt', 'refresh', 'heartbeat', 'profile-get', 'profile-set',
-  'seat-list', 'seat-create', 'seat-reset', 'seat-revoke', 'seat-rename', 'seat-regen', 'enrol'
+  'seat-list', 'seat-create', 'seat-reset', 'seat-revoke', 'seat-rename', 'seat-regen', 'enrol',
+  'payments-get', 'payments-set'
 ] as const
 export type MasterFunctionName = (typeof MASTER_FUNCTION_NAMES)[number]
 

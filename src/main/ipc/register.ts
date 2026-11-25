@@ -69,6 +69,8 @@ import type { RevisionService } from '../services/revisionService'
 import { revisionHandlers } from './revisions'
 import { clipboardHandlers, type ClipboardPort } from './clipboard'
 import { masterHandlers } from './master'
+import { seatRightsHandlers } from './seatRights'
+import type { SeatRightsService } from '../services/seatRightsService'
 import type { MasterService } from '../sync/master/masterService'
 import { printHandlers } from './print'
 import { imageHandlers } from './image'
@@ -82,6 +84,8 @@ export interface IpcContext {
   ai?: AiPorts
   /** Phase 263 (M24): the master client service (absent in tests that do not need it). */
   master?: MasterService
+  /** Phase 286 (M25): per-phone rights (seat 1 only; absent in tests that do not need it). */
+  seatRights?: SeatRightsService
   info: AppInfo
   log: Logger
   themes: ThemeService
@@ -221,6 +225,7 @@ export function registerIpc(ctx: IpcContext): void {
     ...(ctx.games ? gamesHandlers(ctx.games) : {}),
     ...(ctx.ai ? aiHandlers(ctx.ai) : {}),
     ...(ctx.master ? masterHandlers(ctx.master) : {}),
+    ...(ctx.seatRights ? seatRightsHandlers(ctx.seatRights) : {}),
     ...settingsHandlers(ctx.settings),
     ...appSettingsHandlers(ctx.appSettings, ctx.companyProfile),
     ...partyHandlers(ctx.parties),

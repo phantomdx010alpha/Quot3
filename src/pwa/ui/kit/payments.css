@@ -1,0 +1,65 @@
+/* Phase 283 (M25) - phone Payments page and editor. New file; every selector is `.q3x-pay-`. Tokens only (no raw colours, no emoji).
+   Same wrap rule as the Price List kit: names, labels, notes wrap fully, nothing uses an ellipsis. The QR itself is drawn black on white by the SVG
+   attributes (a scanner needs fixed contrast), not by this file. Scanned by payments283.test.ts. */
+
+.q3x-pay-page { display: flex; flex-direction: column; gap: var(--space-3); padding-bottom: var(--space-3); }
+.q3x-pay-h2 { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-primary); font-size: var(--font-size-title, var(--font-size-base)); font-weight: 600; }
+
+.q3x-pay-entry { display: flex; align-items: center; gap: var(--space-3); min-height: var(--touch-min); width: 100%; padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); cursor: pointer; }
+.q3x-pay-entry-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: left; }
+
+.q3x-pay-note, .q3x-pay-warn, .q3x-pay-empty, .q3x-pay-hint { margin: 0; min-width: 0; white-space: normal; overflow-wrap: anywhere; font-size: var(--font-size-base); }
+.q3x-pay-note { padding: var(--space-2) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-primary); }
+.q3x-pay-warn { padding: var(--space-2) var(--space-3); border: 1px solid var(--accent); border-radius: var(--radius-sm); color: var(--text-primary); }
+.q3x-pay-empty, .q3x-pay-hint { color: var(--text-muted); }
+
+.q3x-pay-switch { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); }
+.q3x-pay-switch[data-on='true'] { border-color: var(--accent); }
+.q3x-pay-switch-text { display: flex; flex-direction: column; min-width: 0; }
+.q3x-pay-switch-title { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-primary); font-weight: 600; }
+.q3x-pay-switch-sub { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
+.q3x-pay-toggle { flex: none; min-width: var(--touch-min); min-height: var(--touch-min); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); cursor: pointer; }
+.q3x-pay-toggle[aria-checked='true'] { background: var(--accent-soft); border-color: var(--accent); }
+.q3x-pay-toggle::after { content: 'Off'; }
+.q3x-pay-toggle[aria-checked='true']::after { content: 'On'; }
+
+.q3x-pay-tabs, .q3x-pay-rows { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.q3x-pay-tab-li { min-width: 0; }
+.q3x-pay-tab { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); width: 100%; min-height: var(--touch-min); padding: var(--space-2) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); text-align: left; cursor: pointer; }
+.q3x-pay-tab[aria-pressed='true'] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.q3x-pay-tab-name, .q3x-pay-tab-sub { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.q3x-pay-tab-sub { color: var(--text-muted); font-size: var(--font-size-base); font-weight: 400; }
+
+.q3x-pay-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.q3x-pay-label { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
+.q3x-pay-input { min-width: 0; min-height: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); }
+.q3x-pay-input:focus-visible, .q3x-pay-btn:focus-visible, .q3x-pay-primary:focus-visible, .q3x-pay-tab:focus-visible, .q3x-pay-entry:focus-visible, .q3x-pay-icon:focus-visible, .q3x-pay-chip:focus-visible, .q3x-pay-toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+.q3x-pay-primary, .q3x-pay-btn, .q3x-pay-icon, .q3x-pay-chip { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); color: var(--text-primary); font: inherit; font-size: var(--font-size-base); cursor: pointer; }
+.q3x-pay-primary { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent, var(--surface-raised)); font-weight: 600; }
+.q3x-pay-icon { min-width: var(--touch-min); padding: 0; }
+.q3x-pay-chip[aria-pressed='true'] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.q3x-pay-primary:disabled, .q3x-pay-btn:disabled, .q3x-pay-icon:disabled { opacity: 0.5; cursor: not-allowed; }
+.q3x-pay-actions, .q3x-pay-kinds { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+
+.q3x-pay-card { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); }
+.q3x-pay-card-head { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.q3x-pay-card-amount { min-width: 0; color: var(--text-primary); font-size: var(--font-size-title, var(--font-size-base)); }
+.q3x-pay-card-payee, .q3x-pay-card-scan { min-width: 0; white-space: normal; overflow-wrap: anywhere; color: var(--text-muted); font-size: var(--font-size-base); }
+.q3x-pay-qr, .q3x-pay-full { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.q3x-pay-qr-svg { width: 100%; max-width: 20rem; height: auto; }
+.q3x-pay-full .q3x-pay-qr-svg { max-width: 90vw; }
+
+.q3x-pay-row { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-2) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--surface-raised); }
+.q3x-pay-row-text { display: flex; flex-direction: column; min-width: 0; }
+.q3x-pay-row-name, .q3x-pay-row-sub { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.q3x-pay-row-name { color: var(--text-primary); font-weight: 600; }
+.q3x-pay-row-sub { color: var(--text-muted); font-size: var(--font-size-base); }
+
+/* Phase 284: Pick a bill and the bill line on the QR card (tokens only, text wraps) */
+.q3x-pay-pick { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.q3x-pay-pick-title { margin: 0; color: var(--text-primary); font-size: var(--font-size-base); font-weight: 600; }
+.q3x-pay-picklist { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; max-height: 18rem; overflow-y: auto; }
+.q3x-pay-picked { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); border: 1px solid var(--accent); border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent); }
+.q3x-pay-picked-text, .q3x-pay-card-bill { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.q3x-pay-card-bill { color: var(--text-primary); font-size: var(--font-size-base); font-weight: 600; }

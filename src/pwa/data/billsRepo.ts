@@ -17,6 +17,8 @@ import { formatPoNumber } from '../../shared/po'
 import type { Bill, IsoDateTime, PartySnapshot, SyncState } from '../../shared/types'
 import { getRecord, reqToPromise, txDone, type PhoneDb, type StoreName } from './db'
 import { getSetting } from './settingsRepo'
+import { OLD_BILLS_VIEW_ONLY, isOlderThanToday } from '../../shared/seatRights'
+import { assertSeatRight } from './seatRights'
 
 /** [A] unconfirmed: a small number of revisions per bill on the phone (desktop keeps 50). */
 export const REVISION_CAP_PER_BILL = 5
@@ -163,6 +165,8 @@ export async function saveBill(db: PhoneDb, input: SaveBillInput, opts: BillsOpt
   return runTx(db, async (tx) => {
     const bills = tx.objectStore('bills')
     const head = (await reqToPromise(bills.get(prepared.id))) as StoredBill | undefined
+    // Phase 291 (M25-5): without `editOldBills` a bill whose stored date or new date is before today (the phone's local date) is view only.
+    if (isOlderThanToday(prepared.billDate, now()) || (head && isOlderThanToday(head.billDate, now()))) assertSeatRight('editOldBills', 'change older bills', undefined, OLD_BILLS_VIEW_ONLY)
     let poSeq: number
     let poNumber: string
     let revision: number
@@ -293,6 +297,7 @@ async function flip(db: PhoneDb, ids: readonly string[], op: 'delete' | 'restore
 
 /** Soft delete (move to the trash). A bill that is missing or already trashed is reported in `missing`. */
 export async function deleteBills(db: PhoneDb, ids: readonly string[], opts: BillsOptions = {}): Promise<{ deleted: string[]; missing: string[] }> {
+  assertSeatRight('deleteBills', 'delete bills') // Phase 291: Trash restore stays allowed
   const r = await flip(db, ids, 'delete', opts)
   return { deleted: r.changed, missing: r.missing }
 }

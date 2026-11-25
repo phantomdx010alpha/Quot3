@@ -12,7 +12,9 @@ const ERROR_CODE_RE = /^Q3M\d{2}$/
 const SECRET_KEYS = new Set([
   'password', 'passwd', 'pass', 'secret', 'code', 'seatcode', 'token', 'accesstoken', 'refreshtoken', 'devicetoken',
   'enroltoken', 'servicerolekey', 'servicerole', 'license', 'licensekey', 'anonkey', 'apikey', 'authorization',
-  'xq3device', 'kek', 'masterkek', 'pepper', 'masterpepper', 'key', 'session', 'codehash'
+  'xq3device', 'kek', 'masterkek', 'pepper', 'masterpepper', 'key', 'session', 'codehash',
+  // Phase 279 (M25-3): bank and payee details
+  'pa', 'upiid', 'ifsc', 'number', 'account', 'mid', 'mtid', 'tr', 'payments'
 ])
 
 const normKey = (k: string): string => k.toLowerCase().replace(/[_\-\s]/g, '')

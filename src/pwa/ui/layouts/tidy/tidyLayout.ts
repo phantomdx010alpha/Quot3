@@ -1,8 +1,11 @@
+import { ProfileScreen } from '../shared/ProfileScreen'
+import { PaymentsScreen } from '../shared/PaymentsScreen'
 import { TidyBillView } from './TidyBillView'
 import { TidyBills } from './TidyBills'
 import { TidyEditor } from './TidyEditor'
 import { TidyHome } from './TidyHome'
 import { TidyPriceList } from './TidyPriceList'
+import { gatedScreen } from '../../kit/RightsGate'
 import { TIDY_TABS, TidyShell } from './TidyShell'
 import type { BuiltLayoutDefinition } from '../types'
 
@@ -11,7 +14,7 @@ import type { BuiltLayoutDefinition } from '../types'
 export const tidyLayout: BuiltLayoutDefinition = {
   id: 'tidy',
   Shell: TidyShell,
-  screens: { home: TidyHome, history: TidyBills, billview: TidyBillView, pricelist: TidyPriceList },
+  screens: { home: TidyHome, history: TidyBills, billview: TidyBillView, pricelist: gatedScreen(TidyPriceList, 'seePriceList'), payments: gatedScreen(PaymentsScreen, 'seePayments'), profile: ProfileScreen },
   Editor: TidyEditor,
   navItems: TIDY_TABS.map((t) => ({ route: t.route, label: t.label, Icon: t.Icon })),
   reusesClassic: ['customers', 'customer', 'settings', 'about', 'trash']

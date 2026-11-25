@@ -5,7 +5,11 @@ import { browserBackEnv, installBackGuard, type BackEnv } from './platform/backB
 import { registerServiceWorker, shouldCheckForUpdate, updateBannerModel, type UpdateHandle } from './platform/swUpdate'
 import { isOnline, OFFLINE_NOTE, watchOnline } from './platform/online'
 import { browserInstallEnv, createInstallController, type InstallController } from './platform/installPrompt'
-import { browserMarkerStore, checkDataCleared, CLEARED_NOTE } from './platform/clearedData'
+import { browserMarkerStore, CLEARED_NOTE } from './platform/clearedData'
+import { requestPersistence, type StorageEnv } from './platform/storage'
+import type { ProtectionActionId, ProtectionState } from './platform/protectionState'
+import { checkDataClearedTwo, dbMarker, readProtection } from './ui/protectionRead'
+import { ProtectionLines } from './ui/ProtectionLines'
 import { getMeta } from './data/metaRepo'
 import { countRecords } from './data/db'
 import { loadVersionGate } from './ui/versionGate'
@@ -13,6 +17,9 @@ import { getSetting, setSetting } from './data/settingsRepo'
 import { getBranchLink } from './sync/branch'
 import { isSeatRemoved } from './sync/recredential'
 import { ConnectCode } from './ui/ConnectCode'
+import { RestoreScreen } from './ui/RestoreScreen'
+import { RESTORE_STATE_KEY } from './sync/restore'
+import { getRaw } from './sync/syncMeta'
 import { CONNECT_SKIPPED_SETTING, connectGate, type ConnectGate } from './ui/connectCodeModel'
 import { LAYOUTS, planLayoutChange, resolveLayout, type LayoutId } from './ui/layouts/layoutRegistry'
 import type { ScreenProps } from './ui/layouts/types'
@@ -27,7 +34,8 @@ import { Settings } from './ui/Settings'
 import { createAppLock, type AppLock } from './sync/appLock'
 import { Trash } from './ui/Trash'
 import { BillEditor, type EditorApi } from './ui/editor/BillEditor'
-import type { DashboardView } from './ui/dashboardModel'
+import { redactDashboardSales, type DashboardView } from './ui/dashboardModel'
+import { useSeatRights } from './ui/useSeatRights'
 import { loadDashboard } from './ui/loadDashboard'
 import { AboutPage } from './ui/AboutPage'
 import type { AppServices } from './ui/services'
@@ -51,7 +59,9 @@ const TITLES: Record<RouteName, string> = {
   billview: 'Bill',
   trash: 'Recently deleted',
   customer: 'Customer',
-  pricelist: 'Price List'
+  pricelist: 'Price List',
+  payments: 'Payments',
+  profile: 'Profile'
 }
 
 export interface AppProps {
@@ -72,12 +82,18 @@ export function App(props: AppProps = {}): ReactElement {
   const [gateNote, setGateNote] = useState<string | null>(null)
   const [clearedNote, setClearedNote] = useState<string | null>(null)
   const installRef = useRef<InstallController | null>(null)
+  // Phase 292: the data-protection state shown on the Dashboard (banner + unsynced line). Null until read; the screens render nothing for null.
+  const [protection, setProtection] = useState<{ state: ProtectionState; linked: boolean; persistApi: boolean } | null>(null)
+  const [protTick, setProtTick] = useState(0)
   const [update, setUpdate] = useState<UpdateHandle | null>(null)
   const [caps, setCaps] = useState<Capabilities>(() => detectCapabilities(readBrowserEnv(false)))
   const [theme, setTheme] = useState<ThemeName>(services?.theme ?? DEFAULT_THEME)
   // Phase 189: the chosen phone layout. Only `classic` is built so far; `LAYOUTS` is the registry (a new layout's phase adds its screens).
   const [layout, setLayout] = useState<LayoutId>(() => resolveLayout(services?.layout))
-  const [view, setView] = useState<DashboardView | null>(null)
+  const [rawView, setView] = useState<DashboardView | null>(null)
+  // Phase 289-290: this phone's rights (hide in the app only). The Dashboard view is redacted once here so every layout shows the same thing.
+  const rights = useSeatRights()
+  const view = useMemo(() => (rawView ? redactDashboardSales(rawView, rights.flags) : null), [rawView, rights.flags])
   const [loadError, setLoadError] = useState<string | null>(services?.error ?? null)
   // Phase 182: the open bill's dirty flag (reported by the editor). While it is set, every way out asks Save / Discard first.
   const [hasUnsavedWork, setHasUnsavedWork] = useState(false)
@@ -92,6 +108,12 @@ export function App(props: AppProps = {}): ReactElement {
   const [gate, setGate] = useState<ConnectGate | 'checking'>(connectApi ? 'checking' : 'none')
   const [gateTick, setGateTick] = useState(0)
   const [gateDismissed, setGateDismissed] = useState(false)
+  // Phase 293: a blank phone gets the restore wording; a signed-in phone that lost its data (or stopped mid-restore) is offered "Restore from the server".
+  const [blankPhone, setBlankPhone] = useState(false)
+  const [restoreOffer, setRestoreOffer] = useState(false)
+  const [restoreDismissed, setRestoreDismissed] = useState(false)
+  const [dashTick, setDashTick] = useState(0) // bumped when a restore ends so the Dashboard reads the restored data
+  const restoreApi = services?.restore ?? null
   const editorApi = useRef<EditorApi | null>(null)
   const silentSaved = useRef(false)
 
@@ -111,7 +133,11 @@ export function App(props: AppProps = {}): ReactElement {
     const instEnv = browserInstallEnv()
     const inst = instEnv ? createInstallController(instEnv) : null
     installRef.current = inst
-    const offInst = inst?.subscribe(() => { setInstallSeen(inst.canInstall() || inst.installed()); setInstallReady(inst.canInstall()) })
+    const offInst = inst?.subscribe(() => {
+      setInstallSeen(inst.canInstall() || inst.installed()); setInstallReady(inst.canInstall())
+      // Phase 292: after the app is installed, ask the browser to keep the data again (an installed app is far more likely to get a yes).
+      if (inst.installed() && typeof navigator !== 'undefined') void requestPersistence(navigator).then(() => setProtTick((t) => t + 1))
+    })
     const offOnline = watchOnline(window, setOnline)
     // Phase 186: look for a newer version at start, when the app comes back to the front, and hourly while open.
     let checkNow: (() => Promise<void>) | null = null
@@ -170,7 +196,8 @@ export function App(props: AppProps = {}): ReactElement {
     const d = services.db
     void (async () => {
       try {
-        const [linked, skipped, removed] = await Promise.all([getBranchLink(d), getSetting<boolean>(d, CONNECT_SKIPPED_SETTING, false), isSeatRemoved(d)])
+        const [linked, skipped, removed, bills, parties] = await Promise.all([getBranchLink(d), getSetting<boolean>(d, CONNECT_SKIPPED_SETTING, false), isSeatRemoved(d), countRecords(d, 'bills'), countRecords(d, 'parties')])
+        if (!cancelled) setBlankPhone(bills === 0 && parties === 0)
         if (!cancelled) setGate(connectGate({ ready: connectApi.ready(), linked: linked.linked, skipped: skipped === true, removed }))
       } catch { if (!cancelled) setGate('none') } // a read problem never blocks the app
     })()
@@ -198,13 +225,44 @@ export function App(props: AppProps = {}): ReactElement {
       let cleared: string | null = null
       try {
         const [meta, bills, customers] = await Promise.all([getMeta(db), countRecords(db, 'bills'), countRecords(db, 'parties')])
-        const verdict = checkDataCleared({ bills, customers, linked: meta.branch_id !== null }, browserMarkerStore())
-        cleared = verdict === 'cleared' ? CLEARED_NOTE : null
+        // Phase 292: two markers (localStorage + IndexedDB meta); either one is enough to say the data was cleared.
+        const check = await checkDataClearedTwo({ bills, customers, linked: meta.branch_id !== null }, browserMarkerStore(), dbMarker(db))
+        cleared = check.verdict === 'cleared' ? CLEARED_NOTE : null
+        // Phase 293: the SAME verdict (marker says data existed, database empty) with the login still there offers the restore; so does a restore stopped after its compare.
+        const empty = bills === 0 && customers === 0
+        const stopped = empty && meta.branch_id !== null && (await getRaw<string | null>(db, RESTORE_STATE_KEY, null)) === 'applied'
+        if (!cancelled) setRestoreOffer(meta.branch_id !== null && empty && (check.verdict === 'cleared' || stopped))
       } catch { /* a read problem is shown by the screens themselves */ }
       if (!cancelled) { setGateNote(note); setClearedNote(cleared) }
     })()
     return () => { cancelled = true }
   }, [db, route])
+
+  // Phase 292: read the protection state when Home / Settings opens, after a sync action, after the browser answered the keep-data request.
+  useEffect(() => {
+    if (!db || (route !== 'home' && route !== 'settings') || layout === 'classic') return undefined
+    let cancelled = false
+    const env = typeof navigator !== 'undefined' ? (navigator as StorageEnv) : {}
+    const instEnv = browserInstallEnv()
+    void readProtection(db, { env, installed: instEnv ? instEnv.isStandalone() : null, engine: services?.engine ?? null, local: browserMarkerStore() }).then(
+      (r) => { if (!cancelled) setProtection({ state: r.state, linked: r.linked, persistApi: r.health.persistApiAvailable }) },
+      () => { if (!cancelled) setProtection(null) }
+    )
+    return () => { cancelled = true }
+  }, [db, route, protTick, services?.engine, layout])
+
+  const onProtectionAction = (id: ProtectionActionId | 'sync'): void => {
+    if (id === 'keep' && typeof navigator !== 'undefined') void requestPersistence(navigator).then(() => setProtTick((t) => t + 1))
+    else if (id === 'install') void installRef.current?.prompt().then(() => setProtTick((t) => t + 1))
+    else if (id === 'sync') void services?.syncEngine?.syncNow().catch(() => undefined).then(() => setProtTick((t) => t + 1))
+  }
+  // [A] new layouts only: classic's DOM is pinned by `classicParity` (10t: change it only with the owner's word), so classic shows no banner / line yet.
+  const protectionNode = route === 'home' && protection && layout !== 'classic' ? (
+    <ProtectionLines
+      state={protection.state} linked={protection.linked} persistApi={protection.persistApi} canInstall={installReady}
+      canSync={Boolean(services?.syncEngine)} disabled={db ? !db.canWrite() : true} onAction={onProtectionAction}
+    />
+  ) : null
 
   useEffect(() => {
     if (route !== 'home' || !db) return undefined
@@ -214,7 +272,7 @@ export function App(props: AppProps = {}): ReactElement {
       (e: unknown) => { if (!cancelled) setLoadError(`Could not read your bills: ${e instanceof Error ? e.message : String(e)}`) }
     )
     return () => { cancelled = true }
-  }, [route, db, now, services?.engine])
+  }, [route, db, now, services?.engine, dashTick])
 
   /** Runs a way out of the page; with an unsaved bill it asks first (Save / Discard / Keep editing). */
   const leave = useCallback((action: () => void) => { if (unsavedRef.current) setPendingLeave(() => action); else action() }, [])
@@ -268,6 +326,8 @@ export function App(props: AppProps = {}): ReactElement {
     return (
       <ConnectCode
         db={db} mode={gate} connect={connectApi} sync={services?.sync} engine={services?.syncEngine}
+        restore={restoreApi} blank={blankPhone}
+        onRestored={() => { setGateDismissed(false); setGateTick((n) => n + 1); setRestoreOffer(false); setDashTick((n) => n + 1); setRouter(createRouter('home')) }}
         onLinked={() => { setGateDismissed(false); setGateTick((n) => n + 1); setRouter((r) => navigate(r, 'settings', 'sync')) }}
         onNotNow={() => {
           setGateDismissed(true)
@@ -277,6 +337,11 @@ export function App(props: AppProps = {}): ReactElement {
     )
   }
 
+  // Phase 293: a signed-in phone whose data is gone: one screen, one button, no code. "Not now" hides it until the app is opened again.
+  if (restoreApi && db && restoreOffer && !restoreDismissed && gate === 'none') {
+    return <RestoreScreen api={restoreApi} mode="server" onDone={() => { setRestoreOffer(false); setClearedNote(null); setDashTick((n) => n + 1); setRouter(createRouter('home')); setProtTick((t) => t + 1) }} onNotNow={() => setRestoreDismissed(true)} />
+  }
+
   /** Phase 192: a NEW layout draws the same state with its own Shell and screens. App keeps every guard (this prompt included). */
   const built = LAYOUTS[layout]
   if (built && built.id !== 'classic') {
@@ -284,7 +349,7 @@ export function App(props: AppProps = {}): ReactElement {
     const Screen = built.screens[route]
     const title = route === 'settings' && cur.param ? plainText(settingsPageLabel(cur.param)) : TITLES[route]
     const screenProps: ScreenProps = {
-      db, now, param: cur.param, onNavigate: (r, p) => setRouter((x) => navigate(x, r, p)), onChanged: services?.onDataChanged, refreshPriceRights: services?.refreshPriceRights,
+      db, now, param: cur.param, onNavigate: (r, p) => setRouter((x) => navigate(x, r, p)), onChanged: services?.onDataChanged, refreshPriceRights: services?.refreshPriceRights, payments: services?.payments, profile: { version: VERSION, engine: services?.syncEngine ?? null },
       onBack: () => setRouter((r) => goBack(r)), dashboard: { view, error: loadError },
       justSaved: route === 'billview' && savedId !== null && savedId === cur.param, onSavedDone: () => setSavedId(null)
     }
@@ -297,6 +362,7 @@ export function App(props: AppProps = {}): ReactElement {
     return (
       <>
         <Shell route={route} param={cur.param} canGoBack={canGoBack(router)} onBack={() => { if (!stepBackInEditor()) leave(() => setRouter((r) => goBack(r))) }} onSelectTab={selectTab} activeTab={activeTab(router)} title={title} status={statusFlags} onStatusAction={onStatusAction}>
+          {protectionNode}
           {route === 'create' ? (
             <built.Editor
               key={cur.param ?? 'new'} db={db} id={cur.param} now={now} apiRef={editorApi} onDirtyChange={setHasUnsavedWork} onChanged={services?.onDataChanged}
@@ -310,7 +376,7 @@ export function App(props: AppProps = {}): ReactElement {
             <AboutPage version={VERSION} rows={aboutRows} now={now} />
           ) : route === 'settings' ? (
             <Settings
-              db={db} version={VERSION} theme={theme} onTheme={chooseTheme} layout={layout} onLayout={chooseLayout} plain page={cur.param} onOpenPage={(id) => setRouter((r) => navigate(r, 'settings', id))} aboutRows={aboutRows}
+              db={db} version={VERSION} theme={theme} onTheme={chooseTheme} layout={layout} onLayout={chooseLayout} plain page={cur.param} onOpenPage={(id) => setRouter((r) => navigate(r, 'settings', id))} onOpenProfile={() => setRouter((r) => navigate(r, 'profile'))} onOpenPayments={rights.can('seePayments') ? () => setRouter((r) => navigate(r, 'payments')) : undefined} aboutRows={aboutRows}
               sync={services?.sync} engine={services?.syncEngine} now={now} appLock={appLock ?? undefined} onChanged={services?.onDataChanged}
             />
           ) : route === 'customers' ? (
@@ -372,7 +438,7 @@ export function App(props: AppProps = {}): ReactElement {
       </header>
       <main className="q3-main">
         {route === 'home' ? (
-          <Dashboard view={view} error={loadError} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))} />
+          <>{protectionNode}<Dashboard view={view} error={loadError} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))} /></>
         ) : route === 'history' ? (
           <History db={db} now={now} onOpenBill={(id) => setRouter((r) => navigate(r, 'billview', id))} onOpenTrash={() => setRouter((r) => navigate(r, 'trash'))} />
         ) : route === 'trash' ? (

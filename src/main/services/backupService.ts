@@ -4,7 +4,7 @@ import { basename, join } from 'node:path'
 import { probeDatabase, type SqliteDb } from '../db/probe'
 import { stripAiVectorsFromFile } from '../db/aiVectorRepo'
 import {
-  BACKUP_IMPORT_MAX_BYTES, BACKUP_KEEP_AUTO, backupFileName, backupKindOf, dailyBackupDue, filesToPrune, isResetConfirm,
+  BACKUP_IMPORT_MAX_BYTES, BACKUP_KEEP_AUTO, BACKUP_KEEP_PRE, backupFileName, backupKindOf, dailyBackupDue, filesToPrune, isResetConfirm,
   isRestoreConfirm, isSafeBackupFile, localDay, type BackupInfo, type BackupKind, type BackupStatus
 } from '../../shared/backup/backupRules'
 import type { BackupRepo } from '../db/backupRepo'
@@ -23,8 +23,10 @@ export interface BackupService {
   create(kind?: 'manual' | 'auto' | 'pre-import' | 'pre-wipe' | 'pre-rollback'): Promise<BackupInfo>
   list(): BackupInfo[]
   status(): BackupStatus
-  /** First launch of the day: one automatic backup if none exists for today, then prune. Returns it, or null. */
+  /** First launch of the day: prune surplus first (Phase 275), then one automatic backup if none exists for today, then prune. Returns it, or null. */
   autoIfDue(): Promise<BackupInfo | null>
+  /** Phase 275: drop surplus automatic / safety copies now (newest 3 each kept). Never throws; manual files are never touched. */
+  pruneNow(): void
   /** Stages the restore (after a pre-restore backup) and restarts. */
   restore(input: { file: string; confirm: string }): Promise<{ restarting: true; preRestore: string }>
   delete(file: string): { deleted: true }
@@ -121,13 +123,18 @@ export function createBackupService(deps: BackupDeps, opts: BackupOpts = {}): Ba
     return { ...row, readable: true }
   }
 
-  function prune(): void {
-    const doomed = filesToPrune(scan().map((b) => ({ file: b.file, kind: b.kind, createdAt: b.createdAt })), keep())
+  function prune(justMade?: string): void {
+    const doomed = filesToPrune(scan().map((b) => ({ file: b.file, kind: b.kind, createdAt: b.createdAt })), keep(), BACKUP_KEEP_PRE, justMade ? [justMade] : [])
     for (const f of doomed) {
       rmSync(join(backupsDir, f), { force: true })
       try { repo.remove(f) } catch { /* ignore */ }
     }
-    if (doomed.length) log.info('old automatic backups pruned', { count: doomed.length })
+    if (doomed.length) log.info('old automatic and safety backups pruned', { count: doomed.length })
+  }
+  /** A prune problem is logged and never reaches the caller (start-up, a backup that just succeeded). */
+  function pruneSafe(justMade?: string): void {
+    if (!writable) return
+    try { prune(justMade) } catch (err) { log.warn('backup prune failed', { err }) }
   }
 
   /** Checks a file in the backups folder is one we can restore. */
@@ -142,7 +149,7 @@ export function createBackupService(deps: BackupDeps, opts: BackupOpts = {}): Ba
   }
 
   return {
-    async create(kind = 'manual') { needWrite(); const b = await make(kind); if (kind === 'auto') prune(); return b },
+    async create(kind = 'manual') { needWrite(); const b = await make(kind); if (kind === 'auto' || kind.startsWith('pre-')) pruneSafe(b.file); return b },
     list: scan,
     status: () => ({
       integrity,
@@ -152,12 +159,14 @@ export function createBackupService(deps: BackupDeps, opts: BackupOpts = {}): Ba
     }),
     async autoIfDue() {
       if (!writable) return null
+      pruneSafe() // Phase 275: surplus goes at start-up even when no backup is due
       const today = localDay(now().toISOString())
       if (!dailyBackupDue(scan().filter((b) => b.kind === 'auto').map((b) => b.createdAt), today)) return null
       const b = await make('auto')
-      prune()
+      pruneSafe(b.file)
       return b
     },
+    pruneNow() { pruneSafe() },
     async restore({ file, confirm }) {
       needWrite()
       need(isRestoreConfirm(confirm), 'Type RESTORE to confirm.')

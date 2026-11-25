@@ -3,6 +3,7 @@ import { listBillHeads } from '../data/billsRepo'
 import type { PhoneDb } from '../data/db'
 import { getMeta } from '../data/metaRepo'
 import type { EngineStatus } from '../sync/engine'
+import { readSelfCheck, selfCheckLine } from '../sync/selfCheck'
 import { buildDashboardView, type DashboardView } from './dashboardModel'
 
 /** The slice of the sync engine the Dashboard reads. Null / absent: the engine is not running in this tab. */
@@ -17,5 +18,6 @@ export async function loadDashboard(db: PhoneDb, now: Date, engine: EngineReader
   if (engine) {
     try { status = await engine.status() } catch { status = null }
   }
-  return buildDashboardView({ heads, now, meta, backup, engine: status, writable: db.canWrite() })
+  const selfCheck = selfCheckLine(await readSelfCheck(db)) // Phase 294: read-only
+  return buildDashboardView({ heads, now, meta, backup, engine: status, writable: db.canWrite(), selfCheck })
 }

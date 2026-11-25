@@ -197,3 +197,100 @@ git push origin v0.1.56
 4. Wait for the **Release** run on GitHub Actions (green tick), check `Quot3-Setup-0.1.56.exe`, its `.blockmap` and `latest.yml` are on the release, then Settings > Updates > Check for updates > Restart.
 5. Phone: merge `main` into `pwa` after the push (section 8).
 6. Check with two seats: seat 1 changes a flag in Settings > Price List > Who can edit; seat 2 (PC and phone) shows the new rights within seconds without opening the Price List (Settings > Price List > "Rights of this seat" shows when it last checked); seat 2 trying a change it may not make says "needs Overwrite" (or the flag it lacks).
+
+## 12. Milestone 25 (Phases 275-297; planned 2026-11-24): releases A, B, C
+
+**Status 2026-11-25: all three sets of steps are written (12a, 12b, 12c); 12c (0.1.64, Phase 296) carries everything, so the earlier tags are optional.** Originally planned only; each release phase wrote its own exact steps here (12a, 12b, 12c) with the real version number, as Phases 256 and 273 did for 11a and 11b. Versions are placeholders [A]: **A = 0.1.62** (Phase 277: backups, phone share row, Country Wars; no Supabase step), **B = 0.1.63** (Phase 284: Payments), **C = 0.1.64** (Phase 296: rights, protection, restore, diff, Profile). Current code before M25 is 0.1.61; if the owner has pushed something newer, the phase that bumps checks `package.json` and never reuses a published number.
+**Supabase order the owner will be given (never run from the sandbox):**
+- Before release B reaches phones: master project `supabase/master/M05_payments.sql`, then `supabase functions deploy payments-get payments-set` (and, only if the phase says so, the other master functions).
+- Before release C reaches phones: every company project `supabase/sql/23_seat_rights.sql` (it seeds all existing seats with every right, so nothing is restricted until seat 1 changes it).
+- Update seat 1's PC to the release first, then the phones.
+Each release is pushed like the earlier ones: extract the changed-files zip over the repo, `git add .`, `git commit`, `git push origin main`, tag `v<version>` (the GitHub Action builds the installer).
+
+## 12a. Release A = 0.1.62 [A] (Phase 277, 2026-11-24): exact steps for the owner
+
+What it contains: Phase 275 (desktop keeps the newest 3 automatic backups and 3 per safety kind; surplus dropped at the first start), Phase 276 (phone share image / PDF no longer shows the "Adjustments total" row), Phase 277 (Country Wars in the desktop Games list, fonts bundled, no internet needed). **No Supabase step, no SQL, no function deploy, no master change.** The version is [A]: if you have pushed something newer than 0.1.61, tell the next session and the number moves up.
+
+1. Extract the **changed-files zip** (`quot3_phase277_changed_files.zip`) over the repo folder `C:\Users\Ankush\Desktop\vvvv\release\quot3`, choose "Replace the files". If you did not push Phases 275 and 276 yet, extract their changed-files zips first, in order (or use the full zip contents over the repo folder; never push from a fresh unzip, it has no `.git`).
+2. In VS Code, **Terminal > New Terminal**:
+
+```powershell
+git add .
+git commit -m "Phases 275-277: backups keep newest 3, phone share row, Country Wars, version 0.1.62"
+git push origin main
+git tag v0.1.62
+git push origin v0.1.62
+```
+
+3. Open `github.com/phantomdx010alpha/Quot3/actions`; the **Release** run takes about 3 to 5 minutes; green tick = done.
+4. Open **Releases** and check that `v0.1.62` has `Quot3-Setup-0.1.62.exe`, `Quot3-Setup-0.1.62.exe.blockmap`, `latest.yml`.
+5. In the installed Quot3: **Settings > Updates > Check for updates**, then **Restart** when it says 0.1.62 is ready.
+
+**Owner checks on the real PC (not done in the sandbox):** (a) open the backups folder after the first launch: 14 old automatic files become 3, manual files stay; (b) Settings > Backup shows the new sentence; (c) share a phone bill with an adjustment row as image and PDF: no "Adjustments total" line; (d) Games > Country Wars opens, the fonts look right, flags show, sound works, and it plays offline; Games > Credits and licences lists it as "Owner" with no repo line.
+
+## 12b. Release B = 0.1.63 [A] (Phase 284, 2026-11-24): exact steps for the owner
+
+What it contains: the phone Payments feature (Phases 279-284): the company payments list on the master, the Payments page and editor, and "Share QR" for a bill (the bill's grand total in the amount box, editable; "Pick a bill" on the Payments page). **This release HAS a Supabase step. Do it BEFORE the phones get 0.1.63.** The version is [A]: if you pushed something newer than 0.1.62, tell the next session and the number moves up.
+
+**Phase 282 (the QR library and the QR picture) is NOT in this build** (see PHASE_STATUS.md). Until it is done, the QR card on the phone says "The QR picture could not be drawn on this phone." Do not hand 0.1.63 to staff before Phase 282 is in, or hold the release.
+
+**Deploy order (never run from the sandbox; you run these yourself):**
+1. Master Supabase project, SQL editor: run `supabase/master/M05_payments.sql` (safe to run twice).
+2. In a terminal in the repo folder: `supabase functions deploy payments-get payments-set` (use the same project / flags you used for the earlier master functions).
+3. Only then push and tag, as below.
+
+1. Extract the **changed-files zip** (`quot3_phase284_changed_files.zip`) over the repo folder `C:\Users\Ankush\Desktop\vvvv\release\quot3`, choose "Replace the files". If you did not push Phases 279-283 yet, extract their zips first in order, or copy the full zip contents over the repo folder (never push from a fresh unzip: it has no `.git`).
+2. In VS Code, **Terminal > New Terminal**:
+
+```powershell
+git add .
+git commit -m "Phases 279-284: phone Payments, bill to QR, version 0.1.63"
+git push origin main
+git tag v0.1.63
+git push origin v0.1.63
+```
+
+3. Open `github.com/phantomdx010alpha/Quot3/actions`; the **Release** run takes about 3 to 5 minutes; green tick = done.
+4. Open **Releases** and check that `v0.1.63` has `Quot3-Setup-0.1.63.exe`, `Quot3-Setup-0.1.63.exe.blockmap`, `latest.yml`.
+5. In the installed Quot3: **Settings > Updates > Check for updates**, then **Restart** when it says 0.1.63 is ready. Update seat 1's PC first, then the phones.
+
+**Owner checks on a real phone (not done in the sandbox):** (a) Payments page opens from a new layout and shows your payees; (b) open a bill, tap Share QR: the amount is the bill's final total (with round-off), you can change or clear it; (c) the QR image names the bill (PO number and party name only, no address or phone) and goes to WhatsApp as its own picture, never inside the bill image; (d) a real UPI app scans it and shows the right payee and amount; (e) Classic layout has no Payments or Share QR yet (needs your approval, see PHASE_STATUS.md).
+
+## 12c. Release C = 0.1.64 [A] (Phase 296, 2026-11-25): exact steps for the owner
+
+What it contains: everything since 0.1.61 that is not yet on GitHub. Phases 275-277 (backups keep the newest 3, phone share row, Country Wars), 279-284 (phone Payments, bill to QR), 285-291 (per-phone rights), 292-295 (data protection, restore after a wipe, daily self-check, Profile page). The version is [A]: if you have pushed something newer than 0.1.61 (check `github.com/phantomdx010alpha/Quot3/releases`), tell the next session and the number moves up. A published number is never reused. **If you have NOT pushed 0.1.62 and 0.1.63, you do not need to: this one release carries all of it; skip the tags `v0.1.62` and `v0.1.63` (the steps of 12a and 12b are only needed if you want those tags).** Only the Supabase steps of 12b and below still matter.
+
+**Phase 282 (the QR library and the QR picture) is still NOT built.** Until it is, the QR card on the phone says "The QR picture could not be drawn on this phone." Everything else in Payments works. Either hold the release for Phase 282 or release knowing the QR picture is missing; the checklist lines that need it are marked BLOCKED.
+
+**Deploy order (never run from the sandbox; you run these yourself):**
+1. **Master** Supabase project, SQL editor: run `supabase/master/M05_payments.sql` (safe to run twice). Then in a terminal in the repo folder: `supabase functions deploy payments-get payments-set` (same project and flags as the earlier master functions). If you never ran `M04_seats_50.sql` (0.1.61), run it too.
+2. **Every company project**, SQL editor: run `supabase/sql/23_seat_rights.sql`. It gives every existing seat every right, so nothing is restricted until seat 1 changes it. (Also `22_seat_reuse.sql` if never run.) Company SQL 23 comes BEFORE the phones get 0.1.64; an old phone or a company without it keeps working with everything allowed.
+3. **Then** push and tag, as below.
+4. Update seat 1's PC to 0.1.64 first, then the other PCs, then the phones.
+
+1. Extract the **changed-files zip** (`quot3_phase296_changed_files.zip`) over the repo folder `C:\Users\Ankush\Desktop\vvvv\release\quot3`, choose "Replace the files". If you did not push the earlier phases, copy the contents of the FULL zip over the repo folder instead (never push from a fresh unzip: it has no `.git`).
+2. In VS Code, **Terminal > New Terminal**:
+
+```powershell
+git add .
+git commit -m "Milestone 25: backups, phone Payments, per-phone rights, restore, self-check, Profile page, version 0.1.64"
+git push origin main
+git tag v0.1.64
+git push origin v0.1.64
+```
+
+3. **Phone (PWA):** no tag is needed. Vercel builds the `pwa` branch (`vercel.json` turns `main` off), so after the push above, in the same terminal:
+
+```powershell
+git checkout pwa
+git merge main
+git push origin pwa
+git checkout main
+```
+
+   Then open the Vercel link on the phone; accept the "New version, reload" prompt; Profile (or About) must say 0.1.64. If the `pwa` branch does not exist yet, see section 8 (`git checkout -b pwa && git push -u origin pwa`).
+4. Open `github.com/phantomdx010alpha/Quot3/actions`; the **Release** run takes about 3 to 5 minutes; green tick = done.
+5. Open **Releases** and check that `v0.1.64` has `Quot3-Setup-0.1.64.exe`, `Quot3-Setup-0.1.64.exe.blockmap`, `latest.yml`.
+6. In the installed Quot3: **Settings > Updates > Check for updates**, then **Restart** when it says 0.1.64 is ready.
+
+**Owner checks:** fill `docs/M25_OWNER_CHECKLIST.md` on the real PC and a real Android phone and send the failures back as a Phase 297 fix pack. Rights hide and block things inside the app only; the shared bill image still carries the customer address and contact (owner decision D6). Never describe the rights as "secure".

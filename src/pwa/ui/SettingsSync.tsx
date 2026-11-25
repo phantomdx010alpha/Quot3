@@ -8,6 +8,7 @@ import type { SyncAdmin } from './services'
 import { AdvancedFold } from './layouts/shared/AdvancedFold'
 import { settingsWords } from './layouts/shared/SettingsWords'
 import { PriceSyncLines } from './PriceSyncLines'
+import { selfCheckLine, type SelfCheckResult } from '../sync/selfCheck'
 
 const STATE_TEXT: Record<EngineState, string> = {
   stopped: 'Sync is stopped. Tap Start sync.',
@@ -17,8 +18,22 @@ const STATE_TEXT: Record<EngineState, string> = {
   running: 'Syncing is on while this app is open.'
 }
 
+/** Phase 294: the self-check status line and "Check now" (new layouts only; the caller passes `plain`, so classic's DOM is unchanged). */
+function SelfCheckRow(props: { api: NonNullable<SyncAdmin['selfCheck']>; refreshKey?: number }): ReactElement {
+  const [last, setLast] = useState<SelfCheckResult | null>(null)
+  const [busy, setBusy] = useState(false)
+  useEffect(() => { let live = true; void props.api.last().then((r) => { if (live) setLast(r) }, () => undefined); return () => { live = false } }, [props.api, props.refreshKey])
+  const line = selfCheckLine(last)
+  return (
+    <div className="q3-set" data-testid="self-check">
+      {line !== '' ? <p className="q3-muted" role="status" data-testid="self-check-line">{line}</p> : null}
+      <button type="button" className="q3-btn" disabled={busy} data-testid="self-check-now" onClick={() => { setBusy(true); void props.api.run().then((r) => { if (r.outcome !== 'skipped') setLast(r) }, () => undefined).finally(() => setBusy(false)) }}>{busy ? 'Checking, please wait' : 'Check now'}</button>
+    </div>
+  )
+}
+
 /** The sync controls shown once the phone is linked: the first-sync choice, then Sync now (Phase 187b). */
-function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolean; onChanged?: () => void; checkRights?: () => Promise<void> }): ReactElement {
+function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolean; onChanged?: () => void; checkRights?: () => Promise<void>; selfCheck?: SyncAdmin['selfCheck'] }): ReactElement {
   const { engine } = props
   const [tick, setTick] = useState(0) // Phase 248: re-reads the Price List lines after a sync
   const [state, setState] = useState<EngineState>(engine.state())
@@ -63,6 +78,7 @@ function SyncPanel(props: { engine: PhoneSyncEngine; db: PhoneDb; plain?: boolea
         <button type="button" className="q3-btn" disabled={busy} onClick={() => void run(async () => { await engine.start() })}>Start sync</button>
       ) : null}
       {note ? <p className="q3-note" role="status">{note}</p> : null}
+      {props.plain && state === 'running' && props.selfCheck ? <SelfCheckRow api={props.selfCheck} refreshKey={tick} /> : null}
       {props.plain && state !== 'first_sync_needed' ? <PriceSyncLines db={props.db} refreshKey={tick} onCheckRights={props.checkRights ? async () => { await props.checkRights?.(); setTick((n) => n + 1) } : undefined} /> : null}
     </div>
   )
@@ -140,7 +156,7 @@ export function SettingsSync(props: { db: PhoneDb; plain?: boolean; sync?: SyncA
           <div className="q3-row"><span>Branch</span><span>{link.branchName}</span></div>
           <div className="q3-row"><span>{words.t('PO prefix')}</span><span>{link.poPrefix}</span></div>
           <p className="q3-muted">The branch name and {words.t('PO prefix').toLowerCase()} are fixed once this phone is linked.</p>
-          {props.engine ? <SyncPanel engine={props.engine} db={db} plain={props.plain} onChanged={props.onChanged} checkRights={props.sync?.checkPriceRights ? () => props.sync!.checkPriceRights!() : undefined} /> : null}
+          {props.engine ? <SyncPanel engine={props.engine} db={db} plain={props.plain} onChanged={props.onChanged} selfCheck={props.sync?.selfCheck} checkRights={props.sync?.checkPriceRights ? () => props.sync!.checkPriceRights!() : undefined} /> : null}
           <button type="button" className="q3-btn" disabled={!sync || busy} onClick={() => void signOut()}>Sign out of sync</button>
         </>
       ) : (

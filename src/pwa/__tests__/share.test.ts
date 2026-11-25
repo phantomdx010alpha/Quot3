@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import '../../shared/format'
 import { PRINT_FIXTURE_IDS, printFixture } from '../../shared/__fixtures__/printBills'
 import { decideForBill } from '../../shared/print/printFlow'
+import { buildPrintModel, DEFAULT_PRINT_SETTINGS } from '../../shared/print/printModel'
 import { PRINT_FONT_FILES } from '../../shared/print/printConstants'
 import { IMAGE_PADDING_PX } from '../../shared/print/imageFlow'
 import { computePageBreaks, contentPageHeight, contentWidth, layoutFitted, layoutPrintModel, layoutTexts, type Measure } from '../share/layout'
@@ -68,6 +69,24 @@ describe('Phase 184 - layout uses the shared print model unchanged', () => {
     const texts = layoutTexts(layoutPrintModel(m, measure))
     expect(texts.some((t) => t.startsWith('₹'))).toBe(true)
     expect(m.footer.some((r) => r.kind === 'adjustment')).toBe(true)
+  })
+
+  it('Phase 276: the phone image / PDF layout has no "Adjustments total" row (Rough and Professional); adjustment rows, items total, round-off and grand total stay', () => {
+    const bill = printFixture('adjustment')
+    // The desktop default still builds the row (and keeps its own toggle): this is the label the phone must not draw.
+    const desktop = buildPrintModel(bill, 'rough', DEFAULT_PRINT_SETTINGS, decideForBill(bill, 'rough'))
+    const total = desktop.footer.find((r) => r.kind === 'adjustmentsTotal')
+    expect(total).toBeDefined()
+    expect(DEFAULT_PRINT_SETTINGS.hideAdjustmentsTotal).not.toBe(true)
+    for (const style of ['rough', 'professional'] as const) {
+      const m = modelFor(bill, style, COMPANY)
+      const kinds = m.footer.map((r) => r.kind)
+      expect(kinds).not.toContain('adjustmentsTotal')
+      expect(kinds).toContain('adjustment')
+      expect(kinds).toContain('itemsTotal')
+      expect(kinds).toContain('grandTotal')
+      if (total?.label) expect(layoutTexts(layoutPrintModel(m, measure))).not.toContain(total.label)
+    }
   })
 
   it('bold and red runs are drawn bold / red; an unstyled name is not', () => {

@@ -38,7 +38,11 @@ export function Settings(props: {
   /** Phase 195: true inside a NEW layout; plain words and the Advanced fold. Absent (classic) = today's screens unchanged. */
   plain?: boolean
   /** Which sub page to show; absent = the home list. `onOpenPage` is how a home row opens one (the app pushes a route, so Back returns to the list). */
-  page?: string; onOpenPage?: (id: SettingsPageId) => void; aboutRows?: readonly { label: string; value: string }[]
+  page?: string; onOpenPage?: (id: SettingsPageId) => void
+  /** Phase 283: the "Payments" row (new layouts only; Classic's Settings list is pinned by `classicParity`). */
+  onOpenPayments?: () => void
+  /** Phase 295: the "Profile" row, FIRST in the list (new layouts only, like Payments). */
+  onOpenProfile?: () => void; aboutRows?: readonly { label: string; value: string }[]
   sync?: SyncAdmin | null; engine?: PhoneSyncEngine | null; now?: () => Date; appLock?: AppLock; storageEnv?: StorageEnv; download?: (blob: Blob, name: string) => void; onChanged?: () => void
 }): ReactElement {
   const { db } = props
@@ -65,6 +69,17 @@ export function Settings(props: {
   const about = <AboutPage version={props.version} rows={props.aboutRows ?? []} now={props.now} />
   const home = (
     <ul className="q3-menu" aria-label="Settings">
+      {props.plain && props.onOpenProfile ? (
+        <li>
+          <button type="button" className="q3-menu-item" onClick={() => props.onOpenProfile?.()}>
+            <span className="q3-menu-text">
+              <span className="q3-menu-label">Profile</span>
+              <span className="q3-menu-hint">Who this phone is, what it may do and its data</span>
+            </span>
+            <span className="q3-menu-chev" aria-hidden="true">›</span>
+          </button>
+        </li>
+      ) : null}
       {SETTINGS_PAGES.map((p) => (
         <li key={p.id}>
           <button type="button" className="q3-menu-item" onClick={() => props.onOpenPage?.(p.id)}>
@@ -76,6 +91,17 @@ export function Settings(props: {
           </button>
         </li>
       ))}
+      {props.plain && props.onOpenPayments ? (
+        <li>
+          <button type="button" className="q3-menu-item" onClick={() => props.onOpenPayments?.()}>
+            <span className="q3-menu-text">
+              <span className="q3-menu-label">Payments</span>
+              <span className="q3-menu-hint">QR codes to get paid, and the payee list</span>
+            </span>
+            <span className="q3-menu-chev" aria-hidden="true">›</span>
+          </button>
+        </li>
+      ) : null}
     </ul>
   )
   if (page === 'appearance') return <div className="q3-settings">{themeRow}{props.onLayout && props.layout ? <LayoutPicker layout={props.layout} onLayout={props.onLayout} /> : null}</div>
@@ -151,7 +177,7 @@ export function Settings(props: {
       </section>
       ) : null}
 
-      {page === 'storage' ? <SettingsStorage db={db} plain={props.plain} version={props.version} now={props.now} storageEnv={props.storageEnv} download={props.download} onChanged={props.onChanged} /> : null}
+      {page === 'storage' ? <SettingsStorage db={db} plain={props.plain} version={props.version} now={props.now} storageEnv={props.storageEnv} download={props.download} onChanged={props.onChanged} engine={props.engine ?? null} /> : null}
       {page === 'lock' ? <SettingsLock db={db} appLock={props.appLock} /> : null}
     </div>
   )

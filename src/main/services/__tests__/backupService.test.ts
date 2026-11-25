@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync, copyFileSync, utimesSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { openTestDb, type TestDb } from '../../db/__tests__/helpers'
@@ -23,7 +23,7 @@ function mk(over: { writable?: boolean; keep?: number } = {}): Ctx {
   const svc = createBackupService(
     { sqlite: t.handle.sqlite, repo: createBackupRepo(t.handle.sqlite), root: t.dir, backupsDir: t.backupsDir, schemaVersion: t.handle.schemaVersion,
       ports: { pickFile: async () => picked.path, restart: () => { restarts.n++ } }, log },
-    { now: () => clock.now, keepAuto: () => over.keep ?? 14, ...(over.writable === false ? { writable: false } : {}) }
+    { now: () => clock.now, keepAuto: () => over.keep ?? 3, ...(over.writable === false ? { writable: false } : {}) }
   )
   return { t, svc, restarts, picked, clock }
 }
@@ -54,6 +54,40 @@ describe('backupService (Phase 50)', () => {
     for (const d of [10, 11, 12]) { c.clock.now = new Date(2026, 9, d, 9, 0, 0); await c.svc.autoIfDue() }
     expect(c.svc.list().filter((b) => b.kind === 'auto')).toHaveLength(2)
     expect(c.svc.list().map((b) => b.file)).toContain(manual.file)
+  })
+
+  it('Phase 275: surplus drops to the newest 3 at start with nothing due; a manual file and the newest files stay; each pre-* kind keeps 3', async () => {
+    const c = mk()
+    const manual = await c.svc.create()
+    // 14 old automatic + 5 pre-wipe copies planted by hand (a PC that ran the old 14-copy version)
+    const stamp = (kind: string, i: number): string => `${kind}-202609${String(i).padStart(2, '0')}-100000.db`
+    for (let i = 1; i <= 14; i++) {
+      const f = stamp('auto', i); copyFileSync(join(c.t.backupsDir, manual.file), join(c.t.backupsDir, f))
+      const t = new Date(2026, 8, i, 10, 0, 0); utimesSync(join(c.t.backupsDir, f), t, t)
+    }
+    for (let i = 1; i <= 5; i++) {
+      const f = stamp('pre-wipe', i); copyFileSync(join(c.t.backupsDir, manual.file), join(c.t.backupsDir, f))
+      const t = new Date(2026, 8, i, 11, 0, 0); utimesSync(join(c.t.backupsDir, f), t, t)
+    }
+    writeFileSync(join(c.t.backupsDir, 'notes.db'), 'unknown file') // not ours: ignored
+    c.svc.pruneNow()
+    const autos = c.svc.list().filter((b) => b.kind === 'auto').map((b) => b.file).sort()
+    expect(autos).toEqual([stamp('auto', 12), stamp('auto', 13), stamp('auto', 14)])
+    expect(c.svc.list().filter((b) => b.kind === 'pre-wipe').map((b) => b.file).sort()).toEqual([stamp('pre-wipe', 3), stamp('pre-wipe', 4), stamp('pre-wipe', 5)])
+    expect(c.svc.list().map((b) => b.file)).toContain(manual.file)
+    expect(existsSync(join(c.t.backupsDir, 'notes.db'))).toBe(true)
+    expect(existsSync(join(c.t.backupsDir, stamp('auto', 11)))).toBe(false)
+  })
+
+  it('Phase 275: autoIfDue prunes first, then makes today\'s backup and keeps the file it just made', async () => {
+    const c = mk()
+    for (const d of [1, 2, 3, 4, 5]) { c.clock.now = new Date(2026, 9, d, 9, 0, 0); await c.svc.autoIfDue() }
+    c.clock.now = new Date(2026, 9, 9, 10, 0, 0)
+    const b = await c.svc.autoIfDue()
+    expect(b?.kind).toBe('auto')
+    const autos = c.svc.list().filter((x) => x.kind === 'auto')
+    expect(autos).toHaveLength(3)
+    expect(autos.map((x) => x.file)).toContain(b!.file)
   })
 
   it('restore refuses without the word, makes a pre-restore backup, stages the file and restarts; the next launch swaps it in', async () => {

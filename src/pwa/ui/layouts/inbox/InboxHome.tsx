@@ -4,15 +4,19 @@ import { HISTORY_PAGE_SIZE } from '../../../../shared/history/historyList'
 import type { SearchCandidate } from '../../../../shared/history/historySearch'
 import { countTrashed, listSearchCandidates } from '../../../data/historyRepo'
 import { localIsoDate } from '../../dashboardModel'
-import { buildHistory, listTotal } from '../../historyModel'
+import { useSeatRights } from '../../useSeatRights'
+import { buildHistory, groupTotal, listTotal } from '../../historyModel'
 import { BillRow } from '../tidy/TidyRows'
 import { Button } from '../../kit/Button'
 import { PriceListEntry } from '../../kit/PriceListParts'
+import { PaymentsEntry } from '../../kit/PaymentsPage'
+import { ProfileEntry } from '../../ProfilePage'
 import type { ScreenProps } from '../types'
 
 /** Bills inbox Home (Phase 194): an always-on search bar (the SAME shared ranking as History), a one-line today / sync strip, then ALL bills grouped by
  *  day (party names wrap). Read-only; the floating New bill is drawn by the shell. */
 export function InboxHome(props: ScreenProps): ReactElement {
+  const rights = useSeatRights()
   const { db } = props
   const [candidates, setCandidates] = useState<SearchCandidate[] | null>(null)
   const [trashed, setTrashed] = useState(0)
@@ -51,7 +55,7 @@ export function InboxHome(props: ScreenProps): ReactElement {
       {result.searching ? (
         result.items.length === 0 ? <p className="q3-muted">No bills match.</p> : (
           <ul className="q3x-tidy-list" aria-label="Search results">
-            {result.items.map((b) => <BillRow key={b.id} id={b.id} party={b.partyName} sub={`${b.poNumber} · ${b.billDate}`} total={listTotal(b.grandTotal)} onOpen={open} />)}
+            {result.items.map((b) => <BillRow key={b.id} id={b.id} party={b.partyName} sub={`${b.poNumber} · ${b.billDate}`} total={listTotal(b.grandTotal, rights.can('seeSales'))} onOpen={open} />)}
           </ul>
         )
       ) : result.groups.length === 0 ? (
@@ -59,15 +63,17 @@ export function InboxHome(props: ScreenProps): ReactElement {
       ) : (
         result.groups.map((g) => (
           <section key={g.date} aria-label={g.label}>
-            <h2 className="q3x-tidy-h2 q3x-tidy-day"><span>{g.label}</span><span>{g.count} {'·'} {g.total}</span></h2>
+            <h2 className="q3x-tidy-h2 q3x-tidy-day"><span>{g.label}</span><span>{g.count} {'·'} {groupTotal(g.total, rights.can('seeSales'))}</span></h2>
             <ul className="q3x-tidy-list">
-              {g.items.map((b) => <BillRow key={b.id} id={b.id} party={b.partyName} sub={b.poNumber} total={listTotal(b.grandTotal)} onOpen={open} />)}
+              {g.items.map((b) => <BillRow key={b.id} id={b.id} party={b.partyName} sub={b.poNumber} total={listTotal(b.grandTotal, rights.can('seeSales'))} onOpen={open} />)}
             </ul>
           </section>
         ))
       )}
       {result.hiddenCount > 0 ? <Button label={`Show ${Math.min(HISTORY_PAGE_SIZE, result.hiddenCount)} more (${result.hiddenCount} hidden)`} onClick={() => setLimit((n) => n + HISTORY_PAGE_SIZE)} /> : null}
       <PriceListEntry db={db} onOpen={() => props.onNavigate('pricelist')} />
+      <PaymentsEntry onOpen={() => props.onNavigate('payments')} />
+      <ProfileEntry onOpen={() => props.onNavigate('profile')} />
       <Button label={`Recently deleted${trashed > 0 ? ` (${trashed})` : ''}`} variant="text" icon={<Trash size={20} weight="light" />} onClick={() => props.onNavigate('trash')} />
     </div>
   )

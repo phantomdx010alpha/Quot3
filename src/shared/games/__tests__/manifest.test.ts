@@ -84,3 +84,29 @@ describe('lang (Phase 205, M20)', () => {
     expect(r.skipped).toBe(1)
   })
 })
+
+describe('Phase 277: the own-game rule', () => {
+  const own = (over: Record<string, unknown> = {}): Record<string, unknown> => {
+    const g = good({ id: 'my-own-game', licence: 'Owner', own: true, source: '', commit: '', ...over })
+    return g
+  }
+  it('accepts an own game with no commit and no source (or an owner repo URL, or the keys omitted)', () => {
+    const a = validateGameEntry(own()); expect(a.ok).toBe(true)
+    if (a.ok) expect(a.entry).toMatchObject({ own: true, licence: 'Owner', commit: '', source: '' })
+    const b = own(); delete b.source; delete b.commit; expect(validateGameEntry(b).ok).toBe(true)
+    expect(validateGameEntry(own({ source: 'https://github.com/owner/country-wars' })).ok).toBe(true)
+  })
+  it('refuses the Owner licence without the owner marker, and the marker without the Owner licence', () => {
+    expect(validateGameEntry(good({ licence: 'Owner' })).ok).toBe(false)
+    expect(validateGameEntry(own({ own: undefined })).ok).toBe(false)
+    expect(validateGameEntry(own({ own: false })).ok).toBe(false)
+    expect(validateGameEntry(good({ own: true })).ok).toBe(false)
+    expect(validateGameEntry(good({ licence: 'GPL-3.0', own: true })).ok).toBe(false)
+  })
+  it('still validates what it can: a bad commit or a non-GitHub source is refused even for an own game; other games still need both', () => {
+    expect(validateGameEntry(own({ commit: 'not-a-sha' })).ok).toBe(false)
+    expect(validateGameEntry(own({ source: 'https://example.com/x' })).ok).toBe(false)
+    expect(validateGameEntry(good({ commit: '' })).ok).toBe(false)
+    expect(validateGameEntry(good({ source: '' })).ok).toBe(false)
+  })
+})

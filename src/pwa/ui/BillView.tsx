@@ -3,7 +3,9 @@ import type { Bill } from '../../shared/types'
 import { BillError, deleteBills, getBill } from '../data/billsRepo'
 import type { PhoneDb } from '../data/db'
 import { withOutbox } from '../sync/outbox'
-import { buildBillView, type BillView as BillViewData } from './billViewModel'
+import { buildBillView, redactBillViewParty, type BillView as BillViewData } from './billViewModel'
+import { ACTION_OFF_WORDS, OLD_BILLS_VIEW_ONLY, isOlderThanToday } from '../../shared/seatRights'
+import { useSeatRights } from './useSeatRights'
 import { RichName } from './RichName'
 import { SharePanel } from './SharePanel'
 
@@ -17,6 +19,7 @@ export function BillView(props: { db: PhoneDb | null; id: string; onEdit: (id: s
   const [error, setError] = useState<string | null>(null)
   const [confirming, setConfirming] = useState(false)
   const [busy, setBusy] = useState(false)
+  const rights = useSeatRights()
 
   useEffect(() => {
     if (!db) return undefined
@@ -46,6 +49,8 @@ export function BillView(props: { db: PhoneDb | null; id: string; onEdit: (id: s
     }
   }
 
+  const partyFields = redactBillViewParty(view, rights.flags).party
+  const oldBlocked = !rights.can('editOldBills') && isOlderThanToday(bill?.billDate, new Date())
   return (
     <article className="q3-bill" aria-label={`Bill ${view.poNumber}`}>
       <header className="q3-bill-head">
@@ -53,7 +58,7 @@ export function BillView(props: { db: PhoneDb | null; id: string; onEdit: (id: s
         <span className="q3-muted">{view.billDate} · {view.formatLabel} · rev {view.revision}</span>
       </header>
       <section className="q3-bill-party" aria-label="Party">
-        {view.party.length === 0 ? <div className="q3-muted">No name</div> : view.party.map((f) => (
+        {partyFields.length === 0 ? <div className="q3-muted">No name</div> : partyFields.map((f) => (
           <div key={f.key} className="q3-kv"><span className="q3-muted">{f.label}</span><span>{f.value}</span></div>
         ))}
       </section>
@@ -87,12 +92,15 @@ export function BillView(props: { db: PhoneDb | null; id: string; onEdit: (id: s
         </div>
       ) : (
         <div className="q3-actions">
-          <button type="button" className="q3-btn q3-btn-primary" disabled={view.readOnlyReason !== null || !canWrite} onClick={() => props.onEdit(id)}>Edit</button>{' '}
-          <button type="button" className="q3-btn" disabled={bill?.hybrid !== undefined && bill.hybrid !== null} title={bill?.hybrid ? 'Hybrid bills are shared from the PC' : undefined} aria-expanded={sharing} onClick={() => setSharing((v) => !v)}>Share</button>{' '}
-          <button type="button" className="q3-btn" disabled={!canWrite} onClick={() => setConfirming(true)}>Delete</button>
+          <button type="button" className="q3-btn q3-btn-primary" disabled={view.readOnlyReason !== null || oldBlocked || !canWrite} onClick={() => props.onEdit(id)}>Edit</button>{' '}
+          {rights.can('shareBills') ? <button type="button" className="q3-btn" disabled={bill?.hybrid !== undefined && bill.hybrid !== null} title={bill?.hybrid ? 'Hybrid bills are shared from the PC' : undefined} aria-expanded={sharing} onClick={() => setSharing((v) => !v)}>Share</button> : null}{' '}
+          {rights.can('deleteBills') ? <button type="button" className="q3-btn" disabled={!canWrite} onClick={() => setConfirming(true)}>Delete</button> : null}
         </div>
       )}
-      {sharing && bill ? <SharePanel db={db} bill={bill} /> : null}
+      {oldBlocked ? <p className="q3-muted" role="note">{OLD_BILLS_VIEW_ONLY}</p> : null}
+      {!rights.can('shareBills') ? <p className="q3-muted" role="note">{ACTION_OFF_WORDS.shareBills}</p> : null}
+      {!rights.can('deleteBills') ? <p className="q3-muted" role="note">{ACTION_OFF_WORDS.deleteBills}</p> : null}
+      {sharing && bill && rights.can('shareBills') ? <SharePanel db={db} bill={bill} /> : null}
       {!canWrite ? <p className="q3-note">Open in another tab: close it to edit or delete here.</p> : null}
     </article>
   )

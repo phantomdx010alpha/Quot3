@@ -65,6 +65,7 @@ import { createThemeService } from './services/themeService'
 import { createBackupService } from './services/backupService'
 import { createPriceListService } from './services/priceListService'
 import { createPriceRightsService } from './services/priceRightsService'
+import { createSeatRightsService } from './services/seatRightsService'
 import { createPriceActivityService } from './services/priceActivityService'
 import { createPriceListImportService } from './services/priceListImportService'
 import { readLegacyInventory } from './db/legacyInventoryReader'
@@ -277,7 +278,7 @@ if (!app.requestSingleInstanceLock()) {
       { sqlite: dbh.sqlite, repo: createBackupRepo(dbh.sqlite), root: layout.root, backupsDir: layout.backups, schemaVersion: dbh.schemaVersion, ports: createElectronBackupPorts(), log },
       { writable: dbh.writable, audit: audit.record }
     )
-    // Phase 50: first launch of the day makes an automatic backup (kept: the newest 14); never blocks start-up.
+    // Phase 50 / 275: surplus backups are pruned first (newest 3 automatic, newest 3 per safety kind, manual never), then the first launch of the day makes an automatic backup; never blocks start-up.
     void backup.autoIfDue().catch((err) => log.warn('Automatic backup failed', { err }))
     // Phase 52: license activation + branch registration (sync itself stays off; nothing here contacts Supabase at start-up).
     const license = createLicenseService(
@@ -506,6 +507,8 @@ if (!app.requestSingleInstanceLock()) {
     // Phase 242 (M23): who may edit the Price List on this PC (cached rights; no sync = full rights).
     const seatNoNow = (): number | null => { const n = Number(syncState.get(SHARED_KEYS.seatNo)); return sharedActivation.isActivated() && Number.isInteger(n) && n > 0 ? n : null }
     const priceRights = createPriceRightsService({ sync: syncState, syncActive: () => sharedActivation.isActivated(), seatNo: seatNoNow, connect: connectShared, log })
+    // Phase 286 (M25): per-phone rights (seat 1 reads and sets; the desktop itself is never restricted).
+    const seatRights = createSeatRightsService({ sync: syncState, syncActive: () => sharedActivation.isActivated(), seatNo: seatNoNow, connect: connectShared, log })
     rightsAuto = (afterRefused) => { void priceRights.auto(afterRefused).catch(() => undefined) }
     // Phase 236 (M23): the Price List storage; Phase 242 adds the seat number and the local rights guard.
     const priceList = createPriceListService(
@@ -756,6 +759,7 @@ if (!app.requestSingleInstanceLock()) {
       priceList,
       priceImport: { service: priceImport, pickFile: pickLegacyInventoryFile },
       priceRights,
+      seatRights,
       priceActivity,
       itemsEmit: (channel, payload) => { broadcast(channel, payload) },
       trash,

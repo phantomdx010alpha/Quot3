@@ -6,6 +6,7 @@ import type { BillListItem, HistoryBranch, HistoryDate, HistorySource } from './
 import type { SearchHit } from './history/historySearch'
 import type { DecisionInput, DecisionResult, GroupDetail, GroupSales, ItemsOverview, LastDecisionInfo, OpenTarget, RebuildSummary, UndoOutcome } from './items/api'
 import type { DraftSummary } from './draft'
+import type { SeatFlags, SeatRightsRow } from './seatRights'
 import type { ColumnsInput, ColumnsResult, PriceLogPage, PriceLogQuery, PriceTrashEntry, PriceTrashRef, PriceTree, SaveRowsInput, SaveRowsResult, StructureInput, StructureResult, PriceImportRunResult, PriceRightsInfo, PriceSeatRightsRow, PriceActivityAccess, PriceActivityPage, PriceActivityCsv } from './pricelist/api'
 import type { PriceRow } from './pricelist/types'
 import type { PermFlags } from './pricelist/perms'
@@ -147,6 +148,10 @@ export type ErrorCode =
   | 'RECORD_ASIDE'
   | 'DECRYPT_FAILED'
   | 'IO_ERROR'
+  /** Phase 286 (M25-7): the company database has no phone rights yet (SQL file 23 not run). */
+  | 'not_available'
+  /** Phase 286 (M25-7): only seat 1 may read or change phone rights. */
+  | 'seat1_only'
   | 'UNKNOWN'
 
 export interface IpcError {
@@ -500,6 +505,11 @@ export interface Quot3Bridge {
     activityAccess(): Promise<Result<PriceActivityAccess>>
     activity(input?: PriceLogQuery): Promise<Result<PriceActivityPage>>
     activityCsv(): Promise<Result<PriceActivityCsv>>
+  }
+  /** Phase 286 (M25-7): per-phone rights, seat 1 only. A company database without SQL 23 answers `not_available`. */
+  seatRights: {
+    list(): Promise<Result<SeatRightsRow[]>>
+    set(input: { seatNo: number; flags: SeatFlags }): Promise<Result<SeatRightsRow>>
   }
   items: {
     /** Phase 110: groups (light rows), families, not-items and totals; brings the index up to date first. */

@@ -14,6 +14,8 @@ import type { PartySnapshot } from '../../shared/types'
 import { reqToPromise, type PhoneDb } from './db'
 import { listBillHeads, saveBill, type BillsOptions, type SaveBillInput, type SaveBillResult } from './billsRepo'
 import { getMetaValue } from './metaRepo'
+import { canDo } from '../../shared/seatRights'
+import { getSeatRightsSnapshot } from './seatRights'
 
 /** The synced customer record (matches `partyData.party` in `shared/sync/codecV2.ts`; blank text is `null`). */
 export interface PartyRecord {
@@ -126,6 +128,13 @@ export async function saveBillWithParty(
   const orgId = p.orgId !== undefined ? p.orgId : await getMetaValue(db, 'org_id')
   const { parties: _parties, ...billOpts } = opts
   void _parties
+  // Phase 291 (M25-5): without `editCustomers` no customer record is created or changed; the bill keeps its typed name and any link it already had.
+  if (!canDo(getSeatRightsSnapshot().flags, 'editCustomers')) {
+    return saveBill(db, input, {
+      ...billOpts,
+      resolveParty: async (tx) => ((await reqToPromise(tx.objectStore('bills').get(input.bill.id))) as { partyId?: string | null; party_id?: string | null } | undefined)?.partyId ?? null
+    })
+  }
   return saveBill(db, input, {
     ...billOpts,
     resolveParty: (tx, party, at) => resolvePartyInTx(tx, party, at, { orgId, newId: p.newId, inTx: p.inTx })

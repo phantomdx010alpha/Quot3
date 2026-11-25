@@ -518,6 +518,19 @@ Read `docs/MILESTONE24_DESIGN.md` before any Phase 257-274 (Phases 251-256 need 
 - **TESTING RULE unchanged: DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files. Known pre-existing failures: see 10r.
 - Items marked [A] are unconfirmed (`MILESTONE24_DESIGN.md` section 11); say so in every phase log.
 
+## 10t. Milestone 25 supersessions (Phases 275-297, releases 0.1.62 [A], 0.1.63 [A], 0.1.64 [A]): backup cap, phone Payments (QR), per-phone rights, data protection and restore, Profile page, Country Wars
+
+Read `docs/MILESTONE25_DESIGN.md` before any Phase 278-297 (Phases 275-277 need only their own entry). Everything in 10s and earlier still holds. Phase 188 and Phase 69 are separate and still run. The plan was read from the 0.1.61 code.
+- **Backups (desktop):** only the newest 3 automatic backups are kept; the newest 3 of each `pre-*` safety kind are kept; manual backups are NEVER deleted by code. A prune never deletes the file just created and never empties a kind.
+- **The master holds ONE more item: the company payments list** (bank / UPI details, jsonb on `companies`, `payments_version`). Still no bills, no Price List data, no company records. Bank account numbers, UPI ids and IFSC codes go through `shared/master/redact.ts` before any log, diagnostic or test output (the keys are added in Phase 279). Master SQL series: next file `M05`; company-project SQL series: next file `23` (rights). Never edit a numbered SQL file that was run; never run anything against a real Supabase from the sandbox.
+- **Phone rights apply to PHONES only** (owner decision D4). They are per seat, set by seat 1 on the desktop, like the Price List rights; seat 1 always has every right. Existing seats keep everything at migration; new seats start from the Staff preset [A]; an old company project that does not know the rights answers "not available" and the phone then has everything. Rights hide and block IN THE APP: the records still sit on the phone and the shared image / PDF still carry customer address and contact (owner decision D6). Real server-side withholding is NOT part of M25. Never describe the flags as "secure" or "leak-proof" anywhere in the UI or the docs.
+- **The Payments page and the Profile page are reachable from Settings** so every layout, classic included, can open them. The classic layout and its pinned files (`ui.css`, `tokens.css`, `themes.css`, `pwa.css`, the DOM snapshot) are not touched without the owner's approval (10r); if `classicParity` would have to change, STOP and ask.
+- **Payments reproduce the owner's original page exactly:** the default payees, the three URL shapes and the amount rule are tested against `docs/reference/qr_payments_source/index.html`. The QR library is bundled, never loaded from a CDN. The QR image is its own image, never inside the bill image, and carries no account number.
+- **Data protection is honest:** a browser can clear everything including the sync login; the app makes loss rare, restores with ONE code, warns about unsynced bills (warn only, nothing is blocked) and re-checks itself against the server. Never write that the data "cannot be lost".
+- **Games:** the owner's own game is accepted through the own-game manifest rule of Phase 277 only; the game frame still allows no network, so a game may not load fonts, images or scripts from outside.
+- **TESTING RULE unchanged: DO NOT RUN THE FULL TEST SUITE.** `npm run typecheck` once plus ONLY the named test files. Known pre-existing failures: see 10r and the Phase 273 / 0.1.61 notes in `PHASE_STATUS.md`.
+- Items marked [A] are unconfirmed (`MILESTONE25_DESIGN.md` sections 3 and 9); say so in every phase log.
+
 ## 11. Before you finish — checklist
 
 - [ ] Only this phase's scope was touched

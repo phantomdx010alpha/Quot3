@@ -3,8 +3,11 @@ import { useEffect, useMemo, useState, type ReactElement } from 'react'
 import type { Bill } from '../../../../shared/types'
 import { BillError, deleteBills, getBill } from '../../../data/billsRepo'
 import { withOutbox } from '../../../sync/outbox'
-import { buildBillView, type ViewItem } from '../../billViewModel'
+import { buildBillView, redactBillViewParty, type ViewItem } from '../../billViewModel'
+import { ACTION_OFF_WORDS, OLD_BILLS_VIEW_ONLY, isOlderThanToday } from '../../../../shared/seatRights'
+import { useSeatRights } from '../../useSeatRights'
 import { RichName } from '../../RichName'
+import { BillQrSheet } from '../../kit/BillQrSheet'
 import { BottomSheet } from '../../kit/BottomSheet'
 import { Button } from '../../kit/Button'
 import { ItemLine } from '../../kit/ItemLine'
@@ -24,6 +27,7 @@ export function TidyBillView(props: ScreenProps): ReactElement {
   const [bill, setBill] = useState<Bill | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [more, setMore] = useState(false)
+  const [qrOpen, setQrOpen] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [busy, setBusy] = useState(false)
 
@@ -38,7 +42,9 @@ export function TidyBillView(props: ScreenProps): ReactElement {
     return () => { cancelled = true }
   }, [db, id])
 
-  const view = useMemo(() => (bill ? buildBillView(bill) : null), [bill])
+  const rights = useSeatRights()
+  const oldBlocked = !rights.can('editOldBills') && isOlderThanToday(bill?.billDate, new Date())
+  const view = useMemo(() => (bill ? redactBillViewParty(buildBillView(bill), rights.flags) : null), [bill, rights.flags])
   const totals = useMemo(() => (bill ? tidyTotals(bill) : null), [bill])
 
   if (!db || !id) return <p className="q3-note q3-note-warn" role="alert">Your bills could not be opened.</p>
@@ -96,6 +102,7 @@ export function TidyBillView(props: ScreenProps): ReactElement {
       {totals.show ? <TotalsBlock rows={totals.rows} total={totals.total} /> : null}
 
       {view.readOnlyReason ? <p className="q3x-tidy-note" role="note">{view.readOnlyReason}</p> : null}
+      {oldBlocked ? <p className="q3x-tidy-note" role="note">{OLD_BILLS_VIEW_ONLY}</p> : null}
       {!canWrite ? <p className="q3x-tidy-note">Open in another tab: close it to edit or delete here.</p> : null}
 
       <div className="q3x-tidy-stickybar">
@@ -105,9 +112,11 @@ export function TidyBillView(props: ScreenProps): ReactElement {
             <Button label="Edit on PC" disabled onClick={() => undefined} />
           </>
         ) : (
-          <ShareBar db={db} bill={bill} mode="view" onEdit={() => props.onNavigate('create', id)} editLabel={editBlocked ? 'Edit on PC' : 'Edit'} editDisabled={editBlocked || !canWrite} />
+          <ShareBar db={db} bill={bill} mode="view" onShareQr={() => setQrOpen(true)} onEdit={() => props.onNavigate('create', id)} editLabel={editBlocked ? 'Edit on PC' : 'Edit'} editDisabled={editBlocked || oldBlocked || !canWrite} />
         )}
       </div>
+
+      <BillQrSheet open={qrOpen} onClose={() => setQrOpen(false)} db={db} bill={bill} payments={props.payments} />
 
       <BottomSheet open={more} title="More" onClose={() => { setMore(false); setConfirming(false) }}>
         <p className="q3x-tidy-text">Version history info: revision {view.revision}</p>
@@ -118,7 +127,7 @@ export function TidyBillView(props: ScreenProps): ReactElement {
             <Button label="Cancel" disabled={busy} onClick={() => setConfirming(false)} />
           </div>
         ) : (
-          <Button label="Delete this bill" disabled={!canWrite} onClick={() => setConfirming(true)} />
+          rights.can('deleteBills') ? <Button label="Delete this bill" disabled={!canWrite} onClick={() => setConfirming(true)} /> : <p className="q3x-tidy-text" role="note">{ACTION_OFF_WORDS.deleteBills}</p>
         )}
       </BottomSheet>
 

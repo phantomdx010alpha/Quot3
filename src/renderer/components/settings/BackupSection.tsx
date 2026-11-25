@@ -24,7 +24,7 @@ export function BackupSection(): React.JSX.Element {
   return (
     <div className="q3-bk" aria-label="Backups">
       <p className="q3-set__muted">
-        A backup is made automatically the first time the app opens each day (the newest {status?.keepAuto ?? 14} are kept). Manual backups, imported files and the safety copies made before a restore are never removed automatically.
+        A backup is made automatically the first time the app opens each day (the newest {status?.keepAuto ?? 3} are kept). The safety copies made before a restore, an import, a start-fresh or an update are kept 3 of each kind. Manual backups and imported files are never removed automatically.
       </p>
       {status && !status.integrity.ok && <p role="alert" className="q3-set__error">The database failed its start-up check ({status.integrity.message}). Restore the newest backup below.</p>}
       <div className="q3-set__row">

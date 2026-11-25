@@ -3,8 +3,13 @@ import { computeBackupStatus, exportBackup, importBackup, type BackupStatus } fr
 import { countRecords, type PhoneDb } from '../data/db'
 import { getMeta } from '../data/metaRepo'
 import { resetPhoneData } from '../data/resetData'
+import { useSeatRights } from './useSeatRights'
 import { getSetting } from '../data/settingsRepo'
 import { formatBytes, readStorageHealth, requestPersistence, type StorageEnv, type StorageHealth } from '../platform/storage'
+import { browserMarkerStore } from '../platform/clearedData'
+import { browserInstallEnv } from '../platform/installPrompt'
+import { installedWord, markersWord, unsyncedLine, type ProtectionState } from '../platform/protectionState'
+import { readProtection } from './protectionRead'
 import { plainText } from './kit/plainWords'
 import { PriceStorageNote } from './PriceSyncLines'
 import { lastExportText, nextResetStep, type ResetStep } from './settingsModel'
@@ -27,9 +32,15 @@ export function SettingsStorage(props: {
   db: PhoneDb; version: string; now?: () => Date
   storageEnv?: StorageEnv; download?: (blob: Blob, name: string) => void
   onChanged?: () => void
+  /** Phase 292: only for "Last successful sync"; absent = shown as unknown. */
+  engine?: { status(): Promise<{ push: { lastSuccessAt: string | null }; pull: { lastSuccessAt: string | null } }> } | null
 }): ReactElement {
   const { db } = props
+  const rights = useSeatRights()
+  const canExport = rights.can('exportData')
   const [health, setHealth] = useState<StorageHealth | null>(null)
+  // Phase 292: the same protection state the Dashboard banner uses.
+  const [prot, setProt] = useState<{ state: ProtectionState; linked: boolean } | null>(null)
   const [status, setStatus] = useState<BackupStatus | null>(null)
   const [lastExport, setLastExport] = useState<string | null>(null)
   const [note, setNote] = useState<string | null>(null)
@@ -44,6 +55,11 @@ export function SettingsStorage(props: {
   const refresh = useCallback(async (): Promise<void> => {
     try {
       setHealth(await readStorageHealth(env))
+      if (props.plain) try { // [A] new layouts only: classic's Storage page DOM is pinned (classicParity)
+        const inst = browserInstallEnv()
+        const r = await readProtection(db, { env, installed: inst ? inst.isStandalone() : null, engine: props.engine ?? null, local: browserMarkerStore() })
+        setProt({ state: r.state, linked: r.linked })
+      } catch { setProt(null) }
       const meta = await getMeta(db)
       const days = await getSetting(db, 'backup.reminderDays')
       setLastExport(meta.last_export_at)
@@ -96,12 +112,22 @@ export function SettingsStorage(props: {
       <h2 className="q3-h2">Storage and backup</h2>
       <div className="q3-row"><span>Kept by the browser</span><span>{yn(health?.persisted ?? null)}</span></div>
       <div className="q3-row"><span>Used</span><span>{formatBytes(health?.usageBytes ?? null)} of {formatBytes(health?.quotaBytes ?? null)}</span></div>
+      {prot ? (
+        <>
+          <div className="q3-row" data-testid="protect-installed"><span>Installed as an app</span><span>{installedWord(prot.state)}</span></div>
+          <div className="q3-row" data-testid="protect-markers"><span>Loss checks</span><span>{markersWord(prot.state.markers)}</span></div>
+          {prot.linked ? <div className="q3-row" data-testid="protect-lastsync"><span>Last successful sync</span><span>{prot.state.lastSyncAt ? lastExportText(prot.state.lastSyncAt, nowDate()) : 'unknown'}</span></div> : null}
+          {unsyncedLine(prot.state, prot.linked) ? <p className="q3-note q3-note-warn" role="status" data-testid="protect-unsynced">{unsyncedLine(prot.state, prot.linked)}</p> : null}
+        </>
+      ) : null}
       <div className="q3-row"><span>{props.plain ? plainText('Last export') : 'Last export'}</span><span>{lastExportText(lastExport, nowDate())}</span></div>
       {props.plain ? <PriceStorageNote db={db} refreshKey={noteTick} /> : null}
       {health?.persisted === false && health.persistApiAvailable ? (
         <button type="button" className="q3-btn" disabled={!canWrite} onClick={() => void requestPersistence(env).then(refresh)}>Ask the browser to keep my data</button>
       ) : null}
-      {status && status.state !== 'ok' ? <p className="q3-note q3-note-warn" role="status">{status.state === 'never' ? 'This phone has bills but no backup file yet. Export one.' : `Your last backup is ${status.daysSince} days old. Export a new one.`}</p> : null}
+      {canExport && status && status.state !== 'ok' ? <p className="q3-note q3-note-warn" role="status">{status.state === 'never' ? 'This phone has bills but no backup file yet. Export one.' : `Your last backup is ${status.daysSince} days old. Export a new one.`}</p> : null}
+      {canExport ? (
+        <>
       <div className="q3-actions">
         <button type="button" className="q3-btn q3-btn-primary" disabled={busy} onClick={() => void doExport()}>Export backup</button>
         <label className="q3-btn">
@@ -140,6 +166,8 @@ export function SettingsStorage(props: {
           </div>
         </div>
       ) : null}
+        </>
+      ) : <p className="q3-muted" role="note">Export, import and reset are switched off for this phone by your admin.</p>}
       {note ? <p className="q3-note" role="status">{note}</p> : null}
       {error ? <p className="q3-note q3-note-warn" role="alert">{error}</p> : null}
     </section>

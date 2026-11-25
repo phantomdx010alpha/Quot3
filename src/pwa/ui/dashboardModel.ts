@@ -1,5 +1,6 @@
 import { buildDashboardStats, formatBackupTime, RECENT_BILLS, statsWindowStart, type DayTotal } from '../../shared/dashboard/dashboardStats'
 import { fmtMoney } from '../../shared/money'
+import { SALES_NOT_SHOWN } from '../../shared/seatRights'
 import type { BackupStatus } from '../data/backup'
 import type { BillHead } from '../data/billsRepo'
 import type { Meta } from '../data/metaRepo'
@@ -67,6 +68,12 @@ export function describeSync(meta: Pick<Meta, 'org_id' | 'branch_id' | 'branch_n
   }
 }
 
+/** Phase 294: the self-check line joins the sync line's detail (only while the phone is linked and sync runs; nothing changes when it was never checked). */
+export function withSelfCheck(line: SyncLine, selfCheck: string): SyncLine {
+  if (selfCheck === '' || line.text === 'Sync not set up' || line.text === 'Open in another tab') return line
+  return { ...line, detail: line.detail === '' ? selfCheck : `${line.detail} · ${selfCheck}` }
+}
+
 export function buildDashboardView(input: {
   heads: readonly BillHead[]
   now: Date
@@ -74,6 +81,8 @@ export function buildDashboardView(input: {
   backup: BackupStatus
   engine: EngineStatus | null
   writable: boolean
+  /** Phase 294: the self-check status line ("Checked 14:05, all in step"); '' / absent = never checked. */
+  selfCheck?: string
 }): DashboardView {
   const today = localIsoDate(input.now)
   const windowStart = statsWindowStart(today)
@@ -91,7 +100,19 @@ export function buildDashboardView(input: {
     month: { month: s.month.month, count: s.month.count, total: money(s.month.total) },
     recent: input.heads.slice(0, RECENT_BILLS).map((h) => ({ id: h.id, poNumber: h.poNumber, partyName: h.partyName, billDate: h.billDate, total: showTotal(h.grandTotal) })),
     billCount: input.heads.length,
-    sync: describeSync(input.meta, input.engine, input.writable),
+    sync: withSelfCheck(describeSync(input.meta, input.engine, input.writable), input.selfCheck ?? ''),
     backup: { text: backupText, tone: bk.state === 'ok' ? 'ok' : 'warn', note }
+  }
+}
+
+/** Phase 290 (M25-5): the Dashboard view as the screen shows it. Without `seeSales` the today / month totals and every recent-bill amount
+ *  become "Not shown"; counts and names stay. Pure copy. */
+export function redactDashboardSales(view: DashboardView, rights: { seeSales: boolean }): DashboardView {
+  if (rights.seeSales === true) return view
+  return {
+    ...view,
+    today: { ...view.today, total: SALES_NOT_SHOWN },
+    month: { ...view.month, total: SALES_NOT_SHOWN },
+    recent: view.recent.map((b) => ({ ...b, total: SALES_NOT_SHOWN }))
   }
 }

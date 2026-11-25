@@ -20,6 +20,9 @@ import { TotalsBlock } from '../../kit/TotalsBlock'
 import { tidyTotals } from '../tidy/tidyTotals'
 import { cellOrder, nextCell, prevCell, type PaperField } from './inboxToolbar'
 import type { EditorProps } from '../types'
+import { HIDDEN_BY_ADMIN } from '../../../../shared/seatRights'
+import { redactSuggestions } from '../../customersModel'
+import { useSeatRights } from '../../useSeatRights'
 
 function GrowText(props: { value: string; label: string; field: string; enter: 'next' | 'done'; onValue: (v: string) => void; onEnter?: () => void; onFocus?: () => void; onBlur?: () => void; className?: string }): ReactElement {
   const ref = useRef<HTMLTextAreaElement>(null)
@@ -122,7 +125,8 @@ export function InboxEditor(props: EditorProps): ReactElement {
   const view = useMemo(() => (state ? buildEditorView(state) : null), [state])
   const totals = useMemo(() => (state ? tidyTotals(state.bill) : null), [state])
   const formats = useMemo(() => editableFormats(), [])
-  const suggestions = useMemo(() => (state && dir && suggestOpen ? dir.search(state.bill.party.name) : []), [state, dir, suggestOpen])
+  const rights = useSeatRights()
+  const suggestions = useMemo(() => (state && dir && suggestOpen ? redactSuggestions(dir.search(state.bill.party.name), state.bill.party.name, rights.flags) : []), [state, dir, suggestOpen, rights.flags])
 
   if (blocked) return <p className="q3-note q3-note-warn" role="alert">{blocked}</p>
   if (!db) return <p className="q3-muted">The phone database is not available.</p>
@@ -179,7 +183,7 @@ export function InboxEditor(props: EditorProps): ReactElement {
               <ul className="q3x-tidy-suggest" role="listbox" aria-label="Customers">
                 {suggestions.map((p) => (
                   <li key={p.id} role="option" aria-selected="false">
-                    <button type="button" className="q3x-tidy-row" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, p)); setSuggestOpen(false) }}>
+                    <button type="button" className="q3x-tidy-row" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, dir?.find(p.name) ?? p)); setSuggestOpen(false) }}>
                       <span className="q3x-tidy-row-title">{p.name}</span><span className="q3x-tidy-sub">{p.phone}</span>
                     </button>
                   </li>

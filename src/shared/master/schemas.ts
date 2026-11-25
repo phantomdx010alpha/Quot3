@@ -169,7 +169,27 @@ export const EnrolResponseSchema = z.object({
   profile: ProfileViewSchema
 })
 
-/** Function registry in contract order F1..F13: name, who may call, request and response schema. */
+// ---- Phase 280: Payments (API_CONTRACTS.md M25-3, F14 / F15) -----------------------------------------------------------
+const PayeeSchema = z.object({
+  id: z.string().max(32),
+  name: z.string().max(40),
+  kind: z.enum(['merchant', 'upi', 'account']),
+  merchant: z.object({
+    pa: z.string(), ver: z.string(), mode: z.string(), orgId: z.string(), tr: z.string(), mid: z.string(), mtid: z.string(), mc: z.string(), qrMedium: z.string()
+  }).optional(),
+  upiId: z.string().optional(),
+  account: z.object({ number: z.string(), ifsc: z.string() }).optional()
+})
+export const PaymentsBodySchema = z.object({ recipient: z.string().max(60), defaultId: z.string().max(32), accounts: z.array(PayeeSchema).min(1).max(20) })
+export const PaymentsViewSchema = z.object({ version: z.number().int().min(0), unchanged: z.boolean(), list: PaymentsBodySchema.nullable() })
+export type PaymentsView = z.infer<typeof PaymentsViewSchema>
+export const PaymentsGetRequestSchema = z.object({ v: wire, knownVersion: z.number().int().min(0).optional() })
+/** `list` is checked for size (Q3M26) and content (Q3M25) by the function, not by the shape, so a bad list is not "bad request". */
+export const PaymentsSetRequestSchema = z.object({ v: wire, reqId, expectVersion: z.number().int().min(0), list: z.record(z.string(), z.unknown()) })
+export const PaymentsGetResponseSchema = z.object({ ok, payments: PaymentsViewSchema })
+export const PaymentsSetResponseSchema = z.object({ ok, payments: PaymentsViewSchema })
+
+/** Function registry in contract order F1..F15: name, who may call, request and response schema. */
 export const MASTER_FUNCTIONS = {
   redeem: { n: 1, auth: 'none', request: RedeemRequestSchema, response: RedeemResponseSchema },
   adopt: { n: 2, auth: 'session', request: AdoptRequestSchema, response: AdoptResponseSchema },
@@ -183,7 +203,9 @@ export const MASTER_FUNCTIONS = {
   'seat-revoke': { n: 10, auth: 'admin', request: SeatRevokeRequestSchema, response: SeatRevokeResponseSchema },
   'seat-rename': { n: 11, auth: 'admin', request: SeatRenameRequestSchema, response: SeatRenameResponseSchema },
   'seat-regen': { n: 12, auth: 'admin', request: SeatRegenRequestSchema, response: SeatRegenResponseSchema },
-  enrol: { n: 13, auth: 'owner-token', request: EnrolRequestSchema, response: EnrolResponseSchema }
+  enrol: { n: 13, auth: 'owner-token', request: EnrolRequestSchema, response: EnrolResponseSchema },
+  'payments-get': { n: 14, auth: 'device', request: PaymentsGetRequestSchema, response: PaymentsGetResponseSchema },
+  'payments-set': { n: 15, auth: 'device', request: PaymentsSetRequestSchema, response: PaymentsSetResponseSchema }
 } as const
 
 export type MasterFunctionKey = keyof typeof MASTER_FUNCTIONS

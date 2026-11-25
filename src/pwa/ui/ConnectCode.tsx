@@ -5,7 +5,9 @@ import type { RedeemResult } from '../sync/master'
 import type { PhoneSyncEngine } from '../sync/engine'
 import { SEAT_REMOVED_WORDS } from '../sync/recredential'
 import { codeFeedback } from './connectCodeModel'
-import type { SyncAdmin } from './services'
+import type { RestoreApi, SyncAdmin } from './services'
+import { RestoreScreen } from './RestoreScreen'
+import { RESTORE_INTRO, RESTORE_LIMIT_LINE, RESTORE_TITLE } from '../sync/restore'
 import { SettingsSync } from './SettingsSync'
 
 /** What the screen needs from the running app (`AppServices.connectCode`). */
@@ -28,11 +30,17 @@ export function ConnectCode(props: {
   engine?: PhoneSyncEngine | null
   onLinked: () => void
   onNotNow: () => void
+  /** Phase 293: a BLANK phone (no bills, no customers) with `restore` = the restore path: restore wording, and after the code works the phone restores by itself. */
+  restore?: RestoreApi | null
+  blank?: boolean
+  onRestored?: () => void
 }): ReactElement {
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [advanced, setAdvanced] = useState(false)
+  const [restoring, setRestoring] = useState(false)
+  const restoreMode = props.mode === 'first' && props.blank === true && Boolean(props.restore)
   const fb = codeFeedback(code)
 
   const submit = async (): Promise<void> => {
@@ -42,12 +50,14 @@ export function ConnectCode(props: {
       // A removed seat keeps its branch name and PO prefix (they are fixed once the phone issued numbers).
       const link = props.mode === 'removed' ? await getBranchLink(props.db) : null
       const r = await props.connect.redeem(code, link?.linked && link.branchName && link.poPrefix ? { branchName: link.branchName, poPrefix: link.poPrefix } : undefined)
-      if (r.ok) { setCode(''); props.onLinked(); return }
+      if (r.ok) { setCode(''); if (restoreMode) { setRestoring(true); return } props.onLinked(); return }
       setError(r.message)
     } catch {
       setError('Something went wrong. Try again.')
     } finally { setBusy(false) }
   }
+
+  if (restoring && props.restore) return <RestoreScreen api={props.restore} mode="code" onDone={() => (props.onRestored ?? props.onLinked)()} />
 
   return (
     <div className="q3-shell">
@@ -58,10 +68,18 @@ export function ConnectCode(props: {
             <p className="q3-muted">{SEAT_REMOVED_WORDS} Your bills stay on this phone.</p>
           </>
         ) : (
-          <>
-            <h1>Connect to your company</h1>
-            <p className="q3-muted">Enter the code your admin gave you.</p>
-          </>
+          restoreMode ? (
+            <>
+              <h1>{RESTORE_TITLE}</h1>
+              <p className="q3-muted">Enter the code your admin gave you. {RESTORE_INTRO}</p>
+              <p className="q3-muted">{RESTORE_LIMIT_LINE}</p>
+            </>
+          ) : (
+            <>
+              <h1>Connect to your company</h1>
+              <p className="q3-muted">Enter the code your admin gave you.</p>
+            </>
+          )
         )}
         <input
           className="q3-input" aria-label="Company code" value={code} autoFocus autoComplete="off" autoCapitalize="characters" spellCheck={false} disabled={busy}

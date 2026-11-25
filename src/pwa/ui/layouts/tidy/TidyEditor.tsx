@@ -22,6 +22,9 @@ import { SnackbarHost, useSnackbar } from '../../kit/Snackbar'
 import { TotalsBlock } from '../../kit/TotalsBlock'
 import { tidyTotals } from './tidyTotals'
 import type { EditorProps } from '../types'
+import { HIDDEN_BY_ADMIN } from '../../../../shared/seatRights'
+import { redactSuggestions } from '../../customersModel'
+import { useSeatRights } from '../../useSeatRights'
 
 type Sheet = { kind: 'row'; id: string; start: number; end: number } | { kind: 'options' } | { kind: 'columns' } | { kind: 'units' } | null
 
@@ -145,7 +148,8 @@ export function TidyEditor(props: EditorProps): ReactElement {
   const view = useMemo(() => (state ? buildEditorView(state) : null), [state])
   const totals = useMemo(() => (state ? tidyTotals(state.bill) : null), [state])
   const formats = useMemo(() => editableFormats(), [])
-  const suggestions = useMemo(() => (state && dir && suggestOpen ? dir.search(state.bill.party.name) : []), [state, dir, suggestOpen])
+  const rights = useSeatRights()
+  const suggestions = useMemo(() => (state && dir && suggestOpen ? redactSuggestions(dir.search(state.bill.party.name), state.bill.party.name, rights.flags) : []), [state, dir, suggestOpen, rights.flags])
 
   if (blocked) return <p className="q3-note q3-note-warn" role="alert">{blocked}</p>
   if (!db) return <p className="q3-muted">The phone database is not available.</p>
@@ -204,7 +208,7 @@ export function TidyEditor(props: EditorProps): ReactElement {
             <ul className="q3x-tidy-suggest" role="listbox" aria-label="Customers">
               {suggestions.map((p) => (
                 <li key={p.id} role="option" aria-selected="false">
-                  <button type="button" className="q3x-tidy-row" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, p)); setSuggestOpen(false) }}>
+                  <button type="button" className="q3x-tidy-row" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, dir?.find(p.name) ?? p)); setSuggestOpen(false) }}>
                     <span className="q3x-tidy-row-title">{p.name}</span><span className="q3x-tidy-sub">{p.phone}</span>
                   </button>
                 </li>
@@ -221,9 +225,13 @@ export function TidyEditor(props: EditorProps): ReactElement {
         />
         {showDetails ? (
           <div className="q3x-tidy-details">
-            <input className="q3x-input" inputMode="tel" aria-label="Phone" placeholder="Phone" value={state.bill.party.phone} onChange={(e) => update((s) => setPartyField(s, 'phone', e.target.value))} />
+            {rights.can('seeContact') ? (
+              <input className="q3x-input" inputMode="tel" aria-label="Phone" placeholder="Phone" value={state.bill.party.phone} onChange={(e) => update((s) => setPartyField(s, 'phone', e.target.value))} />
+            ) : <input className="q3x-input" aria-label="Phone" readOnly value={HIDDEN_BY_ADMIN} />}
             <input className="q3x-input" aria-label="Transport" placeholder="Transport" value={state.bill.party.transport} onChange={(e) => update((s) => setPartyField(s, 'transport', e.target.value))} />
-            <textarea className="q3x-input q3x-grow" rows={2} aria-label="Address" placeholder="Address" value={state.bill.party.address} onChange={(e) => update((s) => setPartyField(s, 'address', e.target.value))} />
+            {rights.can('seeAddress') ? (
+              <textarea className="q3x-input q3x-grow" rows={2} aria-label="Address" placeholder="Address" value={state.bill.party.address} onChange={(e) => update((s) => setPartyField(s, 'address', e.target.value))} />
+            ) : <input className="q3x-input" aria-label="Address" readOnly value={HIDDEN_BY_ADMIN} />}
           </div>
         ) : null}
       </section>

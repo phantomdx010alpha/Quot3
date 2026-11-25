@@ -2,7 +2,7 @@ import type { z } from 'zod'
 import { isMasterConfigured, MASTER_RETRIES, MASTER_TIMEOUT_MS, MASTER_WIRE_VERSION, masterFunctionUrl, masterHeaders, type MasterFunctionName } from '../../shared/master/config'
 import { isMasterErrorCode, masterErrorWords, type MasterErrorCode } from '../../shared/master/errors'
 import { redactSecrets } from '../../shared/master/redact'
-import { MASTER_FUNCTIONS, parseBundle, parseErrorBody, type Bundle, type MasterFunctionKey, type ProfileView } from '../../shared/master/schemas'
+import { MASTER_FUNCTIONS, parseBundle, parseErrorBody, type Bundle, type MasterFunctionKey, type PaymentsView, type ProfileView } from '../../shared/master/schemas'
 import { validateSeatCode } from '../../shared/master/seatCode'
 import type { PhoneDb } from '../data/db'
 import { getBranchLink, linkPhoneToOrganisation, type BranchLink, type LinkResult } from './branch'
@@ -49,6 +49,10 @@ export interface PhoneMasterClient {
   refresh(deviceToken: string): Promise<{ supabaseUrl: string; anonKey: string; license: string; seat: { no: number; email: string; password: string | null }; legacy: boolean }>
   heartbeat(a: { profileVersion: number | null }, deviceToken: string): Promise<{ profileChanged: boolean; seat: { no: number; label: string; status: string } }>
   profileGet(deviceToken: string): Promise<ProfileView>
+  /** Phase 281 (F14): the company Payments list (or `unchanged`). Q3M22 = this seat may not see Payments. */
+  paymentsGet(a: { knownVersion?: number }, deviceToken: string): Promise<PaymentsView>
+  /** Phase 281 (F15): replace the list (compare-and-set on `expectVersion`). Q3M23 / Q3M24 / Q3M25 / Q3M26 are the refusals. */
+  paymentsSet(a: { reqId: string; expectVersion: number; list: Record<string, unknown> }, deviceToken: string): Promise<PaymentsView>
 }
 
 export function createPhoneMasterClient(deps: PhoneMasterDeps): PhoneMasterClient {
@@ -100,7 +104,9 @@ export function createPhoneMasterClient(deps: PhoneMasterDeps): PhoneMasterClien
     adopt: async (a, t) => (await post('adopt', { ...a, platform: 'phone', appVersion: deps.appVersion }, t)) as Awaited<ReturnType<PhoneMasterClient['adopt']>>,
     refresh: async (t) => (await post('refresh', {}, t)) as Awaited<ReturnType<PhoneMasterClient['refresh']>>,
     heartbeat: async (a, t) => (await post('heartbeat', { profileVersion: a.profileVersion, appVersion: deps.appVersion }, t)) as Awaited<ReturnType<PhoneMasterClient['heartbeat']>>,
-    profileGet: async (t) => ((await post('profile-get', {}, t)) as { profile: ProfileView }).profile
+    profileGet: async (t) => ((await post('profile-get', {}, t)) as { profile: ProfileView }).profile,
+    paymentsGet: async (a, t) => ((await post('payments-get', a.knownVersion === undefined ? {} : { knownVersion: a.knownVersion }, t)) as { payments: PaymentsView }).payments,
+    paymentsSet: async (a, t) => ((await post('payments-set', a, t)) as { payments: PaymentsView }).payments
   }
 }
 

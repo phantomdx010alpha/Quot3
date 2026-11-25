@@ -11,6 +11,7 @@ import { browserCanvas, canvasMeasure, ensureShareFonts, renderLayoutImage, Shar
 import { layoutFitted, shareSafeLogo, type LogoInfo, type ShareLayout } from './layout'
 import { renderLayoutPdf } from './pdf'
 import { shareFileName } from './shareSheet'
+import { assertSeatRight } from '../data/seatRights'
 
 export type ShareKind = 'image' | 'pdf'
 export type ShareStyle = PrintMode
@@ -45,7 +46,8 @@ export interface PreparedShare { model: PrintModel; layout: ShareLayout; images:
 export function modelFor(bill: Bill, style: ShareStyle, company: PhoneCompany | null): PrintModel {
   const block: CompanyBlock | null = company && company.name.trim() !== '' ? { name: company.name, phone: company.phone, address: company.address, logo: company.logoDataUrl ?? '' } : null
   const decision = decideForBill(bill, style)
-  return buildPrintModel(bill, style, { ...DEFAULT_PRINT_SETTINGS, company: block }, decision)
+  // Phase 276: the phone image / PDF never shows the duplicate "Adjustments total" row (always, no phone setting; the desktop toggle is untouched).
+  return buildPrintModel(bill, style, { ...DEFAULT_PRINT_SETTINGS, hideAdjustmentsTotal: true, company: block }, decision)
 }
 
 export async function prepareShare(bill: Bill, style: ShareStyle, company: PhoneCompany | null, deps: ShareEnvDeps): Promise<PreparedShare> {
@@ -70,6 +72,7 @@ export async function prepareShare(bill: Bill, style: ShareStyle, company: Phone
 export interface ShareFileData { bytes: Uint8Array; mime: string; fileName: string; pages: number; paper: 'A5' | 'A4' }
 
 export async function makeShareFile(bill: Bill, choice: ShareChoice, company: PhoneCompany | null, deps: ShareEnvDeps): Promise<ShareFileData> {
+  assertSeatRight('shareBills', 'share bills') // Phase 291
   const p = await prepareShare(bill, choice.style, company, deps)
   const paper = p.model.paper.size
   if (choice.kind === 'image') {

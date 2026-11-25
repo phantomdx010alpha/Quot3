@@ -6,6 +6,8 @@ Windows desktop quotation app — keyboard-first, local-first, Excel-like grid, 
 
 **Milestone 24 (Phases 251-274, planned 2026-11-13):** a master Supabase project so a new phone / PC needs ONE code, seat 1 manages up to 15 seats from the desktop, company logo / name / contact / address are inherited, plus quick fixes (Dashboard, Price List, AI-off). Design: `docs/MILESTONE24_DESIGN.md`. **One phase per free Claude session; the next phase is in `PHASE_STATUS.md` -> Current state.**
 
+**Milestone 25 (Phases 275-297, planned 2026-11-24):** desktop backups keep only the newest 3; the owner's QR page becomes a phone Payments feature (editable banks / UPI synced through the master, QR for a chosen bill as its own image); seat 1 sets per-phone rights (hide customer address / contact, lock the Price List, sales, export and more); phone data protection, one-code restore and a daily self-check against the server; a phone Profile page; phone share image loses the duplicate "Adjustments total" row; the owner's game Country Wars joins the desktop Games. Design: `docs/MILESTONE25_DESIGN.md`. **One phase per free Claude session; the next phase is in `PHASE_STATUS.md` -> Current state.**
+
 ## For the owner: starting a phase
 1. Unzip this project.
 2. Open a new Claude.ai session, upload the zip.

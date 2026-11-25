@@ -663,3 +663,91 @@ describe('21_price_perms_bell.sql (Phase 256)', () => {
     expect(s.trimEnd().endsWith(';')).toBe(true)
   })
 })
+
+describe('23_seat_rights.sql (Phase 285, Milestone 25: per-phone rights)', () => {
+  const raw = sql('23_seat_rights.sql')
+  const s = code(raw)
+  const fn = (name: string): string => { const i = s.indexOf(`create or replace function public.${name}(`); const j = s.indexOf('create or replace function', i + 10); return s.slice(i, j === -1 ? undefined : j) }
+  const ELEVEN = ['seeAddress', 'seeContact', 'seePriceList', 'seeSales', 'seePayments', 'shareBills', 'exportData', 'deleteBills', 'editOldBills', 'editCustomers', 'editPayments']
+
+  it('runs after file 22, says it is never run from the sandbox, is a new file (older files untouched)', () => {
+    expect(files.indexOf('23_seat_rights.sql')).toBeGreaterThan(files.indexOf('22_seat_reuse.sql'))
+    expect(raw).toContain('NEVER RUN from the sandbox')
+    expect(raw).toContain('Safe to run more than once')
+  })
+  it('creates sn_seat_rights safely: RLS on, no policy, no direct grants, seat 1..50, jsonb object, cascade with the seat', () => {
+    expect(s).toContain('create table if not exists public.sn_seat_rights')
+    expect(s).toContain('alter table public.sn_seat_rights enable row level security')
+    expect(s).toMatch(/revoke all on table public\.sn_seat_rights\s+from public, anon, authenticated/)
+    expect(s).not.toMatch(/create\s+policy/i)
+    expect(s).not.toMatch(/grant [a-z, ]+ on table public\.sn_seat_rights/i)
+    expect(s).toContain('seat_no     int         not null check (seat_no between 1 and 50)')
+    expect(s).toContain("check (pg_catalog.jsonb_typeof(flags) = 'object')")
+    expect(s).toContain('foreign key (org_id, seat_no) references public.sn_members (org_id, seat_no) on delete cascade')
+  })
+  it('the normaliser knows exactly the eleven flags, each a real boolean', () => {
+    const n = fn('qt_rights_norm')
+    for (const f of ELEVEN) expect(n, f).toContain(`'${f}'`)
+    expect((n.match(/'[a-zA-Z]+',\s+coalesce\(/g) ?? []).length).toBe(11)
+    expect(n).toContain("= 'true'::pg_catalog.jsonb, false")
+    expect(n).toContain("set search_path = ''")
+  })
+  it('seeds every existing seat (seat 1 included) with all eleven flags true, only while the table is empty, and never overwrites', () => {
+    const i = s.indexOf('insert into public.sn_seat_rights')
+    const seed = s.slice(i, s.indexOf(';', i))
+    expect(seed).toContain('from public.sn_members m')
+    expect(seed).toContain('where not exists (select 1 from public.sn_seat_rights x)')
+    expect(seed).toContain('on conflict (org_id, seat_no) do nothing')
+    expect(seed).not.toMatch(/seat_no\s*>\s*1|seat_no\s*<>\s*1/)
+    for (const f of ELEVEN) expect(seed, f).toContain(`'${f}', true`)
+    expect(seed).not.toMatch(/, false/)
+  })
+  it('every function is security definer with a fixed search_path; seat 1 always has every right', () => {
+    for (const n of ['qt_rights_flags', 'qt_seat_rights_get', 'qt_seat_rights_list', 'qt_seat_rights_set']) {
+      expect(fn(n), n).toContain('security definer')
+      expect(fn(n), n).toContain("set search_path = ''")
+    }
+    expect(fn('qt_rights_flags')).toMatch(/p_seat = 1/)
+    for (const f of ELEVEN) expect(fn('qt_rights_flags'), f).toContain(`'${f}', true`)
+  })
+  it('get answers the caller own seat with configured; list and set are seat 1 only (Q3P02) and set validates input (Q3I01)', () => {
+    expect(fn('qt_seat_rights_get')).toContain('public.qt_price_seat()')
+    expect(fn('qt_seat_rights_get')).toContain("'configured'")
+    expect(fn('qt_seat_rights_list')).toContain("'seat1_only'")
+    expect(fn('qt_seat_rights_list')).toContain("errcode = 'Q3P02'")
+    expect(fn('qt_seat_rights_list')).toContain('order by m.seat_no')
+    const set = fn('qt_seat_rights_set')
+    expect(set).toContain("'seat1_only'")
+    expect(set).toContain("errcode = 'Q3I01'")
+    expect(set).toContain('p_seat not between 1 and 50')
+    expect(set).toContain("pg_catalog.jsonb_typeof(p_flags) <> 'object'")
+    expect(set).toContain('from public.sn_members m where m.org_id = v_org and m.seat_no = p_seat')
+    expect(set).toMatch(/p_seat = 1 then public\.qt_rights_flags\(v_org, 1\) else public\.qt_rights_norm\(p_flags\)/)
+    expect(set).toContain("'configured', true")
+  })
+  it('set rings the doorbell exactly like file 21, only after a real change (or the seat first row), never before the guard', () => {
+    const set = fn('qt_seat_rights_set')
+    const guard = set.indexOf('if not v_existed or v_old is distinct from v_flags then')
+    expect(guard).toBeGreaterThan(-1)
+    expect(set.indexOf('insert into public.sn_ping (org_id, seq, at) values (v_org, 1, pg_catalog.now())')).toBeGreaterThan(guard)
+    expect(set).toContain('on conflict (org_id) do update set seq = public.sn_ping.seq + 1, at = pg_catalog.now()')
+    expect((set.match(/insert into public\.sn_ping/g) ?? []).length).toBe(1)
+    expect(set).not.toMatch(/sn_price_log/) // no activity-log row [A]
+  })
+  it('grants: helpers revoked from every role; only the three RPCs go to authenticated; no service key; no destructive DDL; ends cleanly', () => {
+    expect(s).toContain('revoke all on function public.qt_rights_norm(jsonb)')
+    expect(s).toContain('revoke all on function public.qt_rights_flags(uuid, int)')
+    expect(s).not.toMatch(/grant execute on function public\.qt_rights_/)
+    for (const sig of ['qt_seat_rights_get(text)', 'qt_seat_rights_list(text)', 'qt_seat_rights_set(text, int, jsonb)']) {
+      expect(s).toMatch(new RegExp(`revoke all on function public\\.${sig.replace(/[()]/g, '\\$&')}\\s+from public, anon, authenticated`))
+      expect(s).toMatch(new RegExp(`grant execute on function public\\.${sig.replace(/[()]/g, '\\$&')}\\s+to authenticated`))
+    }
+    expect(s).not.toMatch(/service_role/i)
+    expect(s).not.toMatch(/drop table|truncate|drop function|delete from/i)
+    expect((s.match(/\$\$/g) ?? []).length % 2).toBe(0)
+    expect(s.trimEnd().endsWith(';')).toBe(true)
+  })
+  it('is listed in docs/SUPABASE_MIGRATIONS.md', () => {
+    expect(readFileSync(join(root, 'docs', 'SUPABASE_MIGRATIONS.md'), 'utf8')).toContain('23_seat_rights.sql')
+  })
+})

@@ -204,6 +204,10 @@ const bridge: Quot3Bridge = {
     activity: (input) => ipcRenderer.invoke('pricelist:activity', input ?? {}),
     activityCsv: () => ipcRenderer.invoke('pricelist:activityCsv', {})
   },
+  seatRights: {
+    list: () => ipcRenderer.invoke('seatRights:list', {}),
+    set: (input) => ipcRenderer.invoke('seatRights:set', input)
+  },
   items: {
     overview: () => ipcRenderer.invoke('items:overview', {}),
     group: (input) => ipcRenderer.invoke('items:group', input),

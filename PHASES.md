@@ -2624,3 +2624,228 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Depends on:** 273 and the owner's filled `docs/M24_OWNER_CHECKLIST.md`. Skip if there is no report.
 **In scope:** only what the report lists; if the list is long, do the first items that fit one free session and log the rest as the next fix pack. Never loosen the security rules of design section 8.
 **Version:** no bump by itself. **How to verify:** typecheck once; the named tests of the touched code; NO FULL SUITE.
+
+
+---
+
+## MILESTONE 25 — Backup cap, phone Payments (QR), per-phone rights, data protection and restore, profile page, Country Wars (Phases 275–297)
+**Planned 2026-11-24** (docs only). Design: `docs/MILESTONE25_DESIGN.md` (binding); rules: `CLAUDE_MUST_READ.md` section 10t and the "ONE PHASE PER SESSION" block at its top. Phase 188 and Phase 69 remain separate. Read from the **0.1.61** code.
+**Exit criteria:** (1) the desktop keeps the newest 3 automatic backups (and the newest 3 of each safety-copy kind), never touches manual ones; (2) the phone share image / PDF has no duplicate "Adjustments total" row; (3) Country Wars plays in the desktop Games list; (4) the phone has a Payments page with the owner's default banks / UPIs, editable, synced to every phone through the master, and shares a QR image for a chosen bill; (5) seat 1 sets per-phone rights from the desktop and a phone without a right sees no customer address / contact in the app (still on the shared image), no Price List, no sales totals, no Payments, cannot export, delete, edit old bills or edit customers as set; (6) a blank phone restores everything with one code, a phone warns about unsynced bills and re-checks itself against the server; (7) the phone has a detailed Profile page; (8) with the new SQL / master columns absent the phone behaves exactly as 0.1.61.
+**Standing rules for every Phase 275-297:** section 10t; **ONE PHASE = ONE FREE SESSION** (read only the listed files, touch only the listed files, stop at a step boundary if the session runs short); edits to shared files small and additive, tests updated not deleted; contract first in `API_CONTRACTS.md` (Phase 278 writes it); NO FULL TEST SUITE; list what you ran and did NOT run; [A] items stated; tokens only; Phosphor only; no emoji; real Windows / Android / Supabase never "verified"; never run anything against a real Supabase from the sandbox. Types: **[E]** code, **[D]** decision/spec (docs only, no code, no typecheck), **[G]** release gate.
+
+| # | Type | Title | Version |
+|---|---|---|---|
+| 275 | E | Desktop backups: keep the newest 3 automatic (and 3 per `pre-*` kind), prune at start-up, Settings words | no bump |
+| 276 | E | Phone share image / PDF: always hide the "Adjustments total" row | no bump |
+| 277 | E | Country Wars into the desktop Games (vendored fonts, own-game manifest rule) + RELEASE A | release 0.1.62 [A] |
+| 278 | D | M25 contract freeze (docs only): Payments, master payments, phone rights, restore, profile | no bump |
+| 279 | E | Payments A: shared pure core (accounts, validation, UPI URL builders, amount rule, seed defaults, redaction keys) | no bump |
+| 280 | E | Payments B: master SQL `M05` + Edge Functions `payments-get` / `payments-set` + shared schemas | no bump |
+| 281 | E | Payments C: phone data store, seed, master fetch / publish, offline cache (no UI) | no bump |
+| 282 | E | Payments D: bundled QR library + branded QR image composer (no UI) | no bump |
+| 283 | E | Payments E: phone Payments page + account editor | no bump |
+| 284 | E | Payments F: bill to QR (pick a bill, grand total, own image) + RELEASE B | release 0.1.63 [A] |
+| 285 | E | Rights A: company SQL `23_seat_rights.sql` (+ doorbell) + static test | no bump |
+| 286 | E | Rights B: shared pure core, transports, desktop service + IPC | no bump |
+| 287 | E | Rights C: desktop Company seats "Phone rights" toggles + presets | no bump |
+| 288 | E | Rights D: phone runtime (fetch, cache, refresh, doorbell, words) | no bump |
+| 289 | E | Rights E: phone hides customer address / contact (image keeps them) | no bump |
+| 290 | E | Rights F: phone hides Price List / sales totals / Payments, blocks export | no bump |
+| 291 | E | Rights G: phone action rights (share, delete, edit old bills, edit customers, edit payments) | no bump |
+| 292 | E | Phone data protection: protection state, banner, install nudge, unsynced warning | no bump |
+| 293 | E | Phone restore: blank phone + one code = automatic full restore | no bump |
+| 294 | E | Phone diff: start-up and daily self-check against the server, pull what is missing | no bump |
+| 295 | E | Phone Profile page | no bump |
+| 296 | G | Milestone 25 QA gate (release gate) + `docs/M25_OWNER_CHECKLIST.md` | release 0.1.64 [A] |
+| 297 | E | Fix pack from the owner's report (only if needed) | no bump |
+
+**Order:** 275-277 any order, any time. 278 first for everything else. 279 → 280 → 281 → 282 → 283 → 284. 285 → 286 → 287; 286 → 288 → 289 → 290 → 291. 292, 293, 294 any time after 278 (294 after 293). 295 after 281 and 288. 296 last. Release points: 277 (A), 284 (B, deploy master M05 + functions first), 296 (C, deploy SQL 23 first). A phase that finds its dependency missing STOPS and says so.
+
+## Phase 275 — Desktop backups: keep the newest 3 [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; no bump). Next: Phase 276.**
+**Goal:** Automatic backups stop eating disk: only the newest 3 automatic backups stay, the oldest goes when a new one is made, and old surplus goes at start-up.
+**Depends on:** 0.1.61 zip. Design 4.1, decisions D1 and D2.
+**In scope:** (a) `shared/backup/backupRules.ts`: `BACKUP_KEEP_AUTO = 3`; `filesToPrune` also lists, for each `pre-*` kind (`pre-migration`, `pre-restore`, `pre-import`, `pre-wipe`, `pre-rollback`), everything after the newest 3 of that kind; `manual` is never listed; a result never empties a kind below 1; (b) `main/services/backupService.ts`: a public `prune()` use at start (new method `pruneNow()` or reuse inside `autoIfDue` BEFORE the "due" check), so 14 old files drop to 3 on the first launch; the file just created is never in the doomed list; a prune error is logged and never throws into start-up; `main/index.ts` start-up line (~281) calls it, comment fixed ("newest 3"); (c) `BackupSection.tsx`: the sentence says the newest 3 automatic backups are kept and that the safety copies made before a restore / import / wipe / update are kept 3 per kind; manual backups never removed; (d) tests: 14 autos -> 3 kept (newest), 5 `pre-wipe` -> 3, a manual file untouched, one file of a kind kept, unknown file ignored, prune after `autoIfDue` and at start with nothing due.
+**Out of scope:** the backup file format, restore / import, the Dashboard, any setting UI for the number.
+**Key files:** `src/shared/backup/backupRules.ts`, `src/shared/backup/__tests__/backupRules.test.ts`, `src/main/services/backupService.ts`, `src/main/services/__tests__/backupService.test.ts`, `src/main/index.ts` (lines ~270-285 only), `src/renderer/components/settings/BackupSection.tsx`.
+**Version:** no bump. **How to verify:** typecheck once; `backupRules`, `backupService`, `importBoundaries`; the existing `backupSection` / settings tests only if they mention "14". NO FULL SUITE. The real folder on a real PC is an owner check.
+
+## Phase 276 — Phone share image / PDF: hide "Adjustments total" [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; no bump). Next: Phase 277.**
+**Goal:** The phone's shared bill image (and PDF) no longer shows the duplicate "Adjustments total" row.
+**Depends on:** 0.1.61 zip. Design 4.2.
+**In scope:** (a) a test first: a bill with one adjustment row builds a phone `ShareLayout` that contains the "Adjustments total" footer today; (b) `pwa/share/shareBill.ts` (line ~48): pass `hideAdjustmentsTotal: true` in the settings given to `buildPrintModel` (always, no phone setting); (c) the adjustment rows, items total, round-off and grand total stay; Rough and Professional, image and PDF all covered by one test each; (d) confirm the desktop keeps its `print.hideAdjustmentsTotal` toggle untouched (a read-only assertion in an existing desktop test is enough).
+**Out of scope:** the phone BillView screen, desktop print, any new setting.
+**Key files:** `src/pwa/share/shareBill.ts`, `src/pwa/share/layout.ts` (read), `src/shared/print/printModel.ts` (read), `src/pwa/__tests__/share.test.ts`, `shareUi.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; `share`, `shareUi`, `classicParity`, `printModel` tests. A real shared image is an owner check.
+
+## Phase 277 — Country Wars into the desktop Games + RELEASE A [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; version 0.1.62 [A], NOT yet pushed or tagged by the owner; `GITHUB_UPDATE_PUSH.md` 12a). Next: Phase 278.**
+**Goal:** The owner's Country Wars plays from the desktop Games list; release 0.1.62.
+**Depends on:** 0.1.61 zip (275 and 276 may or may not be done). Design 4.3, D10. Input: `docs/reference/country_wars_source/country-wars.html` (read its README).
+**In scope:** (a) copy the game to `resources/games/country-wars/index.html` and fix it for the frame: replace the Google Fonts `<link>` with local `@font-face` for Lilita One and Nunito; get the woff2 files by `npm pack @fontsource/lilita-one @fontsource/nunito` in a SCRATCH folder (never add them to `package.json`), copy only the latin woff2 files used into `resources/games/country-wars/fonts/`, add the OFL notices to `docs/THIRD_PARTY_GAMES.md` and `resources/games/THIRD_PARTY.txt`; (b) list every country code in the game's list that has NO inline SVG in `FLAGSVG` and remove the `flagcdn.com` fallback (inline SVG for the few missing, or a code badge); no other game logic is changed; (c) manifest: allow an own game: extend `shared/games/manifest.ts` with one new licence value (suggest `Owner`) for which `commit` may be empty and `source` may be omitted or the owner's repo [A]; every other validation and every existing game stays valid; add the entry (`id country-wars`, title "Country Wars", tag `arcade`, lang `en`, players 1, touch false, author the owner [A], added 2026-11-24); (d) tests: the catalog accepts the entry, the own-game licence is not accepted for a game that lacks the owner marker, the vendored-games test finds no network URL in `country-wars/` (no `https://`), the protocol test serves the fonts; (e) **Release A:** bump to 0.1.62 [A] in `package.json` + both spots of `package-lock.json`; `GITHUB_UPDATE_PUSH.md` new section 12a (no Supabase step; push steps with the real number); hand back changed-files zip + full zip + push steps.
+**Out of scope:** any game redesign, sound changes, other games, a separate tile.
+**Key files:** `resources/games/manifest.json`, NEW `resources/games/country-wars/*`, `src/shared/games/manifest.ts`, `src/main/games/{gameCatalog,gameProtocol}.ts` (read), tests `gameCatalog.test.ts`, `vendoredGames.test.ts`, `gameProtocol.test.ts`, `src/shared/games/__tests__/`, `docs/THIRD_PARTY_GAMES.md`, `electron-builder.yml` (confirm the games folder is packed), `package.json`, `package-lock.json`, `GITHUB_UPDATE_PUSH.md`.
+**Version:** release 0.1.62 [A]. **How to verify:** typecheck once; the games tests above, `importBoundaries`. Playing it in the real frame (sound, fonts, flags) is an owner check.
+
+## Phase 278 — M25 contract freeze [D]
+**STATUS: ✅ DONE 2026-11-24 (docs only; contract = `API_CONTRACTS.md` "Milestone 25" M25-1 to M25-12; see PHASE_STATUS.md; version stays 0.1.62 [A]). Next: Phase 279.**
+**Goal:** Freeze every shape the Payments and rights phases share so none of them re-thinks anything. Docs only.
+**Depends on:** `docs/MILESTONE25_DESIGN.md`.
+**In scope:** write the "Milestone 25 contract" section in `API_CONTRACTS.md`: (a) the `PayeeAccount` model, the payments list JSON (`{ recipient, defaultId, accounts[], version }`), validation limits and plain-words messages, the three URL shapes with worked examples copied from the original source for the default payees, the amount rule; (b) master: `M05_payments.sql` DDL (columns on `companies`), the `payments-get` / `payments-set` request / response JSON, error codes (`Q3M*` list continued), who may write (`editPayments`), version rule, size limit; (c) the rights flag list with the FINAL names and plain-words labels, the exact effect of each flag per screen (a table: screen, flag, what is hidden or blocked, image / PDF / QR exceptions), the presets (Full, Staff, Viewer), defaults for existing seats, new seats and "no answer", the "server does not know rights" rule; (d) company SQL 23 DDL and the RPC names (`qt_seat_rights_get` / `list` / `set`), error codes, doorbell; (e) desktop IPC channel names and phone runtime method names for 286-288; (f) the restore and diff flows: states, what each screen says, what is written and when, the exact rule that a diff never overwrites a newer local edit; (g) the Profile page field list; (h) the compatibility cases as numbered tests T1..Tn the later phases automate; (i) for each later phase the contract lines it implements; (j) record the 10t changes (the master holds payments) in `MASTERPLAN.md` / `PROJECT_STRUCTURE.md` as short additive notes.
+**Out of scope:** any code, SQL file, test or typecheck.
+**Key files:** `docs/MILESTONE25_DESIGN.md`, `API_CONTRACTS.md` (M24 section as the pattern, read only its headings and the profile and price-rights parts), `docs/reference/qr_payments_source/index.html`, `shared/pricelist/perms.ts`, `supabase/sql/19_price_perms.sql` and `21_*.sql` (read), `supabase/master/functions/profile-set` (read).
+**Version:** no bump. **How to verify:** docs only; re-read once for contradictions with the design.
+
+## Phase 279 — Payments A: shared pure core [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; version stays 0.1.62 [A]). Next: Phase 280.**
+**Goal:** All Payments logic as pure, tested code.
+**Depends on:** 278.
+**In scope:** NEW `src/shared/payments/`: `types.ts`, `seed.ts` (the original's defaults, byte for byte), `validate.ts` (UPI id, IFSC, account digits, name, merchant fields, max accounts [A 20]), `upiUrl.ts` (the three builders + `amountText` of the original), `list.ts` (add / edit / remove / reorder / set default, version bump, normalise unknown input), `words.ts` (plain-words messages); add the bank-detail keys to `shared/master/redact.ts`; tests: every default payee's URL equals the original's output with no amount, an integer amount and a decimal amount, bank-account mode for the two accounts, validation cases, hostile input, list operations, redaction.
+**Out of scope:** storage, network, UI, QR drawing.
+**Key files:** NEW `src/shared/payments/*` + `__tests__`, `src/shared/master/redact.ts` + its test, `docs/reference/qr_payments_source/index.html` (read), the contract.
+**Version:** no bump. **How to verify:** typecheck once; the new payments tests, `redact.test`, `importBoundaries` (no DOM / Node in `shared`).
+
+## Phase 280 — Payments B: master SQL + Edge Functions [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; version stays 0.1.62 [A]). Next: Phase 281.**
+**Goal:** The master stores one payments list per company and serves it to devices that may read it.
+**Depends on:** 278, 279.
+**In scope:** (a) NEW `supabase/master/M05_payments.sql` (add `payments jsonb not null default '{}'`, `payments_version int not null default 0` to `companies`; safe to re-run; header "NEVER RUN from the sandbox"; list it in `docs/SUPABASE_MIGRATIONS.md`); (b) NEW functions `payments-get` and `payments-set` copying the pattern of `profile-get` / `profile-set` (device-token auth, rate limit, version rule, size limit, `editPayments` check on the master side using the rights the master can read [A: until SQL 23 exists the master allows seat 1 only, and Phase 288 adds the rights check through the company project]); (c) `shared/master/schemas.ts`: request / response schemas; (d) extend `tools/master-cli.mjs` only if the owner CLI needs a deploy note; (e) static SQL test and function tests with invented data.
+**Out of scope:** any client, any real deploy.
+**Key files:** `supabase/master/M0*.sql` (read), `supabase/master/functions/{profile-get,profile-set,_shared/*}`, `src/shared/master/schemas.ts`, `docs/SUPABASE_MIGRATIONS.md`, `src/__tests__/supabaseSql.test.ts`, master function tests (find with grep `profile-set`).
+**Version:** no bump. **How to verify:** typecheck once; `supabaseSql`, `schemas`, the master function tests. Real master = owner checklist.
+
+## Phase 281 — Payments C: phone data + sync (no UI) [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; version stays 0.1.62 [A]). Next: Phase 282.**
+**Goal:** The phone holds the payments list, offline, seeded and in step with the master.
+**Depends on:** 279, 280.
+**In scope:** NEW `pwa/data/paymentsRepo.ts` (IndexedDB meta row, read / write, seed when absent, remembers the bank-account switch and last payee), NEW `pwa/sync/payments.ts` (like `companyProfile.ts`: fetch with the device token, store when newer, publish after an authorised local save, throttle, offline keeps the last list, never throws), wire a refresher into the runtime next to the profile refresher (heartbeat tick, start, manual); the list is seeded from `seed.ts` only when neither the phone nor the master has one, and the first authorised save publishes it; tests: seed, older version ignored, newer stored, offline, no token, publish refused (not authorised) shows the plain words, nothing secret in logs.
+**Out of scope:** UI, QR.
+**Key files:** `src/pwa/data/{db,metaRepo,settingsRepo}.ts`, `src/pwa/sync/{companyProfile,master,runtime}.ts`, NEW files, `src/pwa/__tests__/companyProfile272.test.ts` (pattern), NEW `payments281.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `companyProfile272`, `phoneRuntime`, `master268`, `data`, `importBoundaries`.
+
+## Phase 282 — Payments D: QR library + QR image [E]
+**Goal:** Draw the QR and the branded QR image on the phone, offline.
+**Depends on:** 279.
+**In scope:** add the QR library (`qrcode-generator` [A], exact version from the registry, MIT) with `npm install <pkg>@<exact>` ONCE, record it in `DEPENDENCY_VERSIONS.md` and keep `package-lock.json` consistent; NEW `pwa/share/qrImage.ts`: a pure `qrModel(url)` (matrix) and `composeQrImage(...)` on the existing share canvas plumbing (`pwa/share/image.ts`): company logo from the effective profile (none = text only), payee name, bank label, amount line ("Amount: Rs X" or "Payer enters the amount"), the QR with a quiet zone, the original's look as reference; Save and Share go through `shareSheet.ts`; the image carries NO account number; tests: the matrix decodes to the same URL text (use the library's own reader-free check: re-encode and compare module counts for the three default URLs), the composer layout fits, no network request, the bundle contains no CDN URL.
+**Out of scope:** screens, bill picking.
+**Key files:** `package.json`, `package-lock.json`, `DEPENDENCY_VERSIONS.md`, `src/pwa/share/{image,shareSheet,layout}.ts`, NEW `src/pwa/share/qrImage.ts`, `vite.pwa.config.ts` (read), NEW test, `docs/reference/qr_payments_source/index.html` (`buildComposedImage`, read).
+**Version:** no bump. **How to verify:** typecheck once; the new test, `share`, `shareUi`, `importBoundaries`.
+
+## Phase 283 — Payments E: Payments page + account editor [E]
+**STATUS: ✅ DONE 2026-11-24 (see PHASE_STATUS.md; version stays 0.1.62 [A]; built WITHOUT Phase 282: QR drawing plugs in through `setQrPort`; Classic left untouched, owner to decide). Next: Phase 282 (outstanding), then 284.**
+**Goal:** The phone Payments page: pick a payee, switch to bank account, type an amount, generate, save, share, full screen; edit the list.
+**Depends on:** 281, 282.
+**In scope:** NEW kit screen (`pwa/ui/kit/`) + route `payments`, reachable from Settings (new row "Payments") and each new layout's home [A, per design section 6; classic parity must stay green, else stop and ask]; the page follows the original (tabs of payees, the "Pay to bank account" switch with its status line, amount box "leave blank = payer enters", Generate, the QR card with Share / Save image / Full screen); the editor (add, edit, remove with confirm, reorder, set default; validation words; "published to all phones" line or the plain refusal if not authorised); empty / loading / offline states; Phosphor icons, tokens, touch targets; tests in jsdom for the flows.
+**Out of scope:** bill picking (284), rights gating (290-291).
+**Key files:** NEW `pwa/ui/kit/Payments*.tsx` + css, `pwa/router.ts`, `pwa/App.tsx` (`TITLES`), `pwa/ui/settingsPages.ts`, `pwa/ui/Settings.tsx`, `pwa/ui/layouts/layoutRegistry.ts` and the three layouts' home files (small), `pwa/__tests__/classicParity.test.ts`, NEW `payments283.test.ts`, the Phase 245 `priceListScreens245.test.ts` as the pattern.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `classicParity`, `layoutRegistry`, the three layout tests, `layoutSettings`, `importBoundaries`.
+
+## Phase 284 — Payments F: bill to QR + RELEASE B [E]
+**Goal:** Pick a bill, share a QR for its amount as its own image; release 0.1.63.
+**Depends on:** 283.
+**In scope:** (a) a "Share QR" action on the bill view and a "Pick a bill" list on the Payments page (search by party / PO / date using existing history reads); (b) the amount = the bill's grand total from the shared print model (never float math: `money.ts`), shown and editable (partial or advance payment), the QR image header names the bill (PO number and party name only, no address / contact) [A]; (c) the result is its own image through `shareSheet`, never inside the bill image; (d) tests: amount equals the grand total of fixtures with round-off, edited amount wins, an empty amount means "payer enters", the bill is not modified; (e) **Release B:** bump to 0.1.63 [A] (`package.json` + both spots of `package-lock.json`); `GITHUB_UPDATE_PUSH.md` section 12b: deploy order (master `M05_payments.sql`, then `supabase functions deploy payments-get payments-set`, then push + tag), hand back changed-files zip + full zip + steps.
+**Out of scope:** recording payments, desktop QR.
+**Key files:** `pwa/ui/BillView.tsx`, `billViewModel.ts`, the kit Payments screen, `pwa/data/historyRepo.ts`, `pwa/share/{shareBill,shareSheet,qrImage}.ts`, `src/shared/money.ts` (read), NEW test, `package.json`, `package-lock.json`, `GITHUB_UPDATE_PUSH.md`.
+**Version:** release 0.1.63 [A]. **How to verify:** typecheck once; the new test, `share`, `shareUi`, `payments283`, `classicParity`. A real UPI scan is an owner check.
+
+## Phase 285 — Rights A: company SQL 23 [E]
+**Goal:** The company Supabase can store and serve per-seat phone rights, with a doorbell.
+**Depends on:** 278.
+**In scope:** NEW `supabase/sql/23_seat_rights.sql` (never edit older files): `sn_seat_rights(org_id, seat_no, flags jsonb, updated_at)`, RLS like 19, `qt_seat_rights_get` (any seat, its own; answers "not available" shape for a project that lacks it is handled client side), `qt_seat_rights_list` and `qt_seat_rights_set` (seat 1 only, error like `Q3P02 seat1_only`, seat 1 rows forced all-true, flags normalised), a doorbell touch on set exactly as `21_price_perms_bell.sql`, **seeding all existing non-seat-1 seats with all flags true**, safe to re-run, header "NEVER RUN from the sandbox"; add to `docs/SUPABASE_MIGRATIONS.md` and the static test.
+**Out of scope:** any client code.
+**Key files:** `supabase/sql/{19,21,22}*.sql` (read), NEW `23_*.sql`, `docs/SUPABASE_MIGRATIONS.md`, `src/__tests__/supabaseSql.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; `supabaseSql`.
+
+## Phase 286 — Rights B: shared core, transports, desktop service [E]
+**Goal:** The pure rights rules and the desktop's read / write path.
+**Depends on:** 285.
+**In scope:** NEW `src/shared/seatRights/` (flag list from the contract, `normalizeFlags`, presets Full / Staff / Viewer, `effectiveRights(seatNo, granted, linked, serverKnowsRights)` with the contract rules, plain-words labels and "needs ..." wording); transports: desktop and phone `get` / `list` / `set` calls next to the Price List ones; desktop NEW `main/services/seatRightsService.ts` (list for the seats panel, set, cache, refresh) + IPC channels + zod schemas + bridge entries; tests with the in-memory sim (`sharedSim.ts`): seat 1 sets, another seat reads, doorbell, seat 1 cannot be restricted, an unknown server gives "everything" for old projects.
+**Out of scope:** UI, phone runtime, enforcement.
+**Key files:** `shared/pricelist/perms.ts` (pattern), `main/services/priceRightsService.ts` (pattern), `main/sync/__tests__/sharedSim.ts`, `main/sync/*transport*` (find with grep `pricePermsGet`), `src/shared/ipc.ts`, `main/ipc/*` (the price-rights handler as pattern), `main/ipc/register.ts`, preload bridge, `main/index.ts` (wiring only), `pwa/sync/transport.ts`, `supabaseTransport.ts`, NEW tests.
+**Version:** no bump. **How to verify:** typecheck once; the new tests, `perms242`, `priceRights242` (both), `ipc` tests for the touched handlers, `importBoundaries`.
+
+## Phase 287 — Rights C: desktop "Phone rights" panel [E]
+**Goal:** Seat 1 toggles each phone's rights from the desktop.
+**Depends on:** 286.
+**In scope:** in Settings > Company seats, a "Phone rights" block per seat (not seat 1): the eleven toggles in plain words, the three presets, "Save", the last saved line, a note that a phone applies it within moments and that the flags hide things in the app only (the HONEST LIMIT sentence); seats the server never configured show "Staff (default)"; refusal and offline words; keyboard reachable; no change to the existing Price List rights UI beyond placing them side by side; tests for the panel store and component.
+**Out of scope:** phone side.
+**Key files:** `renderer/components/settings/{CompanySeatsPanel,PriceRightsSettings}.tsx`, the seats store (`renderer/stores/` find with grep `companySeats`), NEW store / component, their tests, `shared/shortcuts.ts` only if a new action is added.
+**Version:** no bump. **How to verify:** typecheck once; the new panel tests, `companySeatsPanel265`, `masterSeats265`, `shortcuts`, `importBoundaries`.
+
+## Phase 288 — Rights D: phone runtime [E]
+**Goal:** The phone knows its rights at all times and keeps them fresh.
+**Depends on:** 286.
+**In scope:** NEW `pwa/data/seatRights.ts` (cache row like `priceRights.ts`), runtime `refreshSeatRights` on start / sync / refusal / doorbell (reuse Phase 255-256 hooks), `useSeatRights()` hook for screens, the contract's fallback rules (offline keeps the last answer, no answer yet = Staff preset when linked as another seat, unknown server = everything, no sync = everything, seat 1 = everything), plain status words; tests with a fake transport.
+**Out of scope:** any hiding or blocking (289-291).
+**Key files:** `pwa/data/priceRights.ts` (pattern), `pwa/sync/{runtime,doorbell,master}.ts`, NEW files, `pwa/__tests__/priceRights255.test.ts` (pattern), NEW test.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `priceRights255`, `phoneRuntime`, `master268`, `classicParity`, `importBoundaries`.
+
+## Phase 289 — Rights E: hide customer address and contact [E]
+**Goal:** A phone without `seeAddress` / `seeContact` shows none of them in the app, but the shared image and PDF still carry them.
+**Depends on:** 288.
+**In scope:** one pure function `redactParty(party, rights)` in `shared/seatRights/`; every phone screen that renders party address / phone / contact goes through the kit (Customers list and detail, party picker and search, bill view, bill editor party bar, history rows, share preview), including the call and WhatsApp links (`telHref`, `whatsappHref`); the image / PDF build uses the UNREDACTED party (explicit test: with both flags off the shared layout still has address and phone, the screens do not); all three new layouts and classic; no blanks that look like bugs ("Hidden by your admin" short line); tests per screen model + the share exception.
+**Out of scope:** other flags, server-side withholding.
+**Key files:** `pwa/ui/{Customers,BillView,History}.tsx`, `customersModel.ts`, `billViewModel.ts`, `historyModel.ts`, `pwa/ui/editor/*` (party bar only), the layouts' customer / editor files (grep `address`), `pwa/data/partiesRepo.ts` (read), `pwa/share/shareBill.ts` (read), NEW `seatRights289.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `customersSettings`, `history`, `editor`, `editor2`, `share`, `shareUi`, the three layout tests, `classicParity`.
+
+## Phase 290 — Rights F: hide Price List, sales totals, Payments; block export [E]
+**Goal:** `seePriceList`, `seeSales`, `seePayments` and `exportData` do what the contract says.
+**Depends on:** 288 (and 283 for the Payments part; if 283 is not done, add the gate in the model and say so).
+**In scope:** (a) no `seePriceList`: the Price List route, entries, search and the Price List auto-rate in the editor are handled exactly as the contract table says (the editor keeps working with typed rates); (b) no `seeSales`: Dashboard sales tiles, History list totals and customer totals are replaced by a short "Not shown" line (the editor, bill view and shared image keep amounts); (c) no `seePayments`: the Payments entry and route are gone and the phone does not store the list; (d) no `exportData`: Settings > Storage export / import / reset are hidden and refused in code too; (e) tests per gate, each with the flag on and off; the Settings page keeps working when every flag is off.
+**Out of scope:** action flags (291).
+**Key files:** `pwa/ui/{Dashboard,History,Customers,SettingsStorage}.tsx`, `dashboardModel.ts`, `historyModel.ts`, `customersModel.ts`, `pwa/data/backup.ts`, `pwa/data/resetData.ts`, the kit price list and Payments screens, the layouts' home files, `pwa/router.ts`, NEW `seatRights290.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `priceListScreens245`, `payments283`, `dashboard` / `history` tests, the three layout tests, `classicParity`, `data`.
+
+## Phase 291 — Rights G: action rights [E]
+**Goal:** `shareBills`, `deleteBills`, `editOldBills`, `editCustomers` and `editPayments` block their actions in the app.
+**Depends on:** 288.
+**In scope:** the buttons are hidden or disabled with one plain line and the repo-level functions refuse when the flag is off (so no path bypasses the screen): share image / PDF / QR; delete bill (and Trash restore stays as is [A]); open a bill dated before today for edit (view only, "Older bills are view only for this phone"); add / edit / merge customer; payments editor save; tests per flag on and off, including the repo refusals and that viewing is never blocked.
+**Out of scope:** server-side enforcement.
+**Key files:** `pwa/ui/{BillView,SharePanel,Customers,Trash}.tsx`, `pwa/ui/editor/*` (open mode), `pwa/data/{billsRepo,customersRepo,draftsRepo}.ts`, `pwa/share/shareSheet.ts`, the kit Payments editor, NEW `seatRights291.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `bills`, `editor`, `editor2`, `customersSettings`, `shareUi`, `payments283`, `classicParity`.
+
+## Phase 292 — Phone data protection [E]
+**Goal:** Loss becomes rare and visible; unsynced bills are warned about (warn only).
+**Depends on:** 278.
+**In scope:** (a) a pure `protectionState` (persisted yes / no / unknown, installed yes / no, storage used / quota, pending outbox count, last successful sync); (b) a calm banner on the Dashboard of every layout when not persisted ("Your phone may delete this data. Install the app and tap Keep my data."), with the existing "Ask the browser to keep my data" action and the install-prompt steps (`platform/installPrompt.ts`), re-requested after install and after the first save; (c) an unsynced warning line ("N bills are only on this phone yet. Sync now.") shown when the outbox is non-empty and the phone is linked, nothing blocked; (d) a second marker for the cleared detector stored in a different store (IndexedDB meta + localStorage) so partial loss is caught more often; (e) Settings > Storage shows the same state; tests with fake storage / outbox.
+**Out of scope:** restore (293), diff (294), the Profile page.
+**Key files:** `pwa/platform/{storage,clearedData,installPrompt}.ts`, `pwa/ui/{bootstrap,SettingsStorage,Dashboard}.tsx`, `pwa/App.tsx` (~line 201), `pwa/sync/outbox.ts`, the three layouts' home files (banner slot), `pwa/__tests__/hardening.test.ts` (read), NEW test.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `hardening`, `statusModel`, `classicParity`, the three layout tests.
+
+## Phase 293 — Phone restore after a wipe [E]
+**Goal:** A blank phone plus one code restores everything by itself.
+**Depends on:** 278; uses Phase 269's code screen and Phase 179's first sync.
+**In scope:** (a) a blank phone (no data, no link) shows the one-code screen with restore wording; (b) after the code is accepted the phone runs `prepareFirstSync` and `applyFirstSync` with scope `all` automatically (no scope question; `recent` stays under Advanced), then fetches the company profile, the payments list and the rights; (c) one progress screen (counts by kind, never a blank wait), a plain failure with "Try again" that resumes (the first sync is all or nothing per Phase 179), ends on the Dashboard; (d) one line says that anything that only lived on the old phone and never synced cannot come back; (e) a partial wipe with the login still present opens the same screen only when the marker says data existed and the database is empty (existing `checkDataCleared` verdict) and offers "Restore from the server" (no code needed); tests with a fake transport: blank start, wrong code, offline, resume, large data, the marker case.
+**Out of scope:** the daily diff (294).
+**Key files:** `pwa/sync/{firstSync,connect,master,recredential,runtime}.ts`, `pwa/ui/{ConnectCode,connectCodeModel,bootstrap}.tsx`, `pwa/platform/clearedData.ts`, `pwa/App.tsx`, `pwa/__tests__/connectCode269.test.ts` (pattern), `syncPushPull.test.ts` (read), NEW test.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `connectCode269`, `master268`, `syncLogin`, `phoneRuntime`, `classicParity`.
+
+## Phase 294 — Phone diff (self-check) [E]
+**Goal:** The phone re-checks itself against the server and pulls what is missing.
+**Depends on:** 293.
+**In scope:** (a) a pure `selfCheckDue(now, lastCheck, online, idle)` (on start, then at most every 24 h); (b) a cheap first step (record counts per kind / cursor against the server's), the full light-manifest compare (`planSync`, `prepareFirstSync` logic) only when they disagree; (c) pull what is missing or different through the normal pull path (base_version / aside rules unchanged, never overwrite a newer local edit, never upload what was not already queued); (d) one status line ("Checked 14:05, all in step" / "Fetched 37 missing records" / "Could not check: offline") on the Dashboard sync line and in Settings > Branch and sync; (e) a manual "Check now"; (f) tests: healthy phone does nothing, a deleted local store is refilled, a newer local edit is kept, offline is quiet, the check never runs twice at once.
+**Out of scope:** upload repair, desktop.
+**Key files:** `pwa/sync/{firstSync,engine,pull,recordState,syncMeta,runtime}.ts`, `shared/sync/{diff,pull,progress}.ts` (read), `pwa/ui/{loadDashboard,SettingsSync}.tsx`, `pwa/ui/PriceSyncLines.tsx` (pattern), NEW test, `pwa/__tests__/syncPushPull.test.ts` (read).
+**Version:** no bump. **How to verify:** typecheck once; the new test, `syncPushPull`, `statusModel`, `phoneRuntime`, `classicParity`.
+
+## Phase 295 — Phone Profile page [E]
+**Goal:** A detailed Profile page on the phone.
+**Depends on:** 288 and 281 (missing parts show "not set up").
+**In scope:** a read model `profileModel.ts` and a page, first row of Settings and opened from the Dashboard name line, with the groups of design 4.7: who, connection, rights (Price List flags + the new flags in plain words, last checked), this phone's data (counts, storage, protected, last export, last self-check), company (effective profile + link to Company settings), payments (count, default payee, last updated, hidden when `seePayments` is off), help (support line, diagnostics copy through the existing redaction); nothing secret is ever shown; works offline and in every layout; tests: model with every group missing, a restricted phone, redaction scan of the rendered text.
+**Out of scope:** editing anything on the page, desktop.
+**Key files:** `pwa/ui/{Settings,settingsPages,AboutPage,Dashboard,loadDashboard}.tsx` + `settingsPages.ts`, `pwa/ui/layouts/shared/SettingsWords.tsx`, `pwa/data/{metaRepo,settingsRepo,priceRights,seatRights}.ts`, `pwa/sync/{master,companyProfile,payments,runtime}.ts`, `pwa/platform/storage.ts`, NEW `profileModel.ts` + page + test, `layoutSettings.test.ts`, `classicParity.test.ts`.
+**Version:** no bump. **How to verify:** typecheck once; the new test, `layoutSettings`, `classicParity`, the three layout tests, `plainWords`.
+
+## Phase 296 — Milestone 25 QA gate (release gate) [G]
+**Goal:** Close M25: reconcile docs, write the owner checklist, release 0.1.64.
+**Depends on:** 275-295.
+**In scope:** typecheck once + the named test files of 275-295 (each phase's log lists them); reconcile `PHASE_STATUS.md`, `PROJECT_STRUCTURE.md`, `API_CONTRACTS.md`, `GITHUB_UPDATE_PUSH.md` (section 12c: deploy order: company SQL 23 first, then push + tag; the 0.1.63 steps if not yet done); write `docs/M25_OWNER_CHECKLIST.md` UNFILLED (backup folder shows 3 autos after two launches; phone share image has no duplicate row; Country Wars plays with fonts and flags; Payments page, defaults match the old page, QR scans in a real UPI app for each of the three shapes, add / edit / remove a payee, a second phone receives it, a bill QR with the grand total, share as its own image; rights: a restricted seat on a real phone sees no address / contact / Price List / sales / Payments, still gets them on the shared image, cannot export / delete / edit old bills / edit customers when off; a change reaches a live phone; old phones keep working; protection banner and install steps on a real Android phone; wipe site data, type the code, everything comes back; the unsynced warning; the daily check; the Profile page); bump 0.1.64 [A]; hand back changed-files zip + full zip + steps.
+**Out of scope:** new features.
+**Version:** 0.1.64 (release gate [A]). **How to verify:** typecheck once + the named tests green or each failure listed with its cause (compare against the previous zip). NO FULL SUITE; real Supabase / Windows / Android never written as "verified".
+
+## Phase 297 — Fix pack from the owner's report (only if needed) [E]
+**Goal:** Fix what the owner found when testing M25.
+**Depends on:** 296 and the owner's filled `docs/M25_OWNER_CHECKLIST.md`. Skip if there is no report.
+**In scope:** only what the report lists; if the list is long, do the first items that fit one free session and log the rest as the next fix pack. Never loosen the security rules of 10s / 10t.
+**Version:** no bump by itself. **How to verify:** typecheck once; the named tests of the touched code; NO FULL SUITE.

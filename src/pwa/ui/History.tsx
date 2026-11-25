@@ -4,7 +4,8 @@ import { HISTORY_PAGE_SIZE } from '../../shared/history/historyList'
 import type { SearchCandidate } from '../../shared/history/historySearch'
 import type { PhoneDb } from '../data/db'
 import { countTrashed, listSearchCandidates } from '../data/historyRepo'
-import { buildHistory, DEFAULT_RANGE, listTotal, RANGES, type RangeKey } from './historyModel'
+import { useSeatRights } from './useSeatRights'
+import { buildHistory, DEFAULT_RANGE, groupTotal, listTotal, RANGES, type RangeKey } from './historyModel'
 import { localIsoDate } from './dashboardModel'
 
 function BillRowButton(props: { id: string; partyName: string; poNumber: string; billDate?: string; total: string; onOpen: (id: string) => void }): ReactElement {
@@ -23,6 +24,7 @@ function BillRowButton(props: { id: string; partyName: string; poNumber: string;
 
 /** Phone History (Phase 181): date-grouped list, search (party, PO number, item text, amount), range chips, Recently deleted entry. Read-only. */
 export function History(props: { db: PhoneDb | null; now?: () => Date; onOpenBill: (id: string) => void; onOpenTrash: () => void }): ReactElement {
+  const rights = useSeatRights()
   const { db } = props
   const [candidates, setCandidates] = useState<SearchCandidate[] | null>(null)
   const [trashed, setTrashed] = useState(0)
@@ -65,7 +67,7 @@ export function History(props: { db: PhoneDb | null; now?: () => Date; onOpenBil
       {result.searching ? (
         result.items.length === 0 ? <p className="q3-muted">No bills match.</p> : (
           <ul className="q3-list" aria-label="Search results">
-            {result.items.map((b) => <BillRowButton key={b.id} id={b.id} partyName={b.partyName} poNumber={b.poNumber} billDate={b.billDate} total={listTotal(b.grandTotal)} onOpen={props.onOpenBill} />)}
+            {result.items.map((b) => <BillRowButton key={b.id} id={b.id} partyName={b.partyName} poNumber={b.poNumber} billDate={b.billDate} total={listTotal(b.grandTotal, rights.can('seeSales'))} onOpen={props.onOpenBill} />)}
           </ul>
         )
       ) : result.groups.length === 0 ? (
@@ -73,9 +75,9 @@ export function History(props: { db: PhoneDb | null; now?: () => Date; onOpenBil
       ) : (
         result.groups.map((g) => (
           <section key={g.date} aria-label={g.label}>
-            <h2 className="q3-h2 q3-day"><span>{g.label}</span><span>{g.count} · {g.total}</span></h2>
+            <h2 className="q3-h2 q3-day"><span>{g.label}</span><span>{g.count} · {groupTotal(g.total, rights.can('seeSales'))}</span></h2>
             <ul className="q3-list">
-              {g.items.map((b) => <BillRowButton key={b.id} id={b.id} partyName={b.partyName} poNumber={b.poNumber} total={listTotal(b.grandTotal)} onOpen={props.onOpenBill} />)}
+              {g.items.map((b) => <BillRowButton key={b.id} id={b.id} partyName={b.partyName} poNumber={b.poNumber} total={listTotal(b.grandTotal, rights.can('seeSales'))} onOpen={props.onOpenBill} />)}
             </ul>
           </section>
         ))

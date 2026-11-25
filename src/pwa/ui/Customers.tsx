@@ -1,12 +1,15 @@
 import { MagnifyingGlass, Plus } from '@phosphor-icons/react'
 import { useCallback, useEffect, useMemo, useState, type ReactElement } from 'react'
-import { formatHistoryDate, formatHistoryTotal } from '../../shared/history/historyList'
+import { formatHistoryDate } from '../../shared/history/historyList'
 import type { BillHead } from '../data/billsRepo'
 import { addCustomer, CustomerError, editCustomer, listCustomerBills, type CustomerInput } from '../data/customersRepo'
 import type { PhoneDb } from '../data/db'
 import { getParty, listCustomers, type CustomerRow, type PartyRecord } from '../data/partiesRepo'
 import { withOutbox } from '../sync/outbox'
-import { billCountText, CUSTOMER_PAGE_SIZE, filterCustomers, telHref, whatsappHref } from './customersModel'
+import { ACTION_OFF_WORDS, HIDDEN_BY_ADMIN } from '../../shared/seatRights'
+import { billCountText, contactLinks, CUSTOMER_PAGE_SIZE, filterCustomers } from './customersModel'
+import { listTotal } from './historyModel'
+import { useSeatRights } from './useSeatRights'
 
 const NOT_OPEN = 'Your customers could not be opened.'
 
@@ -28,7 +31,8 @@ export function Customers(props: { db: PhoneDb | null; onOpen: (id: string) => v
     return () => { cancelled = true }
   }, [db])
 
-  const shown = useMemo(() => (rows ? filterCustomers(rows, query) : null), [rows, query])
+  const rights = useSeatRights()
+  const shown = useMemo(() => (rows ? filterCustomers(rows, query, rights.flags) : null), [rows, query, rights.flags])
   if (!db) return <p className="q3-note q3-note-warn" role="alert">{NOT_OPEN}</p>
   if (error) return <p className="q3-note q3-note-warn" role="alert">{error}</p>
   if (!shown || !rows) return <p className="q3-muted" role="status">Loading</p>
@@ -37,10 +41,10 @@ export function Customers(props: { db: PhoneDb | null; onOpen: (id: string) => v
     <div className="q3-history">
       <div className="q3-search">
         <MagnifyingGlass size={18} weight="light" aria-hidden="true" />
-        <input type="search" aria-label="Search customers" placeholder="Name or phone" enterKeyHint="search" autoComplete="off" value={query} onChange={(e) => { setQuery(e.target.value); setLimit(CUSTOMER_PAGE_SIZE) }} />
+        <input type="search" aria-label="Search customers" placeholder={rights.can('seeContact') ? 'Name or phone' : 'Name'} enterKeyHint="search" autoComplete="off" value={query} onChange={(e) => { setQuery(e.target.value); setLimit(CUSTOMER_PAGE_SIZE) }} />
       </div>
       <div className="q3-actions">
-        <button type="button" className="q3-btn q3-btn-primary" disabled={!db.canWrite()} onClick={props.onAdd}><Plus size={16} weight="bold" aria-hidden="true" /> Add customer</button>
+        {rights.can('editCustomers') ? <button type="button" className="q3-btn q3-btn-primary" disabled={!db.canWrite()} onClick={props.onAdd}><Plus size={16} weight="bold" aria-hidden="true" /> Add customer</button> : <span className="q3-muted" role="note">{ACTION_OFF_WORDS.editCustomers}</span>}
         <span className="q3-muted">{rows.length === 1 ? '1 customer' : `${rows.length} customers`}</span>
       </div>
       {shown.length === 0 ? (
@@ -52,7 +56,7 @@ export function Customers(props: { db: PhoneDb | null; onOpen: (id: string) => v
               <button type="button" className="q3-li-btn" onClick={() => props.onOpen(r.id)}>
                 <span className="q3-li-main">
                   <span className="q3-li-title">{r.name}</span>
-                  <span className="q3-muted">{r.phone || 'No phone'}{r.lastBillDate ? ` · last ${formatHistoryDate(r.lastBillDate)}` : ''}</span>
+                  <span className="q3-muted">{rights.can('seeContact') ? r.phone || 'No phone' : HIDDEN_BY_ADMIN}{r.lastBillDate ? ` · last ${formatHistoryDate(r.lastBillDate)}` : ''}</span>
                 </span>
                 <span className="q3-li-amount">{billCountText(r.billCount)}</span>
               </button>
@@ -81,6 +85,7 @@ export function CustomerPage(props: {
   const [party, setParty] = useState<PartyRecord | null | undefined>(adding ? null : undefined)
   const [bills, setBills] = useState<BillHead[]>([])
   const [editing, setEditing] = useState(adding)
+  const rights = useSeatRights()
   const [form, setForm] = useState<CustomerInput>(EMPTY)
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
@@ -137,10 +142,14 @@ export function CustomerPage(props: {
         </label>
         {!adding ? <p className="q3-muted">The name cannot be changed here.</p> : null}
         <label className="q3-field"><span className="q3-muted">Phone</span>
-          <input className="q3-input" aria-label="Phone" type="tel" inputMode="tel" autoComplete="off" enterKeyHint="next" value={form.phone} onChange={set('phone')} />
+          {rights.can('seeContact')
+            ? <input className="q3-input" aria-label="Phone" type="tel" inputMode="tel" autoComplete="off" enterKeyHint="next" value={form.phone} onChange={set('phone')} />
+            : <input className="q3-input" aria-label="Phone" readOnly value={HIDDEN_BY_ADMIN} />}
         </label>
         <label className="q3-field"><span className="q3-muted">Address</span>
-          <input className="q3-input" aria-label="Address" autoComplete="off" enterKeyHint="next" value={form.address} onChange={set('address')} />
+          {rights.can('seeAddress')
+            ? <input className="q3-input" aria-label="Address" autoComplete="off" enterKeyHint="next" value={form.address} onChange={set('address')} />
+            : <input className="q3-input" aria-label="Address" readOnly value={HIDDEN_BY_ADMIN} />}
         </label>
         <label className="q3-field"><span className="q3-muted">Transport</span>
           <input className="q3-input" aria-label="Transport" autoComplete="off" enterKeyHint="done" value={form.transport} onChange={set('transport')} />
@@ -155,22 +164,21 @@ export function CustomerPage(props: {
   }
 
   const p = party!
-  const call = p.phone ? telHref(p.phone) : null
-  const wa = p.phone ? whatsappHref(p.phone) : null
+  const { call, whatsapp: wa } = contactLinks(p.phone, rights.flags)
   return (
     <div className="q3-bill">
       {notice ? <p className="q3-note" role="status">{notice}</p> : null}
       {error ? <p className="q3-note q3-note-warn" role="alert">{error}</p> : null}
       <div className="q3-bill-head">
         <span className="q3-strong">{p.name}</span>
-        <div className="q3-kv"><span>Phone</span><span>{p.phone ?? '-'}</span></div>
-        <div className="q3-kv"><span>Address</span><span>{p.address ?? '-'}</span></div>
+        <div className="q3-kv"><span>Phone</span><span>{rights.can('seeContact') ? p.phone ?? '-' : HIDDEN_BY_ADMIN}</span></div>
+        <div className="q3-kv"><span>Address</span><span>{rights.can('seeAddress') ? p.address ?? '-' : HIDDEN_BY_ADMIN}</span></div>
         <div className="q3-kv"><span>Transport</span><span>{p.transport ?? '-'}</span></div>
       </div>
       <div className="q3-actions">
         {call ? <a className="q3-btn" href={call}>Call</a> : null}
         {wa ? <a className="q3-btn" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp</a> : null}
-        <button type="button" className="q3-btn" disabled={!db.canWrite()} onClick={startEdit}>Edit</button>
+        {rights.can('editCustomers') ? <button type="button" className="q3-btn" disabled={!db.canWrite()} onClick={startEdit}>Edit</button> : null}
       </div>
       <h2 className="q3-h2">Bills ({bills.length})</h2>
       {bills.length === 0 ? <p className="q3-muted">No bills for this customer yet.</p> : (
@@ -182,7 +190,7 @@ export function CustomerPage(props: {
                   <span className="q3-li-title">{h.poNumber}</span>
                   <span className="q3-muted">{formatHistoryDate(h.billDate)}</span>
                 </span>
-                <span className="q3-li-amount">{formatHistoryTotal(h.grandTotal)}</span>
+                <span className="q3-li-amount">{listTotal(h.grandTotal, rights.can('seeSales'))}</span>
               </button>
             </li>
           ))}

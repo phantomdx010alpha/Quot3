@@ -150,3 +150,16 @@ describe('isLeaveGameInput (Alt+Left)', () => {
     expect(isLeaveGameInput({ type: 'keyDown', key: 'ArrowRight', alt: true })).toBe(false)
   })
 })
+
+describe('Country Wars fonts are served from the game folder (Phase 277)', () => {
+  it('serves the vendored woff2 files with a font type, and refuses a file outside the folder', async () => {
+    const real = { gamesRoot: resolve(__dirname, '../../../../resources/games'), frameAncestors: 'file:', allowSelftest: false }
+    for (const f of ['lilita-one-latin-400-normal.woff2', 'nunito-latin-700-normal.woff2', 'nunito-latin-800-normal.woff2', 'nunito-latin-900-normal.woff2']) {
+      const r = await handleGameRequest({ url: `q3game://country-wars/fonts/${f}` }, real)
+      expect(r.status, f).toBe(200)
+      expect(r.headers['Content-Type']).toBe('font/woff2')
+    }
+    expect((await handleGameRequest({ url: 'q3game://country-wars/index.html' }, real)).status).toBe(200)
+    expect((await handleGameRequest({ url: 'q3game://country-wars/fonts/../../manifest.json' }, real)).status).not.toBe(200)
+  })
+})

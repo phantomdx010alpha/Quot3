@@ -1,3 +1,4 @@
+import { assertSeatRight } from '../data/seatRights'
 /**
  * Phase 184 - phone share, step 4: hand a file to the system share sheet (Web Share with files, so it can go straight to WhatsApp),
  * or save it as a normal download when sharing is unavailable. The environment is injected so every path is testable.
@@ -39,6 +40,7 @@ export function canShareFile(env: ShareEnv, file: File): boolean {
 }
 
 export async function shareFile(env: ShareEnv, bytes: Uint8Array, fileName: string, mime: string, title: string): Promise<ShareResult> {
+  assertSeatRight('shareBills', 'share or save bills') // Phase 291: every image / PDF / QR share and save goes through here
   const file = env.makeFile(bytes, fileName, mime)
   if (canShareFile(env, file)) {
     try {

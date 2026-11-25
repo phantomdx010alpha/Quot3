@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { PhoneDbError, STORE_NAMES, countRecords, txDone, type PhoneDb, type StoreName } from './db'
 import { getAllSettings, SECRET_SETTING_PREFIX, SETTING_DEFAULTS } from './settingsRepo'
 import { getMeta, setMetaValue } from './metaRepo'
+import { assertSeatRight } from './seatRights'
 
 /** Manual Export backup / Import backup file (Phase 175). The phone's second safety net (sync is the first, Milestone 17 section 3.2).
  *  One JSON file: `{ format, format_version, app_version, exported_at, stores: { <store>: rows[] } }`.
@@ -48,6 +49,7 @@ export interface BackupFile {
 
 /** Builds the backup and, when this tab may write, records `last_export_at`. A read-only tab still gets the file. */
 export async function exportBackup(db: PhoneDb, opts: ExportOptions): Promise<BackupFile> {
+  assertSeatRight('exportData', 'export the phone\'s data')
   const now = (opts.now ?? (() => new Date()))()
   const stores: Record<string, Record<string, unknown>[]> = {}
   const counts: Record<string, number> = {}
@@ -95,6 +97,7 @@ export interface ImportResult {
 /** Replaces ALL phone data with the backup, in ONE transaction: any bad row aborts the whole import and nothing changes.
  *  Local `secret.*` settings (the signed-in session) are kept, since a backup never carries them. */
 export async function importBackup(db: PhoneDb, file: Blob | string, now: () => Date = () => new Date()): Promise<ImportResult> {
+  assertSeatRight('exportData', 'import data into the phone')
   db.assertWritable()
   const backup = await parseBackup(file)
   const keepSecrets = (await getAllSettings(db))

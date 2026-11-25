@@ -4,15 +4,19 @@ import { getBill } from '../../../data/billsRepo'
 import { findRecoverable } from '../../editor/editorIo'
 import { Button } from '../../kit/Button'
 import { PriceListEntry } from '../../kit/PriceListParts'
+import { PaymentsEntry } from '../../kit/PaymentsPage'
+import { ProfileEntry } from '../../ProfilePage'
 import { loadShareDefaults, shareBillNow } from './guidedShare'
 import { requestContinueDraft } from './guidedStep'
 import type { ScreenProps } from '../types'
+import { useSeatRights } from '../../useSeatRights'
 
 const billsWord = (n: number): string => `${n} ${n === 1 ? 'bill' : 'bills'}`
 
 /** Guided Home (Phase 193): one huge "New bill", "Continue draft" (the existing draft recovery, offered only when there is a saved draft of a new bill),
  *  and today's bills, each with a visible Share button. New bill opens a CLEAN bill (A31). Reads what App.tsx loaded. */
 export function GuidedHome(props: ScreenProps): ReactElement {
+  const rights = useSeatRights()
   const { db } = props
   const d = props.dashboard
   const [hasDraft, setHasDraft] = useState(false)
@@ -53,6 +57,8 @@ export function GuidedHome(props: ScreenProps): ReactElement {
       </button>
       {hasDraft ? <Button label="Continue draft" onClick={() => { requestContinueDraft(); props.onNavigate('create') }} /> : null}
       <PriceListEntry db={db} onOpen={() => props.onNavigate('pricelist')} />
+      <PaymentsEntry onOpen={() => props.onNavigate('payments')} />
+      <ProfileEntry onOpen={() => props.onNavigate('profile')} />
       <section aria-label="Today">
         <h2 className="q3x-tidy-h2 q3x-tidy-day"><span>Today</span><span>{billsWord(view.today.count)} {'·'} {view.today.total}</span></h2>
         {todays.length === 0 ? <p className="q3-muted">No bills yet today.</p> : (
@@ -66,7 +72,7 @@ export function GuidedHome(props: ScreenProps): ReactElement {
                   </span>
                   <span className="q3x-amount">{b.total}</span>
                 </button>
-                <Button label={busyId === b.id ? 'Preparing' : 'Share'} disabled={busyId !== null} icon={<ShareNetwork size={20} aria-hidden="true" />} onClick={() => { void shareRow(b.id) }} />
+                {rights.can('shareBills') ? <Button label={busyId === b.id ? 'Preparing' : 'Share'} disabled={busyId !== null} icon={<ShareNetwork size={20} aria-hidden="true" />} onClick={() => { void shareRow(b.id) }} /> : null}
               </li>
             ))}
           </ul>

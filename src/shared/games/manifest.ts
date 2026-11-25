@@ -1,7 +1,9 @@
 /** Games manifest contract (Milestone 19, Phase 197, API_CONTRACTS M19-1). Pure: no DOM, no Electron, no Node, no network. */
 
 export const ALLOWED_LICENCES = ['MIT', 'BSD-2-Clause', 'BSD-3-Clause', 'ISC', 'Apache-2.0', 'Unlicense', 'CC0-1.0'] as const
-export type GameLicence = (typeof ALLOWED_LICENCES)[number]
+/** Phase 277 (M25): the owner's OWN game. Accepted only with the marker `own: true`; `commit` may then be empty and `source` may be omitted. */
+export const OWNER_LICENCE = 'Owner'
+export type GameLicence = (typeof ALLOWED_LICENCES)[number] | typeof OWNER_LICENCE
 
 export const GAME_TAGS = ['puzzle', 'arcade', 'card', 'board', 'shooter', 'word', 'retro', 'two-player', 'chess', 'relaxing'] as const
 export type GameTag = (typeof GAME_TAGS)[number]
@@ -15,10 +17,12 @@ export interface GameEntry {
   title: string
   tags: GameTag[]
   description: string
-  /** Upstream repository URL. */
+  /** Upstream repository URL ('' for an own game without a repo). */
   source: string
-  /** Upstream commit SHA the files were copied from. */
+  /** Upstream commit SHA the files were copied from ('' for an own game). */
   commit: string
+  /** Phase 277: true only for the owner's own game (licence `Owner`). */
+  own?: true
   licence: GameLicence
   /** Interface language: 'en' or 'zh' (required from Phase 205). */
   lang: GameLang
@@ -78,10 +82,24 @@ export function validateGameEntry(raw: unknown): EntryCheck {
   if (!description) return { ok: false, error: `${id}: missing description` }
   const author = str(r.author, 120)
   if (!author) return { ok: false, error: `${id}: missing author` }
-  const source = str(r.source, 300)
-  if (!source || !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+/.test(source)) return { ok: false, error: `${id}: source must be a GitHub repo URL` }
-  if (typeof r.commit !== 'string' || !SHA_RE.test(r.commit)) return { ok: false, error: `${id}: commit must be a git SHA` }
-  if (typeof r.licence !== 'string' || !(ALLOWED_LICENCES as readonly string[]).includes(r.licence)) return { ok: false, error: `${id}: licence not allowed: ${String(r.licence)}` }
+  const own = r.own === true
+  if (r.own !== undefined && r.own !== true) return { ok: false, error: `${id}: own must be true when given` }
+  if (own !== (r.licence === OWNER_LICENCE)) return { ok: false, error: `${id}: the Owner licence needs own: true, and own: true needs the Owner licence` }
+  let source: string | null
+  let commit: string
+  if (own) {
+    // Own game (Phase 277): commit may be empty or absent; source may be omitted, empty, or a GitHub repo URL.
+    commit = r.commit === undefined || r.commit === '' ? '' : typeof r.commit === 'string' && SHA_RE.test(r.commit) ? r.commit : '\0'
+    if (commit === '\0') return { ok: false, error: `${id}: commit must be empty or a git SHA` }
+    source = r.source === undefined || r.source === '' ? '' : str(r.source, 300)
+    if (source === null || (source !== '' && !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+/.test(source))) return { ok: false, error: `${id}: source must be empty or a GitHub repo URL` }
+  } else {
+    source = str(r.source, 300)
+    if (!source || !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+/.test(source)) return { ok: false, error: `${id}: source must be a GitHub repo URL` }
+    if (typeof r.commit !== 'string' || !SHA_RE.test(r.commit)) return { ok: false, error: `${id}: commit must be a git SHA` }
+    commit = r.commit
+    if (typeof r.licence !== 'string' || !(ALLOWED_LICENCES as readonly string[]).includes(r.licence)) return { ok: false, error: `${id}: licence not allowed: ${String(r.licence)}` }
+  }
   if (r.lang !== 'en' && r.lang !== 'zh') return { ok: false, error: `${id}: lang must be "en" or "zh"` }
   if (!isSafeGamePath(r.entry) || !/\.html?$/i.test(r.entry)) return { ok: false, error: `${id}: entry must be a relative .html path inside the game folder` }
   if (r.players !== 1 && r.players !== 2) return { ok: false, error: `${id}: players must be 1 or 2` }
@@ -92,7 +110,7 @@ export function validateGameEntry(raw: unknown): EntryCheck {
   if (new Set(r.tags).size !== r.tags.length) return { ok: false, error: `${id}: duplicate tag` }
   return {
     ok: true,
-    entry: { id, title, tags: [...(r.tags as GameTag[])], description, source, commit: r.commit, licence: r.licence as GameLicence, lang: r.lang, author, entry: r.entry, players: r.players, touch: r.touch, added: r.added }
+    entry: { id, title, tags: [...(r.tags as GameTag[])], description, source, commit, ...(own ? { own: true as const } : {}), licence: r.licence as GameLicence, lang: r.lang, author, entry: r.entry, players: r.players, touch: r.touch, added: r.added }
   }
 }
 

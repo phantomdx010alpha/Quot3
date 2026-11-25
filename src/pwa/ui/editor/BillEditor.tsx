@@ -11,6 +11,9 @@ import {
   setTotalOverride, toggleMark, unitsText, type EditorState, type ItemField, type NameFormat
 } from './editorModel'
 import { autosave, discardDraft, findRecoverable, openEditor, recoverDraft, saveEditorBill } from './editorIo'
+import { HIDDEN_BY_ADMIN } from '../../../shared/seatRights'
+import { redactSuggestions } from '../customersModel'
+import { useSeatRights } from '../useSeatRights'
 
 /** What the app shell can ask of the open editor (the unsaved-changes prompt). */
 export interface EditorApi {
@@ -131,7 +134,8 @@ export function BillEditor(props: BillEditorProps): ReactElement {
 
   const view = useMemo(() => (state ? buildEditorView(state) : null), [state])
   const formats = useMemo(() => editableFormats(), [])
-  const suggestions = useMemo(() => (state && dir && suggestOpen ? dir.search(state.bill.party.name) : []), [state, dir, suggestOpen])
+  const rights = useSeatRights()
+  const suggestions = useMemo(() => (state && dir && suggestOpen ? redactSuggestions(dir.search(state.bill.party.name), state.bill.party.name, rights.flags) : []), [state, dir, suggestOpen, rights.flags])
 
   if (blocked) return <p className="q3-note q3-note-warn" role="alert">{blocked}</p>
   if (!db) return <p className="q3-muted">The phone database is not available.</p>
@@ -181,7 +185,7 @@ export function BillEditor(props: BillEditorProps): ReactElement {
             <ul className="q3-suggest" role="listbox" aria-label="Customers">
               {suggestions.map((p) => (
                 <li key={p.id} role="option" aria-selected="false">
-                  <button type="button" className="q3-li-btn" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, p)); setSuggestOpen(false) }}>
+                  <button type="button" className="q3-li-btn" onMouseDown={(e) => e.preventDefault()} onClick={() => { update((s) => applyParty(s, dir?.find(p.name) ?? p)); setSuggestOpen(false) }}>
                     <span className="q3-li-title">{p.name}</span><span className="q3-muted">{p.phone}</span>
                   </button>
                 </li>
@@ -190,13 +194,15 @@ export function BillEditor(props: BillEditorProps): ReactElement {
           ) : null}
         </div>
         <div className="q3-party-line">
-          <input className="q3-input" inputMode="tel" aria-label="Phone" placeholder="Phone" value={state.bill.party.phone} onChange={(e) => update((s) => setPartyField(s, 'phone', e.target.value))} />
+          {rights.can('seeContact') ? (
+            <input className="q3-input" inputMode="tel" aria-label="Phone" placeholder="Phone" value={state.bill.party.phone} onChange={(e) => update((s) => setPartyField(s, 'phone', e.target.value))} />
+          ) : <input className="q3-input" aria-label="Phone" readOnly value={HIDDEN_BY_ADMIN} />}
           <input className="q3-input" aria-label="Transport" placeholder="Transport" value={state.bill.party.transport} onChange={(e) => update((s) => setPartyField(s, 'transport', e.target.value))} />
           <button type="button" className="q3-btn q3-icon-btn" aria-expanded={showAddress} aria-label="Address" onClick={() => setShowAddress((v) => !v)}>
             {showAddress ? <CaretUp size={18} aria-hidden="true" /> : <CaretDown size={18} aria-hidden="true" />}
           </button>
         </div>
-        {showAddress ? <textarea className="q3-input q3-address" aria-label="Address" placeholder="Address" rows={2} value={state.bill.party.address} onChange={(e) => update((s) => setPartyField(s, 'address', e.target.value))} /> : null}
+        {showAddress ? (rights.can('seeAddress') ? <textarea className="q3-input q3-address" aria-label="Address" placeholder="Address" rows={2} value={state.bill.party.address} onChange={(e) => update((s) => setPartyField(s, 'address', e.target.value))} /> : <input className="q3-input q3-address" aria-label="Address" readOnly value={HIDDEN_BY_ADMIN} />) : null}
         {isNewName ? <p className="q3-note">New customer: it is added when you save.</p> : null}
         <div className="q3-chips" role="group" aria-label="Bill format">
           {formats.map((f) => <button key={f.id} type="button" className="q3-chip" aria-pressed={state.bill.formatId === f.id} onClick={() => update((s) => setFormat(s, f.id))}>{f.label}</button>)}

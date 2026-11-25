@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#060b17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MB QR Pay" />
+  <title>MB QR Pay</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --navy:       #060b17;
+      --navy-mid:   #112040;
+      --navy-light: #1a3060;
+      --red:        #14b8a6;
+      --red-light:  #2dd4bf;
+      --gold:       #d4a843;
+      --white:      #f5f0eb;
+      --grey:       #8a9ab5;
+      --card-bg:    rgba(17, 32, 64, 0.85);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── WATERMARK BACKGROUND ── */
+    body::before {
+      content: 'MB MB MB MB MB\AMB MB MB MB MB\AMB MB MB MB MB\AMB MB MB MB MB\AMB MB MB MB MB\AMB MB MB MB MB';
+      white-space: pre;
+      position: fixed;
+      inset: -20%;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(60px, 10vw, 120px);
+      font-weight: 900;
+      color: rgba(20, 184, 166, 0.045);
+      letter-spacing: 0.3em;
+      line-height: 1.6;
+      transform: rotate(-25deg);
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+
+    /* diagonal stripe overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 40px,
+        rgba(10, 22, 40, 0.25) 40px,
+        rgba(10, 22, 40, 0.25) 41px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 40px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      width: 100%;
+      background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+      border-bottom: 3px solid var(--red);
+      padding: 18px 24px 14px;
+      text-align: center;
+      position: relative;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      line-height: 1;
+    }
+    .brand span { color: var(--red-light); }
+
+    .tagline {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+
+    /* ── MAIN CARD ── */
+    .card {
+      width: min(420px, 94vw);
+      margin-top: 28px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--red) 0%, #9b0d22 100%);
+      padding: 12px 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .card-body { padding: 24px 20px 20px; }
+
+    /* ── BANK SELECTOR ── */
+    .field-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 8px;
+    }
+
+    .bank-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .bank-tab {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .bank-tab:active { transform: scale(0.98); }
+    .bank-tab.active {
+      border-color: var(--red);
+      background: rgba(20, 184, 166, 0.12);
+      box-shadow: 0 0 0 1px rgba(20,184,166,0.3);
+    }
+
+    .bank-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--grey);
+      flex-shrink: 0;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .bank-tab.active .bank-dot {
+      border-color: var(--red);
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(20,184,166,0.25);
+    }
+    .bank-tab.active .bank-dot::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .bank-info { flex: 1; min-width: 0; }
+    .bank-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bank-upi {
+      font-size: 10px;
+      color: var(--grey);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bank-tab.active .bank-name { color: #5eead4; }
+
+    /* ── AMOUNT INPUT ── */
+    .amount-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .rupee-sign {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--gold);
+      pointer-events: none;
+      line-height: 1;
+    }
+    .amount-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px 16px 16px 40px;
+      font-size: 28px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .amount-input::placeholder { color: rgba(255,255,255,0.2); font-size: 18px; }
+    .amount-input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(20,184,166,0.2);
+    }
+
+    /* ── GENERATE BUTTON ── */
+    .btn-generate {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--red) 0%, #9b0d22 100%);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 6px 24px rgba(20,184,166,0.4);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-generate:active { transform: scale(0.98); box-shadow: 0 2px 12px rgba(20,184,166,0.3); }
+    .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── QR RESULT CARD ── */
+    .qr-card {
+      width: min(420px, 94vw);
+      margin-top: 20px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      display: none;
+    }
+    .qr-card.visible { display: block; animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .qr-card-header {
+      background: linear-gradient(90deg, var(--navy-light) 0%, var(--navy-mid) 100%);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .qr-meta { font-size: 11px; color: var(--grey); letter-spacing: 0.05em; }
+    .qr-meta strong { color: var(--white); font-size: 13px; display: block; }
+
+    .qr-display {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* QR container with watermark */
+    .qr-canvas-wrap {
+      position: relative;
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .qr-canvas-wrap::before {
+      content: 'MB';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 80px;
+      font-weight: 900;
+      color: rgba(20, 184, 166, 0.06);
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    #qr-output { display: block; position: relative; z-index: 2; }
+    #qr-output img, #qr-output canvas { border-radius: 4px; }
+
+    .amount-badge {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--navy);
+      background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+      padding: 6px 24px;
+      border-radius: 40px;
+      position: relative;
+    }
+
+    /* ── ACTION BUTTONS ── */
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      padding: 0 16px 20px;
+    }
+
+    .btn-action {
+      padding: 14px 10px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-action:active { transform: scale(0.97); }
+    .btn-action .icon { font-size: 22px; line-height: 1; }
+
+    .btn-whatsapp {
+      border-color: rgba(37, 211, 102, 0.4);
+      background: rgba(37, 211, 102, 0.08);
+      color: #25d366;
+    }
+    .btn-whatsapp:active { background: rgba(37, 211, 102, 0.18); }
+
+    .btn-download {
+      border-color: rgba(100, 160, 255, 0.4);
+      background: rgba(100, 160, 255, 0.08);
+      color: #6aaeff;
+    }
+    .btn-download:active { background: rgba(100, 160, 255, 0.18); }
+
+    .btn-fullscreen {
+      border-color: rgba(212, 168, 67, 0.4);
+      background: rgba(212, 168, 67, 0.08);
+      color: var(--gold);
+    }
+    .btn-fullscreen:active { background: rgba(212, 168, 67, 0.18); }
+
+    /* ── FULLSCREEN OVERLAY ── */
+    .fs-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 1000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .fs-overlay.visible { display: flex; }
+
+    .fs-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: var(--navy);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fs-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 18px;
+      color: var(--white);
+    }
+    .fs-brand span { color: var(--red-light); }
+    .btn-close-fs {
+      background: var(--red);
+      border: none;
+      color: white;
+      font-size: 20px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+    }
+
+    .fs-qr-wrap {
+      position: relative;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+    }
+    .fs-qr-wrap::before {
+      content: 'MB';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 120px;
+      font-weight: 900;
+      color: rgba(20, 184, 166, 0.05);
+      pointer-events: none;
+      z-index: 1;
+    }
+    #qr-fullscreen { position: relative; z-index: 2; }
+
+    .fs-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--navy);
+    }
+    .fs-name {
+      font-size: 13px;
+      color: var(--grey);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .fs-bank {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: -8px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--navy-mid);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 999;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── INSTALL BANNER ── */
+    .install-banner {
+      display: none;
+      width: min(420px, 94vw);
+      margin-top: 16px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.12), rgba(212,168,67,0.06));
+      border: 1px solid rgba(212,168,67,0.3);
+      border-radius: 14px;
+      padding: 14px 18px;
+      align-items: center;
+      gap: 12px;
+    }
+    .install-banner.visible { display: flex; }
+    .install-banner .icon { font-size: 24px; flex-shrink: 0; }
+    .install-banner p { font-size: 12px; color: var(--gold); flex: 1; line-height: 1.5; }
+    .btn-install {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── iOS INSTALL BANNER ── */
+    .ios-install-banner {
+      display: none;
+      width: min(420px, 94vw);
+      margin-top: 16px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.14), rgba(212,168,67,0.07));
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: 14px;
+      padding: 14px 16px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ios-install-banner.visible { display: flex; }
+    .ios-banner-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ios-banner-top .icon { font-size: 22px; flex-shrink: 0; }
+    .ios-banner-top p { font-size: 12px; color: var(--gold); flex: 1; line-height: 1.5; }
+    .ios-banner-top button {
+      background: transparent;
+      border: none;
+      color: var(--grey);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+    .ios-steps {
+      font-size: 11.5px;
+      color: rgba(212,168,67,0.8);
+      line-height: 1.8;
+      padding-left: 4px;
+    }
+    .ios-steps span {
+      display: inline-block;
+      background: rgba(212,168,67,0.15);
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin: 0 2px;
+      font-weight: 600;
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 4px; }
+  
+    /* ── SLEEK THEME OVERRIDES ── */
+    :root{--navy:#060b17;--navy-mid:#0e1730;--navy-light:#18264a;--gold:#f5c26b;--grey:#8b98b8;--card-bg:rgba(14,23,48,.72)}
+    body{background:radial-gradient(1200px 600px at 50% -10%,#12234d 0%,#060b17 60%) fixed!important}
+    .card,.qr-card{border:1px solid rgba(255,255,255,.08)!important;border-radius:20px!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.35)!important}
+    .bank-tab{border-radius:14px!important;transition:all .2s}
+    .bank-tab.active{border-color:#14b8a6!important;box-shadow:0 0 0 1px rgba(20,184,166,.5),0 6px 20px rgba(20,184,166,.15)}
+    .btn-generate{background:linear-gradient(135deg,#14b8a6,#0ea5e9)!important;color:#04121a!important;border-radius:14px!important;font-weight:700;box-shadow:0 8px 24px rgba(20,184,166,.3)!important}
+    .amount-input:focus{border-color:#14b8a6!important}
+    /* ── BANK ACCOUNT (P2P) SWITCH ── */
+    .p2p-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin-bottom:16px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)}
+    .p2p-title{font-size:14px;font-weight:600;color:var(--white)}
+    .p2p-sub{font-size:11px;color:var(--grey);margin-top:2px}
+    .p2p-row.on{border-color:rgba(245,194,107,.5);background:rgba(245,194,107,.07)}
+    .p2p-row.on .p2p-sub{color:var(--gold)}
+    .switch{position:relative;width:48px;height:28px;flex:none}
+    .switch input{opacity:0;width:0;height:0}
+    .slider{position:absolute;inset:0;background:#2a3757;border-radius:28px;cursor:pointer;transition:.25s}
+    .slider:before{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.25s}
+    .switch input:checked+.slider{background:#14b8a6}
+    .switch input:checked+.slider:before{transform:translateX(20px)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="brand">Meenakshi <span>Buttons</span></div>
+    <div class="tagline">UPI Payment QR Generator</div>
+  </header>
+
+  <!-- Install Banner (Android/Chrome) -->
+  <div class="install-banner" id="installBanner">
+    <div class="icon">📲</div>
+    <p>Add to home screen for offline use</p>
+    <button class="btn-install" id="installBtn">Install</button>
+  </div>
+
+  <!-- iOS Install Banner (Safari) -->
+  <div class="ios-install-banner" id="iosInstallBanner">
+    <div class="ios-banner-top">
+      <div class="icon">📲</div>
+      <p><strong style="color:var(--gold)">Add to Home Screen</strong> for offline use</p>
+      <button onclick="document.getElementById('iosInstallBanner').classList.remove('visible')">✕</button>
+    </div>
+    <div class="ios-steps">
+      1. Tap <span>⎙ Share</span> at the bottom of Safari<br>
+      2. Scroll down and tap <span>Add to Home Screen</span><br>
+      3. Tap <span>Add</span> — done! 🎉
+    </div>
+  </div>
+
+  <!-- Main Form Card -->
+  <div class="card">
+    <div class="card-header">Select Bank & Amount</div>
+    <div class="card-body">
+
+      <div class="p2p-row" id="p2pRow">
+        <div>
+          <div class="p2p-title">Pay to bank account</div>
+          <div class="p2p-sub" id="p2pSub">Off · QR uses the UPI ID</div>
+        </div>
+        <label class="switch"><input type="checkbox" id="p2pSwitch" onchange="setP2P(this.checked)"><span class="slider"></span></label>
+      </div>
+
+      <div class="field-label">Bank Account</div>
+      <div class="bank-tabs" id="bankTabs">
+        <!-- rendered by JS -->
+      </div>
+
+      <div class="field-label">Amount (leave blank = payer enters)</div>
+      <div class="amount-wrap">
+        <span class="rupee-sign">₹</span>
+        <input
+          type="number"
+          inputmode="decimal"
+          class="amount-input"
+          id="amountInput"
+          placeholder="0.00"
+          min="0"
+          step="any"
+        />
+      </div>
+
+      <button class="btn-generate" id="generateBtn" onclick="generateQR()">
+        Generate QR Code
+      </button>
+    </div>
+  </div>
+
+  <!-- QR Result Card -->
+  <div class="qr-card" id="qrCard">
+    <div class="qr-card-header">
+      <div class="qr-meta">
+        <strong id="qrAmountLabel">—</strong>
+        <span id="qrBankLabel">—</span>
+      </div>
+      <div style="font-size:11px;color:var(--grey);">Scan to Pay</div>
+    </div>
+    <div class="qr-display">
+      <div class="qr-canvas-wrap">
+        <div id="qr-output"></div>
+      </div>
+    </div>
+    <div class="action-row">
+      <button class="btn-action btn-whatsapp" onclick="shareQR()">
+        <span class="icon">📤</span>Share QR
+      </button>
+      <button class="btn-action btn-download" onclick="downloadQR()">
+        <span class="icon">💾</span>Save Image
+      </button>
+      <button class="btn-action btn-fullscreen" onclick="openFullscreen()">
+        <span class="icon">⛶</span>Full Screen
+      </button>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- Fullscreen QR Overlay -->
+<div class="fs-overlay" id="fsOverlay">
+  <div class="fs-top">
+    <div class="fs-brand">Meenakshi <span>Buttons</span></div>
+    <button class="btn-close-fs" onclick="closeFullscreen()">✕</button>
+  </div>
+  <div class="fs-name">Meenakshi Buttons</div>
+  <div class="fs-qr-wrap">
+    <div id="qr-fullscreen"></div>
+  </div>
+  <div class="fs-amount" id="fsAmountLabel">—</div>
+  <div class="fs-bank" id="fsBankLabel">—</div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── BANK CONFIG (exact from original) ──────────────────────────────────────
+const RECIPIENT = "Meenakshi Buttons";
+
+const BANKS = {
+  "Kotak Mahindra (Merchant)": {
+    type: "merchant",
+    pa:       "0798048A0284669.bqr@kotak",
+    ver:      "01",
+    mode:     "02",
+    orgId:    "00079",
+    tr:       "3373252A",
+    mid:      "0798048A0284669",
+    mtid:     "3373252A",
+    mc:       "5949",
+    qrMedium: "04"
+  },
+  "SBI": "meenakshibuttons@sbi",
+  "Kotak Mahindra (Basic)": "9448366753@KAYPAY"
+};
+
+const DEFAULT_BANK = "Kotak Mahindra (Merchant)";
+
+// Bank account + IFSC, used when "Pay to bank account" is ON (QR = account@IFSC.ifsc.npci)
+const ACCOUNTS = {
+  "Kotak Mahindra (Merchant)": { account: "112011011564", ifsc: "KKBK0008048" },
+  "SBI":                       { account: "54047475538",  ifsc: "SBIN0040015" }
+};
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let p2pMode      = localStorage.getItem("p2pMode") === "1";   // remembered per device
+let selectedBank = localStorage.getItem("lastBank") || DEFAULT_BANK;
+if (!BANKS[selectedBank] || (p2pMode && !ACCOUNTS[selectedBank])) selectedBank = DEFAULT_BANK;
+let lastQRData   = null; // store UPI URL for WhatsApp share
+let qrInstance   = null;
+let qrFSInstance = null;
+
+// ── P2P / BANK-ACCOUNT MODE ────────────────────────────────────────────────
+function payeeDisplay(name) {
+  if (p2pMode && ACCOUNTS[name]) { const a = ACCOUNTS[name]; return `A/C ${a.account} · ${a.ifsc}`; }
+  const cfg = BANKS[name]; return typeof cfg === "string" ? cfg : cfg.pa;
+}
+function visibleBanks() { return Object.entries(BANKS).filter(([n]) => !p2pMode || ACCOUNTS[n]); }
+function syncP2PUI() {
+  document.getElementById("p2pSwitch").checked = p2pMode;
+  document.getElementById("p2pRow").classList.toggle("on", p2pMode);
+  document.getElementById("p2pSub").textContent = p2pMode
+    ? "On · QR uses account number + IFSC" : "Off · QR uses the UPI ID";
+}
+function setP2P(on) {
+  p2pMode = !!on;
+  localStorage.setItem("p2pMode", p2pMode ? "1" : "0");
+  if (p2pMode && !ACCOUNTS[selectedBank]) { selectedBank = DEFAULT_BANK; localStorage.setItem("lastBank", selectedBank); }
+  document.getElementById("qrCard").classList.remove("visible"); // old QR is stale
+  lastQRData = null;
+  syncP2PUI(); renderBanks();
+  showToast(p2pMode ? "Bank account mode on" : "UPI ID mode on");
+}
+
+// ── RENDER BANK TABS ───────────────────────────────────────────────────────
+function renderBanks() {
+  const container = document.getElementById("bankTabs");
+  container.innerHTML = "";
+  visibleBanks().forEach(([name]) => {
+    const upiId = payeeDisplay(name);
+    const div = document.createElement("div");
+    div.className = "bank-tab" + (name === selectedBank ? " active" : "");
+    div.innerHTML = `
+      <div class="bank-dot"></div>
+      <div class="bank-info">
+        <div class="bank-name">${name}</div>
+        <div class="bank-upi">${upiId}</div>
+      </div>`;
+    div.addEventListener("click", () => { selectedBank = name; localStorage.setItem("lastBank", name); renderBanks(); });
+    container.appendChild(div);
+  });
+}
+syncP2PUI();
+renderBanks();
+
+// ── BUILD UPI URL (matches original logic exactly) ─────────────────────────
+function buildUpiUrl(bankName, amountDisplay) {
+  if (p2pMode && ACCOUNTS[bankName]) {
+    const a = ACCOUNTS[bankName];
+    let u = `upi://pay?pa=${a.account}@${a.ifsc}.ifsc.npci&pn=${encodeURIComponent(RECIPIENT)}`;
+    if (amountDisplay) u += `&am=${amountDisplay}`;
+    return u + `&cu=INR`;
+  }
+  const cfg = BANKS[bankName];
+  const isMerchant = typeof cfg === "object" && cfg.type === "merchant";
+  const pn = encodeURIComponent(RECIPIENT);
+
+  if (isMerchant) {
+    let url = `upi://pay?ver=${cfg.ver}&mode=${cfg.mode}&orgId=${cfg.orgId}`;
+    url += `&tid=&tr=${cfg.tr}&tn=&pa=${cfg.pa}&pn=${pn}`;
+    url += `&mc=${cfg.mc}`;
+    url += amountDisplay ? `&am=${amountDisplay}` : `&am=`;
+    url += `&mid=${cfg.mid}&mtid=${cfg.mtid}&qrMedium=${cfg.qrMedium}`;
+    return url;
+  } else {
+    const upiId = typeof cfg === "string" ? cfg : cfg.pa;
+    let url = `upi://pay?pa=${upiId}&pn=${pn}`;
+    if (amountDisplay) url += `&am=${amountDisplay}`;
+    return url;
+  }
+}
+
+// ── GENERATE QR ────────────────────────────────────────────────────────────
+function generateQR() {
+  const rawAmount = document.getElementById("amountInput").value.trim();
+  let amountDisplay = "";
+
+  if (rawAmount !== "") {
+    const val = parseFloat(rawAmount);
+    if (isNaN(val) || val < 0) { showToast("⚠️ Enter a valid amount"); return; }
+    amountDisplay = Number.isInteger(val) ? String(parseInt(val))
+                  : val.toFixed(2).replace(/\.?0+$/, "");
+  }
+
+  const upiUrl = buildUpiUrl(selectedBank, amountDisplay);
+  lastQRData = { upiUrl, amountDisplay, bank: selectedBank };
+
+  const cfg = BANKS[selectedBank];
+  const upiId = payeeDisplay(selectedBank);
+
+  // Update labels
+  document.getElementById("qrAmountLabel").textContent =
+    amountDisplay ? `₹${amountDisplay}` : "Open Amount";
+  document.getElementById("qrBankLabel").textContent =
+    `${selectedBank}  •  ${upiId}`;
+
+  // Render QR
+  const outputEl = document.getElementById("qr-output");
+  outputEl.innerHTML = "";
+  qrInstance = new QRCode(outputEl, {
+    text:           upiUrl,
+    width:          220,
+    height:         220,
+    colorDark:      "#060b17",
+    colorLight:     "#ffffff",
+    correctLevel:   QRCode.CorrectLevel.H
+  });
+
+  // Show card
+  const card = document.getElementById("qrCard");
+  card.classList.remove("visible");
+  void card.offsetWidth; // reflow to re-trigger animation
+  card.classList.add("visible");
+  card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+// Enter key support
+document.getElementById("amountInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") generateQR();
+});
+
+// ── FULLSCREEN ─────────────────────────────────────────────────────────────
+function openFullscreen() {
+  if (!lastQRData) return;
+  const { upiUrl, amountDisplay, bank } = lastQRData;
+
+  document.getElementById("fsAmountLabel").textContent =
+    amountDisplay ? `₹${amountDisplay}` : "Open Amount";
+  document.getElementById("fsBankLabel").textContent = bank;
+
+  const fsEl = document.getElementById("qr-fullscreen");
+  fsEl.innerHTML = "";
+
+  // size QR to fit screen nicely
+  const size = Math.min(window.innerWidth, window.innerHeight) - 160;
+  qrFSInstance = new QRCode(fsEl, {
+    text:         upiUrl,
+    width:        size,
+    height:       size,
+    colorDark:    "#060b17",
+    colorLight:   "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  document.getElementById("fsOverlay").classList.add("visible");
+  // attempt real fullscreen API
+  try { document.documentElement.requestFullscreen?.(); } catch(_) {}
+}
+
+function closeFullscreen() {
+  document.getElementById("fsOverlay").classList.remove("visible");
+  try { document.exitFullscreen?.(); } catch(_) {}
+}
+
+// ── BUILD COMPOSED QR IMAGE (like the original Python app) ────────────────
+// Returns a Promise<Blob> of a full PNG with header, QR, amount, UPI info
+function buildComposedImage() {
+  return new Promise((resolve, reject) => {
+    if (!lastQRData) return reject("No QR data");
+
+    const { amountDisplay, bank, upiUrl } = lastQRData;
+    const cfg   = BANKS[bank];
+    const upiId = payeeDisplay(bank);
+
+    // Dimensions
+    const QR_SIZE  = 320;
+    const PAD      = 32;
+    const HDR_H    = 110;
+    const AMT_H    = 70;
+    const UPI_H    = 50;
+    const FOOT_H   = 50;
+    const W        = QR_SIZE + PAD * 2;
+    const H        = HDR_H + QR_SIZE + AMT_H + UPI_H + FOOT_H + PAD * 2;
+
+    const canvas = document.createElement("canvas");
+    // 2× for high DPI / crisp on phone screens
+    const SCALE  = 2;
+    canvas.width  = W * SCALE;
+    canvas.height = H * SCALE;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(SCALE, SCALE);
+
+    // ── Background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, W, H);
+
+    // ── MB watermark
+    ctx.save();
+    ctx.globalAlpha = 0.04;
+    ctx.font = "bold 160px serif";
+    ctx.fillStyle = "#14b8a6";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("MB", W / 2, H / 2);
+    ctx.restore();
+
+    // ── Header bar
+    const grad = ctx.createLinearGradient(0, 0, W, HDR_H);
+    grad.addColorStop(0, "#060b17");
+    grad.addColorStop(1, "#1a3060");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, HDR_H);
+
+    // Red accent line at bottom of header
+    ctx.fillStyle = "#14b8a6";
+    ctx.fillRect(0, HDR_H - 3, W, 3);
+
+    // Gold underline
+    ctx.fillStyle = "#d4a843";
+    ctx.fillRect(W / 2 - 30, HDR_H - 6, 60, 3);
+
+    // Header text
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 26px serif";
+    ctx.fillText("Meenakshi Buttons", W / 2, HDR_H * 0.35);
+
+    ctx.fillStyle = "#d4a843";
+    ctx.font = "600 12px sans-serif";
+    ctx.fillText("UPI PAYMENT REQUEST", W / 2, HDR_H * 0.62);
+
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    ctx.font = "400 11px sans-serif";
+    ctx.fillText("Scan with PhonePe · GPay · Paytm · Any UPI App", W / 2, HDR_H * 0.83);
+
+    // ── Draw QR from the hidden canvas
+    const srcCanvas = document.querySelector("#qr-output canvas");
+    if (!srcCanvas) return reject("QR canvas not found");
+
+    const qrY = HDR_H + PAD;
+    ctx.drawImage(srcCanvas, PAD, qrY, QR_SIZE, QR_SIZE);
+
+    // Thin border around QR
+    ctx.strokeStyle = "#e0e0e0";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(PAD, qrY, QR_SIZE, QR_SIZE);
+
+    // ── Amount
+    const amtY = qrY + QR_SIZE + 14;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    if (amountDisplay) {
+      // Amount label
+      ctx.font = "600 13px sans-serif";
+      ctx.fillStyle = "#888888";
+      ctx.fillText("AMOUNT", W / 2, amtY + 14);
+      // Big amount
+      ctx.font = "bold 38px serif";
+      ctx.fillStyle = "#060b17";
+      ctx.fillText("₹" + amountDisplay, W / 2, amtY + 50);
+    } else {
+      ctx.font = "600 13px sans-serif";
+      ctx.fillStyle = "#888888";
+      ctx.fillText("AMOUNT", W / 2, amtY + 14);
+      ctx.font = "500 18px sans-serif";
+      ctx.fillStyle = "#aaaaaa";
+      ctx.fillText("Enter when paying", W / 2, amtY + 50);
+    }
+
+    // ── UPI ID + Bank
+    const upiY = amtY + AMT_H;
+
+    // Divider line
+    ctx.strokeStyle = "#e8e8e8";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(PAD, upiY);
+    ctx.lineTo(W - PAD, upiY);
+    ctx.stroke();
+
+    ctx.font = "600 13px sans-serif";
+    ctx.fillStyle = "#333333";
+    ctx.fillText(upiId, W / 2, upiY + 18);
+
+    ctx.font = "400 12px sans-serif";
+    ctx.fillStyle = "#888888";
+    ctx.fillText(bank, W / 2, upiY + 36);
+
+    // ── Footer
+    const footY = upiY + UPI_H;
+    ctx.fillStyle = "#060b17";
+    ctx.fillRect(0, footY, W, FOOT_H + PAD);
+
+    ctx.font = "500 12px sans-serif";
+    ctx.fillStyle = "#d4a843";
+    ctx.fillText("Meenakshi Buttons", W / 2, footY + 20);
+
+    ctx.font = "400 10px sans-serif";
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
+    ctx.fillText("UPI · Secure Payment", W / 2, footY + 38);
+
+    canvas.toBlob(blob => blob ? resolve(blob) : reject("toBlob failed"), "image/png");
+  });
+}
+
+// ── SHARE QR IMAGE ─────────────────────────────────────────────────────────
+async function shareQR() {
+  if (!lastQRData) return;
+  showToast("Preparing image…");
+  try {
+    const blob     = await buildComposedImage();
+    const filename = `MB-QR-${lastQRData.amountDisplay || "open"}.png`;
+    const file     = new File([blob], filename, { type: "image/png" });
+
+    const { amountDisplay: amt, bank } = lastQRData;
+    const cfg2  = BANKS[bank];
+    const upiId2 = payeeDisplay(bank);
+    const amtLine = amt ? `₹${amt}` : "Open (payer enters amount)";
+    const caption =
+      `💳 *Payment Request — Meenakshi Buttons*\n\n` +
+      `Amount : *${amtLine}*\n` +
+      `Bank   : ${bank}\n` +
+      `UPI ID : ${upiId2}\n\n` +
+      `_Scan the QR code above with PhonePe, GPay, Paytm or any UPI app._`;
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: "MB Payment QR", text: caption });
+    } else {
+      // Fallback: download
+      _triggerDownload(blob, filename);
+      showToast("Saved — share from gallery");
+    }
+  } catch (err) {
+    if (err.name !== "AbortError") showToast("Could not share — try Save Image");
+  }
+}
+
+// ── DOWNLOAD QR AS PNG ────────────────────────────────────────────────────
+async function downloadQR() {
+  if (!lastQRData) return;
+  showToast("Saving…");
+  try {
+    const blob     = await buildComposedImage();
+    const filename = `MB-QR-${lastQRData.amountDisplay || "open"}-${lastQRData.bank.replace(/[^a-z0-9]/gi,"_")}.png`;
+    _triggerDownload(blob, filename);
+    showToast("✅ QR saved to gallery!");
+  } catch (err) {
+    showToast("Could not save image");
+  }
+}
+
+function _triggerDownload(blob, filename) {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if (isIOS) {
+    // iOS Safari blocks <a download> — open image in new tab so user can long-press → Save to Photos
+    const url = URL.createObjectURL(blob);
+    const win = window.open(url, "_blank");
+    if (!win) {
+      // popup blocked fallback: overlay image in page
+      const img = document.createElement("img");
+      img.src = url;
+      img.style.cssText = "position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:9999;cursor:pointer";
+      img.title = "Long press → Save to Photos";
+      img.onclick = () => document.body.removeChild(img);
+      document.body.appendChild(img);
+    }
+    showToast("Long-press the image → Save to Photos", 4000);
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } else {
+    const url = URL.createObjectURL(blob);
+    const a   = document.createElement("a");
+    a.href    = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function showToast(msg, duration = 2500) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), duration);
+}
+
+// ── PWA INSTALL PROMPT ─────────────────────────────────────────────────────
+let deferredPrompt = null;
+
+// Android/Chrome: native install prompt
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById("installBanner").classList.add("visible");
+});
+document.getElementById("installBtn").addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === "accepted") {
+    document.getElementById("installBanner").classList.remove("visible");
+    showToast("✅ App installed!");
+  }
+  deferredPrompt = null;
+});
+window.addEventListener("appinstalled", () => {
+  document.getElementById("installBanner").classList.remove("visible");
+});
+
+// iOS Safari: no beforeinstallprompt — show manual instructions banner
+(function() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isInStandaloneMode = window.navigator.standalone === true;
+  const dismissed = sessionStorage.getItem("iosBannerDismissed");
+  if (isIOS && !isInStandaloneMode && !dismissed) {
+    document.getElementById("iosInstallBanner").classList.add("visible");
+    // Hide when user dismisses
+    document.querySelector("#iosInstallBanner button").addEventListener("click", () => {
+      sessionStorage.setItem("iosBannerDismissed", "1");
+    });
+  }
+})();
+
+// ── SERVICE WORKER REGISTRATION ────────────────────────────────────────────
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js")
+    .catch(err => console.warn("SW registration failed:", err));
+}
+</script>
+</body>
+</html>

@@ -54,7 +54,7 @@ export function GamesCredits({ open, onClose }: GamesCreditsProps): React.JSX.El
               <li key={c.id}>
                 <button type="button" className="q3-games__creditrow" data-credit-id={c.id} onClick={() => void showLicence(c)}>
                   <span className="q3-games__title">{c.title}</span>
-                  <span className="q3-games__last">{c.author} - {c.licence} - {c.source} - commit {c.commit.slice(0, 12)}</span>
+                  <span className="q3-games__last">{[c.author, c.licence, c.source, c.commit === '' ? '' : `commit ${c.commit.slice(0, 12)}`].filter((x) => x !== '').join(' - ')}</span>
                 </button>
               </li>
             ))}

@@ -39,6 +39,13 @@ export const MASTER_ERRORS = {
   Q3M19: e('Q3M19', 'version_unsupported', 426, 'This app is too old or too new for the master. Update the app and try again.'),
   Q3M20: e('Q3M20', 'profile_conflict', 409, 'The company details were changed elsewhere. Reload and try again.'),
   Q3M21: e('Q3M21', 'seat_legacy', 409, 'This seat has no code yet. Reset it first to make one.'),
+  // Phase 280 (API_CONTRACTS.md M25-3): Payments
+  Q3M22: e('Q3M22', 'payments_read_refused', 403, 'Your admin has not allowed this phone to see Payments.'),
+  Q3M23: e('Q3M23', 'payments_write_refused', 403, 'This phone is not allowed to change Payments. Ask your admin.'),
+  Q3M24: e('Q3M24', 'payments_conflict', 409, 'Payments were changed on another phone. The newest list was loaded; make your change again.'),
+  Q3M25: e('Q3M25', 'payments_invalid', 400, 'The Payments list has something that is not allowed.'),
+  Q3M26: e('Q3M26', 'payments_too_large', 413, 'The Payments list is too big.'),
+  Q3M27: e('Q3M27', 'payments_not_ready', 503, 'Payments are not set up on the server yet. Ask the owner.'),
   Q3M99: e('Q3M99', 'internal', 500, 'Something went wrong on the master. Try again later.'),
   Q3M90: e('Q3M90', 'master_unreachable', 0, 'Master unreachable, try again.'),
   Q3M91: e('Q3M91', 'code_typo', 0, 'That code has a typo. Check it and try again.'),

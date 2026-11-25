@@ -41,7 +41,7 @@ async function companyFetch(baseUrl: string, key: string, method: string, path: 
     throw new CompanyCallError('unreachable')
   }
   if (res.status >= 500) throw new CompanyCallError('unreachable')
-  if (!res.ok) throw new CompanyCallError('refused')
+  if (!res.ok) throw new CompanyCallError('refused', res.status)
   const text = await res.text()
   return text ? JSON.parse(text) : null
 }

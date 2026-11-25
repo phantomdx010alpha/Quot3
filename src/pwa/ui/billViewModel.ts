@@ -2,6 +2,7 @@ import { getBillOptions } from '../../shared/calc/billOptions'
 import { computeBill } from '../../shared/calc/billTotals'
 import { formatHistoryDate } from '../../shared/history/historyList'
 import { hasFormat, resolveFormat } from '../../shared/format/registry'
+import { HIDDEN_BY_ADMIN, type PartyRights } from '../../shared/seatRights'
 import type { Bill, ColumnDef, Runs } from '../../shared/types'
 import '../../shared/format'
 
@@ -89,4 +90,19 @@ export function buildBillView(bill: Bill): BillView {
     footer,
     readOnlyReason: phoneEditBlockReason(bill)
   }
+}
+
+/** Phase 289 (M25-5): the party block of a bill view as the SCREEN shows it. Phone / address become the marker line when the flag is off.
+ *  The shared image / PDF is built from the bill itself and never goes through this. */
+export function redactBillViewParty(view: BillView, rights: PartyRights): BillView {
+  if (rights.seeContact === true && rights.seeAddress === true) return view
+  const by = new Map(view.party.map((f) => [f.key, f]))
+  const party: ViewField[] = []
+  const name = by.get('name'); if (name) party.push(name)
+  if (rights.seeContact !== true) party.push({ key: 'phone', label: 'Phone', value: HIDDEN_BY_ADMIN })
+  else { const f = by.get('phone'); if (f) party.push(f) }
+  const tr = by.get('transport'); if (tr) party.push(tr)
+  if (rights.seeAddress !== true) party.push({ key: 'address', label: 'Address', value: HIDDEN_BY_ADMIN })
+  else { const f = by.get('address'); if (f) party.push(f) }
+  return { ...view, party }
 }

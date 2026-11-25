@@ -65,7 +65,7 @@ export class FakeMaster implements MasterDb {
     else this.seats.push({ ...row })
   }
   async deleteDevicesOfSeat(companyId: string, no: number) { this.devices = this.devices.filter((d) => !(d.company_id === companyId && d.seat_no === no)) }
-  async updateCompany(id: string, patch: Partial<Pick<CompanyRow, 'profile' | 'profile_version'>>) {
+  async updateCompany(id: string, patch: Partial<Pick<CompanyRow, 'profile' | 'profile_version' | 'payments' | 'payments_version'>>) {
     const c = this.companies.find((x) => x.id === id)
     if (c) Object.assign(c, patch)
   }
@@ -103,6 +103,8 @@ export class FakeCompany implements CompanyClient {
   /** Force the number `qt_add_seats` returns (to test a number above 15). */
   forceSeatNo: number | null = null
   passwordCounter = 0
+  /** Phase 280: `sn_seat_rights` rows (flags per seat); `null` = the table does not exist (company SQL 23 not run). */
+  seatRights: Array<{ seat_no: number; flags: Record<string, unknown> }> | null = null
   async adminRpc(_c: { supabase_url: string }, key: string, fn: string, args: Record<string, unknown>) {
     this.rpcLog.push({ fn, args, key })
     if (this.failRpc) throw new CompanyCallError(this.failRpc)
@@ -130,6 +132,11 @@ export class FakeCompany implements CompanyClient {
     this.rpcLog.push({ fn: `select:${path.split('?')[0]}`, args: {}, key })
     if (this.failRpc) throw new CompanyCallError(this.failRpc)
     if (key !== this.serviceKey) throw new CompanyCallError('refused')
+    if (path.startsWith('sn_seat_rights')) {
+      if (this.seatRights === null) throw new CompanyCallError('refused', 404)
+      const no = Number(/seat_no=eq\.(\d+)/.exec(path)?.[1])
+      return this.seatRights.filter((r) => r.seat_no === no).map((r) => ({ flags: r.flags }))
+    }
     if (path.startsWith('licenses')) return [{ org_id: this.orgId }]
     if (path.startsWith('sn_members')) return this.members.map((m) => ({ ...m }))
     return []

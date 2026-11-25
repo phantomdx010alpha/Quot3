@@ -71,3 +71,15 @@ describe('gameCatalog', () => {
     expect(a.ok).toBe(true)
   })
 })
+
+describe('gameCatalog: an own game (Phase 277)', () => {
+  it('lists the owner game with an empty commit and source, and still needs its files', () => {
+    game('own-one'); game('own-two', true, false)
+    const own = (id: string): Record<string, unknown> => entry(id, { licence: 'Owner', own: true, source: '', commit: '' })
+    manifest([own('own-one'), own('own-two'), entry('plain', { licence: 'Owner' })])
+    const r = createGameCatalog({ gamesRoot: root }).list()
+    expect(r.games.map((g) => g.id)).toEqual(['own-one'])
+    expect(r.skipped).toBe(2)
+    expect(createGameCatalog({ gamesRoot: root }).credits()[0]).toMatchObject({ id: 'own-one', licence: 'Owner', commit: '', source: '' })
+  })
+})
