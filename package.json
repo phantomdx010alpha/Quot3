@@ -1,6 +1,6 @@
 {
   "name": "quot3",
-  "version": "0.1.64",
+  "version": "0.1.65",
   "private": true,
   "productName": "Quot3",
   "author": "Quot3",
@@ -63,6 +63,7 @@
     "fuse.js": "7.5.0",
     "immer": "11.1.21",
     "pdf-to-printer": "5.8.1",
+    "qrcode-generator": "2.0.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "three": "0.186.1",

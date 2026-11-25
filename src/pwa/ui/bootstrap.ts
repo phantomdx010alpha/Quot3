@@ -4,6 +4,8 @@ import { getSetting } from '../data/settingsRepo'
 import { createAppLock } from '../sync/appLock'
 import { requestPersistence } from '../platform/storage'
 import { createPhoneSyncRuntime } from '../sync/runtime'
+import { createQrPort } from '../share/qrImage'
+import { setQrPort } from './kit/paymentsModel'
 import { acquireWriterLock, browserWriterEnv } from '../platform/writerLock'
 import type { AppServices } from './services'
 import { DEFAULT_THEME, isThemeName, type ThemeName } from './themes'
@@ -35,6 +37,7 @@ async function startServices(): Promise<AppServices> {
     // Phase 187b: the real sync. The runtime only starts workers in the writer tab (engine.start checks db.canWrite()).
     const version = typeof __QUOT3_APP_VERSION__ === 'string' ? __QUOT3_APP_VERSION__ : 'unknown'
     const runtime = createPhoneSyncRuntime({ db, appVer: version })
+    setQrPort(createQrPort()) // Phase 298 (planned as 282): the QR picture (bundled library, no network)
     void runtime.init()
     // Phase 292: ask the browser to keep the data again after the first save on this page (it may say yes once the phone has real data in it).
     let askedAfterSave = false

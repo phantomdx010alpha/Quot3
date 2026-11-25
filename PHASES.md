@@ -2725,6 +2725,7 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Version:** no bump. **How to verify:** typecheck once; the new test, `companyProfile272`, `phoneRuntime`, `master268`, `data`, `importBoundaries`.
 
 ## Phase 282 — Payments D: QR library + QR image [E]
+**STATUS 2026-11-25: skipped in order; BUILT LATE as Phase 298 (same scope, release 0.1.65 [A]).**
 **Goal:** Draw the QR and the branded QR image on the phone, offline.
 **Depends on:** 279.
 **In scope:** add the QR library (`qrcode-generator` [A], exact version from the registry, MIT) with `npm install <pkg>@<exact>` ONCE, record it in `DEPENDENCY_VERSIONS.md` and keep `package-lock.json` consistent; NEW `pwa/share/qrImage.ts`: a pure `qrModel(url)` (matrix) and `composeQrImage(...)` on the existing share canvas plumbing (`pwa/share/image.ts`): company logo from the effective profile (none = text only), payee name, bank label, amount line ("Amount: Rs X" or "Payer enters the amount"), the QR with a quiet zone, the original's look as reference; Save and Share go through `shareSheet.ts`; the image carries NO account number; tests: the matrix decodes to the same URL text (use the library's own reader-free check: re-encode and compare module counts for the three default URLs), the composer layout fits, no network request, the bundle contains no CDN URL.
@@ -2849,3 +2850,6 @@ Read `docs/MILESTONE16_DESIGN.md` before any Phase 165–172 (owner's rules and 
 **Depends on:** 296 and the owner's filled `docs/M25_OWNER_CHECKLIST.md`. Skip if there is no report.
 **In scope:** only what the report lists; if the list is long, do the first items that fit one free session and log the rest as the next fix pack. Never loosen the security rules of 10s / 10t.
 **Version:** no bump by itself. **How to verify:** typecheck once; the named tests of the touched code; NO FULL SUITE.
+
+## Phase 298 — Payments D, built late (the scope of Phase 282) [E]
+**Done 2026-11-25** (owner's number for the work planned as Phase 282): `qrcode-generator@2.0.4`, `pwa/share/qrImage.ts`, `setQrPort` in `ui/bootstrap.ts`, test `qrImage298`. Version 0.1.65 [A], no tag (phone only). See `PHASE_STATUS.md` and `GITHUB_UPDATE_PUSH.md` 12d.

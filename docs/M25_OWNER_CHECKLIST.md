@@ -7,7 +7,7 @@ Release steps and the Supabase order are in `GITHUB_UPDATE_PUSH.md` section 12c.
 Date: ____   Windows version: ____   Phone + browser: ____   App version shown in Settings > Updates (PC) and Profile (phone): ____
 
 ## 0. Before you start (read this)
-- [ ] 0.1 **Phase 282 (the QR library and the QR picture) is NOT built in this release.** Section D lines that need the QR picture (D6, D7, D8, D10) cannot pass until 282 is done. Until then the QR card says "The QR picture could not be drawn on this phone." Mark those lines `BLOCKED: 282`, do not mark them FAIL, and tell Claude to do Phase 282 as the first fix-pack item.
+- [ ] 0.1 The QR picture (Phase 298, planned as 282) is NOT in 0.1.64; it arrives in 0.1.65 (`GITHUB_UPDATE_PUSH.md` 12d). On 0.1.64 the QR card says "The QR picture could not be drawn on this phone." Check D6-D8 and D10 only on 0.1.65 or later.
 - [ ] 0.2 Deploy order followed (`GITHUB_UPDATE_PUSH.md` 12c): master `M05_payments.sql` and its two functions, then every company project's `23_seat_rights.sql`, then push and tag, then seat 1's PC updated first, then the phones.
 
 ## A. Desktop (Windows, seat 1 PC)
@@ -29,17 +29,17 @@ Set a second seat to Staff on the desktop first, wait about a minute, then on th
 - [ ] C7 An OLD phone (not updated yet) keeps working with no login prompt and no data loss.
 - [ ] C8 An old company project that has NOT run `23_seat_rights.sql`: the phone has everything and nothing breaks (only seat 1 can edit Payments).
 
-## D. Payments (needs Phase 282 for the QR picture; see 0.1)
+## D. Payments (the QR picture needs 0.1.65 or later; see 0.1)
 - [ ] D1 Payments page opens from Settings in a new layout (Tidy, Guided, Inbox); the default payees match your old QR page.
 - [ ] D2 Add a payee, edit it, remove it (on a phone with the edit right); the list stays in step.
 - [ ] D3 A SECOND phone receives the change by itself.
 - [ ] D4 A phone without the edit right can see the page but cannot change it (or does not see it, if the see right is off).
 - [ ] D5 A bill's Share QR button puts the bill's grand total (with round-off) in the amount box, and you can edit or clear it.
-- [ ] D6 The QR scans in a real UPI app for EACH of the three shapes (UPI id, bank account, merchant) and shows the right payee and amount. BLOCKED until 282.
-- [ ] D7 The QR goes to WhatsApp as its OWN image, never inside the bill image. BLOCKED until 282.
-- [ ] D8 The QR image names the bill (PO number and party name only) and shows no account number, address or phone. BLOCKED until 282.
+- [ ] D6 The QR scans in a real UPI app for EACH of the three shapes (UPI id, bank account, merchant) and shows the right payee and amount.
+- [ ] D7 The QR goes to WhatsApp as its OWN image, never inside the bill image.
+- [ ] D8 The QR image names the bill (PO number and party name only) and shows no account number, address or phone.
 - [ ] D9 Classic layout has no Payments or Profile page (by design, pinned screens; ask Claude if you want them there).
-- [ ] D10 The QR looks right on a real screen and scans from a printed or on-screen copy. BLOCKED until 282.
+- [ ] D10 The QR looks right on a real screen and scans from a printed or on-screen copy.
 
 ## E. Data protection, restore and the daily check (real Android phone)
 - [ ] E1 The protection banner shows when the browser has not granted persistent storage, in plain words, and the install steps (Add to Home screen) are correct for your Android browser.

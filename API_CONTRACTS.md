@@ -1287,7 +1287,7 @@ Phases 251-256 touch no line of this block.
 ### M24 status (Phase 273, 2026-11-14)
 Blocks M24-A to M24-R are all BUILT and match the code at 0.1.57 [A]; none has run against a real master / Supabase (see `docs/M24_OWNER_CHECKLIST.md`). Phase 273 changed no contract.
 
-## Milestone 25 — Backup cap, phone Payments (QR), per-phone rights, protection / restore / diff, Profile page (contract FROZEN by Phase 278, 2026-11-24; BUILT in Phases 279-295 except Phase 282 (QR library + QR image, NOT built); reconciled in Phase 296, 2026-11-25: no contract changed in the gate, the sections below stay as frozen / as built)
+## Milestone 25 — Backup cap, phone Payments (QR), per-phone rights, protection / restore / diff, Profile page (contract FROZEN by Phase 278, 2026-11-24; BUILT in Phases 279-295 and 298 (the QR library + QR image planned as Phase 282 were built late as Phase 298; the contract text below keeps the name 282); reconciled in Phase 296, 2026-11-25: no contract changed in the gate, the sections below stay as frozen / as built)
 
 Binding for Phases 279-296. Source of intent: `docs/MILESTONE25_DESIGN.md` (owner answers D1-D11 are binding; everything else here is **[A]** until the owner confirms). Read from the 0.1.62 code. Phases 275-277 (backup cap, share row, Country Wars) changed no contract here. A later phase that disagrees with this block fixes THIS block first, then its code. Where this block differs from a design sentence it says so in M25-12 (the design is amended there, not silently).
 

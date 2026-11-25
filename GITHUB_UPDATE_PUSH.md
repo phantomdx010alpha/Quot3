@@ -294,3 +294,23 @@ git checkout main
 6. In the installed Quot3: **Settings > Updates > Check for updates**, then **Restart** when it says 0.1.64 is ready.
 
 **Owner checks:** fill `docs/M25_OWNER_CHECKLIST.md` on the real PC and a real Android phone and send the failures back as a Phase 297 fix pack. Rights hide and block things inside the app only; the shared bill image still carries the customer address and contact (owner decision D6). Never describe the rights as "secure".
+
+## 12d. Release 0.1.65 [A] (Phase 298, the work planned as Phase 282, built late, 2026-11-25): the QR picture
+
+What it contains: Phase 298 only (the QR picture, planned as Phase 282). The phone Payments QR now draws (the matrix and the branded picture, offline, no network) and Share QR / Save work. New dependency `qrcode-generator@2.0.4` (`package.json` + `package-lock.json` change). **No SQL, no function deploy, no Supabase step.** The desktop app has no change, so **no tag is needed** (the phone is built by Vercel from the `pwa` branch); tag `v0.1.65` only if you also want the desktop version number to move, which gives an installer with no desktop change. Version 0.1.64 stays as published.
+
+1. Extract `quot3_phase298_changed_files.zip` over the repo folder (replace files). It also contains `package.json` and `package-lock.json`.
+2. In VS Code, **Terminal > New Terminal**:
+
+```powershell
+git add .
+git commit -m "Phase 298: phone QR picture (qrcode-generator 2.0.4), version 0.1.65"
+git push origin main
+git checkout pwa
+git merge main
+git push origin pwa
+git checkout main
+```
+
+3. Vercel builds the `pwa` branch (Deployments page: wait for Ready). On the phone: open the app, accept "New version, reload", Profile says 0.1.65.
+4. Then redo the checklist lines D6-D8 and D10 in `docs/M25_OWNER_CHECKLIST.md` (a real UPI app scan, WhatsApp share of the QR image).
